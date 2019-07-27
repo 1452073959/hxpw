@@ -134,46 +134,46 @@ class Offerlist extends Adminbase
                 $this->error('请输入搜索内容', url("offerlist/index"));
             }
             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where($where)->select();
-            
-		// dump($res);exit;
+                
+    		// dump($res);exit;
             $this->assign('data',$res);   
-        $this->assign('userinfo',$userinfo);    
+            $this->assign('userinfo',$userinfo);    
             return $this->fetch();
         }
         //所有客户信息
         $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-
+        // var_dump($res);die;
         //统计报价开始 
         foreach ($res as $key => $value) {
             $content = json_decode($value['content'],true);
             foreach($content as $keys => $values){
-                $res[$key]['matquant'] += $values['quotaall'];//辅材报价
-                $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
+                $res[$key]['matquant'] += $values['quotaall'];//每个项目的辅材总价累加
+                $res[$key]['manual_quota'] += $values['craft_showall'];//每个项目的人工总价累加
             }
-            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
+            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程总报价 辅材+人工
+            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']-$res[$key]['discount']; //工程总报价 + 管理费+税金+优惠
 
-            $tariff = array();$labor_cost = '';$fucai = '';
-            foreach ($content as $keys => $values) {
-                $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
-                $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
-                $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
-                $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];
-                $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
-                $tariff[$keys]['fucai'] = 0;
-                foreach ($tariff[$keys]['content'] as $e => $ll) {
-                    if($ll[0] && is_numeric($ll[1])){
-                        $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-                        $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
-                    }
-                }
-                $labor_cost += $tariff[$keys]['labor_cost'];
-                $fucai += $tariff[$keys]['fucai']; 
+            //=========================3en 开始
+            //计算总人工成本
+            $artificial = json_decode($value['artificial'],true);
+            $res[$key]['artificial_cb'] = 0;
+            foreach($artificial as $k=>$v){
+                $res[$key]['artificial_cb'] += ($v['num']*$v['profit']);//人工总成本
             }
-            $res[$key]['gross_profit'] = $labor_cost+$fucai;
-            $res[$key]['content'] = $content;
+            //计算辅材成本
+            $material = json_decode($value['material'],true);
+            $res[$key]['material_cb'] = 0;
+            foreach($material as $k=>$v){
+                $res[$key]['material_cb'] += ($v['num']*$v['price']);//辅材总成本
+            }
+            //计算毛利 利润/报价
+            if($res[$key]['direct_cost']){
+                $res[$key]['profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] ) / $res[$key]['direct_cost'] * 100,2);
+            }else{
+                $res[$key]['profit']  = 0;
+            }
+            
         }
-        // dump($res[5]); $userinfo
         $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);    
         return $this->fetch();
@@ -566,56 +566,92 @@ class Offerlist extends Adminbase
 
       //历史添加
     public function adds(){
-      $userinfo = $this->_userinfo; 
-       if ($this->request->isPost()) {
-          $param = input(); 
-          $data = array();
-         //dump(input());exit;
-          $data['userid'] = $userinfo['userid'];
-          $data['frameid'] = $userinfo['companyid'];//存公司id到报表
-          $data['customerid'] = input('customerid');
-          $data['unit'] = input('framename');//单位
-          $data['entrytime'] = time();
-          $data['number'] = 1;
-          $content = [];
-          foreach (input('gcl') as $key => $value) {
-            foreach($value as $k=>$v){
-              foreach($v as $k1=>$v1){
-                $item = Db::name('offerquota')->where('id',$k1)->find();//获取定额数据
-                $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
-                $item['gcl']= $v1;
-                $item['quotaall'] = $v1 * $item['quota'];
-                $item['craft_showall'] = $v1 * $item['craft_show'];
-                $content[] = $item;
+        $userinfo = $this->_userinfo; 
+        if ($this->request->isPost()) {
+            $param = input(); 
+            $data = array();
+            //dump(input());exit;
+            $data['userid'] = $userinfo['userid'];
+            $data['frameid'] = $userinfo['companyid'];//存公司id到报表
+            $data['customerid'] = input('customerid');
+            $data['unit'] = input('framename');//单位
+            $data['entrytime'] = time();
+            $data['number'] = 1;
+            $content = [];
+            foreach (input('gcl') as $key => $value) {
+              foreach($value as $k=>$v){
+                foreach($v as $k1=>$v1){
+                  $item = Db::name('offerquota')->where('id',$k1)->find();//获取定额数据
+                  $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
+                  $item['gcl']= $v1; //数量
+                  $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
+                  $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
+                  $content[] = $item;
+                }
               }
             }
-          }
-          $data['content'] = json_encode($content);
-		//增减项
-		if(input('id')){
-			// return json(['msg'=>'sdfadsfasdf']);
-			$re = Db::name('offerlist')->where('id',input('id'))->update($data);
-			 if($re!==false){
-			  $this->success('成功','admin/offerlist/zengjian');
-			}else{
-			  $this->error('失败');
-			}
-		}else{
-          $re = Db::name('offerlist')->insert($data);
-		   if($re!==false){
-		    $this->success('成功','admin/offerlist/baojiaguanli');
-		  }else{
-		    $this->error('失败');
-		  }
-		}
-         
-		  if($re!==false){
-		   $this->success('成功','admin/offerlist/baojiaguanli');
-		 }else{
-		   $this->error('失败');
-		 }
-          
-       }
+            $data['content'] = json_encode($content);
+            //===============================计算物料总合计 成本
+            $material_all = [];
+            foreach($content as $k=>$v){
+                $need_material = json_decode($v['content'],true);//需要的物料
+                foreach($need_material as $one_material){
+                    if($one_material[0] && $one_material[1]){
+                        if(!isset($material_all[$one_material[0]])){
+                            $material_all[$one_material[0]]['num'] = 0;
+                            $material_all[$one_material[0]]['price'] = 0;//成本单价
+                            $price = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find()['price'];
+                            if(!$price){
+                                $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
+                            }
+                            $material_all[$one_material[0]]['price'] = $price;//成本单价
+                        }
+                        $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料名称和单位
+                        //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
+                    }
+                }
+            }
+            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 num=>数量 price=>单价
+
+            //==============================计算人工成本
+            
+            $need_project = json_decode($data['content'],true);//需要的项目
+            $artificial_all = [];//人工成本 , 报价(成本+利润)
+            foreach($need_project as $k=>$v){
+                $Offerquota_info = Db::name('Offerquota')->where(array('frameid'=>$userinfo['companyid'],'item_number'=>$v['item_number']))->find();
+                if(!$Offerquota_info){
+                    $this->error($one_material[0].'人工有误，请及时补充人工工费');
+                }
+                $artificial_all[$v['item_number']]['num'] = $v['gcl']; //数量
+                $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
+                $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
+                $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+            }
+            $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
+    		//增减项
+    		if(input('id')){
+    			// return json(['msg'=>'sdfadsfasdf']);
+    			$re = Db::name('offerlist')->where('id',input('id'))->update($data);
+    			 if($re!==false){
+    			  $this->success('成功','admin/offerlist/zengjian');
+    			}else{
+    			  $this->error('失败');
+    			}
+    		}else{
+                $re = Db::name('offerlist')->insert($data);
+                    if($re!==false){
+                    $this->success('成功','admin/offerlist/baojiaguanli');
+                }else{
+                    $this->error('失败');
+                }
+    		}
+             
+    		if($re!==false){
+    		   $this->success('成功','admin/offerlist/baojiaguanli');
+    		}else{
+    		   $this->error('失败');
+    		}
+        }
     }
     //新版本添加条目
     public function addlist()

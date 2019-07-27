@@ -82,9 +82,14 @@
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
-                        <th class="taleft" lay-data="{field:'tubemoney',width:100 }">管理费</th>
-                        <th class="taleft" lay-data="{field:'taxes',width:100 }">税金</th>
-                        <th class="taleft" lay-data="{field:'discount',width:100 }">优惠</th>
+                        <th class="taleft" lay-data="{field:'tubemoney',edit:'text' }">管理费</th>
+                        <th class="taleft" lay-data="{field:'taxes',edit:'text' }">税金</th>
+                        <th class="taleft" lay-data="{field:'discount',edit:'text' }">优惠</th>
+                        <th class="taleft" lay-data="{field:'sundry',edit:'text' }">运杂</th>
+                        <th class="taleft" lay-data="{field:'supervisor_commission',width:100 }">监理提成</th>
+                        <th class="taleft" lay-data="{field:'design_commission',width:100 }">设计提成</th>
+                        <th class="taleft" lay-data="{field:'repeat_commission',width:100 }">回头客奖</th>
+                        <th class="taleft" lay-data="{field:'business_commission',width:100 }">业务提成</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
                         <th width="150" lay-data="{field:'edit',width:150}">操作</th>
@@ -106,8 +111,13 @@
                       <td class="taleft">{$vo.matquant}</td>   
                       <td class="taleft">{$vo.manual_quota}</td>   
                       <td class="taleft">{$vo.tubemoney}</td>   
-                      <td class="taleft">{$vo.taxes}</td>   
-                      <td class="taleft">{$vo.discount}</td>   
+                      <td class="taleft">{$vo.taxes}</td>
+                      <td class="taleft">{$vo.discount}</td>
+                      <td class="taleft">{$vo.sundry}</td>
+                      <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.supervisor_commission?round($vo.supervisor_commission/100*$vo['direct_cost'],2):0}</a></td>
+                      <td class="taleft"><a class="" lay-event="design_commission">{$vo.design_commission?round($vo.design_commission/100*$vo['direct_cost'],2):0}</a></td>
+                      <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission?round($vo.repeat_commission/100*$vo['direct_cost'],2):0}</a></td>
+                      <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission?round($vo.business_commission/100*$vo['direct_cost'],2):0}</a></td>
                       <td class="taleft">{$vo.gross_profit}</td>   
                       <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
                       <td>
@@ -153,6 +163,7 @@
        });
 </script>
 <script type="text/javascript">
+    
 layui.use('table', function(){
   var table = layui.table;
 
@@ -249,7 +260,7 @@ layui.use('table', function(){
           layer.msg(re.msg);
           // window.location.reload();
         }
-       });
+    });
   });
 
   //监听行单击事件（单击事件为：rowDouble）
@@ -268,7 +279,7 @@ layui.use('table', function(){
   //监听单元格事件
   table.on('tool(test3)', function(obj){
     var data = obj.data;
-    if(obj.event === 'setSign'){
+    if(obj.event === 'detail'){
       layer.prompt({
         formType: 2
         ,title: '修改 ID 为 ['+ data.id +'] 的条目'
@@ -283,10 +294,135 @@ layui.use('table', function(){
           type_of_work: value
         });
       });
+    }else if(obj.event === 'supervisor_commission'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入监理提成比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'supervisor_commission',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        obj.update({
+                          supervisor_commission: price
+                        });
+                      }else{
+                        layer.msg('修改监理提成比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+            });
+        });        
+    }
+    else if(obj.event === 'design_commission'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入设计提成比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'design_commission',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        obj.update({
+                          design_commission: price
+                        });
+                      }else{
+                        layer.msg('修改设计提成比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+            });
+        });        
+    }
+    else if(obj.event === 'repeat_commission'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入回头客奖比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'repeat_commission',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        obj.update({
+                          repeat_commission: price
+                        });
+                      }else{
+                        layer.msg('修改回头客奖比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+            });
+        });        
+    }else if(obj.event === 'business_commission'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入业务提成比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'business_commission',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        obj.update({
+                          business_commission: price
+                        });
+                      }else{
+                        layer.msg('修改业务提成比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+            });
+        });        
     }
   });
 
 
 });
+
+//判断是否正数
+function validate(num){
+  var reg = /^\d+(?=\.{0,1}\d+$|$)/
+  if(reg.test(num)) return true;
+  return false ;  
+}
 </script>
 {/block}
