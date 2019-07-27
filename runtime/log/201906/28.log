@@ -1,0 +1,677 @@
+---------------------------------------------------------------
+[ 2019-06-28T19:04:17+08:00 ] 192.168.43.141 GET 192.168.43.31:8080/fh_offer/public/admin/offerquota/index/menuid/268.html
+[运行时间：1.097923s] [吞吐率：0.91req/s] [内存消耗：2,809.69kb] [文件加载：80]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '268',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\application\admin\view\offerquota\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+  2 => 'frame',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012774s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.020301s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.008114s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_offerquota` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.001142s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `userid` = 1 LIMIT 0,20 [ RunTime:0.000511s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007765s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 3 [ RunTime:0.000608s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000307s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000289s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000286s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000280s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000276s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000276s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000274s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000279s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000202s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000196s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:04:52+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/offertype/addoneroom.html
+[运行时间：1.082162s] [吞吐率：0.92req/s] [内存消耗：2,536.25kb] [文件加载：78]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '37',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'name' => '客厅',
+  'other' => '',
+  'pid' => '88',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.026222s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012444s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000485s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.007970s ]
+[ sql ] [ SQL ] INSERT INTO `fdz_offer_type` (`name` , `other` , `pid` , `addtime`) VALUES ('客厅' , '' , 88 , 1561719892) [ RunTime:0.000498s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` WHERE  `pid` = 88 [ RunTime:0.000394s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:04:56+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getdata.html
+[运行时间：1.114748s] [吞吐率：0.90req/s] [内存消耗：2,601.07kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '25',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '88',
+  'roomid' => '91',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.014088s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.020428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000482s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.007974s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 88 LIMIT 1 [ RunTime:0.000402s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.007822s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `type_of_work` = '油漆类' [ RunTime:0.001460s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008044s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000448s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000373s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000402s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000307s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000359s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000312s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000253s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000243s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000197s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000195s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000204s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000209s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000196s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000214s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000225s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000213s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000213s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000204s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000204s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000205s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000203s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000208s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000203s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000216s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000201s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000218s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000192s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:05:06+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/returndata.html
+[运行时间：1.060375s] [吞吐率：0.94req/s] [内存消耗：2,520.73kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '121',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '88',
+  'roomid' => '91',
+  'data' => 
+  array (
+    0 => '2032',
+    1 => '2031',
+    2 => '2028',
+    3 => '2029',
+    4 => '2026',
+    5 => '2019',
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003284s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008913s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000531s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000443s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.008126s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` IN (2032,2031,2028,2029,2026,2019) [ RunTime:0.000626s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.008536s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 91 LIMIT 1 [ RunTime:0.000379s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 88 LIMIT 1 [ RunTime:0.000376s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:05:17+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getdata.html
+[运行时间：1.131082s] [吞吐率：0.88req/s] [内存消耗：2,601.07kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '25',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '88',
+  'roomid' => '91',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.017662s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.011878s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000589s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000515s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.011755s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 88 LIMIT 1 [ RunTime:0.000466s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.011863s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `type_of_work` = '油漆类' [ RunTime:0.002256s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.011918s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000367s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000302s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000306s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000427s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000365s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000349s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000347s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000300s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000509s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000348s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000342s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000353s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000277s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000285s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000265s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000294s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000342s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000276s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000278s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000306s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000340s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000340s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000360s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000290s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000282s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000370s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000293s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000291s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000295s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000227s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000199s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000195s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000197s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000201s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000198s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000202s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000226s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000212s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000195s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000212s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000203s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000199s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:05:27+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/offertype/addoneroom.html
+[运行时间：1.072956s] [吞吐率：0.93req/s] [内存消耗：2,536.46kb] [文件加载：78]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '37',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'name' => '餐厅',
+  'other' => '',
+  'pid' => '88',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024112s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009837s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.007781s ]
+[ sql ] [ SQL ] INSERT INTO `fdz_offer_type` (`name` , `other` , `pid` , `addtime`) VALUES ('餐厅' , '' , 88 , 1561719927) [ RunTime:0.000469s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` WHERE  `pid` = 88 [ RunTime:0.000407s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:05:31+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getdata.html
+[运行时间：1.122503s] [吞吐率：0.89req/s] [内存消耗：2,601.07kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '25',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '88',
+  'roomid' => '92',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022963s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.020581s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000432s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.007942s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 88 LIMIT 1 [ RunTime:0.000380s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.008072s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `type_of_work` = '油漆类' [ RunTime:0.001476s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008195s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000288s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000287s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000228s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000226s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000207s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000196s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000219s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000265s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000210s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000219s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000212s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000199s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000206s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000195s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000189s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000206s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000199s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000209s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000186s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000186s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000285s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000199s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000212s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000188s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000190s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:05:52+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/returndata.html
+[运行时间：1.094498s] [吞吐率：0.91req/s] [内存消耗：2,520.54kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '106',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '88',
+  'roomid' => '92',
+  'data' => 
+  array (
+    0 => '2053',
+    1 => '2054',
+    2 => '2056',
+    3 => '2057',
+  ),
+  'type' => 'addnewquote',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024814s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.022609s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000471s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000439s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.008646s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` IN (2053,2054,2056,2057) [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.008128s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 92 LIMIT 1 [ RunTime:0.000435s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 88 LIMIT 1 [ RunTime:0.000370s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:06:12+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getroom.html
+[运行时间：1.069275s] [吞吐率：0.94req/s] [内存消耗：2,518.13kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '5',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'id' => '40',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.013512s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.015073s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000497s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.009623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` WHERE  `pid` = 40 [ RunTime:0.000525s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:06:26+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getroom.html
+[运行时间：1.080642s] [吞吐率：0.93req/s] [内存消耗：2,518.16kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '5',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'id' => '88',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.014469s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.019372s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000517s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.011619s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` WHERE  `pid` = 88 [ RunTime:0.000409s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:06:40+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getroom.html
+[运行时间：1.053222s] [吞吐率：0.95req/s] [内存消耗：2,518.13kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '5',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'id' => '40',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003387s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012445s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000789s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.007987s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` WHERE  `pid` = 40 [ RunTime:0.000484s ]
+---------------------------------------------------------------
+[ 2019-06-28T19:06:46+08:00 ] 192.168.43.141 POST 192.168.43.31:8080/fh_offer/public/admin/quote/getdata.html
+[运行时间：1.084068s] [吞吐率：0.92req/s] [内存消耗：2,524.57kb] [文件加载：75]
+[ info ] [ LANG ] Q:\phpStudy\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5sn7srfm82o1dfv69a60p9lfg5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.43.31:8080/fh_offer/public/admin/offerlist/edit/id/51.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://192.168.43.31:8080',
+  'accept' => '*/*',
+  'content-length' => '25',
+  'connection' => 'close',
+  'host' => '192.168.43.31:8080',
+)
+[ info ] [ PARAM ] array (
+  'conditionsid' => '40',
+  'roomid' => '53',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024142s ] mysql:host=localhost;dbname=dqz;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000483s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.008102s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 40 LIMIT 1 [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.008846s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `type_of_work` = '木制作' [ RunTime:0.001251s ]

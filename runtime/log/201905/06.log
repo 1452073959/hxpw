@@ -1,0 +1,2571 @@
+---------------------------------------------------------------
+[ 2019-05-06T16:22:33+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.148391s] [吞吐率：6.74req/s] [内存消耗：2,002.93kb] [文件加载：70]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+  'accept-language' => 'zh-CN',
+  'accept' => 'text/html, application/xhtml+xml, image/jxr, */*',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:22:44+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.100446s] [吞吐率：0.91req/s] [内存消耗：2,735.45kb] [文件加载：75]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=q736mgrrlp4ogqebq8b9ajfnn3',
+  'cache-control' => 'no-cache',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+  'accept-language' => 'zh-CN',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html, application/xhtml+xml, image/jxr, */*',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.026631s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009212s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000551s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:22:47+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.035240s] [吞吐率：28.38req/s] [内存消耗：1,882.09kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=q736mgrrlp4ogqebq8b9ajfnn3',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+  'accept-language' => 'zh-CN',
+  'accept' => 'text/html, application/xhtml+xml, image/jxr, */*',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:22:56+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.070717s] [吞吐率：0.93req/s] [内存消耗：2,619.65kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=q736mgrrlp4ogqebq8b9ajfnn3',
+  'cache-control' => 'no-cache',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+  'accept-language' => 'zh-CN',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html, application/xhtml+xml, image/jxr, */*',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022371s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009850s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000489s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:12+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032402s] [吞吐率：30.86req/s] [内存消耗：1,882.33kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:13+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/static/admin/images/logo.ico
+[运行时间：0.036360s] [吞吐率：27.50req/s] [内存消耗：1,080.52kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-06T16:23:21+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.071460s] [吞吐率：0.93req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022528s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009305s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000471s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:24+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.033468s] [吞吐率：29.88req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:25+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/static/admin/images/logo.ico
+[运行时间：0.028112s] [吞吐率：35.57req/s] [内存消耗：1,080.52kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-06T16:23:29+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032810s] [吞吐率：30.48req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:40+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.074817s] [吞吐率：0.93req/s] [内存消耗：2,618.80kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkb',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022853s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.013110s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkb' LIMIT 1 [ RunTime:0.000492s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:56+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.059321s] [吞吐率：0.94req/s] [内存消耗：2,618.85kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'cache-control' => 'no-cache',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkb',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012882s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008262s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkb' LIMIT 1 [ RunTime:0.000430s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:23:59+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.069830s] [吞吐率：0.93req/s] [内存消耗：2,620.21kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'cache-control' => 'no-cache',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022026s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009216s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000473s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:00+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.033498s] [吞吐率：29.85req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:12+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.070973s] [吞吐率：0.93req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022304s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008837s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000386s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:15+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032811s] [吞吐率：30.48req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:16+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.071374s] [吞吐率：0.93req/s] [内存消耗：2,618.85kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'cache-control' => 'no-cache',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkb',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022920s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012963s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkb' LIMIT 1 [ RunTime:0.000343s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:19+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032555s] [吞吐率：30.72req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:27+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.068657s] [吞吐率：0.94req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021835s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000456s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:31+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032409s] [吞吐率：30.86req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:24:49+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.035336s] [吞吐率：28.30req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:08+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.078314s] [吞吐率：0.93req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.013443s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.024693s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000575s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:27+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032336s] [吞吐率：30.93req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:42+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.070181s] [吞吐率：0.93req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022772s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008690s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000500s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:45+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.033534s] [吞吐率：29.82req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:57+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.071500s] [吞吐率：0.93req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.027306s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008648s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000450s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:25:59+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.084360s] [吞吐率：0.92req/s] [内存消耗：2,620.16kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022842s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.022660s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000488s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:26:02+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.031213s] [吞吐率：32.04req/s] [内存消耗：1,882.56kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:26:52+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.037654s] [吞吐率：26.56req/s] [内存消耗：1,881.81kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+  'accept-language' => 'zh-Hans-CN,zh-Hans;q=0.5',
+  'accept' => 'text/html, application/xhtml+xml, image/jxr, */*',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:26:54+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/static/admin/images/logo.ico
+[运行时间：0.021164s] [吞吐率：47.25req/s] [内存消耗：1,080.53kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-06T16:26:54+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.033290s] [吞吐率：30.04req/s] [内存消耗：1,882.48kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=vi03o8lf66r80j1lgp4kajdqq4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:26:54+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/static/admin/images/logo.ico
+[运行时间：0.025950s] [吞吐率：38.54req/s] [内存消耗：1,080.57kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-06T16:27:03+08:00 ] 192.168.0.125 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.078309s] [吞吐率：0.93req/s] [内存消耗：2,620.51kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=vi03o8lf66r80j1lgp4kajdqq4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://192.168.0.125',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022619s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.010251s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000460s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:06+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.034406s] [吞吐率：29.06req/s] [内存消耗：1,882.48kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=vi03o8lf66r80j1lgp4kajdqq4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:18+08:00 ] 192.168.0.125 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.075284s] [吞吐率：0.93req/s] [内存消耗：2,620.51kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=vi03o8lf66r80j1lgp4kajdqq4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://192.168.0.125',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\thinkphp\tpl/dispatch_jump.tpl [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022220s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.011447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000399s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:21+08:00 ] 192.168.0.125 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032878s] [吞吐率：30.42req/s] [内存消耗：1,882.48kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=vi03o8lf66r80j1lgp4kajdqq4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:40+08:00 ] ::1 GET localhost/fh_offer/public/admin/personinfo/edit/menuid/256.html
+[运行时间：1.204326s] [吞吐率：0.83req/s] [内存消耗：2,837.05kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '256',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\personinfo\edit.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022649s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008496s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000314s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007545s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000371s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:52+08:00 ] ::1 POST localhost/fh_offer/public/admin/personinfo/edit.html
+[运行时间：1.206816s] [吞吐率：0.83req/s] [内存消耗：2,628.28kb] [文件加载：76]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/personinfo/edit/menuid/256.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://localhost',
+  'accept' => '*/*',
+  'content-length' => '146',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'userid' => '1',
+  'password' => '123456789',
+  'password_confirm' => '123456789',
+  'email' => 'yzncms@163.com',
+  'phone' => '13267871766',
+  'name' => '最高操作员',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023062s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.067230s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000373s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000289s ]
+[ sql ] [ SQL ] UPDATE `fdz_admin`  SET `password` = '25f9e794323b453885f5181f1b624d0b' , `email` = 'yzncms@163.com' , `phone` = '13267871766' , `name` = '最高操作员'  WHERE  `userid` = 1 [ RunTime:0.000385s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:27:55+08:00 ] ::1 GET localhost/fh_offer/public/admin/personinfo/edit/menuid/256.html
+[运行时间：1.093142s] [吞吐率：0.91req/s] [内存消耗：2,707.41kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/personinfo/edit/menuid/256.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '256',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\personinfo\edit.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.013414s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009672s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000460s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000422s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.008741s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000372s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:34+08:00 ] 192.168.0.134 POST 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：1.376091s] [吞吐率：0.73req/s] [内存消耗：2,679.41kb] [文件加载：74]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'content-length' => '31',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.027577s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008840s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000487s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin_operation` [ RunTime:0.009838s ]
+[ sql ] [ SQL ] INSERT INTO `fdz_admin_operation` (`aid` , `sid` , `rid` , `operation_type` , `operation_time` , `operation`) VALUES (1 , 0 , 1 , 1 , '1557131974' , '登录操作') [ RunTime:0.000506s ]
+[ sql ] [ SQL ] UPDATE `fdz_admin`  SET `last_login_time` = 1557131974 , `last_login_address` = '广东省广州市' , `login_ip` = '192.168.0.134'  WHERE  `userid` = 1 [ RunTime:0.000386s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:35+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.307013s] [吞吐率：0.77req/s] [内存消耗：3,016.88kb] [文件加载：82]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'cache-control' => 'max-age=0',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/login/index.html',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003448s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.090285s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000486s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.147305s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000588s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000600s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000380s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000378s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000364s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000442s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000578s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000437s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000431s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000441s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000416s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000387s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:37+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/main/index.html
+[运行时间：1.132674s] [吞吐率：0.88req/s] [内存消耗：2,927.45kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021786s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009352s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000344s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008327s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000592s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007705s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.008225s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000411s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.008039s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.008023s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000342s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.007290s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000470s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000282s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:39+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/login/index.html
+[运行时间：0.032970s] [吞吐率：30.33req/s] [内存消耗：1,900.83kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+---------------------------------------------------------------
+[ 2019-05-06T16:39:41+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.100217s] [吞吐率：0.91req/s] [内存消耗：2,852.48kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021130s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009699s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000441s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.007770s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000679s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000563s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000419s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000391s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000345s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000350s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000305s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000442s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000562s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000469s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000386s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:42+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/main/index.html
+[运行时间：1.128242s] [吞吐率：0.89req/s] [内存消耗：2,749.63kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023229s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008627s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000382s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000352s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008969s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.008146s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000424s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.007776s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.008510s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.007755s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.009254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000275s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000352s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:39:50+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/manager/index/menuid/16.html
+[运行时间：1.100484s] [吞吐率：0.91req/s] [内存消耗：2,965.80kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '16',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\manager\index.html [ array (
+  0 => 'Config',
+  1 => 'Userlist',
+  2 => 'company',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022514s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009788s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` ORDER BY `userid` ASC [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008996s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 3 [ RunTime:0.000541s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.009188s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000673s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000306s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 4 LIMIT 1 [ RunTime:0.000284s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000300s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000308s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000305s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000271s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:40:52+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/auth_manager/index/menuid/17.html
+[运行时间：1.101111s] [吞吐率：0.91req/s] [内存消耗：2,824.55kb] [文件加载：79]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '17',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\auth_manager\index.html [ array (
+  0 => 'Config',
+  1 => '_list',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022429s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008847s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000434s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007834s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_auth_group` WHERE  `module` = 'admin' ORDER BY `id` ASC [ RunTime:0.000372s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:44:51+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.092587s] [吞吐率：0.92req/s] [内存消耗：2,852.48kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.013703s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007662s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000348s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.007560s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000431s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000435s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000439s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000444s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000438s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000450s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000440s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000427s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000419s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000483s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000383s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000346s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000318s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000311s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:44:53+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.090235s] [吞吐率：0.92req/s] [内存消耗：2,852.48kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012962s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009617s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000485s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008160s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000536s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000521s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000432s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000390s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000421s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000419s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000373s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000403s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000359s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000347s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000383s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000337s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:44:54+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.098840s] [吞吐率：0.91req/s] [内存消耗：2,852.48kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021603s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009579s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000450s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008566s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000476s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000443s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000386s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000386s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000367s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000345s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000346s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000319s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000438s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000332s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:44:58+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/index/index.html
+[运行时间：1.091578s] [吞吐率：0.92req/s] [内存消耗：2,852.48kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012762s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009725s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008517s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000531s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000459s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000401s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000382s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000382s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000417s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000297s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000260s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000314s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000302s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:44:59+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/main/index.html
+[运行时间：1.130547s] [吞吐率：0.88req/s] [内存消耗：2,749.63kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.002010s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012268s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.001268s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000494s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.001167s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.013631s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.001454s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.011375s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000287s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.011702s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000392s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.010111s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000414s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.007920s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.010261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000443s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000356s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:46:38+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/menu/index/menuid/14.html
+[运行时间：1.090275s] [吞吐率：0.92req/s] [内存消耗：2,972.27kb] [文件加载：81]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '14',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\menu\index.html [ array (
+  0 => 'Config',
+  1 => 'categorys',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022952s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009412s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000486s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008180s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` ORDER BY `listorder`,`id` DESC [ RunTime:0.000713s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:46:42+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/manager/index/menuid/16.html
+[运行时间：1.101352s] [吞吐率：0.91req/s] [内存消耗：2,828.91kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '16',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\manager\index.html [ array (
+  0 => 'Config',
+  1 => 'Userlist',
+  2 => 'company',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023606s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008966s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000344s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000281s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` ORDER BY `userid` ASC [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008026s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 3 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007885s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 4 LIMIT 1 [ RunTime:0.000233s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000219s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000226s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000216s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000221s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000219s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000220s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000227s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:46:43+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/auth_manager/index/menuid/17.html
+[运行时间：1.073982s] [吞吐率：0.93req/s] [内存消耗：2,699.34kb] [文件加载：77]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '17',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\auth_manager\index.html [ array (
+  0 => 'Config',
+  1 => '_list',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.005415s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012043s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000480s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.012724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_auth_group` WHERE  `module` = 'admin' ORDER BY `id` ASC [ RunTime:0.000693s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:56:50+08:00 ] ::1 GET localhost/fh_offer/public/admin/index/index.html
+[运行时间：1.165358s] [吞吐率：0.86req/s] [内存消耗：2,662.75kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.027969s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.050007s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000517s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.016676s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000615s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000471s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000393s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000375s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000417s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000365s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000339s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000350s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000319s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000313s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000355s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000342s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000404s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000360s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000345s ]
+---------------------------------------------------------------
+[ 2019-05-06T16:56:52+08:00 ] ::1 GET localhost/fh_offer/public/admin/main/index.html
+[运行时间：1.274748s] [吞吐率：0.78req/s] [内存消耗：2,611.63kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024467s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009757s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000599s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000595s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000672s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.062313s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.011159s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.025298s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.015979s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000506s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.009181s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.052019s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000454s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000339s ]
+---------------------------------------------------------------
+[ 2019-05-06T17:52:02+08:00 ] ::1 GET localhost/fh_offer/public/admin/index/index.html
+[运行时间：1.101842s] [吞吐率：0.91req/s] [内存消耗：2,662.75kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.017668s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.017085s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000468s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000357s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.009055s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000605s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000519s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000434s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000421s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000422s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000421s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000411s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000416s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000371s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000351s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000364s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000327s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000308s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000318s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000444s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000432s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000293s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000285s ]
+---------------------------------------------------------------
+[ 2019-05-06T17:52:04+08:00 ] ::1 GET localhost/fh_offer/public/admin/main/index.html
+[运行时间：1.423345s] [吞吐率：0.70req/s] [内存消耗：2,611.63kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.032480s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009767s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000392s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000375s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.011423s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000391s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.009444s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000517s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.008838s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000583s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.009019s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000440s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.200840s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.079675s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000444s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000290s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000344s ]
+---------------------------------------------------------------
+[ 2019-05-06T17:59:58+08:00 ] ::1 GET localhost/fh_offer/public/index.php
+[运行时间：1.102951s] [吞吐率：0.91req/s] [内存消耗：2,661.70kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.026780s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008937s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.010082s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000597s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000499s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000435s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000445s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000411s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000445s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000301s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000380s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000350s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000375s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000287s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000293s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000268s ]
+---------------------------------------------------------------
+[ 2019-05-06T17:59:59+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/main/index.html
+[运行时间：1.233886s] [吞吐率：0.81req/s] [内存消耗：2,611.60kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021835s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008832s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000482s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.008302s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000372s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.008348s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.007716s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000266s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.094412s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000378s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.008428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000364s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.008566s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000345s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000279s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000340s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:10:33+08:00 ] ::1 GET localhost/fh_offer/public/index.php
+[运行时间：1.100731s] [吞吐率：0.91req/s] [内存消耗：2,662.23kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.025990s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.011979s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000590s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000384s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008580s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000595s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000491s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000424s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000412s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000355s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000351s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000357s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000339s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000281s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000282s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000278s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000242s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:10:34+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/main/index.html
+[运行时间：1.151923s] [吞吐率：0.87req/s] [内存消耗：2,611.60kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024010s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009515s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000990s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000488s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000483s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.012382s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000402s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.010611s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.009897s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000548s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.007877s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.009234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.008714s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000470s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000650s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:13:46+08:00 ] ::1 GET localhost/fh_offer/public/index.php
+[运行时间：1.110346s] [吞吐率：0.90req/s] [内存消耗：2,661.69kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024272s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.010654s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000600s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.008549s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000753s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000429s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000427s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000403s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000303s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 253  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000352s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 265  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000268s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000273s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000267s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:13:47+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/main/index.html
+[运行时间：1.137722s] [吞吐率：0.88req/s] [内存消耗：2,611.60kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022985s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009778s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000386s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000270s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007150s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007117s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.007260s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000509s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.007777s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.007659s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.007778s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000303s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:24:23+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/dismantling/index/menuid/270.html
+[运行时间：0.067767s] [吞吐率：14.76req/s] [内存消耗：1,373.33kb] [文件加载：59]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '270',
+)
+---------------------------------------------------------------
+[ 2019-05-06T19:24:23+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/projectpoint/index/menuid/269.html
+[运行时间：1.132535s] [吞吐率：0.88req/s] [内存消耗：2,764.80kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '269',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\projectpoint\index.html [ array (
+  0 => 'Config',
+  1 => 'str',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.011618s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.031403s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000674s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000628s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_class` [ RunTime:0.008464s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_class` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.024394s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:24:26+08:00 ] 192.168.0.134 GET 192.168.0.125/fh_offer/public/admin/anbank/index/menuid/271.html
+[运行时间：1.097736s] [吞吐率：0.91req/s] [内存消耗：2,815.59kb] [文件加载：82]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=14d7nfrokde3b0r72bbsdagtq6',
+  'connection' => 'close',
+  'host' => '192.168.0.125',
+  'accept-encoding' => 'gzip, deflate',
+  'upgrade-insecure-requests' => '1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language' => 'zh-CN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134',
+  'referer' => 'http://192.168.0.125/fh_offer/public/admin/index/index.html',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '271',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\anbank\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.002701s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007622s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000340s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_materials` [ RunTime:0.007828s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_materials` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `userid` = 1 LIMIT 0,20 [ RunTime:0.000266s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:15+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/main/index.html
+[运行时间：1.156487s] [吞吐率：0.86req/s] [内存消耗：2,612.14kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.025423s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.017556s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000305s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.012484s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000353s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.017036s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.008436s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.007616s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.008255s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000353s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.007989s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000359s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:20+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/anbank/index/menuid/271.html
+[运行时间：1.092524s] [吞吐率：0.92req/s] [内存消耗：2,647.94kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '271',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\anbank\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022378s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009063s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000427s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_materials` [ RunTime:0.008844s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_materials` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000372s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `userid` = 1 LIMIT 0,20 [ RunTime:0.000396s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:25+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/manager/index/menuid/16.html
+[运行时间：1.099926s] [吞吐率：0.91req/s] [内存消耗：2,631.59kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '16',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\manager\index.html [ array (
+  0 => 'Config',
+  1 => 'Userlist',
+  2 => 'company',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.021144s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008464s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` ORDER BY `userid` ASC [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007963s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 3 [ RunTime:0.000526s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.008592s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000357s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000270s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 4 LIMIT 1 [ RunTime:0.000253s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000213s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000201s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000209s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000203s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000208s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000211s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:33+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/indent/index/menuid/235.html
+[运行时间：1.121261s] [吞吐率：0.89req/s] [内存消耗：2,708.72kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '235',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\indent\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023756s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009059s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000358s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007348s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 2  AND `status` = 0 [ RunTime:0.000361s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:34+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/indent/treetype.html
+[运行时间：1.085527s] [吞吐率：0.92req/s] [内存消耗：2,591.55kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php/admin/indent/index/menuid/235.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022769s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.012453s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000461s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007712s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` [ RunTime:0.000612s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:30:48+08:00 ] ::1 POST localhost/fh_offer/public/index.php/admin/indent/editstatu.html
+[运行时间：1.077960s] [吞吐率：0.93req/s] [内存消耗：2,464.41kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php/admin/indent/index/menuid/235.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://localhost',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '14',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'id' => '18',
+  'status' => '0',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022247s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009861s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007982s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `pid` = 18 LIMIT 1 [ RunTime:0.000346s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:32:45+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/offertype/index/menuid/229.html
+[运行时间：1.090008s] [吞吐率：0.92req/s] [内存消耗：2,644.15kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '229',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\offertype\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012456s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008852s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000459s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000421s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.008013s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` [ RunTime:0.000383s ]
+---------------------------------------------------------------
+[ 2019-05-06T19:32:48+08:00 ] ::1 GET localhost/fh_offer/public/index.php/admin/offerlist/index/menuid/249.html
+[运行时间：1.146358s] [吞吐率：0.87req/s] [内存消耗：2,794.29kb] [文件加载：82]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=254648320; Phpstorm-59ffdf3e=455d0be6-33bc-4cbb-9603-533c25a75212; PHPSESSID=1f4gt72kelnhiu6ab33qa2cvf4',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate, br',
+  'referer' => 'http://localhost/fh_offer/public/index.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'localhost',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '249',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\offerlist\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024266s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.009147s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.010264s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_offerlist` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `userid` = 1 LIMIT 0,20 [ RunTime:0.000318s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userlist` [ RunTime:0.008312s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userlist` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_space_type` [ RunTime:0.008425s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_space_type` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userlist` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000348s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_space_type` WHERE  `id` = 7 LIMIT 1 [ RunTime:0.000362s ]

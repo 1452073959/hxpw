@@ -1,0 +1,1030 @@
+---------------------------------------------------------------
+[ 2019-05-27T10:43:06+08:00 ] 127.0.0.1 GET www.offer.com/
+[运行时间：0.105869s] [吞吐率：9.45req/s] [内存消耗：1,746.15kb] [文件加载：72]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+---------------------------------------------------------------
+[ 2019-05-27T10:43:06+08:00 ] 127.0.0.1 GET www.offer.com/admin/login/index.html
+[运行时间：0.027969s] [吞吐率：35.75req/s] [内存消耗：1,742.59kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:06+08:00 ] 127.0.0.1 GET www.offer.com/static/admin/images/logo.ico
+[运行时间：0.019289s] [吞吐率：51.84req/s] [内存消耗：992.95kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-27T10:43:11+08:00 ] 127.0.0.1 POST www.offer.com/admin/login/index.html
+[运行时间：4.406132s] [吞吐率：0.23req/s] [内存消耗：2,492.33kb] [文件加载：74]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://www.offer.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023610s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.059334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.005405s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin_operation` [ RunTime:0.033989s ]
+[ sql ] [ SQL ] INSERT INTO `fdz_admin_operation` (`aid` , `sid` , `rid` , `operation_type` , `operation_time` , `operation`) VALUES (1 , 0 , 1 , 1 , '1558924991' , '登录操作') [ RunTime:0.011760s ]
+[ sql ] [ SQL ] UPDATE `fdz_admin`  SET `last_login_time` = 1558924991 , `last_login_address` = '广东省广州市' , `login_ip` = '127.0.0.1'  WHERE  `userid` = 1 [ RunTime:0.000722s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:11+08:00 ] 127.0.0.1 POST www.offer.com/admin/login/index.html
+[运行时间：0.331485s] [吞吐率：3.02req/s] [内存消耗：1,748.12kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://www.offer.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+---------------------------------------------------------------
+[ 2019-05-27T10:43:13+08:00 ] 127.0.0.1 GET www.offer.com/admin/index/index.html
+[运行时间：1.104160s] [吞吐率：0.91req/s] [内存消耗：2,667.11kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.026616s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.005964s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.028947s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000401s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000391s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000342s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000296s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000293s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000294s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000359s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000373s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000306s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000255s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:13+08:00 ] 127.0.0.1 POST www.offer.com/admin/login/index.html
+[运行时间：0.482730s] [吞吐率：2.07req/s] [内存消耗：1,747.65kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://www.offer.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+---------------------------------------------------------------
+[ 2019-05-27T10:43:14+08:00 ] 127.0.0.1 GET www.offer.com/admin/index/index.html
+[运行时间：1.091558s] [吞吐率：0.92req/s] [内存消耗：2,667.16kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023530s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.014513s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000390s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.006031s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000448s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000411s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000390s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000438s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000299s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000297s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000288s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000333s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000290s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000420s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000392s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000301s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000265s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000296s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000288s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:14+08:00 ] 127.0.0.1 POST www.offer.com/admin/login/index.html
+[运行时间：0.393621s] [吞吐率：2.54req/s] [内存消耗：1,747.65kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://www.offer.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '31',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'username' => 'fkd',
+  'password' => '123456789',
+)
+---------------------------------------------------------------
+[ 2019-05-27T10:43:15+08:00 ] 127.0.0.1 GET www.offer.com/admin/index/index.html
+[运行时间：1.084375s] [吞吐率：0.92req/s] [内存消耗：2,667.16kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024343s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.014458s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000370s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.005895s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000313s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000319s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000300s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000285s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000293s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000296s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000349s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000256s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000249s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000243s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:16+08:00 ] 127.0.0.1 GET www.offer.com/admin/main/index.html
+[运行时间：1.218251s] [吞吐率：0.82req/s] [内存消耗：2,616.74kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.020900s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.006319s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000452s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000499s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000454s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.031149s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.013138s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.018765s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.010819s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.016874s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000378s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.007524s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.036980s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000391s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:19+08:00 ] 127.0.0.1 GET www.offer.com/admin/auth_manager/index/menuid/17.html
+[运行时间：1.106981s] [吞吐率：0.90req/s] [内存消耗：2,541.26kb] [文件加载：77]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '17',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\auth_manager\index.html [ array (
+  0 => 'Config',
+  1 => '_list',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023043s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007909s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.006265s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_auth_group` WHERE  `module` = 'admin' ORDER BY `id` ASC [ RunTime:0.000400s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:21+08:00 ] 127.0.0.1 GET www.offer.com/admin/auth_manager/creategroup.html
+[运行时间：1.057994s] [吞吐率：0.95req/s] [内存消耗：2,539.77kb] [文件加载：77]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/auth_manager/index/menuid/17.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\auth_manager\edit_group.html [ array (
+  0 => 'Config',
+  1 => 'auth_group',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022749s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.006821s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000393s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000392s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:23+08:00 ] 127.0.0.1 POST www.offer.com/admin/auth_manager/writegroup.html
+[运行时间：1.091400s] [吞吐率：0.92req/s] [内存消耗：2,639.05kb] [文件加载：79]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/auth_manager/creategroup.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.offer.com',
+  'accept' => '*/*',
+  'content-length' => '19',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'title' => '',
+  'description' => '',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.020788s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.005993s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000384s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:43:28+08:00 ] 127.0.0.1 GET www.offer.com/admin/auth_manager/index.html
+[运行时间：1.076942s] [吞吐率：0.93req/s] [内存消耗：2,540.63kb] [文件加载：77]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/auth_manager/creategroup.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\auth_manager\index.html [ array (
+  0 => 'Config',
+  1 => '_list',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022684s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.017099s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.001089s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.001003s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007196s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_auth_group` WHERE  `module` = 'admin' ORDER BY `id` ASC [ RunTime:0.000400s ]
+---------------------------------------------------------------
+[ 2019-05-27T10:57:01+08:00 ] 127.0.0.1 GET www.offer.com/?tdsourcetag=s_pcqq_aiomsg
+[运行时间：0.028394s] [吞吐率：35.22req/s] [内存消耗：1,745.82kb] [文件加载：72]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'tdsourcetag' => 's_pcqq_aiomsg',
+)
+---------------------------------------------------------------
+[ 2019-05-27T10:57:02+08:00 ] 127.0.0.1 GET www.offer.com/admin/login/index.html
+[运行时间：0.026022s] [吞吐率：38.43req/s] [内存消耗：1,741.84kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=cbanrvdn8nn71d5rdgn2dshmt6',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-27T10:57:03+08:00 ] 127.0.0.1 GET www.offer.com/static/admin/images/logo.ico
+[运行时间：0.019136s] [吞吐率：52.26req/s] [内存消耗：992.95kb] [文件加载：47]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+---------------------------------------------------------------
+[ 2019-05-27T11:39:51+08:00 ] 127.0.0.1 GET www.offer.com/admin/login/index.html
+[运行时间：0.028651s] [吞吐率：34.90req/s] [内存消耗：1,742.49kb] [文件加载：68]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=cbanrvdn8nn71d5rdgn2dshmt6',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\login\index.html [ array (
+) ]
+---------------------------------------------------------------
+[ 2019-05-27T18:17:45+08:00 ] 127.0.0.1 GET www.offer.com/admin/manager/index/menuid/16.html
+[运行时间：1.225912s] [吞吐率：0.82req/s] [内存消耗：2,637.38kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '16',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\manager\index.html [ array (
+  0 => 'Config',
+  1 => 'Userlist',
+  2 => 'company',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.025581s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.037106s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.005114s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` ORDER BY `userid` ASC [ RunTime:0.000499s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.023640s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 3 [ RunTime:0.017243s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.012239s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.005511s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000353s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 4 LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000364s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 6 LIMIT 1 [ RunTime:0.000367s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000356s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 10 LIMIT 1 [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000294s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:17:48+08:00 ] 127.0.0.1 GET www.offer.com/admin/menu/index/menuid/14.html
+[运行时间：1.091320s] [吞吐率：0.92req/s] [内存消耗：2,629.55kb] [文件加载：79]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '14',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\menu\index.html [ array (
+  0 => 'Config',
+  1 => 'categorys',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022296s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.006804s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000438s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000412s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.007935s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` ORDER BY `listorder`,`id` DESC [ RunTime:0.000738s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:12+08:00 ] 127.0.0.1 GET www.offer.com/admin/personinfo/edit/menuid/256.html
+[运行时间：1.119255s] [吞吐率：0.89req/s] [内存消耗：2,525.21kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '256',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\personinfo\edit.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022381s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007660s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000359s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007113s ]
+[ sql ] [ SQL ] SELECT `title` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000372s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:18+08:00 ] 127.0.0.1 GET www.offer.com/admin/offertype/index/menuid/229.html
+[运行时间：1.146499s] [吞吐率：0.87req/s] [内存消耗：2,518.65kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '229',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\offertype\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023126s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.006865s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000439s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.052272s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` [ RunTime:0.000551s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:20+08:00 ] 127.0.0.1 GET www.offer.com/admin/offerlist/index/menuid/249.html
+[运行时间：1.185365s] [吞吐率：0.84req/s] [内存消耗：2,639.97kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '249',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\offerlist\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022927s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007113s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.066116s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_offerlist` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `userid` = 1 LIMIT 0,20 [ RunTime:0.000297s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userlist` [ RunTime:0.011007s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userlist` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000403s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_space_type` [ RunTime:0.030097s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_space_type` WHERE  `id` = 3 LIMIT 1 [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userlist` WHERE  `id` = 2 LIMIT 1 [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_space_type` WHERE  `id` = 7 LIMIT 1 [ RunTime:0.000360s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:24+08:00 ] 127.0.0.1 GET www.offer.com/admin/indent/index/menuid/235.html
+[运行时间：1.079439s] [吞吐率：0.93req/s] [内存消耗：2,557.74kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '235',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\indent\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022852s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007163s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000414s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.006697s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `fdz_frame` WHERE  `levelid` = 2  AND `status` = 0 [ RunTime:0.000411s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:25+08:00 ] 127.0.0.1 GET www.offer.com/admin/indent/treetype.html
+[运行时间：1.061974s] [吞吐率：0.94req/s] [内存消耗：2,598.95kb] [文件加载：73]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/indent/index/menuid/235.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003727s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007694s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000460s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000402s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.007565s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` [ RunTime:0.000671s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:43+08:00 ] 127.0.0.1 GET www.offer.com/admin/menu/index/menuid/14.html
+[运行时间：1.080822s] [吞吐率：0.93req/s] [内存消耗：2,629.55kb] [文件加载：79]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '14',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\menu\index.html [ array (
+  0 => 'Config',
+  1 => 'categorys',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022802s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007298s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000458s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000416s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.006857s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` ORDER BY `listorder`,`id` DESC [ RunTime:0.000586s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:45+08:00 ] 127.0.0.1 GET www.offer.com/admin/index/index.html
+[运行时间：1.095084s] [吞吐率：0.91req/s] [内存消耗：2,667.16kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\index\index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.024030s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000461s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000709s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.006837s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000494s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 3  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000441s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000421s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000417s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000434s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000423s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000423s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000420s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000471s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 256  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000490s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000266s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000264s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000266s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000230s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:46+08:00 ] 127.0.0.1 GET www.offer.com/admin/main/index.html
+[运行时间：1.140661s] [吞吐率：0.88req/s] [内存消耗：2,616.74kb] [文件加载：78]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\main\index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.012280s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008608s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000420s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000408s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.006819s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.007616s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.007052s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000417s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.009789s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.020708s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000414s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.013204s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000283s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:46+08:00 ] 127.0.0.1 GET www.offer.com/admin/auxiliary/index/menuid/263.html
+[运行时间：0.059984s] [吞吐率：16.67req/s] [内存消耗：1,382.66kb] [文件加载：59]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '263',
+)
+---------------------------------------------------------------
+[ 2019-05-27T18:18:48+08:00 ] 127.0.0.1 GET www.offer.com/admin/artificial/index/menuid/264.html
+[运行时间：1.148284s] [吞吐率：0.87req/s] [内存消耗：2,641.38kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '264',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\artificial\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.022420s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007347s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000481s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_artificial` [ RunTime:0.057337s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_artificial` LIMIT 1 [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_artificial` LIMIT 0,20 [ RunTime:0.000438s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:18:53+08:00 ] 127.0.0.1 GET www.offer.com/admin/projectpoint/index/menuid/269.html
+[运行时间：1.134655s] [吞吐率：0.88req/s] [内存消耗：2,555.60kb] [文件加载：77]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '269',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\projectpoint\index.html [ array (
+  0 => 'Config',
+  1 => 'str',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023767s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.007175s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000412s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_class` [ RunTime:0.033180s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_class` WHERE  `frameid` = 152 LIMIT 1 [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.010865s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 152 LIMIT 1 [ RunTime:0.000372s ]
+---------------------------------------------------------------
+[ 2019-05-27T18:19:12+08:00 ] 127.0.0.1 GET www.offer.com/admin/artificial/index/menuid/%E6%89%93%E5%8D%B0%E7%AA%97%E5%8F%A3
+[运行时间：1.085159s] [吞吐率：0.92req/s] [内存消耗：2,641.45kb] [文件加载：80]
+[ info ] [ LANG ] G:\PHPTutorial\WWW\fh_offer\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'pgv_pvi=941304832; PHPSESSID=9iq7urvthp592om9n00lcq6186',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.offer.com/admin/artificial/index/menuid/264.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.offer.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '打印窗口',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] G:\PHPTutorial\WWW\fh_offer\application\admin\view\artificial\index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:1.018525s ] mysql:host=localhost;dbname=dboffer;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.008219s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000505s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_artificial` [ RunTime:0.006940s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_artificial` LIMIT 1 [ RunTime:0.000280s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_artificial` LIMIT 0,20 [ RunTime:0.000307s ]

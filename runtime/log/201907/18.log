@@ -1,0 +1,286 @@
+---------------------------------------------------------------
+[ 2019-07-18T16:09:06+08:00 ] 116.22.143.81 POST www.hxpw1998.com/admin/login/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000311s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000645s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `username` = 'fkd' LIMIT 1 [ RunTime:0.000366s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin_operation` [ RunTime:0.000647s ]
+[ sql ] [ SQL ] INSERT INTO `fdz_admin_operation` (`aid` , `sid` , `rid` , `operation_type` , `operation_time` , `operation`) VALUES (1 , 0 , 1 , 1 , '1563437346' , '登录操作') [ RunTime:0.003481s ]
+[ sql ] [ SQL ] UPDATE `fdz_admin`  SET `last_login_time` = 1563437346 , `last_login_address` = '广东省广州市' , `login_ip` = '116.22.143.81'  WHERE  `userid` = 1 [ RunTime:0.002024s ]
+---------------------------------------------------------------
+[ 2019-07-18T16:09:07+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/index/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000324s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000615s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000302s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000249s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000259s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000242s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000225s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000221s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000222s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 280  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000228s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000222s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000221s ]
+---------------------------------------------------------------
+[ 2019-07-18T16:09:13+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/main/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000309s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000603s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000201s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.000367s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000177s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000196s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000208s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.000440s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000227s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000193s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000261s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:14:04+08:00 ] 116.22.143.81 GET www.hxpw1998.com/
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000316s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000644s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000331s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000243s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000312s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 249  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000266s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000248s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000217s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000249s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000255s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000248s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000233s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000268s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000253s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 280  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000222s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:14:05+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/main/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000358s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000622s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000314s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000247s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000180s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.000369s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000183s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.000373s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000173s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000196s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000202s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000227s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000296s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:14:34+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offertype/index/menuid/229.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000326s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000625s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000255s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.000400s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` [ RunTime:0.000224s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:06+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/index/menuid/249.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000336s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000332s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000459s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`number` = '1' [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000404s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG244' LIMIT 1 [ RunTime:0.000538s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG248' LIMIT 1 [ RunTime:0.000405s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL162' LIMIT 1 [ RunTime:0.000444s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL164' LIMIT 1 [ RunTime:0.000414s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL165' LIMIT 1 [ RunTime:0.000388s ]
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+---------------------------------------------------------------
+[ 2019-07-18T22:15:10+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/edit/menuid/282.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000336s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000235s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:12+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/baojiaguanli.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000323s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000248s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000469s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`number` = '1' [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG244' LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG248' LIMIT 1 [ RunTime:0.000444s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL162' LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL164' LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL165' LIMIT 1 [ RunTime:0.000397s ]
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+---------------------------------------------------------------
+[ 2019-07-18T22:15:14+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/edit/id/4.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000326s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000464s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '4' LIMIT 1 [ RunTime:0.000308s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_mould` [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_mould` WHERE  `id` IS NULL LIMIT 1 [ RunTime:0.000148s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.000367s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` [ RunTime:0.000225s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:16+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/zengjian/menuid/297.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000333s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000629s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000337s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000238s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:18+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/quote/index/menuid/296.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000317s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000641s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000333s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000278s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_mould` [ RunTime:0.000394s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_mould` WHERE  `userid` = 1 [ RunTime:0.000211s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:21+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/quote/checkmould/id/20/type/preview.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000307s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000642s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000243s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_mould` [ RunTime:0.000393s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_mould` WHERE  `id` = 20 LIMIT 1 [ RunTime:0.000200s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.000372s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 94 LIMIT 1 [ RunTime:0.000172s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 144 LIMIT 1 [ RunTime:0.000166s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000393s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1326 LIMIT 1 [ RunTime:0.000216s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1313 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1487 LIMIT 1 [ RunTime:0.000194s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1367 LIMIT 1 [ RunTime:0.000174s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 2198 LIMIT 1 [ RunTime:0.000183s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 145 LIMIT 1 [ RunTime:0.000150s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1367 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1488 LIMIT 1 [ RunTime:0.000178s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 2198 LIMIT 1 [ RunTime:0.000180s ]
+[ sql ] [ SQL ] SELECT `name` FROM `fdz_offer_type` WHERE  `id` = 139 LIMIT 1 [ RunTime:0.000157s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1457 LIMIT 1 [ RunTime:0.000187s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1453 LIMIT 1 [ RunTime:0.000179s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `id` = 1369 LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offer_type` [ RunTime:0.000190s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:33+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/history/customerid/7/report_id/4.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000326s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000625s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000242s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000464s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '4' LIMIT 1 [ RunTime:0.000298s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `customerid` = 7 [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offerlist` WHERE  `customerid` = 7 LIMIT 1 [ RunTime:0.000165s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:35+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/index/menuid/249.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000328s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000632s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000495s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`number` = '1' [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000403s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG244' LIMIT 1 [ RunTime:0.000512s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG248' LIMIT 1 [ RunTime:0.000404s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL162' LIMIT 1 [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL164' LIMIT 1 [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL165' LIMIT 1 [ RunTime:0.000371s ]
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+---------------------------------------------------------------
+[ 2019-07-18T22:15:39+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/history/customerid/6/report_id/3.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000313s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000619s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000331s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000255s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '3' LIMIT 1 [ RunTime:0.000313s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `customerid` = 6 [ RunTime:0.000226s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offerlist` WHERE  `customerid` = 6 LIMIT 1 [ RunTime:0.000176s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:42+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/index/menuid/249.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000348s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000248s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000484s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`number` = '1' [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG244' LIMIT 1 [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG248' LIMIT 1 [ RunTime:0.000422s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL162' LIMIT 1 [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL164' LIMIT 1 [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL165' LIMIT 1 [ RunTime:0.000410s ]
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+[ error ] [2]Invalid argument supplied for foreach()
+---------------------------------------------------------------
+[ 2019-07-18T22:15:42+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/offerlist/edit/menuid/282.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000299s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000620s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000240s ]
+---------------------------------------------------------------
+[ 2019-07-18T22:15:49+08:00 ] 116.22.143.81 GET www.hxpw1998.com/admin/quote/index/menuid/296.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000306s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000641s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000257s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_mould` [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_mould` WHERE  `userid` = 1 [ RunTime:0.000193s ]

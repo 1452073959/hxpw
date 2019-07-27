@@ -1,0 +1,1663 @@
+---------------------------------------------------------------
+[ 2019-07-25T14:11:34+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/offerlist/history/customerid/7/report_id/12.html
+[运行时间：0.067216s] [吞吐率：14.88req/s] [内存消耗：3,544.92kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/offerlist/index/customer_id/7.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'customerid' => '7',
+  'report_id' => '12',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/offerlist/history.html [ array (
+  0 => 'Config',
+  1 => 'all',
+  2 => 'edit_id',
+  3 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000324s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000633s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000469s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '12' LIMIT 1 [ RunTime:0.000423s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.000385s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '打拆工种' LIMIT 1 [ RunTime:0.000180s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '油漆类' LIMIT 1 [ RunTime:0.000164s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '水电工程' LIMIT 1 [ RunTime:0.000171s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '木工类' LIMIT 1 [ RunTime:0.000156s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '泥瓦工种' LIMIT 1 [ RunTime:0.000156s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋打拆综合项目' LIMIT 1 [ RunTime:0.000199s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋油漆煽灰综合项目' LIMIT 1 [ RunTime:0.000177s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋水电安装' LIMIT 1 [ RunTime:0.000176s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '次卧' LIMIT 1 [ RunTime:0.000162s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '小孩房' LIMIT 1 [ RunTime:0.000178s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '主卧' LIMIT 1 [ RunTime:0.000154s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '客厅、餐厅及过道' LIMIT 1 [ RunTime:0.000149s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋泥水综合项目' LIMIT 1 [ RunTime:0.000168s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '次卫' LIMIT 1 [ RunTime:0.000156s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '主卫' LIMIT 1 [ RunTime:0.000161s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '厨房' LIMIT 1 [ RunTime:0.000159s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '景观阳台' LIMIT 1 [ RunTime:0.000157s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `customerid` = 114 [ RunTime:0.000371s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offerlist` WHERE  `customerid` = 114 LIMIT 1 [ RunTime:0.000267s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:13:52+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：28.039461s] [吞吐率：0.04req/s] [内存消耗：29,869.54kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000329s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000664s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004103s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:14:57+08:00 ] 218.19.207.246 POST www.hxpw1998.com/admin/usedlist/ajaxedits.html
+[运行时间：0.026129s] [吞吐率：38.27req/s] [内存消耗：2,952.69kb] [文件加载：73]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.hxpw1998.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'content-length' => '214',
+)
+[ info ] [ PARAM ] array (
+  'id' => '3018',
+  'bigbox' => '垃圾编织袋（华浔）,5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000315s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000636s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000230s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000439s ]
+[ sql ] [ SQL ] UPDATE `fdz_offerquota`  SET `content` = '[[\"垃圾编织袋（华浔）\",\"5\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"]]'  WHERE  `id` = 3018 [ RunTime:0.002214s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:15:15+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：18.316011s] [吞吐率：0.05req/s] [内存消耗：29,869.89kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000311s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000640s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000259s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004092s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:19:07+08:00 ] 218.19.207.246 POST www.hxpw1998.com/admin/usedlist/ajaxedits.html
+[运行时间：0.025664s] [吞吐率：38.96req/s] [内存消耗：2,952.90kb] [文件加载：73]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.hxpw1998.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'content-length' => '234',
+)
+[ info ] [ PARAM ] array (
+  'id' => '3832',
+  'bigbox' => '洪洞树腻子,0.175,粘粉,0.03,牛皮纸,0.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000331s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000630s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000453s ]
+[ sql ] [ SQL ] UPDATE `fdz_offerquota`  SET `content` = '[[\"洪洞树腻子\",\"0.175\"],[\"粘粉\",\"0.03\"],[\"牛皮纸\",\"0.1\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"]]'  WHERE  `id` = 3832 [ RunTime:0.002151s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:19:27+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：20.086245s] [吞吐率：0.05req/s] [内存消耗：29,869.89kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000312s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000617s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000432s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004115s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:25:56+08:00 ] 218.19.207.246 POST www.hxpw1998.com/admin/usedlist/ajaxedits.html
+[运行时间：0.026784s] [吞吐率：37.34req/s] [内存消耗：2,952.69kb] [文件加载：73]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.hxpw1998.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'content-length' => '214',
+)
+[ info ] [ PARAM ] array (
+  'id' => '3017',
+  'bigbox' => '垃圾编织袋（华浔）,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000328s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000632s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000247s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000445s ]
+[ sql ] [ SQL ] UPDATE `fdz_offerquota`  SET `content` = '[[\"垃圾编织袋（华浔）\",\"3\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"]]'  WHERE  `id` = 3017 [ RunTime:0.002181s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:10+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：14.085028s] [吞吐率：0.07req/s] [内存消耗：29,869.77kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000300s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000603s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000247s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000457s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004113s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:10+08:00 ] 218.19.207.246 GET www.hxpw1998.com/
+[运行时间：9.315546s] [吞吐率：0.11req/s] [内存消耗：3,170.73kb] [文件加载：80]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/index/index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000308s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000634s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000352s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000276s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 315  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000220s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000274s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000252s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000227s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000249s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000220s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000227s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000253s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000222s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:10+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/main/index.html
+[运行时间：0.038560s] [吞吐率：25.93req/s] [内存消耗：3,111.34kb] [文件加载：78]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/main/index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000335s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000625s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000228s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.000393s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000195s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.000376s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000178s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.000386s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000157s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000198s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000198s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.000438s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000214s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000120s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000210s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:10+08:00 ] 218.19.207.246 GET www.hxpw1998.com/
+[运行时间：0.061921s] [吞吐率：16.15req/s] [内存消耗：3,170.73kb] [文件加载：80]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/index/index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000244s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000490s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000264s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000301s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000259s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000225s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 315  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000269s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:11+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/main/index.html
+[运行时间：0.031159s] [吞吐率：32.09req/s] [内存消耗：3,111.34kb] [文件加载：78]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/main/index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000330s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000634s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000339s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000234s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.000406s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000185s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.000372s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.000359s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000169s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.000354s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000213s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.000422s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000218s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000121s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000218s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:13+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/auxiliary/index/menuid/263.html
+[运行时间：0.026270s] [吞吐率：38.07req/s] [内存消耗：3,284.14kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '263',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/auxiliary/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000306s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000645s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000259s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` [ RunTime:0.000508s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`status` = '1' [ RunTime:0.000438s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:26:16+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/auxiliary/history/id/12.html
+[运行时间：0.537646s] [吞吐率：1.86req/s] [内存消耗：3,548.98kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/auxiliary/index/menuid/263.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'id' => '12',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/auxiliary/history.html [ array (
+  0 => 'Config',
+  1 => 'newarr',
+  2 => 'data',
+  3 => 'arrs',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000316s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000649s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000331s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000244s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000448s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` [ RunTime:0.000488s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '12' LIMIT 1 [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `frameid` = 152 [ RunTime:0.004484s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_materials` [ RunTime:0.000669s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152 [ RunTime:0.002521s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000911s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000693s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000688s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000664s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000670s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000651s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000665s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000664s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '墙面找平条(一字扁条)' LIMIT 1 [ RunTime:0.000643s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦金牌净味内墙底漆' LIMIT 1 [ RunTime:0.000656s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦金牌竹炭净味五合一（华浔）' LIMIT 1 [ RunTime:0.000656s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦墙面加固剂' LIMIT 1 [ RunTime:0.000653s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '洪洞树腻子' LIMIT 1 [ RunTime:0.000751s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '粘粉' LIMIT 1 [ RunTime:0.000749s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '牛皮纸' LIMIT 1 [ RunTime:0.000743s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '玻纤网' LIMIT 1 [ RunTime:0.000646s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位开关带荧光（皓锌白）' LIMIT 1 [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位双控带荧光（皓锌白）' LIMIT 1 [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列16A三插（皓锌白）' LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列连体二三插带开关（皓锌白）' LIMIT 1 [ RunTime:0.000474s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位电视插（皓锌白）' LIMIT 1 [ RunTime:0.000473s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位电脑插（皓锌白）' LIMIT 1 [ RunTime:0.000461s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '俊雅系列连体二三插座（华浔）' LIMIT 1 [ RunTime:0.000489s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '秋叶原电脑线' LIMIT 1 [ RunTime:0.000578s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑3分直通' LIMIT 1 [ RunTime:0.000582s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '3分蓝色管夹' LIMIT 1 [ RunTime:0.000582s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '3分蓝色直通' LIMIT 1 [ RunTime:0.000566s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '材通PVC-3分蓝色电线管(华浔)' LIMIT 1 [ RunTime:0.000584s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000608s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000599s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000721s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '蓝色无缝新型自锁底盒（材通）' LIMIT 1 [ RunTime:0.000596s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6蓝)' LIMIT 1 [ RunTime:0.000551s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6双)' LIMIT 1 [ RunTime:0.000521s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6红)' LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分线管' LIMIT 1 [ RunTime:0.000571s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线6分管夹' LIMIT 1 [ RunTime:0.000566s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分直通' LIMIT 1 [ RunTime:0.000573s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000616s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000612s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱蓝色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000535s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱双色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000531s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱红色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分线管' LIMIT 1 [ RunTime:0.000591s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线6分管夹' LIMIT 1 [ RunTime:0.000586s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分直通' LIMIT 1 [ RunTime:0.000561s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分杯梳' LIMIT 1 [ RunTime:0.000624s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000621s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000612s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000718s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红色自锁底盒（材通）' LIMIT 1 [ RunTime:0.000591s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱蓝色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000541s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱双色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000516s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱红色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000518s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分线管' LIMIT 1 [ RunTime:0.000576s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线4分管夹' LIMIT 1 [ RunTime:0.000574s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分直通' LIMIT 1 [ RunTime:0.000571s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分杯梳' LIMIT 1 [ RunTime:0.000579s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000607s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分波纹管' LIMIT 1 [ RunTime:0.000617s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000727s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红色自锁底盒（材通）' LIMIT 1 [ RunTime:0.000595s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '俊朗光纤信息箱' LIMIT 1 [ RunTime:0.000634s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A排水管' LIMIT 1 [ RunTime:0.000344s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A等径90°弯头' LIMIT 1 [ RunTime:0.000327s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A45°弯头' LIMIT 1 [ RunTime:0.000312s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A直通' LIMIT 1 [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A等径三通' LIMIT 1 [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000735s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排水补芯' LIMIT 1 [ RunTime:0.000738s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A排水管' LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A等径90°弯头' LIMIT 1 [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A45度弯头' LIMIT 1 [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A等径三通' LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75管卡' LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排水补芯' LIMIT 1 [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑P型75存水弯' LIMIT 1 [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A排水管' LIMIT 1 [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A排水管' LIMIT 1 [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A等径90°弯头' LIMIT 1 [ RunTime:0.000328s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A45°弯头' LIMIT 1 [ RunTime:0.000312s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A直通' LIMIT 1 [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110管卡' LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑P型110存水弯' LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铝塑PPR-32管' LIMIT 1 [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8CM不锈钢管卡' LIMIT 1 [ RunTime:0.000447s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '日丰兰牙外丝直通' LIMIT 1 [ RunTime:0.000434s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R32-90°内牙弯头' LIMIT 1 [ RunTime:0.000390s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PPR-32*25异径直通' LIMIT 1 [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '生料带' LIMIT 1 [ RunTime:0.000425s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铝塑PPR-20管（华浔）' LIMIT 1 [ RunTime:0.000382s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '4分不锈钢管卡' LIMIT 1 [ RunTime:0.000439s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-90°内牙弯头' LIMIT 1 [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20等径三通' LIMIT 1 [ RunTime:0.000398s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-90°等径弯头' LIMIT 1 [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-45°等径弯头' LIMIT 1 [ RunTime:0.000460s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PPR-20等径直通' LIMIT 1 [ RunTime:0.000362s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铁堵头（带密封圈）' LIMIT 1 [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '生料带' LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000257s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000240s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000738s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000284s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000700s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000710s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000711s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000722s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000696s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000260s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000280s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000696s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000735s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000730s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000695s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000256s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000247s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000285s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000700s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000722s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000702s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000705s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000705s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000714s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000266s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000238s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000279s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000699s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000709s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000715s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000738s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000727s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000744s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '班力仕水性防潮宝（华浔）' LIMIT 1 [ RunTime:0.000640s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000719s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '10厘钢筋' LIMIT 1 [ RunTime:0.000722s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000752s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000723s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000719s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000735s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000739s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000723s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000626s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹PMC彩色防水（华浔）' LIMIT 1 [ RunTime:0.000623s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000746s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000735s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000730s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000635s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000645s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000759s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000745s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000629s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000645s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹PMC彩色防水（华浔）' LIMIT 1 [ RunTime:0.000643s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000739s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000740s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000725s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000719s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000730s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000630s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000721s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000725s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:45:23+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/offerlist/userlist/menuid/315.html
+[运行时间：0.028554s] [吞吐率：35.02req/s] [内存消耗：3,368.41kb] [文件加载：81]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '315',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/offerlist/userlist.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000329s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000639s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000349s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userlist` [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fdz_userlist` LIMIT 1 [ RunTime:0.000148s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userlist` LIMIT 0,15 [ RunTime:0.000172s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:45:26+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/offerlist/index/customer_id/7.html
+[运行时间：0.167937s] [吞吐率：5.95req/s] [内存消耗：4,071.81kb] [文件加载：80]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/offerlist/userlist/menuid/315.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'customer_id' => '7',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/offerlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+  2 => 'userinfo',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000324s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000644s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000231s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`number` = '1'  AND `o`.`customerid` = '7' [ RunTime:0.000620s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000579s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG183' LIMIT 1 [ RunTime:0.000443s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000375s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW234' LIMIT 1 [ RunTime:0.000504s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW184' LIMIT 1 [ RunTime:0.000488s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW185' LIMIT 1 [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW186' LIMIT 1 [ RunTime:0.000481s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW043' LIMIT 1 [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW033' LIMIT 1 [ RunTime:0.000538s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW034' LIMIT 1 [ RunTime:0.000519s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW238' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW183' LIMIT 1 [ RunTime:0.000477s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW181' LIMIT 1 [ RunTime:0.000467s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW182' LIMIT 1 [ RunTime:0.000484s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW216' LIMIT 1 [ RunTime:0.000452s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW217' LIMIT 1 [ RunTime:0.000474s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW218' LIMIT 1 [ RunTime:0.000463s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW038' LIMIT 1 [ RunTime:0.000543s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW036' LIMIT 1 [ RunTime:0.000534s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW030' LIMIT 1 [ RunTime:0.000510s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW039' LIMIT 1 [ RunTime:0.000516s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW010' LIMIT 1 [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_materials` [ RunTime:0.000392s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '200*200*600轻质砖' LIMIT 1 [ RunTime:0.000663s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000626s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '中型河砂' LIMIT 1 [ RunTime:0.000626s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW004' LIMIT 1 [ RunTime:0.000544s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '70*200*600轻质砖' LIMIT 1 [ RunTime:0.000615s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000598s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '中型河砂' LIMIT 1 [ RunTime:0.000611s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW001' LIMIT 1 [ RunTime:0.000538s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000605s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000611s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '中型河砂' LIMIT 1 [ RunTime:0.000613s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000510s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW198' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW197' LIMIT 1 [ RunTime:0.000475s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000495s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000463s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000499s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW198' LIMIT 1 [ RunTime:0.000477s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW197' LIMIT 1 [ RunTime:0.000461s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000509s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000457s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000486s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW211' LIMIT 1 [ RunTime:0.000454s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000505s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000498s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000465s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000482s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000514s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000494s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000448s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000523s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW193' LIMIT 1 [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW189' LIMIT 1 [ RunTime:0.000476s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW105' LIMIT 1 [ RunTime:0.000487s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG197' LIMIT 1 [ RunTime:0.000333s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG183' LIMIT 1 [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000320s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW183' LIMIT 1 [ RunTime:0.000490s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW036' LIMIT 1 [ RunTime:0.000515s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW001' LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000613s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000606s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '中型河砂' LIMIT 1 [ RunTime:0.000610s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW030' LIMIT 1 [ RunTime:0.000514s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000526s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000523s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000511s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000510s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000521s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW211' LIMIT 1 [ RunTime:0.000483s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000502s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW198' LIMIT 1 [ RunTime:0.000450s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000533s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000493s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW198' LIMIT 1 [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000457s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000493s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000520s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW211' LIMIT 1 [ RunTime:0.000450s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000463s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000493s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000508s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000459s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000479s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000519s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW107' LIMIT 1 [ RunTime:0.000480s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000494s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000502s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW113' LIMIT 1 [ RunTime:0.000498s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW189' LIMIT 1 [ RunTime:0.000457s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC099' LIMIT 1 [ RunTime:0.000530s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC089' LIMIT 1 [ RunTime:0.000523s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000560s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC060' LIMIT 1 [ RunTime:0.000541s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000559s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC062' LIMIT 1 [ RunTime:0.000534s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000569s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC057' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000564s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000525s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000505s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000458s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000487s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000515s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW113' LIMIT 1 [ RunTime:0.000490s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW189' LIMIT 1 [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG251' LIMIT 1 [ RunTime:0.000308s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW120' LIMIT 1 [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW122' LIMIT 1 [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW163' LIMIT 1 [ RunTime:0.000470s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW189' LIMIT 1 [ RunTime:0.000466s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW196' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ021' LIMIT 1 [ RunTime:0.000555s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ025' LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ033' LIMIT 1 [ RunTime:0.000567s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG184' LIMIT 1 [ RunTime:0.000331s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG209' LIMIT 1 [ RunTime:0.000313s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG183' LIMIT 1 [ RunTime:0.000318s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG172' LIMIT 1 [ RunTime:0.000321s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG173' LIMIT 1 [ RunTime:0.000338s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG236' LIMIT 1 [ RunTime:0.000302s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG238' LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG244' LIMIT 1 [ RunTime:0.000306s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG245' LIMIT 1 [ RunTime:0.000298s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG246' LIMIT 1 [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG248' LIMIT 1 [ RunTime:0.000296s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG249' LIMIT 1 [ RunTime:0.000301s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG250' LIMIT 1 [ RunTime:0.000298s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG251' LIMIT 1 [ RunTime:0.000292s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC099' LIMIT 1 [ RunTime:0.000557s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC089' LIMIT 1 [ RunTime:0.000518s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000580s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC060' LIMIT 1 [ RunTime:0.000533s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC062' LIMIT 1 [ RunTime:0.000540s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000566s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DC058' LIMIT 1 [ RunTime:0.000523s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000567s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ033' LIMIT 1 [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ025' LIMIT 1 [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ024' LIMIT 1 [ RunTime:0.000555s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ021' LIMIT 1 [ RunTime:0.000563s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'YQ023' LIMIT 1 [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL143' LIMIT 1 [ RunTime:0.000386s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL139' LIMIT 1 [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL077' LIMIT 1 [ RunTime:0.000410s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL078' LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL079' LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL080' LIMIT 1 [ RunTime:0.000391s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL082' LIMIT 1 [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL083' LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL116' LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL062' LIMIT 1 [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL031' LIMIT 1 [ RunTime:0.000415s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL023' LIMIT 1 [ RunTime:0.000409s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL017' LIMIT 1 [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL122' LIMIT 1 [ RunTime:0.000381s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'DL124' LIMIT 1 [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'SG024' LIMIT 1 [ RunTime:0.000423s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'SG026' LIMIT 1 [ RunTime:0.000442s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'SG027' LIMIT 1 [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'SG004' LIMIT 1 [ RunTime:0.000449s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'SG002' LIMIT 1 [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000322s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG183' LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'MG171' LIMIT 1 [ RunTime:0.000329s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000508s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000515s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW042' LIMIT 1 [ RunTime:0.000508s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW183' LIMIT 1 [ RunTime:0.000475s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW036' LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW030' LIMIT 1 [ RunTime:0.000516s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW001' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000610s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000609s ]
+[ sql ] [ SQL ] SELECT `price` FROM `fdz_materials` WHERE  `name` = '中型河砂' LIMIT 1 [ RunTime:0.000608s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW211' LIMIT 1 [ RunTime:0.000460s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000517s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW198' LIMIT 1 [ RunTime:0.000462s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000505s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000464s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000482s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000468s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000499s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000518s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000498s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW211' LIMIT 1 [ RunTime:0.000460s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW229' LIMIT 1 [ RunTime:0.000452s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000446s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW068' LIMIT 1 [ RunTime:0.000511s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW055' LIMIT 1 [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW223' LIMIT 1 [ RunTime:0.000467s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000485s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000512s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW113' LIMIT 1 [ RunTime:0.000496s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW103' LIMIT 1 [ RunTime:0.000480s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW224' LIMIT 1 [ RunTime:0.000463s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW040' LIMIT 1 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW189' LIMIT 1 [ RunTime:0.000466s ]
+[ sql ] [ SQL ] SELECT `item_number`,`labor_cost`,`content` FROM `fdz_offerquota` WHERE  `item_number` = 'NW105' LIMIT 1 [ RunTime:0.000487s ]
+[ error ] [2]Invalid argument supplied for foreach()[/www/wwwroot/www.hxpw1998.com/application/admin/controller/Offerlist.php:149]
+[ error ] [2]Invalid argument supplied for foreach()[/www/wwwroot/www.hxpw1998.com/application/admin/controller/Offerlist.php:157]
+---------------------------------------------------------------
+[ 2019-07-25T14:45:28+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/offerlist/history/customerid/7/report_id/12.html
+[运行时间：0.067251s] [吞吐率：14.87req/s] [内存消耗：3,544.98kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/offerlist/index/customer_id/7.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'customerid' => '7',
+  'report_id' => '12',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/offerlist/history.html [ array (
+  0 => 'Config',
+  1 => 'all',
+  2 => 'edit_id',
+  3 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000320s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000619s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000344s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000246s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000476s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '12' LIMIT 1 [ RunTime:0.000417s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offer_type` [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '打拆工种' LIMIT 1 [ RunTime:0.000198s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '油漆类' LIMIT 1 [ RunTime:0.000186s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '水电工程' LIMIT 1 [ RunTime:0.000173s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '木工类' LIMIT 1 [ RunTime:0.000155s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '泥瓦工种' LIMIT 1 [ RunTime:0.000153s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋打拆综合项目' LIMIT 1 [ RunTime:0.000202s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋油漆煽灰综合项目' LIMIT 1 [ RunTime:0.000183s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋水电安装' LIMIT 1 [ RunTime:0.000169s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '次卧' LIMIT 1 [ RunTime:0.000154s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '小孩房' LIMIT 1 [ RunTime:0.000169s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '主卧' LIMIT 1 [ RunTime:0.000171s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '客厅、餐厅及过道' LIMIT 1 [ RunTime:0.000157s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '全屋泥水综合项目' LIMIT 1 [ RunTime:0.000166s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '次卫' LIMIT 1 [ RunTime:0.000158s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '主卫' LIMIT 1 [ RunTime:0.000162s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '厨房' LIMIT 1 [ RunTime:0.000154s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offer_type` WHERE  `name` = '景观阳台' LIMIT 1 [ RunTime:0.000167s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` WHERE  `customerid` = 114 [ RunTime:0.000344s ]
+[ sql ] [ SQL ] SELECT `id` FROM `fdz_offerlist` WHERE  `customerid` = 114 LIMIT 1 [ RunTime:0.000257s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:47:58+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：17.149818s] [吞吐率：0.06req/s] [内存消耗：29,869.29kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000334s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000646s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000241s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000426s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004103s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:39+08:00 ] 218.19.207.246 POST www.hxpw1998.com/admin/usedlist/ajaxedits.html
+[运行时间：0.026126s] [吞吐率：38.28req/s] [内存消耗：2,952.59kb] [文件加载：73]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.hxpw1998.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'content-length' => '198',
+)
+[ info ] [ PARAM ] array (
+  'id' => '3113',
+  'bigbox' => '东方雨虹瓷砖胶,1.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000312s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000639s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000437s ]
+[ sql ] [ SQL ] UPDATE `fdz_offerquota`  SET `content` = '[[\"东方雨虹瓷砖胶\",\"1.5\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"],[\"\",\"\"]]'  WHERE  `id` = 3113 [ RunTime:0.002363s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:56+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/usedlist/index/menuid/272.html
+[运行时间：17.304302s] [吞吐率：0.06req/s] [内存消耗：29,869.58kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/usedlist/index/menuid/272.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '272',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/usedlist/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000279s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000533s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000304s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000434s ]
+[ sql ] [ SQL ] SELECT `id`,`item_number`,`project`,`content` FROM `fdz_offerquota` WHERE  `userid` = 1 [ RunTime:0.004021s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:57+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/auxiliary/index/menuid/263.html
+[运行时间：11.114744s] [吞吐率：0.09req/s] [内存消耗：3,284.14kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '263',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/auxiliary/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000300s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000614s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000334s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000237s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000471s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` [ RunTime:0.000510s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`status` = '1' [ RunTime:0.000434s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:57+08:00 ] 218.19.207.246 GET www.hxpw1998.com/
+[运行时间：9.748497s] [吞吐率：0.10req/s] [内存消耗：3,170.73kb] [文件加载：80]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/index/index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000244s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000497s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000422s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000309s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000257s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000261s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 315  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000238s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000258s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000304s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000288s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000277s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000226s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000235s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000260s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000230s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000220s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:57+08:00 ] 218.19.207.246 GET www.hxpw1998.com/
+[运行时间：1.133438s] [吞吐率：0.88req/s] [内存消耗：3,170.73kb] [文件加载：80]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/index/index.html [ array (
+  0 => 'Config',
+  1 => 'userInfo',
+  2 => 'SUBMENU_CONFIG',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000228s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000516s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000259s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000232s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_menu` [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 0  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000276s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 228  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000370s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 229  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000251s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 282  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 296  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000243s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 297  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 315  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000215s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 231  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 10  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 14  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000233s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 15  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000245s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 16  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000229s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 17  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000228s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 235  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000242s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 262  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000263s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 263  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000250s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 264  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000225s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 269  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000221s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 298  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000252s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 267  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 268  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000239s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 270  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000224s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 271  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000223s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_menu` WHERE  `parentid` = 272  AND `status` = 1 ORDER BY `listorder` ASC,`id` ASC [ RunTime:0.000241s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:48:57+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/main/index.html
+[运行时间：0.033042s] [吞吐率：30.26req/s] [内存消耗：3,111.34kb] [文件加载：78]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/main/index.html [ array (
+  0 => 'Config',
+  1 => 'countuser',
+  2 => 'countdrive',
+  3 => 'py',
+  4 => 're',
+  5 => 'rerole',
+  6 => 'gonggao',
+  7 => 'userInfo',
+  8 => 'sys_info',
+  9 => 'countall',
+  10 => 'session_info',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000349s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000619s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000363s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000243s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000236s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_frame` [ RunTime:0.000396s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_frame` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000191s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_auth_group` [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SELECT `title`,`description` FROM `fdz_auth_group` WHERE  `id` = 1 LIMIT 1 [ RunTime:0.000180s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_shop` [ RunTime:0.000357s ]
+[ sql ] [ SQL ] SELECT `name`,`money`,`phone` FROM `fdz_shop` LIMIT 1 [ RunTime:0.000180s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_notice_list` [ RunTime:0.000331s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_notice_list` ORDER BY `time` DESC LIMIT 1 [ RunTime:0.000190s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_userinfo` [ RunTime:0.000412s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_userinfo` [ RunTime:0.000204s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_driver` [ RunTime:0.000439s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000217s ]
+[ sql ] [ SQL ] SELECT VERSION() as version [ RunTime:0.000123s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_driver` [ RunTime:0.000194s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:49:30+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/auxiliary/index/menuid/263.html
+[运行时间：0.027310s] [吞吐率：36.62req/s] [内存消耗：3,284.14kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'menuid' => '263',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/auxiliary/index.html [ array (
+  0 => 'Config',
+  1 => 'data',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000319s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000662s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000330s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000267s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000451s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` [ RunTime:0.000501s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`status` = '1' [ RunTime:0.000438s ]
+---------------------------------------------------------------
+[ 2019-07-25T14:49:35+08:00 ] 218.19.207.246 GET www.hxpw1998.com/admin/auxiliary/history/id/12.html
+[运行时间：2.326588s] [吞吐率：0.43req/s] [内存消耗：3,549.08kb] [文件加载：77]
+[ info ] [ LANG ] /www/wwwroot/www.hxpw1998.com/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=np4sd278nii272kc99rdpl77t5',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'referer' => 'http://www.hxpw1998.com/admin/auxiliary/index/menuid/263.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.hxpw1998.com',
+)
+[ info ] [ PARAM ] array (
+  'id' => '12',
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] /www/wwwroot/www.hxpw1998.com/application/admin/view/auxiliary/history.html [ array (
+  0 => 'Config',
+  1 => 'newarr',
+  2 => 'data',
+  3 => 'arrs',
+) ]
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000317s ] mysql:host=localhost;dbname=baojia;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_admin` [ RunTime:0.000639s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_admin` WHERE  `userid` = 1 LIMIT 1 [ RunTime:0.000247s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerlist` [ RunTime:0.000445s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerlist` [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SELECT `o`.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address FROM `fdz_offerlist` `o` INNER JOIN `fdz_userlist` `u` ON `o`.`customerid`=`u`.`id` WHERE  `o`.`id` = '12' LIMIT 1 [ RunTime:0.000370s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_offerquota` [ RunTime:0.000423s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_offerquota` WHERE  `frameid` = 152 [ RunTime:0.004554s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fdz_materials` [ RunTime:0.000712s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152 [ RunTime:0.002530s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000912s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000682s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000675s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000674s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000686s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000703s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000690s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '垃圾编织袋（华浔）' LIMIT 1 [ RunTime:0.000673s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '墙面找平条(一字扁条)' LIMIT 1 [ RunTime:0.000654s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦金牌净味内墙底漆' LIMIT 1 [ RunTime:0.000675s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦金牌竹炭净味五合一（华浔）' LIMIT 1 [ RunTime:0.000632s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '立邦墙面加固剂' LIMIT 1 [ RunTime:0.000636s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '洪洞树腻子' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '粘粉' LIMIT 1 [ RunTime:0.000738s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '牛皮纸' LIMIT 1 [ RunTime:0.000750s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '玻纤网' LIMIT 1 [ RunTime:0.000655s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位开关带荧光（皓锌白）' LIMIT 1 [ RunTime:0.000448s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位双控带荧光（皓锌白）' LIMIT 1 [ RunTime:0.000457s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列16A三插（皓锌白）' LIMIT 1 [ RunTime:0.000472s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列连体二三插带开关（皓锌白）' LIMIT 1 [ RunTime:0.000470s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位电视插（皓锌白）' LIMIT 1 [ RunTime:0.000455s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '西门子映彩系列一位电脑插（皓锌白）' LIMIT 1 [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '俊雅系列连体二三插座（华浔）' LIMIT 1 [ RunTime:0.000514s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '秋叶原电脑线' LIMIT 1 [ RunTime:0.000590s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑3分直通' LIMIT 1 [ RunTime:0.000572s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '3分蓝色管夹' LIMIT 1 [ RunTime:0.000588s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '3分蓝色直通' LIMIT 1 [ RunTime:0.000583s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '材通PVC-3分蓝色电线管(华浔)' LIMIT 1 [ RunTime:0.000575s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000602s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000618s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '蓝色无缝新型自锁底盒（材通）' LIMIT 1 [ RunTime:0.000581s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6蓝)' LIMIT 1 [ RunTime:0.000533s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6双)' LIMIT 1 [ RunTime:0.000539s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '普睿司曼FLAME-A电线(6红)' LIMIT 1 [ RunTime:0.000525s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分线管' LIMIT 1 [ RunTime:0.000560s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线6分管夹' LIMIT 1 [ RunTime:0.000583s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分直通' LIMIT 1 [ RunTime:0.000569s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000598s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000617s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000725s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱蓝色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000532s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱双色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱红色BYJR（F）4.0低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000524s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分线管' LIMIT 1 [ RunTime:0.000578s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线6分管夹' LIMIT 1 [ RunTime:0.000569s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分直通' LIMIT 1 [ RunTime:0.000579s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑6分杯梳' LIMIT 1 [ RunTime:0.000575s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000608s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6#胶粒' LIMIT 1 [ RunTime:0.000621s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000725s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红色自锁底盒（材通）' LIMIT 1 [ RunTime:0.000588s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱蓝色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000549s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱双色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000522s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '双菱红色BYJR（F）2.5低烟无卤多芯电线' LIMIT 1 [ RunTime:0.000526s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分线管' LIMIT 1 [ RunTime:0.000560s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排线4分管夹' LIMIT 1 [ RunTime:0.000584s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分直通' LIMIT 1 [ RunTime:0.000594s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分杯梳' LIMIT 1 [ RunTime:0.000565s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘永锋黄腊管（厚）' LIMIT 1 [ RunTime:0.000617s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑4分波纹管' LIMIT 1 [ RunTime:0.000625s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '自攻螺丝' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红色自锁底盒（材通）' LIMIT 1 [ RunTime:0.000580s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '俊朗光纤信息箱' LIMIT 1 [ RunTime:0.000609s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A排水管' LIMIT 1 [ RunTime:0.000324s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A等径90°弯头' LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A45°弯头' LIMIT 1 [ RunTime:0.000317s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A直通' LIMIT 1 [ RunTime:0.000311s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑40A等径三通' LIMIT 1 [ RunTime:0.000335s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000744s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排水补芯' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A排水管' LIMIT 1 [ RunTime:0.000325s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A等径90°弯头' LIMIT 1 [ RunTime:0.000315s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A45度弯头' LIMIT 1 [ RunTime:0.000323s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75A等径三通' LIMIT 1 [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑75管卡' LIMIT 1 [ RunTime:0.000340s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑排水补芯' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑P型75存水弯' LIMIT 1 [ RunTime:0.000343s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A排水管' LIMIT 1 [ RunTime:0.000310s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A排水管' LIMIT 1 [ RunTime:0.000326s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A等径90°弯头' LIMIT 1 [ RunTime:0.000316s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A45°弯头' LIMIT 1 [ RunTime:0.000333s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110A直通' LIMIT 1 [ RunTime:0.000313s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑110管卡' LIMIT 1 [ RunTime:0.000336s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '红叶pvc胶水' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '联塑P型110存水弯' LIMIT 1 [ RunTime:0.000341s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铝塑PPR-32管' LIMIT 1 [ RunTime:0.000387s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8CM不锈钢管卡' LIMIT 1 [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '日丰兰牙外丝直通' LIMIT 1 [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R32-90°内牙弯头' LIMIT 1 [ RunTime:0.000379s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PPR-32*25异径直通' LIMIT 1 [ RunTime:0.000375s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '生料带' LIMIT 1 [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铝塑PPR-20管（华浔）' LIMIT 1 [ RunTime:0.000401s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '4分不锈钢管卡' LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-90°内牙弯头' LIMIT 1 [ RunTime:0.000397s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20等径三通' LIMIT 1 [ RunTime:0.000380s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-90°等径弯头' LIMIT 1 [ RunTime:0.000389s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PP-R20-45°等径弯头' LIMIT 1 [ RunTime:0.000372s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果PPR-20等径直通' LIMIT 1 [ RunTime:0.000374s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '丰果铁堵头（带密封圈）' LIMIT 1 [ RunTime:0.000418s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '生料带' LIMIT 1 [ RunTime:0.000436s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000257s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000286s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000706s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000690s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000696s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000706s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000254s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000251s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000273s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000707s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000700s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000690s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000721s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000242s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000739s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000271s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000710s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000714s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000712s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000697s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000262s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000687s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000709s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000714s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦5厘夹板' LIMIT 1 [ RunTime:0.000253s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦9厘夹板' LIMIT 1 [ RunTime:0.000255s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '艺邦12厘夹板' LIMIT 1 [ RunTime:0.000758s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '龙马白乳胶' LIMIT 1 [ RunTime:0.000297s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '卡式主骨(艺邦）' LIMIT 1 [ RunTime:0.000697s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '天花付骨' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '8cm*1m吊杆' LIMIT 1 [ RunTime:0.000704s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '6厘拉爆螺丝' LIMIT 1 [ RunTime:0.000740s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '12厘防潮石膏板' LIMIT 1 [ RunTime:0.000713s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000752s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000745s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000717s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000737s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000748s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000733s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000712s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000722s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000730s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000730s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '班力仕水性防潮宝（华浔）' LIMIT 1 [ RunTime:0.000651s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '10厘钢筋' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000757s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000721s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '100*200*600轻质砖' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000727s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000647s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹PMC彩色防水（华浔）' LIMIT 1 [ RunTime:0.000656s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000743s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000721s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000745s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000722s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000624s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000657s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000738s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000723s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000762s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000637s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000757s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹瓷砖胶' LIMIT 1 [ RunTime:0.000626s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹PMC彩色防水（华浔）' LIMIT 1 [ RunTime:0.000638s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000740s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000724s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000726s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000756s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000731s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '东方雨虹嘉仕涂柔性绿色防水（地）' LIMIT 1 [ RunTime:0.000648s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000729s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000741s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '硅酸盐石井水泥' LIMIT 1 [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `fdz_materials` WHERE  `frameid` = 152  AND `name` = '中型河砂' LIMIT 1 [ RunTime:0.000733s ]
