@@ -435,16 +435,13 @@ $(document).ready(function(){
             return false;
         });
         //计算辅材合价和人工合价
-        $(document).on('change','input[name*="gcl"]',function(){
-            var gcl = $(this).val();
-            var fd = $(this).parent().parent().find('td').eq(3).html();//辅材基价
-            var rd = $(this).parent().parent().find('td').eq(5).html();//人工基价
-          console.log(gcl);
-          console.log(fd);
-          console.log(rd);
-            $(this).parent().parent().find('td').eq(4).html(Math.round(gcl*fd * 100)/100);
-            $(this).parent().parent().find('td').eq(6).html(Math.round(gcl*rd*100)/100);
-        });
+    $(document).on('change','input[name*="gcl"]',function(){
+        var gcl = $(this).val();
+        var fd = $(this).parent().parent().find('td').eq(4).html();//辅材基价
+        var rd = $(this).parent().parent().find('td').eq(6).html();//人工基价
+        $(this).parent().parent().find('td').eq(5).html(Math.round(gcl*fd * 100)/100);
+        $(this).parent().parent().find('td').eq(7).html(Math.round(gcl*rd*100)/100);
+    });
  	 function toDecimal2(x) { 
         var f = parseFloat(x); 
         if (isNaN(f)) { 
