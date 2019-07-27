@@ -133,13 +133,15 @@
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th>
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
 
-                      {if ($userinfo['roleid'] == 1)}   
-                        <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
-                      {/if}
+                      <!-- {if ($userinfo['roleid'] == 1)}    -->
+                        <!-- <th class="taleft" lay-data="{field:'gross_profit',width:100 }">毛利率</th> -->
+                      <!-- {/if} -->
                        
                         <th class="taleft" lay-data="{field:'pro_apartment_type',edit:'text'}">工程户型</th> 
                         <th class="taleft" lay-data="{field:'area',edit:'text'}">面积</th>       
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
+                        <!-- <th class="taleft" lay-data="{field:'artificial_cb',width:100 }">人工成本</th> -->
+                        <!-- <th class="taleft" lay-data="{field:'material_cb',width:100 }">辅材成本</th> -->
                         <!-- <th width="150" lay-data="{field:'edit',width:150}">操作</th> -->
                     </tr>
                 </thead>
@@ -178,10 +180,14 @@
                       <td class="taleft">{$vo.tubemoney}</td>   
                       <td class="taleft">{$vo.taxes}</td>   
                       <td class="taleft">{$vo.discount}</td>   
-                      <td class="taleft">{$vo.gross_profit}</td>   
+                      <!-- {if ($userinfo['roleid'] == 1)}    -->
+                      <!-- <td class="taleft">{$vo.profit}%</td>    -->
+                      <!-- {/if} -->
                       <td class="taleft">{$vo.pro_apartment_type|default=''}</td>
                       <td class="taleft">{$vo.area|default=''}</td>
                       <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
+                      <!-- <td class="taleft">{$vo.artificial_cb}</td>    -->
+                      <!-- <td class="taleft">{$vo.material_cb}</td>    -->
                      <!-- <td class="taleft">
                         <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid])}">点击查看</a></td>  --> 
                       <!-- <td>
