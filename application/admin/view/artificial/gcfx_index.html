@@ -90,7 +90,10 @@
                         <th class="taleft" lay-data="{field:'design_commission',width:100 }">设计提成</th>
                         <th class="taleft" lay-data="{field:'repeat_commission',width:100 }">回头客奖</th>
                         <th class="taleft" lay-data="{field:'business_commission',width:100 }">业务提成</th>
+                        <th class="taleft" lay-data="{field:'artificial_cb',width:100 }">人工成本</th>
+                        <th class="taleft" lay-data="{field:'material_cb',width:100 }">辅料成本</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
+                        <th class="taleft" lay-data="{field:'profit_rate',width:100 }">工程毛利比</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
                         <th width="150" lay-data="{field:'edit',width:150}">操作</th>
                     </tr>
@@ -114,11 +117,14 @@
                       <td class="taleft">{$vo.taxes}</td>
                       <td class="taleft">{$vo.discount}</td>
                       <td class="taleft">{$vo.sundry}</td>
-                      <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.supervisor_commission?round($vo.supervisor_commission/100*$vo['direct_cost'],2):0}</a></td>
-                      <td class="taleft"><a class="" lay-event="design_commission">{$vo.design_commission?round($vo.design_commission/100*$vo['direct_cost'],2):0}</a></td>
-                      <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission?round($vo.repeat_commission/100*$vo['direct_cost'],2):0}</a></td>
-                      <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission?round($vo.business_commission/100*$vo['direct_cost'],2):0}</a></td>
+                      <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.supervisor_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="design_commission">{$vo.design_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission}</a></td>
+                      <td class="taleft">{$vo.artificial_cb}</td>   
+                      <td class="taleft">{$vo.material_cb}</td>   
                       <td class="taleft">{$vo.gross_profit}</td>   
+                      <td class="taleft">{$vo.profit_rate}%</td>   
                       <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.customerid])}">查看分析表</a>
@@ -258,6 +264,10 @@ layui.use('table', function(){
              layer.msg(re.msg);return false;
           }
           layer.msg(re.msg);
+
+        setTimeout(function () {
+             window.location.reload(); 
+         }, 1000);
           // window.location.reload();
         }
     });
@@ -310,7 +320,7 @@ layui.use('table', function(){
                     data : {id:data.id,field:'supervisor_commission',value:value},
                     success : function(re){
                       if(re.status == 0){
-                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
                         obj.update({
                           supervisor_commission: price
                         });
@@ -321,6 +331,9 @@ layui.use('table', function(){
                 });
                
                 layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
             });
         });        
     }
@@ -340,7 +353,7 @@ layui.use('table', function(){
                     data : {id:data.id,field:'design_commission',value:value},
                     success : function(re){
                       if(re.status == 0){
-                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
                         obj.update({
                           design_commission: price
                         });
@@ -351,6 +364,9 @@ layui.use('table', function(){
                 });
                
                 layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
             });
         });        
     }
@@ -370,7 +386,7 @@ layui.use('table', function(){
                     data : {id:data.id,field:'repeat_commission',value:value},
                     success : function(re){
                       if(re.status == 0){
-                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
                         obj.update({
                           repeat_commission: price
                         });
@@ -381,6 +397,9 @@ layui.use('table', function(){
                 });
                
                 layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
             });
         });        
     }else if(obj.event === 'business_commission'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
@@ -399,7 +418,7 @@ layui.use('table', function(){
                     data : {id:data.id,field:'business_commission',value:value},
                     success : function(re){
                       if(re.status == 0){
-                        price = value/100 * data.direct_cost; //比率 乘 工程直接费
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
                         obj.update({
                           business_commission: price
                         });
@@ -410,6 +429,9 @@ layui.use('table', function(){
                 });
                
                 layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
             });
         });        
     }

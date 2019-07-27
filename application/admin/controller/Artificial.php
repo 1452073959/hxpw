@@ -224,25 +224,33 @@ class Artificial extends Adminbase
             $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
             $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
 
-            $tariff = array();$labor_cost = '';$fucai = '';
-            foreach ($content as $keys => $values) {
-                $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
-                $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
-                $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
-                $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];
-                $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
-                $tariff[$keys]['fucai'] = 0;
-                foreach ($tariff[$keys]['content'] as $e => $ll) {
-                    if($ll[0] && is_numeric($ll[1])){
-                        $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-                        $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
-                    }
-                }
-                $labor_cost += $tariff[$keys]['labor_cost'];
-                $fucai += $tariff[$keys]['fucai']; 
+            //=========================计算毛利开始
+            //计算杂项
+            $res[$key]['supervisor_commission'] = round($res[$key]['supervisor_commission']/100*$res[$key]['direct_cost'],2);//监理提成
+            $res[$key]['design_commission'] = round($res[$key]['design_commission']/100*$res[$key]['direct_cost'],2);;//设计提成
+            $res[$key]['repeat_commission'] = round($res[$key]['repeat_commission']/100*$res[$key]['direct_cost'],2);;//回头客奖
+            $res[$key]['business_commission'] = round($res[$key]['business_commission']/100*$res[$key]['direct_cost'],2);;//业务提成
+            //计算总人工成本
+            $artificial = json_decode($value['artificial'],true);
+            $res[$key]['artificial_cb'] = 0;
+            foreach($artificial as $k=>$v){
+                $res[$key]['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
             }
-            $res[$key]['gross_profit'] = $labor_cost+$fucai;
-            $res[$key]['content'] = $content;
+            //计算辅材成本
+            $material = json_decode($value['material'],true);
+            $res[$key]['material_cb'] = 0;
+            foreach($material as $k=>$v){
+                $res[$key]['material_cb'] += ($v['num']*$v['price']);//辅材总成本
+            }
+            //计算毛利 利润/报价
+            if($res[$key]['direct_cost']){
+                //毛利率
+                $res[$key]['profit_rate'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ) / $res[$key]['direct_cost'] * 100,2);
+                //毛利
+                $res[$key]['gross_profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ),2);
+            }else{
+                $res[$key]['profit_rate']  = 0;
+            }
         }
         $this->assign('data',$res);    
         return $this->fetch();

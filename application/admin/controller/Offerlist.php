@@ -128,8 +128,6 @@ class Offerlist extends Adminbase
 					}
 				}
 			}
-			// dump($search);
-			// dump($where);exit;
             if(empty($search)){
                 $this->error('请输入搜索内容', url("offerlist/index"));
             }
@@ -158,7 +156,7 @@ class Offerlist extends Adminbase
             $artificial = json_decode($value['artificial'],true);
             $res[$key]['artificial_cb'] = 0;
             foreach($artificial as $k=>$v){
-                $res[$key]['artificial_cb'] += ($v['num']*$v['profit']);//人工总成本
+                $res[$key]['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
             }
             //计算辅材成本
             $material = json_decode($value['material'],true);
