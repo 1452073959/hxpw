@@ -252,6 +252,14 @@ class Artificial extends Adminbase
             $res[$key]['design_commission'] = round($res[$key]['design_commission']/100*$res[$key]['direct_cost'],2);;//设计提成
             $res[$key]['repeat_commission'] = round($res[$key]['repeat_commission']/100*$res[$key]['direct_cost'],2);;//回头客奖
             $res[$key]['business_commission'] = round($res[$key]['business_commission']/100*$res[$key]['direct_cost'],2);;//业务提成
+
+            $res[$key]['carry'] = round($res[$key]['carry']/100*$res[$key]['direct_cost'],2);//搬运费
+            $res[$key]['clean'] = round($res[$key]['clean']/100*$res[$key]['direct_cost'],2);//清洁费
+            $res[$key]['accident'] = round($res[$key]['accident']/100*$res[$key]['direct_cost'],2);//工程意外险
+            $res[$key]['remote'] = round($res[$key]['remote']/100*$res[$key]['direct_cost'],2);//远程费
+            $res[$key]['old_house'] = round($res[$key]['old_house']/100*$res[$key]['direct_cost'],2);//旧房局部改造费
+
+
             //计算总人工成本
             $artificial = json_decode($value['artificial'],true);
             $res[$key]['artificial_cb'] = 0;
@@ -268,6 +276,8 @@ class Artificial extends Adminbase
             if($res[$key]['direct_cost']){
                 //毛利率
                 $res[$key]['profit_rate'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ) / $res[$key]['direct_cost'] * 100,2);
+
+
                 //毛利
                 $res[$key]['gross_profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ),2);
             }else{
