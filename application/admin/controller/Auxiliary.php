@@ -139,6 +139,9 @@ class Auxiliary extends Adminbase
         $material = json_decode($res['material'],true);
         $where = [];
         $where['frameid'] = $res['frameid'];
+        if(!is_array($material)){
+          $material = [];
+        }
         $material_list = array_column(Db::name('materials')->where($where)->where('name','in',implode(',', array_keys($material)))->select(), null,'name');
         $total = 0;//总价
         $datas = [];
@@ -150,6 +153,7 @@ class Auxiliary extends Adminbase
             $v['phr'] = $material_list[$k]['phr'];
             $v['category'] = $material_list[$k]['category'];//工种类别
             $v['fine'] = $material_list[$k]['fine'];//辅材细类
+            $v['brand'] = $material_list[$k]['brand'];//辅材细类
             $v['name'] = $k;//辅材细类
 
             if(!$material_list[$k]['category']){

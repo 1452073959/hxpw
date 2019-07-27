@@ -98,19 +98,21 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>辅材编码</th>
-                            <th width="30%">辅材名称</th>
-                            <th>图片</th>
-                            <th>单位</th>
-                            <th>数量</th>
-                            <th>单价</th>
-                            <th>总价</th>
+                            <th style="text-align: center">辅材编码</th>
+                            <th  style="text-align: center" width="30%">辅材名称</th>
+                            <th  style="text-align: center">品牌</th>
+                            <th  style="text-align: center">图片</th>
+                            <th style="text-align: center">单位</th>
+                            <th style="text-align: center">数量</th>
+                            <th style="text-align: center">包装规格</th>
+                            <th style="text-align: center">单价</th>
+                            <th style="text-align: center">总价</th>
                         </tr> 
                     </thead>
                     <tbody>
                         <?php foreach($material as $k1=>$v1){ ?>
                             <tr>
-                                <td class="" colspan="7" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
+                                <td class="" colspan="8" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
                                 
                             </tr>
                                 <?php 
@@ -118,7 +120,7 @@
                                  ?>
                             <?php foreach($v1 as $k2=>$v2){ ?>
                                 <tr>
-                                    <td class="" colspan="7" style="color:#393d49;text-align: center;">{$k2}</td>
+                                    <td class="" colspan="8" style="color:#393d49;text-align: center;">{$k2}</td>
                                     
                                 </tr>
                                 <?php 
@@ -128,9 +130,11 @@
                                     <tr>
                                         <td class="">{$v3.amcode}</td>
                                         <td class="">{$v3.name}</td>
+                                        <td class="">{$v3.brand}</td>
                                         <td class="">{$v3.img}</td>
                                         <td class="">{$v3.units}</td>
                                         <td class="">{$v3.num}</td>
+                                        <td class="">{$v3.phr}</td>
                                         <td class="">{$v3.price}</td>
                                         <td class="">{$v3.price*$v3.num}</td>
                                         <?php 
@@ -140,15 +144,15 @@
                                     </tr>
                                 <?php } ?>
                                     <!-- <tr>
-                                        <td class="" colspan="7" style="text-align: right;padding-right: 30px;">{$k2} - 合计：{$small_total}</td>
+                                        <td class="" colspan="8" style="text-align: right;padding-right: 30px;">{$k2} - 合计：{$small_total}</td>
                                     </tr> -->
                             <?php } ?>
                                 <tr>
-                                    <td class="" colspan="7" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
+                                    <td class="" colspan="8" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
                                 </tr>
                         <?php } ?>
                             <tr>
-                          <td class="" colspan="7"  style="text-align: right;padding-right: 30px;">领料总价：{$total}</td>
+                          <td class="" colspan="8"  style="text-align: right;padding-right: 30px;">领料总价：{$total}</td>
                   </tr>
                     </tbody>
                 </table>
