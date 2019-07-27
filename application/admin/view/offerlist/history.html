@@ -172,8 +172,8 @@
         if(cate){
           var fd_total = 0,rd_total = 0;
              $('tr[class*='+cate+']').each(function(){
-             	var fd = $(this).find('td').eq(4).html() * 1;//辅材合价
-             	var rd = $(this).find('td').eq(6).html() * 1;//人工合价
+             	var fd = $(this).find('td').eq(5).html() * 1;//辅材合价
+             	var rd = $(this).find('td').eq(7).html() * 1;//人工合价
                fd_total += fd;
                rd_total += rd;
              });
