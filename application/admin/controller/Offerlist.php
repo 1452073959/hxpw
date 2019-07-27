@@ -21,67 +21,67 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Offerlist extends Adminbase
 {
-	public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-	public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+  public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+  public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
   public $gongzhong=array('泥瓦工种','水电工程','木制作','木工其他','扇灰工程','油漆类','形象保护','打拆工种','其他综合项目','加建工程');//工种
     // protected function initialize()
     // {
     //     parent::initialize();
     // }
-	public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
+  public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
   
- 	public $show_page = 15;
+  public $show_page = 15;
   
     public function userlist(){
       $where = new Where;
       $search = input('search');
       //dump($search);
       if(!empty($search)){
-			foreach($search as $key=>$value){
-				if(!empty($value)){
-					switch($key){
-						case "'customer_name'":
-						$where['customer_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'quoter_name'":
-						$where['quoter_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'designer_name'":
-						$where['designer_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'address'":
-						$where['address'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'manager_name'":
-						$where['manager_name'] = ['LIKE','%'.$value.'%'];
-						break;
-					}
-				}
-			}
+      foreach($search as $key=>$value){
+        if(!empty($value)){
+          switch($key){
+            case "'customer_name'":
+            $where['customer_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'quoter_name'":
+            $where['quoter_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'designer_name'":
+            $where['designer_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'address'":
+            $where['address'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'manager_name'":
+            $where['manager_name'] = ['LIKE','%'.$value.'%'];
+            break;
+          }
+        }
+      }
       }
       //dump($where);
       if(!empty($where)){
-        	$re = Db::name('userlist')->where($where)->paginate($this->show_page);
+          $re = Db::name('userlist')->where($where)->paginate($this->show_page);
       }else{
-        	$re = Db::name('userlist')->paginate($this->show_page);
+          $re = Db::name('userlist')->paginate($this->show_page);
       }
      // dump($re->all());
-      	$this->assign('data',$re);
-    	return $this->fetch();
+        $this->assign('data',$re);
+      return $this->fetch();
     }
-  	public function user_delete(){
-    	$re = Db::name('userlist')->delete(input('id'));
-      	$re ? $this->success('删除成功') : $this->error('删除有误');
+    public function user_delete(){
+      $re = Db::name('userlist')->delete(input('id'));
+        $re ? $this->success('删除成功') : $this->error('删除有误');
     }
-  	public function user_edit(){
+    public function user_edit(){
       if($this->request->isPost()){
         $id = input('id');
         $data = input();
         unset($data['id']);
-    	$re = Db::name('userlist')->where('id',input('id'))->update($data);
-      	$re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
+      $re = Db::name('userlist')->where('id',input('id'))->update($data);
+        $re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
       }else{
-      		$data = Db::name('userlist')->where('id',input('id'))->find();
+          $data = Db::name('userlist')->where('id',input('id'))->find();
             $this->assign('data',$data);
             return $this->fetch();
       }
@@ -94,46 +94,46 @@ class Offerlist extends Adminbase
     */
     public function index()
     {
-		// $this->newcheckrule();//权限检测
+    // $this->newcheckrule();//权限检测
         error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
         if($userinfo['roleid'] != 1){
             $da['o.userid'] = $userinfo['userid'];
         }
         $da['o.number'] = 1;
-      	if(!empty(input('customer_id'))){
-          	$da['o.customerid'] = input('customer_id'); 
+        if(!empty(input('customer_id'))){
+            $da['o.customerid'] = input('customer_id'); 
         }
         //客户姓名搜索
         if($this->request->isPost()){
             $search = $this->request->post('search');
-			foreach($search as $key=>$value){
-				if(!empty($value)){
-					switch($key){
-						case "'customer_name'":
-						$where['u.customer_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'quoter_name'":
-						$where['u.quoter_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'designer_name'":
-						$where['u.designer_name'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'address'":
-						$where['u.address'] = ['LIKE','%'.$value.'%'];
-						break;
-						case "'manager_name'":
-						$where['u.manager_name'] = ['LIKE','%'.$value.'%'];
-						break;
-					}
-				}
-			}
+      foreach($search as $key=>$value){
+        if(!empty($value)){
+          switch($key){
+            case "'customer_name'":
+            $where['u.customer_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'quoter_name'":
+            $where['u.quoter_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'designer_name'":
+            $where['u.designer_name'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'address'":
+            $where['u.address'] = ['LIKE','%'.$value.'%'];
+            break;
+            case "'manager_name'":
+            $where['u.manager_name'] = ['LIKE','%'.$value.'%'];
+            break;
+          }
+        }
+      }
             if(empty($search)){
                 $this->error('请输入搜索内容', url("offerlist/index"));
             }
             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where($where)->select();
                 
-    		// dump($res);exit;
+        // dump($res);exit;
             $this->assign('data',$res);   
             $this->assign('userinfo',$userinfo);    
             return $this->fetch();
@@ -176,67 +176,60 @@ class Offerlist extends Adminbase
         $this->assign('userinfo',$userinfo);    
         return $this->fetch();
     }
-	
-	//选择客户
+  
+  //选择客户
     public function baojiaguanli()
     {
         error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
-        $da = [];
         if($userinfo['userid'] != 1){
-            $da['userid'] = $userinfo['userid'];
+            $da['o.userid'] = $userinfo['userid'];
         }
-        if(input('search')){
-            $da['customer_name'] = input('search');
-        }
-        $userlist = Db::name('userlist')->where($da)->select();
-        $this->assign('data',$userlist);    
-        // dump($userlist);die;
-        // $da['o.number'] = 1;
-        // if($this->request->isPost()){
-        // //客户姓名搜索
-        //     $search = input('search');
-        //     if(!empty($search)){
-        //        // $this->error('请输入搜索内容', url("offerlist/index"));
-        //    // }else{
-        //     $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
-        //     //$this->assign('data',$res);    
-        //    // return $this->fetch();
-        // }else{
-        // //所有客户信息
-        //     $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-        //     }
-        // //统计报价开始 
-        // foreach ($res as $key => $value) {
-        //     $content = json_decode($value['content'],true);
-        //     foreach($content as $keys => $values){
-        //         $res[$key]['matquant'] += $values['quotaall'];//辅材报价
-        //         $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
-        //     }
-        //     $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-        //     $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];//工程报价
+        $da['o.number'] = 1;
+        //客户姓名搜索
+        //if($this->request->isPost()){
+            $search = input('search');
+            if(!empty($search)){
+               // $this->error('请输入搜索内容', url("offerlist/index"));
+           // }else{
+            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
+            //$this->assign('data',$res);    
+           // return $this->fetch();
+        }else{
+        //所有客户信息
+        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
+            }
+        //统计报价开始 
+        foreach ($res as $key => $value) {
+            $content = json_decode($value['content'],true);
+            foreach($content as $keys => $values){
+                $res[$key]['matquant'] += $values['quotaall'];//辅材报价
+                $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
+            }
+            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
+            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];//工程报价
 
-        //     $tariff = array();$labor_cost = '';$fucai = '';
-        //     foreach ($content as $keys => $values) {
-        //         $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
-        //         $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
-        //         $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
-        //         $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];//人工报价
-        //         $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
-        //         $tariff[$keys]['fucai'] = 0;
-        //         foreach ($tariff[$keys]['content'] as $e => $ll) {
-        //             if($ll[0] && is_numeric($ll[1])){
-        //                 $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-        //                 $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
-        //             }
-        //         }
-        //         $labor_cost += $tariff[$keys]['labor_cost'];
-        //         $fucai += $tariff[$keys]['fucai']; 
-        //     }
-        //     $res[$key]['gross_profit'] = $labor_cost+$fucai;
-        //     $res[$key]['content'] = $content;
-        // }
-        // $this->assign('data',$res);    
+            $tariff = array();$labor_cost = '';$fucai = '';
+            foreach ($content as $keys => $values) {
+                $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
+                $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
+                $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
+                $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];//人工报价
+                $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
+                $tariff[$keys]['fucai'] = 0;
+                foreach ($tariff[$keys]['content'] as $e => $ll) {
+                    if($ll[0] && is_numeric($ll[1])){
+                        $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
+                        $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
+                    }
+                }
+                $labor_cost += $tariff[$keys]['labor_cost'];
+                $fucai += $tariff[$keys]['fucai']; 
+            }
+            $res[$key]['gross_profit'] = $labor_cost+$fucai;
+            $res[$key]['content'] = $content;
+        }
+        $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);  
         return $this->fetch();
     }
@@ -251,7 +244,7 @@ class Offerlist extends Adminbase
         return $re['price'];
     }
 
-	//报表历史记录
+  //报表历史记录
     public function history(){
         $userinfo = $this->_userinfo; 
         $request = request();
@@ -265,48 +258,48 @@ class Offerlist extends Adminbase
           $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.customerid" => trim($id)])->find();
         }
         if(!empty($rs['content'])){
-			  // $rs['content'] = json_decode($rs['content'],true);
-			  $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
-			  foreach(json_decode($rs['content'],true) as $key=>$value){
-				if(!in_array($value['type_of_work'],$conditions) ){
-					$id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-					$conditions[$id] = $value['type_of_work'];
-				}
-			  }
-			  foreach(json_decode($rs['content'],true) as $key=>$value){
-				if(!in_array($value['kongjian'],$room) ){
-					$id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-					$room[$id] = $value['kongjian'];
-				}
-			  }
-			  if( !empty($conditions) ){
-				$new_data = [];
-				$conditions_no = 0;
-				foreach($conditions as $key=>$value){
-					foreach($room as $k=>$v){
-						foreach(json_decode($rs['content'],true) as $ke=>$val){
-							if($val['type_of_work'] ==$value){
-								$new_data[$key]['conditionsname'] = $value;
-								$new_data[$key]['conditions_no'] = $this->upper[$conditions_no];
-								if($val['kongjian'] == $v){
-									$new_data[$key]['son'][$k]['roomname'] = $v;
-									$new_data[$key]['son'][$k]['room_no'] = $this->lower[$room_no];
-									$new_data[$key]['son'][$k]['item'][] = $val;
-								}
-							}
-						}
-					}
-					$conditions_no++;
-				}
-			  }
-          	foreach($new_data as $k1=>$v1){
-                $room_no = 0;
-            	foreach($v1['son'] as $k2=>$v2){
-            		$new_data[$k1]['son'][$k2]['room_no'] = $this->lower[$room_no];
-					$room_no++;
-           		}
+        // $rs['content'] = json_decode($rs['content'],true);
+        $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
+        foreach(json_decode($rs['content'],true) as $key=>$value){
+        if(!in_array($value['type_of_work'],$conditions) ){
+          $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
+          $conditions[$id] = $value['type_of_work'];
+        }
+        }
+        foreach(json_decode($rs['content'],true) as $key=>$value){
+        if(!in_array($value['kongjian'],$room) ){
+          $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
+          $room[$id] = $value['kongjian'];
+        }
+        }
+        if( !empty($conditions) ){
+        $new_data = [];
+        $conditions_no = 0;
+        foreach($conditions as $key=>$value){
+          foreach($room as $k=>$v){
+            foreach(json_decode($rs['content'],true) as $ke=>$val){
+              if($val['type_of_work'] ==$value){
+                $new_data[$key]['conditionsname'] = $value;
+                $new_data[$key]['conditions_no'] = $this->upper[$conditions_no];
+                if($val['kongjian'] == $v){
+                  $new_data[$key]['son'][$k]['roomname'] = $v;
+                  $new_data[$key]['son'][$k]['room_no'] = $this->lower[$room_no];
+                  $new_data[$key]['son'][$k]['item'][] = $val;
+                }
+              }
             }
-			  $rs['details'] = $new_data;
+          }
+          $conditions_no++;
+        }
+        }
+            foreach($new_data as $k1=>$v1){
+                $room_no = 0;
+              foreach($v1['son'] as $k2=>$v2){
+                $new_data[$k1]['son'][$k2]['room_no'] = $this->lower[$room_no];
+          $room_no++;
+              }
+            }
+        $rs['details'] = $new_data;
           // $new = [];
           // foreach ($this->gongzhong as $key => $value) {
           //   foreach ($rs['content'] as $k => $v) {
@@ -494,39 +487,39 @@ class Offerlist extends Adminbase
      // 是否启用该报价
     public function status()
     { 
-		/*0:未报价 1:已报价 2:预算价 3:合同价 4:结算价*/
+    /*0:未报价 1:已报价 2:预算价 3:合同价 4:结算价*/
         if($this->request->isPost()){
           // return input();
             $data = input();
-			if($data){
-				$status = input('status');$id = input('id');$cid = input('customerid');
-				if($id && $status){
-					$res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
-					if($res !== false){
-						$this->success('操作成功');
-					}else{
-						$this->error('操作失败');
-					}
-				}
-				
-	//               $da['status'] = 0;
-	//               $sele = Db::name('offerlist')->where('customerid',$data['customerid'])->select();
-	//               if(count($sele) != 1){
-	//                 $xin = Db::name('offerlist')->where('customerid',$data['customerid'])->update($da);
-	//               }else{
-	//                 $xin = 1;
-	//               }
-	// 
-	//              if($xin !== false){
-	//               $zhi['status'] = 1;
-	//               $res = Db::name('offerlist')->where('id',$data['id'])->update($zhi);
-	//               Result(0,'操作成功');
-	//              }
-			
-			}else{
-				Result(1,'信息获取失败');
-			}
-		}
+      if($data){
+        $status = input('status');$id = input('id');$cid = input('customerid');
+        if($id && $status){
+          $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
+          if($res !== false){
+            $this->success('操作成功');
+          }else{
+            $this->error('操作失败');
+          }
+        }
+        
+  //               $da['status'] = 0;
+  //               $sele = Db::name('offerlist')->where('customerid',$data['customerid'])->select();
+  //               if(count($sele) != 1){
+  //                 $xin = Db::name('offerlist')->where('customerid',$data['customerid'])->update($da);
+  //               }else{
+  //                 $xin = 1;
+  //               }
+  // 
+  //              if($xin !== false){
+  //               $zhi['status'] = 1;
+  //               $res = Db::name('offerlist')->where('id',$data['id'])->update($zhi);
+  //               Result(0,'操作成功');
+  //              }
+      
+      }else{
+        Result(1,'信息获取失败');
+      }
+    }
       
     }
 
@@ -544,7 +537,7 @@ class Offerlist extends Adminbase
             $bao['quoter_name'] =  $data['quoter_name'];
             $bao['designer_name'] =  $data['designer_name'];
             $bao['manager_name'] = $data['manager_name'];
-			// dump($data);exit;
+      // dump($data);exit;
             //开启事务
             Db::startTrans();
             try{
@@ -633,29 +626,29 @@ class Offerlist extends Adminbase
                 $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
-    		//增减项
-    		if(input('id')){
-    			// return json(['msg'=>'sdfadsfasdf']);
-    			$re = Db::name('offerlist')->where('id',input('id'))->update($data);
-    			 if($re!==false){
-    			  $this->success('成功','admin/offerlist/zengjian');
-    			}else{
-    			  $this->error('失败');
-    			}
-    		}else{
+        //增减项
+        if(input('id')){
+          // return json(['msg'=>'sdfadsfasdf']);
+          $re = Db::name('offerlist')->where('id',input('id'))->update($data);
+           if($re!==false){
+            $this->success('成功','admin/offerlist/zengjian');
+          }else{
+            $this->error('失败');
+          }
+        }else{
                 $re = Db::name('offerlist')->insert($data);
                     if($re!==false){
                     $this->success('成功','admin/offerlist/baojiaguanli');
                 }else{
                     $this->error('失败');
                 }
-    		}
+        }
              
-    		if($re!==false){
-    		   $this->success('成功','admin/offerlist/baojiaguanli');
-    		}else{
-    		   $this->error('失败');
-    		}
+        if($re!==false){
+           $this->success('成功','admin/offerlist/baojiaguanli');
+        }else{
+           $this->error('失败');
+        }
         }
     }
     //新版本添加条目
@@ -771,104 +764,104 @@ class Offerlist extends Adminbase
 
 
 //增减项
-	public function zengjian(){
-	
-	  $userinfo = $this->_userinfo; 
-		
-	    $request = request();
-	    $id = $request->param('id');
-		if(empty($id)){
-			return $this->fetch();
-		}
-		$this->assign('id',$id);
-	    $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
-	    // dump($rs);
-		if(!empty($rs['content'])){
-			$conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
-			foreach(json_decode($rs['content'],true) as $key=>$value){
-				if(!in_array($value['type_of_work'],$conditions) ){
-					$id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-					$conditions[$id] = $value['type_of_work'];
-				}
-			}
-			foreach(json_decode($rs['content'],true) as $key=>$value){
-				if(!in_array($value['kongjian'],$room) ){
-					$id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-					$room[$id] = $value['kongjian'];
-				}
-			}
-			if( !empty($conditions) ){
-				$new_data = [];
-				foreach($conditions as $key=>$value){
-					foreach($room as $k=>$v){
-						foreach(json_decode($rs['content'],true) as $ke=>$val){
-							if($val['type_of_work'] ==$value){
-								$new_data[$key]['conditionsname'] = $value;
-								if($val['kongjian'] == $v){
-									$new_data[$key]['son'][$k]['roomname'] = $v;
-									$new_data[$key]['son'][$k]['item'][] = $val;
-								}
-							}
-						}
-					}
-				}
-			}
-			$rs['details'] = $new_data;
-		}
-	    
-	    $this->assign("data", $rs);
-		$mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
-			if($mould['content']){
-				// $conditions_no = 0;$room_no = 0;
-				foreach(json_decode($mould['content'],true) as $key=>$value){
-					$conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-					$mould['details'][$key]['conditionsname'] = $conditionsname;
-					// $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-					foreach($value as $ke=>$va){
-						$roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-						$mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-						// $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-						foreach($va as $k=>$v){
-							$item = Db::name('offerquota')->find($v);//定额条目
-							$mould['details'][$key]['son'][$ke]['item'][$k] = $item;
-						}
-						// $room_no++;
-					}
-					// $conditions_no++;
-				}
-			}
-	    $res = Db::name('offer_type')->select();//工种和空间类型
-	    $tree = [];//树状数据
-	    foreach($res as $key =>$value){
-	    	if($value['pid'] === 0){
-	    		$tree[$key] = $value;
-	    		unset($res[$key]);
-	    		foreach($res as $k=>$v){
-	    			if($v['pid'] == $value['id']){
-	    				$tree[$key]['son'][] = $v;
-	    			}
-	    		}
-	    	}
-	    }
-	    $this->assign([
-	    	'tree'=>$tree,
-			'mould'=>$mould
-	    ]);  
-	    return $this->fetch();
-	
-	}
+  public function zengjian(){
+  
+    $userinfo = $this->_userinfo; 
+    
+      $request = request();
+      $id = $request->param('id');
+    if(empty($id)){
+      return $this->fetch();
+    }
+    $this->assign('id',$id);
+      $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
+      // dump($rs);
+    if(!empty($rs['content'])){
+      $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
+      foreach(json_decode($rs['content'],true) as $key=>$value){
+        if(!in_array($value['type_of_work'],$conditions) ){
+          $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
+          $conditions[$id] = $value['type_of_work'];
+        }
+      }
+      foreach(json_decode($rs['content'],true) as $key=>$value){
+        if(!in_array($value['kongjian'],$room) ){
+          $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
+          $room[$id] = $value['kongjian'];
+        }
+      }
+      if( !empty($conditions) ){
+        $new_data = [];
+        foreach($conditions as $key=>$value){
+          foreach($room as $k=>$v){
+            foreach(json_decode($rs['content'],true) as $ke=>$val){
+              if($val['type_of_work'] ==$value){
+                $new_data[$key]['conditionsname'] = $value;
+                if($val['kongjian'] == $v){
+                  $new_data[$key]['son'][$k]['roomname'] = $v;
+                  $new_data[$key]['son'][$k]['item'][] = $val;
+                }
+              }
+            }
+          }
+        }
+      }
+      $rs['details'] = $new_data;
+    }
+      
+      $this->assign("data", $rs);
+    $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
+      if($mould['content']){
+        // $conditions_no = 0;$room_no = 0;
+        foreach(json_decode($mould['content'],true) as $key=>$value){
+          $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
+          $mould['details'][$key]['conditionsname'] = $conditionsname;
+          // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
+          foreach($value as $ke=>$va){
+            $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
+            $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
+            // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
+            foreach($va as $k=>$v){
+              $item = Db::name('offerquota')->find($v);//定额条目
+              $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+            }
+            // $room_no++;
+          }
+          // $conditions_no++;
+        }
+      }
+      $res = Db::name('offer_type')->select();//工种和空间类型
+      $tree = [];//树状数据
+      foreach($res as $key =>$value){
+        if($value['pid'] === 0){
+          $tree[$key] = $value;
+          unset($res[$key]);
+          foreach($res as $k=>$v){
+            if($v['pid'] == $value['id']){
+              $tree[$key]['son'][] = $v;
+            }
+          }
+        }
+      }
+      $this->assign([
+        'tree'=>$tree,
+      'mould'=>$mould
+      ]);  
+      return $this->fetch();
+  
+  }
     //业务报价
     public function edit()
     {
       $userinfo = $this->_userinfo; 
-		
+    
         $request = request();
         $id = $request->param('id');
-		if(empty($id)){
-			return $this->fetch();
-		}
+    if(empty($id)){
+      return $this->fetch();
+    }
       //dump($id);
-		$this->assign('id',$id);
+    $this->assign('id',$id);
         $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
         if(!empty($rs['content'])){
           $rs['content'] = json_decode($rs['content'],true);
@@ -880,45 +873,45 @@ class Offerlist extends Adminbase
         }
         // dump($rs);
         $this->assign("data", $rs);
-		
-		$mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
-			if($mould['content']){
-				// $conditions_no = 0;$room_no = 0;
-				foreach(json_decode($mould['content'],true) as $key=>$value){
-					$conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-					$mould['details'][$key]['conditionsname'] = $conditionsname;
-					// $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-					foreach($value as $ke=>$va){
-						$roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-						$mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-						// $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-						foreach($va as $k=>$v){
-							$item = Db::name('offerquota')->find($v);//定额条目
-							$mould['details'][$key]['son'][$ke]['item'][$k] = $item;
-						}
-						// $room_no++;
-					}
-					// $conditions_no++;
-				}
-			}
+    
+    $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
+      if($mould['content']){
+        // $conditions_no = 0;$room_no = 0;
+        foreach(json_decode($mould['content'],true) as $key=>$value){
+          $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
+          $mould['details'][$key]['conditionsname'] = $conditionsname;
+          // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
+          foreach($value as $ke=>$va){
+            $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
+            $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
+            // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
+            foreach($va as $k=>$v){
+              $item = Db::name('offerquota')->find($v);//定额条目
+              $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+            }
+            // $room_no++;
+          }
+          // $conditions_no++;
+        }
+      }
         $res = Db::name('offer_type')->select();//工种和空间类型
         $tree = [];//树状数据
         foreach($res as $key =>$value){
-        	if($value['pid'] === 0){
-        		$tree[$key] = $value;
-        		unset($res[$key]);
-        		foreach($res as $k=>$v){
-        			if($v['pid'] == $value['id']){
-        				$tree[$key]['son'][] = $v;
-        			}
-        		}
-        	}
+          if($value['pid'] === 0){
+            $tree[$key] = $value;
+            unset($res[$key]);
+            foreach($res as $k=>$v){
+              if($v['pid'] == $value['id']){
+                $tree[$key]['son'][] = $v;
+              }
+            }
+          }
         }
         $this->assign([
-        	'tree'=>$tree,
-			'mould'=>$mould
+          'tree'=>$tree,
+      'mould'=>$mould
         ]);  
-		 
+     
         return $this->fetch();
 
     }
@@ -1063,62 +1056,62 @@ class Offerlist extends Adminbase
           
     }
 
-	public function excel_export(){
-		$filename = "报表模板";
-		header("Content-type:application/octet-stream");
-		header("Accept-Ranges:bytes");
-		header("Content-type:application/vnd.ms-excel");
-		header("Content-Disposition:attachment;filename=".$filename.".xls");
-		header("Pragma: no-cache");
-		header("Expires: 0");
-		$str = input('html');
-		
-		$request = request();
-		$id = $request->param('customerid');
-		$report_id = $request->param('report_id');
-		$rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($report_id)])->find();
-		if(!empty($rs['content'])){
-			$conditions = [];$room = [];
-			  foreach(json_decode($rs['content'],true) as $key=>$value){
-			  				if(!in_array($value['type_of_work'],$conditions) ){
-			  					$id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-			  					$conditions[$id] = $value['type_of_work'];
-			  				}
-			  }
-			  foreach(json_decode($rs['content'],true) as $key=>$value){
-			  				if(!in_array($value['kongjian'],$room) ){
-			  					$id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-			  					$room[$id] = $value['kongjian'];
-			  				}
-			  }
-			  if( !empty($conditions) ){
-			  				$new_data = [];
-			  				foreach($conditions as $key=>$value){
-			  					foreach($room as $k=>$v){
-			  						foreach(json_decode($rs['content'],true) as $ke=>$val){
-			  							if($val['type_of_work'] ==$value){
-			  								$new_data[$key]['conditionsname'] = $value;
-			  								if($val['kongjian'] == $v){
-			  									$new_data[$key]['son'][$k]['roomname'] = $v;
-			  									$new_data[$key]['son'][$k]['item'][] = $val;
-			  								}
-			  							}
-			  						}
-			  					}
-			  				}
-			  }
-			  $rs['details'] = $new_data;
-		}
-		$data = $rs;
-		$str = '<style>table,td,th{border:1px solid #000000;}</style><table>
+  public function excel_export(){
+    $filename = "报表模板";
+    header("Content-type:application/octet-stream");
+    header("Accept-Ranges:bytes");
+    header("Content-type:application/vnd.ms-excel");
+    header("Content-Disposition:attachment;filename=".$filename.".xls");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    $str = input('html');
+    
+    $request = request();
+    $id = $request->param('customerid');
+    $report_id = $request->param('report_id');
+    $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($report_id)])->find();
+    if(!empty($rs['content'])){
+      $conditions = [];$room = [];
+        foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['type_of_work'],$conditions) ){
+                  $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
+                  $conditions[$id] = $value['type_of_work'];
+                }
+        }
+        foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['kongjian'],$room) ){
+                  $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
+                  $room[$id] = $value['kongjian'];
+                }
+        }
+        if( !empty($conditions) ){
+                $new_data = [];
+                foreach($conditions as $key=>$value){
+                  foreach($room as $k=>$v){
+                    foreach(json_decode($rs['content'],true) as $ke=>$val){
+                      if($val['type_of_work'] ==$value){
+                        $new_data[$key]['conditionsname'] = $value;
+                        if($val['kongjian'] == $v){
+                          $new_data[$key]['son'][$k]['roomname'] = $v;
+                          $new_data[$key]['son'][$k]['item'][] = $val;
+                        }
+                      }
+                    }
+                  }
+                }
+        }
+        $rs['details'] = $new_data;
+    }
+    $data = $rs;
+    $str = '<style>table,td,th{border:1px solid #000000;}</style><table>
                 <thead>
                     <tr>
-						<th rowspan="2" colspan="2"><img style="max-width:200px;" src="/fh_offer/public/static/imgs/logo.png"></th>
-						<th class="text-center text-large" colspan="6"><h3>住宅装饰工程造价预算书</h3></th>
-						<th rowspan="2" colspan="2"></th>
+            <th rowspan="2" colspan="2"><img style="max-width:200px;" src="/fh_offer/public/static/imgs/logo.png"></th>
+            <th class="text-center text-large" colspan="6"><h3>住宅装饰工程造价预算书</h3></th>
+            <th rowspan="2" colspan="2"></th>
                     </tr>
                     <tr>
-						<th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
+            <th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
                     </tr>
                     <tr>
                         <th style="text-align:center;" colspan="10">
@@ -1147,38 +1140,38 @@ class Offerlist extends Adminbase
                       </tr>
                 </thead>
                 <tbody>';
-				foreach($data['details'] as $key=>$vo){
+        foreach($data['details'] as $key=>$vo){
                     $str .= '<tr>
                         <td colspan="2">'.$vo['conditionsname'].'</td><td colspan="7"></td>
                       </tr>';
-						foreach($vo['son'] as $vo1){
+            foreach($vo['son'] as $vo1){
                             $str .= '<tr><td class="text-center" colspan="9">'.$vo1['roomname'].'</td></tr>';
-							foreach($vo1['item'] as $value){
-								$str .= '<tr>
-											<td colspan="2">'.$value['project'].'</td>
-											<td>'.$value['gcl'].'</td>
-											<td>'.$value['company'].'</td>
-											<td>'.$value['quota'].'</td>
-											<td>'.$value['gcl'] * $value['quota'].'</td>
-											<td>'.$value['craft_show'].'</td>
-											<td>'.$value['gcl'] * $value['craft_show'].'</td>
-											<td class="text-limit">'.$value['material'].'</td>
-										  </tr>';
-						}
-					}
-					$str .= '<tr>
-										<td class="text-center" colspan="2">小计</td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>';
-				}
+              foreach($vo1['item'] as $value){
+                $str .= '<tr>
+                      <td colspan="2">'.$value['project'].'</td>
+                      <td>'.$value['gcl'].'</td>
+                      <td>'.$value['company'].'</td>
+                      <td>'.$value['quota'].'</td>
+                      <td>'.$value['gcl'] * $value['quota'].'</td>
+                      <td>'.$value['craft_show'].'</td>
+                      <td>'.$value['gcl'] * $value['craft_show'].'</td>
+                      <td class="text-limit">'.$value['material'].'</td>
+                      </tr>';
+            }
+          }
+          $str .= '<tr>
+                    <td class="text-center" colspan="2">小计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>';
+        }
                $str .= '</tbody></table>';
-		echo($str);
-	}
-	
+    echo($str);
+  }
+  
 }
