@@ -193,12 +193,34 @@ class Artificial extends Adminbase
       ));*/
          return $this->fetch();
       }
+
+    //成本分析选择选择客户
+    public function gcfx_first(){
+        $userinfo = $this->_userinfo; 
+        $da = [];
+        if($userinfo['userid'] != 1){
+            $da['userid'] = $userinfo['userid'];
+        }
+        if(input('search')){
+            $da['customer_name'] = input('search');
+        }
+        $userlist = Db::name('userlist')->where($da)->select();
+        $this->assign('data',$userlist);    
+        $this->assign('userinfo',$userinfo);  
+        return $this->fetch();
+    }
     public function gcfx_index(){
       error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
+        $da = [];
         // $da['o.userid'] = $userinfo['userid'];
-       if($userinfo['roleid'] != 1){
+        if($userinfo['roleid'] != 1){
            $da['o.frameid'] = $userinfo['companyid'];
+        }
+         if(input('id')){
+           $da['o.customerid'] = input('id');
+        }else{
+            $da['o.customerid'] = 0;
         }
         $da['o.number'] = 1;
         //客户姓名搜索

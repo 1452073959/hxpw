@@ -182,54 +182,61 @@ class Offerlist extends Adminbase
     {
         error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
+        $da = [];
         if($userinfo['userid'] != 1){
-            $da['o.userid'] = $userinfo['userid'];
+            $da['userid'] = $userinfo['userid'];
         }
-        $da['o.number'] = 1;
-        //客户姓名搜索
-        //if($this->request->isPost()){
-            $search = input('search');
-            if(!empty($search)){
-               // $this->error('请输入搜索内容', url("offerlist/index"));
-           // }else{
-            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
-            //$this->assign('data',$res);    
-           // return $this->fetch();
-        }else{
-        //所有客户信息
-        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-            }
-        //统计报价开始 
-        foreach ($res as $key => $value) {
-            $content = json_decode($value['content'],true);
-            foreach($content as $keys => $values){
-                $res[$key]['matquant'] += $values['quotaall'];//辅材报价
-                $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
-            }
-            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];//工程报价
+        if(input('search')){
+            $da['customer_name'] = input('search');
+        }
+        $userlist = Db::name('userlist')->where($da)->select();
+        $this->assign('data',$userlist);    
+        // dump($userlist);die;
+        // $da['o.number'] = 1;
+        // if($this->request->isPost()){
+        // //客户姓名搜索
+        //     $search = input('search');
+        //     if(!empty($search)){
+        //        // $this->error('请输入搜索内容', url("offerlist/index"));
+        //    // }else{
+        //     $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
+        //     //$this->assign('data',$res);    
+        //    // return $this->fetch();
+        // }else{
+        // //所有客户信息
+        //     $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
+        //     }
+        // //统计报价开始 
+        // foreach ($res as $key => $value) {
+        //     $content = json_decode($value['content'],true);
+        //     foreach($content as $keys => $values){
+        //         $res[$key]['matquant'] += $values['quotaall'];//辅材报价
+        //         $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
+        //     }
+        //     $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
+        //     $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];//工程报价
 
-            $tariff = array();$labor_cost = '';$fucai = '';
-            foreach ($content as $keys => $values) {
-                $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
-                $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
-                $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
-                $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];//人工报价
-                $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
-                $tariff[$keys]['fucai'] = 0;
-                foreach ($tariff[$keys]['content'] as $e => $ll) {
-                    if($ll[0] && is_numeric($ll[1])){
-                        $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-                        $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
-                    }
-                }
-                $labor_cost += $tariff[$keys]['labor_cost'];
-                $fucai += $tariff[$keys]['fucai']; 
-            }
-            $res[$key]['gross_profit'] = $labor_cost+$fucai;
-            $res[$key]['content'] = $content;
-        }
-        $this->assign('data',$res);    
+        //     $tariff = array();$labor_cost = '';$fucai = '';
+        //     foreach ($content as $keys => $values) {
+        //         $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
+        //         $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
+        //         $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
+        //         $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];//人工报价
+        //         $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
+        //         $tariff[$keys]['fucai'] = 0;
+        //         foreach ($tariff[$keys]['content'] as $e => $ll) {
+        //             if($ll[0] && is_numeric($ll[1])){
+        //                 $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
+        //                 $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
+        //             }
+        //         }
+        //         $labor_cost += $tariff[$keys]['labor_cost'];
+        //         $fucai += $tariff[$keys]['fucai']; 
+        //     }
+        //     $res[$key]['gross_profit'] = $labor_cost+$fucai;
+        //     $res[$key]['content'] = $content;
+        // }
+        // $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);  
         return $this->fetch();
     }
