@@ -89,6 +89,7 @@
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="batch">批量修改数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="deletes" id="deletes">批量删除数据</button>
                  <a class="layui-btn layui-btn-sm" href="{:url('Offerquota/add')}">添加条目</a> 
                 <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button> -->
                 <!-- <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button> -->
@@ -224,6 +225,37 @@ layui.use('table', function(){
     var data = checkStatus.data;
     // var shujuzu = JSON.stringify(data);//json数据组
     // layer.alert(JSON.stringify(data));return false;  
+    
+
+    // 批量删除
+    if(obj.event == 'deletes'){
+        if(data.length == 0){
+            layer.msg('请勾√选数据');
+        }
+        layer.confirm('确定删除选中项？', {icon: 3, title:'提示'}, function(index){
+            var jsonObj = JSON.parse(JSON.stringify(data));//转换为json对象
+            var ids = [];
+            for (var i = 0; i < data.length; i++) {
+                ids.push(jsonObj[i]['id']);
+            }
+            $.ajax({
+              type : 'post',
+              url  :  '{:url("Offerquota/deletes")}',
+              dataType : 'json',
+              data : {ids:ids},
+              success : function(re){
+                if(re.status === 0 ){
+                    layer.msg(re.msg);
+                    window.location.reload();
+                }else{
+                    layer.msg('删除失败');
+                }
+              }
+             });
+            layer.close(index);
+        });
+        
+    }
     if (obj.event == 'getCheckData'){
       if(data.length == 0){
           layer.msg('请勾√选数据');

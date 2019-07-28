@@ -319,6 +319,15 @@ class Anbank extends Adminbase
         }  
     }
 
+    //批量删除
+    public function deletes()
+    {
+        if ($this->request->isPost()) {
+            $ids = input('ids');
+            Db::name('materials')->where('id','in',$ids)->delete();
+            Result(0,'删除成功');
+        }  
+    }
     /**
      * 删除
      */
