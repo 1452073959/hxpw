@@ -113,8 +113,9 @@
                         <th class="taleft" lay-data="{field:'price',edit:'text'}">单价</th>
                         <th class="taleft" lay-data="{field:'norms',}">规格</th>
                         <th class="taleft" lay-data="{field:'phr',width:180}">包装规格</th>
-                        <th class="taleft" lay-data="{field:'remarks', }">供应来源</th>                        
-                        <th width="100" lay-data="{field:'edit',event: 'setSign'}">修改操作</th>
+                        <th class="taleft" lay-data="{field:'remarks', }">供应来源</th>
+                        <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">操作编辑</th>
+                        <th width="150" lay-data="{field:'del',event: 'setdel',width:100}">操作删除</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -136,6 +137,8 @@
                       <td class="taleft">{$vo.remarks}</td>                                     
                       <td>
                         <a class=""><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                      </td>
+                      <td>
                         <a class="ajax-get confirm" ><i class="layui-icon layui-icon-delete" title="删除"></i></a>
                       </td>
                     </tr>       
