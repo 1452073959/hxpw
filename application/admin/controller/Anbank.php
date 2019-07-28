@@ -198,7 +198,6 @@ class Anbank extends Adminbase
 
 // 导入excel表
     public function ImportExcel(Request $request){
-          
              $da = $this->request->param();
            if ($_FILES['excel']['error'] == 4) {
              $this->error('没有文件被上传', url("anbank/index"));die;
@@ -256,7 +255,7 @@ class Anbank extends Adminbase
                 $col_num = $sheet->getHighestColumn();
                 $data = []; //数组形式获取表格数据 
                   // dump($col_num);
-               if ($col_num != 'L') {
+               if ($col_num != 'M') {
                    $this->error($col_num);die;
                 } 
                 for ($i = 3; $i <= $row_num; $i ++) {
@@ -272,11 +271,13 @@ class Anbank extends Adminbase
                     $data[$i]['norms']  = $sheet->getCell("J".$i)->getValue() ?: ''; 
                     $data[$i]['phr']  = $sheet->getCell("K".$i)->getValue() ?: ''; 
                     $data[$i]['remarks']  = $sheet->getCell("L".$i)->getValue() ?: ''; 
-
+                    $data[$i]['coefficient']  = ($sheet->getCell("M".$i)->getValue() ?: '')*100; 
+                    if($data[$i]['coefficient'] > 100){
+                        $data[$i]['coefficient'] = 100;
+                    }
                     $data[$i]['userid']  = $userInfo['userid']; 
                     $data[$i]['frameid']  = $da['frameid'];  
                 }
-                // dump($data);exit;
                 //将数据保存到数据库
                 if ($data) {
                    //把获取到的二维数组遍历进数据库
