@@ -73,11 +73,11 @@
                     <tr>
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
                         <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
+                        <!-- <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th>
                         <th class="taleft" lay-data="{field:'quoter_name'}">报价师姓名</th>
-                        <th class="taleft" lay-data="{field:'designer_name',}">设计师姓名</th>
+                        <th class="taleft" lay-data="{field:'designer_name',}">设计师姓名</th> -->
                         <th class="taleft" lay-data="{field:'proquant',width:100}">工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
@@ -114,11 +114,11 @@
                     <tr>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td class="taleft">{$vo.id}</td>    
-                      <td class="taleft">{$vo.customer_name}</td>                          
+                      <!-- <td class="taleft">{$vo.customer_name}</td>                          
                       <td class="taleft">{$vo.address}</td>   
                       <td class="taleft">{$vo.manager_name}</td> 
                       <td class="taleft">{$vo.quoter_name}</td>
-                      <td class="taleft">{$vo.designer_name}</td>       
+                      <td class="taleft">{$vo.designer_name}</td>        -->
                       <td class="taleft">{$vo.proquant}</td>   
                       <td class="taleft">{$vo.direct_cost}</td>   
                       <td class="taleft">{$vo.matquant}</td>   
@@ -140,7 +140,7 @@
                       <td class="taleft"><a class="" lay-event="design_commission">{$vo.design_commission}</a></td>
                       <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission}</a></td>
                       <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission}</a></td>
-                      <td class="taleft">{$vo.artificial_cb}</td>   
+                      <td class="taleft"><a class="" lay-event="artificial_cb">{$vo.artificial_cb}</a></td>   
                       <td class="taleft">{$vo.material_cb}</td>   
                       <td class="taleft">{$vo.gross_profit}</td>   
                       <td class="taleft">{$vo.profit_rate}%</td>   
@@ -188,9 +188,12 @@
        });
 </script>
 <script type="text/javascript">
+
     
 layui.use('table', function(){
-  var table = layui.table;
+    var table = layui.table;
+
+    
 
   //工具栏事件
   table.on('toolbar(test3)', function(obj){
@@ -677,6 +680,33 @@ layui.use('table', function(){
                  }, 1000);
             });
         });        
+    }else if(obj.event === 'artificial_cb'){
+        var data = obj.data;
+        $.ajax({
+            type : 'post',
+            url  :  '{:url("artificial/ajax_get_artificial_cb_info")}',
+            dataType : 'json',
+            data : {id:data.id},
+            success : function(re){
+              if(re.code === 0){
+                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>金额</th><th>占比</th></tr></thead><tbody>';
+                $.each(re.datas, function (key, val) {
+                      html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
+                 });
+                html += '<tr><td></td><td>小计</td><td>'+re.total+'</td></tr>'
+                html += '</tbody></table>'
+                //显示人工明细
+                layer.open({
+                    title: '人工成本明细',
+                    area: '500px',
+                    content:html
+                }); 
+              }else{
+                layer.msg(re.msg);return false;
+              }
+            }
+        });
+        
     }
     
   });

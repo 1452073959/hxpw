@@ -665,5 +665,32 @@ class Artificial extends Adminbase
     //         $this->error("删除失败！");
     //     }
     // }
+    
+    //获取人工成本详情  
+    public function ajax_get_artificial_cb_info(){
+        $id = input('id');
+        $info = Db::name('offerlist')->where(['id'=>$id])->find();
+        if(!$info){
+            echo json_encode(array('code'=>1,'msg'=>'订单信息有误'));
+        }
+        $artificial = json_decode($info['artificial'],true);
+        $item_number = array_keys($artificial);
+        $offerquota_list = Db::name('offerquota')->where('item_number','in',implode(',', $item_number))->where(['frameid'=>$info['frameid']])->select();
+        if($offerquota_list){
+            $offerquota_list = array_column($offerquota_list,null,'item_number');
+        }else{
+            $offerquota_list = [];
+        }
+        $arr = [];//拼装数组
+        $total = 0;
+        foreach($artificial as $k=>$v){
+            if(!isset($arr[$offerquota_list[$k]['type_of_work']])){
+                $arr[$offerquota_list[$k]['type_of_work']] = 0;
+            }
+            $arr[$offerquota_list[$k]['type_of_work']] += $v['cb']*$v['num'];
+            $total += $v['cb']*$v['num'];
+        }
+        echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
+    }
 
 }
