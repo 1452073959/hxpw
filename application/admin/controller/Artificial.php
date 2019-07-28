@@ -667,7 +667,7 @@ class Artificial extends Adminbase
     // }
     
     //获取人工成本详情  
-    public function ajax_get_artificial_cb_info(){
+    public function ajax_get_artificial(){
         $id = input('id');
         $info = Db::name('offerlist')->where(['id'=>$id])->find();
         if(!$info){
