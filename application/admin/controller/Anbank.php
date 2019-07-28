@@ -64,6 +64,7 @@ class Anbank extends Adminbase
             $data['price'] = $datas['price'];
             $data['norms'] = $datas['norms'];
             $data['phr'] = $datas['phr'];
+            $data['coefficient'] = $datas['coefficient'];
             $data['remarks'] = $datas['remarks'];
             $res = Db::name('materials')->where('id',$datas['id'])->update($data);
             if($res) {
