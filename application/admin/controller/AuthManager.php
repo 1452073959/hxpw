@@ -41,15 +41,17 @@ class AuthManager extends Adminbase
         $main_rules = Db::name('AuthRule')->where($map)->column('name,id');
         $json = array();
         foreach ($result as $rs) {
-            $data = array(
-                'nid' => $rs['id'],
-                'checked' => $rs['id'],
-                'parentid' => $rs['parentid'],
-                'name' => $rs['title'],
-                'id' => $main_rules[$rs['url']],
-                'checked' => $this->isCompetence($main_rules[$rs['url']], $rules) ? true : false,
-            );
-            $json[] = $data;
+            if(isset($main_rules[$rs['url']])){
+                $data = array(
+                    'nid' => $rs['id'],
+                    'checked' => $rs['id'],
+                    'parentid' => $rs['parentid'],
+                    'name' => $rs['title'],
+                    'id' => $main_rules[$rs['url']],
+                    'checked' => $this->isCompetence($main_rules[$rs['url']], $rules) ? true : false,
+                );
+                $json[] = $data;
+            }
         }
         // dump($json);
         $this->assign('group_id', $group_id);
