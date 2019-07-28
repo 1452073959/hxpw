@@ -82,7 +82,8 @@
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
-                        <th class="taleft" lay-data="{field:'tubemoney',edit:'text' }">管理费</th>
+
+                        <th class="taleft" lay-data="{field:'tubemoney',width:100 }">管理费</th>
 
 
                         <th class="taleft" lay-data="{field:'carry',width:100 }">搬运费</th>
@@ -91,11 +92,8 @@
                         <th class="taleft" lay-data="{field:'remote',width:100 }">远程费</th>
                         <th class="taleft" lay-data="{field:'old_house',width:100 }">旧房局部改造费</th>
 
+                        <th class="taleft" lay-data="{field:'taxes',width:100 }">税金</th>
 
-
-
-
-                        <th class="taleft" lay-data="{field:'taxes',edit:'text' }">税金</th>
                         <th class="taleft" lay-data="{field:'discount',edit:'text' }">优惠</th>
                         <th class="taleft" lay-data="{field:'sundry',edit:'text' }">运杂</th>
                         <th class="taleft" lay-data="{field:'supervisor_commission',width:100 }">监理提成</th>
@@ -125,7 +123,8 @@
                       <td class="taleft">{$vo.direct_cost}</td>   
                       <td class="taleft">{$vo.matquant}</td>   
                       <td class="taleft">{$vo.manual_quota}</td>   
-                      <td class="taleft">{$vo.tubemoney}</td>   
+
+                      <td class="taleft"><a class="" lay-event="tubemoney">{$vo.tubemoney}</a></td>   
 
                       <td class="taleft"><a class="" lay-event="carry">{$vo.carry}</a></td>
                       <td class="taleft"><a class="" lay-event="clean">{$vo.clean}</a></td>
@@ -133,7 +132,8 @@
                       <td class="taleft"><a class="" lay-event="remote">{$vo.remote}</a></td>
                       <td class="taleft"><a class="" lay-event="old_house">{$vo.old_house}</a></td>
 
-                      <td class="taleft">{$vo.taxes}</td>
+                      <td class="taleft"><a class="" lay-event="taxes">{$vo.taxes}</a></td>
+
                       <td class="taleft">{$vo.discount}</td>
                       <td class="taleft">{$vo.sundry}</td>
                       <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.supervisor_commission}</a></td>
@@ -603,6 +603,70 @@ layui.use('table', function(){
                         });
                       }else{
                         layer.msg('修改旧房局部改造费比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
+            });
+        });        
+    }else if(obj.event === 'tubemoney'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入管理费比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'tubemoney',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
+                        obj.update({
+                          tubemoney : price
+                        });
+                      }else{
+                        layer.msg('修改管理费比率失败');return false;
+                      }
+                    }
+                });
+               
+                layer.close(index);
+                setTimeout(function () {
+                     window.location.reload(); 
+                 }, 1000);
+            });
+        });        
+    }else if(obj.event === 'taxes'){ //计算运杂,监理提成,设计提成,回头客奖,业务提成
+        var data = obj.data;
+        var price = 0;
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.prompt({title: '请输入税金比率'},function(value, index, elem){
+                if(!validate(value) || value > 100 || value < 0){
+                    layer.msg('请输入0-100有效数字');return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    url  :  '{:url("offerlist/singlefield_edit")}',
+                    dataType : 'json',
+                    data : {id:data.id,field:'taxes',value:value},
+                    success : function(re){
+                      if(re.status == 0){
+                        price = (value/100 * data.direct_cost).toFixed(2); //比率 乘 工程直接费
+                        obj.update({
+                          taxes : price
+                        });
+                      }else{
+                        layer.msg('修改税金比率失败');return false;
                       }
                     }
                 });

@@ -86,8 +86,10 @@ class Artificial extends Adminbase
                     $res[$key]['matquant'] += $values['quotaall'];//辅材报价
                     $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
                 }
-                $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-                $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
+                //工程直接费= 辅材报价+人工报价
+                $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];
+                //工程报价 = 工程直接费+管理费+搬运费+清洁费+工程意外险+远程费+旧房局部改造费+税金-优惠
+                $res[$key]['proquant'] = $res[$key]['direct_cost']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
 
                 $tariff = array();$labor_cost = '';$fucai = '';
                 foreach ($content as $keys => $values) {
@@ -244,7 +246,6 @@ class Artificial extends Adminbase
                 $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
             }
             $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
 
             //=========================计算毛利开始
             //计算杂项
@@ -258,7 +259,14 @@ class Artificial extends Adminbase
             $res[$key]['accident'] = round($res[$key]['accident']/100*$res[$key]['direct_cost'],2);//工程意外险
             $res[$key]['remote'] = round($res[$key]['remote']/100*$res[$key]['direct_cost'],2);//远程费
             $res[$key]['old_house'] = round($res[$key]['old_house']/100*$res[$key]['direct_cost'],2);//旧房局部改造费
+            $res[$key]['tubemoney'] = round($res[$key]['tubemoney']/100*$res[$key]['direct_cost'],2);//管理费
+            $res[$key]['taxes'] = round($res[$key]['taxes']/100*$res[$key]['direct_cost'],2);//税金
+            // $res[$key]['sundry'] //运杂
+            // $res[$key]['discount'] //优惠
 
+
+            //工程报价  辅材+人工+管理+搬运+清洁+意外险+远程+旧房改造+税金+运杂-优惠
+            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['accident']+$res[$key]['remote']+$res[$key]['old_house']+$res[$key]['taxes']+$res[$key]['sundry']-$res[$key]['discount'];
 
             //计算总人工成本
             $artificial = json_decode($value['artificial'],true);
@@ -274,14 +282,14 @@ class Artificial extends Adminbase
             }
             //计算毛利 利润/报价
             if($res[$key]['direct_cost']){
-                //毛利率
-                $res[$key]['profit_rate'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ) / $res[$key]['direct_cost'] * 100,2);
-
-
                 //毛利
                 $res[$key]['gross_profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ),2);
+                //毛利率
+                $res[$key]['profit_rate'] = round( $res[$key]['gross_profit'] / $res[$key]['direct_cost'] * 100,2);
+
             }else{
                 $res[$key]['profit_rate']  = 0;
+                $res[$key]['gross_profit']  = 0;
             }
         }
         $this->assign('data',$res);    
