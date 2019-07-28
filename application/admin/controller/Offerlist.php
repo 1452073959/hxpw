@@ -598,16 +598,38 @@ class Offerlist extends Adminbase
                         if(!isset($material_all[$one_material[0]])){
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
-                            $price = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find()['price'];
+                            $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                            $price = $materials_info['price'];
+                            $coefficient = $materials_info['coefficient'];
                             if(!$price){
                                 $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
                             }
                             $material_all[$one_material[0]]['price'] = $price;//成本单价
+                            $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
                         }
                         $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料名称和单位
                         //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
                     }
                 }
+            }
+            foreach($material_all as $k=>$v){
+                //获取数量的小数
+                $num = explode('.',$v['num']);
+                if(!isset($num[1])){
+                    $num[1] = 0;
+                }
+                if($num[1]*10 > $v['coefficient']){
+                    $material_all[$k]['num'] = ceil($v['num']);
+                }else{
+                    //不足1时向上取证
+                    if($v['num'] < 1){
+                        $material_all[$k]['num'] = ceil($v['num']);
+                    }else{
+                        $material_all[$k]['num'] = floor($v['num']);
+                    }
+                }
+                unset($material_all[$k]['coefficient']);
+
             }
             $data['material'] = json_encode($material_all); //物料成本 json格式 里面 num=>数量 price=>单价
 
