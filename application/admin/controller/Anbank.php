@@ -273,7 +273,7 @@ class Anbank extends Adminbase
                     $data[$i]['name']  = $sheet->getCell("F".$i)->getValue() ?: ''; 
                     $data[$i]['img']  = $sheet->getCell("G".$i)->getValue() ?: ''; 
                     $data[$i]['units']  = $sheet->getCell("H".$i)->getValue() ?: ''; 
-                    $data[$i]['price']  = $sheet->getCell("I".$i)->getValue() ?: ''; 
+                    $data[$i]['price']  = $sheet->getCell("I".$i)->getValue() ?: 0; 
                     $data[$i]['norms']  = $sheet->getCell("J".$i)->getValue() ?: ''; 
                     $data[$i]['phr']  = $sheet->getCell("K".$i)->getValue() ?: ''; 
                     $data[$i]['remarks']  = $sheet->getCell("L".$i)->getValue() ?: ''; 

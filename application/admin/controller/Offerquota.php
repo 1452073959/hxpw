@@ -293,10 +293,10 @@ class Offerquota extends Adminbase
                     $data[$i]['project']  = $sheet->getCell("B".$i)->getValue() ?: '';
                     $data[$i]['type_of_work']  = $sheet->getCell("C".$i)->getValue() ?: '';
                     $data[$i]['company']  = $sheet->getCell("D".$i)->getValue() ?: '';
-                    $data[$i]['quota']  = $sheet->getCell("E".$i)->getValue() ?: '';
-                    $data[$i]['craft_show']  = $sheet->getCell("F".$i)->getValue() ?: '';
-                    $data[$i]['cost_value']  = $sheet->getCell("G".$i)->getValue() ?: '';
-                    $data[$i]['labor_cost']  = $sheet->getCell("H".$i)->getValue() ?: '';           
+                    $data[$i]['quota']  = $sheet->getCell("E".$i)->getValue() ?: 0;
+                    $data[$i]['craft_show']  = $sheet->getCell("F".$i)->getValue() ?: 0;
+                    $data[$i]['cost_value']  = $sheet->getCell("G".$i)->getValue() ?: 0;
+                    $data[$i]['labor_cost']  = $sheet->getCell("H".$i)->getValue() ?: 0;           
                     $data[$i]['material']  = $sheet->getCell("I".$i)->getValue() ?: '';
                     //辅材基数对应转json数组开始
                     $list = [];
