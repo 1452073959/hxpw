@@ -671,10 +671,15 @@ class Artificial extends Adminbase
         $id = input('id');
         $info = Db::name('offerlist')->where(['id'=>$id])->find();
         if(!$info){
-            echo json_encode(array('code'=>1,'msg'=>'订单信息有误'));
+            echo json_encode(array('code'=>1,'msg'=>'订单信息有误'));die;
         }
         $artificial = json_decode($info['artificial'],true);
-        $item_number = array_keys($artificial);
+        if($artificial){
+            $item_number = array_keys($artificial);
+        }else{
+            echo json_encode(array('code'=>1,'msg'=>'无成本详情'));die;
+        }
+        
         $offerquota_list = Db::name('offerquota')->where('item_number','in',implode(',', $item_number))->where(['frameid'=>$info['frameid']])->select();
         if($offerquota_list){
             $offerquota_list = array_column($offerquota_list,null,'item_number');
