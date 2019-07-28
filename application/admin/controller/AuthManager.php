@@ -41,7 +41,7 @@ class AuthManager extends Adminbase
         $main_rules = Db::name('AuthRule')->where($map)->column('name,id');
         $json = array();
         foreach ($result as $rs) {
-            if(isset($main_rules[$rs['url']])){
+            if(isset($main_rules[$rs['url']]) || 1){
                 $data = array(
                     'nid' => $rs['id'],
                     'checked' => $rs['id'],
