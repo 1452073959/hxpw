@@ -34,8 +34,8 @@
                     <tr>   
                       <td class="taleft" {empty name="$vo.son"}colspan="2"{else/}rowspan="{:count($vo.son) * 1 + 1}"{/empty}>
 						  <span>{$vo.name}</span>
-						  <a href="{:url('admin/offertype/edit',['id'=>$vo.id])}" class="edit layui-btn layui-btn-sm" data-id="{$vo.id}">编辑</a>
-						  <a class="delete layui-btn layui-btn-sm layui-btn-danger" data-id="{$vo.id}">删除</a>
+						  <a href="{:url('admin/offertype/edit',['id'=>$vo.id])}" class="edit" data-id="{$vo.id}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+						  <a class="delete" data-id="{$vo.id}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
 					  </td>     
                     </tr>   
 					{notempty name="$vo.son"}
@@ -43,8 +43,8 @@
 							<tr>
 								<td>
 									<span>{$vos.name}</span>
-									<a href="{:url('admin/offertype/edit',['id'=>$vos.id])}" class="edit layui-btn layui-btn-sm" data-id="{$vo.id}">编辑</a>
-									<a class="delete layui-btn layui-btn-sm layui-btn-danger" data-id="{$vos.id}">删除</a>
+									<a href="{:url('admin/offertype/edit',['id'=>$vos.id])}" class="edit" data-id="{$vo.id}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+									<a class="delete" data-id="{$vos.id}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
 								</td>
 							</tr>
 						{/volist}

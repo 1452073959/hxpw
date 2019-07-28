@@ -43,9 +43,11 @@
                     <tr>
                         <td>{$vo['userid']}</td>
                         <td>
-                            <a class="layui-btn layui-btn-xs" href="{:url('admin/manager/edit',['id'=>$vo.userid])}">编辑</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs ajax-get confirm" url="{:url('admin/manager/del',['id'=>$vo.userid])}">删除</a>
-                            <a class="layui-btn layui-btn-{php} echo ($vo['status']==1)?'danger':'disabled'{/php} layui-btn-xs ajax-get confirm" url="{:url('admin/manager/bankai',['id'=>$vo.userid,'status'=>$vo.status])}">{php} echo ($vo['status']==1)?'禁用':'已禁用'{/php}</a>
+                            <a class="" href="{:url('admin/manager/edit',['id'=>$vo.userid])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                            <a class="ajax-get confirm" url="{:url('admin/manager/del',['id'=>$vo.userid])}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
+
+                            <a class=" {php} echo ($vo['status']==1)?'':'layui-btn layui-btn-disabled layui-btn-xs'{/php}  ajax-get confirm" url="{:url('admin/manager/bankai',['id'=>$vo.userid,'status'=>$vo.status])}">{php} echo ($vo['status']==1)?'<i class="layui-icon layui-icon-close" title="禁用"></i>':'已禁用'{/php}</a>
+
                         </td>
                         <td>{$vo.username}</td>
                         <td>{$vo.phone}</td>

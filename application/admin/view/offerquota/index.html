@@ -60,7 +60,7 @@
                                  <option value="{$vo.id}">{$vo.name}</option>
                               {/foreach}
                         </select> -->
-                        <input name="" id="jianting" type="text" class="layui-input dao" style="width:45%"><input type="hidden" name="frameid" id="yinchang"><span style="color:#58b0d2;line-height:35px"  class="dao" id="chashuju">查询</span>
+                        <input name="" id="jianting" type="text" class="layui-input dao" style="width:45%"><input type="hidden" name="frameid" id="yinchang"><span style="color:#58b0d2;line-height:35px"  class="dao" id="chashuju"><i class="layui-icon layui-icon-search" title="查询"></i></span>
                         <!-- <datalist id="url_list"> -->
                           <!-- {foreach $frame as $key=>$vo}
                               <option label="{$vo.id}" value="{$vo.name}" />
@@ -114,8 +114,7 @@
                         <th class="taleft" lay-data="{field:'cost_value', edit: 'text',totalRow: true}">综合价</th>
                         <th class="taleft" lay-data="{width:200,field:'material', edit: 'text'}">施工工艺与材料说明</th>
                         <!-- <th class="taleft" lay-data="{field:'addtime',width:160}">添加时间</th> -->
-                        <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">修改操作</th>
-                        <th width="150" lay-data="{field:'del',event: 'setdel',width:100}">删除操作</th>
+                        <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -132,10 +131,13 @@
                       <td class="taleft">{$vo.craft_show}</td> 
                       <td class="taleft">{$vo.cost_value}</td>                                      
                       <td class="taleft">{$vo.material}</td>                                     
+                      <!-- <td>
+                                    <a class=""><i class="layui-icon layui-icon-edit" title="编辑"></i></a>             
+                      </td> -->
                       <td>
-                        <a class="layui-btn layui-btn-xs layui-btn-normal">编辑</a>                       
+                        <a class=""><i class="layui-icon layui-icon-edit" title="编辑"></i></a>    
+                        <a class="ajax-get confirm" ><i class="layui-icon layui-icon-delete" title="删除"></i></a>
                       </td>
-                      <td><a class="layui-btn layui-btn-danger layui-btn-xs ajax-get confirm" >删除</a></td>
                     </tr>       
                  {/foreach}
                 </tbody>

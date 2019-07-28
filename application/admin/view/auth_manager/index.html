@@ -22,8 +22,8 @@
                     {volist name="_list" id="vo"}
                     <tr>
                         <td>
-                            <a class="layui-btn layui-btn-xs" href="{:url('AuthManager/editgroup?id='.$vo['id'])}">编辑</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs ajax-get confirm" url="{:url('AuthManager/deletegroup?id='.$vo['id'])}">删除</a>
+                            <a class="" href="{:url('AuthManager/editgroup?id='.$vo['id'])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                            <a class="ajax-get confirm" url="{:url('AuthManager/deletegroup?id='.$vo['id'])}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
                         </td>
                         <td>{$vo.title}</td>
                         <td>{:mb_strimwidth($vo['description'],0,60,"...","utf-8")}</td>

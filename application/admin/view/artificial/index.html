@@ -98,8 +98,8 @@
                         <th class="taleft" lay-data="{field:'project', }">项目名称</th>
                         <th class="taleft" lay-data="{field:'company',}">单位</th>
                         <th class="taleft" lay-data="{field:'labor_cost',edit: 'text'}">人工成本</th>                   
-                        <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">修改操作</th>
-                        <th width="150" lay-data="{field:'del',event: 'setdel',width:100}">操作删除</th>
+                        <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">操作</th>
+                        <!-- <th width="150" lay-data="{field:'del',event: 'setdel',width:100}">操作删除</th> -->
                     </tr>
                 </thead>
                 <tbody> 
@@ -114,9 +114,10 @@
                       <td class="taleft">{$vo.company}</td>    
                       <td class="taleft">{$vo.labor_cost}</td>                                        
                       <td>
-                      <a class="layui-btn layui-btn-xs layui-btn-normal">编辑</a>
+                        <a class=""><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                        <a class="ajax-get confirm" ><i class="layui-icon layui-icon-delete" title="删除"></i></a>
                       </td>
-                      <td><a class="layui-btn layui-btn-danger layui-btn-xs ajax-get confirm" >删除</a></td>
+                      <!-- <td><a class="ajax-get confirm" ><i class="layui-icon layui-icon-delete" title="删除"></i></a></td> -->
                     </tr>       
                  {/foreach}
                 </tbody>
