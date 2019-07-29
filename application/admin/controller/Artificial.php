@@ -257,7 +257,6 @@ class Artificial extends Adminbase
             $res[$key]['carry'] = round($res[$key]['carry']/100*$res[$key]['direct_cost'],2);//搬运费
             $res[$key]['clean'] = round($res[$key]['clean']/100*$res[$key]['direct_cost'],2);//清洁费
             $res[$key]['accident'] = round($res[$key]['accident']/100*$res[$key]['direct_cost'],2);//工程意外险
-            $res[$key]['remote'] = round($res[$key]['remote']/100*$res[$key]['direct_cost'],2);//远程费
             $res[$key]['old_house'] = round($res[$key]['old_house']/100*$res[$key]['direct_cost'],2);//旧房局部改造费
             $res[$key]['tubemoney'] = round($res[$key]['tubemoney']/100*($res[$key]['direct_cost']+$res[$key]['carry']),2);//管理费
             $res[$key]['taxes'] = round($res[$key]['taxes']/100*$res[$key]['direct_cost'],2);//税金
@@ -265,8 +264,14 @@ class Artificial extends Adminbase
             // $res[$key]['discount'] //优惠
 
 
-            //工程报价  辅材+人工+管理+搬运+清洁+意外险+远程+旧房改造+税金+运杂-优惠 (工程直接费)
-            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['accident']+$res[$key]['remote']+$res[$key]['old_house']+$res[$key]['taxes']+$res[$key]['sundry']-$res[$key]['discount'];
+            //工程报价  辅材+人工+管理+搬运+清洁+意外险+旧房改造+税金
+            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['accident']+$res[$key]['old_house']+$res[$key]['taxes'];
+
+            //远程费 比率 * 工程报价
+            $res[$key]['remote'] = round($res[$key]['remote']/100*$res[$key]['proquant'],2);//远程费
+
+            //工程报价(算上远程费和优惠)  辅材+人工+管理+搬运+清洁+意外险+旧房改造+税金 +远程-优惠 (工程直接费)
+            $res[$key]['proquant'] = $res[$key]['proquant'] + $res[$key]['remote'] - $res[$key]['discount'];
 
             //计算总人工成本
             $artificial = json_decode($value['artificial'],true);

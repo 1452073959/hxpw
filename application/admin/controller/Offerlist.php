@@ -631,7 +631,7 @@ class Offerlist extends Adminbase
                 unset($material_all[$k]['coefficient']);
 
             }
-            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 num=>数量 price=>单价
+            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价]
 
             //==============================计算人工成本
             
