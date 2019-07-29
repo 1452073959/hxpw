@@ -687,7 +687,7 @@ layui.use('table', function(){
         var data = obj.data;
         $.ajax({
             type : 'post',
-            url  :  '{:url("artificial/ajax_get_artificial_cb_info")}',
+            url  :  '{:url("artificial/ajax_get_artificial")}',
             dataType : 'json',
             data : {id:data.id},
             success : function(re){

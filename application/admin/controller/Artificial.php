@@ -259,7 +259,7 @@ class Artificial extends Adminbase
             $res[$key]['accident'] = round($res[$key]['accident']/100*$res[$key]['direct_cost'],2);//工程意外险
             $res[$key]['remote'] = round($res[$key]['remote']/100*$res[$key]['direct_cost'],2);//远程费
             $res[$key]['old_house'] = round($res[$key]['old_house']/100*$res[$key]['direct_cost'],2);//旧房局部改造费
-            $res[$key]['tubemoney'] = round($res[$key]['tubemoney']/100*$res[$key]['direct_cost'],2);//管理费
+            $res[$key]['tubemoney'] = round($res[$key]['tubemoney']/100*($res[$key]['direct_cost']+$res[$key]['carry']),2);//管理费
             $res[$key]['taxes'] = round($res[$key]['taxes']/100*$res[$key]['direct_cost'],2);//税金
             // $res[$key]['sundry'] //运杂
             // $res[$key]['discount'] //优惠
