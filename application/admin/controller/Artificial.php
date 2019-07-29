@@ -265,7 +265,7 @@ class Artificial extends Adminbase
             // $res[$key]['discount'] //优惠
 
 
-            //工程报价  辅材+人工+管理+搬运+清洁+意外险+远程+旧房改造+税金+运杂-优惠
+            //工程报价  辅材+人工+管理+搬运+清洁+意外险+远程+旧房改造+税金+运杂-优惠 (工程直接费)
             $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['accident']+$res[$key]['remote']+$res[$key]['old_house']+$res[$key]['taxes']+$res[$key]['sundry']-$res[$key]['discount'];
 
             //计算总人工成本
@@ -282,14 +282,20 @@ class Artificial extends Adminbase
             }
             //计算毛利 利润/报价
             if($res[$key]['direct_cost']){
-                //毛利
-                $res[$key]['gross_profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] - $res[$key]['sundry'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] ),2);
+                //工程毛利 工程报价 - 辅材成本-人工成本
+                $res[$key]['gross_profit'] = round(($res[$key]['proquant'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] ),2);
                 //毛利率
-                $res[$key]['profit_rate'] = round( $res[$key]['gross_profit'] / $res[$key]['direct_cost'] * 100,2);
+                $res[$key]['profit_rate'] = round( $res[$key]['gross_profit'] / $res[$key]['proquant'] * 100,2);
+                //总毛利   工程毛利 - 4个提成 - 运杂 
+                $res[$key]['gross_profit_total'] = round($res[$key]['gross_profit'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] - $res[$key]['sundry'],2);
+                //总毛利率 
+                $res[$key]['profit_rate_total'] = round( $res[$key]['gross_profit_total'] / $res[$key]['proquant'] * 100,2);
 
             }else{
-                $res[$key]['profit_rate']  = 0;
                 $res[$key]['gross_profit']  = 0;
+                $res[$key]['profit_rate']  = 0;
+                $res[$key]['gross_profit_total']  = 0;
+                $res[$key]['profit_rate_total']  = 0;
             }
         }
         $this->assign('data',$res);    

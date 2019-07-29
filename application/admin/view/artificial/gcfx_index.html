@@ -73,9 +73,10 @@ a{
                     <col width="160">
                 </colgroup>
                 <thead >
+                    
                     <tr>
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
-                        <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
+                        <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
                         <!-- <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th>
@@ -93,7 +94,7 @@ a{
                         <th class="taleft" lay-data="{field:'clean',width:100 }">清洁费</th>
                         <th class="taleft" lay-data="{field:'accident',width:100 }">工程意外险</th>
                         <th class="taleft" lay-data="{field:'remote',width:100 }">远程费</th>
-                        <th class="taleft" lay-data="{field:'old_house',width:100 }">旧房局部改造费</th>
+                        <th class="taleft" lay-data="{field:'old_house',width:130 }">旧房局部改造费</th>
 
                         <th class="taleft" lay-data="{field:'taxes',width:100 }">税金</th>
 
@@ -107,6 +108,10 @@ a{
                         <th class="taleft" lay-data="{field:'material_cb',width:100 }">辅料成本</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
                         <th class="taleft" lay-data="{field:'profit_rate',width:100 }">工程毛利比</th>
+
+                        <th class="taleft" lay-data="{field:'gross_profit_total',width:100 }">总毛利</th>
+                        <th class="taleft" lay-data="{field:'profit_rate_total',width:100 }">总毛利比</th>
+
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
                         <th width="150" lay-data="{field:'edit',width:150}">操作</th>
                     </tr>
@@ -147,6 +152,8 @@ a{
                       <td class="taleft">{$vo.material_cb}</td>   
                       <td class="taleft">{$vo.gross_profit}</td>   
                       <td class="taleft">{$vo.profit_rate}%</td>   
+                      <td class="taleft">{$vo.gross_profit_total}</td>   
+                      <td class="taleft">{$vo.profit_rate_total}%</td>   
                       <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.customerid])}">查看分析表</a>
