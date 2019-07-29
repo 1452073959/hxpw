@@ -149,8 +149,8 @@ a{
                       <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission}</a></td>
                       <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission}</a></td>
                       <td class="taleft"><a class="" lay-event="artificial_cb">{$vo.artificial_cb}</a></td>   
-                      <td class="taleft">{$vo.material_cb}</td>   
-                      <td class="taleft">{$vo.gross_profit}</td>   
+                      <td class="taleft"><a class="" lay-event="material_cb">{$vo.material_cb}</a></td>   
+                      <td class="taleft"><a class="" lay-event="gross_profit">{$vo.gross_profit}</a></td>   
                       <td class="taleft">{$vo.profit_rate}%</td>   
                       <td class="taleft">{$vo.gross_profit_total}</td>   
                       <td class="taleft">{$vo.profit_rate_total}%</td>   
@@ -716,9 +716,59 @@ layui.use('table', function(){
               }
             }
         });
-        
+    }else if(obj.event === 'material_cb'){
+        var data = obj.data;
+        $.ajax({
+            type : 'post',
+            url  :  '{:url("artificial/ajax_get_material")}',
+            dataType : 'json',
+            data : {id:data.id},
+            success : function(re){
+              if(re.code === 0){
+                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>金额</th><th>占比</th></tr></thead><tbody>';
+                $.each(re.datas, function (key, val) {
+                      html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
+                 });
+                html += '<tr><td></td><td>小计</td><td>'+re.total+'</td></tr>'
+                html += '</tbody></table>'
+                //显示人工明细
+                layer.open({
+                    title: '辅材成本明细',
+                    area: '500px',
+                    content:html
+                }); 
+              }else{
+                layer.msg(re.msg);return false;
+              }
+            }
+        });
+    }else if(obj.event === 'gross_profit'){
+        var data = obj.data;
+        $.ajax({
+            type : 'post',
+            url  :  '{:url("artificial/ajax_get_order_cb")}',
+            dataType : 'json',
+            data : {id:data.id},
+            success : function(re){
+              if(re.code === 0){
+                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>报价</th><th>成本</th><th>毛利</th><th>毛利率</th></tr></thead><tbody>';
+                $.each(re.datas, function (key, val) {
+                      html += '<tr><td>'+key+'</td><td>'+val.price+'</td><td>'+val.cb+'</td><td>'+ (val.price-val.cb).toFixed(2) +'</td><td>'+ (((val.price-val.cb)/data.proquant)*100).toFixed(2) +'%</td></tr>'
+                 });
+                html += '<tr><td>整体工程</td><td>'+re.total.price+'</td><td>'+re.total.cb+'</td><td>'+ (re.total.price-re.total.cb).toFixed(2) +'</td><td>'+(((re.total.price-re.total.cb)/data.proquant)*100).toFixed(2)+'%</td></tr>'
+                html += '</tbody></table>'
+                //显示人工明细
+                layer.open({
+                    title: '工程成本明细',
+                    area: '500px',
+                    content:html
+                }); 
+              }else{
+                layer.msg(re.msg);return false;
+              }
+            }
+        });
     }
-    
   });
 
 

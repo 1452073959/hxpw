@@ -685,26 +685,69 @@ class Artificial extends Adminbase
             echo json_encode(array('code'=>1,'msg'=>'订单信息有误'));die;
         }
         $artificial = json_decode($info['artificial'],true);
-        if($artificial){
-            $item_number = array_keys($artificial);
-        }else{
+        if(!$artificial){
             echo json_encode(array('code'=>1,'msg'=>'无成本详情'));die;
-        }
-        
-        $offerquota_list = Db::name('offerquota')->where('item_number','in',implode(',', $item_number))->where(['frameid'=>$info['frameid']])->select();
-        if($offerquota_list){
-            $offerquota_list = array_column($offerquota_list,null,'item_number');
-        }else{
-            $offerquota_list = [];
         }
         $arr = [];//拼装数组
         $total = 0;
         foreach($artificial as $k=>$v){
-            if(!isset($arr[$offerquota_list[$k]['type_of_work']])){
-                $arr[$offerquota_list[$k]['type_of_work']] = 0;
+            if(!isset($arr[$v['type_of_work']])){
+                $arr[$v['type_of_work']] = 0;
             }
-            $arr[$offerquota_list[$k]['type_of_work']] += $v['cb']*$v['num'];
+            $arr[$v['type_of_work']] += $v['cb']*$v['num'];
             $total += $v['cb']*$v['num'];
+        }
+        echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
+    }
+
+    //获取辅料成本详情  
+    public function ajax_get_material(){
+        $id = input('id');
+        $list = Db::name('order_material')->where(['o_id'=>$id])->select();//该订单全部辅料
+        if(!$list){
+            echo json_encode(array('code'=>1,'msg'=>'无辅料信息'));die;
+        }
+        
+        $arr = [];//拼装数组
+        $total = 0;
+        foreach($list as $k=>$v){
+            if(!isset($arr[$v['type_of_work']])){
+                $arr[$v['type_of_work']] = 0;
+            }
+            $arr[$v['type_of_work']] += $v['cb']*$v['num'];
+            $total += $v['cb']*$v['num'];
+        }
+        
+        echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
+    }
+
+    public function ajax_get_order_cb(){
+        $id = input('id');
+        $arr = [];
+        $total = ['price'=>0,'cb'=>0];
+        $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
+        $content = json_decode($offerlist['content'],true);
+        foreach($content as $k=>$v){
+             if(!isset($arr[$v['type_of_work']])){
+                $arr[$v['type_of_work']]['cb'] = 0;
+                $arr[$v['type_of_work']]['price'] = 0;
+                $arr[$v['type_of_work']]['profit'] = 0;
+            }
+            $arr[$v['type_of_work']]['price'] += $v['quota']*$v['gcl'];//辅材单价
+            $arr[$v['type_of_work']]['price'] += $v['craft_show']*$v['gcl'];//人工单价
+            $arr[$v['type_of_work']]['cb'] += $v['labor_cost']*$v['gcl'];//人工成本
+
+            $total['price'] += $v['quota']*$v['gcl'] + $v['craft_show']*$v['gcl'];
+            $total['cb'] += $v['labor_cost']*$v['gcl'];
+        }
+        //辅材成本
+        $order_material = Db::name('order_material')->where(['o_id'=>$id])->select();//该订单全部辅料
+        foreach($order_material as $k=>$v){
+            if(!isset($arr[$v['type_of_work']])){
+                $arr[$v['type_of_work']]['cb'] = 0;
+            }
+            $arr[$v['type_of_work']]['cb'] += $v['cb']*$v['num'];//辅材成本
+            $total['cb'] += $v['cb']*$v['num'];
         }
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
     }

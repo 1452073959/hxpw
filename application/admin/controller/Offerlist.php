@@ -588,30 +588,72 @@ class Offerlist extends Adminbase
                 }
               }
             }
-            $data['content'] = json_encode($content);
+            $data['content'] = json_encode($content); //这里获取了项目详情
             //===============================计算物料总合计 成本
+            // $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
             $material_all = [];
+            $order_material = [];//订单辅料详情 - 以后顶替material_all这种json储存方法
             foreach($content as $k=>$v){
                 $need_material = json_decode($v['content'],true);//需要的物料
                 foreach($need_material as $one_material){
                     if($one_material[0] && $one_material[1]){
                         if(!isset($material_all[$one_material[0]])){
+                            //上面2个foreach筛选offerquota表里面的content的有用数据 ( 里面有20个所需辅材 没有的用空数组代替 上面是提出空数组 )
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
-                            $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
-                            $price = $materials_info['price'];
-                            $coefficient = $materials_info['coefficient'];
-                            if(!$price){
-                                $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
-                            }
-                            $material_all[$one_material[0]]['price'] = $price;//成本单价
-                            $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
                         }
-                        $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料名称和单位
+                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        $price = $materials_info['price'];
+                        $coefficient = $materials_info['coefficient'];
+                        if(!$price){
+                            $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
+                        }
+                        $material_all[$one_material[0]]['price'] = $price;//成本单价
+                        $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
+                        $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料单数 * 工程单位
+
+                        //===============订单辅料详情  $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
+                        if(!isset($order_material[$v['type_of_work']][$v['item_number']][$one_material[0]])){
+                            //初始化数据 这个框架会神奇的报错 = =
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['cb'] = $materials_info['price'];//成本
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['price'] = $v['quota'];//辅材单价
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
+                        }
+                        $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['gcl'];
+                            
+                        
                         //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
                     }
                 }
             }
+            //=========订单辅料详情 组装数据存进数据库
+            // id  订单id    客户id    公司id    工种类             项目编号              辅材名称     数量     成本       单价    利润  
+            // id  o_id       c_id    f_id    type_of_work        item_number           m_name      num      cb        price   profit
+            //$order_material['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
+            $order_material_datas = [];
+            foreach($order_material as $k1=>$v1){
+                foreach($v1 as $k2=>$v2){
+                    foreach($v2 as $k3=>$v3){
+                        // $order_material_datas['o_id'] = '';//还没有
+                        $data_info['c_id'] = $data['customerid'];
+                        $data_info['f_id'] = $data['frameid'];
+                        $data_info['type_of_work'] = $k1;;
+                        $data_info['item_number'] = $k2;;
+                        $data_info['m_name'] = $k3;
+                        $data_info['num'] = $v3['num'];
+                        $data_info['cb'] = $v3['cb'];
+                        $data_info['price'] = $v3['price'];
+                        $data_info['profit'] = $v3['profit'];
+                        $data_info['coefficient'] = $v3['coefficient'];
+                        $order_material_datas[] = $data_info;
+                    }
+                }
+            }
+
+
+            //=========旧版本的计算
             foreach($material_all as $k=>$v){
                 //获取数量的小数
                 $num = explode('.',$v['num']);
@@ -619,19 +661,18 @@ class Offerlist extends Adminbase
                     $num[1] = 0;
                 }
                 if($num[1]*10 > $v['coefficient']){
-                    $material_all[$k]['num'] = ceil($v['num']);
+                    $material_all[$k]['omit_num'] = ceil($v['num']);
                 }else{
                     //不足1时向上取证
                     if($v['num'] < 1){
-                        $material_all[$k]['num'] = ceil($v['num']);
+                        $material_all[$k]['omit_num'] = ceil($v['num']);
                     }else{
-                        $material_all[$k]['num'] = floor($v['num']);
+                        $material_all[$k]['omit_num'] = floor($v['num']);
                     }
                 }
                 unset($material_all[$k]['coefficient']);
-
             }
-            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价]
+            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价,omit_num=>系数后数量]
 
             //==============================计算人工成本
             
@@ -642,35 +683,56 @@ class Offerlist extends Adminbase
                 if(!$Offerquota_info){
                     $this->error($one_material[0].'人工有误，请及时补充人工工费');
                 }
+                $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
                 $artificial_all[$v['item_number']]['num'] = $v['gcl']; //数量
                 $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
                 $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
                 $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
-        //增减项
-        if(input('id')){
-          // return json(['msg'=>'sdfadsfasdf']);
-          $re = Db::name('offerlist')->where('id',input('id'))->update($data);
-           if($re!==false){
-            $this->success('成功','admin/offerlist/zengjian');
-          }else{
-            $this->error('失败');
-          }
-        }else{
-                $re = Db::name('offerlist')->insert($data);
-                    if($re!==false){
-                    $this->success('成功','admin/offerlist/baojiaguanli');
-                }else{
-                    $this->error('失败');
+
+            //增减项  增减项不应该这样弄 后期重做
+            Db::startTrans();
+            if(input('id')){
+                try{
+                    $re = Db::name('offerlist')->where('id',input('id'))->update($data);
+                    foreach($order_material_datas as $k=>$v){
+                        $order_material_datas[$k]['o_id'] = input('id');
+                    }
+                    Db::name('order_material')->where('o_id',input('id'))->delete();
+                    if($order_material_datas){
+                        $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
+                    }
+                    
+                    // 提交事务
+                    Db::commit();    
+                } catch (\Exception $e) {
+                    // 回滚事务
+                    Db::rollback();
                 }
-        }
-             
-        if($re!==false){
-           $this->success('成功','admin/offerlist/baojiaguanli');
-        }else{
-           $this->error('失败');
-        }
+            }else{
+
+                try{
+
+                    $re = Db::name('offerlist')->insertGetId($data);
+                    foreach($order_material_datas as $k=>$v){
+                        $order_material_datas[$k]['o_id'] = $re;
+                    }
+                    if($order_material_datas){
+                        $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
+                    }
+                    // 提交事务
+                    Db::commit();    
+                } catch (\Exception $e) {
+                    // 回滚事务
+                    Db::rollback();
+                }
+            }
+            if($re!==false && $order_material_res){
+                $this->success('成功','admin/offerlist/baojiaguanli');
+            }else{
+                $this->error('失败');
+            }
         }
     }
     //新版本添加条目
