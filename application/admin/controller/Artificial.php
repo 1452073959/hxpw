@@ -60,141 +60,37 @@ class Artificial extends Adminbase
     public function gcfx(){
         $userinfo = $this->_userinfo;
         $request = request();
-        $id = $request->param('customerid');
-        $da['o.customerid'] = $id;
-        // dump(input());
-        // echo $customerid;
-        $res = Db::name('offerlist')->select();
-        if ($res) {
-            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-        }
-        $true = [];//存放结果数据
-        // $content = json_decode($res['content'],true);
-        // dump($res);
-        //统计报价开始 
-           foreach($res as $k=>$v){
-						 $v['status'] = $this->status[$v['status']];
-              $res[$v['id']] = $v;
-              unset($res[$k]);
-            }
+        $id = $request->param('customerid');//客户id
+        $userinfo = Db::name('userlist')->where(['id'=>$id])->find();
+        $this->assign('userinfo',$userinfo);//客户信息
 
-            foreach ($res as $key => $value) {
+        //选择框
+        $option = Db::name('offerlist')->where(['customerid'=>$id])->field('status,unit,id')->select();
 
-             if($value['content']){
-                $content = json_decode($value['content'],true);
-                foreach($content as $keys => $values){
-                    $res[$key]['matquant'] += $values['quotaall'];//辅材报价
-                    $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
+        $this->assign('res',$option);//菜单
+        $this->assign('status',[0=>'未报价',1=>'已报价',2=>'预算价',3=>'合同价',4=>'结算价']);//菜单
+        //对比
+        if(input('true') && input('false')){
+            $datas = [];//最终订单信息数据
+            $item_info = [];//按项目的详情
+            $datas['true'] = model('offerlist')->get_order_info(input('true'));
+            $datas['false'] = model('offerlist')->get_order_info(input('false'));
+            $user_id = 
+            $item_info['true'] = model('offerlist')->get_info_for_item(input('true'))['datas'];
+            $item_info['false'] = model('offerlist')->get_info_for_item(input('false'))['datas'];
+            $item_info_new = []; //组装数据 每一个工种的详情
+            foreach($item_info as $k1=>$v1){
+                foreach($v1 as $k2=>$v2){
+                    $item_info_new[$k2][$k1] = $v2;
                 }
-                //工程直接费= 辅材报价+人工报价
-                $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];
-                //工程报价 = 工程直接费+管理费+搬运费+清洁费+工程意外险+远程费+旧房局部改造费+税金-优惠
-                $res[$key]['proquant'] = $res[$key]['direct_cost']+$res[$key]['tubemoney']+$res[$key]['taxes']+$res[$key]['discount'];
-
-                $tariff = array();$labor_cost = '';$fucai = '';
-                foreach ($content as $keys => $values) {
-                    $dinge[$keys] =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('item_number',$content[$keys]['item_number'])->find();
-                    $tariff[$keys]['item_number'] = $content[$keys]['item_number'];
-                    $tariff[$keys]['gcl'] = $content[$keys]['gcl'];
-                    $tariff[$keys]['labor_cost'] = $dinge[$keys]['labor_cost'] * $content[$keys]['gcl'];
-                    $tariff[$keys]['content'] = json_decode($dinge[$keys]['content'],true);
-                    //辅材成本
-                    foreach($tariff[$keys]['content'] as $k => $v){
-
-                    }
-                    $tariff[$keys]['fucai'] = 0;
-                    foreach ($tariff[$keys]['content'] as $e => $ll) {
-                        if($ll[0] && is_numeric($ll[1])){
-                            $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-                            $tariff[$keys]['fucai'] += $price*$ll[1]*$content[$keys]['gcl'];
-                        }
-                    }
-                    $labor_cost += $tariff[$keys]['labor_cost'];
-                    $fucai += $tariff[$keys]['fucai']; 
-                }
-                $fc_cost = 0;//辅材成本
-                $labor_cost = 0;//人工成本
-                foreach($tariff as $k=>$v){
-                    foreach($v['content'] as $k1 => $v2){
-                        $fc_cost += $v2[1] * $v['gcl'];
-                    }
-                    $labor_cost += $v['labor_cost'];
-                }
-                $res[$key]['fc_cost'] = $fc_cost;
-                $res[$key]['labor_cost'] = $labor_cost;
-                $res[$key]['gross_profit'] = $labor_cost+$fucai;
-                $res[$key]['content'] = $content;
-              }
             }
-// dump($res);
-          $this->assign('res',$res);
-          
-          if($this->request->isPost()){
-            $true = input('true');
-            $false = input('false');
-            if(empty($true) || empty($false)){
-              $this->error('请选择结算价和预算价');exit;
-            }
-            $true = $this->data_come($this->data_deal($res[$true]),$this->data_deal($res[$false]));
-            
-            // dump($true);
-            $this->assign('true',$true);
-          }
-
-// dump($res);
-        //区分已报价和未报价
-        /*$re = [];
-        $time = [];//报价录入时间
-        foreach($res as $ke=>$va){
-          if($va['status'] == 1){
-            $re[1][] = $va;//已报价
-            $time[1][] = $va['entrytime'];
-          }else{
-            $re[0][] = $va;//未报价
-            $time[0][] = $va['entrytime'];
-          }
+            $this->assign('datas',$datas);
+            $this->assign('item_info',$item_info_new);
         }
 
-        if(!empty($re[1])){
-          $true = $re[1][0];//有报价
-          if(empty($re[0])){
-            //预算和结算相同
-            $false = $re[1][0];
-          }else{
-            //结算为已报价的，预算为提交时间最早的
-            if(count($re[0]) >1){
-              //比较
-              $false = $this->mintime($time[0],$re[0]);
-            }else{
-              //不用比较
-              $false = $re[0][0];
-            }
-          }
-        }else{
-          //无报价
-          // $false = $re[0];
-          if(empty($re[0])){
-            //无报价数据
-            die('无报价数据');
-          }else{
-            if(count($re[0])>1){
-              //预算为提交时间最早的，结算为提交时间最晚的
-              $false = $this->mintime($time[0],$re[0]);
-              $true = $this->maxtime($time[0],$re[0]);
-            }else{
-              //预算和结算相同
-              $false = $re[0][0];
-              $true = $re[0][0];
-            }
-          }
-        }
-       $true = $this->data_come($this->data_deal($true),$this->data_deal($false));
-      $this->assign(array(
-        'data'=>$res[0],
-        'true'=>$true,//结算
-      ));*/
-         return $this->fetch();
-      }
+        return $this->fetch();
+    }
+    
 
     //成本分析选择选择客户
     public function gcfx_first(){

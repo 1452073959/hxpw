@@ -61,13 +61,13 @@ textarea{padding:4px;}
                     <select class="form-control" name="false" required="">
                       <option value="">请选择预算报价</option>
                       {volist name="res" id="vo"}
-                        <option value="{$vo.id}">{$vo.unit}——{$vo.status}</option>
+                        <option value="{$vo.id}">{$vo.unit}——{$status[$vo.status]}</option>
                       {/volist}
                     </select>
                     <select class="form-control" name="true" required="">
                       <option value="">请选择结算报价</option>
                       {volist name="res" id="vo"}
-                        <option value="{$vo.id}">{$vo.unit}——{$vo.status}</option>
+                        <option value="{$vo.id}">{$vo.unit}——{$status[$vo.status]}</option>
                       {/volist}
                     </select> 
                     <input class="layui-btn layui-btn-sm" type="submit" value="确认">
@@ -79,7 +79,7 @@ textarea{padding:4px;}
             <script type="text/html" id="toolbarDemo">
             </script>
           <!--startprint-->  
-            {notempty name="$true"}
+            {notempty name="$datas"}
             <table class="layui-table table2excel"   id="test_table">
                 <colgroup>
                     <col width="80">
@@ -92,21 +92,23 @@ textarea{padding:4px;}
                 <tbody> 
                   <tr>
                    <td colspan="2" class="bg1">档案编号：</td>
-                   <td colspan="1"><input type="text" name="file_no" class="myinput" value="" placeholder="输入"></td>
+                   <td colspan="1"><input type="text" name="file_no" class="myinput" value="" placeholder=""></td>
                    <td class="bg1">监理：</td>
-                   <td colspan="3"><input type="text" name="jianli" class="myinput" value="" placeholder="输入"></td>
+                   <td colspan="3"><input type="text" name="jianli" class="myinput" value="" placeholder=""></td>
                    <td class="bg1">报价：</td>
-                   <td colspan="3">{$true.proquant|default=0}</td>
+                   <td colspan="3">{$datas['true']['proquant']}</td>
                    <td class="bg1">填表日期：</td>
-                   <td colspan="3">{:date('Y/m/d h:i:s',time())}</td>
+                   <td colspan="2">{:date('Y/m/d h:i',time())}</td>
                  </tr>
                  <tr>
-                   <td colspan="3" class="bg1">工程地址及业主姓名</td>
-                   <td colspan="6">{$true.address}</td>
-                   <td class="bg1">商务经理</td>
-                   <td>{$true.manager_name}</td>
-                   <td class="bg1">设计师</td>
-                   <td colspan="2">{$true.designer_name}</td>
+                    <td colspan="2" class="bg1">业主姓名：</td>
+                    <td colspan="1" class="">{$userinfo['customer_name']}</td>
+                    <td colspan="1" class="bg1">工程地址：</td>
+                    <td colspan="3" class="">{$userinfo['address']}</td>
+                   <td class="bg1">商务经理：</td>
+                   <td colspan="3">{$userinfo['manager_name']}</td>
+                   <td class="bg1">设计师：</td>
+                   <td colspan="2">{$userinfo['designer_name']}</td>
                  </tr>
                  <tr>
                    <td colspan="14" style="background-color: #f2f2f2;text-align: center;">成本分析（所有数据以优惠折扣前数据为准）</td>
@@ -117,9 +119,9 @@ textarea{padding:4px;}
                    <td colspan="2" class="bg1">结算单</td>
                    <td colspan="2" class="bg1">发生成本</td>
                    <td colspan="3" class="bg1">成本利润分析</td>
-                   <td class="bg1">工程户型</td>
-                   <td class="bg1">{$true.pro_apartment_type}</td>
-                   <td>面积： {$true.area} m2</td>
+                   <td class="bg1">工程户型：{$datas['true']['pro_apartment_type']}</td>
+                   <td class=""></td>
+                   <td>面积：  {$datas['true']['area']}m2</td>
                  </tr>
                  <tr>
                    <td class="bg1">序号</td>
@@ -137,34 +139,36 @@ textarea{padding:4px;}
                    <td class="bg1">人工结算价超预算比</td>
                    <td class="bg1">备注信息</td>
                  </tr>
-                 {volist name="true.content" id="vo" key="k"}
-                 <tr class="save">
-                  <td>{$k + 1}</td>
-                  <td>{$vo.type_of_work|default="未定义"}</td>
-                  <td class="total-item a" data-class="a">{$vo.pre_quotaall|default=0}</td>
-                  <td class="total-item b" data-class="b">{$vo.pre_craft_showall|default=0}</td>
-                  <td class="total-item c" data-class="c">{$vo.quotaall|default=0}</td>
-                  <td class="total-item d" data-class="d">{$vo.craft_showall|default=0}</td>
-                  <td class="total-item e edit" data-class="e">0</td>
-                  <td class="total-item f edit" data-class="f">0</td>
-                  <td class="total-item g" data-class="g">0</td>
-                  <td class="total-item h" data-class="h">0</td>
-                  <td class="total-item i" data-class="i">0</td>
-                  <td class="total-item j" data-class="j">{neq name="$vo.pre_quotaall" value="0"}{:round($vo.quotaall / $vo.pre_quotaall,4) * 100}%{/neq}</td>
-                  <td class="total-item k" data-class="k">{neq name="$vo.pre_quotaall" value="0"}{:round($vo.craft_showall / $vo.pre_craft_showall,4) * 100}%{/neq}</td>
-                  {eq name="$k" value="1"}
-                   <td rowspan="{:count($true.content) + 1}"><textarea style="border:none;width:100%;"></textarea><!-- <img src="http://www.hxpw1998.com/static/imgs/logo.png"> --></td>
-                  {/eq}
-                 </tr>
+                 <!-- 这里有个foreach -->
+                 {volist name="item_info" id="val" key="num"}
+                   <tr class="save">
+                    <td>{$num}</td>
+                    <td>{$key}</td>
+                    <td class="total-item a" data-class="a">{$val['false']['m_price'] ?? ''}</td>
+                    <td class="total-item b" data-class="b">{$val['false']['a_price'] ?? ''}</td>
+                    <td class="total-item c" data-class="c">{$val['true']['m_price'] ?? ''}</td>
+                    <td class="total-item d" data-class="d">{$val['true']['a_price'] ?? ''}</td>
+                    <td class="total-item e edit" data-class="e">{$val['true']['m_cb'] ?? ''}</td>
+                    <td class="total-item f edit" data-class="f">{$val['true']['a_cb'] ?? ''}</td>
+                    <td class="total-item g" data-class="g"></td>
+                    <td class="total-item h" data-class="h"></td>
+                    <td class="total-item i" data-class="i"></td>
+                    <td class="total-item j" data-class="j"></td>
+                    <td class="total-item k" data-class="k"></td>
+                    {eq name="$num" value="1"}
+                        <td rowspan="{:count($item_info) + 1}"><textarea style="border:none;width:90%;;min-height: 60px"></textarea></td>
+                    {/eq}
+                   </tr>
                  {/volist}
+
                  <tr>
                    <td colspan="2" class="bg1">直接费小计</td>
-                   <td class="totala"></td>
-                   <td class="totalb"></td>
-                   <td class="totalc"></td>
-                   <td class="totald"></td>
-                   <td class="totale"></td>
-                   <td class="totalf"></td>
+                   <td class="totala">{$datas['false']['matquant']}</td>
+                   <td class="totalb">{$datas['false']['manual_quota']}</td>
+                   <td class="totalc">{$datas['true']['matquant']}</td>
+                   <td class="totald">{$datas['true']['manual_quota']}</td>
+                   <td class="totale">{$datas['true']['material_cb']}</td>
+                   <td class="totalf">{$datas['true']['artificial_cb']}</td>
                    <td class="totalg"></td>
                    <td class="totalh"></td>
                    <td class="totali"></td>
@@ -177,58 +181,52 @@ textarea{padding:4px;}
                    <td class="bg1">预算金额</td>
                    <td class="bg1">结算金额</td>
                    <td colspan="3" class="bg1">报价与结算</td>
-                   <td colspan="7" rowspan="3"><textarea style="border:none;width:100%;" placeholder="优惠折扣、工程收方、增减变更项目记录与说明："></textarea></td>
+                   <td colspan="7" rowspan="3"><textarea style="border:none;width:90%;min-height: 60px" placeholder="优惠折扣、工程收方、增减变更项目记录与说明："></textarea></td>
                  </tr>
                  <tr>
                    <td class="bg1">搬运费</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['carry']}</td>
+                   <td>{$datas['true']['carry']}</td>
                    <td colspan="2" style="background-color: #f2f2f2;">折前总报价</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
                  </tr>
                  <tr>
                    <td class="bg1">清洁费</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['clean']}</td>
+                   <td>{$datas['true']['clean']}</td>
                    <td colspan="2" class="bg1">折后总报价</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
                  </tr>
                  <tr>
                    <td class="bg1">工程意外险</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['accident']}</td>
+                   <td>{$datas['true']['accident']}</td>
                    <td colspan="2" class="bg1">实际结算额</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td colspan="7" rowspan="4"><textarea style="border:none;width:100%;" placeholder="结算说明："></textarea></td>
+                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
+                   <td colspan="7" rowspan="4"><textarea style="border:none;width:90%;;min-height: 80px" placeholder="结算说明："></textarea></td>
                  </tr>
                  <tr>
                    <td style="background-color: #f2f2f2;">管理费</td>
-                   <td>{$true.tubemoney|default="0"}</td>
-                   <td><!--<input type="text" name="fc_cost" class="myinput" value="" placeholder="输入">-->{$true.tubemoney|default="0"}</td>
-                   <td colspan="2"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['tubemoney']}</td>
+                   <td>{$datas['true']['tubemoney']}</td>
                  </tr>
                  <tr>
                    <td style="background-color: #f2f2f2;">税金</td>
-                   <td>{$true.taxes|default="0"}</td>
-                   <td><!--<input type="text" name="fc_cost" class="myinput" value="" placeholder="输入">-->{$true.taxes|default="0"}</td>
-                   <td colspan="2"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['taxes']}</td>
+                   <td>{$datas['true']['taxes']}</td>
                  </tr>
                  <tr>
                    <td class="bg1">远程费</td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td colspan="2"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
-                   <td><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td>{$datas['false']['remote']}</td>
+                   <td>{$datas['true']['remote']}</td>
                  </tr>
                  <tr>
                    <td>工程部质检：</td>
-                   <td colspan="3"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td colspan="3"><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
                    <td>工程部经理：</td>
-                   <td colspan="4"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td colspan="4"><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
                    <td>总经理：</td>
-                   <td colspan="4"><input type="text" name="fc_cost" class="myinput" value="" placeholder="输入"></td>
+                   <td colspan="4"><input type="text" name="fc_cost" class="myinput" value="" placeholder=""></td>
                  </tr>
                 </tbody>
             </table>
@@ -348,7 +346,7 @@ function doPrint() {
             }
         });
       }
-      autototal();
+      // autototal();
 
         $('td.edit').click(function(){
           $(this).html('<input type="text" class="myinput">');
