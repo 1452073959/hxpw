@@ -61,13 +61,13 @@ textarea{padding:4px;}
                     <select class="form-control" name="false" required="">
                       <option value="">请选择预算报价</option>
                       {volist name="res" id="vo"}
-                        <option value="{$vo.id}">{$vo.unit}——{$status[$vo.status]}</option>
+                        <option <?php echo input('false')==$vo['id']?'selected':'' ?> value="{$vo.id}" >{$vo.unit}——{$status[$vo.status]}</option>
                       {/volist}
                     </select>
                     <select class="form-control" name="true" required="">
                       <option value="">请选择结算报价</option>
                       {volist name="res" id="vo"}
-                        <option value="{$vo.id}">{$vo.unit}——{$status[$vo.status]}</option>
+                        <option <?php echo input('true')==$vo['id']?'selected':'' ?> value="{$vo.id}">{$vo.unit}——{$status[$vo.status]}</option>
                       {/volist}
                     </select> 
                     <input class="layui-btn layui-btn-sm" type="submit" value="确认">
