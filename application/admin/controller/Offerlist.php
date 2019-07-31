@@ -679,11 +679,15 @@ class Offerlist extends Adminbase
                 if(!$Offerquota_info){
                     $this->error($one_material[0].'人工有误，请及时补充人工工费');
                 }
-                $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
-                $artificial_all[$v['item_number']]['num'] = $v['gcl']; //数量
-                $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
-                $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
-                $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                if(!isset($artificial_all[$v['item_number']])){
+                  $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
+                  $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
+                  $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
+                  $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                  $artificial_all[$v['item_number']]['num'] = 0;//数量
+                }
+                $artificial_all[$v['item_number']]['num'] += $v['gcl']; //数量
+                
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
 

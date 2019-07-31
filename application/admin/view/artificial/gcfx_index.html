@@ -84,29 +84,30 @@ a{
                         <th class="taleft" lay-data="{field:'quoter_name'}">报价师姓名</th>
                         <th class="taleft" lay-data="{field:'designer_name',}">设计师姓名</th> -->
                         <th class="taleft" lay-data="{field:'proquant',width:100}" >工程报价</th>
+                        <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >优惠后工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
-                        <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #5FB878' }">辅材报价</th>
-                        <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #5FB878' }">人工报价</th>
+                        <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
+                        <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
 
-                        <th class="taleft" lay-data="{field:'tubemoney',width:100,style:'background-color: #5FB878' }">管理费</th>
+                        <th class="taleft" lay-data="{field:'tubemoney',width:150,style:'background-color: #e4fcfd' }">管理费（7%）</th>
 
 
-                        <th class="taleft" lay-data="{field:'carry',width:100,style:'background-color: #5FB878' }">搬运费</th>
-                        <th class="taleft" lay-data="{field:'clean',width:100,style:'background-color: #5FB878' }">清洁费</th>
-                        <th class="taleft" lay-data="{field:'accident',width:100,style:'background-color: #5FB878' }">工程意外险</th>
-                        <th class="taleft" lay-data="{field:'remote',width:100,style:'background-color: #5FB878' }">远程费</th>
-                        <th class="taleft" lay-data="{field:'old_house',width:130,style:'background-color: #5FB878' }">旧房局部改造费</th>
+                        <th class="taleft" lay-data="{field:'carry',width:150,style:'background-color: #e4fcfd' }">搬运费（5%）</th>
+                        <th class="taleft" lay-data="{field:'clean',width:150,style:'background-color: #e4fcfd' }">清洁费（1%）</th>
+                        <th class="taleft" lay-data="{field:'accident',width:150,style:'background-color: #e4fcfd' }">工程意外险（1%）</th>
+                        <th class="taleft" lay-data="{field:'remote',width:150,style:'background-color: #e4fcfd' }">远程费（3%）</th>
+                        <th class="taleft" lay-data="{field:'old_house',width:180,style:'background-color: #e4fcfd' }">旧房局部改造费（2%）</th>
 
-                        <th class="taleft" lay-data="{field:'taxes',width:100,style:'background-color: #5FB878' }">税金</th>
+                        <th class="taleft" lay-data="{field:'taxes',width:150,style:'background-color: #e4fcfd' }">税金（7%）</th>
 
-                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:100,style:'background-color: #5FB878' }">优惠</th>
-                        <th class="taleft" lay-data="{field:'sundry',edit:'text',width:100,style:'background-color: #d0e4a0' }">运杂</th>
-                        <th class="taleft" lay-data="{field:'supervisor_commission',width:100,style:'background-color: #d0e4a0' }">监理提成</th>
-                        <th class="taleft" lay-data="{field:'design_commission',width:100,style:'background-color: #d0e4a0' }">设计提成</th>
-                        <th class="taleft" lay-data="{field:'repeat_commission',width:100,style:'background-color: #d0e4a0' }">回头客奖</th>
-                        <th class="taleft" lay-data="{field:'business_commission',width:100,style:'background-color: #d0e4a0' }">业务提成</th>
-                        <th class="taleft" lay-data="{field:'artificial_cb',width:100,style:'background-color: #d0e4a0' }">人工成本</th>
-                        <th class="taleft" lay-data="{field:'material_cb',width:100,style:'background-color: #d0e4a0' }">辅料成本</th>
+                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:100,style:'background-color: #e4fcfd' }">优惠</th>
+                        <th class="taleft" lay-data="{field:'sundry',edit:'text',width:100,style:'background-color: #e5f3c5' }">运杂</th>
+                        <th class="taleft" lay-data="{field:'supervisor_commission',width:150,style:'background-color: #e5f3c5' }">监理提成（10%）</th>
+                        <th class="taleft" lay-data="{field:'design_commission',width:150,style:'background-color: #e5f3c5' }">设计提成（5%）</th>
+                        <th class="taleft" lay-data="{field:'repeat_commission',width:100,style:'background-color: #e5f3c5' }">回头客奖</th>
+                        <th class="taleft" lay-data="{field:'business_commission',width:150,style:'background-color: #e5f3c5' }">业务提成（5%）</th>
+                        <th class="taleft" lay-data="{field:'artificial_cb',width:100,style:'background-color: #e5f3c5' }">人工成本</th>
+                        <th class="taleft" lay-data="{field:'material_cb',width:100,style:'background-color: #e5f3c5' }">辅料成本</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100,style:'background-color: #ffe1bb' }">工程毛利</th>
                         <th class="taleft" lay-data="{field:'profit_rate',width:100,style:'background-color: #ffe1bb' }">工程毛利比</th>
 
@@ -129,6 +130,7 @@ a{
                       <td class="taleft">{$vo.quoter_name}</td>
                       <td class="taleft">{$vo.designer_name}</td>        -->
                       <td class="taleft">{$vo.proquant}</td>   
+                      <td class="taleft">{$vo.discount_proquant}</td>   
                       <td class="taleft">{$vo.direct_cost}</td>   
                       <td class="taleft">{$vo.matquant}</td>   
                       <td class="taleft">{$vo.manual_quota}</td>   
@@ -700,7 +702,7 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>金额</th><th>占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
                  });
@@ -709,7 +711,7 @@ layui.use('table', function(){
                 //显示人工明细
                 layer.open({
                     title: '人工成本明细',
-                    area: '500px',
+                    area: ['600px', '500'],
                     content:html
                 }); 
               }else{
@@ -726,7 +728,7 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>金额</th><th>占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
                  });
@@ -735,7 +737,7 @@ layui.use('table', function(){
                 //显示人工明细
                 layer.open({
                     title: '辅材成本明细',
-                    area: '500px',
+                    area: ['600px', '500'],
                     content:html
                 }); 
               }else{
@@ -752,16 +754,16 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table class="layui-table"><thead><tr><th>工种类型</th><th>报价</th><th>成本</th><th>毛利</th><th>毛利率</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">报价</th><th style="text-align:center">成本</th><th style="text-align:center">毛利</th><th style="text-align:center">毛利率</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+val.price+'</td><td>'+val.cb+'</td><td>'+ (val.price-val.cb).toFixed(2) +'</td><td>'+ (((val.price-val.cb)/data.proquant)*100).toFixed(2) +'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+val.price+'</td><td>'+val.cb+'</td><td>'+ (val.price-val.cb).toFixed(2) +'</td><td>'+ (((val.price-val.cb)/data.discount_proquant)*100).toFixed(2) +'%</td></tr>'
                  });
-                html += '<tr><td>整体工程</td><td>'+re.total.price+'</td><td>'+re.total.cb+'</td><td>'+ (re.total.price-re.total.cb).toFixed(2) +'</td><td>'+(((re.total.price-re.total.cb)/data.proquant)*100).toFixed(2)+'%</td></tr>'
+                html += '<tr><td>整体工程</td><td>'+re.total.price+'</td><td>'+re.total.cb+'</td><td>'+ (re.total.price-re.total.cb).toFixed(2) +'</td><td>'+(((re.total.price-re.total.cb-data.discount)/data.discount_proquant)*100).toFixed(2)+'%</td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
                     title: '工程成本明细',
-                    area: '500px',
+                    area: ['800px', '600px'],
                     content:html
                 }); 
               }else{
