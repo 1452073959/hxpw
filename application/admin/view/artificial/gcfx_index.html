@@ -704,9 +704,9 @@ layui.use('table', function(){
               if(re.code === 0){
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td></tr>'
                  });
-                html += '<tr><td></td><td>小计</td><td>'+re.total+'</td></tr>'
+                html += '<tr><td></td><td>小计</td><td>'+toDecimal2(re.total)+'</td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
@@ -730,9 +730,9 @@ layui.use('table', function(){
               if(re.code === 0){
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+val+'</td><td>'+(val/re.total*100).toFixed(2)+'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td></tr>'
                  });
-                html += '<tr><td></td><td>小计</td><td>'+re.total+'</td></tr>'
+                html += '<tr><td></td><td>小计</td><td>'+toDecimal2(re.total)+'</td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
@@ -756,9 +756,9 @@ layui.use('table', function(){
               if(re.code === 0){
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">报价</th><th style="text-align:center">成本</th><th style="text-align:center">毛利</th><th style="text-align:center">毛利率</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+val.price+'</td><td>'+val.cb+'</td><td>'+ (val.price-val.cb).toFixed(2) +'</td><td>'+ (((val.price-val.cb)/data.discount_proquant)*100).toFixed(2) +'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val.price)+'</td><td>'+toDecimal2(val.cb)+'</td><td>'+ toDecimal2(val.price-val.cb) +'</td><td>'+ toDecimal2(((val.price-val.cb)/data.discount_proquant)*100) +'%</td></tr>'
                  });
-                html += '<tr><td>整体工程</td><td>'+re.total.price+'</td><td>'+re.total.cb+'</td><td>'+ (re.total.price-re.total.cb).toFixed(2) +'</td><td>'+(((re.total.price-re.total.cb-data.discount)/data.discount_proquant)*100).toFixed(2)+'%</td></tr>'
+                html += '<tr><td>整体工程</td><td>'+toDecimal2(re.total.price)+'</td><td>'+toDecimal2(re.total.cb)+'</td><td>'+ toDecimal2(re.total.price-re.total.cb) +'</td><td>'+ toDecimal2(((re.total.price-re.total.cb-data.discount)/data.discount_proquant)*100) +'%</td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
@@ -782,6 +782,25 @@ function validate(num){
   var reg = /^\d+(?=\.{0,1}\d+$|$)/
   if(reg.test(num)) return true;
   return false ;  
+}
+
+//保留2位小数 不足补0
+function toDecimal2(x) {    
+  var f = parseFloat(x);    
+  if (isNaN(f)) {    
+      return "0.00";    
+  }    
+  var f = Math.round(x*100)/100;    
+  var s = f.toString();    
+  var rs = s.indexOf('.');    
+  if (rs < 0) {    
+      rs = s.length;    
+      s += '.';    
+  }    
+  while (s.length <= rs + 2) {    
+      s += '0';    
+  }    
+  return s;    
 }
 </script>
 {/block}
