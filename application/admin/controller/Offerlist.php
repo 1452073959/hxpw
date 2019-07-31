@@ -244,7 +244,7 @@ class Offerlist extends Adminbase
         return $re['price'];
     }
 
-  //报表历史记录
+    //报表历史记录
     public function history(){
         $userinfo = $this->_userinfo; 
         $request = request();
@@ -259,73 +259,50 @@ class Offerlist extends Adminbase
         }
         if(!empty($rs['content'])){
         // $rs['content'] = json_decode($rs['content'],true);
-        $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
-        foreach(json_decode($rs['content'],true) as $key=>$value){
-        if(!in_array($value['type_of_work'],$conditions) ){
-          $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-          $conditions[$id] = $value['type_of_work'];
-        }
-        }
-        foreach(json_decode($rs['content'],true) as $key=>$value){
-        if(!in_array($value['kongjian'],$room) ){
-          $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-          $room[$id] = $value['kongjian'];
-        }
-        }
-        if( !empty($conditions) ){
-        $new_data = [];
-        $conditions_no = 0;
-        foreach($conditions as $key=>$value){
-          foreach($room as $k=>$v){
-            foreach(json_decode($rs['content'],true) as $ke=>$val){
-              if($val['type_of_work'] ==$value){
-                $new_data[$key]['conditionsname'] = $value;
-                $new_data[$key]['conditions_no'] = $this->upper[$conditions_no];
-                if($val['kongjian'] == $v){
-                  $new_data[$key]['son'][$k]['roomname'] = $v;
-                  $new_data[$key]['son'][$k]['room_no'] = $this->lower[$room_no];
-                  $new_data[$key]['son'][$k]['item'][] = $val;
+            $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
+            foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['type_of_work'],$conditions) ){
+                  $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
+                  $conditions[$id] = $value['type_of_work'];
                 }
-              }
             }
-          }
-          $conditions_no++;
-        }
-        }
+            foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['kongjian'],$room) ){
+                  $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
+                  $room[$id] = $value['kongjian'];
+                }
+            }
+            if( !empty($conditions) ){
+                $new_data = [];
+                $conditions_no = 0;
+                foreach($conditions as $key=>$value){
+                  foreach($room as $k=>$v){
+                    foreach(json_decode($rs['content'],true) as $ke=>$val){
+                        if($val['type_of_work'] ==$value){
+                            $new_data[$key]['conditionsname'] = $value;
+                            $new_data[$key]['conditions_no'] = $this->upper[$conditions_no];
+                            if($val['kongjian'] == $v){
+                                $new_data[$key]['son'][$k]['roomname'] = $v;
+                                $new_data[$key]['son'][$k]['room_no'] = $this->lower[$room_no];
+                                $new_data[$key]['son'][$k]['item'][] = $val;
+                            }
+                        }
+                    }
+                  }
+                    $conditions_no++;
+                }
+            }
             foreach($new_data as $k1=>$v1){
                 $room_no = 0;
-              foreach($v1['son'] as $k2=>$v2){
-                $new_data[$k1]['son'][$k2]['room_no'] = $this->lower[$room_no];
-          $room_no++;
-              }
+                foreach($v1['son'] as $k2=>$v2){
+                  $new_data[$k1]['son'][$k2]['room_no'] = $this->lower[$room_no];
+                  $room_no++;
+                }
             }
-        $rs['details'] = $new_data;
-          // $new = [];
-          // foreach ($this->gongzhong as $key => $value) {
-          //   foreach ($rs['content'] as $k => $v) {
-          //     if($v['type_of_work'] == $value){
-          //       $new[$key]['name'] = $value;
-          //       $new[$key]['son'][$k]['project'] = $v['kongjian'];
-          //       $new[$key]['son'][$k]['data'][] = $v;
-          //     }
-          //   }
-          // }
-          // $rs['content'] = $new;
-          // $total = 0;
-          // foreach ($rs['content'] as $key => $value) {
-          //     $total += count($value['son']) *1;
-          //     foreach ($value['son'] as $k => $v) {
-          //         $total +=count($v['data']) *1;
-          //     }
-          //     $rs['content'][$key]['total'] = $total;
-          //     $total = 0;
-          // }
+            $rs['details'] = $new_data;
         }
-
-
         $all = Db::name('offerlist')->where(["customerid" => trim($id)])->select();//该客户的所有报表
         $this->assign('all',$all);//该客户的所有报表id
-        
         $edit_id = Db::name('offerlist')->where('customerid',$id)->value('id');
         $this->assign('edit_id',$edit_id);//新建报表id
         $this->assign("data", $rs);//报表数据
