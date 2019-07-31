@@ -110,4 +110,50 @@ class Offerlist extends Model
         }
         return ['datas'=>$arr,'total'=>$total];
     }
+
+    //领料清单
+    //type 0-系数后 1->系数前 
+    public function get_material_list($id,$type=1){
+        $order_material = Db::name('order_material')->where(['o_id'=>$id])->select();
+        $datas = [];
+        foreach($order_material as $k=>$v){
+            $v['fine'] = $v['fine']?$v['fine']:'通用';
+            if(!isset($datas[$v['type_of_work']][$v['fine']][$v['amcode']])){
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['amcode'] = $v['amcode']; //辅材编码
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['m_name'] = $v['m_name']; //辅材名称
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['brand'] = $v['brand']; //品牌
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['img'] = $v['img']; //图片
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['units'] = $v['units']; //单位
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['num'] = 0; //数量
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['phr'] = $v['phr']; //包装规格
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['cb'] = $v['cb']; //单价
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['price_total'] = 0; //总价
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['coefficient'] = $v['coefficient'];
+            }
+            $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['num'] += $v['num'];
+        }
+        //处理系数
+        foreach($datas as $k1=>$v1){
+            foreach($v1 as $k2=>$v2){
+                foreach($v2 as $k3=>$v3){
+                    $num = explode('.',$v3['num']);
+                    if(!isset($num[1])){
+                        $num[1] = 0;
+                    }
+                    if($num[1]*10 > $v3['coefficient']){
+                        $datas[$k1][$k2][$k3]['omit_num'] = ceil($v3['num']);
+                    }else{
+                        //不足1时向上取证
+                        if($v['num'] < 1){
+                            $datas[$k1][$k2][$k3]['omit_num'] = ceil($v3['num']);
+                        }else{
+                            $datas[$k1][$k2][$k3]['omit_num'] = floor($v3['num']);
+                        }
+                    }
+                    $datas[$k1][$k2][$k3]['coefficient'] += $datas[$k1][$k2][$k3]['omit_num'] * $v3['cb'];
+                }
+            }
+        }
+        return $datas;
+    }
 }

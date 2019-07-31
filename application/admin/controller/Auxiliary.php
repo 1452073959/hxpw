@@ -127,138 +127,20 @@ class Auxiliary extends Adminbase
 
     public function history(){
         $userinfo = $this->_userinfo;
-        $request = request();
-        $id = $request->param('id');
-        $da['o.id'] = $id;
+        $o_id = input('id');//订单id
+        
+
+        $material_list = model('offerlist')->get_material_list($o_id);
+        $c_id = Db::name('offerlist')->where(['id'=>$o_id])->value('customerid');//客户id
+        $userinfo = Db::name('userlist')->where(['id'=>$c_id])->find();//客户信息
         // echo $id;
-        $res = Db::name('offerlist')->select();
-        if ($res) {
-          $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where($da)->find();
-        }
-        $material = $res['material'];
-        $material = json_decode($res['material'],true);
-        $where = [];
-        $where['frameid'] = $res['frameid'];
-        if(!is_array($material)){
-          $material = [];
-        }
-        $material_list = array_column(Db::name('materials')->where($where)->where('name','in',implode(',', array_keys($material)))->select(), null,'name');
-        $total = 0;//总价
-        $datas = [];
-        foreach($material as $k=>$v){
-            $v['amcode'] = $material_list[$k]['amcode'];
-            $v['img'] = $material_list[$k]['img'];
-            $v['norms'] = $material_list[$k]['norms'];
-            $v['units'] = $material_list[$k]['units'];
-            $v['phr'] = $material_list[$k]['phr'];
-            $v['category'] = $material_list[$k]['category'];//工种类别
-            $v['fine'] = $material_list[$k]['fine'];//辅材细类
-            $v['brand'] = $material_list[$k]['brand'];//辅材细类
-            $v['name'] = $k;//辅材细类
-
-            if(!$material_list[$k]['category']){
-                $material_list[$k]['category'] = '未分类';
-            }
-            if(!$material_list[$k]['fine']){
-                $material_list[$k]['fine'] = '未分类';
-            }
-            $datas[$material_list[$k]['category']][$material_list[$k]['fine']][] = $v;
-
-            $total += $v['price']*$v['num'];
-        }
-        $this->assign('material',$datas);
-        $this->assign('total',$total);
-
-       //  // $newarr = $material;
-       //  // var_dump($material);die;
-
-       //  $content = json_decode($res['content'],true);
-       //  if ($content) {
-       //  //核算清单
-       //   $qingdan = json_decode($res['content'],true);
-       //    // dump($qingdan);
-       //   $newarr = [];
-       //   foreach ($qingdan as $key => $value) {
-       //     $newarr[$key]['frameid'] = $value['frameid'];
-       //     $newarr[$key]['item_number'] = $value['item_number'];
-       //     $newarr[$key]['gcl'] = $value['gcl'];
-       //   }
-       //    $dataall = Db::name('offerquota')->where(array('frameid'=>$newarr[0]['frameid']))->select();
-       //    $cangku = Db::name('materials')->where(array('frameid'=>$newarr[0]['frameid']))->select();//仓库
-       //    // dump($dataall);
-       //    // $arrayn = [];
-       //    foreach ($newarr as $kkk => $vvv) {
-       //      $newarr[$kkk]['content'] = [];
-       //      foreach ($dataall as $kk => $vv) {
-       //        if ($vvv['item_number']==$vv['item_number']){
-       //          $shuzus = json_decode($vv['content'],true);
-       //          //去空
-       //          foreach ($shuzus as $k => $v) {
-       //            if ($v[0]==null) {
-       //              unset($shuzus[$k]);
-       //            }
-       //          }
-       //          foreach ($shuzus as $kbb => $vbb) {
-       //            //通过函数获取所需的信息
-       //              //dump($newarr[0]['frameid']);
-       //              //dump($vbb[0]);
-       //            $getval = $this->getcang($newarr[0]['frameid'],$vbb[0]);
-       //               //dump($shuzus[$kbb]);
-       //              //dump( $getval );
-       //            $shuzus[$kbb] = array_merge($shuzus[$kbb],$getval);
-       //            $shuzus[$kbb]['number'] = $vbb[1]*$vvv['gcl'];
-       //            $shuzus[$kbb]['total'] = $vbb[1]*$vvv['gcl']*$shuzus[$kbb]['price'];
-       //          }
-       //          $newarr[$kkk]['content'] = $shuzus;
-       //        }
-       //      }
-       //    }
-       //   }else{
-       //     $newarr = null;
-       //   }
-       //  // 组合数组
-       //    $ress = array();
-       //  foreach ($newarr as $kkk => $val) {
-       //      $ress[$kkk] = $val['content'];
-       //  }
-       //  $arrs = array();
-       //   foreach ($ress as $kkk => $val) {
-       //        foreach($val as $k=>$v){
-       //            $arrs[] = $v;
-       //        }
-       //   }
-       //  //dump($arrs);
-
-       //  //合并同类项
-       //  $endarr = [];
-       //  foreach ($arrs as $key => $value) {
-       //    $endarr[$value[0]][] = $value; 
-       //  }
-       // foreach ($endarr as $key => $value) {
-       //      $item=array();
-       //      foreach($value as $k=>$v){
-       //          if(!isset($item[$v[0]])){
-       //              $item[$v[0]]=$v;
-       //          }else{
-       //              $item[$v[0]]['number']+=$v['number'];
-       //              $item[$v[0]]['total']+=$v['total'];
-       //          }
-       //      }
-       //      $endarr[$key] = $item;
-                      
-       //  }
-      
-       //  $allarrs = array();
-       //   foreach ($endarr as $kkk => $val) {
-       //        foreach($val as $k=>$v){
-       //            $allarrs[] = $v;
-       //        }
-       //   }
-       //  var_dump($newarr);
-       //  var_dump($res);
-       //  var_dump($allarrs);die;
-       //  $this->assign('newarr',$newarr);
-        $this->assign('data',$res);
+        
+        $this->assign('material',$material_list);
+        $this->assign('userinfo',$userinfo);
+        // var_dump($material_list);die;
+        // $this->assign('total',$total);
+       
+        // $this->assign('data',$res);
        //  $this->assign('arrs',$allarrs);
         return $this->fetch();
 

@@ -179,7 +179,7 @@ class Artificial extends Adminbase
             $material = json_decode($value['material'],true);
             $res[$key]['material_cb'] = 0;
             foreach($material as $k=>$v){
-                $res[$key]['material_cb'] += ($v['num']*$v['price']);//辅材总成本
+                $res[$key]['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
             }
             //计算毛利 利润/报价
             if($res[$key]['direct_cost']){

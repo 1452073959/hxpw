@@ -597,6 +597,16 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
+                            
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['amcode'] = $materials_info['amcode'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['fine'] = $materials_info['fine'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['brand'] = $materials_info['brand'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['place'] = $materials_info['place'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['img'] = $materials_info['img'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['phr'] = $materials_info['phr'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['remarks'] = $materials_info['remarks'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['category'] = $materials_info['category'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['units'] = $materials_info['units'];//
                         }
                         $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['gcl'];
                             
@@ -606,8 +616,6 @@ class Offerlist extends Adminbase
                 }
             }
             //=========订单辅料详情 组装数据存进数据库
-            // id  订单id    客户id    公司id    工种类             项目编号              辅材名称     数量     成本       单价    利润  
-            // id  o_id       c_id    f_id    type_of_work        item_number           m_name      num      cb        price   profit
             //$order_material['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
             $order_material_datas = [];
             foreach($order_material as $k1=>$v1){
@@ -624,6 +632,17 @@ class Offerlist extends Adminbase
                         $data_info['price'] = $v3['price'];
                         $data_info['profit'] = $v3['profit'];
                         $data_info['coefficient'] = $v3['coefficient'];
+
+                        $data_info['amcode'] = $v3['amcode'];
+                        $data_info['fine'] = $v3['fine'];
+                        $data_info['brand'] = $v3['brand'];
+                        $data_info['place'] = $v3['place'];
+                        $data_info['img'] = $v3['img'];
+                        $data_info['phr'] = $v3['phr'];
+                        $data_info['remarks'] = $v3['remarks'];
+                        $data_info['category'] = $v3['category'];
+                        $data_info['units'] = $v3['units'];
+
                         $order_material_datas[] = $data_info;
                     }
                 }
@@ -670,40 +689,20 @@ class Offerlist extends Adminbase
 
             //增减项  增减项不应该这样弄 后期重做
             Db::startTrans();
-            if(input('id')){
-                try{
-                    $re = Db::name('offerlist')->where('id',input('id'))->update($data);
-                    foreach($order_material_datas as $k=>$v){
-                        $order_material_datas[$k]['o_id'] = input('id');
-                    }
-                    Db::name('order_material')->where('o_id',input('id'))->delete();
-                    if($order_material_datas){
-                        $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
-                    }
-                    
-                    // 提交事务
-                    Db::commit();    
-                } catch (\Exception $e) {
-                    // 回滚事务
-                    Db::rollback();
+            try{
+                $re = Db::name('offerlist')->insertGetId($data);
+                foreach($order_material_datas as $k=>$v){
+                    $order_material_datas[$k]['o_id'] = $re;
                 }
-            }else{
-
-                try{
-
-                    $re = Db::name('offerlist')->insertGetId($data);
-                    foreach($order_material_datas as $k=>$v){
-                        $order_material_datas[$k]['o_id'] = $re;
-                    }
-                    if($order_material_datas){
-                        $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
-                    }
-                    // 提交事务
-                    Db::commit();    
-                } catch (\Exception $e) {
-                    // 回滚事务
-                    Db::rollback();
+                if($order_material_datas){
+                    $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
                 }
+                // 提交事务
+                Db::commit();    
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $this->error('失败');
             }
             if($re!==false && $order_material_res){
                 $this->success('成功','admin/offerlist/baojiaguanli');

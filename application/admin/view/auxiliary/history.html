@@ -72,11 +72,11 @@
             <blockquote class="layui-elem-quote news_search">
                 <div class="layui-inline">
                    <ul class="ulall">
-                      <li>客户姓名：{$data.customer_name}</li>
-                      <li>工程地址：{$data.address}</li>
+                      <li>客户姓名：{$userinfo.customer_name}</li>
+                      <li>工程地址：{$userinfo.address}</li>
                       <li>联系电话：</li>
-                      <li>报价师姓名：{$data.quoter_name}</li>
-                      <li>设计师姓名：{$data.designer_name}</li>
+                      <li>报价师姓名：{$userinfo.quoter_name}</li>
+                      <li>设计师姓名：{$userinfo.designer_name}</li>
                    </ul>
                 </div>     
                 
@@ -103,16 +103,18 @@
                             <th  style="text-align: center">品牌</th>
                             <th  style="text-align: center">图片</th>
                             <th style="text-align: center">单位</th>
-                            <th style="text-align: center">数量</th>
+                            <th style="text-align: center">核算数量</th>
+                            <th style="text-align: center">领料数量</th>
                             <th style="text-align: center">包装规格</th>
                             <th style="text-align: center">单价</th>
                             <th style="text-align: center">总价</th>
                         </tr> 
                     </thead>
                     <tbody>
+                        <?php $all_total=0; ?>
                         <?php foreach($material as $k1=>$v1){ ?>
                             <tr>
-                                <td class="" colspan="9" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
+                                <td class="" colspan="10" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
                                 
                             </tr>
                                 <?php 
@@ -120,7 +122,7 @@
                                  ?>
                             <?php foreach($v1 as $k2=>$v2){ ?>
                                 <tr>
-                                    <td class="" colspan="9" style="color:#393d49;text-align: center;">{$k2}</td>
+                                    <td class="" colspan="10" style="color:#393d49;text-align: center;">{$k2}</td>
                                     
                                 </tr>
                                 <?php 
@@ -129,17 +131,19 @@
                                 <?php foreach($v2 as $k3=>$v3){ ?>
                                     <tr>
                                         <td class="">{$v3.amcode}</td>
-                                        <td class="">{$v3.name}</td>
+                                        <td class="">{$v3.m_name}</td>
                                         <td class="">{$v3.brand}</td>
                                         <td class="">{$v3.img}</td>
                                         <td class="">{$v3.units}</td>
                                         <td class="">{$v3.num}</td>
+                                        <td class="">{$v3.omit_num}</td>
                                         <td class="">{$v3.phr}</td>
-                                        <td class="">{$v3.price}</td>
-                                        <td class="">{$v3.price*$v3.num}</td>
+                                        <td class="">{$v3.cb}</td>
+                                        <td class="">{$v3.cb*$v3.omit_num}</td>
                                         <?php 
-                                            $big_total += $v3['price']*$v3['num'];
-                                            $small_total += $v3['price']*$v3['num'];
+                                            $big_total += $v3['cb']*$v3['omit_num'];
+                                            $small_total += $v3['cb']*$v3['omit_num'];
+                                            $all_total += $v3['cb']*$v3['omit_num'];
                                         ?>
                                     </tr>
                                 <?php } ?>
@@ -148,69 +152,17 @@
                                     </tr> -->
                             <?php } ?>
                                 <tr>
-                                    <td class="" colspan="9" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
+                                    <td class="" colspan="10" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
                                 </tr>
                         <?php } ?>
                             <tr>
-                          <td class="" colspan="9"  style="text-align: right;padding-right: 30px;">领料总价：{$total}</td>
+                          <td class="" colspan="10"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
                   </tr>
                     </tbody>
                 </table>
             </div>
             
-            <!-- <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20,page:true}">
-                <colgroup>
-                    <col width="80">
-                    <col width="80">
-                    <col width="160">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th class="taleft" lay-data="{field:'customer_name',width:180}">辅材编码</th>
-                        <th class="taleft" lay-data="{field:'address',width:250}">辅材名称</th>
-                        <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',}">图片</th>
-                        <th class="taleft" lay-data="{field:'designer_name', }">单位</th>
-                        <th class="taleft" lay-data="{field:'proquant', }">数量</th>
-                        <th class="taleft" lay-data="{field:'direct_cost', }">单价</th>
-                        <th class="taleft" lay-data="{field:'matquant', }">总价</th>
-
-                    </tr>
-                </thead>
-                <tbody> 
-                    <?php foreach($material as $k1=>$v1){ ?>
-                        <tr>
-                            <td class="taleft"><a style="display: none" class="big">{$k1}</a></td>
-                        </tr>
-                        <?php foreach($v1 as $k2=>$v2){ ?>
-                            <tr>
-                                <td class="taleft"><a style="display: none" class="small">{$k2}</a></td>
-                            </tr>
-                            <?php foreach($v2 as $k3=>$v3){ ?>
-                                <tr>
-                                    <td class="taleft">{$v3.amcode}</td>
-                                    <td class="taleft">{$v3.name}</td>
-                                    <td class="taleft">{$v3.img}</td>
-                                    <td class="taleft">{$v3.units}</td>
-                                    <td class="taleft">{$v3.num}</td>
-                                    <td class="taleft">{$v3.price}</td>
-                                    <td class="taleft">{$v3.price*$v3.num}</td>
-                                </tr>
-                            <?php } ?>
-                        <?php } ?>
-                    <?php } ?>
-                   <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td class="taleft">领料总价</td>
-                      <td class='taleft'>{$total}</td>
-                  </tr>
-                </tbody>
-            </table> -->
+            
               
         </div>
     </div>
