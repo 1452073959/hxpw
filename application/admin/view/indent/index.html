@@ -50,6 +50,7 @@
 <script type="text/html" id="oper-col">
     <a class="" lay-event="add"><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
     <a class="" lay-event="edit"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+    <a class="" lay-event="tmp"><i class="layui-icon layui-icon-template-1" title="编辑模板"></i></a>
     <a class="" lay-event="del"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
     <a class="" lay-event="editstatu"><i class="layui-icon layui-icon-about" title="禁用"></i></a>
 </script>
@@ -240,7 +241,7 @@
                           }
                         }
                        });
-                    });      
+                    });     
             }else if (layEvent === 'editstatu'){
                       if(data.status == 0){
                         var newstatu = '禁用';
@@ -266,6 +267,177 @@
                           }
                          });
                     });      
+            }else if (layEvent === 'tmp'){
+                    $.ajax({
+                        type : 'post',
+                        url  :  '{:url("indent/get_tmp")}',
+                        dataType : 'json',
+                        data : {f_id:data.id},
+                        success : function(re){
+                            var inputs = 
+                            '<div class="tmp_datas">'
+                                +'<div style="text-align:center">aaaa'
+
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">管理费（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="tubemoney" autocomplete="off" value="'+ re.data.tubemoney +'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">搬运费（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="carry" autocomplete="off" value="'+ re.data.carry+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">清洁费（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="clean" autocomplete="off" value="'+ re.data.clean+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">工程意外险（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="accident" autocomplete="off" value="'+ re.data.accident+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">远程费（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="remote" autocomplete="off" value="'+ re.data.remote+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">旧房局部改造费（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="old_house" autocomplete="off" value="'+ re.data.old_house+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">税金（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="taxes" autocomplete="off" value="'+ re.data.taxes+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">监理提成（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="supervisor" autocomplete="off" value="'+ re.data.supervisor+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">设计提成（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="design" autocomplete="off" value="'+ re.data.design+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">回头客提成（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="repeat" autocomplete="off" value="'+ re.data.repeat+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">业务提成（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="business" autocomplete="off" value="'+ re.data.business+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-input-inline w300">'
+                                    +'<button id="edit_tmp" style="margin-left:70px" class="layui-btn ajax-post">立即提交</button>'
+                                +'</div>'
+                                 +'<div class="layui-input-inline w300">'
+                                    
+                                +'</div>'
+                            +'</div>';
+                             var tmp_open = layer.open({
+                              type: 1,
+                              skin: 'layui-layer-rim', //加上边框
+                              area: ['400px', '700px'], //宽高
+                              title:'修改信息',
+                              content: inputs
+                            });
+                            $("#edit_tmp").click(function() {
+                            var tubemoney= $(this).parents(".tmp_datas").find("input[name='tubemoney']").val();
+                            var carry = $(this).parents(".tmp_datas").find("input[name='carry']").val();
+                            var clean = $(this).parents(".tmp_datas").find("input[name='clean']").val();
+                            var accident = $(this).parents(".tmp_datas").find("input[name='accident']").val();
+                            var remote = $(this).parents(".tmp_datas").find("input[name='remote']").val();
+                            var old_house = $(this).parents(".tmp_datas").find("input[name='old_house']").val();
+                            var taxes = $(this).parents(".tmp_datas").find("input[name='taxes']").val();
+                            var supervisor = $(this).parents(".tmp_datas").find("input[name='supervisor']").val();
+                            var design = $(this).parents(".tmp_datas").find("input[name='design']").val();
+                            var repeat = $(this).parents(".tmp_datas").find("input[name='repeat']").val();
+                            var business = $(this).parents(".tmp_datas").find("input[name='business']").val();
+                            if (!tubemoney || isNaN(tubemoney)) {
+                                layer.msg('管理费输入有误');return false;
+                            }
+                            if (!carry || isNaN(carry)) {
+                                layer.msg('搬运费输入有误');return false;
+                            }
+                            if (!clean || isNaN(clean)) {
+                                layer.msg('清洁费输入有误');return false;
+                            }
+                            if (!accident || isNaN(accident)) {
+                                layer.msg('工程意外险输入有误');return false;
+                            }
+                            if (!remote || isNaN(remote)) {
+                                layer.msg('远程费输入有误');return false;
+                            }
+                            if (!old_house || isNaN(old_house)) {
+                                layer.msg('旧房局部改造费输入有误');return false;
+                            }
+                            if (!taxes || isNaN(taxes)) {
+                                layer.msg('税金输入有误');return false;
+                            }
+                            if (!supervisor || isNaN(supervisor)) {
+                                layer.msg('监理提成输入有误');return false;
+                            }
+                            if (!design || isNaN(design)) {
+                                layer.msg('设计提成输入有误');return false;
+                            }
+                            if (!repeat || isNaN(repeat)) {
+                                layer.msg('回头客提成输入有误');return false;
+                            }
+                            if (!business || isNaN(business)) {
+                                layer.msg('业务提成输入有误');return false;
+                            }
+                            if (parseFloat(tubemoney)+parseFloat(carry)+parseFloat(clean)+parseFloat(accident)+parseFloat(remote)+parseFloat(old_house)+parseFloat(taxes)+parseFloat(supervisor)+parseFloat(design)+parseFloat(repeat)+parseFloat(business) > 100) {
+                                layer.msg('全部合计不得超过100');return false;
+                            }
+                            $.ajax({
+                                type : 'post',
+                                url  :  '{:url("indent/edit_tmp")}',
+                                dataType : 'json',
+                                data : {
+                                            f_id:data.id,
+                                            tubemoney:tubemoney,
+                                            carry:carry,
+                                            clean:clean,
+                                            accident:accident,
+                                            remote:remote,
+                                            old_house:old_house,
+                                            taxes:taxes,
+                                            supervisor:supervisor,
+                                            design:design,
+                                            repeat:repeat,
+                                            business:business
+                                        },
+                                success : function(re){
+                                  if(re.status == 0){
+                                        layer.msg('编辑成功');
+                                        layer.close(tmp_open);
+                                        return false;
+                                  }else{
+                                    layer.msg(re.msg);return false;
+                                  }
+                                }
+                            });
+                        });     
+                    }
+                });
             }
         });
     });

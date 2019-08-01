@@ -690,8 +690,39 @@ class Offerlist extends Adminbase
                 
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
-
-            //增减项  增减项不应该这样弄 后期重做
+            //其他各种费用比率
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();
+            if(!$cost_tmp){
+                //没有设置  这个是默认值
+                $cost_tmp_data = [
+                    'tubemoney'=>1,
+                    'carry'=>0,
+                    'clean'=>0,
+                    'accident'=>0,
+                    'remote'=>0,
+                    'old_house'=>0,
+                    'taxes'=>0,
+                    'supervisor_commission'=>0,
+                    'design_commission'=>0,
+                    'repeat_commission'=>3,
+                    'business_commission'=>0
+                ];
+            }else{
+                $cost_tmp_data = [
+                    'tubemoney'=>$cost_tmp['tubemoney'],
+                    'carry'=>$cost_tmp['carry'],
+                    'clean'=>$cost_tmp['clean'],
+                    'accident'=>$cost_tmp['accident'],
+                    'remote'=>$cost_tmp['remote'],
+                    'old_house'=>$cost_tmp['old_house'],
+                    'taxes'=>$cost_tmp['taxes'],
+                    'supervisor_commission'=>$cost_tmp['supervisor'],
+                    'design_commission'=>$cost_tmp['design'],
+                    'repeat_commission'=>$cost_tmp['repeat'],
+                    'business_commission'=>$cost_tmp['business']
+                ];
+            }
+            $data = array_merge($data,$cost_tmp_data);
             Db::startTrans();
             try{
                 $re = Db::name('offerlist')->insertGetId($data);

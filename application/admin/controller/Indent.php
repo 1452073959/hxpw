@@ -250,82 +250,128 @@ class Indent extends Adminbase
     // 导入excel表
     public function ImportExcel(Request $request){
           
-           require'../extend/PHPExcel/PHPExcel.php';
-           $file = $request->file();
-           // dump($file);
-           if($file){
-               foreach ($file as $files) {
-                // dump($files);
-                 $info = $files->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
-               }
-               if (!$info) {
-                  // Result(1,'上传文件格式不正确'); 
-                   $this->error('上传文件格式不正确');
-               }else{
-                  // Result(0,'上传成功'); 
-                  //获取上传到后台的文件名
-                    $fileName = $info->getSaveName();
-                    //获取文件路径
-                    $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
-                    //获取文件后缀
-                    $suffix = $info->getExtension();
-
-                    //记录上传文件日志(先不做了)
-                      // $log['filepath'] = $filePath;
-                      // $log['addtime'] = time();
-                      // $rval = Db::name('excelfile')->insert($log);
-
-
-                    // 判断哪种类型
-                    if($suffix=="xlsx"){
-                        $reader = \PHPExcel_IOFactory::createReader('Excel2007');
-                    }else{
-                        $reader = \PHPExcel_IOFactory::createReader('Excel5');
-                    }
-                
-               }
-              //处理表格数据
-              //载入excel文件
-                $excel = $reader->load("$filePath",$encode = 'utf-8');
-                //读取第一张表
-                $sheet = $excel->getSheet(0);
-                //获取总行数
-                $row_num = $sheet->getHighestRow();
-                //获取总列数
-                $col_num = $sheet->getHighestColumn();
-                $data = []; //数组形式获取表格数据 
-                  // dump($col_num);
-               if ($col_num != 'E') {
-                   $this->error('文件数据字段不匹配，请重新选择');die;
-                } 
-                for ($i = 2; $i <= $row_num; $i ++) {
-                    $data[$i]['name']  = $sheet->getCell("A".$i)->getValue();
-                    $data[$i]['other']  = $sheet->getCell("B".$i)->getValue();
-                    $data[$i]['levelid']  = $sheet->getCell("C".$i)->getValue();
-                    $data[$i]['pid']  = $sheet->getCell("D".$i)->getValue();
-                    $data[$i]['status']  = $sheet->getCell("E".$i)->getValue();
-                }
-
-                //将数据保存到数据库
-                if ($data) {
-                   //把获取到的二维数组遍历进数据库
-                   foreach ($data as $key => $value) {
-                       $res = Db::name('frame')->insert($value);
-                   }
-                   $this->success('导入成功');
-                }else{
-                  $this->error('获取导入文件数据失败');
-                }
-
-           }else{
-              $this->error('请选择上传文件');
+       require'../extend/PHPExcel/PHPExcel.php';
+       $file = $request->file();
+       // dump($file);
+       if($file){
+           foreach ($file as $files) {
+            // dump($files);
+             $info = $files->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
            }
-           
+           if (!$info) {
+              // Result(1,'上传文件格式不正确'); 
+               $this->error('上传文件格式不正确');
+           }else{
+              // Result(0,'上传成功'); 
+              //获取上传到后台的文件名
+                $fileName = $info->getSaveName();
+                //获取文件路径
+                $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
+                //获取文件后缀
+                $suffix = $info->getExtension();
+
+                //记录上传文件日志(先不做了)
+                  // $log['filepath'] = $filePath;
+                  // $log['addtime'] = time();
+                  // $rval = Db::name('excelfile')->insert($log);
 
 
+                // 判断哪种类型
+                if($suffix=="xlsx"){
+                    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+                }else{
+                    $reader = \PHPExcel_IOFactory::createReader('Excel5');
+                }
+            
+           }
+          //处理表格数据
+          //载入excel文件
+            $excel = $reader->load("$filePath",$encode = 'utf-8');
+            //读取第一张表
+            $sheet = $excel->getSheet(0);
+            //获取总行数
+            $row_num = $sheet->getHighestRow();
+            //获取总列数
+            $col_num = $sheet->getHighestColumn();
+            $data = []; //数组形式获取表格数据 
+              // dump($col_num);
+           if ($col_num != 'E') {
+               $this->error('文件数据字段不匹配，请重新选择');die;
+            } 
+            for ($i = 2; $i <= $row_num; $i ++) {
+                $data[$i]['name']  = $sheet->getCell("A".$i)->getValue();
+                $data[$i]['other']  = $sheet->getCell("B".$i)->getValue();
+                $data[$i]['levelid']  = $sheet->getCell("C".$i)->getValue();
+                $data[$i]['pid']  = $sheet->getCell("D".$i)->getValue();
+                $data[$i]['status']  = $sheet->getCell("E".$i)->getValue();
+            }
+
+            //将数据保存到数据库
+            if ($data) {
+               //把获取到的二维数组遍历进数据库
+               foreach ($data as $key => $value) {
+                   $res = Db::name('frame')->insert($value);
+               }
+               $this->success('导入成功');
+            }else{
+              $this->error('获取导入文件数据失败');
+            }
+
+       }else{
+          $this->error('请选择上传文件');
+       }
     }
 
+    public function get_tmp(){
+        $f_id = input('f_id');
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
+        if(!$cost_tmp){
+            $cost_tmp = [
+                            'tubemoney'=>0,
+                            'carry'=>0,
+                            'clean'=>0,
+                            'accident'=>0,
+                            'remote'=>0,
+                            'old_house'=>0,
+                            'taxes'=>0,
+                            'supervisor'=>0,
+                            'design'=>0,
+                            'repeat'=>0,
+                            'business'=>0
+                        ];//返回空数据
+        }
+        Result(0,'',$cost_tmp);
+    }
 
+    public function edit_tmp(){
+        $f_id = input('f_id');
+        $datas['tubemoney'] = input('tubemoney');
+        $datas['carry'] = input('carry');
+        $datas['clean'] = input('clean');
+        $datas['accident'] = input('accident');
+        $datas['remote'] = input('remote');
+        $datas['old_house'] = input('old_house');
+        $datas['taxes'] = input('taxes');
+        $datas['supervisor'] = input('supervisor');
+        $datas['design'] = input('design');
+        $datas['repeat'] = input('repeat');
+        $datas['business'] = input('business');
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
+        if($cost_tmp){
+            //修改
+            $res = Db::name('cost_tmp')->where(['f_id'=>$f_id])->update($datas);
+        }else{
+            //添加
+            $datas['f_id'] = $f_id;
+            $res = Db::name('cost_tmp')->insert($datas);
+
+        }
+        if($res){
+            Result(0,'succees');
+        }else{
+            Result(1,'修改失败');
+        }
+    }
 
 
 
