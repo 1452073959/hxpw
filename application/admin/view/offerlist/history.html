@@ -90,10 +90,10 @@
 							<th style="text-align:center;" colspan="9">单位：{$data.unit}</th>        
 						</tr>
 						<tr>
-							<th colspan="3">工程名称：{$data.address}</th>       
-							<th colspan="3">客户姓名：{$data.customer_name}</th>       
-							<th colspan="2">设计师姓名：{$data.designer_name}</th>       
-							<th colspan="2">报价师姓名：{$data.quoter_name}</th>       
+							<th colspan="3">工程名称：{$userinfo.address}</th>       
+							<th colspan="3">客户姓名：{$userinfo.customer_name}</th>       
+							<th colspan="2">设计师姓名：{$userinfo.designer_name}</th>       
+							<th colspan="2">报价师姓名：{$userinfo.quoter_name}</th>       
 						</tr>
 						<tr>      
                             <th rowspan="2" colspan="1">序号</th>
@@ -150,6 +150,126 @@
 										<td></td>
 									</tr>
 						{/foreach}
+
+                        <tr>
+                            <td class="text-center" colspan="2">合计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{$data['matquant']}</td>
+                            <td></td>
+                            <td>{$data['manual_quota']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" colspan="9">其他费用</td>
+                        </tr>
+                        {notempty name="data['tubemoney']"}
+                            <tr>
+                                <td class="text-center" colspan="2">管理费</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['tubemoney']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['carry']"}
+                            <tr>
+                                <td class="text-center" colspan="2">搬运费</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['carry']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['clean']"}
+                            <tr>
+                                <td class="text-center" colspan="2">清洁费</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['clean']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['accident']"}
+                            <tr>
+                                <td class="text-center" colspan="2">工程意外险</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['accident']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['remote']"}
+                            <tr>
+                                <td class="text-center" colspan="2">远程费</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['remote']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['old_house']"}
+                            <tr>
+                                <td class="text-center" colspan="2">旧房局部改造费</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['old_house']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['taxes']"}
+                            <tr>
+                                <td class="text-center" colspan="2">税金</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['taxes']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        {notempty name="data['discount']"}
+                            <tr>
+                                <td class="text-center" colspan="2">优惠</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$data['discount']}</td>
+                                <td></td>
+                            </tr>
+                        {/notempty}
+                        <tr>
+                            <td class="text-center" colspan="2">工程报价</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{$data['discount_proquant']}</td>
+                            <td></td>
+                        </tr>
 						{/notempty}
 					</tbody>
 				</table>

@@ -249,14 +249,11 @@ class Offerlist extends Adminbase
         $userinfo = $this->_userinfo; 
         $request = request();
 
-        $id = $request->param('customerid');
-        $report_id = $request->param('report_id');
+        $id = $request->param('customerid'); //用户id
+        $o_id = $request->param('report_id');//订单id 不是我命名的= =
         $rs = [];
-        if($report_id){
-          $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($report_id)])->find();
-        }else{
-          $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.customerid" => trim($id)])->find();
-        }
+        $rs = model('offerlist')->get_order_info($o_id);
+        $userinfo = Db::name('userlist')->where(['id'=>$id])->find();
         if(!empty($rs['content'])){
         // $rs['content'] = json_decode($rs['content'],true);
             $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
@@ -303,9 +300,11 @@ class Offerlist extends Adminbase
         }
         $all = Db::name('offerlist')->where(["customerid" => trim($id)])->select();//该客户的所有报表
         $this->assign('all',$all);//该客户的所有报表id
+        $this->assign('userinfo',$userinfo);//客户信息
         $edit_id = Db::name('offerlist')->where('customerid',$id)->value('id');
         $this->assign('edit_id',$edit_id);//新建报表id
         $this->assign("data", $rs);//报表数据
+
         return $this->fetch();
     }
 
@@ -587,6 +586,7 @@ class Offerlist extends Adminbase
                         }
                         $material_all[$one_material[0]]['price'] = $price;//成本单价
                         $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
+                        $material_all[$one_material[0]]['important'] = $materials_info['important'];
                         $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料单数 * 工程单位
 
                         //===============订单辅料详情  $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
@@ -596,6 +596,7 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['price'] = $v['quota'];//辅材单价
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
                             
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['amcode'] = $materials_info['amcode'];//
@@ -632,6 +633,7 @@ class Offerlist extends Adminbase
                         $data_info['price'] = $v3['price'];
                         $data_info['profit'] = $v3['profit'];
                         $data_info['coefficient'] = $v3['coefficient'];
+                        $data_info['important'] = $v3['important'];
 
                         $data_info['amcode'] = $v3['amcode'];
                         $data_info['fine'] = $v3['fine'];
@@ -660,7 +662,7 @@ class Offerlist extends Adminbase
                     $material_all[$k]['omit_num'] = ceil($v['num']);
                 }else{
                     //不足1时向上取证
-                    if($v['num'] < 1){
+                    if($v['num'] < 1 && $v['important']){
                         $material_all[$k]['omit_num'] = ceil($v['num']);
                     }else{
                         $material_all[$k]['omit_num'] = floor($v['num']);

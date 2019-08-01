@@ -65,6 +65,7 @@ class Anbank extends Adminbase
             $data['norms'] = $datas['norms'];
             $data['phr'] = $datas['phr'];
             $data['coefficient'] = $datas['coefficient'];
+            $data['important'] = $datas['important'];
             if($data['coefficient'] > 100){
               $data['coefficient'] = 100;
             }elseif(!is_numeric($data['coefficient'])){
@@ -261,7 +262,7 @@ class Anbank extends Adminbase
                 $col_num = $sheet->getHighestColumn();
                 $data = []; //数组形式获取表格数据 
                   // dump($col_num);
-               if ($col_num != 'M') {
+               if ($col_num != 'N') {
                    $this->error($col_num);die;
                 } 
                 for ($i = 3; $i <= $row_num; $i ++) {
@@ -281,6 +282,7 @@ class Anbank extends Adminbase
                     if($data[$i]['coefficient'] > 100){
                         $data[$i]['coefficient'] = 100;
                     }
+                    $data[$i]['important']  = $sheet->getCell("N".$i)->getValue() ?: 1; 
                     $data[$i]['userid']  = $userInfo['userid']; 
                     $data[$i]['frameid']  = $da['frameid'];  
                 }

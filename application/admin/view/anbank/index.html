@@ -115,6 +115,7 @@
                         <th class="taleft" lay-data="{field:'norms',}">规格</th>
                         <th class="taleft" lay-data="{field:'phr',width:180}">包装规格</th>
                         <th class="taleft" lay-data="{field:'coefficient',width:180}">系数</th>
+                        <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
                         <th class="taleft" lay-data="{field:'remarks', }">供应来源</th>
                         <th width="150" lay-data="{field:'edit',event: 'setSign',width:100}">操作编辑</th>
                         <th width="150" lay-data="{field:'del',event: 'setdel',width:100}">操作删除</th>
@@ -137,6 +138,7 @@
                       <td class="taleft">{$vo.norms}</td>  
                       <td class="taleft">{$vo.phr}</td>                                     
                       <td class="taleft">{$vo.coefficient}</td>                                     
+                      <td class="taleft">{$vo.important}</td>                                     
                       <td class="taleft">{$vo.remarks}</td>                                     
                       <td>
                         <a class=""><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
@@ -332,7 +334,7 @@ layui.use('table', function(){
     var data = obj.data;
     if(obj.event === 'setSign'){
       // alert(data.id+'---'+data.item_number+'---'+data.project);
-      var inputs = '<div class="bigbox"><input type="text" name="category" autocomplete="off" value="'+data.category+'" class="layui-input"><input type="text" name="fine" autocomplete="off" value="'+data.fine+'" class="layui-input"><input type="text" name="brand" autocomplete="off" value="'+data.brand+'" class="layui-input"><input type="text" name="place" autocomplete="off" value="'+data.place+'" class="layui-input"><input type="text" name="name" autocomplete="off" value="'+data.name+'" class="layui-input"><input type="text" name="units" autocomplete="off" value="'+data.units+'" class="layui-input"><input type="text" name="price" autocomplete="off" value="'+data.price+'" class="layui-input"><input type="text" name="norms" autocomplete="off" value="'+data.norms+'" class="layui-input"><input type="text" name="phr" autocomplete="off" value="'+data.phr+'" class="layui-input"><input type="text" name="coefficient" autocomplete="off" value="'+data.coefficient+'" class="layui-input"><input type="text" name="remarks" autocomplete="off" value="'+data.remarks+'" class="layui-input"><button id="edit_ajax" style="margin-left:190px" class="layui-btn ajax-post">立即提交</button></div>';
+      var inputs = '<div class="bigbox"><input type="text" name="category" autocomplete="off" value="'+data.category+'" class="layui-input"><input type="text" name="fine" autocomplete="off" value="'+data.fine+'" class="layui-input"><input type="text" name="brand" autocomplete="off" value="'+data.brand+'" class="layui-input"><input type="text" name="place" autocomplete="off" value="'+data.place+'" class="layui-input"><input type="text" name="name" autocomplete="off" value="'+data.name+'" class="layui-input"><input type="text" name="units" autocomplete="off" value="'+data.units+'" class="layui-input"><input type="text" name="price" autocomplete="off" value="'+data.price+'" class="layui-input"><input type="text" name="norms" autocomplete="off" value="'+data.norms+'" class="layui-input"><input type="text" name="phr" autocomplete="off" value="'+data.phr+'" class="layui-input"><input type="text" name="coefficient" autocomplete="off" value="'+data.coefficient+'" class="layui-input"><input type="text" name="important" autocomplete="off" value="'+data.important+'" class="layui-input"><input type="text" name="remarks" autocomplete="off" value="'+data.remarks+'" class="layui-input"><button id="edit_ajax" style="margin-left:190px" class="layui-btn ajax-post">立即提交</button></div>';
       //页面层
       layer.open({
         type: 1,
@@ -356,14 +358,15 @@ layui.use('table', function(){
             var norms = $(this).parents(".bigbox").find("input[name='norms']").val();
             var phr = $(this).parents(".bigbox").find("input[name='phr']").val();
             var coefficient = $(this).parents(".bigbox").find("input[name='coefficient']").val();
+            var important = $(this).parents(".bigbox").find("input[name='important']").val();
             var remarks = $(this).parents(".bigbox").find("input[name='remarks']").val();
-            if (!category || !fine || !brand || !name || !units || !price || !norms || !phr || !remarks|| !coefficient) {layer.msg('信息不能为空');return false;}
+            if (!category || !fine || !brand || !name || !units || !price || !norms || !phr || !remarks|| !coefficient|| !important) {layer.msg('信息不能为空');return false;}
             // alert(data.id+''+type_of_work+'--'+project+'--'+company+'--'+cost_value+'--'+quota+'--'+craft_show+'--'+material);return false;
             $.ajax({
               type : 'post',
               url  :  '{:url("Anbank/ajaxedits")}',
               dataType : 'json',
-              data : {category:category,fine:fine,brand:brand,place:place,name:name,units:units,price:price,norms:norms,phr:phr,coefficient:coefficient,remarks:remarks,id:data.id},
+              data : {category:category,fine:fine,brand:brand,place:place,name:name,units:units,price:price,norms:norms,phr:phr,coefficient:coefficient,important:important,remarks:remarks,id:data.id},
               success : function(re){
                 if(re.status == 0){
                    layer.msg(re.msg);

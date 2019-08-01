@@ -17,6 +17,7 @@ class Artificial extends Model
                 $material_list[$v['type_of_work']][$v['m_name']]['cb'] = $v['cb'];
                 $material_list[$v['type_of_work']][$v['m_name']]['price'] = $v['price'];
                 $material_list[$v['type_of_work']][$v['m_name']]['coefficient'] = $v['coefficient'];
+                $material_list[$v['type_of_work']][$v['m_name']]['important'] = $v['important'];
             }
             $material_list[$v['type_of_work']][$v['m_name']]['num'] += $v['num'];
         }
@@ -31,7 +32,7 @@ class Artificial extends Model
                    $material_list[$k1][$k2]['omit_num'] = ceil($v2['num']);
                 }else{
                     //不足1时向上取证
-                    if($v2['num'] < 1){
+                    if($v2['num'] < 1 && $v2['important']){
                        $material_list[$k1][$k2]['omit_num'] = ceil($v2['num']);
                     }else{
                        $material_list[$k1][$k2]['omit_num'] = floor($v2['num']);
