@@ -316,10 +316,22 @@ class Offerquota extends Adminbase
                 //将数据保存到数据库
                 if ($data) {
                    //把获取到的二维数组遍历进数据库
-                   foreach ($data as $key => $value) {
-                       $res = Db::name('Offerquota')->insert($value);
-                   }
-                   $this->success('导入成功');
+                    Db::startTrans();
+                    try {
+                        foreach ($data as $key => $value) {
+                            $is_has = Db::name('Offerquota')->where(['item_number'=>$value['item_number'],'frameid'=>$value['frameid']])->find();
+                            if($is_has){
+                                Db::name('Offerquota')->where(['item_number'=>$value['item_number'],'frameid'=>$value['frameid']])->update($value);
+                            }else{
+                                $res = Db::name('Offerquota')->insert($value);
+                            }
+                        }
+                        Db::commit();
+                    }catch (\Exception $e) {
+                        Db::rollback();
+                        $this->error('获取导入文件数据失败');
+                    }
+                    $this->success('导入成功');
                 }else{
                   $this->error('获取导入文件数据失败');
                 }
