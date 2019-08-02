@@ -94,6 +94,12 @@
                     <colgroup>
                        <col width="150">
                         <col width="200">
+                        <col width="150">
+                        <col width="150">
+                        <col width="100">
+                        <col width="150">
+                        <col width="80">
+                        <col width="100">
                     <col>
                     </colgroup>
                     <thead>
@@ -101,9 +107,9 @@
                             <th style="text-align: center">辅材编码</th>
                             <th  style="text-align: center" width="30%">辅材名称</th>
                             <th  style="text-align: center">品牌</th>
-                            <th  style="text-align: center">图片</th>
+                            <!-- <th  style="text-align: center">图片</th> -->
                             <th style="text-align: center">单位</th>
-                            <th style="text-align: center">核算数量</th>
+                            <!-- <th style="text-align: center">核算数量</th> -->
                             <th style="text-align: center">领料数量</th>
                             <th style="text-align: center">包装规格</th>
                             <th style="text-align: center">单价</th>
@@ -114,7 +120,7 @@
                         <?php $all_total=0; ?>
                         <?php foreach($material as $k1=>$v1){ ?>
                             <tr>
-                                <td class="" colspan="10" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
+                                <td class="" colspan="8" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
                                 
                             </tr>
                                 <?php 
@@ -122,7 +128,7 @@
                                  ?>
                             <?php foreach($v1 as $k2=>$v2){ ?>
                                 <tr>
-                                    <td class="" colspan="10" style="color:#393d49;text-align: center;">{$k2}</td>
+                                    <td class="" colspan="8" style="color:#393d49;text-align: center;">{$k2}</td>
                                     
                                 </tr>
                                 <?php 
@@ -133,9 +139,9 @@
                                         <td class="">{$v3.amcode}</td>
                                         <td class="">{$v3.m_name}</td>
                                         <td class="">{$v3.brand}</td>
-                                        <td class="">{$v3.img}</td>
+                                        <!-- <td class="">{$v3.img}</td> -->
                                         <td class="">{$v3.units}</td>
-                                        <td class="">{$v3.num}</td>
+                                        <!-- <td class="">{$v3.num}</td> -->
                                         <td class="">{$v3.omit_num}</td>
                                         <td class="">{$v3.phr}</td>
                                         <td class="">{$v3.cb}</td>
@@ -152,11 +158,11 @@
                                     </tr> -->
                             <?php } ?>
                                 <tr>
-                                    <td class="" colspan="10" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
+                                    <td class="" colspan="8" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
                                 </tr>
                         <?php } ?>
                             <tr>
-                          <td class="" colspan="10"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
+                          <td class="" colspan="8"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
                   </tr>
                     </tbody>
                 </table>
