@@ -77,18 +77,15 @@
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20}">
                 <colgroup>
-                    <col width="80">
-                    <col width="80">
-                    <col width="160">
                 </colgroup>
                 <thead >
                     <tr>
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
                         <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
-                        <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
-                        <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',}">报价师姓名</th>
-                        <th class="taleft" lay-data="{field:'designer_name', }">设计师姓名</th>
+                        <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
+                        <th class="taleft" lay-data="{field:'address',}">工程地址</th>
+                        <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',width:180}">报价师姓名</th>
+                        <th class="taleft" lay-data="{field:'designer_name', width:180}">设计师姓名</th>
                         <!-- <th class="taleft" lay-data="{field:'proquant',width:100}">工程报价</th> -->
                        <!--  <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
@@ -98,7 +95,7 @@
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th> -->
-                        <th class="taleft" lay-data="{field:'history',width:150}">操作</th>
+                        <th class="taleft" lay-data="{field:'history',width:80}">操作</th>
                         <!-- <th width="150" lay-data="{field:'edit',width:150}">操作</th> -->
                     </tr>
                 </thead>

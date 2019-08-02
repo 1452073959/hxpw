@@ -117,9 +117,14 @@
      
             <table class="layui-table">
                 <colgroup>
-                    <col width="80">
-                    <col width="80">
-                    <col width="160">
+                    <col width="100">
+                    <col width="300">
+                    <col width="200">
+                    <col width="200">
+                    <col width="200">
+                    <col width="2000">
+                    <col width="200">
+                    <col width="200">
                 </colgroup>
                 <thead >
                     <tr>
@@ -145,7 +150,7 @@
                       <td >{$vo.designer_name}</td> 
                       <td >{$vo.manager_name}</td> 
                       <td >{$vo.address}</td> 
-                      <td >{$vo.addtime|date='Y-m-d H:i'}</td> 
+                      <td >{$vo.addtime|date='Y-m-d'}</td> 
                       <!-- <td><a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a></td> -->
                       <td >
                         <a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a>
