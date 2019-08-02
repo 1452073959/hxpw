@@ -23,12 +23,6 @@
             </div>
 
             <div class="layui-form-item w300">
-				<select name="pid" style="display: block;padding:7px;" required="">
-					<option value="">选择工种</option>
-					{volist name="conditions" id="vo"}
-						<option value="{$vo.id}">{$vo.name}</option>
-					{/volist}
-				</select>
                 <div class="layui-input-block">
                     <button class="layui-btn ajax-post" lay-submit="" lay-filter="*" target-form="form-horizontal">添加</button>
                     <a class="layui-btn layui-btn-normal" href="{:url('admin/Offertype/index')}">返回</a>

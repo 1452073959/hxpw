@@ -55,59 +55,78 @@ class Offertype extends Adminbase
     {
         if ($this->request->isPost()) {
             $data = $this->request->param(); 
-			// return json($data);
-            foreach($data['name'] as $k=>$v){
-                $insert['name'] = $v ?: '';
-                $insert['other'] = $data['other'][$k] ?: '';
-				$insert['pid'] = $data['pid'];
-                $insert['addtime'] = time();
-                $re = Db::name('offer_type')->insertGetId($insert);
-            }
-            if($re){
-                $this->success('添加成功',url("Offertype/index"),['id'=>$re,'res'=>Db::name('offer_type')->select()]);
+            $time = time();
+            //获取全部工种pid=0
+            $gz = Db::name('offer_type')->field('id')->where('pid','0')->group('name')->select();
+            if($gz){
+                foreach($data['name'] as $k=>$v){
+                    $insert = [];
+                    foreach($gz as $k1=>$v1){
+                        $insert[$k1]['name'] = $v ?: '';
+                        $insert[$k1]['other'] = $data['other'][$k] ?: '';
+                        $insert[$k1]['pid'] = $v1['id'];
+                        $insert[$k1]['addtime'] = $time;
+                    }
+                    Db::name('offer_type')->insertAll($insert);
+                }
             }else{
-                $this->error('添加失败');
+                $this->error('请先添加工种');
             }
+            $this->success('添加成功',url("Offertype/index"));
         }else{
-			$conditions = db('offer_type')->where('pid','eq',0)->select();
-			$this->assign('conditions',$conditions);
             return $this->fetch();
         }
     }
 	//添加单个空间类型
 	public function addoneroom(){
-		if ($this->request->isPost()) {
-		    $data = $this->request->param(); 
-		        $insert['name'] = $data['name'] ?: '';
-		        $insert['other'] = $data['other'] ?: '';
-				$insert['pid'] = $data['pid'];
-		        $insert['addtime'] = time();
-		        $re = Db::name('offer_type')->insertGetId($insert);
-				$rooms = Db::name('offer_type')->where('pid','=',$data['pid'])->select();//改空间类型的其他数据
-		    if($re){
-		        $this->success('添加成功',url("Offertype/index"),['id'=>$re,'res'=>$rooms]);
-		    }else{
-		        $this->error('添加失败');
-		    }
-		}
-	}
+        if ($this->request->isPost()) {
+            $data = $this->request->param(); 
+                $insert['name'] = $data['name'] ?: '';
+                $insert['other'] = $data['other'] ?: '';
+                $insert['pid'] = $data['pid'];
+                $insert['addtime'] = time();
+                $re = Db::name('offer_type')->insertGetId($insert);
+                $rooms = Db::name('offer_type')->where('pid','=',$data['pid'])->select();//改空间类型的其他数据
+            if($re){
+                $this->success('添加成功',url("Offertype/index"),['id'=>$re,'res'=>$rooms]);
+            }else{
+                $this->error('添加失败');
+            }
+        }
+    }
 	//添加工种
 	public function addconditions()
 	{
 	    if ($this->request->isPost()) {
-	        $data = $this->request->param();     
-	        foreach($data['addname'] as $k=>$v){
-	            $insert['name'] = $v ?: '';
-	            $insert['other'] = $data['addother'][$k] ?: '';
-	            $insert['addtime'] = time();
-				$insert['pid'] = 0;
-	            $re = Db::name('offer_type')->insertGetId($insert);
-	        }
-	        if($re){
-	            $this->success('添加成功',url("Offertype/index"),['id'=>$re,'res'=>Db::name('offer_type')->select()]);
-	        }else{
-	            $this->error('添加失败');
-	        }
+	        $data = $this->request->param();
+            $time = time();
+
+            Db::startTrans();
+            try{
+                foreach($data['addname'] as $k=>$v){
+                    $insert = [];
+                    $insert['name'] = $v ?: '';
+                    $insert['other'] = $data['addother'][$k] ?: '';
+                    $insert['addtime'] = $time;
+                    $insert['pid'] = 0;
+                    $re = Db::name('offer_type')->insertGetId($insert);
+                    //添加单个成功  获取其他所有空间类型
+                    $kongjian = Db::name('offer_type')->field('name,other')->where('pid','>','0')->group('name')->select();
+                    if($kongjian){
+                        foreach($kongjian as $k=>$v){
+                            $kongjian[$k]['pid'] = $re;
+                            $kongjian[$k]['addtime'] = $time;
+                        }
+                        Db::name('offer_type')->insertAll($kongjian);
+                    }
+                }
+                Db::commit();
+            }catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $this->error('添加失败');
+            }
+            $this->success('添加成功',url("Offertype/index"));
 	    }else{
 	        return $this->fetch();
 	    }
@@ -123,7 +142,7 @@ class Offertype extends Adminbase
 	            $re = Db::name('offer_type')->update($insert);
 	        }
 	        if($re){
-	            $this->success('添加成功',url("Offertype/index"),['id'=>$re,'res'=>Db::name('offer_type')->select()]);
+	            $this->success('添加成功',url("Offertype/index"));
 	        }else{
 	            $this->error('添加失败');
 	        }
