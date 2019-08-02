@@ -289,9 +289,21 @@ class Anbank extends Adminbase
                 //将数据保存到数据库
                 if ($data) {
                    //把获取到的二维数组遍历进数据库
-                   foreach ($data as $key => $value) {
-                       $res = Db::name('materials')->insert($value);
-                   }
+                    Db::startTrans();
+                    try {
+                        foreach ($data as $key => $value) {
+                            $is_has = Db::name('materials')->where(['name'=>$value['name'],'frameid'=>$value['frameid']])->find();
+                            if($is_has){
+                                Db::name('materials')->where(['name'=>$value['name'],'frameid'=>$value['frameid']])->update($value);
+                            }else{
+                                Db::name('materials')->insert($value);
+                            }
+                        }
+                       Db::commit();
+                    }catch (\Exception $e) {
+                        Db::rollback();
+                        $this->error('获取导入文件数据失败');
+                    }
                    $this->success('导入成功');
                 }else{
                   $this->error('获取导入文件数据失败');
