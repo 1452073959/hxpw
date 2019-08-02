@@ -34,6 +34,7 @@ class Offerlist extends Adminbase
   
     public function userlist(){
         $where = new Where;
+        $condition = [];//用于时间搜索 new where不会用
         if(input('customer_name')){
             $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
         }
@@ -49,11 +50,10 @@ class Offerlist extends Adminbase
         if(input('manager_name')){
             $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
         }
-        if(!empty($where)){
-            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
-        }else{
-            $re = Db::name('userlist')->paginate($this->show_page);
-        }
+        if(input('begin_time') && input('end_time')){
+            $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
+        }        
+        $re = Db::name('userlist')->where($where)->where($condition)->paginate($this->show_page);
         $this->assign('data',$re);
         return $this->fetch();
     }
@@ -528,6 +528,7 @@ class Offerlist extends Adminbase
             $bao['quoter_name'] =  $data['quoter_name'];
             $bao['designer_name'] =  $data['designer_name'];
             $bao['manager_name'] = $data['manager_name'];
+            $bao['addtime'] = time();
       // dump($data);exit;
             //开启事务
             Db::startTrans();
@@ -540,14 +541,15 @@ class Offerlist extends Adminbase
                     $offer['number'] = 1;
                     $offer['entrytime'] = time();
                     $insert = Db::name('offerlist')->insert($offer);
-                    !$insert ? $this->error('添加失败！') : $this->success("添加成功！", url("offerlist/index")); 
                 }     
                 // 提交事务
                 Db::commit();    
             } catch (\Exception $e) {
                 // 回滚事务
                 Db::rollback();
+                $this->error('失败添加');
             }
+            $this->success('添加成功','admin/offerlist/userlist');
                
         }
         return $this->fetch();
