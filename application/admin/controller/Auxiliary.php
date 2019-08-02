@@ -9,6 +9,7 @@ use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
 use think\Request;
+use think\db\Where;
 
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -25,93 +26,66 @@ class Auxiliary extends Adminbase
     //     parent::initialize();
     //     $this->Menu = new Menu_Model;
     // }
+    public $show_page = 15;
 
-    //
+    //选择客户
+    public function userlist(){
+        $where = new Where;
+        if(input('customer_name')){
+            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
+        }
+        if(input('quoter_name')){
+            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+        }
+        if(input('designer_name')){
+            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+        }
+        if(input('address')){
+            $where['address'] = ['LIKE','%'.input('address').'%'];
+        }
+        if(input('manager_name')){
+            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+        }
+        if(!empty($where)){
+            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+        }else{
+            $re = Db::name('userlist')->paginate($this->show_page);
+        }
+        $this->assign('data',$re);
+        return $this->fetch();
+    }
+
     public function index()
-    {
+    { 
        $userinfo = $this->_userinfo; 
-       // dump($userinfo);
-       // $da['o.userid'] = $userinfo['userid'];
+        $da = [];
         if($userinfo['roleid'] != 1){
            $da['o.frameid'] = $userinfo['companyid'];
         }
-       
-       $da['o.status'] = 1;
-      if($this->request->isPost()){
-         $search = input('search'); 
-         if($search){
-            // echo $search;
-            // $map['item_number'] = array('like',$search);
-           $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where($da)->select();
-           // dump($res);
-           $list = [];
-            foreach ($res as $key => $value) {     
-               if (strstr($value['customer_name'],$search)) {
-                  $list[$key] = $value;
+       $da['o.customerid'] = input('c_id');
+       if($this->request->isPost()){
+            $search = input('search'); 
+            if($search){
+              $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')  -> where($da)->select();
+              $list = [];
+               foreach ($res as $key => $value) {     
+                  if (strstr($value['customer_name'],$search)) {
+                     $list[$key] = $value;
+                  }
                }
+               $this->assign('data',$list);    
+               return $this->fetch();       
+            }else{
+              $this->error('请输入搜索内容', url("Auxiliary/index"));
             }
-            // $sres = Db::name('userlist')->where('customer_name','like',"%".$search."%")->select();//查客户
-
-            // dump($list);
-            $this->assign('data',$list);    
-            return $this->fetch();       
-         }else{
-           $this->error('请输入搜索内容', url("Auxiliary/index"));
-         }
-
-      }else{
-        $res = Db::name('offerlist')->select();
-        if ($res) {
-          $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where($da)->select();
-        }
-        //统计报价开始 
-         // foreach ($res as $key => $value) {
-         //  $sum = '';
-         //  $sum1 = '';
-         //      $newzh = json_decode($value['content'],true);
-         //     foreach ($newzh as $kk => $vv){
-         //       $sum += $vv['quotaall'];
-         //       $sum1 += $vv['craft_showall'];
-         //     }
-         //     $res[$key]['matquant'] = $sum;//辅材报价
-         //     $res[$key]['manual_quota'] = $sum1;//人工报价
-         //     $res[$key]['direct_cost'] = $sum+$sum1;//工程直接费= 辅材报价+人工报价
-         //     $res[$key]['proquant'] = $sum+$sum1+$value['tubemoney']+$value['taxes']+$value['discount'];//工程报价 =工程直接费+管理费+税金+优惠
-         //     //超复杂工程毛利计算开始
-         //     $dinge =  Db::name('offerquota')->field('item_number,labor_cost,content')->where('frameid',6)->select();
-         //     $nuew = [];
-         //     $cgsum = '';
-         //     $fcsum = '';
-         //     foreach ($newzh as $kk => $vv){
-         //        $nuew[$kk]['item_number'] = $vv['item_number'];
-         //        $nuew[$kk]['gcl'] = $vv['gcl'];
-         //        foreach ($dinge as $k => $v) {
-         //         if ($vv['item_number'] == $v['item_number']) {
-         //          $nuew[$kk]['labor_cost'] = $v['labor_cost']*$vv['gcl'];
-
-         //          $nuew[$kk]['content'] = json_decode($v['content'],true);
-         //          $csum = '';
-         //           foreach ($nuew[$kk]['content'] as $ee => $ll) {
-         //                   if($ll[0] && is_numeric($ll[1])) {
-         //                     $price = $this->returnPrice($ll[0]);//辅材名称对应的价格；
-         //                     $csum += $price*$ll[1]*$vv['gcl'];
-         //                   }
-         //           }
-         //           $nuew[$kk]['fucai'] = $csum;
-         //         }
-         //        }
-         //        $cgsum += $nuew[$kk]['labor_cost'];//人工成本
-         //        $fcsum += $nuew[$kk]['fucai'];//人工成本
-         //     }
-         //     $res[$key]['gross_profit'] = $cgsum+$fcsum;//工程毛利
-         //    // end
-         //     $res[$key]['content'] = $newzh;
-         // }
-
-        // dump($res);
-        $this->assign('data',$res);
-        return $this->fetch();
-      } 
+       }else{
+           $res = Db::name('offerlist')->select();
+           if ($res) {
+             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')-> where($da)->select();
+           }
+           $this->assign('data',$res);
+           return $this->fetch();
+        } 
     }
 
 

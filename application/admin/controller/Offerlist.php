@@ -28,46 +28,34 @@ class Offerlist extends Adminbase
     // {
     //     parent::initialize();
     // }
-  public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
+    public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
   
-  public $show_page = 15;
+    public $show_page = 15;
   
     public function userlist(){
-      $where = new Where;
-      $search = input('search');
-      //dump($search);
-      if(!empty($search)){
-      foreach($search as $key=>$value){
-        if(!empty($value)){
-          switch($key){
-            case "'customer_name'":
-            $where['customer_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'quoter_name'":
-            $where['quoter_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'designer_name'":
-            $where['designer_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'address'":
-            $where['address'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'manager_name'":
-            $where['manager_name'] = ['LIKE','%'.$value.'%'];
-            break;
-          }
+        $where = new Where;
+        if(input('customer_name')){
+            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
         }
-      }
-      }
-      //dump($where);
-      if(!empty($where)){
-          $re = Db::name('userlist')->where($where)->paginate($this->show_page);
-      }else{
-          $re = Db::name('userlist')->paginate($this->show_page);
-      }
-     // dump($re->all());
+        if(input('quoter_name')){
+            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+        }
+        if(input('designer_name')){
+            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+        }
+        if(input('address')){
+            $where['address'] = ['LIKE','%'.input('address').'%'];
+        }
+        if(input('manager_name')){
+            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+        }
+        if(!empty($where)){
+            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+        }else{
+            $re = Db::name('userlist')->paginate($this->show_page);
+        }
         $this->assign('data',$re);
-      return $this->fetch();
+        return $this->fetch();
     }
     public function user_delete(){
       $re = Db::name('userlist')->delete(input('id'));
@@ -176,8 +164,35 @@ class Offerlist extends Adminbase
         $this->assign('userinfo',$userinfo);    
         return $this->fetch();
     }
+
+    //选择客户
+    public function baojia_first(){
+        $where = new Where;
+        if(input('customer_name')){
+            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
+        }
+        if(input('quoter_name')){
+            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+        }
+        if(input('designer_name')){
+            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+        }
+        if(input('address')){
+            $where['address'] = ['LIKE','%'.input('address').'%'];
+        }
+        if(input('manager_name')){
+            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+        }
+        if(!empty($where)){
+            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+        }else{
+            $re = Db::name('userlist')->paginate($this->show_page);
+        }
+        $this->assign('data',$re);
+        return $this->fetch();
+    }
   
-  //选择客户
+    //选择订单 (m没用了)
     public function baojiaguanli()
     {
         error_reporting(E_ALL ^ E_WARNING);
@@ -733,6 +748,8 @@ class Offerlist extends Adminbase
                 }
                 if($order_material_datas){
                     $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
+                }else{
+                    $order_material_res = 1;
                 }
                 // 提交事务
                 Db::commit();    
@@ -859,8 +876,33 @@ class Offerlist extends Adminbase
           }
     } 
 
+    public function zengjian_first(){
+        $where = new Where;
+        if(input('customer_name')){
+            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
+        }
+        if(input('quoter_name')){
+            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+        }
+        if(input('designer_name')){
+            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+        }
+        if(input('address')){
+            $where['address'] = ['LIKE','%'.input('address').'%'];
+        }
+        if(input('manager_name')){
+            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+        }
+        if(!empty($where)){
+            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+        }else{
+            $re = Db::name('userlist')->paginate($this->show_page);
+        }
+        $this->assign('data',$re);
+        return $this->fetch();
+    }
 
-//增减项
+    //增减项
   public function zengjian(){
   
     $userinfo = $this->_userinfo; 
@@ -950,47 +992,46 @@ class Offerlist extends Adminbase
     //业务报价
     public function edit()
     {
-      $userinfo = $this->_userinfo; 
-    
+        $userinfo = $this->_userinfo; 
+        
         $request = request();
-        $id = $request->param('id');
-    if(empty($id)){
-      return $this->fetch();
-    }
-      //dump($id);
-    $this->assign('id',$id);
-        $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
-        if(!empty($rs['content'])){
-          $rs['content'] = json_decode($rs['content'],true);
-          $company = array();
-          foreach ($rs['content'] as $key => $value) {
-              $company[$key] =  Db::name('offerquota')->field('id')->where('item_number',$rs['content'][$key]['item_number'])->find();
-              $rs['content'][$key]['cid'] = $company[$key]['id'];
-          }
+        $id = $request->param('customer_id');
+        if(empty($id)){
+          return $this->fetch();
         }
+        //dump($id);
+        $this->assign('id',$id);
+        // $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
+        // if(!empty($rs['content'])){
+        //   $rs['content'] = json_decode($rs['content'],true);
+        //   $company = array();
+        //   foreach ($rs['content'] as $key => $value) {
+        //       $company[$key] =  Db::name('offerquota')->field('id')->where('item_number',$rs['content'][$key]['item_number'])->find();
+        //       $rs['content'][$key]['cid'] = $company[$key]['id'];
+        //   }
+        // }
+        $rs = Db::name('userlist')->where(['id'=>$id])->find();
         // dump($rs);
         $this->assign("data", $rs);
     
-    $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
-      if($mould['content']){
+        $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
+        if($mould['content']){
         // $conditions_no = 0;$room_no = 0;
-        foreach(json_decode($mould['content'],true) as $key=>$value){
-          $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-          $mould['details'][$key]['conditionsname'] = $conditionsname;
-          // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-          foreach($value as $ke=>$va){
-            $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-            $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-            // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-            foreach($va as $k=>$v){
-              $item = Db::name('offerquota')->find($v);//定额条目
-              $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+            foreach(json_decode($mould['content'],true) as $key=>$value){
+                $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
+                $mould['details'][$key]['conditionsname'] = $conditionsname;
+                // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
+                foreach($value as $ke=>$va){
+                    $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
+                    $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
+                    // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
+                    foreach($va as $k=>$v){
+                        $item = Db::name('offerquota')->find($v);//定额条目
+                        $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+                    }
+                }
             }
-            // $room_no++;
-          }
-          // $conditions_no++;
         }
-      }
         $res = Db::name('offer_type')->select();//工种和空间类型
         $tree = [];//树状数据
         foreach($res as $key =>$value){
@@ -1008,9 +1049,8 @@ class Offerlist extends Adminbase
           'tree'=>$tree,
       'mould'=>$mould
         ]);  
-     
+         
         return $this->fetch();
-
     }
 
      //删除

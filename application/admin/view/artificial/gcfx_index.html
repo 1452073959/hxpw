@@ -78,6 +78,7 @@ a{
                     <tr>
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
                         <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
+                        <th class="taleft" lay-data="{field:'status', width:80,}">状态</th>
                         <!-- <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th>
@@ -124,6 +125,17 @@ a{
                     <tr>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td class="taleft">{$vo.id}</td>    
+                      <td>
+                        {switch name="$vo.status"}
+                            {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
+                            {case value="1"} <a class="layui-btn layui-btn-xs layui-btn-primary">已报价</a>{/case}
+                            {case value="2"}<a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
+                            {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
+                            {case value="4"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
+                            {default /}
+                            <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
+                        {/switch}
+                      </td>
                       <!-- <td class="taleft">{$vo.customer_name}</td>                          
                       <td class="taleft">{$vo.address}</td>   
                       <td class="taleft">{$vo.manager_name}</td> 

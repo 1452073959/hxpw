@@ -74,7 +74,7 @@
                   </form>
                  </div> -->
 								 <div class="layui-input-inline" style="margin-left: 100px;">
-						<form class="layui-form" method="get" action="{:url('Offerlist/userlist')}" class="layui-form form-signin" enctype="multipart/form-data">
+						<form class="layui-form" method="get" action="{:url('Offerlist/baojia_first')}" class="layui-form form-signin" enctype="multipart/form-data">
                     <div class="layui-inline">
                         <input type="text" name="customer_name" value="<?php echo input('customer_name') ?>" placeholder="客户姓名" class="layui-input">
                     </div>
@@ -138,9 +138,7 @@
                       <td >{$vo.address}</td> 
                       <!-- <td><a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a></td> -->
                       <td >
-                        <a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a>
-                        <a class="" href="{:url('admin/offerlist/user_delete',['id'=>$vo.id])}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
-                        <a class="" href="{:url('admin/offerlist/user_edit',['id'=>$vo.id])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                        <a class="" href="{:url('admin/offerlist/edit',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="生成订单"></i></a>
                       </td>    
                  {/foreach}
                 </tbody>

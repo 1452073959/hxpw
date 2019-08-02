@@ -29,7 +29,7 @@ input[type="checkbox"]{
     <div class="layui-card-body">
 			{notempty name="data"}
         <form id="myform" class="form-horizontal" action="{:url('admin/Offerlist/edit')}" method="post">
-					<input type="hidden" name="customerid" value="{$data.customerid}" />
+					<input type="hidden" name="customerid" value="{$data.id}" />
           <table class="layui-table mould"> 
                 <thead>
                     <tr>

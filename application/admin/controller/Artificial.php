@@ -108,7 +108,7 @@ class Artificial extends Adminbase
         return $this->fetch();
     }
     public function gcfx_index(){
-      error_reporting(E_ALL ^ E_WARNING);
+        error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
         $da = [];
         // $da['o.userid'] = $userinfo['userid'];
