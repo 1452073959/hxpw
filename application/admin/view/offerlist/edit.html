@@ -22,7 +22,7 @@ input[type="checkbox"]{
 			<!-- <a class="layui-btn layui-btn-sm" id="newentries">按钮开/关</a> -->
 			<a class="layui-btn layui-btn-sm choosecustomer" href="{:url('admin/offerlist/baojiaguanli',['type'=>'edit'])}">选择客户</a>
 			{notempty name="id"}
-			<a class="layui-btn layui-btn-sm choosemould" href="{:url('admin/quote/index',['customerid'=>input('id')])}">选择模板</a>
+			<a class="layui-btn layui-btn-sm choosemould" href="{:url('admin/quote/index',['customer_id'=>input('customer_id')])}">选择模板</a>
 			<a class="layui-btn layui-btn-sm" data-selector="addconditions">增加工种</a>
 			{/notempty}
 	</div>

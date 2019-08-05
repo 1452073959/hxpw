@@ -31,8 +31,8 @@
                        <td class="taleft">{$vo.mouldname}</td>
                        <td class="taleft">{:date('Y-m-d H:i:s',$vo.addtime)}</td>    
 					    <td>
-							{notempty name=":input('customerid')"}
-							<a href="{:url('admin/offerlist/edit',['id'=>input('customerid'),'mouldid'=>$vo.id])}" class="checkmould layui-btn layui-btn-sm">选择该模板</a>
+							{notempty name=":input('customer_id')"}
+							<a href="{:url('admin/offerlist/edit',['customer_id'=>input('customer_id'),'mouldid'=>$vo.id])}" class="checkmould layui-btn layui-btn-sm">选择该模板</a>
 							{/notempty}
 							<a href="{:url('admin/quote/checkmould',['id'=>$vo.id,'type'=>'preview'])}" class="checkmould" data-id="{$vo.id}"><i class="layui-icon layui-icon-search" title="查看"></i></a>
 						    <a href="{:url('admin/quote/checkmould',['id'=>$vo.id])}" class="checkmould" data-id="{$vo.id}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>

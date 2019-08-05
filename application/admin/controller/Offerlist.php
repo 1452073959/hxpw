@@ -998,7 +998,7 @@ class Offerlist extends Adminbase
         
         $request = request();
         $id = $request->param('customer_id');
-        if(empty($id)){
+        if(empty($id) && empty(input('mouldid'))){
           return $this->fetch();
         }
         //dump($id);
@@ -1048,8 +1048,8 @@ class Offerlist extends Adminbase
           }
         }
         $this->assign([
-          'tree'=>$tree,
-      'mould'=>$mould
+            'tree'=>$tree,
+            'mould'=>$mould
         ]);  
          
         return $this->fetch();

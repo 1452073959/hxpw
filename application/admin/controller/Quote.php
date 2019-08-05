@@ -24,52 +24,47 @@ class Quote extends Adminbase
 	public function checkmould(){
 		$id = input('id');//模板id
 		$type = input('type');//模板预览还是修改
-		// if($this->request->isPost()){
-		// 	
-		// }else{
-			$mould = Db::name('mould')->where('id','=',$id)->find();
-			if($mould['content']){
-				$conditions_no = 0;
-				foreach(json_decode($mould['content'],true) as $key=>$value){
-					$conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-					$mould['details'][$key]['conditionsname'] = $conditionsname;
-					$mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-                 	 $room_no = 0;
-					foreach($value as $ke=>$va){
-						$roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-						$mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-						$mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-						foreach($va as $k=>$v){
-							$item = Db::name('offerquota')->find($v);//定额条目
-							$mould['details'][$key]['son'][$ke]['item'][$k] = $item;
-						}
-						$room_no++;
+		$mould = Db::name('mould')->where('id','=',$id)->find();
+		if($mould['content']){
+			$conditions_no = 0;
+			foreach(json_decode($mould['content'],true) as $key=>$value){
+				$conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
+				$mould['details'][$key]['conditionsname'] = $conditionsname;
+				$mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
+             	 $room_no = 0;
+				foreach($value as $ke=>$va){
+					$roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
+					$mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
+					$mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
+					foreach($va as $k=>$v){
+						$item = Db::name('offerquota')->find($v);//定额条目
+						$mould['details'][$key]['son'][$ke]['item'][$k] = $item;
 					}
-					$conditions_no++;
+					$room_no++;
 				}
+				$conditions_no++;
 			}
-			
-			$res = Db::name('offer_type')->select();//工种和空间类型
-			$tree = [];//树状数据
-			foreach($res as $key =>$value){
-				if($value['pid'] === 0){
-					$tree[$key] = $value;
-					unset($res[$key]);
-					foreach($res as $k=>$v){
-						if($v['pid'] == $value['id']){
-							$tree[$key]['son'][] = $v;
-						}
+		}
+		
+		$res = Db::name('offer_type')->select();//工种和空间类型
+		$tree = [];//树状数据
+		foreach($res as $key =>$value){
+			if($value['pid'] === 0){
+				$tree[$key] = $value;
+				unset($res[$key]);
+				foreach($res as $k=>$v){
+					if($v['pid'] == $value['id']){
+						$tree[$key]['son'][] = $v;
 					}
 				}
 			}
-      //dump($mould);
-			$this->assign([ 'data'=>$mould,'tree'=>$tree ]);
-			if($type == 'preview'){
-				return $this->fetch('preview');
-			}else{
-				return $this->fetch();
-			}
-		// }
+		}
+		$this->assign([ 'data'=>$mould,'tree'=>$tree ]);
+		if($type == 'preview'){
+			return $this->fetch('preview');
+		}else{
+			return $this->fetch();
+		}
 	}
 	//新建模板
 	public function addmould(){
