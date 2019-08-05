@@ -153,45 +153,27 @@ class Quote extends Adminbase
 			$companyid = $userinfo['companyid'];
 			$conditionsid = input('conditionsid');
 			$conditionsname = Db::name('offer_type')->where('id','=',$conditionsid)->value('name');
-			/*if($companyid != 1){
-				//非管理员获取部分数据
-				$result = Db::name('offerquota')->where('frameid','=',$companyid)->where('type_of_work','=',$conditionsname)->select();
-			}else{
-				$result = Db::name('offerquota')->where('type_of_work','=',$conditionsname)->select();
-			}*/
-          //搜索
-           if(input('type') == 'search'){
-            $project = input('project');
-            $item_number = input('item_number');
-            $where = '';
-            if(!empty($project)){
-             $where .= "`project` like '%$project%'";
-             // $where['project'] = ['LIKE',"%".$project."%"];
+            //搜索
+            if(input('type') == 'search'){
+                $project = input('project');
+                $item_number = input('item_number');
+                $where = [];
+                if(!empty($project)){
+                 $where[] = ['project','like',"%{$project}%"];
+                }
+                if(!empty($item_number)){
+                    $where[] = ['item_number','like',"%{$item_number}%"];
+                }
             }
-            if(!empty($item_number)){
-             if($where != ''){
-              $where .= " and `item_number` like '%$item_number%'";
-             }else{
-              $where = "`item_number` like '%$item_number%'";
-             }
-             // $where['item_number'] = ['LIKE',"%".$item_number."%"];
+
+            $where[] = ['type_of_work','=',$conditionsname];
+            // return $where;
+            if($companyid != 1){
+                //非管理员获取指定公司
+                $where[] = ['frameid','=',$companyid];
             }
-           }
-           // return $where;
-           if($companyid != 1){
-            //非管理员获取部分数据
-            if(!empty($where)){
-             $result = Db::name('offerquota')->where($where)->where('frameid','=',$companyid)->where('type_of_work','=',$conditionsname)->select();
-            }else{
-             $result = Db::name('offerquota')->where('frameid','=',$companyid)->where('type_of_work','=',$conditionsname)->select();
-            }
-           }else{
-            if(!empty($where)){
-                $result = Db::name('offerquota')->where($where)->where('type_of_work','=',$conditionsname)->select();
-            }else{
-             $result = Db::name('offerquota')->where('type_of_work','=',$conditionsname)->select();
-            }
-           }
+            // var_dump($where);die;
+            $result = Db::name('offerquota')->where($where)->select();
 			if($result){
 				//数据处理
 				$html = '';

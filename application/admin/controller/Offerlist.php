@@ -534,14 +534,14 @@ class Offerlist extends Adminbase
             Db::startTrans();
             try{
                 $userlist = Db::name('userlist')->insertGetId($bao);
-                if($userlist) {        
-                    $offer['userid'] = $userinfo['userid'];//报价员     
-                    $offer['frameid'] = $userinfo['companyid'];//存公司id到报表
-                    $offer['customerid'] = $userlist;
-                    $offer['number'] = 1;
-                    $offer['entrytime'] = time();
-                    $insert = Db::name('offerlist')->insert($offer);
-                }     
+                // if($userlist) {        
+                //     $offer['userid'] = $userinfo['userid'];//报价员     
+                //     $offer['frameid'] = $userinfo['companyid'];//存公司id到报表
+                //     $offer['customerid'] = $userlist;
+                //     $offer['number'] = 1;
+                //     $offer['entrytime'] = time();
+                //     $insert = Db::name('offerlist')->insert($offer);
+                // }     
                 // 提交事务
                 Db::commit();    
             } catch (\Exception $e) {

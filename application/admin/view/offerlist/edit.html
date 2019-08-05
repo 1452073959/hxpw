@@ -173,7 +173,7 @@ input[type="checkbox"]{
                 <input class="" type="search" name="project" style="padding: 5px;" placeholder="输入项目名称">
                 <input class="" type="search" name="item_number" style="padding: 5px;" placeholder="输入项目编号">
                 <input type="hidden" name="type" value="search" >
-                <button type="submit" class="layui-btn">搜索</button>
+                <!-- <button type="submit" class="layui-btn">搜索</button> -->
               </form>
               <form id="offerlistform" style="margin-top:50px;">
                 <table class="layui-table">
@@ -206,235 +206,290 @@ input[type="checkbox"]{
 <script type="text/javascript">
 $(document).ready(function(){
   //小计
-  function total(){
-      $('tr').each(function(){
-    	var cate = $(this).attr('data-cate');
-        if(cate){
-          var fd_total = 0,rd_total = 0;
-             $('tr[class*='+cate+']').each(function(){
-             	var fd = $(this).find('td').eq(4).html() * 1;//辅材合价
-             	var rd = $(this).find('td').eq(6).html() * 1;//人工合价
-               fd_total += fd;
-               rd_total += rd;
-             });
-          $('.'+cate+'total').find('td').eq(4).html(Math.round(fd_total * 100)/100);
-          $('.'+cate+'total').find('td').eq(6).html(Math.round(rd_total * 100)/100);
-         }
-    });
-  }
-          //搜索
-         $('#searchform').submit(function(){
-          var conditionsid = $('#searchform').attr('data-conditionsid'),roomid = $('#searchform').attr('data-roomid');
-          var project = $('input[name="project"]').val(),item_number = $('input[name="item_number"]').val();
-           $.ajax({
-            url:"{:url('admin/quote/getdata')}",
-            type:"post",
-            data:{conditionsid:conditionsid,roomid:roomid,type:'search',project:project,item_number:item_number},
-            success:function(result){
-             console.log(result);
-             $('#offerlistform tbody').html(result.data);
-             $('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
-             // that.parent().parent().attr('data-cate','tr'+conditionsid)
+    function total(){
+        $('tr').each(function(){
+            var cate = $(this).attr('data-cate');
+            if(cate){
+            var fd_total = 0,rd_total = 0;
+                $('tr[class*='+cate+']').each(function(){
+                	var fd = $(this).find('td').eq(4).html() * 1;//辅材合价
+                	var rd = $(this).find('td').eq(6).html() * 1;//人工合价
+                    fd_total += fd;
+                    rd_total += rd;
+                });
+            $('.'+cate+'total').find('td').eq(4).html(Math.round(fd_total * 100)/100);
+            $('.'+cate+'total').find('td').eq(6).html(Math.round(rd_total * 100)/100);
+            }
+        });
+    }
 
-            }
-           });
-          return false;
-         });
-		//增加工种
-		$('a[data-selector="addconditions"]').click(function(){
-			var html = '<tr data-cate=""><td></td><td colspan="1"><select class="form-control" data-selector="conditions"><option value="">选择工种</option>{volist name="tree" id="vo" empty="暂无数据"}<option value="{$vo.id}">{$vo.name}</option>{/volist}</select><a class="layui-icon layui-icon-delete" data-selector="delete"></a><!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>--></td><td colspan="7"><select class="form-control" data-selector="room"><option value="">选择空间类型</option></select><a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on"><i class="layui-icon"></i></a><a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a></td></tr>';
-			$('table.mould').append(html);
-		});
-        //按钮开关
-        $('#newentries').click(function(){
-          $('a.getofferlist').toggle().siblings('select').toggle();
-          $('a[data-name="delete"]').toggle();
-        });
-		//删除工种
-		$(document).on('click','[data-selector="delete"]',function(){
-			$(this).parent().parent().remove()
-		});
-		//根据工种获取空间类型
-		$(document).on('change','[data-selector="conditions"]',function(){
-			var that = $(this),conditionsid = that.val();
-			if(conditionsid){
-				$.ajax({
-					url:"{:url('admin/quote/getroom')}",
-					type:"post",
-					data:{id:conditionsid},
-					success:function(result){
-						that.parent().parent().find('[data-selector="getdata"]').attr('data-conditionsid',conditionsid);
-                        $('#searchform').attr('data-conditionsid',conditionsid);//搜索
-						that.parent().parent().find('.addone').attr('data-conditionsid',conditionsid);
-						if(result.msg == 'fail'){
-							that.parent().parent().find('[data-selector="room"]').html('<option value="">选择空间类型</option>');
-							return false;
-						}
-						that.parent().parent().find('[data-selector="room"]').html('<option value="">选择空间类型</option>'+result.data);
-					}
-				});
-			}
-		});
-		//选择空间类型
-		$(document).on('change','[data-selector="room"]',function(){
-			var roomid = $(this).val();
-			$(this).parent().find('[data-selector="getdata"]').attr('data-roomid',roomid);
-			
-		});
-		//弹窗显示获取定额数据
-		$(document).on('click','[data-selector="getdata"]',function(){
-			var that = $(this),conditionsid = that.attr('data-conditionsid'),roomid = that.attr('data-roomid');
-			if(conditionsid == '' || roomid == ''){alert('工种或者空间类型未选择');return false;}
-			$('#offerlist').show();
-			$.ajax({
-				url:"{:url('admin/quote/getdata')}",
-				type:"post",
-				data:{conditionsid:conditionsid,roomid:roomid},
-				success:function(result){
-					$('#offerlistform tbody').html(result.data);
-					$('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
-					that.parent().parent().attr('data-cate','tr'+conditionsid)
-					
-				}
-			});
-		});
-		//关闭弹窗
-		$('#close').click(function(){
-		    $('#offerlist').toggle();
-		});
-		//全选/全不选
-		var i=0;
-		$('#checkall').click(function(){
-		   if(i==0){
-				//把所有复选框选中
-				$("#offerlist td :checkbox").prop("checked", true);
-				i=1;
-			}else{
-				$("#offerlist td :checkbox").prop("checked", false);
-				i=0;
-			}
-		});
-		//选择定额数据
-		$('#offerlistform').on('mouseover','tbody tr',function(){$(this).css({cursor:'pointer'})});
-		$('#offerlistform').on('click','tr',function(){
-			if($(this).find(':checkbox').prop("checked")){
-				$(this).find(':checkbox').prop('checked',false);
-			}else{
-				$(this).find(':checkbox').prop('checked',true);
-			}
-		});
-		//添加选定的定额数据到模板
-		$('#addlist').click(function(){
-			var that = $(this);
-		  var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
-		  var data = [];//条目id
-		  var select = $(this).attr('data-select');
-		    $(':checked[name="check"]').each(function(){
-		        data.push($(this).attr('data-id'));
-		    });
-		    if(data.length<1){alert('未选择条目');return false;}
-		    $.ajax({
-		        url:"{:url('admin/quote/returndata')}",
-		        type:"post",
-		        data:{conditionsid:conditionsid,roomid:roomid,data:data,type:that.attr("data-type")},
-		        success:function(result){
-					if(result.msg == 'fail'){
-					    alert('添加失败');
-					}else{
-						var curtr = $('tr[data-cate="tr'+conditionsid+'"]'), currowspan = curtr.find('td:first').attr('rowspan');
-						currowspan = currowspan ? currowspan * 1: 1;
-						if(that.attr("data-type") == "addnewquote"){
-							$('#tr'+roomid).after(result.data);
-							that.attr("data-type",'');
-						}else{
-							curtr.after(result.data);
-						}
-						
-						// curtr.find('td:first').attr('rowspan',currowspan*1+result.length*1 + 1);
-					    $("#offerlist td :checkbox").prop("checked", false);//添加成功取消勾选
-					    $('#close').click();
-					}
-		        }
-		    });
-		    return false;
-		});
-		//新增指定空间类型下的定额条目
-		$(document).on('click','a.addnewquote',function(){
-			var that = $(this),roomid = that.attr("data-roomid"),conditionsid = that.attr('data-conditionsid');
-                        $('#searchform').attr('data-conditionsid',conditionsid);//搜索
-			$('#offerlist').show();
-			$.ajax({
-				url:"{:url('admin/quote/getdata')}",
-				type:"post",
-				data:{conditionsid:conditionsid,roomid:roomid},
-				success:function(result){
-					$('#offerlistform tbody').html(result.data);
-					$('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid,'data-type':"addnewquote"});
-					//that.parent().parent().attr('data-cate','tr'+conditionsid)
-					
-				}
-			});
-			
-		});
-		//删除空间类型以及下面的定额条目
-		$(document).on('click','a.deleteroom',function(){
-			if(!confirm('将删除该类型下的已添加的条目')){return false;}
-			$('tr.'+$(this).attr('data-son')).remove();
-			$(this).parent().parent().remove();
-			// var td = $('tr[data-cate="'+$(this).attr('data-cate')+'"]').find('td:first');//序号所在单元格
-			// var tdrowspan = td.attr('rowspan');
-			// td.attr('rowspan',tdrowspan - $(this).attr('data-length') - 1);
-		});
-		//删除条目
-		$(document).on('click','a.deletequote',function(){
-			$(this).parent().parent().remove();
-			// var td = $('tr[data-cate="'+$(this).attr('data-cate')+'"]').find('td:first');//序号所在单元格
-			// var tdrowspan = td.attr('rowspan');
-			// td.attr('rowspan',tdrowspan - 1);
-			var roomtd = $('a[data-son="'+$(this).attr("data-parent")+'"]');//对应的空间类型
-			var length = roomtd.attr('data-length');
-			roomtd.attr('data-length',length - 1);
-		});
-        //新增自定义空间类型
-        $(document).on('click','a.addone',function(){
-			if($(this).attr("data-conditionsid") == ''){alert('未选择工种');return false;}
-            var html = '<input form="addone" type="text" class="form-control" placeholder="新定义空间类型" name="name"><input form="addone" type="text" class="form-control" placeholder="备注" name="other"><input type="hidden" name="pid" form="addone"><input type="submit" form="addone" class="layui-btn layui-btn-sm" id="addnewtype" value="新增">';
-            if($(this).attr('data-status') == "on"){
-				$('input[form="addone"]').remove();
-                $(this).after(html);
-				$(this).siblings('input[name=pid]').val($(this).attr("data-conditionsid"));
-				$('a.addone').attr('data-status','on');
-				$(this).attr('data-status','off');
-            }else{
-                $(this).siblings('input').remove();
-				$('a.addone').attr('data-status','off');
-				$(this).attr('data-status','on');
-            }
-        });
-        //保存空间类型
-		$('#addone').submit(function(){
-          var data = $(this).serialize();
-            $.ajax({
-                url:"{:url('admin/Offertype/addoneroom')}",
-                data:data,
-                type:"post",
-                success:function(result){
-					alert(result.msg);
-					if(result.code==1){
-						$('#addnewtype').siblings('a[data-selector="getdata"]').attr('data-roomid',result.data.id);
-						var html = '',selected = '',res = result.data.res;
-						for(var i=0;i<res.length;i++){
-							selected = (result.data.id == res[i]['id']) ? 'selected=""' : '';
-							html += '<option '+selected+' value="'+res[i]['id']+'">'+res[i]['name']+'</option>'
-						}
-						$('#addnewtype').siblings('select').html(html);//更新空间类型
-						$('a.addone').attr('data-status','on').siblings('input').remove();
-					}
+    //输入后筛选
+    $('input[name="project"]').on('input propertychange',function(){
+        var project = $('input[name="project"]').val();
+        var item_number = $('input[name="item_number"]').val();
+        if(project || item_number){
+            $('#offerlistform tbody tr').each(function(k,v){
+                if($(v).find('td').eq(5).text().indexOf(project) != -1 && $(v).find('td').eq(2).text().indexOf(item_number) != -1){
+                    $(v).show();
+                }else{
+                    $(v).hide();
                 }
-            });
-            return false;
+            })
+        }else{
+            $('#offerlistform tbody tr').show();
+        }
+    });
+    //输入后筛选
+    $('input[name="item_number"]').on('input propertychange',function(){
+        var project = $('input[name="project"]').val();
+        var item_number = $('input[name="item_number"]').val();
+        if(project || item_number){
+            $('#offerlistform tbody tr').each(function(k,v){
+                if($(v).find('td').eq(5).text().indexOf(project) != -1 && $(v).find('td').eq(2).text().indexOf(item_number) != -1){
+                    $(v).show();
+                }else{
+                    $(v).hide();
+                }
+            })
+        }else{
+            $('#offerlistform tbody tr').show();
+        }
+    });
+
+    
+    
+
+    // //搜索 用上面的顶替了
+    // $('#searchform').submit(function(){
+    //    var conditionsid = $('#searchform').attr('data-conditionsid'),roomid = $('#searchform').attr('data-roomid');
+    //    var project = $('input[name="project"]').val(),item_number = $('input[name="item_number"]').val();
+    //     $.ajax({
+    //        url:"{:url('admin/quote/getdata')}",
+    //        type:"post",
+    //        data:{conditionsid:conditionsid,roomid:roomid,type:'search',project:project,item_number:item_number},
+    //        success:function(result){
+    //         console.log(result);
+    //         $('#offerlistform tbody').html(result.data);
+    //         $('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
+    //       // that.parent().parent().attr('data-cate','tr'+conditionsid)
+
+    //        }
+    //     });
+    //  return false;
+    // });
+
+	//增加工种
+	$('a[data-selector="addconditions"]').click(function(){
+		var html = '<tr data-cate=""><td></td><td colspan="1"><select class="form-control" data-selector="conditions"><option value="">选择工种</option>{volist name="tree" id="vo" empty="暂无数据"}<option value="{$vo.id}">{$vo.name}</option>{/volist}</select><a class="layui-icon layui-icon-delete" data-selector="delete"></a><!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>--></td><td colspan="7"><select class="form-control" data-selector="room"><option value="">选择空间类型</option></select><a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on"><i class="layui-icon"></i></a><a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a></td></tr>';
+		$('table.mould').append(html);
+	});
+
+    //按钮开关
+    $('#newentries').click(function(){
+      $('a.getofferlist').toggle().siblings('select').toggle();
+      $('a[data-name="delete"]').toggle();
+    });
+
+	//删除工种
+	$(document).on('click','[data-selector="delete"]',function(){
+		$(this).parent().parent().remove()
+	});
+
+	//根据工种获取空间类型
+	$(document).on('change','[data-selector="conditions"]',function(){
+		var that = $(this),conditionsid = that.val();
+		if(conditionsid){
+			$.ajax({
+				url:"{:url('admin/quote/getroom')}",
+				type:"post",
+				data:{id:conditionsid},
+				success:function(result){
+					that.parent().parent().find('[data-selector="getdata"]').attr('data-conditionsid',conditionsid);
+                    $('#searchform').attr('data-conditionsid',conditionsid);//搜索
+					that.parent().parent().find('.addone').attr('data-conditionsid',conditionsid);
+					if(result.msg == 'fail'){
+						that.parent().parent().find('[data-selector="room"]').html('<option value="">选择空间类型</option>');
+						return false;
+					}
+					that.parent().parent().find('[data-selector="room"]').html('<option value="">选择空间类型</option>'+result.data);
+				}
+			});
+		}
+	});
+
+	//选择空间类型
+	$(document).on('change','[data-selector="room"]',function(){
+		var roomid = $(this).val();
+		$(this).parent().find('[data-selector="getdata"]').attr('data-roomid',roomid);
+		
+	});
+
+	//弹窗显示获取定额数据
+	$(document).on('click','[data-selector="getdata"]',function(){
+		var that = $(this),conditionsid = that.attr('data-conditionsid'),roomid = that.attr('data-roomid');
+		if(conditionsid == '' || roomid == ''){alert('工种或者空间类型未选择');return false;}
+		$('#offerlist').show();
+        $('input[name="project"]').val('');
+        $('input[name="item_number"]').val('');
+		$.ajax({
+			url:"{:url('admin/quote/getdata')}",
+			type:"post",
+			data:{conditionsid:conditionsid,roomid:roomid},
+			success:function(result){
+				$('#offerlistform tbody').html(result.data);
+				$('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
+				that.parent().parent().attr('data-cate','tr'+conditionsid)
+				
+			}
+		});
+	});
+
+	//关闭弹窗
+	$('#close').click(function(){
+	    $('#offerlist').toggle();
+	});
+
+	//全选/全不选
+	var i=0;
+	$('#checkall').click(function(){
+	   if(i==0){
+			//把所有复选框选中
+			$("#offerlist td :checkbox").prop("checked", true);
+			i=1;
+		}else{
+			$("#offerlist td :checkbox").prop("checked", false);
+			i=0;
+		}
+	});
+
+	//选择定额数据
+	$('#offerlistform').on('mouseover','tbody tr',function(){$(this).css({cursor:'pointer'})});
+	$('#offerlistform').on('click','tr',function(){
+		if($(this).find(':checkbox').prop("checked")){
+			$(this).find(':checkbox').prop('checked',false);
+		}else{
+			$(this).find(':checkbox').prop('checked',true);
+		}
+	});
+
+	//添加选定的定额数据到模板
+	$('#addlist').click(function(){
+		var that = $(this);
+	  var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
+	  var data = [];//条目id
+	  var select = $(this).attr('data-select');
+	    $(':checked[name="check"]').each(function(){
+	        data.push($(this).attr('data-id'));
+	    });
+	    if(data.length<1){alert('未选择条目');return false;}
+	    $.ajax({
+	        url:"{:url('admin/quote/returndata')}",
+	        type:"post",
+	        data:{conditionsid:conditionsid,roomid:roomid,data:data,type:that.attr("data-type")},
+	        success:function(result){
+				if(result.msg == 'fail'){
+				    alert('添加失败');
+				}else{
+					var curtr = $('tr[data-cate="tr'+conditionsid+'"]'), currowspan = curtr.find('td:first').attr('rowspan');
+					currowspan = currowspan ? currowspan * 1: 1;
+					if(that.attr("data-type") == "addnewquote"){
+						$('#tr'+roomid).after(result.data);
+						that.attr("data-type",'');
+					}else{
+						curtr.after(result.data);
+					}
+					
+					// curtr.find('td:first').attr('rowspan',currowspan*1+result.length*1 + 1);
+				    $("#offerlist td :checkbox").prop("checked", false);//添加成功取消勾选
+				    $('#close').click();
+				}
+	        }
+	    });
+	    return false;
+	});
+
+	//新增指定空间类型下的定额条目
+	$(document).on('click','a.addnewquote',function(){
+		var that = $(this),roomid = that.attr("data-roomid"),conditionsid = that.attr('data-conditionsid');
+                    $('#searchform').attr('data-conditionsid',conditionsid);//搜索
+		$('#offerlist').show();
+		$.ajax({
+			url:"{:url('admin/quote/getdata')}",
+			type:"post",
+			data:{conditionsid:conditionsid,roomid:roomid},
+			success:function(result){
+				$('#offerlistform tbody').html(result.data);
+				$('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid,'data-type':"addnewquote"});
+				//that.parent().parent().attr('data-cate','tr'+conditionsid)
+				
+			}
+		});
+		
+	});
+
+	//删除空间类型以及下面的定额条目
+	$(document).on('click','a.deleteroom',function(){
+		if(!confirm('将删除该类型下的已添加的条目')){return false;}
+		$('tr.'+$(this).attr('data-son')).remove();
+		$(this).parent().parent().remove();
+		// var td = $('tr[data-cate="'+$(this).attr('data-cate')+'"]').find('td:first');//序号所在单元格
+		// var tdrowspan = td.attr('rowspan');
+		// td.attr('rowspan',tdrowspan - $(this).attr('data-length') - 1);
+	});
+
+	//删除条目
+	$(document).on('click','a.deletequote',function(){
+		$(this).parent().parent().remove();
+		// var td = $('tr[data-cate="'+$(this).attr('data-cate')+'"]').find('td:first');//序号所在单元格
+		// var tdrowspan = td.attr('rowspan');
+		// td.attr('rowspan',tdrowspan - 1);
+		var roomtd = $('a[data-son="'+$(this).attr("data-parent")+'"]');//对应的空间类型
+		var length = roomtd.attr('data-length');
+		roomtd.attr('data-length',length - 1);
+	});
+
+    //新增自定义空间类型
+    $(document).on('click','a.addone',function(){
+		if($(this).attr("data-conditionsid") == ''){alert('未选择工种');return false;}
+        var html = '<input form="addone" type="text" class="form-control" placeholder="新定义空间类型" name="name"><input form="addone" type="text" class="form-control" placeholder="备注" name="other"><input type="hidden" name="pid" form="addone"><input type="submit" form="addone" class="layui-btn layui-btn-sm" id="addnewtype" value="新增">';
+        if($(this).attr('data-status') == "on"){
+			$('input[form="addone"]').remove();
+            $(this).after(html);
+			$(this).siblings('input[name=pid]').val($(this).attr("data-conditionsid"));
+			$('a.addone').attr('data-status','on');
+			$(this).attr('data-status','off');
+        }else{
+            $(this).siblings('input').remove();
+			$('a.addone').attr('data-status','off');
+			$(this).attr('data-status','on');
+        }
+    });
+
+    //保存空间类型
+	$('#addone').submit(function(){
+      var data = $(this).serialize();
+        $.ajax({
+            url:"{:url('admin/Offertype/addoneroom')}",
+            data:data,
+            type:"post",
+            success:function(result){
+				alert(result.msg);
+				if(result.code==1){
+					$('#addnewtype').siblings('a[data-selector="getdata"]').attr('data-roomid',result.data.id);
+					var html = '',selected = '',res = result.data.res;
+					for(var i=0;i<res.length;i++){
+						selected = (result.data.id == res[i]['id']) ? 'selected=""' : '';
+						html += '<option '+selected+' value="'+res[i]['id']+'">'+res[i]['name']+'</option>'
+					}
+					$('#addnewtype').siblings('select').html(html);//更新空间类型
+					$('a.addone').attr('data-status','on').siblings('input').remove();
+				}
+            }
         });
-        //计算辅材合价和人工合价
+        return false;
+    });
+
+    //计算辅材合价和人工合价
     $(document).on('change','input[name*="gcl"]',function(){
         var gcl = $(this).val();
         var fd = $(this).parent().parent().find('td').eq(4).html();//辅材基价
@@ -442,7 +497,8 @@ $(document).ready(function(){
         $(this).parent().parent().find('td').eq(5).html(Math.round(gcl*fd * 100)/100);
         $(this).parent().parent().find('td').eq(7).html(Math.round(gcl*rd*100)/100);
     });
- 	 function toDecimal2(x) { 
+
+ 	function toDecimal2(x) { 
         var f = parseFloat(x); 
         if (isNaN(f)) { 
        		 return false; 
@@ -459,23 +515,23 @@ $(document).ready(function(){
         } 
         return s; 
 	} 
-        //保存报表
-        $('#myform').submit(function(){
-            $.ajax({
-								url:"{:url('admin/offerlist/adds')}",
-                type:"post",
-                data:$('#myform').serialize(),
-                success:function(result){
-                    // console.log(result);
-                    alert(result.msg)
-										if(result.code == 1){
-											window.location.href = result.url;
-										}
-					
-               }
-            });
-            return false;
+
+    //保存报表
+    $('#myform').submit(function(){
+        $.ajax({
+			url:"{:url('admin/offerlist/adds')}",
+            type:"post",
+            data:$('#myform').serialize(),
+            success:function(result){
+                // console.log(result);
+                alert(result.msg)
+				if(result.code == 1){
+					window.location.href = result.url;
+				}
+			}
         });
+        return false;
+    });
 
 });
 </script>
