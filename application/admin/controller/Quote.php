@@ -338,7 +338,7 @@ class Quote extends Adminbase
             $tmp_id = md5($fileName.rand(1,999999).microtime(true));
             for ($i = 2; $i <= $row_num; $i ++) {
             	if(empty($sheet->getCell("A".$i)->getValue()) || empty($sheet->getCell("B".$i)->getValue()) || empty($sheet->getCell("C".$i)->getValue())){
-            		$this->error('文件数据字段不匹配，请重新选择');die;
+            		$this->error('字段不能为空');die;
             	}
             	$work_type = trim($sheet->getCell("A".$i)->getValue());
             	$space = trim($sheet->getCell("B".$i)->getValue());
