@@ -26,7 +26,7 @@ input[type="checkbox"]{
         <a class="layui-btn" href="{:url('admin/quote/index')}">查看模板</a>
 	</div>
     <div class="layui-card-body">
-			<h2 class="text-center">{$data.mouldname}</h2>
+			<h2 class="text-center"></h2>
             <table class="layui-table mould"> 
                 <thead>
                     <tr>
@@ -65,29 +65,33 @@ input[type="checkbox"]{
                       </tr>
                 </thead>
 
-                <tbody> 
-					{foreach name="data['details']" item="vos" key="key"}
+                <tbody>
+                    <?php 
+                        $num1 = 65;
+                    ?>
+					{foreach name="data" item="vos" key="key"}
 						<tr data-cate="">
-							<td class="text-left" >{$vos.conditions_no}</td>
-							<td colspan="2" class="text-center bolder">{$vos.conditionsname}</td>
+							<td class="text-left" ><?php echo chr($num1) ?></td>
+							<td colspan="2" class="text-center bolder">{$offer_type[$key]['name']}</td>
 							<td colspan="7"></td>
 						</tr>
-						{foreach name="$vos.son" key="k" item="v"}
+                        <?php $num1++;$num2=97; ?>
+						{foreach name="$vos" key="k" item="v"}
 							<tr id="tr{$k}">
-								<td >{$v.room_no}</td>
-								<td colspan="9">{$v.roomname}</td>
+								<td ><?php echo chr($num2) ?></td>
+								<td colspan="9">{$offer_type[$k]['name']}</td>
 							</tr>
-							{foreach name="$v.item" item="vv" key="kk"}
+							{foreach name="$v" item="vv" key="kk"}
 								<tr class="tr'.$conditionsid.$roomid.'">
 									<td>{$kk*1+1}</td>
-									<td colspan="2">{$vv['project']}</td>
-									<td></td>
-									<td>{$vv['company']}</td>
-									<td>{$vv['quota']}</td>
-									<td></td>
-									<td>{$vv['craft_show']}</td>
-									<td></td>
-									<td class="limit text-limit" title="点击查看详情">{$vv['material']}</td>
+									<td colspan="2">{$offerquota[$vv.item_number]['project']}</td>
+									<td>{$vv.num}</td>
+									<td>{$offerquota[$vv.item_number]['company']}</td>
+									<td>{$offerquota[$vv.item_number]['quota']}</td>
+									<td>{$vv.num?$vv.num*$offerquota[$vv.item_number]['quota']:''}</td>
+									<td>{$offerquota[$vv.item_number]['craft_show']}</td>
+									<td>{$vv.num?$vv.num*$offerquota[$vv.item_number]['craft_show']:''}</td>
+									<td class="limit text-limit" title="点击查看详情">{$offerquota[$vv.item_number]['material']}</td>
 								</tr>
 							{/foreach}
 						{/foreach}

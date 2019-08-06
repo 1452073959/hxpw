@@ -18,9 +18,6 @@ input[type="checkbox"]{
 .text-limit{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 110px;}
 </style>
 <div class="layui-card">
-    <div class="layui-card-header">
-		<a class="layui-btn layui-btn-sm" data-selector="addconditions">增加工种</a>
-	</div>
     <div class="layui-card-body">
         <form id="myform" class="form-horizontal" action="{:url('admin/Offerlist/edit')}" method="post">
           <table class="layui-table mould"> 
@@ -62,47 +59,73 @@ input[type="checkbox"]{
                 </thead>
 
                 <tbody> 
-                    <tr data-cate="">
-						<!-- <td>1</td> -->
-						<td colspan="2">
-							<select class="form-control" data-selector="conditions">
-								<option value="">选择工种</option>
-								{volist name="tree" id="vo" empty="暂无数据"}
-									<option value="{$vo.id}">{$vo.name}</option>
-								{/volist}
-							</select>
-                            <a></a>
-                          	<a class="layui-icon layui-icon-delete" data-selector="delete"></a>
-							<!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
-						</td>
-						<td colspan="7">
-							<select class="form-control" data-selector="room">
-								<option value="">选择空间类型</option>
-							</select>
-							<a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on">
-							  <i class="layui-icon"></i>
-							</a>
-							<a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a>
-						</td>
-                    </tr>
-					<!--<tr>
-						<td class="text-center" colspan="2">小计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>-->
+                    {notempty name="data"}
+                        <?php foreach($data as $k1=>$v1){ ?>
+                            <tr data-cate="tr{$k1}">
+                                <td colspan="2">
+                                    <select class="form-control" data-selector="conditions">
+                                        <option value="">选择工种</option>
+                                        <?php foreach($tree as $kk=>$vv){ ?>
+                                            <option {eq name="$k1" value="$vv.id"}selected=""{/eq} value="{$vv.id}">{$vv.name}</option>
+                                        <?php } ?>
+                                    </select>
+                                    <a class="layui-icon layui-icon-delete" data-selector="delete"></a>
+                                    <!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
+                                </td>
+                                <td colspan="7">
+                                    <select class="form-control" data-selector="room">
+                                        <option value="">选择空间类型</option>
+                                        <?php foreach($tree[$k1]['son'] as $kk=>$vv){ ?>
+                                            <option value="{$vv.id}">{$vv.name}</option>
+                                        <?php } ?>
+                                    </select>
+                                    <a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on">
+                                      <i class="layui-icon"></i>
+                                    </a>
+                                    <a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="{$k1}" data-roomid="">获取数据</a>
+                                </td>
+                            </tr>
+
+                            <?php foreach($v1 as $k2=>$v2){ ?>
+                                <tr id="tr{$k2}">
+                                    <td></td>
+                                    <td colspan="8" class="text-center">{$offer_type[$k2]['name']}
+                                      <a class="layui-icon layui-icon-add-1 addnewquote" data-conditionsid="{$k1}" data-roomid="{$k2}"></a>
+                                      <a class="layui-icon layui-icon-delete deleteroom" data-cate="tr{$k1}" data-son="tr{$k1}{$k2}" data-length=""></a>
+                                    </td>
+                                </tr>
+                                <?php foreach($v2 as $k3=>$v3){ ?>
+                                    <tr class="tr{$k1}{$k2}">
+                                        <td></td>
+                                        <td colspan="1">
+                                            {$offerquota[$v3['item_number']]['project']}
+                                          <a class="layui-icon layui-icon-delete deletequote" data-cate="tr{$k1}'" data-parent="tr{$k1}{$k2}"></a>
+                                        </td>
+                                        <td><input class="myinput" type="text" value="{$v3['num']}" name="gcl[{$k1}][{$k2}][{$v3['item_number']}]"></td>
+                                        <td>{$offerquota[$v3['item_number']]['company']}</td>
+                                        <td>{$offerquota[$v3['item_number']]['quota']}</td>
+                                        <td>{$v3['num']?$offerquota[$v3['item_number']]['quota']*$v3['num']:''}</td>
+                                        <td>{$offerquota[$v3['item_number']]['craft_show']}</td>
+                                        <td>{$v3['num']?$offerquota[$v3['item_number']]['craft_show']*$v3['num']:''}</td>
+                                        <td class="text-limit">{$offerquota[$v3['item_number']]['material']}</td>
+                                        <input type="hidden" form="myform" name="quote[{$k1}][{$k2}][]" value="{$v3['item_number']}">
+                                    </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+
+
+                        
+                    {/notempty}
                 </tbody>
             </table>
 			<a class="layui-btn layui-btn-sm" data-selector="addconditions">增加工种</a>
             
             <div class="layui-form-item">
                 <div class="layui-input-block">
-					<input class="form-control" type="text" placeholder="请输入模板名称" required="" name="mouldname" />
-                    <button class="layui-btn ajax-post" target-form="form-horizontal">保存模板</button>
+                    <input class="form-control" type="text" placeholder="请输入模板名称" required="" name="tmp_name" value="{$tmp_name?$tmp_name:''}" />
+					<input  name="tmp_id" type="hidden" value="<?php echo input('tmp_id') ?>" />
+                    <button class="layui-btn ajax-post" target-form="form-horizontal"><?php echo input('tmp_id')?'修改模板':'保存模板' ?></button>
                 </div>
             </div>
         </form>
@@ -124,8 +147,6 @@ input[type="checkbox"]{
                <form id="searchform" style="margin:30px 0;position: fixed;top:0;z-index: 9999">
                 <input class="" type="search" name="project" style="padding: 5px;" placeholder="输入项目名称">
                 <input class="" type="search" name="item_number" style="padding: 5px;" placeholder="输入项目编号">
-                <input type="hidden" name="type" value="search" >
-                <button type="submit" class="layui-btn">搜索</button>
               </form>
               <!-- <form id="searchform" style="margin-top:30px;">
                 <input class="" type="search" name="project" style="padding: 5px;" placeholder="输入项目名称">
@@ -137,7 +158,6 @@ input[type="checkbox"]{
                 <table class="layui-table">
                   <thead >
                       <th><input type="checkbox" id="checkall" name="checkall"></th>
-                      <th>ID</th>
                       <th>项目编号</th>
                       <th>所属公司</th>
                       <th>工种</th>
@@ -162,25 +182,39 @@ input[type="checkbox"]{
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-          //搜索
-         $('#searchform').submit(function(){
-          var conditionsid = $('#searchform').attr('data-conditionsid'),roomid = $('#searchform').attr('data-roomid');
-           console.log(roomid);
-          var project = $('input[name="project"]').val(),item_number = $('input[name="item_number"]').val();
-           $.ajax({
-            url:"{:url('admin/quote/getdata')}",
-            type:"post",
-            data:{conditionsid:conditionsid,roomid:roomid,type:'search',project:project,item_number:item_number},
-            success:function(result){
-             console.log(result);
-             $('#offerlistform tbody').html(result.data);
-             $('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
-             // that.parent().parent().attr('data-cate','tr'+conditionsid)
-
+        //搜索
+        //输入后筛选
+        $('input[name="project"]').on('input propertychange',function(){
+            var project = $('input[name="project"]').val();
+            var item_number = $('input[name="item_number"]').val();
+            if(project || item_number){
+                $('#offerlistform tbody tr').each(function(k,v){
+                    if($(v).find('td').eq(4).text().indexOf(project) != -1 && $(v).find('td').eq(1).text().indexOf(item_number) != -1){
+                        $(v).show();
+                    }else{
+                        $(v).hide();
+                    }
+                })
+            }else{
+                $('#offerlistform tbody tr').show();
             }
-           });
-          return false;
-         });
+        });
+        //输入后筛选
+        $('input[name="item_number"]').on('input propertychange',function(){
+            var project = $('input[name="project"]').val();
+            var item_number = $('input[name="item_number"]').val();
+            if(project || item_number){
+                $('#offerlistform tbody tr').each(function(k,v){
+                    if($(v).find('td').eq(4).text().indexOf(project) != -1 && $(v).find('td').eq(1).text().indexOf(item_number) != -1){
+                        $(v).show();
+                    }else{
+                        $(v).hide();
+                    }
+                })
+            }else{
+                $('#offerlistform tbody tr').show();
+            }
+        });
 		//增加工种
 		$('a[data-selector="addconditions"]').click(function(){
 			var html = '<tr data-cate=""><td colspan="2"><select class="form-control" data-selector="conditions"><option value="">选择工种</option>{volist name="tree" id="vo" empty="暂无数据"}<option value="{$vo.id}">{$vo.name}</option>{/volist}</select><a class="layui-icon layui-icon-delete" data-selector="delete"></a><!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>--></td><td colspan="7"><select class="form-control" data-selector="room"><option value="">选择空间类型</option></select><a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on"><i class="layui-icon"></i></a><a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a></td></tr><!--<tr><td class="text-center" colspan="2">小计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>-->';
@@ -224,6 +258,7 @@ input[type="checkbox"]{
 		});
 		//弹窗显示获取定额数据
 		$(document).on('click','[data-selector="getdata"]',function(){
+            $('#offerlistform tbody').html('');
 			var that = $(this),conditionsid = that.attr('data-conditionsid'),roomid = that.attr('data-roomid');
 			if(conditionsid == '' || roomid == ''){alert('工种或者空间类型未选择');return false;}
 			$('#offerlist').show();
@@ -266,38 +301,66 @@ input[type="checkbox"]{
 		});
 		//添加选定的定额数据到模板
 		$('#addlist').click(function(){
-			var that = $(this);
-		  var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
-		  var data = [];//条目id
-		  var select = $(this).attr('data-select');
-		    $(':checked[name="check"]').each(function(){
-		        data.push($(this).attr('data-id'));
-		    });
-		    if(data.length<1){alert('未选择条目');return false;}
-		    $.ajax({
-		        url:"{:url('admin/quote/returndata')}",
-		        type:"post",
-		        data:{conditionsid:conditionsid,roomid:roomid,data:data,type:that.attr("data-type")},
-		        success:function(result){
-					if(result.msg == 'fail'){
-					    alert('添加失败');
-					}else{
-						var curtr = $('tr[data-cate="tr'+conditionsid+'"]'), currowspan = curtr.find('td:first').attr('rowspan');
-						currowspan = currowspan ? currowspan * 1: 1;
-						if(that.attr("data-type") == "addnewquote"){
-							$('#tr'+roomid).after(result.data);
-						}else{
-							curtr.after(result.data);
-						}
-						that.attr("data-type",'');
-						
-						// curtr.find('td:first').attr('rowspan',currowspan*1+result.length*1 + 1);
-					    $("#offerlist td :checkbox").prop("checked", false);//添加成功取消勾选
-					    $('#close').click();
-					}
-		        }
-		    });
-		    return false;
+    		var that = $(this);
+    		var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
+    		var data = [];//条目id
+    		var select = $(this).attr('data-select');
+    		$(':checked[name="check"]').each(function(){
+    		    data.push($(this).attr('data-id'));
+    		});
+    		if(data.length<1){alert('未选择条目');return false;}
+    		$.ajax({
+    		    url:"{:url('admin/quote/returndata')}",
+    		    type:"post",
+    		    data:{conditionsid:conditionsid,roomid:roomid,data:data,type:that.attr("data-type")},
+    		    success:function(result){
+    					if(result.msg == 'fail'){
+    					    alert('添加失败');
+    					}else{
+    						var curtr = $('tr[data-cate="tr'+conditionsid+'"]'), currowspan = curtr.find('td:first').attr('rowspan');
+    						currowspan = currowspan ? currowspan * 1: 1;
+                            //排查是否重复添加
+                            if(result.input.data.length > 0){
+                                var cf = '';
+                                $(result.input.data).each(function(k,v){
+                                    var name = '';
+                                    name = 'gcl['+result.input.conditionsid+']['+result.input.roomid+']['+v+']';
+                                    $('.tr'+result.input.conditionsid+result.input.roomid).find('input').each(function(k2,v2){
+                                        if($(v2).attr('name') == name){
+                                            if(!cf){
+                                                cf = v;
+                                            }else{
+                                                cf += ','+v;
+                                            }
+                                        }
+                                    })
+                                })
+                                if(cf){
+                                    alert('项目编号：'+cf+'重复添加，请重新选择');
+                                    return false;
+                                }
+                            }
+    						if(that.attr("data-type") == "addnewquote"){
+                                //空间里增加
+                                $('#tr'+roomid).after(result.data);
+                                that.attr("data-type",'');
+                            }else{
+                                if($('#tr'+roomid).length > 0){
+                                    $('#tr'+roomid).after(result.data);
+                                }else{
+                                    curtr.after(result.head + result.data);
+                                }
+                            }
+    						that.attr("data-type",'');
+    						
+    						// curtr.find('td:first').attr('rowspan',currowspan*1+result.length*1 + 1);
+    					    $("#offerlist td :checkbox").prop("checked", false);//添加成功取消勾选
+    					    $('#close').click();
+                            $('tr[data-cate="tr'+conditionsid+'"]').find('td').eq(0).find('select').attr('disabled','disabled');
+    					}
+    		    }
+    		});
+    		return false;
 		});
 		//新增指定空间类型下的定额条目
 		$(document).on('click','a.addnewquote',function(){
@@ -377,10 +440,10 @@ input[type="checkbox"]{
         //计算辅材合价和人工合价
         $(document).on('change','input[name*="gcl"]',function(){
             var gcl = parseInt( $(this).val() );
-            var fd = $(this).parent().parent().find('td').eq(3).html();//辅材基价
-            var rd = $(this).parent().parent().find('td').eq(5).html();//人工基价
-            $(this).parent().parent().find('td').eq(4).html(gcl*fd);
-            $(this).parent().parent().find('td').eq(6).html(gcl*rd);
+            var fd = $(this).parent().parent().find('td').eq(4).html();//辅材基价
+            var rd = $(this).parent().parent().find('td').eq(6).html();//人工基价
+            $(this).parent().parent().find('td').eq(5).html(gcl*fd);
+            $(this).parent().parent().find('td').eq(7).html(gcl*rd);
         });
         //保存报表
         $('#myform').submit(function(){

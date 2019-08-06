@@ -28,15 +28,15 @@
                 <tbody> 
                     {volist name="data" id="vo" empty=""}
                     <tr>   
-                       <td class="taleft">{$vo.mouldname}</td>
-                       <td class="taleft">{:date('Y-m-d H:i:s',$vo.addtime)}</td>    
+                       <td class="taleft">{$vo.tmp_name}</td>
+                       <td class="taleft">{:date('Y-m-d H:i:s',$vo.update_time)}</td>    
 					    <td>
 							{notempty name=":input('customer_id')"}
-							<a href="{:url('admin/offerlist/edit',['customer_id'=>input('customer_id'),'mouldid'=>$vo.id])}" class="checkmould layui-btn layui-btn-sm">选择该模板</a>
+							<a href="{:url('admin/offerlist/edit',['customer_id'=>input('customer_id'),'tmp_id'=>$vo.tmp_id])}" class="checkmould layui-btn layui-btn-sm">选择该模板</a>
 							{/notempty}
-							<a href="{:url('admin/quote/checkmould',['id'=>$vo.id,'type'=>'preview'])}" class="checkmould" data-id="{$vo.id}"><i class="layui-icon layui-icon-search" title="查看"></i></a>
-						    <a href="{:url('admin/quote/checkmould',['id'=>$vo.id])}" class="checkmould" data-id="{$vo.id}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
-						    <a class="deletemould" href="{:url('admin/quote/deletemould',['id'=>$vo.id])}" data-id="{$vo.id}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
+							<a href="{:url('admin/quote/checkmould',['tmp_id'=>$vo.tmp_id,'type'=>'preview'])}" class="checkmould" data-id="{$vo.tmp_id}"><i class="layui-icon layui-icon-search" title="查看"></i></a>
+						    <a href="{:url('admin/quote/checkmould',['tmp_id'=>$vo.tmp_id])}" class="checkmould" data-id="{$vo.tmp_id}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+						    <a class="deletemould" href="{:url('admin/quote/deletemould',['id'=>$vo.tmp_id])}" data-id="{$vo.tmp_id}"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
 					    </td>
                     </tr>   
                     {/volist}

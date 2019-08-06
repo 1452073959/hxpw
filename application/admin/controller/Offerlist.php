@@ -575,7 +575,7 @@ class Offerlist extends Adminbase
             foreach (input('gcl') as $key => $value) {
               foreach($value as $k=>$v){
                 foreach($v as $k1=>$v1){
-                  $item = Db::name('offerquota')->where('id',$k1)->find();//获取定额数据
+                  $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
                   $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
                   $item['gcl']= $v1; //数量
                   $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
@@ -1006,52 +1006,56 @@ class Offerlist extends Adminbase
         }
         //dump($id);
         $this->assign('id',$id);
-        // $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
-        // if(!empty($rs['content'])){
-        //   $rs['content'] = json_decode($rs['content'],true);
-        //   $company = array();
-        //   foreach ($rs['content'] as $key => $value) {
-        //       $company[$key] =  Db::name('offerquota')->field('id')->where('item_number',$rs['content'][$key]['item_number'])->find();
-        //       $rs['content'][$key]['cid'] = $company[$key]['id'];
-        //   }
-        // }
         $rs = Db::name('userlist')->where(['id'=>$id])->find();
         // dump($rs);
         $this->assign("data", $rs);
-        $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
-        if($mould['content']){
-        // $conditions_no = 0;$room_no = 0;
-            foreach(json_decode($mould['content'],true) as $key=>$value){
-                $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-                $mould['details'][$key]['conditionsname'] = $conditionsname;
-                // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-                foreach($value as $ke=>$va){
-                    $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-                    $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-                    // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-                    foreach($va as $k=>$v){
-                        $item = Db::name('offerquota')->find($v);//定额条目
-                        $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+
+        
+        $res = Db::name('offer_type')->select();//工种和空间类型
+        $offer_type = array_column($res, null,'id');
+        $tree = [];//树状数据
+        foreach($res as $key =>$value){
+            if($value['pid'] === 0){
+                $tree[$value['id']] = $value;
+                unset($res[$value['id']]);
+                foreach($res as $k=>$v){
+                    if($v['pid'] == $value['id']){
+                        $tree[$value['id']]['son'][] = $v;
+                    }
+                }
+            }
+          //另外有用的
+            if($value['pid'] === 0){
+                $new_tree[$value['name']] = [];
+                foreach($res as $k=>$v){
+                    if($v['pid'] == $value['id']){
+                        $new_tree[$value['name']][$v['name']][0] = $value['id'];
+                        $new_tree[$value['name']][$v['name']][1] = $v['id'];
                     }
                 }
             }
         }
-        $res = Db::name('offer_type')->select();//工种和空间类型
-        $tree = [];//树状数据
-        foreach($res as $key =>$value){
-          if($value['pid'] === 0){
-            $tree[$key] = $value;
-            unset($res[$key]);
-            foreach($res as $k=>$v){
-              if($v['pid'] == $value['id']){
-                $tree[$key]['son'][] = $v;
-              }
+
+        //使用模板
+        if(input('tmp_id')){
+            $tmp = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->select();
+            $tmp_datas = [];
+            $item_number = [];
+            $frameid = '';
+            foreach($tmp as $k=>$v){
+                $tmp_datas[$new_tree[$v['work_type']][$v['space']][0]][$new_tree[$v['work_type']][$v['space']][1]][] = ['item_number'=>$v['item_number'],'num'=>$v['num']];
+                $item_number[] = $v['item_number'];
+                $frameid = $v['f_id'];
             }
-          }
+            $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$frameid)->select(), null,'item_number');
+            $this->assign([
+                'offerquota'=>$offerquota,
+                'offer_type'=>$offer_type,
+                'tmp_datas'=>$tmp_datas,
+            ]); 
         }
         $this->assign([
             'tree'=>$tree,
-            'mould'=>$mould
         ]);  
          
         return $this->fetch();

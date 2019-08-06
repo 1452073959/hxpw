@@ -33,118 +33,120 @@ input[type="checkbox"]{
           <table class="layui-table mould"> 
                 <thead>
                     <tr>
-											<th rowspan="2" colspan="2"><img style="max-width:200px;" src="__STATIC__/imgs/logo.png"></th>
-											<th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
-											<th rowspan="2" colspan="3"></th>
-										</tr>
-										<tr>
-											<th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
-										</tr>
-									    <tr>
-									        <th style="text-align:center;" colspan="10">
-									          单位：<input class="myinput" required="" type="text" name="framename" style="padding: 5px;width:500px;" placeholder="输入公司名称">
-									        </th>        
-									    </tr>
-									    <tr>
-									        <th colspan="3">工程名称：{$data.address}</th>       
-									        <th colspan="3">客户姓名：{$data.customer_name}</th>       
-									        <th colspan="2">设计师姓名：{$data.designer_name}</th>       
-									        <th colspan="2">报价师姓名：{$data.quoter_name}</th>       
-									    </tr>
-									    <tr>        
-                                            <th rowspan="2" style="width:50px;">序号</th>
-									        <th class="text-center" rowspan="2" colspan="1">工程项目名称</th>         
-									        <th class="text-center" rowspan="2">工程量</th>       
-									        <th class="text-center" rowspan="2">单位</th>
-									        <th class="text-center" colspan="2">辅材费</th> 
-									        <th class="text-center" colspan="2">人工费</th>    
-									        <th class="text-center" rowspan="2">施工工艺及材料说明</th> 
-									    </tr>
-									    <tr>   
-									        <th class="text-center">辅材基价</th>       
-									        <th class="text-center">辅材合价</th>       
-									        <th class="text-center">人工基价</th>       
-									        <th class="text-center">人工合价</th> 
-									      </tr>
-									</thead>
+						<th rowspan="2" colspan="2"><img style="max-width:200px;" src="__STATIC__/imgs/logo.png"></th>
+						<th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
+						<th rowspan="2" colspan="3"></th>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
+					</tr>
+				    <tr>
+				        <th style="text-align:center;" colspan="10">
+				          单位：<input class="myinput" required="" type="text" name="framename" style="padding: 5px;width:500px;" placeholder="输入公司名称">
+				        </th>        
+				    </tr>
+				    <tr>
+				        <th colspan="3">工程名称：{$data.address}</th>       
+				        <th colspan="3">客户姓名：{$data.customer_name}</th>       
+				        <th colspan="2">设计师姓名：{$data.designer_name}</th>       
+				        <th colspan="2">报价师姓名：{$data.quoter_name}</th>       
+				    </tr>
+				    <tr>        
+                        <th rowspan="2" style="width:50px;">序号</th>
+				        <th class="text-center" rowspan="2" colspan="1">工程项目名称</th>         
+				        <th class="text-center" rowspan="2">工程量</th>       
+				        <th class="text-center" rowspan="2">单位</th>
+				        <th class="text-center" colspan="2">辅材费</th> 
+				        <th class="text-center" colspan="2">人工费</th>    
+				        <th class="text-center" rowspan="2">施工工艺及材料说明</th> 
+				    </tr>
+				    <tr>   
+				        <th class="text-center">辅材基价</th>       
+				        <th class="text-center">辅材合价</th>       
+				        <th class="text-center">人工基价</th>       
+				        <th class="text-center">人工合价</th> 
+				      </tr>
+				</thead>
                 <tbody> 
-								{empty name="$mould"}
-                    <tr data-cate="">
-												<td></td>
-												<td colspan="1">
-													<select class="form-control" data-selector="conditions">
-														<option value="">选择工种</option>
-														{volist name="tree" id="vo" empty="暂无数据"}
-															<option value="{$vo.id}">{$vo.name}</option>
-														{/volist}
-													</select>
-                          							<a class="layui-icon layui-icon-delete" data-selector="delete"></a>
-													<!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
-												</td>
-												<td colspan="7">
-													<select class="form-control" data-selector="room">
-														<option value="">选择空间类型</option>
-													</select>
-													<a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on">
-														<i class="layui-icon"></i>
-													</a>
-													<a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a>
-												</td>
-                    </tr>
-								{else/}
-										
-											{foreach name="mould['details']" item="vos" key="key"}
-												<tr data-cate="tr{$key}">
-													<td></td>
-													<td colspan="2">
-														<select class="form-control" data-selector="conditions">
-															<option value="">选择工种</option>
-															{foreach name="tree" item="vo" key="ke"}
-																<option {eq name="$key" value="$vo.id"}selected=""{/eq} value="{$vo.id}">{$vo.name}</option>
-															{/foreach}
-														</select>
-                          								<a class="layui-icon layui-icon-delete" data-selector="delete"></a>
-														<!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
-													</td>
-													<td colspan="7">
-														<select class="form-control" data-selector="room">
-															<option value="">选择空间类型</option>
-														</select>
-														<a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on">
-														  <i class="layui-icon"></i>
-														</a>
-														<a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="{$key}" data-roomid="">获取数据</a>
-													</td>
-												</tr>
-												{foreach name="$vos.son" key="k" item="v"}
-													<tr id="tr{$k}">
-                                                      	<td></td>
-														<td colspan="8" class="text-center">{$v.roomname}
-                                                          <a class="layui-icon layui-icon-add-1 addnewquote" data-conditionsid="{$key}" data-roomid="{$k}"></a>
-                                                          <a class="layui-icon layui-icon-delete deleteroom" data-cate="tr{$key}" data-son="tr{$key}{$k}" data-length="{:count($vos.son)}"></a>
-                                                          <!--<a class="layui-btn layui-btn-sm addnewquote" data-conditionsid="{$key}" data-roomid="{$k}">新增</a>
-                                                          <a class="layui-btn layui-btn-sm deleteroom" data-cate="tr{$key}" data-son="tr{$key}{$k}" data-length="{:count($vos.son)}">删除</a>-->
-														</td>
-													</tr>
-													{foreach name="$v.item" item="vv" key="kk"}
-														<tr class="tr{$key}{$k}">
-                                                          	<td></td>
-															<td colspan="1">{$vv['project']}
-                                     						  <a class="layui-icon layui-icon-delete deletequote" data-cate="tr{$key}'" data-parent="tr{$key}{$k}"></a>
-                                                              <!--<a class="layui-btn layui-btn-sm deletequote" data-cate="tr{$key}'" data-parent="tr{$key}{$k}">删除</a>--></td>
-															<td><input class="myinput" type="text" name="gcl[{$key}][{$k}][{$vv['id']}]"></td>
-															<td>{$vv['company']}</td>
-															<td>{$vv['quota']}</td>
-															<td></td>
-															<td>{$vv['craft_show']}</td>
-															<td></td>
-															<td class="text-limit">{$vv['material']}</td>
-															<input type="hidden" form="myform" name="quote[{$key}][{$k}][]" value="{$vv['id']}">
-														</tr>
-													{/foreach}
-												{/foreach}
-											{/foreach}
-								{/empty}
+					{empty name="$tmp_datas"}
+                        <tr data-cate="">
+    						<td></td>
+    						<td colspan="1">
+    							<select class="form-control" data-selector="conditions">
+    								<option value="">选择工种</option>
+    								{volist name="tree" id="vo" empty="暂无数据"}
+    									<option value="{$vo.id}">{$vo.name}</option>
+    								{/volist}
+    							</select>
+      							<a class="layui-icon layui-icon-delete" data-selector="delete"></a>
+    							<!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
+    						</td>
+    						<td colspan="7">
+    							<select class="form-control" data-selector="room">
+    								<option value="">选择空间类型</option>
+    							</select>
+    							<a title="添加新的空间类型" class="addone" data-conditionsid="" data-status="on">
+    								<i class="layui-icon"></i>
+    							</a>
+    							<a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="" data-roomid="">获取数据</a>
+    						</td>
+                        </tr>
+					{else/}
+						<?php foreach($tmp_datas as $k1=>$v1){ ?>
+                            <tr data-cate="tr{$k1}">
+                                <td></td>
+                                <td colspan="1">
+                                    <select class="form-control" disabled data-selector="conditions">
+                                        <option value="">选择工种</option>
+                                        <?php foreach($tree as $kk=>$vv){ ?>
+                                            <option {eq name="$k1" value="$vv.id"}selected=""{/eq} value="{$vv.id}">{$vv.name}</option>
+                                        <?php } ?>
+                                    </select>
+                                    <a class="layui-icon layui-icon-delete" data-selector="delete"></a>
+                                    <!--<a class="layui-btn layui-btn-sm" data-selector="delete">删除</a>-->
+                                </td>
+                                <td colspan="7">
+                                    <select class="form-control" data-selector="room">
+                                        <option value="">选择空间类型</option>
+                                        <?php foreach($tree[$k1]['son'] as $kk=>$vv){ ?>
+                                            <option value="{$vv.id}">{$vv.name}</option>
+                                        <?php } ?>
+                                    </select>
+                                    <a title="添加新的空间类型" class="addone" data-conditionsid="{$k1}" data-status="on">
+                                      <i class="layui-icon"></i>
+                                    </a>
+                                    <a class="layui-btn layui-btn-xs getofferlist" data-selector="getdata" data-conditionsid="{$k1}" data-roomid="">获取数据</a>
+                                </td>
+                            </tr>
+
+                            <?php foreach($v1 as $k2=>$v2){ ?>
+                                <tr id="tr{$k2}">
+                                    <td></td>
+                                    <td colspan="8" class="text-center">{$offer_type[$k2]['name']}
+                                      <a class="layui-icon layui-icon-add-1 addnewquote" data-conditionsid="{$k1}" data-roomid="{$k2}"></a>
+                                      <a class="layui-icon layui-icon-delete deleteroom" data-cate="tr{$k1}" data-son="tr{$k1}{$k2}" data-length=""></a>
+                                    </td>
+                                </tr>
+                                <?php foreach($v2 as $k3=>$v3){ ?>
+                                    <tr class="tr{$k1}{$k2}">
+                                        <td></td>
+                                        <td colspan="1">
+                                            {$offerquota[$v3['item_number']]['project']}
+                                          <a class="layui-icon layui-icon-delete deletequote" data-cate="tr{$k1}'" data-parent="tr{$k1}{$k2}"></a>
+                                        </td>
+                                        <td><input class="myinput" type="text" value="{$v3['num']}" name="gcl[{$k1}][{$k2}][{$v3['item_number']}]"></td>
+                                        <td>{$offerquota[$v3['item_number']]['company']}</td>
+                                        <td>{$offerquota[$v3['item_number']]['quota']}</td>
+                                        <td>{$v3['num']?$offerquota[$v3['item_number']]['quota']*$v3['num']:''}</td>
+                                        <td>{$offerquota[$v3['item_number']]['craft_show']}</td>
+                                        <td>{$v3['num']?$offerquota[$v3['item_number']]['craft_show']*$v3['num']:''}</td>
+                                        <td class="text-limit">{$offerquota[$v3['item_number']]['material']}</td>
+                                        <input type="hidden" form="myform" name="quote[{$k1}][{$k2}][]" value="{$v3['item_number']}">
+                                    </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+					{/empty}
                 </tbody>
             </table>
             <a class="layui-btn layui-btn-sm" data-selector="addconditions">增加工种</a>
@@ -179,7 +181,6 @@ input[type="checkbox"]{
                 <table class="layui-table">
                   <thead >
                       <th><input type="checkbox" id="checkall" name="checkall"></th>
-                      <th>ID</th>
                       <th>项目编号</th>
                       <th>所属公司</th>
                       <th>工种</th>
@@ -229,7 +230,7 @@ $(document).ready(function(){
         var item_number = $('input[name="item_number"]').val();
         if(project || item_number){
             $('#offerlistform tbody tr').each(function(k,v){
-                if($(v).find('td').eq(5).text().indexOf(project) != -1 && $(v).find('td').eq(2).text().indexOf(item_number) != -1){
+                if($(v).find('td').eq(4).text().indexOf(project) != -1 && $(v).find('td').eq(1).text().indexOf(item_number) != -1){
                     $(v).show();
                 }else{
                     $(v).hide();
@@ -245,7 +246,7 @@ $(document).ready(function(){
         var item_number = $('input[name="item_number"]').val();
         if(project || item_number){
             $('#offerlistform tbody tr').each(function(k,v){
-                if($(v).find('td').eq(5).text().indexOf(project) != -1 && $(v).find('td').eq(2).text().indexOf(item_number) != -1){
+                if($(v).find('td').eq(4).text().indexOf(project) != -1 && $(v).find('td').eq(1).text().indexOf(item_number) != -1){
                     $(v).show();
                 }else{
                     $(v).hide();
@@ -298,6 +299,12 @@ $(document).ready(function(){
 	//根据工种获取空间类型
 	$(document).on('change','[data-selector="conditions"]',function(){
 		var that = $(this),conditionsid = that.val();
+        that.parent().parent().find('[data-selector="room"]').html('<option value="">选择空间类型</option>')
+        if($('tr[data-cate=tr'+conditionsid+']').length > 0){
+            alert('已选择此工种,请在该工种下修改');
+            return false;
+        }
+        
 		if(conditionsid){
 			$.ajax({
 				url:"{:url('admin/quote/getroom')}",
@@ -326,7 +333,12 @@ $(document).ready(function(){
 
 	//弹窗显示获取定额数据
 	$(document).on('click','[data-selector="getdata"]',function(){
+        $('#offerlistform tbody').html('');
 		var that = $(this),conditionsid = that.attr('data-conditionsid'),roomid = that.attr('data-roomid');
+        if($('tr[data-cate=tr'+conditionsid+']').length > 1){
+            alert('已选择此工种,请在该工种下修改');
+            return false;
+        }
 		if(conditionsid == '' || roomid == ''){alert('工种或者空间类型未选择');return false;}
 		$('#offerlist').show();
         $('input[name="project"]').val('');
@@ -339,6 +351,7 @@ $(document).ready(function(){
 				$('#offerlistform tbody').html(result.data);
 				$('#addlist').attr({'data-conditionsid':conditionsid,'data-roomid':roomid});
 				that.parent().parent().attr('data-cate','tr'+conditionsid)
+                $('tr[data-cate="tr'+conditionsid+'"]').find('td').eq(1).find('select').attr('disabled','disabled');
 				
 			}
 		});
@@ -375,9 +388,9 @@ $(document).ready(function(){
 	//添加选定的定额数据到模板
 	$('#addlist').click(function(){
 		var that = $(this);
-	  var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
-	  var data = [];//条目id
-	  var select = $(this).attr('data-select');
+        var conditionsid = $(this).attr('data-conditionsid'),roomid = $(this).attr('data-roomid');
+        var data = [];//条目id
+        var select = $(this).attr('data-select');
 	    $(':checked[name="check"]').each(function(){
 	        data.push($(this).attr('data-id'));
 	    });
@@ -392,16 +405,44 @@ $(document).ready(function(){
 				}else{
 					var curtr = $('tr[data-cate="tr'+conditionsid+'"]'), currowspan = curtr.find('td:first').attr('rowspan');
 					currowspan = currowspan ? currowspan * 1: 1;
+                    //排查是否重复添加
+                    if(result.input.data.length > 0){
+                        var cf = '';
+                        $(result.input.data).each(function(k,v){
+                            var name = '';
+                            name = 'gcl['+result.input.conditionsid+']['+result.input.roomid+']['+v+']';
+                            $('.tr'+result.input.conditionsid+result.input.roomid).find('input').each(function(k2,v2){
+                                if($(v2).attr('name') == name){
+                                    if(!cf){
+                                        cf = v;
+                                    }else{
+                                        cf += ','+v;
+                                    }
+                                }
+                            })
+                        })
+                        if(cf){
+                            alert('项目编号：'+cf+'重复添加，请重新选择');
+                            return false;
+                        }
+                    }
+
 					if(that.attr("data-type") == "addnewquote"){
+                        //空间里增加
 						$('#tr'+roomid).after(result.data);
 						that.attr("data-type",'');
 					}else{
-						curtr.after(result.data);
+                        if($('#tr'+roomid).length > 0){
+                            $('#tr'+roomid).after(result.data);
+                        }else{
+                            curtr.after(result.head + result.data);
+                        }
 					}
 					
 					// curtr.find('td:first').attr('rowspan',currowspan*1+result.length*1 + 1);
 				    $("#offerlist td :checkbox").prop("checked", false);//添加成功取消勾选
 				    $('#close').click();
+                    $('tr[data-cate="tr'+conditionsid+'"]').find('td').eq(1).find('select').attr('disabled','disabled');
 				}
 	        }
 	    });
