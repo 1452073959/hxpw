@@ -277,6 +277,21 @@ class Quote extends Adminbase
         if(!$userInfo) {
             $this->error('无法获取当前操作人员');die;
         }
+        //生成空间类型数据 用于判断空间类型是否有效
+        $offer_type_list = Db::name('offer_type')->field('name,pid,id')->order('id','asc')->select();
+        $offer_type = [];
+        foreach($offer_type_list as $k1=>$v1){
+            if($v1['pid'] == 0){
+                $offer_type[$v1['name']] = [];
+                unset($offer_type_list[$k1]);
+                foreach($offer_type_list as $k2=>$v2){
+                    if($v2['pid'] == $v1['id']){
+                        $offer_type[$v1['name']][$v2['name']] = $v2['name'];
+                    }
+                }
+            }
+        }
+
         require'../extend/PHPExcel/PHPExcel.php';
         $file = $request->file();        // dump($file);
         if($file){
@@ -325,13 +340,18 @@ class Quote extends Adminbase
             	if(empty($sheet->getCell("A".$i)->getValue()) || empty($sheet->getCell("B".$i)->getValue()) || empty($sheet->getCell("C".$i)->getValue())){
             		$this->error('文件数据字段不匹配，请重新选择');die;
             	}
+            	$work_type = trim($sheet->getCell("A".$i)->getValue());
+            	$space = trim($sheet->getCell("B".$i)->getValue());
+            	if(!isset($offer_type[$work_type][$space])){
+            		$this->error($work_type.'-'.$space.'，不存在');
+            	}
                 $data[$i]['tmp_id']  = $tmp_id;
-                $data[$i]['tmp_name']  = $fileName;
+                $data[$i]['tmp_name']  = $tmp_name;
                 $data[$i]['f_id']  = $userInfo['companyid'];
-                $data[$i]['work_type']  = $sheet->getCell("A".$i)->getValue();
-                $data[$i]['space']  = $sheet->getCell("B".$i)->getValue();
-                $data[$i]['item_number']  = $sheet->getCell("C".$i)->getValue();
-                $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ?: '';;
+                $data[$i]['work_type']  = $work_type;
+                $data[$i]['space']  = $space;
+                $data[$i]['item_number']  = trim($sheet->getCell("C".$i)->getValue());
+                $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';;
                 $data[$i]['update_time']  = $time;
             }
 
