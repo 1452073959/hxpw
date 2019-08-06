@@ -85,8 +85,11 @@ class Offerlist extends Adminbase
     // $this->newcheckrule();//权限检测
         error_reporting(E_ALL ^ E_WARNING);
         $userinfo = $this->_userinfo; 
-        if($userinfo['roleid'] != 1){
+        if($userinfo['roleid'] != 1 && $userinfo['roleid'] != 10){
             $da['o.userid'] = $userinfo['userid'];
+        }
+        if($userinfo['roleid'] == 10){
+            $da['o.frameid'] = $userinfo['companyid'];
         }
         $da['o.number'] = 1;
         if(!empty(input('customer_id'))){
@@ -761,7 +764,7 @@ class Offerlist extends Adminbase
                 $this->error('失败');
             }
             if($re!==false && $order_material_res){
-                $this->success('成功','admin/offerlist/baojiaguanli');
+                $this->success('成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');
             }
@@ -1015,7 +1018,6 @@ class Offerlist extends Adminbase
         $rs = Db::name('userlist')->where(['id'=>$id])->find();
         // dump($rs);
         $this->assign("data", $rs);
-    
         $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
         if($mould['content']){
         // $conditions_no = 0;$room_no = 0;
