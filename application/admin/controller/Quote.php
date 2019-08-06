@@ -326,8 +326,7 @@ class Quote extends Adminbase
             		$this->error('文件数据字段不匹配，请重新选择');die;
             	}
                 $data[$i]['tmp_id']  = $tmp_id;
-                $data[$i]['tmp_name']  = $
-        		var_dump($tmp_name);die;;
+                $data[$i]['tmp_name']  = $fileName;
                 $data[$i]['f_id']  = $userInfo['companyid'];
                 $data[$i]['work_type']  = $sheet->getCell("A".$i)->getValue();
                 $data[$i]['space']  = $sheet->getCell("B".$i)->getValue();
