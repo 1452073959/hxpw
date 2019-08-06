@@ -8,14 +8,58 @@
 .pagination .disabled{color:#aaa;}
 .text-center{text-align: center !important;}
 .text-large{font-size:24px!important;font-weight:900!important;}
+
+.layui-form-select{float:left;margin-right:10px}
+.onfile {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.onfile input {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.onfile:hover {
+  opacity:0.8;
+  color: #1E88C7
+   /* background: #AADFFD;
+    border-color: #78C3F3;
+    color: #fff;
+    text-decoration: none;*/
+}
+.daoru{position:absolute;top:1px;right:-90px;}
+.daorus{position:absolute;top:1px;right:-50px;height:35px}
+.bigbox{padding:10px}
+.bigbox input{margin-bottom:10px}
+#imgs{position:relative;}
+.batchs span{cursor:pointer;}
 </style>
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
-                <div class="layui-inline">
-                    <a class="layui-btn layui-btn-sm" href="{:url('admin/quote/addmould')}">新建模板</a>
-                </div>
+                <a class="layui-btn layui-btn-sm" href="{:url('admin/quote/addmould')}">新建模板</a>
+                <a class="layui-btn layui-btn-sm" title="辅材空模板.xls" style="float:right;margin-left:10px" href="__TEMPLATE__/tmp3.xlsx">下载空模板</a>
+                <div class="layui-inline" style="float: right;margin-right: 100px">
+                    <form method="post" action="{:url('admin/quote/excel_tmp')}" class="form-signin" enctype="multipart/form-data" style="">
+                        <a href="javascript:;" class="onfile">选择文件
+                          <input name="excel" type="file" class="" id="imgInput">
+                        </a>
+                        <div id="imgs"></div>
+                        <input type="submit" value="导入Excel" class="layui-btn layui-btn-sm daoru">
+                    </form>
+                </div>     
             </blockquote>
             <table class="layui-table">
                 <thead>
@@ -49,7 +93,9 @@
 {/block}
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="__STATIC__/admin/js/layer.js"></script>
 <script type="text/javascript">
+    
 	$(document).ready(function(){
 		//关闭弹窗
 		$('#close').click(function(){
@@ -75,5 +121,12 @@
 			return false;
 		});
 	});
+
+</script>
+<script type="text/javascript">
+  //简单显示上传文件信息
+     $("#imgInput").change(function(e){
+       $("#imgs").html("<span style='color:green;position:absolute;top:-25px;right:-5px;font-size:20px'>✔</span>");
+    });  
 </script>
 {/block}
