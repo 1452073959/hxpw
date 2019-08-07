@@ -116,6 +116,8 @@
 						{notempty name="datas"}
                             <?php 
                                 $num1 = 65;
+                                $total_quota = 0;
+                                $total_craft_show = 0;
                             ?>
     						{foreach name="datas" item="v1" key="k1"}
                                 <tr data-cate="tr{$k1}">
@@ -143,12 +145,26 @@
                                             <td>{$offerquota[$k3]['material']}</td>
                                             <input type="hidden" form="myform" name="" value="">
                                         </tr>
-                                        <?php $num3++; ?>
+                                        <?php 
+                                            $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
+                                            $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
+                                            $num3++;
+                                         ?>
                                     {/foreach}
                                 {/foreach}
                             {/foreach}
-
+                            <tr>
+                                <td class="text-center" colspan="2">合计</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$total_quota}</td>
+                                <td></td>
+                                <td>{$total_craft_show}</td>
+                                <td></td>
+                            </tr>
 						{/notempty}
+
     					</tbody>
     				</table>
 				{/notempty}
