@@ -227,6 +227,56 @@ class OrderAppend extends Adminbase
         }
     }
 
+    public function show_append(){
+        $o_id = input('order_id');
+        //订单数据
+        $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+        $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        $order_project = Db::name('order_project')->where('o_id',$o_id)->select();
+
+        //==========获取工种 空间类型
+        $offer_type = array_column(Db::name('offer_type')->select(), null,'id') ;
+        $new_tree = [];
+        foreach($offer_type as $key =>$value){
+            if($value['pid'] === 0){
+                $new_tree[$value['name']] = [];
+                foreach($offer_type as $k=>$v){
+                    if($v['pid'] == $value['id']){
+                        $new_tree[$value['name']][$v['name']][0] = $value['id'];
+                        $new_tree[$value['name']][$v['name']][1] = $v['id'];
+                    }
+                }
+            }
+        }
+        //===========获取工种结束
+        $datas = [];
+        $item_number = [];
+        foreach($order_project as $k=>$v){
+            $type_of_work_id = $new_tree[$v['type_of_work']][$v['space']][0];
+            $space_id = $new_tree[$v['type_of_work']][$v['space']][1];
+            if(!isset($datas[$type_of_work_id][$space_id][$v['item_number']])){
+                $datas[$type_of_work_id][$space_id][$v['item_number']]['num'] = 0;
+                $datas[$type_of_work_id][$space_id][$v['item_number']]['project'] = $v['project'];
+                $item_number[] = $v['item_number'];
+
+            }
+            $datas[$type_of_work_id][$space_id][$v['item_number']]['num'] += $v['num'];
+        }
+        $item_number = array_unique($item_number);
+        $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+        // var_dump($datas);die;
+        $this->assign([
+            'datas'=>$datas,
+            'order_info'=>$order_info,
+            'userinfo'=>$userinfo,
+            'offerquota'=>$offerquota,
+            'new_tree'=>$new_tree,
+            'offer_type'=>$offer_type,
+        ]); 
+        return $this->fetch();
+        var_dump($datas);die;
+    }
+
     //获取订单全部增减项
     public function ajax_get_append_all(){
         $o_id = input('o_id');
