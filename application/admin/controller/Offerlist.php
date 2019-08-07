@@ -66,21 +66,21 @@ class Offerlist extends Adminbase
         return $this->fetch();
     }
     public function user_delete(){
-      $re = Db::name('userlist')->delete(input('id'));
+        $re = Db::name('userlist')->delete(input('id'));
         $re ? $this->success('删除成功') : $this->error('删除有误');
     }
     public function user_edit(){
-      if($this->request->isPost()){
-        $id = input('id');
-        $data = input();
-        unset($data['id']);
-      $re = Db::name('userlist')->where('id',input('id'))->update($data);
-        $re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
-      }else{
-          $data = Db::name('userlist')->where('id',input('id'))->find();
+        if($this->request->isPost()){
+            $id = input('id');
+            $data = input();
+            unset($data['id']);
+            $re = Db::name('userlist')->where('id',input('id'))->update($data);
+            $re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
+        }else{
+            $data = Db::name('userlist')->where('id',input('id'))->find();
             $this->assign('data',$data);
             return $this->fetch();
-      }
+        }
     }
     /**
       * @function  index  客户档案首页
@@ -106,33 +106,33 @@ class Offerlist extends Adminbase
         //客户姓名搜索
         if($this->request->isPost()){
             $search = $this->request->post('search');
-      foreach($search as $key=>$value){
-        if(!empty($value)){
-          switch($key){
-            case "'customer_name'":
-            $where['u.customer_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'quoter_name'":
-            $where['u.quoter_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'designer_name'":
-            $where['u.designer_name'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'address'":
-            $where['u.address'] = ['LIKE','%'.$value.'%'];
-            break;
-            case "'manager_name'":
-            $where['u.manager_name'] = ['LIKE','%'.$value.'%'];
-            break;
-          }
-        }
-      }
+            foreach($search as $key=>$value){
+                if(!empty($value)){
+                    switch($key){
+                        case "'customer_name'":
+                            $where['u.customer_name'] = ['LIKE','%'.$value.'%'];
+                            break;
+                        case "'quoter_name'":
+                            $where['u.quoter_name'] = ['LIKE','%'.$value.'%'];
+                            break;
+                        case "'designer_name'":
+                            $where['u.designer_name'] = ['LIKE','%'.$value.'%'];
+                            break;
+                        case "'address'":
+                            $where['u.address'] = ['LIKE','%'.$value.'%'];
+                            break;
+                        case "'manager_name'":
+                            $where['u.manager_name'] = ['LIKE','%'.$value.'%'];
+                            break;
+                    }
+                }
+            }
             if(empty($search)){
                 $this->error('请输入搜索内容', url("offerlist/index"));
             }
             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where($where)->select();
-                
-        // dump($res);exit;
+                    
+            // dump($res);exit;
             $this->assign('data',$res);   
             $this->assign('userinfo',$userinfo);    
             return $this->fetch();
@@ -380,15 +380,7 @@ class Offerlist extends Adminbase
              foreach ($arr as $key => $value) {
                  $res = Db::name('offerlist')->where('id',$value)->update($data);
              }
-
             Result(0,'字段更新成功',$data);
-
-            // $res = Db::name('offerlist')->where('id',$datas['id'])->update($data);
-            // if($res) {
-            //    Result(0,'更新成功',$data);
-            // }else{
-            //    Result(1,'更新失败'); 
-            // }
          }else{
             Result(1,'获取数据失败');
          }
@@ -511,21 +503,6 @@ class Offerlist extends Adminbase
             $this->error('操作失败');
           }
         }
-        
-  //               $da['status'] = 0;
-  //               $sele = Db::name('offerlist')->where('customerid',$data['customerid'])->select();
-  //               if(count($sele) != 1){
-  //                 $xin = Db::name('offerlist')->where('customerid',$data['customerid'])->update($da);
-  //               }else{
-  //                 $xin = 1;
-  //               }
-  // 
-  //              if($xin !== false){
-  //               $zhi['status'] = 1;
-  //               $res = Db::name('offerlist')->where('id',$data['id'])->update($zhi);
-  //               Result(0,'操作成功');
-  //              }
-      
       }else{
         Result(1,'信息获取失败');
       }
@@ -553,15 +530,6 @@ class Offerlist extends Adminbase
             Db::startTrans();
             try{
                 $userlist = Db::name('userlist')->insertGetId($bao);
-                // if($userlist) {        
-                //     $offer['userid'] = $userinfo['userid'];//报价员     
-                //     $offer['frameid'] = $userinfo['companyid'];//存公司id到报表
-                //     $offer['customerid'] = $userlist;
-                //     $offer['number'] = 1;
-                //     $offer['entrytime'] = time();
-                //     $insert = Db::name('offerlist')->insert($offer);
-                // }     
-                // 提交事务
                 Db::commit();    
             } catch (\Exception $e) {
                 // 回滚事务
@@ -590,17 +558,37 @@ class Offerlist extends Adminbase
             if(input('remark')){
                 $data['remark'] = input('remark');
             }
-
+            $time = time();
             $content = [];
+            $order_project = [];
             foreach (input('gcl') as $key => $value) {
               foreach($value as $k=>$v){
                 foreach($v as $k1=>$v1){
-                  $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
-                  $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
-                  $item['gcl']= $v1; //数量
-                  $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
-                  $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
-                  $content[] = $item;
+                    $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
+                    $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
+                    $item['gcl']= $v1; //数量
+                    $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
+                    $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
+                    $content[] = $item;
+
+                    //=========================项目 另存新数据库 后面慢慢完善
+                    $project = [];
+                    // $project['o_id'] = '';//订单id
+                    $project['oa_id'] = 0;
+                    $project['item_number'] = $k1;
+                    $project['num'] = $v1;
+                    $project['type_of_work'] = $item['type_of_work'];
+                    $project['project'] = $item['project'];
+                    $project['company'] = $item['company'];
+                    $project['cost_value'] = $item['cost_value'];
+                    $project['quota'] = $item['quota'];
+                    $project['craft_show'] = $item['craft_show'];
+                    $project['labor_cost'] = $item['labor_cost'];
+                    $project['material'] = $item['material'];
+                    $project['content'] = $item['content'];
+                    $project['type'] = 1;
+                    $project['add_time'] = $time;
+                    $order_project[] = $project; 
                 }
               }
             }
@@ -776,6 +764,15 @@ class Offerlist extends Adminbase
                 }else{
                     $order_material_res = 1;
                 }
+
+                foreach($order_project as $k=>$v){
+                    $order_project[$k]['o_id'] = $re;
+                }
+                if($order_project){
+                    $order_project_res = Db::name('order_project')->insertAll($order_project);
+                }else{
+                    $order_project_res = 1;
+                }
                 // 提交事务
                 Db::commit();    
             } catch (\Exception $e) {
@@ -783,7 +780,7 @@ class Offerlist extends Adminbase
                 Db::rollback();
                 $this->error('失败');
             }
-            if($re!==false && $order_material_res){
+            if($re!==false && $order_material_res && $order_project_res){
                 $this->success('成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');
