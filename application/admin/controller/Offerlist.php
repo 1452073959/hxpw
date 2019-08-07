@@ -102,40 +102,8 @@ class Offerlist extends Adminbase
         $da['o.number'] = 1;
         if(!empty(input('customer_id'))){
             $da['o.customerid'] = input('customer_id'); 
-        }
-        //客户姓名搜索
-        if($this->request->isPost()){
-            $search = $this->request->post('search');
-            foreach($search as $key=>$value){
-                if(!empty($value)){
-                    switch($key){
-                        case "'customer_name'":
-                            $where['u.customer_name'] = ['LIKE','%'.$value.'%'];
-                            break;
-                        case "'quoter_name'":
-                            $where['u.quoter_name'] = ['LIKE','%'.$value.'%'];
-                            break;
-                        case "'designer_name'":
-                            $where['u.designer_name'] = ['LIKE','%'.$value.'%'];
-                            break;
-                        case "'address'":
-                            $where['u.address'] = ['LIKE','%'.$value.'%'];
-                            break;
-                        case "'manager_name'":
-                            $where['u.manager_name'] = ['LIKE','%'.$value.'%'];
-                            break;
-                    }
-                }
-            }
-            if(empty($search)){
-                $this->error('请输入搜索内容', url("offerlist/index"));
-            }
-            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where($where)->select();
-                    
-            // dump($res);exit;
-            $this->assign('data',$res);   
-            $this->assign('userinfo',$userinfo);    
-            return $this->fetch();
+        }else{
+            $this->error('参数错误！');
         }
         //所有客户信息
         $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
@@ -564,8 +532,12 @@ class Offerlist extends Adminbase
             foreach (input('gcl') as $key => $value) {
               foreach($value as $k=>$v){
                 foreach($v as $k1=>$v1){
+                    $kongjian = Db::name('offer_type')->where('id',$k)->value('name');
+                    if(!$kongjian){
+                        $this->error('空间类型有误');
+                    }
                     $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
-                    $item['kongjian'] =Db::name('offer_type')->where('id',$k)->value('name');
+                    $item['kongjian'] = $kongjian;
                     $item['gcl']= $v1; //数量
                     $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
                     $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
@@ -768,11 +740,9 @@ class Offerlist extends Adminbase
                 foreach($order_project as $k=>$v){
                     $order_project[$k]['o_id'] = $re;
                 }
-                if($order_project){
-                    $order_project_res = Db::name('order_project')->insertAll($order_project);
-                }else{
-                    $order_project_res = 1;
-                }
+                
+                $order_project_res = Db::name('order_project')->insertAll($order_project);
+                
                 // 提交事务
                 Db::commit();    
             } catch (\Exception $e) {
@@ -1082,7 +1052,6 @@ class Offerlist extends Adminbase
         $this->assign([
             'tree'=>$tree,
         ]);  
-         
         return $this->fetch();
     }
 

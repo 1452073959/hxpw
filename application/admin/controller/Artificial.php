@@ -618,7 +618,7 @@ class Artificial extends Adminbase
     //获取辅料成本详情  
     public function ajax_get_material(){
         $id = input('id');
-        $list = Db::name('order_material')->where(['o_id'=>$id])->select();//该订单全部辅料
+        $list = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料 增减项除外
         if(!$list){
             echo json_encode(array('code'=>1,'msg'=>'无辅料信息'));die;
         }
@@ -660,7 +660,7 @@ class Artificial extends Adminbase
 
 
         // //辅材成本
-        $order_material = Db::name('order_material')->where(['o_id'=>$id])->select();//该订单全部辅料
+        $order_material = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料 增减项除外
         $material_list = model('artificial')->getmaterial_info($id);
         foreach($material_list as $k1=>$v1){
             foreach($v1 as $k2=>$v2){

@@ -116,7 +116,7 @@ class Offerlist extends Model
             $total['a_cb'] += $v['labor_cost']*$v['gcl'];
         }
         //辅材成本
-        $order_material = Db::name('order_material')->where(['o_id'=>$id])->select();//该订单全部辅料
+        $order_material = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料
         foreach($order_material as $k=>$v){
             if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']]['m_cb'] = 0;
@@ -130,7 +130,7 @@ class Offerlist extends Model
     //领料清单
     //type 0-系数后 1->系数前 
     public function get_material_list($id,$type=1){
-        $order_material = Db::name('order_material')->where(['o_id'=>$id])->select();
+        $order_material = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();
         $datas = [];
         foreach($order_material as $k=>$v){
             $v['fine'] = $v['fine']?$v['fine']:'通用';
