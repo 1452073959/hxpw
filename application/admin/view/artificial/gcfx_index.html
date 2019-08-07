@@ -714,11 +714,11 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">人工占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
-                html += '<tr><td></td><td>小计</td><td>'+toDecimal2(re.total)+'</td></tr>'
+                html += '<tr><td>小计</td><td>'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
@@ -740,11 +740,11 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">辅料占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td></tr>'
+                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
-                html += '<tr><td></td><td>小计</td><td>'+toDecimal2(re.total)+'</td></tr>'
+                html += '<tr><td>小计</td><td>'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
