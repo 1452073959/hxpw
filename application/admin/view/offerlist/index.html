@@ -80,6 +80,7 @@
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
                         <th class="taleft" lay-data="{field:'pro_apartment_type',edit:'text'}">工程户型</th> 
                         <th class="taleft" lay-data="{field:'area',edit:'text'}">面积</th>       
+                        <th class="taleft" lay-data="{field:'remark',width:100}">备注</th>       
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
                     </tr>
                 </thead>
@@ -123,6 +124,7 @@
                       <!-- {/if} -->
                       <td class="taleft">{$vo.pro_apartment_type|default=''}</td>
                       <td class="taleft">{$vo.area|default=''}</td>
+                      <td class="taleft">{$vo.remark}</td>   
                       <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
                       <!-- <td class="taleft">{$vo.artificial_cb}</td>    -->
                       <!-- <td class="taleft">{$vo.material_cb}</td>    -->

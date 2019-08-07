@@ -16,6 +16,9 @@ input[type="checkbox"]{
 }
 .myinput{border:none;display: inline-block;background-color: #eeeeee;padding:5px;}
 .text-limit{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 110px;}
+.layui-input-block{
+    margin-left: 0px;
+}
 </style>
 <div class="layui-card">
     <div class="layui-card-header">
@@ -152,6 +155,7 @@ input[type="checkbox"]{
             <a class="layui-btn layui-btn-sm" data-selector="addconditions">增加工种</a>
             <div class="layui-form-item">
                 <div class="layui-input-block">
+                    <input class="myinput" style="border: 1px solid #666;background-color: #ffffff" value="" placeholder="备注" name="remark" />
                     <button class="layui-btn ajax-post">保存报表</button>
                 </div>
             </div>

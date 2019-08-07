@@ -571,6 +571,10 @@ class Offerlist extends Adminbase
             $data['unit'] = input('framename');//单位
             $data['entrytime'] = time();
             $data['number'] = 1;
+            if(input('remark')){
+                $data['remark'] = input('remark');
+            }
+
             $content = [];
             foreach (input('gcl') as $key => $value) {
               foreach($value as $k=>$v){
