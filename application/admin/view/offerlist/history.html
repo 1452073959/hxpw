@@ -45,6 +45,10 @@
 	.text-center{text-align: center !important;}
     td{
         text-align: center;
+        padding:9px 5px !important;
+    }
+    th{
+        padding:9px 10px !important;
     }
 </style>
 
@@ -55,7 +59,7 @@
             <blockquote class="layui-elem-quote news_search">
                 <form class="layui-inline">
 					<a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id')])}">导出报表</a>
-              <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
+                    <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
                     <a class="layui-btn layui-btn-sm" href="{:url('Offerlist/edit',['id'=>$edit_id])}">新建报表</a>
 											 
 					<select class="form-control" id="changestatus" data-id="{$data.id}" data-customerid="{$data.customerid}">
@@ -79,15 +83,27 @@
             </blockquote>
 			<div id="export-table">
 				{notempty name="data"}
-				<table class="layui-table">
+                <!-- <table class="layui-table" style="word-break:break-all"> -->
+                <table class="layui-table">
+                      <colgroup>
+                        <col width="10">
+                        <col width="50">
+                        <col width="10">
+                        <col width="10">
+                        <col width="10">
+                        <col width="10">
+                        <col width="10">
+                        <col width="10">
+                        <col width="400">
+                      </colgroup>
 					<thead>
 						<tr>
-							<th rowspan="2" colspan="2"><img style="max-width:200px;" src="__STATIC__/imgs/logo.png"></th>
-							<th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
-							<th rowspan="2" colspan="2"></th>
+							<th rowspan="2" colspan="2"><img style="max-width:160px;" src="__STATIC__/imgs/logo.png"></th>
+							<th class="text-center text-large" colspan="6"><h3>住宅装饰工程造价预算书</h3></th>
+							<th rowspan="2" colspan="1"></th>
 					    </tr>
 					    <tr>
-							<th class="text-center" colspan="5">全国统一24小时客服热线：400-6281-968</th>
+							<th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
 					    </tr>
 						<tr>
 							<th style="text-align:center;" colspan="9">单位：{$data.unit}</th>        
@@ -101,17 +117,17 @@
 						<tr>      
                             <th rowspan="2" colspan="1">序号</th>
 							<th class="text-center" rowspan="2">工程项目名称</th>         
-							<th class="text-center" rowspan="2">工程量</th>       
+							<th class="text-center" rowspan="2">数量</th>       
 							<th class="text-center" rowspan="2">单位</th>
 							<th class="text-center" colspan="2">辅材费</th> 
 							<th class="text-center" colspan="2">人工费</th>    
 							<th class="text-center" rowspan="2">施工工艺及材料说明</th> 
 						</tr>
 						<tr>   
-							<th class="text-center" colspan="1">基价</th>       
-							<th class="text-center">辅材合价</th>       
-							<th class="text-center">基价</th>       
-							<th class="text-center">人工合价</th> 
+							<th class="text-center" colspan="1">单价</th>       
+							<th class="text-center">合计</th>       
+							<th class="text-center">单价</th>       
+							<th class="text-center">合计</th> 
 						  </tr>
 					</thead>
 					<tbody> 
@@ -289,7 +305,7 @@
 <script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script>
   $(document).ready(function(){
-    
+
     $('tr').each(function(){
     	var cate = $(this).attr('data-cate');
         if(cate){
