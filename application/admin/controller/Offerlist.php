@@ -53,7 +53,15 @@ class Offerlist extends Adminbase
         if(input('begin_time') && input('end_time')){
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
         }        
-        $re = Db::name('userlist')->where($where)->where($condition)->paginate($this->show_page);
+        $userinfo = $this->_userinfo; 
+        $da = [];
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+            $da['userid'] = $userinfo['userid'];
+        }
+        if($userinfo['roleid'] == 10){
+            $da['frameid'] = $userinfo['companyid'];
+        }
+        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->paginate($this->show_page);
         $this->assign('data',$re);
         return $this->fetch();
     }
