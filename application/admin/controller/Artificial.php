@@ -96,8 +96,11 @@ class Artificial extends Adminbase
     public function gcfx_first(){
         $userinfo = $this->_userinfo; 
         $da = [];
-        if($userinfo['userid'] != 1){
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
+        }
+        if($userinfo['roleid'] == 10){
+            $da['frameid'] = $userinfo['companyid'];
         }
         if(input('search')){
             $da['customer_name'] = input('search');

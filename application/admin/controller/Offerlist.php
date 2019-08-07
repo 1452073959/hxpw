@@ -186,10 +186,18 @@ class Offerlist extends Adminbase
         if(input('manager_name')){
             $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
         }
+        $userinfo = $this->_userinfo; 
+        $da = [];
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+            $da['userid'] = $userinfo['userid'];
+        }
+        if($userinfo['roleid'] == 10){
+            $da['frameid'] = $userinfo['companyid'];
+        }
         if(!empty($where)){
-            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+            $re = Db::name('userlist')->where($where)->where($da)->paginate($this->show_page);
         }else{
-            $re = Db::name('userlist')->paginate($this->show_page);
+            $re = Db::name('userlist')->where($da)->paginate($this->show_page);
         }
         $this->assign('data',$re);
         return $this->fetch();
@@ -902,10 +910,18 @@ class Offerlist extends Adminbase
         if(input('manager_name')){
             $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
         }
+        $userinfo = $this->_userinfo; 
+        $da = [];
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+            $da['userid'] = $userinfo['userid'];
+        }
+        if($userinfo['roleid'] == 10){
+            $da['frameid'] = $userinfo['companyid'];
+        }
         if(!empty($where)){
-            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+            $re = Db::name('userlist')->where($where)->where($da)->paginate($this->show_page);
         }else{
-            $re = Db::name('userlist')->paginate($this->show_page);
+            $re = Db::name('userlist')->where($da)->paginate($this->show_page);
         }
         $this->assign('data',$re);
         return $this->fetch();
