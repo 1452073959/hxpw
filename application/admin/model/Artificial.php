@@ -9,7 +9,7 @@ use think\Session;
 class Artificial extends Model
 {
     public function getmaterial_info($id){
-        $list = Db::name('order_material')->where(['o_id'=>$id],'status'=>1)->select();//该订单全部辅料
+        $list = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料
         $material_list = [];//辅材
         foreach($list as $k=>$v){
             if(!isset($material_list[$v['type_of_work']][$v['m_name']])){
