@@ -278,7 +278,7 @@ class Anbank extends Adminbase
                     $data[$i]['norms']  = $sheet->getCell("J".$i)->getValue() ?: ''; 
                     $data[$i]['phr']  = $sheet->getCell("K".$i)->getValue() ?: ''; 
                     $data[$i]['remarks']  = $sheet->getCell("L".$i)->getValue() ?: ''; 
-                    $data[$i]['coefficient']  = ($sheet->getCell("M".$i)->getValue() ?: '')*100; 
+                    $data[$i]['coefficient']  = ($sheet->getCell("M".$i)->getValue() ?: 0)*100; 
                     if($data[$i]['coefficient'] > 100){
                         $data[$i]['coefficient'] = 100;
                     }
