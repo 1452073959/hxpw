@@ -410,7 +410,7 @@ class Quote extends Adminbase
 
             //将数据保存到数据库
             if ($data) {
-                $data = krsort($data);
+                krsort($data);
                 //把获取到的二维数组遍历进数据库
 	           	Db::startTrans();
 				try {
