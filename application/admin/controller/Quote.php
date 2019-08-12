@@ -54,7 +54,7 @@ class Quote extends Adminbase
             echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效'));die;
         }
         $offerquota = array_column($offerquota, null,'item_number');
-        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota,'item_number'=>count($item_number),'offerquota'=>count($offerquota)));
     }
 	//报价模板首页
 	public function index(){
