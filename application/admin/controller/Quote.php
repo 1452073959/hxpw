@@ -13,6 +13,49 @@ class Quote extends Adminbase
 {
 	public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+    //获取模板列表
+    public function ajax_get_tmp_list(){
+        $userinfo = $this->_userinfo;
+        $tmp_list = Db::name('tmp')->where(['f_id'=>$userinfo['companyid']])->field('tmp_id,tmp_name,remark,update_time')->group('tmp_id')->select();
+        foreach($tmp_list as $k=>$v){
+            $tmp_list[$k]['update_time'] = date('Y-m-d H:i',$v['update_time']);
+        }
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list));
+    }
+    //获取模板详情
+    public function ajax_get_tmp_info(){
+        $userinfo = $this->_userinfo;
+        $tmp_id = input('tmp_id');
+        if(!$tmp_id){
+            echo json_encode(array('code'=>0,'msg'=>'参数错误'));
+        }
+        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->select();
+
+        //=============验证模板是否有效
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v['name'];
+        }
+        foreach($tmp_list as $k=>$v){
+            if(!in_array($v['work_type'],$offer_type[1])){
+                echo json_encode(array('code'=>0,'msg'=>'工种：'.$v['work_type'].' 不存在，模板失效'));die;
+            }
+            if(!in_array($v['space'], $offer_type[2])){
+                echo json_encode(array('code'=>0,'msg'=>'空间：'.$v['space'].' 不存在，模板失效'));die;
+            }
+        }
+        //=============验证模板是否有效 end
+
+        $item_number = array_column($tmp_list, 'item_number');
+        $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+        if(count('item_number') != count($offerquota)){
+            //=============验证模板是否有效 end
+            echo json_encode(array('模板部分项目不全，模板失效'));die;
+        }
+        $offerquota = array_column($offerquota, null,'item_number');
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
+    }
 	//报价模板首页
 	public function index(){
 	    $userinfo = $this->_userinfo;
@@ -20,85 +63,91 @@ class Quote extends Adminbase
 		$this->assign([ 'data'=>$res ]);
 		return $this->fetch();
 	}
-	//报价模板编辑/查看
+	//报价模板查看
 	public function checkmould(){
 		$tmp_id = input('tmp_id');//模板id
-		$type = input('type');//模板预览还是修改
-		$tmp = Db::name('tmp')->where('tmp_id','=',$tmp_id)->select();
-		$tmp_name = $tmp[0]['tmp_name'];
+        $userinfo = $this->_userinfo;
+        $item_number = [];//所有项目集合
+		// $type = input('type');//模板预览还是修改
+		$tmp_list = Db::name('tmp')->where('tmp_id','=',$tmp_id)->select();
+		$tmp_name = $tmp_list[0]['tmp_name'];
+        $data = [];
 		//工种
-		$res = Db::name('offer_type')->select();//工种和空间类型
-		$offer_type = array_column($res, null,'id');
-		$tree = [];//树状数据
-		$new_tree = [];
-		foreach($res as $key =>$value){
-			if($value['pid'] === 0){
-				$tree[$value['id']] = $value;
-				unset($res[$value['id']]);
-				foreach($res as $k=>$v){
-					if($v['pid'] == $value['id']){
-						$tree[$value['id']]['son'][] = $v;
-					}
-				}
-			}
-			//另外有用的
-			if($value['pid'] === 0){
-				$new_tree[$value['name']] = [];
-				foreach($res as $k=>$v){
-					if($v['pid'] == $value['id']){
-						$new_tree[$value['name']][$v['name']][0] = $value['id'];
-						$new_tree[$value['name']][$v['name']][1] = $v['id'];
-					}
-				}
-			}
-		}
-
-		$datas = [];
-		$item_number = [];
-		$frameid = '';
-		foreach($tmp as $k=>$v){
-			$datas[$new_tree[$v['work_type']][$v['space']][0]][$new_tree[$v['work_type']][$v['space']][1]][] = ['item_number'=>$v['item_number'],'num'=>$v['num']];
-			$item_number[] = $v['item_number'];
-			$frameid = $v['f_id'];
-		}
-		//找到所有的项目内容
-		$offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$frameid)->select(), null,'item_number');
-		$this->assign([ 'data'=>$datas,
-						'tree'=>$tree,
-						'offerquota'=>$offerquota,
-						'offer_type'=>$offer_type,
-						'tmp_name'=>$tmp_name
-					]);
-					// var_dump($tree);die;
-		if($type == 'preview'){
-			return $this->fetch('preview');
-		}else{
-			return $this->fetch('addmould');
-		}
+		$offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v['name'];
+        }
+        foreach($tmp_list as $k=>$v){
+            if(!in_array($v['work_type'],$offer_type[1])){
+                $this->error('工种：'.$v['work_type'].' 不存在，模板失效');
+            }
+            if(!in_array($v['space'], $offer_type[2])){
+                $this->error('空间：'.$v['space'].' 不存在，模板失效');
+            }
+            $data[$v['work_type']][$v['space']][$v['item_number']] = $v['num'];
+            $item_number[] = $v['item_number'];
+        }
+        $item_number = array_unique($item_number);
+        $item_number_num = count($item_number);
+        $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+        if($item_number_num != count($offerquota)){
+            $this->error('模板部分项目不全，模板失效');
+        }
+        $offerquota = array_column($offerquota, null,'item_number');
+        $this->assign([ 
+                'data'=>$data,
+                'offerquota'=>$offerquota,
+             ]);
+		return $this->fetch();
 	}
 	//新建模板
 	public function addmould(){
-		$res = Db::name('offer_type')->select();//工种和空间类型
-		$tree = [];//树状数据
-		foreach($res as $key =>$value){
-			if($value['pid'] === 0){
-				$tree[$key] = $value;
-				unset($res[$key]);
-				foreach($res as $k=>$v){
-					if($v['pid'] == $value['id']){
-						$tree[$key]['son'][] = $v;
-					}
-				}
-			}
-		}
-		$this->assign([
-			'tree'=>$tree
-		]);
+        $userinfo = $this->_userinfo;
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];//用于添加选择工种/空间
+        $offer_type_check = [1=>[],2=>[]];//用于检测工种/空间是否还有效
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
+            $offer_type_check[$v['type']][] = $v['name'];
+        }
+        if(input('tmp_id')){
+            $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->select();
+            $tmp_name = $tmp_list[0]['tmp_name'];
+            $data = [];
+            foreach($tmp_list as $k=>$v){
+                if(!in_array($v['work_type'],$offer_type_check[1])){
+                    $this->error('工种：'.$v['work_type'].' 不存在，模板失效');
+                }
+                if(!in_array($v['space'], $offer_type_check[2])){
+                    $this->error('空间：'.$v['space'].' 不存在，模板失效');
+                }
+                $data[$v['work_type']][$v['space']][$v['item_number']] = $v['num'];
+                $item_number[] = $v['item_number'];
+            }
+            $item_number = array_unique($item_number);
+            $item_number_num = count($item_number);
+            $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+            if($item_number_num != count($offerquota)){
+                $this->error('模板部分项目不全，模板失效');
+            }
+            $offerquota = array_column($offerquota, null,'item_number');
+            $this->assign([ 
+                'data'=>$data,
+                'offerquota'=>$offerquota,
+                'tmp_name'=>$tmp_name,
+                'tmp_id'=>input('tmp_id')
+             ]);
+        }
+        $this->assign([
+            'offer_type'=>$offer_type,
+        ]);
         return $this->fetch();
 	}
+
 	//保存模板
 	public function savemould(){
-		if($this->request->isPost() && input('gcl') && input('tmp_name')){
+		if($this->request->isPost() && input('data') && input('tmp_name')){
 			$userinfo = $this->_userinfo;
 			$f_id = $userinfo['companyid'];
 			$input = input();
@@ -106,21 +155,21 @@ class Quote extends Adminbase
 			$time = time();
 			//生成订单唯一id md5
 			$tmp_id = input('tmp_id')?input('tmp_id'):md5(input('tmp_name').rand(1,999999).microtime(true));
-			foreach(input('gcl') as $k1=>$v1){
-				$type_word_name = Db::name('offer_type')->where(['id'=>$k1])->value('name');//工种名称
+			foreach(input('data') as $k1=>$v1){
+				$type_word_name = $k1;//工种名称
 				foreach($v1 as $k2=>$v2){
-					$space = Db::name('offer_type')->where(['id'=>$k2])->value('name');//工种名称
+					$space = $k2;//工种名称
 					foreach($v2 as $k3=>$v3){
 						$datas[] = [
-									'tmp_id'=>$tmp_id,
-									'tmp_name'=>input('tmp_name'),
-									'f_id'=>$f_id,
-									'work_type'=>$type_word_name,
-									'space'=>$space,
-									'item_number'=>$k3,
-									'num'=>$v3,
-									'update_time'=>$time,
-									];
+							'tmp_id'=>$tmp_id,
+							'tmp_name'=>input('tmp_name'),
+							'f_id'=>$f_id,
+							'work_type'=>$type_word_name,
+							'space'=>$space,
+							'item_number'=>$k3,
+							'num'=>$v3,
+							'update_time'=>$time,
+						];
 					}
 				}
 			}
@@ -350,9 +399,18 @@ class Quote extends Adminbase
                 $data[$i]['f_id']  = $userInfo['companyid'];
                 $data[$i]['work_type']  = $work_type;
                 $data[$i]['space']  = $space;
-                $data[$i]['item_number']  = trim($sheet->getCell("C".$i)->getValue());
-                $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';;
+                $data[$i]['project_name']  = trim($sheet->getCell("C".$i)->getValue());
+                $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';
                 $data[$i]['update_time']  = $time;
+            }
+            $project_name = array_unique(array_column($data, 'project_name'));
+            $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userInfo['companyid']])->field('item_number,project')->select(),null,'project');
+            foreach($data as $k=>$v){
+                if($offerquota[$v['project_name']]['item_number']){
+                    $data[$i]['item_number'] = $offerquota[$v['project_name']]['item_number'];
+                }else{
+                    $this->error('项目：'.$v['project_name'].'不存在，导入失败');
+                }
             }
 
             //将数据保存到数据库

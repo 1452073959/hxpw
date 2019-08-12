@@ -96,7 +96,9 @@
 						{else/}
                             <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
                             <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
-    						<a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
+                            {gt name="$vo['append_num']" value="0"}
+    						  <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
+                            {/gt}
                             <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
 					   </td> 

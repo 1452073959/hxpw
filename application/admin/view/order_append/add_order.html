@@ -67,10 +67,16 @@
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
         <blockquote class="layui-elem-quote news_search" style="height :3%">
             <div class="layui-inline" style="width: 95%">
-                <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">提交增减项</a>
+                <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">提交报价</a>
                 <a class="layui-btn layui-btn-sm layui-btn-warm"  href="javascript:;" id="import_tmp">导入模板</a>
                 <div class="layui-inline layui-btn layui-btn-primary" >
                     客户名称：{$customer_info['customer_name']}
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="unit" value="" placeholder="单位/公司" class="layui-input">
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
                 </div>
                 
             </div>     
@@ -125,9 +131,10 @@
 
 
         <div class="layui-card-body" style="width: 61%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
-            <form id="datasform" action="/admin/order_append/add" method="post">
+            <form id="datasform" action="/admin/offerlist/add_order_operation" method="post">
                 <input type="hidden" name="customerid" value="{$customer_info['id']}" >
-                <input type="hidden" name="order_id" value="{$order_id}" >
+                <input type="hidden" name="framename" value="" >
+                <input type="hidden" name="remark" value="" >
                 <table class="layui-table" id="project">
                     <colgroup>
                         <col width="10">

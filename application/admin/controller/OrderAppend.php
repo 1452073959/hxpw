@@ -13,94 +13,48 @@ class OrderAppend extends Adminbase
 {
     //新增时页面
     public function add_index(){
-        $userinfo = $this->_userinfo; 
-        
-        $request = request();
-        $id = $request->param('customer_id');
-        if(empty($id) || empty(input('order_id'))){
-          return $this->fetch();
+        if(!input('customer_id') || !input('order_id')){
+            $this->error('非法操作');
         }
-        //dump($id);
-        $this->assign('order_id',input('order_id'));
-        $rs = Db::name('userlist')->where(['id'=>$id])->find();
-        // dump($rs);
-        $this->assign("data", $rs);
-
-        
-        $res = Db::name('offer_type')->select();//工种和空间类型
-        $offer_type = array_column($res, null,'id');
-        $tree = [];//树状数据
-        foreach($res as $key =>$value){
-            if($value['pid'] === 0){
-                $tree[$value['id']] = $value;
-                unset($res[$value['id']]);
-                foreach($res as $k=>$v){
-                    if($v['pid'] == $value['id']){
-                        $tree[$value['id']]['son'][] = $v;
-                    }
-                }
-            }
-          //另外有用的
-            if($value['pid'] === 0){
-                $new_tree[$value['name']] = [];
-                foreach($res as $k=>$v){
-                    if($v['pid'] == $value['id']){
-                        $new_tree[$value['name']][$v['name']][0] = $value['id'];
-                        $new_tree[$value['name']][$v['name']][1] = $v['id'];
-                    }
-                }
-            }
+        $userinfo = $this->_userinfo;
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
         }
-
-        //使用模板
-        if(input('tmp_id')){
-            $tmp = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->select();
-            $tmp_datas = [];
-            $item_number = [];
-            $frameid = '';
-            foreach($tmp as $k=>$v){
-                $tmp_datas[$new_tree[$v['work_type']][$v['space']][0]][$new_tree[$v['work_type']][$v['space']][1]][] = ['item_number'=>$v['item_number'],'num'=>$v['num']];
-                $item_number[] = $v['item_number'];
-                $frameid = $v['f_id'];
-            }
-            $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$frameid)->select(), null,'item_number');
-            $this->assign([
-                'offerquota'=>$offerquota,
-                'offer_type'=>$offer_type,
-                'tmp_datas'=>$tmp_datas,
-            ]); 
-        }
+        $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         $this->assign([
-            'tree'=>$tree,
-        ]);  
+            'offer_type'=>$offer_type,
+            'customer_info'=>$customer_info,
+            'order_id'=>input('order_id'),
+        ]);
         return $this->fetch();
     }
 
     //新增操作
     public function add(){
         $userinfo = $this->_userinfo; 
-        if (input('gcl') && input('order_id')) {
+        if (input('data') && input('order_id')) {
             $time = time();
             $order_info = Db::name('offerlist')->where('id',input('order_id'))->where('userid',$userinfo['userid'])->find();
             if(!$order_info){
                 $this->error('订单信息有误');
             }
             $order_project = [];
-            foreach (input('gcl') as $key => $value) {
-              foreach($value as $k=>$v){
-                foreach($v as $k1=>$v1){
-                    $space = Db::name('offer_type')->where('id',$k)->value('name');
-                    if(!$space){
-                        $this->error('空间类型有误');
+            foreach (input('data') as $k1 => $v1) {
+                foreach($v1 as $k2=>$v2){
+                    $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
+                    if(!$item){
+                        $this->error('项目有误');
                     }
-                    $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
+                    //=========================项目 另存新数据库 后面慢慢完善
                     $project = [];
                     $project['o_id'] = input('order_id');//订单id
                     $project['oa_id'] = 0;
-                    $project['item_number'] = $k1;
-                    $project['num'] = $v1;
+                    $project['item_number'] = $k2;
+                    $project['num'] = $v2;
                     $project['type_of_work'] = $item['type_of_work'];
-                    $project['space'] = $space;
+                    $project['space'] = $k1;
                     $project['project'] = $item['project'];
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
@@ -109,11 +63,10 @@ class OrderAppend extends Adminbase
                     $project['labor_cost'] = $item['labor_cost'];
                     $project['material'] = $item['material'];
                     $project['content'] = $item['content'];
-                    $project['type'] = 1;
+                    $project['type'] = 2;
                     $project['add_time'] = $time;
                     $order_project[] = $project; 
                 }
-              }
             }
             //===============================计算物料总合计 成本
             // $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
@@ -232,35 +185,25 @@ class OrderAppend extends Adminbase
         //订单数据
         $order_info = Db::name('offerlist')->where('id',$o_id)->find();
         $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
-        $order_project = Db::name('order_project')->where('o_id',$o_id)->select();
+        $order_project = Db::name('order_project')->where('o_id',$o_id)->where('type',2)->select();
 
         //==========获取工种 空间类型
-        $offer_type = array_column(Db::name('offer_type')->select(), null,'id') ;
-        $new_tree = [];
-        foreach($offer_type as $key =>$value){
-            if($value['pid'] === 0){
-                $new_tree[$value['name']] = [];
-                foreach($offer_type as $k=>$v){
-                    if($v['pid'] == $value['id']){
-                        $new_tree[$value['name']][$v['name']][0] = $value['id'];
-                        $new_tree[$value['name']][$v['name']][1] = $v['id'];
-                    }
-                }
-            }
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
         }
         //===========获取工种结束
         $datas = [];
         $item_number = [];
         foreach($order_project as $k=>$v){
-            $type_of_work_id = $new_tree[$v['type_of_work']][$v['space']][0];
-            $space_id = $new_tree[$v['type_of_work']][$v['space']][1];
-            if(!isset($datas[$type_of_work_id][$space_id][$v['item_number']])){
-                $datas[$type_of_work_id][$space_id][$v['item_number']]['num'] = 0;
-                $datas[$type_of_work_id][$space_id][$v['item_number']]['project'] = $v['project'];
+            if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
                 $item_number[] = $v['item_number'];
 
             }
-            $datas[$type_of_work_id][$space_id][$v['item_number']]['num'] += $v['num'];
+            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
         }
         $item_number = array_unique($item_number);
         $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
@@ -270,11 +213,9 @@ class OrderAppend extends Adminbase
             'order_info'=>$order_info,
             'userinfo'=>$userinfo,
             'offerquota'=>$offerquota,
-            'new_tree'=>$new_tree,
             'offer_type'=>$offer_type,
         ]); 
         return $this->fetch();
-        var_dump($datas);die;
     }
 
     //获取订单全部增减项

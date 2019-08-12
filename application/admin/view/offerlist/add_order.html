@@ -67,10 +67,16 @@
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
         <blockquote class="layui-elem-quote news_search" style="height :3%">
             <div class="layui-inline" style="width: 95%">
-                <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">提交增减项</a>
+                <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">提交报价</a>
                 <a class="layui-btn layui-btn-sm layui-btn-warm"  href="javascript:;" id="import_tmp">导入模板</a>
                 <div class="layui-inline layui-btn layui-btn-primary" >
                     客户名称：{$customer_info['customer_name']}
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="unit" value="" placeholder="单位/公司" class="layui-input">
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
                 </div>
                 
             </div>     
@@ -125,9 +131,10 @@
 
 
         <div class="layui-card-body" style="width: 61%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
-            <form id="datasform" action="/admin/order_append/add" method="post">
+            <form id="datasform" action="/admin/offerlist/add_order_operation" method="post">
                 <input type="hidden" name="customerid" value="{$customer_info['id']}" >
-                <input type="hidden" name="order_id" value="{$order_id}" >
+                <input type="hidden" name="framename" value="" >
+                <input type="hidden" name="remark" value="" >
                 <table class="layui-table" id="project">
                     <colgroup>
                         <col width="10">
@@ -209,11 +216,103 @@
     //=======================导入模板start
 
     $('#import_tmp').click(function(){
-        alert('功能待开发');
-        // $.post('',{},function(){
-
-        // },'json')
+        layui.use('layer', function(){
+            $.post('/admin/quote/ajax_get_tmp_list',{},function(res){
+                if(res.code == 1){
+                    var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center"></th><th style="text-align:center">模板名称</th><th style="text-align:center">备注</th><th style="text-align:center">修改时间</th></tr></thead><tbody>';
+                    $(res.datas).each(function(k,v){
+                        html += '<tr><td><a style="color:#fb8c4c" href="javascript:;" onclick="check_tmp(this)" data-tid="'+v.tmp_id+'">选择</a></td><td>'+v.tmp_name+'</td><td>'+v.remark+'</td><td>'+v.update_time+'</td></tr>'
+                    })
+                    html+= '</tbody></table>'
+                    layer.open({
+                        title: '选择模板',
+                        area: ['600px', '500px'],
+                        content:html
+                    }); 
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json')
+        }); 
     })
+
+    function check_tmp(o){
+        var tmp_id = $(o).data('tid');
+        $.post('/admin/quote/ajax_get_tmp_info',{tmp_id:tmp_id},function(res){
+            if(res.code == 1){
+                var offerquota = res.offerquota;
+                var datas = res.datas;
+                var is_in = 0;
+                $(res.datas).each(function(k,v){
+
+                    if($('input[data-project="'+v.space+'-'+v.item_number+'"]').length > 0){
+                        is_in = 1;
+                        return true;
+                    }
+
+                    var project = '';
+                    project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                    project += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                    project += '<td>'+v.item_number+'</td>';
+                    project += '<td>'+offerquota[v.item_number]['project']+'</td>';
+                    project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
+                    project += '<td>'+offerquota[v.item_number]['company']+'</td>';
+                    project += '<td>'+offerquota[v.item_number]['quota']+'</td>';
+                    project += '<td></td>';
+                    project += '<td>'+offerquota[v.item_number]['craft_show']+'</td>';
+                    project += '<td></td>';
+                    project += '</tr>';
+
+                    if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
+                        $('tr[data-space="'+v.work_type+'-'+v.space+'"]').after(project);
+                    }else{
+                        //空间不存在 新建空间
+                        var space_html = '';
+                        space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                        space_html += '<td><i class="layui-icon layui-icon-delete"></i></td>'
+                        space_html += '<td></td>'
+                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'</td>'
+                        space_html += '<td colspan="1"></td>';
+                        space_html += '<td class="space_material_total" colspan="1"></td>';
+                        space_html += '<td colspan="1"></td>';
+                        space_html += '<td class="space_artificial_total" colspan="1"></td>';
+                        space_html += '</tr>'
+                        //判断工种是否不存 
+                        if($('tr[data-word="'+v.work_type+'"]').length > 0){
+                            $('tr[data-word="'+v.work_type+'"]').after(space_html);
+                            $('tr[data-space="'+v.work_type+'-'+v.space+'"]').after(project);
+                        }else{
+                            //不存在 添加工种
+                            var word_html = '';
+                            word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
+                            word_html += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                            word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
+                            word_html += '<td colspan="1"></td>';
+                            word_html += '<td class="word_material_total" colspan="1"></td>';
+                            word_html += '<td colspan="1"></td>';
+                            word_html += '<td class="word_artificial_total" colspan="1"></td>';
+                            word_html += '</tr>';
+                            $('#project_datas').append(word_html);
+                            $('tr[data-word="'+v.work_type+'"]').after(space_html);
+                            $('tr[data-space="'+v.work_type+'-'+v.space+'"]').after(project);
+                        }
+                    }
+                })
+                layer.close(layer.open());
+                if(is_in){
+                    layer.msg('导入成功，部分重复项目已自动过滤');
+                }else{
+                    layer.msg('导入成功');
+                }
+                initialize_datas();
+                // $('#seach_datas').append(html);
+            }else{
+                layer.msg(res.msg);
+            }
+        },'json') 
+    }
+
+
 
     //=======================导入模板end
 
@@ -444,5 +543,47 @@
         $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total);
     })
     //======================价格统计end
+
+    function initialize_datas(){
+        //统计合计
+        //计算单项目
+        $('#project .project').each(function(k,v){
+            var num = Number($(v).find('input').val());
+            if(num == ''){
+                return true;
+            }
+            var quota = Number($(v).find('td').eq(5).text());
+            var craft_show = Number($(v).find('td').eq(7).text());
+            $(v).find('td').eq(6).text(num*quota);
+            $(v).find('td').eq(8).text(num*craft_show);
+        })
+        //计算空间
+        $('#project .space').each(function(k,v){
+            var word = $(v).data('inword');
+            var space = $(v).data('inspace');
+            var total_quota = 0;
+            var total_craft_show = 0;
+            $('.project[data-inword="'+word+'"][data-inspace="'+space+'"]').each(function(k1,v1){
+                total_quota += Number($(v1).find('td').eq(6).text());
+                total_craft_show += Number($(v1).find('td').eq(8).text());
+            })
+            $(v).find('td').eq(4).text(total_quota);
+            $(v).find('td').eq(6).text(total_craft_show);
+        })
+        //计算工种
+        $('#project .word').each(function(k,v){
+            var word = $(v).data('inword');
+            var total_quota = 0;
+            var total_craft_show = 0;
+            $('.space[data-inword="'+word+'"]').each(function(k1,v1){
+                total_quota += Number($(v1).find('td').eq(4).text());
+                total_craft_show += Number($(v1).find('td').eq(6).text());
+            })
+            $(v).find('td').eq(3).text(total_quota);
+            $(v).find('td').eq(5).text(total_craft_show);
+
+        })
+    }
+
 </script>
 {/block}

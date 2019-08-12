@@ -21,16 +21,301 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Offerlist extends Adminbase
 {
-  public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-  public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-  public $gongzhong=array('泥瓦工种','水电工程','木制作','木工其他','扇灰工程','油漆类','形象保护','打拆工种','其他综合项目','加建工程');//工种
+    public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+    public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+    public $gongzhong=array('泥瓦工种','水电工程','木制作','木工其他','扇灰工程','油漆类','形象保护','打拆工种','其他综合项目','加建工程');//工种
     // protected function initialize()
     // {
     //     parent::initialize();
     // }
     public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
-  
     public $show_page = 15;
+
+    //报价 根据工种 获取项目
+    public function ajax_get_project(){
+        $userinfo = $this->_userinfo;
+        $word_name = input('word_name');
+        $datas = Db::name('offerquota')->where(['type_of_work'=>$word_name,'frameid'=>$userinfo['companyid']])->field('item_number,type_of_work,project,company,cost_value,quota,craft_show,labor_cost')->select();
+        echo json_encode(['code'=>1,'datas'=>$datas]);die;
+    }
+
+
+
+    //报单(新)
+    public function add_order(){
+        if(!input('customer_id')){
+            $this->error('非法操作');
+        }
+        $userinfo = $this->_userinfo;
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
+        }
+        $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        $this->assign([
+            'offer_type'=>$offer_type,
+            'customer_info'=>$customer_info,
+        ]);
+        return $this->fetch();
+    }
+
+    //报价操作 - 生成订单
+    public function add_order_operation(){
+        if(input('data') && $this->request->isPost()){
+            $userinfo = $this->_userinfo;
+            $time = time();
+            $data = array();
+            $data['userid'] = $userinfo['userid'];
+            $data['frameid'] = $userinfo['companyid'];//存公司id到报表
+            $data['customerid'] = input('customerid');
+            $data['unit'] = input('framename');//单位
+            $data['entrytime'] = time();
+            $data['number'] = 1;
+            if(input('remark')){
+                $data['remark'] = input('remark');
+            }
+            $content = [];
+            $order_project = [];
+            foreach (input('data') as $k1 => $v1) {
+                foreach($v1 as $k2=>$v2){
+                    $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
+                    if(!$item){
+                        $this->error('项目有误');
+                    }
+                    $item['kongjian'] = $k1;
+                    $item['gcl']= $v2; //数量
+                    $item['quotaall'] = $v2 * $item['quota']; //该项目的辅材总价
+                    $item['craft_showall'] = $v2 * $item['craft_show']; //该项目的人工总价
+                    $content[] = $item;
+
+                    //=========================项目 另存新数据库 后面慢慢完善
+                    $project = [];
+                    // $project['o_id'] = '';//订单id
+                    $project['oa_id'] = 0;
+                    $project['item_number'] = $k2;
+                    $project['num'] = $v2;
+                    $project['type_of_work'] = $item['type_of_work'];
+                    $project['project'] = $item['project'];
+                    $project['company'] = $item['company'];
+                    $project['cost_value'] = $item['cost_value'];
+                    $project['quota'] = $item['quota'];
+                    $project['craft_show'] = $item['craft_show'];
+                    $project['labor_cost'] = $item['labor_cost'];
+                    $project['material'] = $item['material'];
+                    $project['content'] = $item['content'];
+                    $project['type'] = 1;
+                    $project['add_time'] = $time;
+                    $project['space'] = $k1;
+                    $order_project[] = $project; 
+                }
+            }
+            $data['content'] = json_encode($content); //这里获取了项目详情
+            //===============================计算物料总合计 成本
+            // $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
+            $material_all = [];
+            $order_material = [];//订单辅料详情 - 以后顶替material_all这种json储存方法
+            foreach($content as $k=>$v){
+                $need_material = json_decode($v['content'],true);//需要的物料
+                foreach($need_material as $one_material){
+                    if($one_material[0] && $one_material[1]){
+                        if(!isset($material_all[$one_material[0]])){
+                            //上面2个foreach筛选offerquota表里面的content的有用数据 ( 里面有20个所需辅材 没有的用空数组代替 上面是提出空数组 )
+                            $material_all[$one_material[0]]['num'] = 0;
+                            $material_all[$one_material[0]]['price'] = 0;//成本单价
+                        }
+                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        $price = $materials_info['price'];
+                        $coefficient = $materials_info['coefficient'];
+                        if(!$price){
+                            $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
+                        }
+                        $material_all[$one_material[0]]['price'] = $price;//成本单价
+                        $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
+                        $material_all[$one_material[0]]['important'] = $materials_info['important'];
+                        $material_all[$one_material[0]]['num'] += $one_material[1]*$v['gcl']; //需要的用料单数 * 工程单位
+
+                        //===============订单辅料详情  $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
+                        if(!isset($order_material[$v['type_of_work']][$v['item_number']][$one_material[0]])){
+                            //初始化数据 这个框架会神奇的报错 = =
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['cb'] = $materials_info['price'];//成本
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['price'] = $v['quota'];//辅材单价
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
+                            
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['amcode'] = $materials_info['amcode'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['fine'] = $materials_info['fine'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['brand'] = $materials_info['brand'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['place'] = $materials_info['place'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['img'] = $materials_info['img'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['phr'] = $materials_info['phr'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['remarks'] = $materials_info['remarks'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['category'] = $materials_info['category'];//
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['units'] = $materials_info['units'];//
+                        }
+                        $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['gcl'];
+                            
+                        
+                        //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
+                    }
+                }
+            }
+            //=========订单辅料详情 组装数据存进数据库
+            //$order_material['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
+            $order_material_datas = [];
+            foreach($order_material as $k1=>$v1){
+                foreach($v1 as $k2=>$v2){
+                    foreach($v2 as $k3=>$v3){
+                        // $order_material_datas['o_id'] = '';//还没有
+                        $data_info['c_id'] = $data['customerid'];
+                        $data_info['f_id'] = $data['frameid'];
+                        $data_info['type_of_work'] = $k1;;
+                        $data_info['item_number'] = $k2;;
+                        $data_info['m_name'] = $k3;
+                        $data_info['num'] = $v3['num'];
+                        $data_info['cb'] = $v3['cb'];
+                        $data_info['price'] = $v3['price'];
+                        $data_info['profit'] = $v3['profit'];
+                        $data_info['coefficient'] = $v3['coefficient'];
+                        $data_info['important'] = $v3['important'];
+
+                        $data_info['amcode'] = $v3['amcode'];
+                        $data_info['fine'] = $v3['fine'];
+                        $data_info['brand'] = $v3['brand'];
+                        $data_info['place'] = $v3['place'];
+                        $data_info['img'] = $v3['img'];
+                        $data_info['phr'] = $v3['phr'];
+                        $data_info['remarks'] = $v3['remarks'];
+                        $data_info['category'] = $v3['category'];
+                        $data_info['units'] = $v3['units'];
+
+                        $order_material_datas[] = $data_info;
+                    }
+                }
+            }
+            //=========旧版本的计算
+            foreach($material_all as $k=>$v){
+                //获取数量的小数
+                $num = explode('.',$v['num']);
+                if(!isset($num[1])){
+                    $num[1] = 0;
+                }
+                if($num[1]*10 > $v['coefficient']){
+                    $material_all[$k]['omit_num'] = ceil($v['num']);
+                }else{
+                    //不足1时向上取证
+                    if($v['num'] < 1 && $v['important']){
+                        $material_all[$k]['omit_num'] = ceil($v['num']);
+                    }else{
+                        $material_all[$k]['omit_num'] = floor($v['num']);
+                    }
+                }
+                unset($material_all[$k]['coefficient']);
+            }
+            $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价,omit_num=>系数后数量]
+
+            //==============================计算人工成本
+            
+            $need_project = json_decode($data['content'],true);//需要的项目
+            $artificial_all = [];//人工成本 , 报价(成本+利润)
+            foreach($need_project as $k=>$v){
+                $Offerquota_info = Db::name('Offerquota')->where(array('frameid'=>$userinfo['companyid'],'item_number'=>$v['item_number']))->find();
+                if(!$Offerquota_info){
+                    $this->error($one_material[0].'人工有误，请及时补充人工工费');
+                }
+                if(!isset($artificial_all[$v['item_number']])){
+                  $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
+                  $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
+                  $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
+                  $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                  $artificial_all[$v['item_number']]['num'] = 0;//数量
+                }
+                $artificial_all[$v['item_number']]['num'] += $v['gcl']; //数量
+                
+            }
+            $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
+            //其他各种费用比率
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();
+            if(!$cost_tmp){
+                //没有设置  这个是默认值
+                $cost_tmp_data = [
+                    'tubemoney'=>1,
+                    'carry'=>0,
+                    'clean'=>0,
+                    'accident'=>0,
+                    'remote'=>0,
+                    'old_house'=>0,
+                    'taxes'=>0,
+                    'supervisor_commission'=>0,
+                    'design_commission'=>0,
+                    'repeat_commission'=>3,
+                    'business_commission'=>0
+                ];
+            }else{
+                $cost_tmp_data = [
+                    'tubemoney'=>$cost_tmp['tubemoney'],
+                    'carry'=>$cost_tmp['carry'],
+                    'clean'=>$cost_tmp['clean'],
+                    'accident'=>$cost_tmp['accident'],
+                    'remote'=>$cost_tmp['remote'],
+                    'old_house'=>$cost_tmp['old_house'],
+                    'taxes'=>$cost_tmp['taxes'],
+                    'supervisor_commission'=>$cost_tmp['supervisor'],
+                    'design_commission'=>$cost_tmp['design'],
+                    'repeat_commission'=>$cost_tmp['repeat'],
+                    'business_commission'=>$cost_tmp['business']
+                ];
+            }
+            $data = array_merge($data,$cost_tmp_data);
+            Db::startTrans();
+            try{
+                $re = Db::name('offerlist')->insertGetId($data);
+                foreach($order_material_datas as $k=>$v){
+                    $order_material_datas[$k]['o_id'] = $re;
+                }
+                if($order_material_datas){
+                    $order_material_res = Db::name('order_material')->insertAll($order_material_datas);
+                }else{
+                    $order_material_res = 1;
+                }
+
+                foreach($order_project as $k=>$v){
+                    $order_project[$k]['o_id'] = $re;
+                }
+                
+                $order_project_res = Db::name('order_project')->insertAll($order_project);
+                
+                // 提交事务
+                Db::commit();    
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $this->error('失败');
+            }
+            if($re!==false && $order_material_res && $order_project_res){
+                $this->success('成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
+            }else{
+                $this->error('失败');
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //=====================================================================下面的不知道是什么 有用再往上挪
   
     public function userlist(){
         $where = new Where;
@@ -107,9 +392,10 @@ class Offerlist extends Adminbase
         }
         //所有客户信息
         $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-        // var_dump($res);die;
         //统计报价开始 
         foreach ($res as $key => $value) {
+            //判断是否有增减项
+            $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
             $content = json_decode($value['content'],true);
             foreach($content as $keys => $values){
                 $res[$key]['matquant'] += $values['quotaall'];//每个项目的辅材总价累加
@@ -987,9 +1273,11 @@ class Offerlist extends Adminbase
       'mould'=>$mould
       ]);  
       return $this->fetch();
-  
-  }
-    //业务报价
+    }
+
+
+
+    //业务报价(旧)
     public function edit()
     {
         $userinfo = $this->_userinfo; 
