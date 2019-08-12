@@ -171,7 +171,7 @@ class OrderAppend extends Adminbase
                 $this->error('失败');
             }
             if($re!==false && $order_material_res && $order_project_res){
-                $this->success('成功',url('admin/offerlist/index',array('customer_id'=>input('customer_id'))));
+                $this->success('成功',url('admin/offerlist/index',array('customer_id'=>input('customerid'))));
             }else{
                 $this->error('失败');
             }

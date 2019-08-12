@@ -49,7 +49,7 @@ class Offertype extends Adminbase
         }
     }
 
-    //新增
+    //编辑
     public function ajax_edit_word(){
         if(input('name') && input('type') && input('id')){
             $userinfo = $this->_userinfo;
