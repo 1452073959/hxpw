@@ -383,12 +383,12 @@ class Quote extends Adminbase
             	}
             	$work_type = trim($sheet->getCell("A".$i)->getValue());
             	$space = trim($sheet->getCell("B".$i)->getValue());
-            	if(!in_array($work_type, $offer_type[1])){
-            		$this->error('工种：'.$work_type.'，不存在');
-            	}
-                if(!in_array($space, $offer_type[2])){
-                    $this->error('空间类型'.$space.'，不存在');
-                }
+            	// if(!in_array($work_type, $offer_type[1])){
+            	// 	$this->error('工种：'.$work_type.'，不存在');
+            	// }
+             //    if(!in_array($space, $offer_type[2])){
+             //        $this->error('空间类型'.$space.'，不存在');
+             //    }
                 $data[$i]['tmp_id']  = $tmp_id;
                 $data[$i]['tmp_name']  = $tmp_name;
                 $data[$i]['f_id']  = $userinfo['companyid'];
