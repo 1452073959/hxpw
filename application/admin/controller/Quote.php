@@ -326,19 +326,11 @@ class Quote extends Adminbase
         if(!$userInfo) {
             $this->error('无法获取当前操作人员');die;
         }
-        //生成空间类型数据 用于判断空间类型是否有效
-        $offer_type_list = Db::name('offer_type')->field('name,pid,id')->order('id','asc')->select();
-        $offer_type = [];
-        foreach($offer_type_list as $k1=>$v1){
-            if($v1['pid'] == 0){
-                $offer_type[$v1['name']] = [];
-                unset($offer_type_list[$k1]);
-                foreach($offer_type_list as $k2=>$v2){
-                    if($v2['pid'] == $v1['id']){
-                        $offer_type[$v1['name']][$v2['name']] = $v2['name'];
-                    }
-                }
-            }
+        // //生成空间类型数据 用于判断空间类型是否有效
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
         }
 
         require'../extend/PHPExcel/PHPExcel.php';
@@ -391,9 +383,12 @@ class Quote extends Adminbase
             	}
             	$work_type = trim($sheet->getCell("A".$i)->getValue());
             	$space = trim($sheet->getCell("B".$i)->getValue());
-            	if(!isset($offer_type[$work_type][$space])){
-            		$this->error($work_type.'-'.$space.'，不存在');
+            	if(!in_array($work_type, $offer_type[1])){
+            		$this->error('工种：'.$work_type.'，不存在');
             	}
+                if(!in_array($space, $offer_type[2])){
+                    $this->error('空间类型'.$space.'，不存在');
+                }
                 $data[$i]['tmp_id']  = $tmp_id;
                 $data[$i]['tmp_name']  = $tmp_name;
                 $data[$i]['f_id']  = $userInfo['companyid'];
