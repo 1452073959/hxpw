@@ -394,19 +394,19 @@ class Quote extends Adminbase
                 $data[$i]['f_id']  = $userinfo['companyid'];
                 $data[$i]['work_type']  = $work_type;
                 $data[$i]['space']  = $space;
-                $data[$i]['project_name']  = trim($sheet->getCell("C".$i)->getValue());
+                $data[$i]['item_number']  = trim($sheet->getCell("C".$i)->getValue());
                 $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';
                 $data[$i]['update_time']  = $time;
             }
-            $project_name = array_unique(array_column($data, 'project_name'));
-            $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userinfo['companyid']])->field('item_number,project')->select(),null,'project');
-            foreach($data as $k=>$v){
-                if($offerquota[$v['project_name']]['item_number']){
-                    $data[$i]['item_number'] = $offerquota[$v['project_name']]['item_number'];
-                }else{
-                    $this->error('项目：'.$v['project_name'].'不存在，导入失败');
-                }
-            }
+            // $project_name = array_unique(array_column($data, 'project_name'));
+            // $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userinfo['companyid']])->field('item_number,project')->select(),null,'project');
+            // foreach($data as $k=>$v){
+            //     if($offerquota[$v['project_name']]['item_number']){
+            //         $data[$i]['item_number'] = $offerquota[$v['project_name']]['item_number'];
+            //     }else{
+            //         $this->error('项目：'.$v['project_name'].'不存在，导入失败');
+            //     }
+            // }
 
             //将数据保存到数据库
             if ($data) {
