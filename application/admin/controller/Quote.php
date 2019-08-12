@@ -51,10 +51,10 @@ class Quote extends Adminbase
         $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
         if(count($item_number) != count($offerquota)){
             //=============验证模板是否有效 end
-            echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效'));die;
+            echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效','item_number'=>count($item_number),'offerquota'=>count($offerquota)));die;
         }
         $offerquota = array_column($offerquota, null,'item_number');
-        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota,'item_number'=>count($item_number),'offerquota'=>count($offerquota)));
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
     }
 	//报价模板首页
 	public function index(){
