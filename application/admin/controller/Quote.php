@@ -342,7 +342,7 @@ class Quote extends Adminbase
             }
             if (!$info) {
                // Result(1,'上传文件格式不正确'); 
-                $this->error('上传文件格式不正确');
+                $this->error('上传文件格式不正确');die;
             }else{
                // Result(0,'上传成功'); 
                //获取上传到后台的文件名
@@ -384,10 +384,10 @@ class Quote extends Adminbase
             	$work_type = trim($sheet->getCell("A".$i)->getValue());
             	$space = trim($sheet->getCell("B".$i)->getValue());
             	if(!in_array($work_type, $offer_type[1])){
-            		$this->error('工种：'.$work_type.'，不存在');
+            		$this->error('工种：'.$work_type.'，不存在');die;
             	}
                 if(!in_array($space, $offer_type[2])){
-                    $this->error('空间类型'.$space.'，不存在');
+                    $this->error('空间类型'.$space.'，不存在');die;
                 }
                 $data[$i]['tmp_id']  = $tmp_id;
                 $data[$i]['tmp_name']  = $tmp_name;
@@ -426,6 +426,7 @@ class Quote extends Adminbase
 				    // 回滚事务
 				    Db::rollback();
 				    $this->error($e->getMessage());
+                    die;
 				}
                 
                $this->success('导入成功');
