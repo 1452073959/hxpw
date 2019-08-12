@@ -322,8 +322,8 @@ class Quote extends Adminbase
 			$this->error('没有文件被上传');die;
 		}
 
-        $userInfo = $this->_userinfo;
-        if(!$userInfo) {
+        $userinfo = $this->_userinfo;
+        if(!$userinfo) {
             $this->error('无法获取当前操作人员');die;
         }
         // //生成空间类型数据 用于判断空间类型是否有效
@@ -391,7 +391,7 @@ class Quote extends Adminbase
                 }
                 $data[$i]['tmp_id']  = $tmp_id;
                 $data[$i]['tmp_name']  = $tmp_name;
-                $data[$i]['f_id']  = $userInfo['companyid'];
+                $data[$i]['f_id']  = $userinfo['companyid'];
                 $data[$i]['work_type']  = $work_type;
                 $data[$i]['space']  = $space;
                 $data[$i]['project_name']  = trim($sheet->getCell("C".$i)->getValue());
@@ -399,7 +399,7 @@ class Quote extends Adminbase
                 $data[$i]['update_time']  = $time;
             }
             $project_name = array_unique(array_column($data, 'project_name'));
-            $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userInfo['companyid']])->field('item_number,project')->select(),null,'project');
+            $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userinfo['companyid']])->field('item_number,project')->select(),null,'project');
             foreach($data as $k=>$v){
                 if($offerquota[$v['project_name']]['item_number']){
                     $data[$i]['item_number'] = $offerquota[$v['project_name']]['item_number'];
