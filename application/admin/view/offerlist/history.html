@@ -58,11 +58,9 @@
         <div class="">
             <blockquote class="layui-elem-quote news_search">
                 <form class="layui-inline">
-					<a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id')])}">导出报表</a>
+					<!-- <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id')])}">导出报表</a> -->
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
-                    <a class="layui-btn layui-btn-sm" href="{:url('Offerlist/edit',['id'=>$edit_id])}">新建报表</a>
-											 
-					<select class="form-control" id="changestatus" data-id="{$data.id}" data-customerid="{$data.customerid}">
+					<select class="form-control" id="changestatus" data-id="{$order_info.id}" data-customerid="{$order_info.customerid}">
 						<option>选择标签</option>
 						<option value="0">未报价</option>
 						<option value="1">已报价</option>
@@ -70,7 +68,7 @@
 						<option value="3">合同价</option>
 						<option value="4">结算价</option>
 					</select>
-					{switch name="data.status"}
+					{switch name="order_info.status"}
 						{case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
 						{case value="1"} <a class="layui-btn layui-btn-xs layui-btn-danger">已报价</a>{/case}
 						{case value="2"}<a class="layui-btn layui-btn-xs layui-btn-danger">预算价</a>{/case}
@@ -82,7 +80,7 @@
 				</form>
             </blockquote>
 			<div id="export-table">
-				{notempty name="data"}
+				{notempty name="datas"}
                 <!-- <table class="layui-table" style="word-break:break-all"> -->
                 <table class="layui-table">
                       <colgroup>
@@ -107,7 +105,7 @@
                             400-628-1968</th>
 					    </tr>
 						<tr>
-							<th style="text-align:center;" colspan="9">单位：{$data.unit}</th>        
+							<th style="text-align:center;" colspan="9">单位：{$order_info.unit}</th>        
 						</tr>
 						<tr>
 							<th colspan="3">工程名称：{$userinfo.address}</th>       
@@ -132,164 +130,66 @@
 						  </tr>
 					</thead>
 					<tbody> 
-						{notempty name="data['details']"}
-						{foreach name="data['details']" item="vos" key="key"}
-							<tr data-cate="tr{$key}">
-								<td>{$vos.conditions_no}</td>
-								<td colspan="2">{$vos.conditionsname}</td>
-								<td colspan="7"></td>
-							</tr>
-							{foreach name="$vos.son" key="k" item="v"}
-								<tr id="tr{$k}">
-                                    <td>{$v.room_no}</td>
-									<td class="text-center" colspan="9">{$v.roomname}</td>
-								</tr>
-								{foreach name="$v.item" item="vv" key="kk"}
-									<tr class="tr{$key}{$k}">
-                                      	<td>{$kk * 1 + 1}</td>
-										<td>{$vv['project']}（{$vv['item_number']}）</td>
-										<td>{$vv.gcl}</td>
-										<td>{$vv['company']}</td>
-										<td>{$vv['quota']}</td>
-										<td>{$vv['quota'] * $vv.gcl}</td>
-										<td>{$vv['craft_show']}</td>
-										<td>{$vv['craft_show'] * $vv.gcl}</td>
-										<td class="text-limit">{$vv['material']}</td>
-										<input type="hidden" form="myform" name="quote[{$key}][{$k}][]" value="{$vv['id']}">
-									</tr>
-								{/foreach}
-							{/foreach}
-									<tr class="tr{$key}total">
-										<td class="text-center" colspan="2">小计</td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>
-						{/foreach}
-
-                        <tr>
-                            <td class="text-center" colspan="2">合计</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{$data['matquant']}</td>
-                            <td></td>
-                            <td>{$data['manual_quota']}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center" colspan="9">其他费用</td>
-                        </tr>
-                        {notempty name="data['tubemoney']"}
+						{notempty name="datas"}
+                            <?php 
+                                $num1 = 65;
+                                $total_quota = 0;
+                                $total_craft_show = 0;
+                            ?>
+                            {foreach name="datas" item="v1" key="k1"}
+                                <tr data-cate="tr{$k1}">
+                                    <td><?php echo chr($num1); ?></td>
+                                    <td colspan="2">{$k1}</td>
+                                    <td colspan="7"></td>
+                                </tr>
+                                <?php $num1++;$num2=97; ?>
+                                {foreach name="$v1" key="k2" item="v2"}
+                                    <tr id="tr{$k2}">
+                                        <td><?php echo chr($num2); ?></td>
+                                        <td class="text-center" colspan="9">{$k2}</td>
+                                    </tr>
+                                    <?php $num3=1; $num2++; ?>
+                                    {foreach name="$v2" item="v3" key="k3"}
+                                        <tr class="tr{$k1}{$k2}">
+                                            <td>{$num3}</td>
+                                            <td>{$offerquota[$k3]['project']}</td>
+                                            <td>{$v3.num}</td>
+                                            <td>{$offerquota[$k3]['company']}</td>
+                                            <td>{$offerquota[$k3]['quota']}</td>
+                                            <td>{$v3.num?$v3.num*$offerquota[$k3]['quota']:''}</td>
+                                            <td>{$offerquota[$k3]['craft_show']}</td>
+                                            <td>{$v3.num?$v3.num*$offerquota[$k3]['craft_show']:''}</td>
+                                            <td>{$offerquota[$k3]['material']}</td>
+                                            <input type="hidden" form="myform" name="" value="">
+                                        </tr>
+                                        <?php 
+                                            $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
+                                            $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
+                                            $num3++;
+                                         ?>
+                                    {/foreach}
+                                {/foreach}
+                                <tr class="tr{$k1}total">
+                                    <td class="text-center" colspan="2">小计</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {/foreach}
                             <tr>
-                                <td class="text-center" colspan="2">管理费</td>
+                                <td class="text-center" colspan="2">合计</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td>{$total_quota}</td>
                                 <td></td>
-                                <td></td>
-                                <td>{$data['tubemoney']}</td>
+                                <td>{$total_craft_show}</td>
                                 <td></td>
                             </tr>
-                        {/notempty}
-                        {notempty name="data['carry']"}
-                            <tr>
-                                <td class="text-center" colspan="2">搬运费</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['carry']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['clean']"}
-                            <tr>
-                                <td class="text-center" colspan="2">清洁费</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['clean']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['accident']"}
-                            <tr>
-                                <td class="text-center" colspan="2">工程意外险</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['accident']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['remote']"}
-                            <tr>
-                                <td class="text-center" colspan="2">远程费</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['remote']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['old_house']"}
-                            <tr>
-                                <td class="text-center" colspan="2">旧房局部改造费</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['old_house']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['taxes']"}
-                            <tr>
-                                <td class="text-center" colspan="2">税金</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['taxes']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        {notempty name="data['discount']"}
-                            <tr>
-                                <td class="text-center" colspan="2">优惠</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{$data['discount']}</td>
-                                <td></td>
-                            </tr>
-                        {/notempty}
-                        <tr>
-                            <td class="text-center" colspan="2">工程报价</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{$data['discount_proquant']}</td>
-                            <td></td>
-                        </tr>
 						{/notempty}
 					</tbody>
 				</table>

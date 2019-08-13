@@ -534,65 +534,41 @@ class Offerlist extends Adminbase
 
     //报表历史记录
     public function history(){
-        $userinfo = $this->_userinfo; 
-        $request = request();
 
-        $id = $request->param('customerid'); //用户id
-        $o_id = $request->param('report_id');//订单id 不是我命名的= =
-        $rs = [];
-        $rs = model('offerlist')->get_order_info($o_id);
-        $userinfo = Db::name('userlist')->where(['id'=>$id])->find();
-        if(!empty($rs['content'])){
-        // $rs['content'] = json_decode($rs['content'],true);
-            $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
-            foreach(json_decode($rs['content'],true) as $key=>$value){
-                if(!in_array($value['type_of_work'],$conditions) ){
-                  $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-                  $conditions[$id] = $value['type_of_work'];
-                }
-            }
-            foreach(json_decode($rs['content'],true) as $key=>$value){
-                if(!in_array($value['kongjian'],$room) ){
-                  $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-                  $room[$id] = $value['kongjian'];
-                }
-            }
-            if( !empty($conditions) ){
-                $new_data = [];
-                $conditions_no = 0;
-                foreach($conditions as $key=>$value){
-                  foreach($room as $k=>$v){
-                    foreach(json_decode($rs['content'],true) as $ke=>$val){
-                        if($val['type_of_work'] ==$value){
-                            $new_data[$key]['conditionsname'] = $value;
-                            $new_data[$key]['conditions_no'] = $this->upper[$conditions_no];
-                            if($val['kongjian'] == $v){
-                                $new_data[$key]['son'][$k]['roomname'] = $v;
-                                $new_data[$key]['son'][$k]['room_no'] = $this->lower[$room_no];
-                                $new_data[$key]['son'][$k]['item'][] = $val;
-                            }
-                        }
-                    }
-                  }
-                    $conditions_no++;
-                }
-            }
-            foreach($new_data as $k1=>$v1){
-                $room_no = 0;
-                foreach($v1['son'] as $k2=>$v2){
-                  $new_data[$k1]['son'][$k2]['room_no'] = $this->lower[$room_no];
-                  $room_no++;
-                }
-            }
-            $rs['details'] = $new_data;
+        $o_id = input('report_id');
+        //订单数据
+        $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+        $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        $order_project = Db::name('order_project')->where('o_id',$o_id)->where('type',2)->select();
+
+        //==========获取工种 空间类型
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
         }
-        $all = Db::name('offerlist')->where(["customerid" => trim($id)])->select();//该客户的所有报表
-        $this->assign('all',$all);//该客户的所有报表id
-        $this->assign('userinfo',$userinfo);//客户信息
-        $edit_id = Db::name('offerlist')->where('customerid',$id)->value('id');
-        $this->assign('edit_id',$edit_id);//新建报表id
-        $this->assign("data", $rs);//报表数据
+        //===========获取工种结束
+        $datas = [];
+        $item_number = [];
+        foreach($order_project as $k=>$v){
+            if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+                $item_number[] = $v['item_number'];
 
+            }
+            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+        }
+        $item_number = array_unique($item_number);
+        $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+        // var_dump($datas);die;
+        $this->assign([
+            'datas'=>$datas,
+            'order_info'=>$order_info,
+            'userinfo'=>$userinfo,
+            'offerquota'=>$offerquota,
+            'offer_type'=>$offer_type,
+        ]); 
         return $this->fetch();
     }
 
