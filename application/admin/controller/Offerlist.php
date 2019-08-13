@@ -39,6 +39,7 @@ class Offerlist extends Adminbase
         echo json_encode(['code'=>1,'datas'=>$datas]);die;
     }
 
+    //选择模板
     public function check_tmp_cost(){
         $userinfo = $this->_userinfo;
         $tmp_id = input('tmp_id');

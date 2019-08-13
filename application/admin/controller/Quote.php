@@ -87,10 +87,10 @@ class Quote extends Adminbase
                     if($count_sign == $num){
                         $str = $v['formula'];
                         if(@eval("return $str;")){
-                            //模板错误
-                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
-                        }else{
                             $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                        }else{
+                             //模板错误
+                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
                         }
                     }else{
                         $num++;

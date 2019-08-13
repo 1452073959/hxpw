@@ -132,7 +132,7 @@
                         });  
                         $.post('/admin/quote/add_tmp_cost',datas,function(res){
                             if(res.code === 0){
-                                layer.msg(res.msg);
+                                alert(res.msg);
                             }else{
                                 layer.msg(res.msg);
                                 window.location.reload();
@@ -149,7 +149,7 @@
             }); 
         })
 
-        //编辑空间
+        //查看模板
         $('.edit').click(function(){
             var tmp_id = $(this).data('id');
             layui.use('layer', function(){
