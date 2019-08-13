@@ -175,11 +175,14 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
+
+
     //======================提交订单
     $('#submit_datas').click(function(){
         var is_null = 0;
         var unit = $('input[name="unit"]').val();
         var remark = $('input[name="remark"]').val();
+        var customerid = $('input[name="customerid"]').val();
         if(unit == ''){
             layui.use('layer', function(){
                 layer.msg('请填写单位/公司');
@@ -208,7 +211,38 @@
         if(is_null){
             return false;
         }
-        $('#datasform').submit();
+        var project = $('#project .project input').serializeArray();
+        var datas = {};  
+        $.each(project, function() {  
+            if (datas[this.name]) {  
+                if (!datas[this.name].push) {  
+                    datas[this.name] = [ datas[this.name] ];  
+                }  
+                datas[this.name].push(this.value || '');  
+            } else {  
+                datas[this.name] = this.value || '';  
+            }  
+        });  
+        datas['framename'] = unit;  
+        datas['remark'] = remark;  
+        datas['customerid'] = customerid;  
+        $.post('/admin/offerlist/add_order_operation',datas,function(res){
+            if(res.code == 1){
+                layui.use('layer', function(){
+                    layer.msg(res.msg);
+                    setTimeout(function () { 
+                        window.location.href = res.url; 
+                    }, 2000); 
+                });
+
+            }else{
+                //失败 提醒
+                layui.use('layer', function(){
+                    layer.msg(res.msg);
+                }); 
+            }
+        })
+        // $('#datasform').submit();
     })
     //======================提交订单end
 

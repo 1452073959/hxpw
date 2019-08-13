@@ -295,7 +295,7 @@ class Offerlist extends Adminbase
                 $this->error('失败');
             }
             if($re!==false && $order_material_res && $order_project_res){
-                $this->success('成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
+                $this->success('保存订单成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');
             }
