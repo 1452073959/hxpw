@@ -424,8 +424,8 @@
         var material_price = $(tr).find('td').eq(7).text();
         var project_artificial_total = artificial_price*num;
         var project_material_total = material_price*num;
-        $(tr).find('td').eq(6).text(project_artificial_total); //单条项目人工总价
-        $(tr).find('td').eq(8).text(project_material_total); //单条项目辅材总价
+        $(tr).find('td').eq(6).text(project_artificial_total.toFixed(2)); //单条项目人工总价
+        $(tr).find('td').eq(8).text(project_material_total.toFixed(2)); //单条项目辅材总价
         //统计当前空间
         var space = $(tr).attr('data-inspace')
         var word = $(tr).attr('data-inword')

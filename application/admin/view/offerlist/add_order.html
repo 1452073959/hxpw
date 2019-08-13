@@ -516,8 +516,8 @@
         var material_price = $(tr).find('td').eq(7).text();
         var project_artificial_total = artificial_price*num;
         var project_material_total = material_price*num;
-        $(tr).find('td').eq(6).text(project_artificial_total); //单条项目人工总价
-        $(tr).find('td').eq(8).text(project_material_total); //单条项目辅材总价
+        $(tr).find('td').eq(6).text(project_artificial_total.toFixed(2)); //单条项目人工总价
+        $(tr).find('td').eq(8).text(project_material_total.toFixed(2)); //单条项目辅材总价
         //统计当前空间
         var space = $(tr).attr('data-inspace')
         var word = $(tr).attr('data-inword')
@@ -554,8 +554,8 @@
             }
             var quota = Number($(v).find('td').eq(5).text());
             var craft_show = Number($(v).find('td').eq(7).text());
-            $(v).find('td').eq(6).text(num*quota);
-            $(v).find('td').eq(8).text(num*craft_show);
+            $(v).find('td').eq(6).text((num*quota).toFixed(2));
+            $(v).find('td').eq(8).text((num*craft_show).toFixed(2));
         })
         //计算空间
         $('#project .space').each(function(k,v){

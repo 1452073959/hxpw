@@ -489,8 +489,8 @@
             word_artificial_total += Number($(v).find('td').eq(6).text());
             word_material_total += Number($(v).find('td').eq(8).text());
         })
-        $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total);
-        $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total);
+        $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total.toFixed(2));
+        $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total.toFixed(2));
     })
     //======================价格统计end
 </script>
