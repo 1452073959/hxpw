@@ -539,7 +539,7 @@ class Offerlist extends Adminbase
         //订单数据
         $order_info = Db::name('offerlist')->where('id',$o_id)->find();
         $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
-        $order_project = Db::name('order_project')->where('o_id',$o_id)->where('type',2)->select();
+        $order_project = Db::name('order_project')->where('o_id',$o_id)->where('type',1)->select();
 
         //==========获取工种 空间类型
         $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
