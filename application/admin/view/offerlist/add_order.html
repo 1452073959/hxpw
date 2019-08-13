@@ -79,10 +79,12 @@
                     <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
                 </div>
                 
+                
             </div>     
         </blockquote>
         <div class="left" style="float: left;width: 7%;height: 92% ;overflow:auto;border-right: 1px solid #eee">
-            <ul>
+            <ul id="space_ul">
+                <li><a href="javascript:;" id="add_space" class="layui-btn layui-btn-radius layui-btn-primary">添加空间</a></li>
                 <!-- 空间 -->
                 <?php $i = 1; ?>
                 <?php foreach($offer_type[2] as $k=>$v){ ?>
@@ -175,7 +177,35 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
-
+        //==============添加空间
+    //添加空间
+    $('#add_space').click(function(){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+            content: '<input type="text" id="add_name" placeholder="请输入空间名称" class="layui-input">',
+            title:'添加空间',
+            btn: ['提交', '取消'],
+                yes: function(index, layero){
+                    var add_name = $('#add_name').val();
+                    $.post('/admin/offertype/ajax_add_word',{name:add_name,type:2},function(res){
+                        if(res.code === 0){
+                            layer.msg(res.msg);
+                        }else{
+                            $('#space_ul').append('<li class="" data-val="'+add_name+'">'+add_name+'</li>');
+                            layer.msg(res.msg);
+                        }
+                    },'json')
+                },
+                btn2: function(index, layero){
+                    layer.close(index);
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }); 
+    })
 
     //======================提交订单
     $('#submit_datas').click(function(){
@@ -183,12 +213,19 @@
         var unit = $('input[name="unit"]').val();
         var remark = $('input[name="remark"]').val();
         var customerid = $('input[name="customerid"]').val();
+        //var tmp_cost_id = $('select[name="tmp_cost"]').val();
         if(unit == ''){
             layui.use('layer', function(){
                 layer.msg('请填写单位/公司');
             }); 
             return false;
         }
+        // if(tmp_cost_id == ''){
+        //     layui.use('layer', function(){
+        //         layer.msg('请选择取费模板');
+        //     }); 
+        //     return false;
+        // }
         $('input[name="framename"]').val(unit);
         $('input[name="remark"]').val(remark);
         if($('#project_datas input').length < 1){
@@ -225,7 +262,8 @@
         });  
         datas['framename'] = unit;  
         datas['remark'] = remark;  
-        datas['customerid'] = customerid;  
+        datas['customerid'] = customerid;
+        // datas['tmp_cost_id'] = tmp_cost_id;
         $.post('/admin/offerlist/add_order_operation',datas,function(res){
             if(res.code == 1){
                 layui.use('layer', function(){
@@ -353,7 +391,7 @@
 
 
     //点击空间换颜色
-    $('#diolog .left li').click(function(){
+    $('#diolog .left').on('click','li',function(){
         $('#diolog .left li').removeClass('checkli');
         $(this).addClass('checkli');
     })
