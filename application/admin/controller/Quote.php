@@ -13,6 +13,138 @@ class Quote extends Adminbase
 {
 	public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+
+    public function tmp_cost(){
+        $userinfo = $this->_userinfo;
+        $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
+        $this->assign([ 'datas'=>$res ]);
+        return $this->fetch();
+        // echo 1;die;
+    }
+    public function get_tmp_cost_info(){
+        $userinfo = $this->_userinfo;
+        $tmp_list = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'tmp_id'=>input('tmp_id')])->select();
+        foreach($tmp_list as $k=>$v){
+            $tmp_list[$k]['add_time'] = date('Y-m-d H:i',$v['add_time']);
+        }
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list));
+    }
+
+    public function get_tmp_cost_list(){
+        $userinfo = $this->_userinfo;
+        $userinfo = $this->_userinfo;
+        $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
+        echo json_encode(array('code'=>1,'datas'=>$res));
+    }
+
+    public function get_order_tmp_cost(){
+        $o_id = input('id');
+        $offerlist = Model('offerlist')->get_order_info($o_id);
+        echo json_encode(array('code'=>1,'datas'=>$offerlist['order_cost']));
+    }
+
+    public function add_tmp_cost(){
+        if(input('tmp_name') && input('name') && input('sign') && input('formula') && input('rate')){
+            $datas = [];
+            $tmp_id = md5(input('tmp_name').rand(1,999999).microtime(true));
+            $tmp_name = input('tmp_name');
+            $name = input('name');
+            $sign = input('sign');
+            $formula = input('formula');
+            $rate = input('rate');
+            $time = time();
+            $userinfo = $this->_userinfo;
+            foreach($name as $k=>$v){
+                $info = [];
+                $info['tmp_id'] = $tmp_id;
+                $info['f_id'] = $userinfo['companyid'];
+                $info['tmp_name'] = $tmp_name;
+                $info['name'] = $v;
+                $info['sign'] = $sign[$k];
+                $info['formula'] = $formula[$k];
+                $info['rate'] = $rate[$k];
+                $info['add_time'] = $time;
+                $datas[] = $info;
+            }
+            //==========判断模板是否有效
+            //判断字段 标识符是否重复
+            $name_count = count(array_column($datas, 'name'));
+            $sign_count = array_column($datas, 'sign');
+            if(count($datas) !== $name_count){
+                $this->error('字段名称不得重复');
+            }
+            if(count($datas) !== count($sign_count) || in_array('A1', $sign_count)){
+                $this->error('标识符不得重复');
+            }
+
+            //判断计算方式
+            $sign_data['A1'] = 100;//自定义一个直接费
+            foreach($datas as $k=>$v){
+                $count_sign = count($sign_data);
+                $num = 1;
+                foreach($sign_data as $k2=>$v2){
+                    $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                    if($count_sign == $num){
+                        $str = $v['formula'];
+                        if(@eval("return $str;")){
+                            //模板错误
+                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        }else{
+                            $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                        }
+                    }else{
+                        $num++;
+                    }
+                }
+            }
+            //=============判断结束
+            Db::startTrans();
+            try {
+                // if(input('tmp_id')){
+                //     Db::name('tmp_cost')->where('tmp_id',input('tmp_id'))->delete();
+                // }
+                $re = Db::name('tmp_cost')->insertAll($datas);
+                // 提交事务
+                Db::commit();
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $this->error('模板保存失败');
+            }
+            
+            if($re){
+                $this->success('模板保存成功','admin/quote/tmp_cost');
+            }else{
+                $this->error('模板保存失败');
+            }
+        }else{
+            echo json_encode(array('code'=>0,'msg'=>'参数错误'));die;
+        }
+    }
+
+    public function delete_tmp_cost(){
+        if(input('tmp_id')){
+            $res = Db::name('tmp_cost')->where(['tmp_id'=>input('tmp_id')])->update(['status'=>9]);
+            if($res){
+                echo json_encode(['code'=>1,'msg'=>'删除成功']);
+            }else{
+                echo json_encode(['code'=>0,'msg'=>'删除失败']);
+            }
+        }else{
+            echo json_encode(array('code'=>0,'msg'=>'参数错误'));die;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     //获取模板列表
     public function ajax_get_tmp_list(){
         $userinfo = $this->_userinfo;
@@ -438,111 +570,4 @@ class Quote extends Adminbase
         $this->error('请选择上传文件');
         }
 	}
-	
-	// public function excel_export(){
-	// 	$filename = "报表模板";
-	// 	header("Content-type:application/octet-stream");
-	// 	header("Accept-Ranges:bytes");
-	// 	header("Content-type:application/vnd.ms-excel");
-	// 	header("Content-Disposition:attachment;filename=".$filename.".xls");
-	// 	header("Pragma: no-cache");
-	// 	header("Expires: 0");
-	// 	$id = input('id') ?: 2;
-	// 	$mould = Db::name('mould')->where('id','=',$id)->find();
-	// 	if($mould['content']){
-	// 		$conditions_no = 0;$room_no = 0;
-	// 		foreach(json_decode($mould['content'],true) as $key=>$value){
-	// 			$conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-	// 			$mould['details'][$key]['conditionsname'] = $conditionsname;
-	// 			$mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-	// 			foreach($value as $ke=>$va){
-	// 				$roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-	// 				$mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-	// 				$mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-	// 				foreach($va as $k=>$v){
-	// 					$item = Db::name('offerquota')->find($v);//定额条目
-	// 					$mould['details'][$key]['son'][$ke]['item'][$k] = $item;
-	// 				}
-	// 				$room_no++;
-	// 			}
-	// 			$conditions_no++;
-	// 		}
-	// 	}
-	// 	$str = '<table style="border:1px solid #000000;"><thead>
- //                    <tr>
-	// 					<th style="border:1px solid #000000;" rowspan="2" colspan="2"></th>
- //                        <th style="border:1px solid #000000;" colspan="6"><h3>住宅装饰工程造价预算书</h3></th>
-	// 					<th style="border:1px solid #000000;" rowspan="2" colspan="2"></th>
- //                    </tr>
-	// 				<tr>
-	// 					<th style="border:1px solid #000000;" colspan="6">全国统一24小时客服热线：400-6281-968</th>
-	// 				</tr>
- //                    <tr>
- //                        <th style="border:1px solid #000000;" style="text-align:center;" colspan="10">
- //                          单位：
- //                        </th>        
- //                    </tr>
- //                    <tr>
- //                        <th style="border:1px solid #000000;" colspan="3">工程名称：</th>       
- //                        <th style="border:1px solid #000000;" colspan="3">客户姓名：</th>       
- //                        <th style="border:1px solid #000000;" colspan="2">设计师姓名：</th>       
- //                        <th style="border:1px solid #000000;" colspan="2">报价师姓名：</th>       
- //                    </tr>
- //                    <tr>
-	// 					<th style="border:1px solid #000000;" rowspan="2">序号</th> 
- //                        <th style="border:1px solid #000000;" rowspan="2" colspan="2">工程项目名称</th>         
- //                        <th style="border:1px solid #000000;" rowspan="2">工程量</th>       
- //                        <th style="border:1px solid #000000;" rowspan="2">单位</th>
- //                        <th style="border:1px solid #000000;" colspan="2">辅材费</th> 
- //                        <th style="border:1px solid #000000;" colspan="2">人工费</th>    
- //                        <th style="border:1px solid #000000;" rowspan="2">施工工艺及材料说明</th> 
- //                    </tr>
- //                    <tr>   
- //                        <th style="border:1px solid #000000;">辅材基价</th>       
- //                        <th style="border:1px solid #000000;">辅材合价</th>       
- //                        <th style="border:1px solid #000000;">人工基价</th>       
- //                        <th style="border:1px solid #000000;">人工合价</th> 
- //                      </tr>
- //                </thead>';
-	// 	foreach($mould['details'] as $key=>$vos){
-	// 		$str .= '<tr>
-	// 			<td style="border:1px solid #000000;">'.$vos['conditions_no'].'</td>
-	// 			<td style="border:1px solid #000000;" colspan="2">'.$vos['conditionsname'].'</td>
-	// 			<td style="border:1px solid #000000;" colspan="7"></td>
-	// 		</tr>';
-	// 		foreach($vos['son'] as $k=>$v){
-	// 			$str .= '<tr">
-	// 				<td style="border:1px solid #000000;">'.$v['room_no'].'</td>
-	// 				<td style="border:1px solid #000000;" colspan="9">'.$v['roomname'].'</td>
-	// 			</tr>';
-	// 			foreach($v['item'] as $kk=>$vv){
-	// 				$str .= '<tr>
-	// 					<td style="border:1px solid #000000;">'.($kk*1+1).'</td>
-	// 					<td style="border:1px solid #000000;" colspan="2">'.$vv['project'].'</td>
-	// 					<td style="border:1px solid #000000;"></td>
-	// 					<td style="border:1px solid #000000;">'.$vv['company'].'</td>
-	// 					<td style="border:1px solid #000000;">'.$vv['quota'].'</td>
-	// 					<td style="border:1px solid #000000;"></td>
-	// 					<td style="border:1px solid #000000;">'.$vv['craft_show'].'</td>
-	// 					<td style="border:1px solid #000000;"></td>
-	// 					<td style="border:1px solid #000000;" title="点击查看详情">'.$vv['material'].'</td>
-	// 				</tr>
-	// 				<tr>
-	// 					<td style="background-color:#999999;text-align:center;" colspan="2">小计</td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 					<td style="background-color:#999999;"></td>
-	// 				</tr>';
-	// 			}
-	// 		}
-	// 	}
-	// 	$str .= '</table>';		
-	// 	echo($str);
-	// }
-	
-	
 }

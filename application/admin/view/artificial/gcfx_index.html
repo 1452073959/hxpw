@@ -90,23 +90,15 @@ a{
                         <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
 
-                        <th class="taleft" lay-data="{field:'tubemoney',width:110,style:'background-color: #e4fcfd' }">管理费(7%)</th>
+                        <th class="taleft" lay-data="{field:'order_cost_all_price',width:100,style:'background-color: #e4fcfd' }">其他费用</th>
 
-
-                        <th class="taleft" lay-data="{field:'carry',width:110,style:'background-color: #e4fcfd' }">搬运费(5%)</th>
-                        <th class="taleft" lay-data="{field:'clean',width:110,style:'background-color: #e4fcfd' }">清洁费(1%)</th>
-                        <th class="taleft" lay-data="{field:'accident',width:150,style:'background-color: #e4fcfd' }">工程意外险(1%)</th>
-                        <th class="taleft" lay-data="{field:'remote',width:110,style:'background-color: #e4fcfd' }">远程费(3%)</th>
-                        <th class="taleft" lay-data="{field:'old_house',width:180,style:'background-color: #e4fcfd' }">旧房局部改造费(2%)</th>
-
-                        <th class="taleft" lay-data="{field:'taxes',width:120,style:'background-color: #e4fcfd' }">税金(7%)</th>
 
                         <th class="taleft" lay-data="{field:'discount',edit:'text',width:100,style:'background-color: #e4fcfd' }">优惠</th>
                         <th class="taleft" lay-data="{field:'sundry',edit:'text',width:100,style:'background-color: #e5f3c5' }">运杂</th>
-                        <th class="taleft" lay-data="{field:'supervisor_commission',width:120,style:'background-color: #e5f3c5' }">监理提成(0%)</th>
-                        <th class="taleft" lay-data="{field:'design_commission',width:120,style:'background-color: #e5f3c5' }">设计提成(5%)</th>
+                        <th class="taleft" lay-data="{field:'supervisor_commission',width:120,style:'background-color: #e5f3c5' }">监理提成</th>
+                        <th class="taleft" lay-data="{field:'design_commission',width:120,style:'background-color: #e5f3c5' }">设计提成</th>
                         <th class="taleft" lay-data="{field:'repeat_commission',width:100,style:'background-color: #e5f3c5' }">回头客奖</th>
-                        <th class="taleft" lay-data="{field:'business_commission',width:120,style:'background-color: #e5f3c5' }">业务提成(5%)</th>
+                        <th class="taleft" lay-data="{field:'business_commission',width:120,style:'background-color: #e5f3c5' }">业务提成</th>
                         <th class="taleft" lay-data="{field:'artificial_cb',width:100,style:'background-color: #e5f3c5' }">人工成本</th>
                         <th class="taleft" lay-data="{field:'material_cb',width:100,style:'background-color: #e5f3c5' }">辅料成本</th>
                         <th class="taleft" lay-data="{field:'gross_profit',width:100,style:'background-color: #ffe1bb' }">工程毛利</th>
@@ -126,7 +118,7 @@ a{
                       <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td class="taleft">{$vo.id}</td>    
                       <td>
-                        {switch name="$vo.status"}
+                        {switch name="$vo.order_info.status"}
                             {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
                             {case value="1"} <a class="layui-btn layui-btn-xs layui-btn-primary">已报价</a>{/case}
                             {case value="2"}<a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
@@ -136,42 +128,29 @@ a{
                             <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
                         {/switch}
                       </td>
-                      <!-- <td class="taleft">{$vo.customer_name}</td>                          
-                      <td class="taleft">{$vo.address}</td>   
-                      <td class="taleft">{$vo.manager_name}</td> 
-                      <td class="taleft">{$vo.quoter_name}</td>
-                      <td class="taleft">{$vo.designer_name}</td>        -->
-                      <td class="taleft">{$vo.proquant}</td>   
-                      <td class="taleft">{$vo.discount_proquant}</td>   
-                      <td class="taleft">{$vo.direct_cost}</td>   
-                      <td class="taleft">{$vo.matquant}</td>   
-                      <td class="taleft">{$vo.manual_quota}</td>   
+                      <td class="taleft">{$vo.order_info.proquant}</td>   
+                      <td class="taleft">{$vo.order_info.discount_proquant}</td>   
+                      <td class="taleft">{$vo.order_info.direct_cost}</td>   
+                      <td class="taleft">{$vo.order_info.matquant}</td>   
+                      <td class="taleft">{$vo.order_info.manual_quota}</td>   
 
-                      <td class="taleft"><a class="" lay-event="tubemoney">{$vo.tubemoney}</a></td>   
+                      <td class="taleft"><a class="" lay-event="get_tmp_cost">{$vo.order_info.order_cost_all_price}</a></td>   
 
-                      <td class="taleft"><a class="" lay-event="carry">{$vo.carry}</a></td>
-                      <td class="taleft"><a class="" lay-event="clean">{$vo.clean}</a></td>
-                      <td class="taleft"><a class="" lay-event="accident">{$vo.accident}</a></td>
-                      <td class="taleft"><a class="" lay-event="remote">{$vo.remote}</a></td>
-                      <td class="taleft"><a class="" lay-event="old_house">{$vo.old_house}</a></td>
-
-                      <td class="taleft"><a class="" lay-event="taxes">{$vo.taxes}</a></td>
-
-                      <td class="taleft">{$vo.discount}</td>
-                      <td class="taleft">{$vo.sundry}</td>
-                      <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.supervisor_commission}</a></td>
-                      <td class="taleft"><a class="" lay-event="design_commission">{$vo.design_commission}</a></td>
-                      <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.repeat_commission}</a></td>
-                      <td class="taleft"><a class="" lay-event="business_commission">{$vo.business_commission}</a></td>
-                      <td class="taleft"><a class="" lay-event="artificial_cb">{$vo.artificial_cb}</a></td>   
-                      <td class="taleft"><a class="" lay-event="material_cb">{$vo.material_cb}</a></td>   
-                      <td class="taleft"><a class="" lay-event="gross_profit">{$vo.gross_profit}</a></td>   
-                      <td class="taleft">{$vo.profit_rate}%</td>   
-                      <td class="taleft">{$vo.gross_profit_total}</td>   
-                      <td class="taleft">{$vo.profit_rate_total}%</td>   
-                      <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>   
+                      <td class="taleft">{$vo.order_info.discount}</td>
+                      <td class="taleft">{$vo.order_info.sundry}</td>
+                      <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.order_info.supervisor_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="design_commission">{$vo.order_info.design_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="repeat_commission">{$vo.order_info.repeat_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="business_commission">{$vo.order_info.business_commission}</a></td>
+                      <td class="taleft"><a class="" lay-event="artificial_cb">{$vo.order_info.artificial_cb}</a></td>   
+                      <td class="taleft"><a class="" lay-event="material_cb">{$vo.order_info.material_cb}</a></td>   
+                      <td class="taleft"><a class="" lay-event="gross_profit">{$vo.order_info.gross_profit}</a></td>   
+                      <td class="taleft">{$vo.order_info.profit_rate}%</td>   
+                      <td class="taleft">{$vo.order_info.gross_profit_total}</td>   
+                      <td class="taleft">{$vo.order_info.profit_rate_total}%</td>   
+                      <td class="taleft">{$vo.order_info.entrytime|date="Y-m-d H:s:i"}</td>   
                       <td>
-                       <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.customerid])}">查看分析表</a>
+                       <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a>
                       </td>
                     </tr>       
                  {/foreach}
@@ -780,6 +759,31 @@ layui.use('table', function(){
                 }); 
               }else{
                 layer.msg(re.msg);return false;
+              }
+            }
+        });
+    }else if(obj.event === 'get_tmp_cost'){
+        var data = obj.data;
+        $.ajax({
+            type : 'post',
+            url  :  '{:url("quote/get_order_tmp_cost")}',
+            dataType : 'json',
+            data : {id:data.id},
+            success : function(re){
+              if(re.code === 0){
+                layer.msg(re.msg);return false;
+              }else{
+
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">收费项目</th><th style="text-align:center">标识符</th><th style="text-align:center">公式</th><th style="text-align:center">比率</th><th style="text-align:center">金额</th></tr></thead><tbody>';
+                $.each(re.datas, function (key, val) {
+                      html += '<tr><td>'+val.name+'</td><td>'+val.sign+'</td><td>'+val.formula+'</td><td>'+ val.rate +'%</td><td>'+ toDecimal2(val.price) +'</td></tr>'
+                });
+                html += '</tbody></table>'
+                layer.open({
+                    title: '其他收费明细',
+                    area: ['800px', '600px'],
+                    content:html
+                }); 
               }
             }
         });

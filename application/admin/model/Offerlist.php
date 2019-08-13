@@ -10,7 +10,7 @@ class Offerlist extends Model
 {
     //获取订单详情
     public function get_order_info($id){ //offerquota表 的id
-        $offerlist_info = $this->where(['id'=>$id])->find();
+        $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = json_decode($offerlist_info['content'],true);
         if(is_array($content)){
             foreach($content as $keys => $values){
@@ -23,73 +23,79 @@ class Offerlist extends Model
 
             
 
-            // // $offerlist_info['sundry'] //运杂
-            // // $offerlist_info['discount'] //优惠
-            //搬运费 比率*工程直接费
-            $offerlist_info['carry'] = round($offerlist_info['carry']/100*$offerlist_info['direct_cost'],2);
+        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate')->select();
+        if(!$tmp_cost){
+            $tmp_cost = [];
+        }
 
-            //清洁费 比率*工程直接费
-            $offerlist_info['clean'] = round($offerlist_info['clean']/100*$offerlist_info['direct_cost'],2);
+        $cost_all = 0;//其他费用总计
+        $cost_list = [];
+        $sign['A1'] = $offerlist_info['direct_cost'];
+        $operation = [];
+        foreach($tmp_cost as $k=>$v){
+            $count_sign = count($sign);
+            $num = 1;
+            foreach($sign as $k2=>$v2){
+                $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                if($count_sign == $num){
+                    $str = $v['formula'];
+                    $sign[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                }else{
+                    $num++;
+                }
+            }
+            $tmp_cost[$k]['price'] = $sign[$v['sign']];
+            $cost_all += $sign[$v['sign']];
+        }
+        $offerlist_info['order_cost'] = $tmp_cost; //模板明细
+        $offerlist_info['order_cost_all_price'] = $cost_all; //其他费用总计
 
-            //旧房局部改造费 比率*工程直接费
-            $offerlist_info['old_house'] = round($offerlist_info['old_house']/100*$offerlist_info['direct_cost'],2);
-
-            //管理费 比率*(工程直接费+搬运费)
-            $offerlist_info['tubemoney'] = round($offerlist_info['tubemoney']/100*($offerlist_info['direct_cost']+$offerlist_info['carry']),2);
-
+        // // $offerlist_info['sundry'] //运杂
+        // // $offerlist_info['discount'] //优惠
             
 
-            //远程费 比率*(辅材+人工+管理+搬运+清洁+旧房改造)
-            $offerlist_info['remote'] = round($offerlist_info['remote']/100 * ($offerlist_info['matquant']+$offerlist_info['manual_quota']+$offerlist_info['tubemoney']+$offerlist_info['carry']+$offerlist_info['clean']+$offerlist_info['old_house']),2);
+        
 
-            //工程意外险 比率*(工程直接费+搬运费+清洁费+管理费+旧房+远程)
-            $offerlist_info['accident'] = round($offerlist_info['accident']/100*($offerlist_info['matquant']+$offerlist_info['manual_quota']+$offerlist_info['carry']+$offerlist_info['clean']+$offerlist_info['tubemoney']+$offerlist_info['old_house']+$offerlist_info['remote']),2);
+        //计算总人工成本
+        $artificial = json_decode($offerlist_info['artificial'],true);
+        $offerlist_info['artificial_cb'] = 0;
+        foreach($artificial as $k=>$v){
+            $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
+        }
+        //计算辅材成本
+        $material = json_decode($offerlist_info['material'],true);
+        $offerlist_info['material_cb'] = 0;
+        foreach($material as $k=>$v){
+            $offerlist_info['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
+        }
 
-            //税金 比率*(工程直接费+搬运费+清洁费+旧房+管理费+远程费+工程意外险-优惠)
-            $offerlist_info['taxes'] = round($offerlist_info['taxes']/100*($offerlist_info['direct_cost']+$offerlist_info['carry']+$offerlist_info['clean']+$offerlist_info['old_house']+$offerlist_info['tubemoney']+$offerlist_info['remote']+$offerlist_info['accident']-$offerlist_info['discount']),2);
+        //工程报价 = 直接费+其他费用总计
+        $offerlist_info['proquant'] = $offerlist_info['direct_cost'] + $cost_all;
+        //优惠后工程报价 工程报价-优惠
+        $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'];
+        //计算杂项
+        $offerlist_info['supervisor_commission'] = round($offerlist_info['supervisor_commission']/100*$offerlist_info['discount_proquant'],2);//监理提成
+        $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
+        $offerlist_info['repeat_commission'] = round($offerlist_info['repeat_commission']/100*$offerlist_info['discount_proquant'],2);;//回头客奖
+        $offerlist_info['business_commission'] = round($offerlist_info['business_commission']/100*$offerlist_info['discount_proquant'],2);;//业务提成
 
-            //工程报价 辅材+人工+管理+搬运+清洁+意外险+旧房改造+税金+远程
-            //原始工程报价
-            $offerlist_info['proquant'] = round($offerlist_info['matquant']+$offerlist_info['manual_quota']+$offerlist_info['tubemoney']+$offerlist_info['carry']+$offerlist_info['clean']+$offerlist_info['accident']+$offerlist_info['old_house']+$offerlist_info['taxes']+$offerlist_info['remote'],2);
+        //计算毛利 利润/报价
+        if($offerlist_info['direct_cost']){
+            //工程毛利 优惠后工程报价 - 辅材成本-人工成本
+            $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] ),2);
+            //毛利率
+            $offerlist_info['profit_rate'] = round( $offerlist_info['gross_profit'] / $offerlist_info['discount_proquant'] * 100,2);
+            //总毛利   工程毛利 - 4个提成 - 运杂 
+            $offerlist_info['gross_profit_total'] = round($offerlist_info['gross_profit'] - $offerlist_info['supervisor_commission'] - $offerlist_info['design_commission'] - $offerlist_info['repeat_commission'] - $offerlist_info['business_commission'] - $offerlist_info['sundry'],2);
+            //总毛利率 
+            $offerlist_info['profit_rate_total'] = round( $offerlist_info['gross_profit_total'] / $offerlist_info['discount_proquant'] * 100,2);
 
-            //优惠后工程报价 工程报价-优惠
-            $offerlist_info['discount_proquant'] = $offerlist_info['proquant']-$offerlist_info['discount'];
-
-            //计算杂项
-            $offerlist_info['supervisor_commission'] = round($offerlist_info['supervisor_commission']/100*$offerlist_info['discount_proquant'],2);//监理提成
-            $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
-            $offerlist_info['repeat_commission'] = round($offerlist_info['repeat_commission']/100*$offerlist_info['discount_proquant'],2);;//回头客奖
-            $offerlist_info['business_commission'] = round($offerlist_info['business_commission']/100*$offerlist_info['discount_proquant'],2);;//业务提成
-
-            //计算总人工成本
-            $artificial = json_decode($offerlist_info['artificial'],true);
-            $offerlist_info['artificial_cb'] = 0;
-            foreach($artificial as $k=>$v){
-                $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
-            }
-            //计算辅材成本
-            $material = json_decode($offerlist_info['material'],true);
-            $offerlist_info['material_cb'] = 0;
-            foreach($material as $k=>$v){
-                $offerlist_info['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
-            }
-            //计算毛利 利润/报价
-            if($offerlist_info['direct_cost']){
-                //工程毛利 优惠后工程报价 - 辅材成本-人工成本
-                $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] ),2);
-                //毛利率
-                $offerlist_info['profit_rate'] = round( $offerlist_info['gross_profit'] / $offerlist_info['discount_proquant'] * 100,2);
-                //总毛利   工程毛利 - 4个提成 - 运杂 
-                $offerlist_info['gross_profit_total'] = round($offerlist_info['gross_profit'] - $offerlist_info['supervisor_commission'] - $offerlist_info['design_commission'] - $offerlist_info['repeat_commission'] - $offerlist_info['business_commission'] - $offerlist_info['sundry'],2);
-                //总毛利率 
-                $offerlist_info['profit_rate_total'] = round( $offerlist_info['gross_profit_total'] / $offerlist_info['discount_proquant'] * 100,2);
-
-            }else{
-                $offerlist_info['gross_profit']  = 0;
-                $offerlist_info['profit_rate']  = 0;
-                $offerlist_info['gross_profit_total']  = 0;
-                $offerlist_info['profit_rate_total']  = 0;
-            }
+        }else{
+            $offerlist_info['gross_profit']  = 0;
+            $offerlist_info['profit_rate']  = 0;
+            $offerlist_info['gross_profit_total']  = 0;
+            $offerlist_info['profit_rate_total']  = 0;
+        }
         return $offerlist_info;
     }
 

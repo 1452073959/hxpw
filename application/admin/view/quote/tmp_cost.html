@@ -1,0 +1,256 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+/*分页样式*/
+.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}
+.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}
+.pagination .active{background-color: #dd1a20;color: #fff;}
+.pagination .disabled{color:#aaa;}
+</style>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <div class="layui-inline">
+                    <!-- <a class="layui-btn layui-btn-sm" href="javascript:;">添加空间类型</a> -->
+                    <a class="layui-btn layui-btn-sm" id="add_work" href="javascript:;">添加费率模板</a>
+                </div>
+            </blockquote>
+            <!-- 空间 -->
+			<table class="layui-table w500" id="" >
+                <colgroup>
+                    <col width="150">
+                    <col width="100">
+                    <col width="100">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>费率模板名称</th>
+                        <th>添加时间</th>
+                        <th>操作</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <?php foreach($datas as $k=>$v){ ?>
+                            <tr>
+                                <td>{$v['tmp_name']}</td>
+                                <td>{$v['add_time']|date='Y-m-d H:i'}</td>
+                                <td>
+                                    <a href="javascript:;" class="edit" data-id="{$v['tmp_id']}" data-name="{$v['tmp_name']}"><i class="layui-icon layui-icon-search" title="查看"></i></a>
+                                    <!-- <a href="javascript:;" class="delete" data-id="{$v['tmp_id']}" data-name="{$v['tmp_name']}"><i class="layui-icon layui-icon-delete" title="删除"></i></a> -->
+                                </td>
+                            </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    function add_tr(o){
+        html  = '     <tr>'
+        html += '       <td><input class="layui-input" name="name[]" /></td>'
+        html += '       <td><input class="layui-input" name="sign[]" /></td>'
+        html += '       <td><input class="layui-input" name="formula[]" /></td>'
+        html += '       <td><input class="layui-input" name="rate[]" /></td>'
+        html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+        html += '     </tr>'
+        $('#add_word tbody').append(html);
+    }
+    function delete_tr(o){
+        $(o).parent().parent().remove();
+    }
+    $(function(){
+        //添加模板
+        $('#add_work').click(function(){
+            layui.use('layer', function(){
+                var html  = '<form id="addform">'
+                    html += '   <table class="layui-table " id="add_word" >'
+                    html += '     <colgroup>'
+                    html += '         <col width="150">'
+                    html += '         <col width="100">'
+                    html += '         <col width="250">'
+                    html += '         <col width="160">'
+                    html += '         <col width="30">'
+                    html += '         <col>'
+                    html += '     </colgroup>'
+                    html += '     <thead>'
+                    html += '       <tr>'
+                    html += '           <th>字段名称</th>'
+                    html += '           <th>标识符</th>'
+                    html += '           <th>公式</th>'
+                    html += '           <th>费率(范围0-100)</th>'
+                    html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
+                    html += '       </tr> '
+                    html += '     </thead>'
+                    html += '     <tbody>'
+                    html += '     <tr>'
+                    html += '       <td>直接费</td>'
+                    html += '       <td>A1</td>'
+                    html += '       <td>A1</td>'
+                    html += '       <td>100</td>'
+                    html += '       <td></td>'
+                    html += '     </tr>'
+                    html += '     <tr>'
+                    html += '       <td><input class="layui-input" name="name[]" /></td>'
+                    html += '       <td><input class="layui-input" name="sign[]" /></td>'
+                    html += '       <td><input class="layui-input" name="formula[]" /></td>'
+                    html += '       <td><input class="layui-input" name="rate[]" /></td>'
+                    html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                    html += '     </tr>'
+                    html += '     </tbody>'
+                    html += '     <tfoot>'
+                    html += '       <tr>'
+                    html += '           <td>模板名称</td>'
+                    html += '           <td colspan="4"><input class="layui-input" name="tmp_name" /></td>'
+                    html += '       </tr>'
+                    html += '     </tfoot>'
+                    html += '   </table>'
+                    html += ' </form>'
+                var layer = layui.layer;
+                layer.open({
+                content: html,
+                title:'添加模板',
+                area: ['580px', '480px'], //宽高
+                btn: ['提交', '取消'],
+                    yes: function(index, layero){
+                        var addform = $('#addform').serializeArray();
+                        var datas = {};  
+                        $.each(addform, function() {  
+                            if (datas[this.name]) {  
+                                if (!datas[this.name].push) {  
+                                    datas[this.name] = [ datas[this.name] ];  
+                                }  
+                                datas[this.name].push(this.value || '');  
+                            } else {  
+                                datas[this.name] = this.value || '';  
+                            }  
+                        });  
+                        $.post('/admin/quote/add_tmp_cost',datas,function(res){
+                            if(res.code === 0){
+                                layer.msg(res.msg);
+                            }else{
+                                layer.msg(res.msg);
+                                window.location.reload();
+                            }
+                        },'json')
+                    },
+                    btn2: function(index, layero){
+                        layer.close(index);
+                    },
+                    cancel: function(){ 
+                    //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            }); 
+        })
+
+        //编辑空间
+        $('.edit').click(function(){
+            var tmp_id = $(this).data('id');
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                $.post('/admin/quote/get_tmp_cost_info',{tmp_id:tmp_id},function(res){
+                    if(res.code == 1){
+                        var html  = '<form id="editform">'
+                        html += '   <table class="layui-table" id="add_word" >'
+                        html += '     <colgroup>'
+                        html += '         <col width="150">'
+                        html += '         <col width="100">'
+                        html += '         <col width="250">'
+                        html += '         <col width="200">'
+                        html += '         <col>'
+                        html += '     </colgroup>'
+                        html += '     <thead>'
+                        html += '       <tr>'
+                        html += '           <th>字段名称</th>'
+                        html += '           <th>标识符</th>'
+                        html += '           <th>公式</th>'
+                        html += '           <th>费率(范围0-100)</th>'
+                        html += '       </tr> '
+                        html += '     </thead>'
+                        html += '     <tbody>'
+                        html += '     <tr>'
+                        html += '       <td>直接费</td>'
+                        html += '       <td>A1</td>'
+                        html += '       <td>A1</td>'
+                        html += '       <td>100</td>'
+                        html += '     </tr>'
+
+                        $(res.datas).each(function(k,v){
+                            html += '     <tr>'
+                            html += '       <td>'+v.name+'</td>'
+                            html += '       <td>'+v.sign+'</td>'
+                            html += '       <td>'+v.formula+'</td>'
+                            html += '       <td>'+v.rate+'</td>'
+                            html += '     </tr>'
+                        })
+
+                       
+
+                        html += '     </tbody>'
+                        html += '     <tfoot>'
+                        html += '       <tr>'
+                        html += '           <td>模板名称</td>'
+                        html += '           <td colspan="4">'+res.datas[0].tmp_name+'</td>'
+                        html += '       </tr>'
+                        html += '     </tfoot>'
+                        html += '   </table>'
+                        html += ' </form>'
+                        layer.open({
+                            content: html,
+                            title:'查看模板',
+                            area: ['580px', '480px'], //宽高
+                            btn: ['确定'],
+                            yes: function(index, layero){
+                               layer.close(index);
+                            },
+                            cancel: function(){ 
+                            //return false 开启该代码可禁止点击该按钮关闭
+                            }
+                        });
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                },'json')
+            })
+        })
+
+        //删除模板
+        // $('.delete').click(function(){
+        //     var that = this;
+        //     var tmp_id = $(this).data('id');
+        //     var tmp_name = $(this).data('name');
+        //     layui.use('layer', function(){
+        //         var layer = layui.layer;
+        //         layer.open({
+        //         content: '确定要删除模板：'+tmp_name+'吗？',
+        //         title:'删除空间',
+        //         btn: ['删除', '取消'],
+        //             yes: function(index, layero){
+        //                 $.post('/admin/quote/delete_tmp_cost',{tmp_id:tmp_id},function(res){
+        //                     if(res.code === 0){
+        //                         layer.msg(res.msg);
+        //                     }else{
+        //                         //成功 隐藏删除项
+        //                         $(that).parent().parent().remove();
+        //                         layer.msg(res.msg);
+        //                     }
+        //                 },'json')
+        //             },
+        //             btn2: function(index, layero){
+        //                 layer.close(index);
+        //             },
+        //             cancel: function(){ 
+        //             //return false 开启该代码可禁止点击该按钮关闭
+        //             }
+        //         });
+        //     }); 
+        // })
+    })
+</script>
+{/block}

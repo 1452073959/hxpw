@@ -41,6 +41,9 @@
 #imgs{position:relative;}
 .batchs span{cursor:pointer;}
 .form-control{display: inline-block;padding: 5px;}
+.select_tmp{
+    height:30px;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -79,8 +82,9 @@
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
                         <th class="taleft" lay-data="{field:'pro_apartment_type',edit:'text'}">工程户型</th> 
-                        <th class="taleft" lay-data="{field:'area',edit:'text'}">面积</th>       
-                        <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>       
+                        <th class="taleft" lay-data="{field:'area',edit:'text',width:100}">面积</th>
+                        <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th> 
+                        <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>         
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
                     </tr>
                 </thead>
@@ -120,6 +124,7 @@
                       <td class="taleft">{$vo.info.discount}</td>   
                       <td class="taleft">{$vo.info.pro_apartment_type|default=''}</td>
                       <td class="taleft">{$vo.info.area|default=''}</td>
+                      <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>   
                       <td class="taleft">{$vo.info.remark}</td>   
                       <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>   
                     </tr>       
@@ -306,6 +311,107 @@ layui.use('table', function(){
                     }
                 }
             });
+        }else if(obj.event == 'show_tmp'){
+            var data = obj.data;
+            var tmp_id = $(data.tmp_id).data('id');
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                $.post('/admin/quote/get_tmp_cost_info',{tmp_id:tmp_id},function(res){
+                    if(res.code == 1){
+                        var html  = '<form id="editform">'
+                        html += '   <table class="layui-table" id="add_word" >'
+                        html += '     <colgroup>'
+                        html += '         <col width="150">'
+                        html += '         <col width="100">'
+                        html += '         <col width="250">'
+                        html += '         <col width="200">'
+                        html += '         <col>'
+                        html += '     </colgroup>'
+                        html += '     <thead>'
+                        html += '       <tr>'
+                        html += '           <th>字段名称</th>'
+                        html += '           <th>标识符</th>'
+                        html += '           <th>公式</th>'
+                        html += '           <th>费率(范围0-100)</th>'
+                        html += '       </tr> '
+                        html += '     </thead>'
+                        html += '     <tbody>'
+                        html += '     <tr>'
+                        html += '       <td>直接费</td>'
+                        html += '       <td>A1</td>'
+                        html += '       <td>A1</td>'
+                        html += '       <td>100</td>'
+                        html += '     </tr>'
+                        $(res.datas).each(function(k,v){
+                            html += '     <tr>'
+                            html += '       <td>'+v.name+'</td>'
+                            html += '       <td>'+v.sign+'</td>'
+                            html += '       <td>'+v.formula+'</td>'
+                            html += '       <td>'+v.rate+'</td>'
+                            html += '     </tr>'
+                        })
+                        html += '     </tbody>'
+                        html += '     <tfoot>'
+                        html += '       <tr>'
+                        html += '           <td>模板名称</td>'
+                        html += '           <td colspan="4">'+res.datas[0].tmp_name+'</td>'
+                        html += '       </tr>'
+                        html += '     </tfoot>'
+                        html += '   </table>'
+                        html += ' </form>'
+                        layer.open({
+                            content: html,
+                            title:'查看模板',
+                            area: ['580px', '480px'], //宽高
+                            btn: ['确定'],
+                            yes: function(index, layero){
+                               layer.close(index);
+                            },
+                            cancel: function(){ 
+                            //return false 开启该代码可禁止点击该按钮关闭
+                            }
+                        });
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                },'json')
+            })
+        }else if(obj.event == 'check_tmp'){
+            var data = obj.data;
+            $.post('/admin/quote/get_tmp_cost_list',{tmp_id:tmp_id},function(res){
+                if(res.code == 1){
+                    var html = '';
+                    html += '<select id="check_tmp" class="select_tmp">';
+                    $(res.datas).each(function(k,v){
+                        html += '<option value="'+v.tmp_id+'">'+v.tmp_name+'</option>';
+                    })
+                    html += '</select>';
+                    layer.open({
+                    content: html,
+                    title:'选择模板',
+                    btn: ['确定'],
+                    yes: function(index, layero){
+                        var tmp_id = $('#check_tmp').val();
+                        $.post('/admin/offerlist/check_tmp_cost',{tmp_id:tmp_id,o_id:data.id},function(res){
+                            if(res.code == 1){
+                                layer.msg(res.msg)
+                                setTimeout(function () { 
+                                    window.location.href = res.url; 
+                                }, 2000); 
+                            }else{
+                                layer.msg(res.msg)
+                            }
+                        })
+                    },
+                    cancel: function(){ 
+                    //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json')
+            
         }
     });
 

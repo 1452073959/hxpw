@@ -39,6 +39,25 @@ class Offerlist extends Adminbase
         echo json_encode(['code'=>1,'datas'=>$datas]);die;
     }
 
+    public function check_tmp_cost(){
+        $userinfo = $this->_userinfo;
+        $tmp_id = input('tmp_id');
+        $o_id = input('o_id');
+        $offerlist = Db::name('offerlist')->where(['id'=>$o_id])->find();
+        if(!$offerlist){
+            $this->error('订单不存在');
+        }
+        if($offerlist['tmp_cost_id']){
+            $this->error('订单已存在模板');
+        }
+        $res = Db::name('offerlist')->where(['id'=>$o_id])->update(['tmp_cost_id'=>$tmp_id]);
+        if($res){
+            $this->success('选择模板成功');
+        }else{
+            $this->error('选择模板失败');
+        }
+    }
+
 
 
     //报单(新)
@@ -53,9 +72,12 @@ class Offerlist extends Adminbase
             $offer_type[$v['type']][] = $v;
         }
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        //取费模板
+        $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->field('tmp_id,tmp_name')->group('tmp_id')->select();
         $this->assign([
             'offer_type'=>$offer_type,
             'customer_info'=>$customer_info,
+            'tmp_cost'=>$tmp_cost,
         ]);
         return $this->fetch();
     }
@@ -63,11 +85,22 @@ class Offerlist extends Adminbase
     //报价操作 - 生成订单
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
+            
+            if(!input('customerid')){
+                $this->error('参数错误');
+            }
+            if(!input('framename')){
+                $this->error('选填写单位');
+            }
             $userinfo = $this->_userinfo;
             $time = time();
             $data = array();
             $data['userid'] = $userinfo['userid'];
             $data['frameid'] = $userinfo['companyid'];//存公司id到报表
+            if(input('tmp_cost_id')){
+                $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
+            }
+            
             $data['customerid'] = input('customerid');
             $data['unit'] = input('framename');//单位
             $data['entrytime'] = time();
@@ -400,8 +433,13 @@ class Offerlist extends Adminbase
             $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
             
         }
+
+
+        //获取取费模板
+        $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$userinfo['companyid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
         $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);    
+        $this->assign('tmp_cost',$tmp_cost);    
         return $this->fetch();
     }
 

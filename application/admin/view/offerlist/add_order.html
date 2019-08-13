@@ -62,6 +62,10 @@
     .word{
         background-color: #eee
     }
+    .select_tmp{
+        height:38px;
+        padding: 0 10px;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -78,7 +82,14 @@
                 <div class="layui-inline">
                     <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
                 </div>
-                
+                <div class="layui-inline">
+                    <select name="tmp_cost" class="select_tmp">
+                        <option value=''>选择取费模板</option>
+                        <?php foreach($tmp_cost as $k=>$v){
+                            echo '<option value="'.$v['tmp_id'].'">'.$v['tmp_name'].'</option>';
+                        } ?>
+                    </select>
+                </div>
                 
             </div>     
         </blockquote>
@@ -213,7 +224,7 @@
         var unit = $('input[name="unit"]').val();
         var remark = $('input[name="remark"]').val();
         var customerid = $('input[name="customerid"]').val();
-        //var tmp_cost_id = $('select[name="tmp_cost"]').val();
+        var tmp_cost_id = $('select[name="tmp_cost"]').val();
         if(unit == ''){
             layui.use('layer', function(){
                 layer.msg('请填写单位/公司');
@@ -263,7 +274,9 @@
         datas['framename'] = unit;  
         datas['remark'] = remark;  
         datas['customerid'] = customerid;
-        // datas['tmp_cost_id'] = tmp_cost_id;
+        if(tmp_cost_id != ''){
+            datas['tmp_cost_id'] = tmp_cost_id;
+        }
         $.post('/admin/offerlist/add_order_operation',datas,function(res){
             if(res.code == 1){
                 layui.use('layer', function(){

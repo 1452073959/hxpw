@@ -20,7 +20,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Artificial extends Adminbase
 {
-		public $status = [ '未报价','已报价','预算价','合同价','结算价' ];
+	public $status = [ '未报价','已报价','预算价','合同价','结算价' ];
     // protected function initialize()
     // {
     //     parent::initialize();
@@ -116,107 +116,24 @@ class Artificial extends Adminbase
         $da = [];
         // $da['o.userid'] = $userinfo['userid'];
         if($userinfo['roleid'] != 1){
-           $da['o.frameid'] = $userinfo['companyid'];
+           $where['frameid'] = $userinfo['companyid'];
         }
          if(input('id')){
-           $da['o.customerid'] = input('id');
+           $where['customerid'] = input('id');
         }else{
-            $da['o.customerid'] = 0;
+            $where['customerid'] = 0;
         }
-        $da['o.number'] = 1;
+        $where['number'] = 1; //不知道是什么
         //客户姓名搜索
-        if($this->request->isPost()){
-            $search = $this->request->post('search');
-            if(empty($search)){
-                $this->error('请输入搜索内容', url("artificial/gcfx_index"));
-            }
-            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
-            $this->assign('data',$res);    
-            return $this->fetch();
+        if(input('search')){
+            // $where[]
         }
         //所有客户信息
-        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
+        $res = Db::name('offerlist')->where($where)->field('id')->select();
 
         //统计报价开始 
-        foreach ($res as $key => $value) {
-            $content = json_decode($value['content'],true);
-            foreach($content as $keys => $values){
-                $res[$key]['matquant'] += $values['quotaall'];//辅材报价
-                $res[$key]['manual_quota'] += $values['craft_showall'];//人工报价
-            }
-            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程直接费= 辅材报价+人工报价
-
-            //=========================计算毛利开始
-
-            
-
-            // // $res[$key]['sundry'] //运杂
-            // // $res[$key]['discount'] //优惠
-            //搬运费 比率*工程直接费
-            $res[$key]['carry'] = round($res[$key]['carry']/100*$res[$key]['direct_cost'],2);
-
-            //清洁费 比率*工程直接费
-            $res[$key]['clean'] = round($res[$key]['clean']/100*$res[$key]['direct_cost'],2);
-
-            //旧房局部改造费 比率*工程直接费
-            $res[$key]['old_house'] = round($res[$key]['old_house']/100*$res[$key]['direct_cost'],2);
-
-            //管理费 比率*(工程直接费+搬运费)
-            $res[$key]['tubemoney'] = round($res[$key]['tubemoney']/100*($res[$key]['direct_cost']+$res[$key]['carry']),2);
-
-            
-
-            //远程费 比率*(辅材+人工+管理+搬运+清洁+旧房改造)
-            $res[$key]['remote'] = round($res[$key]['remote']/100 * ($res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['old_house']),2);
-
-            //工程意外险 比率*(工程直接费+搬运费+清洁费+管理费+旧房+远程)
-            $res[$key]['accident'] = round($res[$key]['accident']/100*($res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['tubemoney']+$res[$key]['old_house']+$res[$key]['remote']),2);
-
-            //税金 比率*(工程直接费+搬运费+清洁费+旧房+管理费+远程费+工程意外险-优惠)
-            $res[$key]['taxes'] = round($res[$key]['taxes']/100*($res[$key]['direct_cost']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['old_house']+$res[$key]['tubemoney']+$res[$key]['remote']+$res[$key]['accident']-$res[$key]['discount']),2);
-
-            //工程报价 辅材+人工+管理+搬运+清洁+意外险+旧房改造+税金+远程
-            //原始工程报价
-            $res[$key]['proquant'] = round($res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['carry']+$res[$key]['clean']+$res[$key]['accident']+$res[$key]['old_house']+$res[$key]['taxes']+$res[$key]['remote'],2);
-
-            //优惠后工程报价 工程报价-优惠
-            $res[$key]['discount_proquant'] = $res[$key]['proquant']-$res[$key]['discount'];
-
-            //计算杂项
-            $res[$key]['supervisor_commission'] = round($res[$key]['supervisor_commission']/100*$res[$key]['discount_proquant'],2);//监理提成
-            $res[$key]['design_commission'] = round($res[$key]['design_commission']/100*$res[$key]['discount_proquant'],2);;//设计提成
-            $res[$key]['repeat_commission'] = round($res[$key]['repeat_commission']/100*$res[$key]['discount_proquant'],2);;//回头客奖
-            $res[$key]['business_commission'] = round($res[$key]['business_commission']/100*$res[$key]['discount_proquant'],2);;//业务提成
-
-            //计算总人工成本
-            $artificial = json_decode($value['artificial'],true);
-            $res[$key]['artificial_cb'] = 0;
-            foreach($artificial as $k=>$v){
-                $res[$key]['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
-            }
-            //计算辅材成本
-            $material = json_decode($value['material'],true);
-            $res[$key]['material_cb'] = 0;
-            foreach($material as $k=>$v){
-                $res[$key]['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
-            }
-            //计算毛利 利润/报价
-            if($res[$key]['direct_cost']){
-                //工程毛利 优惠后工程报价 - 辅材成本-人工成本
-                $res[$key]['gross_profit'] = round(($res[$key]['discount_proquant'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] ),2);
-                //毛利率
-                $res[$key]['profit_rate'] = round( $res[$key]['gross_profit'] / $res[$key]['discount_proquant'] * 100,2);
-                //总毛利   工程毛利 - 4个提成 - 运杂 
-                $res[$key]['gross_profit_total'] = round($res[$key]['gross_profit'] - $res[$key]['supervisor_commission'] - $res[$key]['design_commission'] - $res[$key]['repeat_commission'] - $res[$key]['business_commission'] - $res[$key]['sundry'],2);
-                //总毛利率 
-                $res[$key]['profit_rate_total'] = round( $res[$key]['gross_profit_total'] / $res[$key]['discount_proquant'] * 100,2);
-
-            }else{
-                $res[$key]['gross_profit']  = 0;
-                $res[$key]['profit_rate']  = 0;
-                $res[$key]['gross_profit_total']  = 0;
-                $res[$key]['profit_rate_total']  = 0;
-            }
+        foreach($res as $k=>$v){
+            $res[$k]['order_info'] = Model('offerlist')->get_order_info($v['id']);
         }
         $this->assign('data',$res);    
         return $this->fetch();

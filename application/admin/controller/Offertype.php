@@ -38,11 +38,11 @@ class Offertype extends Adminbase
                     echo json_encode(['code'=>1,'msg'=>'工种已存在']);
                 }elseif($offer_type['status'] == 9){
                     Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid']])->update(['status'=>1,'addtime'=>time()]);
-                    echo json_encode(['code'=>1,'msg'=>'添加成功']);
+                    echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$offer_type['id']]);
                 }
             }else{
-                Db::name('offer_type')->insert(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time()]);
-                echo json_encode(['code'=>1,'msg'=>'添加成功']);
+                $id = Db::name('offer_type')->insertGetId(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time()]);
+                echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$id]);
             }
         }else{
              echo json_encode(['code'=>0,'msg'=>'参数错误']);
