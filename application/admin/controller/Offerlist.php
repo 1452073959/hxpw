@@ -395,34 +395,9 @@ class Offerlist extends Adminbase
         //统计报价开始 
         foreach ($res as $key => $value) {
             //判断是否有增减项
+            $res[$key]['info'] = Model('offerlist')->get_order_info($value['id']);
+            
             $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
-            $content = json_decode($value['content'],true);
-            foreach($content as $keys => $values){
-                $res[$key]['matquant'] += $values['quotaall'];//每个项目的辅材总价累加
-                $res[$key]['manual_quota'] += $values['craft_showall'];//每个项目的人工总价累加
-            }
-            $res[$key]['direct_cost'] = $res[$key]['matquant']+$res[$key]['manual_quota'];//工程总报价 辅材+人工
-            $res[$key]['proquant'] = $res[$key]['matquant']+$res[$key]['manual_quota']+$res[$key]['tubemoney']+$res[$key]['taxes']-$res[$key]['discount']; //工程总报价 + 管理费+税金+优惠
-
-            //=========================3en 开始
-            //计算总人工成本
-            $artificial = json_decode($value['artificial'],true);
-            $res[$key]['artificial_cb'] = 0;
-            foreach($artificial as $k=>$v){
-                $res[$key]['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
-            }
-            //计算辅材成本
-            $material = json_decode($value['material'],true);
-            $res[$key]['material_cb'] = 0;
-            foreach($material as $k=>$v){
-                $res[$key]['material_cb'] += ($v['num']*$v['price']);//辅材总成本
-            }
-            //计算毛利 利润/报价
-            if($res[$key]['direct_cost']){
-                $res[$key]['profit'] = round(($res[$key]['direct_cost'] - $res[$key]['artificial_cb'] - $res[$key]['material_cb'] - $res[$key]['discount'] ) / $res[$key]['direct_cost'] * 100,2);
-            }else{
-                $res[$key]['profit']  = 0;
-            }
             
         }
         $this->assign('data',$res);    

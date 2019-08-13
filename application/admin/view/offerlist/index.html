@@ -113,31 +113,15 @@
 									<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
 							{/switch}
 						</td>
-                      <!-- <td class="taleft">{$vo.address}</td>    -->
-                      <!-- <td class="taleft">{$vo.manager_name}</td>  -->
-                      <!-- <td class="taleft">{$vo.quoter_name}</td> -->
-                      <!-- <td class="taleft">{$vo.designer_name}</td>        -->
-                      <td class="taleft">{$vo.proquant}</td>   
-                      <td class="taleft">{$vo.direct_cost}</td>   
-                      <td class="taleft">{$vo.matquant}</td>   
-                      <td class="taleft">{$vo.manual_quota}</td>   
-                      <!-- <td class="taleft">{$vo.tubemoney}</td>   
-                      <td class="taleft">{$vo.taxes}</td> -->   
-                      <td class="taleft">{$vo.discount}</td>   
-                      <!-- {if ($userinfo['roleid'] == 1)}    -->
-                      <!-- <td class="taleft">{$vo.profit}%</td>    -->
-                      <!-- {/if} -->
-                      <td class="taleft">{$vo.pro_apartment_type|default=''}</td>
-                      <td class="taleft">{$vo.area|default=''}</td>
-                      <td class="taleft">{$vo.remark}</td>   
-                      <td class="taleft">{$vo.entrytime|date="Y-m-d H:s"}</td>   
-                      <!-- <td class="taleft">{$vo.artificial_cb}</td>    -->
-                      <!-- <td class="taleft">{$vo.material_cb}</td>    -->
-                     <!-- <td class="taleft">
-                        <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid])}">点击查看</a></td>  --> 
-                      <!-- <td>
-                       <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/edit',['id'=>$vo.id])}">进入管理</a>
-                      </td> -->
+                      <td class="taleft">{$vo.info.proquant}</td>   
+                      <td class="taleft">{$vo.info.direct_cost}</td>   
+                      <td class="taleft">{$vo.info.matquant}</td>   
+                      <td class="taleft">{$vo.info.manual_quota}</td>   
+                      <td class="taleft">{$vo.info.discount}</td>   
+                      <td class="taleft">{$vo.info.pro_apartment_type|default=''}</td>
+                      <td class="taleft">{$vo.info.area|default=''}</td>
+                      <td class="taleft">{$vo.info.remark}</td>   
+                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>   
                     </tr>       
                  {/foreach}
                 </tbody>
