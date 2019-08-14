@@ -257,31 +257,8 @@ class Quote extends Adminbase
             echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效'));die;
         }
         $offerquota = array_column($offerquota, null,'item_number');
-        //==========重新排序模板顺序
-        $sort = [];
-        $num = 1;
-        $arr = [];
-        foreach($tmp_list as $k=>$v){
-            if(isset($arr[$v['work_type']])){
-                $sort[$arr[$v['work_type']]][] = $v;
-            }else{
-                $arr[$v['work_type']] = $num;
-                $sort[$arr[$v['work_type']]][] = $v;
-                $num++;
-            }
-           
-        }
-        $new_datas = [];
-        foreach($sort as $k1=>$v1){
-            sort($sort[$k1]);
-        }
-        foreach($sort as $k1=>$v1){
-            foreach($v1 as $k2=>$v2){
-                $new_datas[] = $v2;
-            }
-        }
-        //==========重新排序模板顺序
-        echo json_encode(array('code'=>1,'datas'=>$new_datas,'offerquota'=>$offerquota));
+        
+        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
     }
 	//报价模板首页
 	public function index(){
