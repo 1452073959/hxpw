@@ -232,7 +232,7 @@ class Quote extends Adminbase
         if(!$tmp_id){
             echo json_encode(array('code'=>0,'msg'=>'参数错误'));
         }
-        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->select();
+        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->order('id','desc')->select();
 
         //=============验证模板是否有效
         $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
@@ -257,7 +257,31 @@ class Quote extends Adminbase
             echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效'));die;
         }
         $offerquota = array_column($offerquota, null,'item_number');
-        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
+        //==========重新排序模板顺序
+        $sort = [];
+        $num = 1;
+        $arr = [];
+        foreach($tmp_list as $k=>$v){
+            if(isset($arr[$v['work_type']])){
+                $sort[$arr[$v['work_type']]][] = $v;
+            }else{
+                $arr[$v['work_type']] = $num;
+                $sort[$arr[$v['work_type']]][] = $v;
+                $num++;
+            }
+           
+        }
+        $new_datas = [];
+        foreach($sort as $k1=>$v1){
+            sort($sort[$k1]);
+        }
+        foreach($sort as $k1=>$v1){
+            foreach($v1 as $k2=>$v2){
+                $new_datas[] = $v2;
+            }
+        }
+        //==========重新排序模板顺序
+        echo json_encode(array('code'=>1,'datas'=>$new_datas,'offerquota'=>$offerquota));
     }
 	//报价模板首页
 	public function index(){
@@ -272,7 +296,7 @@ class Quote extends Adminbase
         $userinfo = $this->_userinfo;
         $item_number = [];//所有项目集合
 		// $type = input('type');//模板预览还是修改
-		$tmp_list = Db::name('tmp')->where('tmp_id','=',$tmp_id)->select();
+		$tmp_list = Db::name('tmp')->where('tmp_id','=',$tmp_id)->order('id','desc')->select();
 		$tmp_name = $tmp_list[0]['tmp_name'];
         $data = [];
 		//工种
@@ -315,7 +339,7 @@ class Quote extends Adminbase
             $offer_type_check[$v['type']][] = $v['name'];
         }
         if(input('tmp_id')){
-            $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->select();
+            $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->order('id','desc')->select();
             $tmp_name = $tmp_list[0]['tmp_name'];
             $data = [];
             foreach($tmp_list as $k=>$v){
@@ -601,16 +625,6 @@ class Quote extends Adminbase
                 $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';
                 $data[$i]['update_time']  = $time;
             }
-            // $project_name = array_unique(array_column($data, 'project_name'));
-            // $offerquota = array_unique(Db::name('offerquota')->where(['project'=>$project_name,'frameid'=>$userinfo['companyid']])->field('item_number,project')->select(),null,'project');
-            // foreach($data as $k=>$v){
-            //     if($offerquota[$v['project_name']]['item_number']){
-            //         $data[$i]['item_number'] = $offerquota[$v['project_name']]['item_number'];
-            //     }else{
-            //         $this->error('项目：'.$v['project_name'].'不存在，导入失败');
-            //     }
-            // }
-
             //将数据保存到数据库
             if ($data) {
                 krsort($data);
@@ -622,8 +636,8 @@ class Quote extends Adminbase
 						if(!$ishas){
 							exception('项目编号：'.$value['item_number'].'不存在');
 						}
-					    $res = Db::name('tmp')->insert($value);
 					}
+                    $res = Db::name('tmp')->insertAll($data);
 				    // 提交事务
 				    Db::commit();
 				} catch (\Exception $e) {
