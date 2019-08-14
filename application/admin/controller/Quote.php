@@ -53,6 +53,10 @@ class Quote extends Adminbase
         if(!input('name') || !input('sign') || !input('formula') || !input('rate') || !input('tmp_id') || !input('o_id')){
             $this->error('参数错误');
         }
+        $offerlist_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
+        if($offerlist_info['status'] >= 3){
+            $this->error('合同价/结算价禁止修改模板');
+        }
         $datas = [];
         $name = array_filter(input('name'));
         $sign = array_filter(input('sign'));
