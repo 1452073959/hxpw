@@ -27,13 +27,13 @@
         color:#f36f20;
     }
     .add_project{
-        width: 100%;
-        height: 100%;
+        width: /*100%;
+        height: 100%;*/
         cursor: pointer;
-        display: block
+        /*display: block*/
     }
     .add_project:hover{
-        color:red;
+        /*color:red;*/
     }
     .pad_0{
         padding: 0 !important;
@@ -284,8 +284,8 @@
         $.post('/admin/offerlist/ajax_get_project',{word_name:word_name},function(res){
             $(res.datas).each(function(k,v){
                 var html = '';
-                html += '<tr>'
-                html += '<td class="pad_0"><a data-item_number="'+v.item_number+'" data-project="'+v.project+'" data-company="'+v.company+'" data-cost_value="'+v.cost_value+'" data-quota="'+v.quota+'" data-craft_show="'+v.craft_show+'" data-labor_cost="'+v.labor_cost+'" class="add_project"><i class="layui-icon layui-icon-add-1"></i></a></td>'
+                html += '<tr data-item_number="'+v.item_number+'" data-project="'+v.project+'" data-company="'+v.company+'" data-cost_value="'+v.cost_value+'" data-quota="'+v.quota+'" data-craft_show="'+v.craft_show+'" data-labor_cost="'+v.labor_cost+'" class="add_project">'
+                html += '<td class="pad_0"><i class="layui-icon layui-icon-add-1"></i></td>'
                 html += '<td>'+v.item_number+'</td>'
                 html += '<td>'+v.project+'</td>'
                 html += '</tr>'
