@@ -14,6 +14,7 @@ class Quote extends Adminbase
 	public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 
+    //模板管理页面
     public function tmp_cost(){
         $userinfo = $this->_userinfo;
         $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
@@ -21,6 +22,8 @@ class Quote extends Adminbase
         return $this->fetch();
         // echo 1;die;
     }
+
+    // 获取某条模板详情
     public function get_tmp_cost_info(){
         $userinfo = $this->_userinfo;
         $tmp_list = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'tmp_id'=>input('tmp_id')])->select();
@@ -30,6 +33,7 @@ class Quote extends Adminbase
         echo json_encode(array('code'=>1,'datas'=>$tmp_list));
     }
 
+    //获取模板列表
     public function get_tmp_cost_list(){
         $userinfo = $this->_userinfo;
         $userinfo = $this->_userinfo;
@@ -37,10 +41,72 @@ class Quote extends Adminbase
         echo json_encode(array('code'=>1,'datas'=>$res));
     }
 
+    //获取订单取费模板详情
     public function get_order_tmp_cost(){
         $o_id = input('id');
         $offerlist = Model('offerlist')->get_order_info($o_id);
-        echo json_encode(array('code'=>1,'datas'=>$offerlist['order_cost']));
+        echo json_encode(array('code'=>1,'datas'=>$offerlist['order_cost'],'default_cost'=>$offerlist['default_cost'],'append_cost'=>$offerlist['append_cost']));
+    }
+
+    //订单附加取费模板
+    public function apennd_tmp_cost(){
+        if(!input('name') || !input('sign') || !input('formula') || !input('rate') || !input('tmp_id') || !input('o_id')){
+            $this->error('参数错误');
+        }
+        $datas = [];
+        $name = array_filter(input('name'));
+        $sign = array_filter(input('sign'));
+        $formula = array_filter(input('formula'));
+        $rate = array_filter(input('rate'));
+        $count_name = count($name);
+        $count_sign = count($sign);
+        $count_formula = count($formula);
+        $count_rate = count($rate);
+        if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate){
+            $this->error('参数错误');
+        }
+        $time = time();
+        $userinfo = $this->_userinfo;
+        foreach($name as $k=>$v){
+            $info = [];
+            $info['name'] = $v;
+            $info['sign'] = $sign[$k];
+            $info['formula'] = $formula[$k];
+            $info['rate'] = $rate[$k];
+            $info['add_time'] = $time;
+            $datas[] = $info;
+        }
+        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>input('tmp_id')])->select();
+        $list = array_merge($tmp_cost,$datas);
+        //判断是否有效
+        $sign_data['A1'] = 100;//自定义一个直接费
+        $sign_data['A2'] = 200;//自定义一个优惠
+        foreach($list as $k=>$v){
+            $count_sign = count($sign_data);
+            $num = 1;
+            foreach($sign_data as $k2=>$v2){
+                $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                if($count_sign == $num){
+                    $str = $v['formula'];
+                    if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
+                        $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                    }else{
+                         //模板错误
+                        $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                    }
+                }else{
+                    $num++;
+                }
+            }
+        }
+        $datas = json_encode($datas);
+        $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['tmp_append_cost'=>$datas]);
+        if($res){
+            $this->success('保存成功');
+        }else{
+            $this->error('保存失败');
+        }
+
     }
 
     public function add_tmp_cost(){
@@ -48,10 +114,10 @@ class Quote extends Adminbase
             $datas = [];
             $tmp_id = md5(input('tmp_name').rand(1,999999).microtime(true));
             $tmp_name = input('tmp_name');
-            $name = input('name');
-            $sign = input('sign');
-            $formula = input('formula');
-            $rate = input('rate');
+            $name = array_filter(input('name'));
+            $sign = array_filter(input('sign'));
+            $formula = array_filter(input('formula'));
+            $rate = array_filter(input('rate'));
             $time = time();
             $userinfo = $this->_userinfo;
             foreach($name as $k=>$v){
@@ -79,6 +145,7 @@ class Quote extends Adminbase
 
             //判断计算方式
             $sign_data['A1'] = 100;//自定义一个直接费
+            $sign_data['A2'] = 200;//自定义一个优惠
             foreach($datas as $k=>$v){
                 $count_sign = count($sign_data);
                 $num = 1;
@@ -86,7 +153,7 @@ class Quote extends Adminbase
                     $v['formula'] = str_replace($k2,$v2,$v['formula']);
                     if($count_sign == $num){
                         $str = $v['formula'];
-                        if(@eval("return $str;")){
+                        if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
                             $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
                         }else{
                              //模板错误

@@ -141,7 +141,20 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
-  //简单显示上传文件信息
+     function add_tr(o){
+        html  = '     <tr>'
+        html += '       <td><input class="layui-input" name="name[]" /></td>'
+        html += '       <td><input class="layui-input" name="sign[]" /></td>'
+        html += '       <td><input class="layui-input" name="formula[]" /></td>'
+        html += '       <td><input class="layui-input" name="rate[]" /></td>'
+        html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+        html += '     </tr>'
+        $('#add_word tbody').append(html);
+    }
+    function delete_tr(o){
+        $(o).parent().parent().remove();
+    }
+    //简单显示上传文件信息
      $("#imgInput").change(function(e){
        var fileMsg = e.currentTarget.files;
        var fileName = fileMsg[0].name;
@@ -316,7 +329,7 @@ layui.use('table', function(){
             var tmp_id = $(data.tmp_id).data('id');
             layui.use('layer', function(){
                 var layer = layui.layer;
-                $.post('/admin/quote/get_tmp_cost_info',{tmp_id:tmp_id},function(res){
+                $.post('/admin/quote/get_order_tmp_cost',{id:data.id},function(res){
                     if(res.code == 1){
                         var html  = '<form id="editform">'
                         html += '   <table class="layui-table" id="add_word" >'
@@ -325,6 +338,7 @@ layui.use('table', function(){
                         html += '         <col width="100">'
                         html += '         <col width="250">'
                         html += '         <col width="200">'
+                        html += '         <col width="30">'
                         html += '         <col>'
                         html += '     </colgroup>'
                         html += '     <thead>'
@@ -333,6 +347,7 @@ layui.use('table', function(){
                         html += '           <th>标识符</th>'
                         html += '           <th>公式</th>'
                         html += '           <th>费率(范围0-100)</th>'
+                        html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                         html += '       </tr> '
                         html += '     </thead>'
                         html += '     <tbody>'
@@ -342,19 +357,29 @@ layui.use('table', function(){
                         html += '       <td>A1</td>'
                         html += '       <td>100</td>'
                         html += '     </tr>'
-                        $(res.datas).each(function(k,v){
+                        $(res.default_cost).each(function(k,v){
                             html += '     <tr>'
                             html += '       <td>'+v.name+'</td>'
                             html += '       <td>'+v.sign+'</td>'
                             html += '       <td>'+v.formula+'</td>'
                             html += '       <td>'+v.rate+'</td>'
+                            html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                            html += '     </tr>'
+                        })
+                        $(res.append_cost).each(function(k,v){
+                            html += '     <tr>'
+                            html += '       <td><input class="layui-input" value="'+v.name+'" name="name[]" /></td>'
+                            html += '       <td><input class="layui-input" value="'+v.sign+'" name="sign[]" /></td>'
+                            html += '       <td><input class="layui-input" value="'+v.formula+'" name="formula[]" /></td>'
+                            html += '       <td><input class="layui-input" value="'+v.rate+'" name="rate[]" /></td>'
+                            html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                             html += '     </tr>'
                         })
                         html += '     </tbody>'
                         html += '     <tfoot>'
                         html += '       <tr>'
                         html += '           <td>模板名称</td>'
-                        html += '           <td colspan="4">'+res.datas[0].tmp_name+'</td>'
+                        html += '           <td colspan="5">'+res.datas[0].tmp_name+'</td>'
                         html += '       </tr>'
                         html += '     </tfoot>'
                         html += '   </table>'
@@ -363,9 +388,33 @@ layui.use('table', function(){
                             content: html,
                             title:'查看模板',
                             area: ['580px', '480px'], //宽高
-                            btn: ['确定'],
+                            btn: ['提交', '取消'],
                             yes: function(index, layero){
-                               layer.close(index);
+                                var addform = $('#editform').serializeArray();
+                                var datas = {};  
+                                $.each(addform, function() {  
+                                    if (datas[this.name]) {  
+                                        if (!datas[this.name].push) {  
+                                            datas[this.name] = [ datas[this.name] ];  
+                                        }  
+                                        datas[this.name].push(this.value || '');  
+                                    } else {  
+                                        datas[this.name] = this.value || '';  
+                                    } 
+                                });  
+                                datas['o_id'] = data.id;
+                                datas['tmp_id'] = tmp_id;
+                                $.post('/admin/quote/apennd_tmp_cost',datas,function(res){
+                                    if(res.code === 0){
+                                        alert(res.msg);
+                                    }else{
+                                        layer.msg(res.msg);
+                                        window.location.reload();
+                                    }
+                                },'json')
+                            },
+                            btn2: function(index, layero){
+                                layer.close(index);
                             },
                             cancel: function(){ 
                             //return false 开启该代码可禁止点击该按钮关闭

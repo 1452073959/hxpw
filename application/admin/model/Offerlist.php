@@ -24,6 +24,11 @@ class Offerlist extends Model
             
 
         $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate')->select();
+        $append_tmp_cost = json_decode($offerlist_info['tmp_append_cost'],true);//附加项
+        $append_tmp_cost = is_array($append_tmp_cost)?$append_tmp_cost:[];
+        $offerlist_info['default_cost'] = $tmp_cost;//默认模板明细
+        $offerlist_info['append_cost'] = $append_tmp_cost;//附加模板明细
+        $tmp_cost = array_merge($tmp_cost,$append_tmp_cost);//合并
         if(!$tmp_cost){
             $tmp_cost = [];
         }
@@ -47,7 +52,7 @@ class Offerlist extends Model
             $tmp_cost[$k]['price'] = $sign[$v['sign']];
             $cost_all += $sign[$v['sign']];
         }
-        $offerlist_info['order_cost'] = $tmp_cost; //模板明细
+        $offerlist_info['order_cost'] = $tmp_cost; //全部模板明细
         $offerlist_info['order_cost_all_price'] = $cost_all; //其他费用总计
 
         // // $offerlist_info['sundry'] //运杂
