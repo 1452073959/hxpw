@@ -10,6 +10,7 @@ use think\Db;
 use think\Paginator;
 use think\Request;
 use think\db\Where;
+use think\facade\Cache;
 
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -30,6 +31,77 @@ class Offerlist extends Adminbase
     // }
     public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
     public $show_page = 15;
+
+    //临时保存报价订单
+    public function temporary_save_order(){
+        $user_id = input('user_id');
+        if(!$user_id){
+            $this->error('参数错误');
+        }
+        $userinfo = $this->_userinfo;
+        if(input('data')){
+            Cache::set('tso_'.$user_id.$userinfo['userid'],input('data'),3600*7);
+            $this->success('success');
+        }else{
+            Cache::rm('tso_'.$user_id.$userinfo['userid']); 
+            $this->success('删除缓存');
+        }
+    }
+	
+	//获取临时保存的订单
+    public function get_temporary_order(){
+        $userinfo = $this->_userinfo;
+        //判断是否有临时保存的订单
+        $temporary_order = Cache::get('tso_'.input('customer_id').$userinfo['userid']);
+        if($temporary_order){
+            $success_temporary_order = 1;//判断临时订单是否失效 1:有效 2:失效
+            $item_number = [];//所有项目编号集合
+            $offer_type_check = [1=>[],2=>[]];//用于检测工种/空间是否还有效
+            $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+            foreach($offer_type_list as $k=>$v){
+                $offer_type_check[$v['type']][] = $v['name'];
+            }
+            foreach($temporary_order as $k=>$v){
+                if(!in_array($k, $offer_type_check[2])){
+                    //空间不存在
+                    $success_temporary_order = 2;
+                    break;
+                }else{
+                    foreach($v as $k1=>$v1){
+                        $item_number[] = $k1;
+                    }
+                    
+                }
+            }
+            $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+            $item_number = array_unique($item_number);//去重
+            if(count($item_number) != count($offerquota)){
+                $success_temporary_order = 2;
+            }else{
+                $offerquota = array_column($offerquota, null,'item_number');
+                //重新组合数组 组合成模板导入的格式 (方便复制代码)
+                $datas = [];
+                foreach ($temporary_order as $k1 => $v1) {
+                    foreach($v1 as $k2=>$v2){
+                        $info = [];
+                        $info['work_type'] = $offerquota[$k2]['type_of_work'];
+                        $info['space'] = $k1;
+                        $info['item_number'] = $k2;
+                        $info['num'] = $v2;
+                        $datas[] = $info;
+                    }
+                    
+                }
+            }
+            if($success_temporary_order == 1){
+                echo json_encode(['code'=>1,'datas'=>$datas,'offerquota'=>$offerquota]);die;
+            }else{
+                $this->error('error temporary order');die;
+            }
+        }else{
+            $this->error('no temporary order');die;
+        }
+    }
 
     //报价 根据工种 获取项目
     public function ajax_get_project(){
@@ -329,6 +401,7 @@ class Offerlist extends Adminbase
                 $this->error('失败');
             }
             if($re!==false && $order_material_res && $order_project_res){
+                Cache::rm('tso_'.input('customerid').$userinfo['userid']); 
                 $this->success('保存订单成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');

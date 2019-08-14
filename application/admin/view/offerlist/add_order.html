@@ -187,8 +187,33 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    //===================自动临时保存报价
+    var step_number = 0;//操作的次数
+    function save_order(){
+        if(step_number < 4){ //每5步记录一次
+            step_number++;
+            return false;
+        }
+        step_number = 0;
+        var project = $('#project .project input').serializeArray();
+        var datas = {};  
+        $.each(project, function() {  
+            if (datas[this.name]) {  
+                if (!datas[this.name].push) {  
+                    datas[this.name] = [ datas[this.name] ];  
+                }  
+                datas[this.name].push(this.value || '');  
+            } else {  
+                datas[this.name] = this.value || '';  
+            }  
+        });
+        datas['user_id'] = $('input[name="customerid"]').val();
+        $.post('/admin/offerlist/temporary_save_order',datas,function(res){
+            console.log(res);
+        })
+    }
 
-        //==============添加空间
+    //==============添加空间
     //添加空间
     $('#add_space').click(function(){
         layui.use('layer', function(){
@@ -298,6 +323,8 @@
     //======================提交订单end
 
 
+
+
     //=======================导入模板start
 
     $('#import_tmp').click(function(){
@@ -396,12 +423,7 @@
             }
         },'json') 
     }
-
-
-
     //=======================导入模板end
-
-
 
     //点击空间换颜色
     $('#diolog .left').on('click','li',function(){
@@ -537,6 +559,7 @@
                 $('tr[data-space="'+word+'-'+space+'"]').after(project);
             }
         }
+        save_order();//临时保存订单
     })
 
     //删除报价单项目
@@ -552,7 +575,8 @@
         }else if(type == 'project'){
             // var msg = '确定要删除选中项目吗？';
             $(this).parent().parent().remove();
-             return false;
+            save_order();
+            return false;
         }else{
             layui.use('layer', function(){
                 layer.msg('非法操作');
@@ -571,7 +595,9 @@
                     }else if(type == 'space'){
                         $('tr[data-inspace="'+inspace+'"]').remove();
                     }
+                    save_order();
                     layer.close(index);
+
                 },
                 btn2: function(index, layero){
                     layer.close(index);
@@ -626,6 +652,7 @@
         })
         $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total);
         $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total);
+        save_order();
     })
     //======================价格统计end
 
@@ -670,5 +697,76 @@
         })
     }
 
+    $(function(){
+        get_temporary_order()
+        //判断是否有临时保存的订单
+        function get_temporary_order(){
+            var customerid = $('input[name="customerid"]').val();
+            $.post('/admin/offerlist/get_temporary_order',{customer_id:customerid},function(res){
+                if(res.code == 1){
+                    var offerquota = res.offerquota;
+                    var datas = res.datas;
+                    var is_in = 0;
+                    $(res.datas).each(function(k,v){
+                        if($('input[data-project="'+v.space+'-'+v.item_number+'"]').length > 0){
+                            is_in = 1;
+                            return true;
+                        }
+
+                        var project = '';
+                        project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                        project += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                        project += '<td>'+v.item_number+'</td>';
+                        project += '<td>'+offerquota[v.item_number]['project']+'</td>';
+                        project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
+                        project += '<td>'+offerquota[v.item_number]['company']+'</td>';
+                        project += '<td>'+offerquota[v.item_number]['quota']+'</td>';
+                        project += '<td></td>';
+                        project += '<td>'+offerquota[v.item_number]['craft_show']+'</td>';
+                        project += '<td></td>';
+                        project += '</tr>';
+
+                        if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
+                        $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
+                        }else{
+                            //空间不存在 新建空间
+                            var space_html = '';
+                            space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                            space_html += '<td><i class="layui-icon layui-icon-delete"></i></td>'
+                            space_html += '<td></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'</td>'
+                            space_html += '<td colspan="1"></td>';
+                            space_html += '<td class="space_material_total" colspan="1"></td>';
+                            space_html += '<td colspan="1"></td>';
+                            space_html += '<td class="space_artificial_total" colspan="1"></td>';
+                            space_html += '</tr>'
+                            //判断工种是否不存 
+                            if($('tr[data-word="'+v.work_type+'"]').length > 0){
+                                $('tr[data-inword="'+v.work_type+'"]').last().after(space_html);
+                                $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
+                            }else{
+                                //不存在 添加工种
+                                var word_html = '';
+                                word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
+                                word_html += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                                word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
+                                word_html += '<td colspan="1"></td>';
+                                word_html += '<td class="word_material_total" colspan="1"></td>';
+                                word_html += '<td colspan="1"></td>';
+                                word_html += '<td class="word_artificial_total" colspan="1"></td>';
+                                word_html += '</tr>';
+                                $('#project_datas').append(word_html);
+                                $('tr[data-word="'+v.work_type+'"]').after(space_html);
+                                $('tr[data-space="'+v.work_type+'-'+v.space+'"]').after(project);
+                            }
+                        }
+                    })
+                    initialize_datas();
+                }else{
+                    console.log('no temporary order');
+                }
+            },'json') 
+        }
+    })
 </script>
 {/block}
