@@ -189,7 +189,7 @@
                                 </tr>
                             {/foreach}
                             <tr>
-                                <td class="text-center" colspan="2">合计</td>
+                                <td class="text-center" colspan="2">直接费</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -198,6 +198,47 @@
                                 <td>{$total_craft_show}</td>
                                 <td></td>
                             </tr>
+                            {notempty name="offerlist_info['order_cost']"}
+                                <?php $num=97; ?>
+                                {foreach name="$offerlist_info['order_cost']" item="vcost" key="kcost"}
+                                    <tr>
+                                        <td class="text-center"><?php echo chr($num); ?></td>
+                                        <td class="text-center">{$vcost.name}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{$vcost.price}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <?php $num++; ?>
+                                {/foreach}
+                                {notempty name="offerlist_info['discount']"}
+                                    <tr>
+                                        <td class="text-center"><?php echo chr($num); ?></td>
+                                        <td class="text-center">优惠</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{$offerlist_info['discount']}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <?php $num++; ?>
+                                    </tr>
+                                {/notempty}
+                                <tr>
+                                    <td class="text-center" colspan="2">工程报价</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{$offerlist_info.discount_proquant}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {/notempty}
 						{/notempty}
 					</tbody>
 				</table>
