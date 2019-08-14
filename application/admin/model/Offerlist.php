@@ -152,9 +152,13 @@ class Offerlist extends Model
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['img'] = $v['img']; //图片
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['units'] = $v['units']; //单位
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['num'] = 0; //数量
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['remarks'] = $v['remarks']; //供应来源
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['place'] = $v['place']; //产地
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['phr'] = $v['phr']; //包装规格
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['cb'] = $v['cb']; //单价
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['price_total'] = 0; //总价
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['category'] = $v['category']; //工种
+                $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['price_total'] = $v['fine']; //辅材类别
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['coefficient'] = $v['coefficient'];
                 $datas[$v['type_of_work']][$v['fine']][$v['amcode']]['important'] = $v['important'];
             }
