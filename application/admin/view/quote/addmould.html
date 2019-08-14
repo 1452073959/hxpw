@@ -369,7 +369,7 @@
         //选择添加的地方
         //判断当前工种下 空间是否存在
         if($('tr[data-space="'+word+'-'+space+'"]').length > 0){
-            $('tr[data-space="'+word+'-'+space+'"]').after(project);
+            $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
         }else{
             //空间不存在 新建空间
             var space_html = '';
@@ -384,8 +384,8 @@
             space_html += '</tr>'
             //判断工种是否不存 
             if($('tr[data-word="'+word+'"]').length > 0){
-                $('tr[data-word="'+word+'"]').after(space_html);
-                $('tr[data-space="'+word+'-'+space+'"]').after(project);
+                $('tr[data-inword="'+word+'"]').last().after(space_html);
+            	$('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
             }else{
                 //不存在 添加工种
                 var word_html = '';
