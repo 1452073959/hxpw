@@ -247,20 +247,17 @@
           dataType : 'json',
           data : {id:id,customerid:customerid,status:status},
           success : function(re){
-            console.log(re);
-            // if(re.status == 0){
-               alert(re.msg);
-               window.location.reload();
-            // }else{
-            //   alert(re.msg);return false;
-            // }
+                if(re.code == 0){
+                    alert(re.msg);
+                }else{
+                    alert(re.msg);
+                    window.location.reload();
+                }
+               
+               
           }
         });
     });
-		
-		// $('#export').click(function(){
-		// 	window.location.href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id')])}";
-		// });
     
   });
 </script>

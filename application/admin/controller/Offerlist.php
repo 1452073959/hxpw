@@ -575,13 +575,16 @@ class Offerlist extends Adminbase
         }
         $item_number = array_unique($item_number);
         $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
-        // var_dump($datas);die;
+
+        $offerlist_info = Model('offerlist')->get_order_info($o_id);
+        // var_dump($offerlist_info);die;
         $this->assign([
             'datas'=>$datas,
             'order_info'=>$order_info,
             'userinfo'=>$userinfo,
             'offerquota'=>$offerquota,
             'offer_type'=>$offer_type,
+            'offerlist_info'=>$offerlist_info,
         ]); 
         return $this->fetch();
     }
@@ -735,22 +738,28 @@ class Offerlist extends Adminbase
     { 
     /*0:未报价 1:已报价 2:预算价 3:合同价 4:结算价*/
         if($this->request->isPost()){
-          // return input();
+            $offerlist = Db::name('offerlist')->where('id',input('id'))->find();
+            if(!$offerlist){
+                $this->error('无效订单');
+            }
+            if($offerlist['status'] >= 3){
+                $this->error('合同价/结算价禁止修改');
+            }
             $data = input();
-      if($data){
-        $status = input('status');$id = input('id');$cid = input('customerid');
-        if($id && $status){
-          $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
-          if($res !== false){
-            $this->success('操作成功');
-          }else{
-            $this->error('操作失败');
-          }
+            if($data){
+                $status = input('status');$id = input('id');$cid = input('customerid');
+                if($id && ($status || input('status')==0 )){
+                  $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
+                  if($res !== false){
+                    $this->success('操作成功');
+                  }else{
+                    $this->error('操作失败');
+                  }
+                }
+            }else{
+              Result(1,'信息获取失败');
+            }
         }
-      }else{
-        Result(1,'信息获取失败');
-      }
-    }
       
     }
 
