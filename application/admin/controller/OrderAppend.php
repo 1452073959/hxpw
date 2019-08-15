@@ -23,6 +23,10 @@ class OrderAppend extends Adminbase
             $offer_type[$v['type']][] = $v;
         }
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        $offerlist = Db::name('offerlist')->where(['id'=>input('order_id')])->find();
+        if($offerlist['status'] >= 3){
+            $this->error('合同价/结算价禁止增减项');
+        }
         $this->assign([
             'offer_type'=>$offer_type,
             'customer_info'=>$customer_info,

@@ -347,27 +347,27 @@ class Offerlist extends Adminbase
             if(!$cost_tmp){
                 //没有设置  这个是默认值
                 $cost_tmp_data = [
-                    'tubemoney'=>1,
-                    'carry'=>0,
-                    'clean'=>0,
-                    'accident'=>0,
-                    'remote'=>0,
-                    'old_house'=>0,
-                    'taxes'=>0,
+                    // 'tubemoney'=>1,
+                    // 'carry'=>0,
+                    // 'clean'=>0,
+                    // 'accident'=>0,
+                    // 'remote'=>0,
+                    // 'old_house'=>0,
+                    // 'taxes'=>0,
                     'supervisor_commission'=>0,
                     'design_commission'=>0,
-                    'repeat_commission'=>3,
+                    'repeat_commission'=>0,
                     'business_commission'=>0
                 ];
             }else{
                 $cost_tmp_data = [
-                    'tubemoney'=>$cost_tmp['tubemoney'],
-                    'carry'=>$cost_tmp['carry'],
-                    'clean'=>$cost_tmp['clean'],
-                    'accident'=>$cost_tmp['accident'],
-                    'remote'=>$cost_tmp['remote'],
-                    'old_house'=>$cost_tmp['old_house'],
-                    'taxes'=>$cost_tmp['taxes'],
+                    // 'tubemoney'=>$cost_tmp['tubemoney'],
+                    // 'carry'=>$cost_tmp['carry'],
+                    // 'clean'=>$cost_tmp['clean'],
+                    // 'accident'=>$cost_tmp['accident'],
+                    // 'remote'=>$cost_tmp['remote'],
+                    // 'old_house'=>$cost_tmp['old_house'],
+                    // 'taxes'=>$cost_tmp['taxes'],
                     'supervisor_commission'=>$cost_tmp['supervisor'],
                     'design_commission'=>$cost_tmp['design'],
                     'repeat_commission'=>$cost_tmp['repeat'],
