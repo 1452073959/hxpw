@@ -327,17 +327,18 @@ class Indent extends Adminbase
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
         if(!$cost_tmp){
             $cost_tmp = [
-                            'tubemoney'=>0,
-                            'carry'=>0,
-                            'clean'=>0,
-                            'accident'=>0,
-                            'remote'=>0,
-                            'old_house'=>0,
-                            'taxes'=>0,
+                            // 'tubemoney'=>0,
+                            // 'carry'=>0,
+                            // 'clean'=>0,
+                            // 'accident'=>0,
+                            // 'remote'=>0,
+                            // 'old_house'=>0,
+                            // 'taxes'=>0,
                             'supervisor'=>0,
                             'design'=>0,
                             'repeat'=>0,
-                            'business'=>0
+                            'business'=>0,
+                            'order_tfoot'=>''
                         ];//返回空数据
         }
         Result(0,'',$cost_tmp);
@@ -345,17 +346,18 @@ class Indent extends Adminbase
 
     public function edit_tmp(){
         $f_id = input('f_id');
-        $datas['tubemoney'] = input('tubemoney');
-        $datas['carry'] = input('carry');
-        $datas['clean'] = input('clean');
-        $datas['accident'] = input('accident');
-        $datas['remote'] = input('remote');
-        $datas['old_house'] = input('old_house');
-        $datas['taxes'] = input('taxes');
+        // $datas['tubemoney'] = input('tubemoney');
+        // $datas['carry'] = input('carry');
+        // $datas['clean'] = input('clean');
+        // $datas['accident'] = input('accident');
+        // $datas['remote'] = input('remote');
+        // $datas['old_house'] = input('old_house');
+        // $datas['taxes'] = input('taxes');
         $datas['supervisor'] = input('supervisor');
         $datas['design'] = input('design');
         $datas['repeat'] = input('repeat');
         $datas['business'] = input('business');
+        $datas['order_tfoot'] = input('order_tfoot');
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
         if($cost_tmp){
             //修改

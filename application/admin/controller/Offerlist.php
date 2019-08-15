@@ -650,6 +650,9 @@ class Offerlist extends Adminbase
         $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
 
         $offerlist_info = Model('offerlist')->get_order_info($o_id);
+
+        //订单底部文字
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
         // var_dump($offerlist_info);die;
         $this->assign([
             'datas'=>$datas,
@@ -658,6 +661,7 @@ class Offerlist extends Adminbase
             'offerquota'=>$offerquota,
             'offer_type'=>$offer_type,
             'offerlist_info'=>$offerlist_info,
+            'cost_tmp'=>$cost_tmp,
         ]); 
         return $this->fetch();
     }

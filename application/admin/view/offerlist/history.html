@@ -239,6 +239,13 @@
                                     <td></td>
                                 </tr>
                             {/notempty}
+                            {notempty name="cost_tmp['order_tfoot']"}
+                                <?php foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){ ?>
+                                    <tr>
+                                        <td colspan="9" style="text-align: left">{$v}</td>
+                                    </tr>
+                                <?php } ?>
+                            {/notempty}
 						{/notempty}
 					</tbody>
 				</table>
@@ -281,7 +288,7 @@
     //       loadCSS: "/Content/Themes/Default/style.css",
              pageTitle: "姓名查询汇总表",
              removeInline: false,
-             printDelay: 333,
+             printDelay: 333333,
              header: null,
              formValues: false
            });
