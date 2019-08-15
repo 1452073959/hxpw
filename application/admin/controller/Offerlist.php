@@ -1447,6 +1447,13 @@ class Offerlist extends Adminbase
         if(!$this->request->isPost()){
             Result(1,'请求错误！'); 
         }
+        $offerlist = Db::name('offerlist')->where('id',input('id'))->find();
+        if(!$offerlist){
+            Result(1,'无效订单'); 
+        }
+        if($offerlist['status'] >= 3){
+            Result(1,'合同价/结算价禁止修改'); 
+        }
         $receive = $this->request->param();
         $data[$receive['field']] = $receive['value'];
         if(Db::name('offerlist')->where('id', $receive['id'])->update($data)){

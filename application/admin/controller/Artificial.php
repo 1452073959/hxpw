@@ -135,7 +135,10 @@ class Artificial extends Adminbase
         foreach($res as $k=>$v){
             $res[$k]['order_info'] = Model('offerlist')->get_order_info($v['id']);
         }
+        //用户信息
+        $userinfo = Db::name('userlist')->where(['id'=>input('id')])->find();//客户信息
         $this->assign('data',$res);    
+        $this->assign('userinfo',$userinfo);    
         return $this->fetch();
     }
     //解决预算和结算的数据来源 $true 已报价的项目 $false 未报价的项目

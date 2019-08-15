@@ -62,6 +62,9 @@
     th{
         text-align: center;
     }
+    #layuitable{
+        display: none;
+    }
 </style>
 
   <!-- 导出完成 -->
@@ -76,14 +79,19 @@
                       <li>联系电话：</li>
                       <li>报价师姓名：{$userinfo.quoter_name}</li>
                       <li>设计师姓名：{$userinfo.designer_name}</li>
+                      <li class="click print" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
                 </div>     
+                <div style="float: right">
+                    <button id="switch_table" class="layui-btn layui-btn-radius layui-btn-primary">切换表格</button>
+                    
+                </div>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
               </div>
             </script>
-            <div id="datafrom"><!-- 打印 -->
+            <div id="layuitable"><!-- 打印 -->
                 <table lay-filter="demo">
                     </colgroup>
                     <thead>
@@ -152,8 +160,8 @@
                                 </tr> -->
                         <?php } ?>
                             <!-- <tr>
-                          <td class="" colspan="8"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
-                  </tr> -->
+                                <td class="" colspan="8"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
+                            </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -162,6 +170,90 @@
               
         </div>
     </div>
+</div>
+<div id="datafrom">
+    <table class="layui-table">
+        <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="150">
+                <col width="150">
+                <col width="100">
+                <col width="150">
+                <col width="80">
+                <col width="100">
+                <col>
+            </colgroup>
+        <thead>
+            <tr>
+                <th style="text-align: center">辅材编码</th>
+                <th  style="text-align: center" width="30%">辅材名称</th>
+                <th  style="text-align: center">工种类别</th>
+                <th  style="text-align: center">辅材细类</th>
+                <th  style="text-align: center">品牌</th>
+                <th  style="text-align: center">产地</th>
+                <th  style="text-align: center">包装规格</th>
+                <th  style="text-align: center">单位</th>
+                <th  style="text-align: center">领料数量</th>
+                <th  style="text-align: center">单价</th>
+                <th  style="text-align: center">总价</th>
+                <th  style="text-align: center">供应来源</th>
+            </tr> 
+        </thead>
+        <tbody>
+            <?php $all_total=0; ?>
+            <?php foreach($material as $k1=>$v1){ ?>
+                <tr>
+                    <td class="" colspan="12" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
+                    
+                </tr>
+                    <?php 
+                        $big_total=0;//大类合计
+                     ?>
+                <?php foreach($v1 as $k2=>$v2){ ?>
+                    <!-- <tr>
+                        <td class="" colspan="12" style="color:#393d49;text-align: center;">{$k2}</td>
+                        
+                    </tr> -->
+                    <?php 
+                        $small_total=0;//小类合计
+                     ?>
+                    <?php foreach($v2 as $k3=>$v3){ ?>
+                        <tr>
+                            <td class="">{$v3.amcode}</td>
+                            <td class="">{$v3.m_name}</td>
+                            <td class="">{$v3.category}</td>
+                            <td class="">{$k2}</td>
+                            <td class="">{$v3.brand}</td>
+                            <!-- <td class="">{$v3.img}</td> -->
+                            <td class="">{$v3.place}</td>
+                            <!-- <td class="">{$v3.num}</td> -->
+                            <td class="">{$v3.phr}</td>
+                            <td class="">{$v3.units}</td>
+                            <td class="">{$v3.omit_num}</td>
+                            <td class="">{$v3.cb}</td>
+                            <td class="">{$v3.cb*$v3.omit_num}</td>
+                            <td class="">{$v3.remarks}</td>
+                            <?php 
+                                $big_total += $v3['cb']*$v3['omit_num'];
+                                $small_total += $v3['cb']*$v3['omit_num'];
+                                $all_total += $v3['cb']*$v3['omit_num'];
+                            ?>
+                        </tr>
+                    <?php } ?>
+                        <tr>
+                            <td class="" colspan="12" style="text-align: right;padding-right: 30px;">{$k2} - 合计：{$small_total}</td>
+                        </tr>
+                <?php } ?>
+                    <tr>
+                        <td class="" colspan="12" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
+                    </tr>
+            <?php } ?>
+                <tr>
+                    <td class="" colspan="12"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
+                </tr>
+        </tbody>
+    </table>
 </div>
 {/block}
 {block name="script"}
@@ -231,9 +323,22 @@
 //     })
     
     
-//     //打印
-//     $('.print').click(function(){
-//         window.print();
-//     })
+    //打印
+    $('.print').click(function(){
+        window.print();
+    })
+
+    //切换表格
+    $('#switch_table').click(function(){
+        if($('#datafrom').css('display') == 'none'){
+            $('#datafrom').show();
+            $('.print').show();
+            $('#layuitable').hide();
+        }else{
+            $('#datafrom').hide();
+            $('.print').hide();
+            $('#layuitable').show();
+        }
+    })
 </script>
 {/block}
