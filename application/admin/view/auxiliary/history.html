@@ -41,7 +41,7 @@
     #imgs{position:relative;}
     .batchs span{cursor:pointer;}
     /*.ulall{overflow:auto;}*/
-    .ulall li{float:left;border: 1px solid #ccc;padding: 5px;margin-right: 20px;}
+    .ulall li{float:left;border: 1px solid #ccc;padding: 5px;margin-right: 5px;}
     .click{
         display: block;
         width: 22px;
@@ -111,16 +111,16 @@
                         <tr>
                             <th lay-data="{field:'amcode', width:180,align:'center',style:'font-size:12px',align:'center'}">辅材编码</th>
                             <th lay-data="{field:'m_name', sort:true, width:250,align:'center',style:'font-size:12px',align:'center'}">辅材名称</th>
-                            <th lay-data="{field:'category', sort:true, width:150,align:'center',style:'font-size:12px',align:'center'}">工种类别</th>
-                            <th lay-data="{field:'fine', sort:true, width:150,align:'center',style:'font-size:12px',align:'center'}">辅材细类</th>
+                            <th lay-data="{field:'category', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">工种类别</th>
+                            <th lay-data="{field:'fine', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">辅材细类</th>
                             <th lay-data="{field:'brand', sort:true, width:80,align:'center',style:'font-size:12px',align:'center'}">品牌</th>
                             <th lay-data="{field:'place', sort:true, width:100,align:'center',style:'font-size:12px',align:'center'}">产地</th>
                             <th lay-data="{field:'phr', width:120, sort:true,align:'center',style:'font-size:12px',align:'center'}">包装规格</th>
                             <th lay-data="{field:'units', width:80, sort:true,align:'center',style:'font-size:12px',align:'center'}">单位</th>
                             <th lay-data="{field:'omit_num', width:100, sort:true,align:'center',style:'font-size:12px',align:'center'}">领料数量</th>
                             <th lay-data="{field:'price', width:80, sort:true,align:'center',style:'font-size:12px',align:'center'}">单价</th>
-                            <th lay-data="{field:'total_price', width:150, sort:true,align:'center',style:'font-size:12px',align:'center'}">总价</th>
-                            <th lay-data="{field:'remarks', sort:true, width:150,align:'center',style:'font-size:12px',align:'center'}">供应来源</th>
+                            <th lay-data="{field:'total_price', width:120, sort:true,align:'center',style:'font-size:12px',align:'center'}">总价</th>
+                            <th lay-data="{field:'remarks', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">供应来源</th>
                         </tr> 
                     </thead>
                     <tbody>
@@ -341,6 +341,7 @@
     
     //打印
     $('.print').click(function(){
+        $('#switch_table').hide();
         window.print();
     })
 
