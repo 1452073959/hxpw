@@ -41,6 +41,22 @@
                     <input type="text" name="designer_name" autocomplete="off" placeholder="设计师姓名" class="layui-input" value="{$data.designer_name|default=''}">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房屋面积</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="area" autocomplete="off" placeholder="房屋面积" class="layui-input" value="{$data.area|default=''}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房屋类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="room_type" value="平层" title="平层" {eq name="$data['room_type']" value="平层"}checked{/eq} >
+                    <input type="radio" name="room_type" value="复式" title="复式" {eq name="$data['room_type']" value="复式"}checked{/eq}>
+                    <input type="radio" name="room_type" value="别墅" title="别墅" {eq name="$data['room_type']" value="别墅"}checked{/eq}>
+                    <input type="radio" name="room_type" value="工装" title="工装" {eq name="$data['room_type']" value="工装"}checked{/eq}>
+                    <input type="radio" name="room_type" value="酒店" title="酒店" {eq name="$data['room_type']" value="酒店"}checked{/eq}>
+                </div>
+            </div>
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
@@ -55,5 +71,9 @@
 {/block}
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
+<script type="text/javascript">
+    layui.use('form', function(){
+      var form = layui.form;
+    });
+</script>
 {/block}

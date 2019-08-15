@@ -854,6 +854,8 @@ class Offerlist extends Adminbase
             $bao['quoter_name'] =  $data['quoter_name'];
             $bao['designer_name'] =  $data['designer_name'];
             $bao['manager_name'] = $data['manager_name'];
+            $bao['area'] = $data['area'];
+            $bao['room_type'] = $data['room_type'];
             $bao['addtime'] = time();
       // dump($data);exit;
             //开启事务

@@ -109,12 +109,15 @@
             <table class="layui-table">
                 <colgroup>
                     <col width="100">
-                    <col width="300">
                     <col width="200">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="1000">
+                    <col width="150">
+                    <col width="150">
                     <col width="200">
-                    <col width="200">
-                    <col width="2000">
-                    <col width="100">
+                    <col width="130">
                 </colgroup>
                 <thead >
                     <tr>
@@ -124,6 +127,9 @@
                         <th>设计师姓名</th>
                         <th>商务经理</th>
                         <th>地址</th>
+                        <th>面积</th>
+                        <th>房屋类型</th>
+                        <th>添加时间</th>
                         <!-- <th>报价历史</th> -->
                         <th>操作</th>
                     </tr>
@@ -139,6 +145,9 @@
                       <td >{$vo.designer_name}</td> 
                       <td >{$vo.manager_name}</td> 
                       <td >{$vo.address}</td> 
+                      <td >{$vo.area}</td> 
+                      <td >{$vo.room_type}</td> 
+                      <td >{$vo.addtime|date='Y-m-d'}</td> 
                       <!-- <td><a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a></td> -->
                       <td >
                         <a class="" href="{:url('admin/auxiliary/index',['c_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看物料清单"></i></a>
