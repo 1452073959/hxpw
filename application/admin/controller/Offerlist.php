@@ -626,8 +626,13 @@ class Offerlist extends Adminbase
         //订单数据
         $order_info = Db::name('offerlist')->where('id',$o_id)->find();
         $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
-        $order_project = Db::name('order_project')->where('o_id',$o_id)->where('type',1)->select();
-
+        $where = [];
+        $where['o_id'] = $o_id;
+        if(input('type') != 2){
+            //增减项+原单
+            $where['type'] = 1;
+        }
+        $order_project = Db::name('order_project')->where($where)->select();
         //==========获取工种 空间类型
         $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
         $offer_type = [1=>[],2=>[]];
@@ -653,7 +658,7 @@ class Offerlist extends Adminbase
 
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-        // var_dump($offerlist_info);die;
+        // var_dump($order_project);die;
         $this->assign([
             'datas'=>$datas,
             'order_info'=>$order_info,

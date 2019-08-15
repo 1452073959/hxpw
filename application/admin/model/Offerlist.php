@@ -9,7 +9,7 @@ use think\Session;
 class Offerlist extends Model
 {
     //获取订单详情
-    public function get_order_info($id){ //offerquota表 的id
+    public function get_order_info($id,$type=1){ //offerquota表 的id type=2 直接费加上增减项的项目
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = json_decode($offerlist_info['content'],true);
         if(is_array($content)){
@@ -19,9 +19,15 @@ class Offerlist extends Model
             }
         }
         $offerlist_info['direct_cost'] = $offerlist_info['matquant']+$offerlist_info['manual_quota'];//工程直接费= 辅材报价+人工报价
-        //=========================计算毛利开始
 
-            
+        if($type = 2){
+            $order_appned = Db::name('order_project')->where(['type'=>2,'o_id'=>$id])->select();
+            foreach($order_appned as $k=>$v){
+                $offerlist_info['direct_cost'] += $v['craft_show']*$v['num'];
+                $offerlist_info['direct_cost'] += $v['quota']*$v['num'];
+            }
+        }
+        //=========================计算毛利开始
 
         $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate')->select();
         $append_tmp_cost = json_decode($offerlist_info['tmp_append_cost'],true);//附加项
