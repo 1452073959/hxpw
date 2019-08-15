@@ -695,15 +695,15 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">人工占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">人工成本占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
+                      html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+key+'</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
-                html += '<tr><td>小计</td><td>'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
+                html += '<tr><td style="background-color:#f36f20;color:#ffffff">小计</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
-                    title: '人工成本明细',
+                    title: '按工种分类的人工成本金额、人工成本占比、直接费占比',
                     area: ['600px', '500px'],
                     content:html
                 }); 
@@ -721,15 +721,15 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">辅料占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">辅材成本占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+key+'</td><td>'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
+                      html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+key+'</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
-                html += '<tr><td>小计</td><td>'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
+                html += '<tr><td style="background-color:#f36f20;color:#ffffff">小计</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(re.total)+'</td><td></td><td></td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
-                    title: '辅材成本明细',
+                    title: '按工种分类的辅材成本金额、辅材成本占比、直接费占比',
                     area: ['600px', '500px'],
                     content:html
                 }); 
@@ -751,11 +751,11 @@ layui.use('table', function(){
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td>'+key+'</td><td>'+toDecimal2(val.price)+'</td><td>'+toDecimal2(val.cb)+'</td><td>'+ toDecimal2(val.price-val.cb) +'</td><td>'+ toDecimal2(((val.price-val.cb)/data.discount_proquant)*100) +'%</td></tr>'
                  });
-                html += '<tr><td>整体工程</td><td>'+toDecimal2(re.total.price)+'</td><td>'+toDecimal2(re.total.cb)+'</td><td>'+ toDecimal2(re.total.price-re.total.cb) +'</td><td>'+ toDecimal2(((re.total.price-re.total.cb-data.discount)/data.discount_proquant)*100) +'%</td></tr>'
+                html += '<tr style="background-color:#f36f20;color:#ffffff"><td>整体工程</td><td>'+toDecimal2(re.total.price)+'</td><td>'+toDecimal2(re.total.cb)+'</td><td>'+ toDecimal2(re.total.price-re.total.cb) +'</td><td>'+ toDecimal2(((re.total.price-re.total.cb-data.discount)/data.discount_proquant)*100) +'%</td></tr>'
                 html += '</tbody></table>'
                 //显示人工明细
                 layer.open({
-                    title: '工程成本明细',
+                    title: '按工种分类的报价、成本、毛利、毛利率',
                     area: ['800px', '600px'],
                     content:html
                 }); 
@@ -776,10 +776,10 @@ layui.use('table', function(){
                 layer.msg(re.msg);return false;
               }else{
 
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">收费项目</th><th style="text-align:center">标识符</th><th style="text-align:center">公式</th><th style="text-align:center">比率</th><th style="text-align:center">金额</th></tr></thead><tbody>';
-                html += '<tr><td>直接费</td><td>A1</td><td>A1</td><td>100%</td><td>'+ toDecimal2(data.direct_cost) +'</td></tr>'
+                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">收费项目</th><th style="text-align:center">金额</th><th style="text-align:center">标识符</th><th style="text-align:center">公式</th><th style="text-align:center">比率</th></tr></thead><tbody>';
+                html += '<tr><td style="background-color:#f36f20;color:#ffffff">直接费</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(data.direct_cost) +'</td><td>A1</td><td>A1</td><td>100%</td></tr>'
                 $.each(re.datas, function (key, val) {
-                      html += '<tr><td>'+val.name+'</td><td>'+val.sign+'</td><td>'+val.formula+'</td><td>'+ val.rate +'%</td><td>'+ toDecimal2(val.price) +'</td></tr>'
+                      html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+val.name+'</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(val.price) +'</td><td>'+val.sign+'</td><td>'+val.formula+'</td><td>'+ val.rate +'%</td></tr>'
                 });
                 html += '</tbody></table>'
                 layer.open({
