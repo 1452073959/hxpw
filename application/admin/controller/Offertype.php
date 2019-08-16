@@ -15,7 +15,7 @@ class Offertype extends Adminbase
     public function index()
     {
         $userinfo = $this->_userinfo;
-        $datas = Db::name('offer_type')->where(['type'=>1,'companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $datas = Db::name('offer_type')->where(['type'=>1,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
         $this->assign('datas',$datas);   
         return $this->fetch();
     }
@@ -23,7 +23,7 @@ class Offertype extends Adminbase
     //工种
     public function space_index(){
         $userinfo = $this->_userinfo;
-        $datas = Db::name('offer_type')->where(['type'=>2,'companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $datas = Db::name('offer_type')->where(['type'=>2,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
         $this->assign('datas',$datas);   
         return $this->fetch();
     }

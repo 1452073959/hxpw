@@ -83,7 +83,9 @@
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
                         <th width="150" lay-data="{field:'edit',width:100}">操作</th>
                         <th class="taleft" lay-data="{field:'id', width:100,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name',width:250}">客户姓名</th>
+                        <th class="taleft" lay-data="{field:'customer_name',width:200}">客户姓名</th>
+                        <th class="taleft" lay-data="{field:'area', width:100}">面积</th>
+                        <th class="taleft" lay-data="{field:'room_type', width:100}">房屋类型</th>
                         <th class="taleft" lay-data="{field:'address',width:150}">报价师姓名</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:150}">设计师姓名</th>
                         <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',width:150}">商务经理</th>
@@ -100,6 +102,8 @@
                       </td>
                       <td class="taleft">{$vo.id}</td>
                       <td class="taleft">{$vo.customer_name}</td>
+                      <td class="taleft">{$vo.area}</td>
+                      <td class="taleft">{$vo.room_type}</td>
                       <td class="taleft">{$vo.quoter_name}</td>
                       <td class="taleft">{$vo.designer_name}</td>
                       <td class="taleft">{$vo.manager_name}</td>

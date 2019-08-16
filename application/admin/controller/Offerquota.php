@@ -30,30 +30,17 @@ class Offerquota extends Adminbase
     //
     public function index()
     {
-      $userinfo = $this->_userinfo; 
-      $da['userid'] = $userinfo['userid'];
-      if($this->request->isPost()){
-         $search = input('search'); 
-         if($search){
-            // $map['item_number'] = array('like',$search);
-            $sres = Db::name('Offerquota')->where($da)->where('item_number','like',"%".$search."%")->paginate(20);
-            // dump($sres);
-            $this->assign('data',$sres);
-             $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
-             $this->assign('frame',$frame);    
-            return $this->fetch();       
-         }else{
-           $this->error('请输入搜索内容', url("Offerquota/index"));
-         }
-
-      }else{
-       
-        $res = Db::name('Offerquota')->where($da)->paginate(20);
+        $userinfo = $this->_userinfo; 
+        $where = [];
+        $da['userid'] = $userinfo['userid'];
+        if(input('search')){
+            $where[] = ['item_number','like',"%".input('search')."%"];
+        }
+        $res = Db::name('Offerquota')->where($da)->where($where)->paginate(20,false,['query'=>request()->param()]);
         $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
-        $this->assign('data',$res);    
-        $this->assign('frame',$frame);     
+        $this->assign('data',$res);
+        $this->assign('frame',$frame);
         return $this->fetch();
-      } 
     }
 
    // 弹窗修改信息

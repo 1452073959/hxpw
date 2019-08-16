@@ -111,6 +111,8 @@
                 <colgroup>
                     <col width="100">
                     <col width="300">
+                    <col width="100">
+                    <col width="100">
                     <col width="200">
                     <col width="200">
                     <col width="200">
@@ -121,6 +123,8 @@
                     <tr>
                         <th>ID</th>
                         <th>客户姓名</th>
+                        <th>面积</th>
+                        <th>房屋类型</th>
                         <th>报价师姓名</th>
                         <th>设计师姓名</th>
                         <th>商务经理</th>
@@ -133,9 +137,10 @@
                   
                   {foreach name="data" item="vo"}
                     <tr>   
-                      <td >{$vo.id}
-                      </td> 
+                      <td >{$vo.id}</td> 
                       <td >{$vo.customer_name}</td> 
+                      <td>{$vo.area|default=''}</td>
+                      <td>{$vo.room_type|default=''}</td>
                       <td >{$vo.quoter_name}</td> 
                       <td >{$vo.designer_name}</td> 
                       <td >{$vo.manager_name}</td> 
@@ -146,8 +151,11 @@
                       </td>    
                  {/foreach}
                 </tbody>
+                <tfoot>
+                </tfoot>
             </table>
-              
+            <!-- 分页 -->
+            {$data|raw}
         </div>
     </div>
 </div>

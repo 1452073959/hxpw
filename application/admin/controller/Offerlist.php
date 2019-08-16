@@ -425,35 +425,35 @@ class Offerlist extends Adminbase
     //=====================================================================下面的不知道是什么 有用再往上挪
   
     public function userlist(){
-        $where = new Where;
         $condition = [];//用于时间搜索 new where不会用
+        $where = [];
+        $da = [];
         if(input('customer_name')){
-            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
+            $where[] = ['customer_name','LIKE','%'.input('customer_name').'%'];
         }
         if(input('quoter_name')){
-            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+            $where[] = ['quoter_name','LIKE','%'.input('quoter_name').'%'];
         }
         if(input('designer_name')){
-            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+            $where[] = ['designer_name','LIKE','%'.input('designer_name').'%'];
         }
         if(input('address')){
-            $where['address'] = ['LIKE','%'.input('address').'%'];
+            $where[] = ['address','LIKE','%'.input('address').'%'];
         }
         if(input('manager_name')){
-            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+            $where[] = ['manager_name','LIKE','%'.input('manager_name').'%'];
         }
         if(input('begin_time') && input('end_time')){
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
         }        
         $userinfo = $this->_userinfo; 
-        $da = [];
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
         }
         if($userinfo['roleid'] == 10){
             $da['frameid'] = $userinfo['companyid'];
         }
-        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->paginate($this->show_page);
+        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page);
         $this->assign('data',$re);
         return $this->fetch();
     }
@@ -498,7 +498,7 @@ class Offerlist extends Adminbase
             $this->error('参数错误！');
         }
         //所有客户信息
-        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
+        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name,u.area as area,u.room_type as room_type')->join('userlist u','o.customerid = u.id')->where($da)->select();
         //统计报价开始 
         foreach ($res as $key => $value) {
             //判断是否有增减项
@@ -519,21 +519,21 @@ class Offerlist extends Adminbase
 
     //选择客户
     public function baojia_first(){
-        $where = new Where;
+        $where = [];
         if(input('customer_name')){
-            $where['customer_name'] = ['LIKE','%'.input('customer_name').'%'];
+            $where[] = ['customer_name','LIKE','%'.input('customer_name').'%'];
         }
         if(input('quoter_name')){
-            $where['quoter_name'] = ['LIKE','%'.input('quoter_name').'%'];
+            $where[] = ['quoter_name','LIKE','%'.input('quoter_name').'%'];
         }
         if(input('designer_name')){
-            $where['designer_name'] = ['LIKE','%'.input('designer_name').'%'];
+            $where[] = ['designer_name','LIKE','%'.input('designer_name').'%'];
         }
         if(input('address')){
-            $where['address'] = ['LIKE','%'.input('address').'%'];
+            $where[] = ['address','LIKE','%'.input('address').'%'];
         }
         if(input('manager_name')){
-            $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
+            $where[] = ['manager_name','LIKE','%'.input('manager_name').'%'];
         }
         $userinfo = $this->_userinfo; 
         $da = [];
@@ -543,11 +543,8 @@ class Offerlist extends Adminbase
         if($userinfo['roleid'] == 10){
             $da['frameid'] = $userinfo['companyid'];
         }
-        if(!empty($where)){
-            $re = Db::name('userlist')->where($where)->where($da)->paginate($this->show_page);
-        }else{
-            $re = Db::name('userlist')->where($da)->paginate($this->show_page);
-        }
+        $re = Db::name('userlist')->where($where)->where($da)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+       
         $this->assign('data',$re);
         return $this->fetch();
     }

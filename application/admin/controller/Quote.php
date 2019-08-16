@@ -17,7 +17,7 @@ class Quote extends Adminbase
     //模板管理页面
     public function tmp_cost(){
         $userinfo = $this->_userinfo;
-        $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
+        $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->order('id','desc')->select();
         $this->assign([ 'datas'=>$res ]);
         return $this->fetch();
         // echo 1;die;
@@ -263,7 +263,7 @@ class Quote extends Adminbase
 	//报价模板首页
 	public function index(){
 	    $userinfo = $this->_userinfo;
-		$res = Db::name('tmp')->where('f_id','=',$userinfo['companyid'])->group('tmp_id')->select();
+		$res = Db::name('tmp')->where('f_id','=',$userinfo['companyid'])->group('tmp_id')->order('id','desc')->select();
 		$this->assign([ 'data'=>$res ]);
 		return $this->fetch();
 	}
