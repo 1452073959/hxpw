@@ -28,7 +28,7 @@ class Bcontrast extends Adminbase
         if($this->request->isPost()){
             $search = input('search'); 
           if($search){
-            $res = Db::name('userlist')->where($da)->where('customer_name','like',"%".$search."%")->select(); 
+            $res = Db::name('userlist')->where($da)->where('customer_name','like',"%".$search."%")->order('id','desc')->select(); 
             $this->assign('data',$res); 
            }else{
              $this->error('请输入搜索内容', url("Bcontrast/index"));
@@ -36,7 +36,7 @@ class Bcontrast extends Adminbase
 
         }else{
          
-            $res = Db::name('userlist')->where($da)->select();        
+            $res = Db::name('userlist')->where($da)->order('id','desc')->select();        
              // dump($res);
              // exit;
             $this->assign('data',$res);

@@ -105,7 +105,7 @@ class Artificial extends Adminbase
         if(input('search')){
             $da['customer_name'] = input('search');
         }
-        $userlist = Db::name('userlist')->where($da)->select();
+        $userlist = Db::name('userlist')->where($da)->order('id','desc')->select();
         $this->assign('data',$userlist);    
         $this->assign('userinfo',$userinfo);  
         return $this->fetch();
