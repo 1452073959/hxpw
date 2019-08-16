@@ -129,7 +129,7 @@ class Artificial extends Adminbase
             // $where[]
         }
         //所有客户信息
-        $res = Db::name('offerlist')->where($where)->field('id')->select();
+        $res = Db::name('offerlist')->where($where)->field('id,remark')->select();
 
         //统计报价开始 
         foreach($res as $k=>$v){

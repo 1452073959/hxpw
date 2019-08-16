@@ -80,7 +80,8 @@ a{
                 <thead >
                     <tr>
                         <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
-                        <th class="taleft" lay-data="{field:'status', width:80,fixed: 'left'}">状态</th>
+                        <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
+                        <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
                         <th class="taleft" lay-data="{field:'id', width:60,hide:true}">ID</th>
                         <!-- <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
@@ -117,7 +118,6 @@ a{
                   
                   {foreach name="data" item="vo"}
                     <tr>
-                      <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td>
                         {switch name="$vo.order_info.status"}
                             {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
@@ -129,6 +129,7 @@ a{
                             <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
                         {/switch}
                       </td>
+                      <td class="taleft">{$vo.remark}</td>    
                       <td class="taleft">{$vo.id}</td>    
                       <td class="taleft">{$vo.order_info.proquant}</td>   
                       <td class="taleft">{$vo.order_info.discount_proquant}</td>   
