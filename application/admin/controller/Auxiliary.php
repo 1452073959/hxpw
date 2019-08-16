@@ -47,9 +47,9 @@ class Auxiliary extends Adminbase
             $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
         }
         if(!empty($where)){
-            $re = Db::name('userlist')->where($where)->paginate($this->show_page);
+            $re = Db::name('userlist')->where($where)->order('id','desc')->paginate($this->show_page);
         }else{
-            $re = Db::name('userlist')->paginate($this->show_page);
+            $re = Db::name('userlist')->order('id','desc')->paginate($this->show_page);
         }
         $this->assign('data',$re);
         return $this->fetch();
@@ -57,35 +57,29 @@ class Auxiliary extends Adminbase
 
     public function index()
     { 
-       $userinfo = $this->_userinfo; 
-        $da = [];
-        if($userinfo['roleid'] != 1){
-           $da['o.frameid'] = $userinfo['companyid'];
+       $admin_info = $this->_userinfo; 
+        $where = [];
+        if($admin_info['roleid'] != 1){
+           $where['frameid'] = $admin_info['companyid'];
         }
-       $da['o.customerid'] = input('c_id');
-       if($this->request->isPost()){
-            $search = input('search'); 
-            if($search){
-              $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')  -> where($da)->select();
-              $list = [];
-               foreach ($res as $key => $value) {     
-                  if (strstr($value['customer_name'],$search)) {
-                     $list[$key] = $value;
-                  }
-               }
-               $this->assign('data',$list);    
-               return $this->fetch();       
-            }else{
-              $this->error('请输入搜索内容', url("Auxiliary/index"));
+        $where['customerid'] = input('c_id');
+        $offerlist = Db::name('offerlist')->where($where)->field('id,entrytime,remark,status')->order('id','desc')->select();
+        //获取领料清单列表必要信息
+        foreach($offerlist as $k=>$v){
+            $order_project = Db::name('order_project')->where(['o_id'=>$v['id'],'type'=>1])->select();
+            $offerlist[$k]['direct_cost'] = 0;
+            $offerlist[$k]['quota_all'] = 0;
+            foreach($order_project as $k1=>$v1){
+                //直接费
+                $offerlist[$k]['direct_cost'] += (($v1['craft_show']+$v1['quota'])*$v1['num']);
+                //辅材费用
+                $offerlist[$k]['quota_all'] += ($v1['quota']*$v1['num']);
             }
-       }else{
-           $res = Db::name('offerlist')->select();
-           if ($res) {
-             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')-> where($da)->select();
-           }
-           $this->assign('data',$res);
-           return $this->fetch();
-        } 
+        }
+        $userinfo = Db::name('userlist')->where(['id'=>input('c_id')])->find();//客户信息
+        $this->assign('userinfo',$userinfo);
+        $this->assign('datas',$offerlist);
+        return $this->fetch();
     }
 
 

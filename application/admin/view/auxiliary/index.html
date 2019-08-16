@@ -40,6 +40,7 @@
 .bigbox input{margin-bottom:10px}
 #imgs{position:relative;}
 .batchs span{cursor:pointer;}
+.ulall li{float:left;border: 1px solid #ccc;padding: 5px;margin-right: 5px;}
 </style>
 
   <!-- 导出完成 -->
@@ -49,30 +50,20 @@
 
             <blockquote class="layui-elem-quote news_search">
                 <div class="layui-inline">
-                    <!-- <a class="layui-btn layui-btn-sm" href="{:url('Auxiliary/add')}">新建客户</a> -->
-                  <!--   <form method="post" action="{:url('Auxiliary/ImportExcel')}" class="form-signin" enctype="multipart/form-data" style="float: right;margin:0 18px;position:relative;">
-                        <a href="javascript:;" class="onfile">选择文件
-                          <input name="excel" type="file" class="" id="imgInput">
-                        </a>
-                        <div id="imgs"></div>
-                          <input type="submit" value="导入Excel" class="layui-btn layui-btn-sm daoru">
-                    </form> -->
-                </div>     
-                 <div class="layui-input-inline" style="margin-left: 100px;">
-                   <form method="post" action="{:url('Auxiliary/index')}" class="form-signin" enctype="multipart/form-data">
-                    <input type="text" name="search" placeholder="请按客户姓名搜索" autocomplete="off" class="layui-input">
-                    <input type="submit" value="搜索" class="layui-btn layui-btn-sm daorus">
-                  </form>
-                 </div>         
-                <!-- <a class="layui-btn layui-btn-sm" style="float:right;margin-left:10px" href="__TEMPLATE__/报价空模板.xls">下载空模板</a> -->
-         <!--  <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a> -->
-                <a id="tishi" title="点我查看" style="float:right;" > <i class="layui-icon">&#xe702;</i></a>
+                   <ul class="ulall">
+                      <li>客户姓名：{$userinfo.customer_name}</li>
+                      <li>工程地址：{$userinfo.address}</li>
+                      <li>联系电话：</li>
+                      <li>报价师姓名：{$userinfo.quoter_name}</li>
+                      <li>设计师姓名：{$userinfo.designer_name}</li>
+                      <li>面积：{$userinfo.area}</li>
+                      <li>房屋类型：{$userinfo.room_type}</li>
+                      <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
+                   </ul>
+                </div> 
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
-                <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="batch">批量修改数据</button> -->
-                <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button> -->
-                <!-- <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button> -->
               </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20}">
@@ -80,49 +71,38 @@
                 </colgroup>
                 <thead >
                     <tr>
-                        <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
                         <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
-                        <th class="taleft" lay-data="{field:'address',}">工程地址</th>
-                        <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',width:180}">报价师姓名</th>
-                        <th class="taleft" lay-data="{field:'designer_name', width:180}">设计师姓名</th>
-                        <!-- <th class="taleft" lay-data="{field:'proquant',width:100}">工程报价</th> -->
-                       <!--  <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
-                        <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
-                        <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
-                        <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
-                        <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th>
-                        <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
-                        <th class="taleft" lay-data="{field:'gross_profit',width:100 }">工程毛利</th>
-                        <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th> -->
+                        <th class="taleft" lay-data="{field:'status',width:80}">标签</th>
+                        <th class="taleft" lay-data="{field:'direct_cost',width:150}">直接费</th>
+                        <th class="taleft" lay-data="{field:'quota_all',width:150}">辅材费用</th>
+                        <th class="taleft" lay-data="{field:'remark',width:150}">订单备注</th>
+                        <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
                         <th class="taleft" lay-data="{field:'history',width:80}">操作</th>
-                        <!-- <th width="150" lay-data="{field:'edit',width:150}">操作</th> -->
                     </tr>
                 </thead>
                 <tbody> 
                   
-                  {foreach name="data" item="vo"}
+                  {foreach name="datas" item="vo"}
                     <tr>
-                      <!-- <td class="taleft">{$vo.id}</td>     -->
-                      <td class="taleft">{$vo.id}</td>    
-                      <td class="taleft">{$vo.customer_name}</td>                          
-                      <td class="taleft">{$vo.address}</td>    
-                      <td class="taleft">{$vo.quoter_name}</td>
-                      <td class="taleft">{$vo.designer_name}</td>       
-                      <!-- <td class="taleft">{$vo.proquant}</td>    -->
-                     <!--  <td class="taleft">{$vo.direct_cost}</td>   
-                      <td class="taleft">{$vo.matquant}</td>   
-                      <td class="taleft">{$vo.manual_quota}</td>   
-                      <td class="taleft">{$vo.tubemoney}</td>   
-                      <td class="taleft">{$vo.taxes}</td>   
-                      <td class="taleft">{$vo.discount}</td>   
-                      <td class="taleft">{$vo.gross_profit}</td>   
-                      <td class="taleft">{$vo.entrytime|date="Y-m-d H:s:i"}</td>  -->  
+                      <td class="taleft">{$vo.id}</td>
                       <td class="taleft">
-                        <a class="" href="{:url('admin/Auxiliary/history',['id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看"></i></a></td>   
-                     <!--  <td>
-                       <a class="layui-btn layui-btn-xs" href="{:url('admin/Auxiliary/edit',['id'=>$vo.id])}">进入管理</a>
-                      </td> -->
+                        {switch name="vo.status"}
+                        {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
+                        {case value="1"} <a class="layui-btn layui-btn-xs layui-btn-danger">已报价</a>{/case}
+                        {case value="2"}<a class="layui-btn layui-btn-xs layui-btn-danger">预算价</a>{/case}
+                        {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-danger">合同价</a>{/case}
+                        {case value="4"} <a class="layui-btn layui-btn-xs layui-btn-danger">结算价</a>{/case}
+                        {default /}
+                        <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
+                        {/switch}
+                      </td>
+                      <td class="taleft">{$vo.direct_cost}</td>
+                      <td class="taleft">{$vo.quota_all}</td>
+                      <td class="taleft">{$vo.remark}</td>
+                      <td class="taleft">{:date('Y-m-d H:i',$vo.entrytime)}</td>
+                      
+                      <td class="taleft">
+                        <a class="" href="{:url('admin/Auxiliary/history',['id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看详情"></i></a></td>   
                     </tr>       
                  {/foreach}
                 </tbody>
