@@ -23,8 +23,27 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">工程地址</label>
+                <div class="layui-input-inline">
+                    <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
+                        <option value="">请选择地址</option>
+                        {foreach $provinces as $k=>$v } 
+                            <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="cities" lay-filter="cities" lay-verify="required" data-type=2 lay-search>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="areas" lay-verify="required" class="">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">详细地址</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="address" autocomplete="off" placeholder="工程地址" class="layui-input" value="{$data.address|default=''}">
+                    <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="详细地址" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -72,7 +91,65 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     layui.use('form', function(){
-      var form = layui.form;
+        var form = layui.form;
+        form.on('select(provinces)', function(data){
+            var type = data.elem.getAttribute('data-type');
+            var province_id = data.value.split('-')[0];
+            $.post('/admin/quote/ajax_get_address',{type:type,id:province_id},function(res){
+                if(res.code == 1){
+                    var html = '';
+                    var cityid = '';
+                    $(res.data).each(function(k,v){
+                        if(k == 0){
+                            cityid = v.cityid;
+                        }
+                        html += '<option value="'+v.cityid+'-'+v.city+'">'+v.city+'</option>';
+                    })
+                    $('select[name="cities"]').html('');
+                    $('select[name="cities"]').append(html);
+                    $('select[name="areas"]').html('');
+
+                    //选择区
+                    $.post('/admin/quote/ajax_get_address',{type:2,id:cityid},function(res){
+                        if(res.code == 1){
+                            var html1 = '';
+                            $(res.data).each(function(k,v){
+                                html1 += '<option value="'+v.areaid+'-'+v.area+'">'+v.area+'</option>';
+                            })
+                            $('select[name="areas"]').append(html1);
+                        }else{
+                            $('select[name="areas"]').html('');
+                        }
+                        form.render();
+                    })
+
+                }else{
+                    $('select[name="areas"]').html('');
+                    $('select[name="cities"]').html('');
+                    form.render();
+                }
+            })
+        });
+        form.on('select(cities)', function(data){
+            var type = data.elem.getAttribute('data-type');
+            var city_id = data.value.split('-')[0];
+            $.post('/admin/quote/ajax_get_address',{type:type,id:city_id},function(res){
+                if(res.code == 1){
+                    var html = '';
+                    $(res.data).each(function(k,v){
+                        html += '<option value="'+v.areaid+'-'+v.area+'">'+v.area+'</option>';
+                    })
+                    $('select[name="areas"]').html('');
+                    $('select[name="areas"]').append(html);
+                    form.render();
+                }else{
+                    $('select[name="areas"]').html('');
+                    form.render();
+                }
+            })
+        });
     });
+
+    
 </script>
 {/block}

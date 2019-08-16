@@ -465,11 +465,33 @@ class Offerlist extends Adminbase
         if($this->request->isPost()){
             $id = input('id');
             $data = input();
+            if($data['areas']){
+                $areas = explode('-', $data['areas']);
+                $data['address'] = $areas[1].$data['address'];
+            }
+            if($data['cities']){
+                $cities = explode('-', $data['cities']);
+                $data['address'] = $cities[1].$data['address'];
+            }
+            if($data['provinces']){
+                $provinces = explode('-', $data['provinces']);
+                $data['address'] = $provinces[1].$data['address'];
+            }
+
+            $bao['address'] =  $data['address'];
+            $bao['provinceid'] = $provinces[0];
+            $bao['cityid'] = $cities[0];
+            $bao['areaid'] = $areas[0];
             unset($data['id']);
+            unset($data['areas']);
+            unset($data['cities']);
+            unset($data['provinces']);
             $re = Db::name('userlist')->where('id',input('id'))->update($data);
             $re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
         }else{
             $data = Db::name('userlist')->where('id',input('id'))->find();
+            $provinces = Db::name('provinces')->order('id','desc')->select();
+            $this->assign('provinces',$provinces);
             $this->assign('data',$data);
             return $this->fetch();
         }
@@ -852,12 +874,29 @@ class Offerlist extends Adminbase
             $bao['userid'] = $userinfo['userid'];//报价员
             $bao['frameid'] =  ($userinfo['companyid']==1)?'152':$userinfo['companyid'];//存报价员公司
             $bao['customer_name'] =  $data['customer_name'];
-            $bao['address'] =  $data['address'];
             $bao['quoter_name'] =  $data['quoter_name'];
             $bao['designer_name'] =  $data['designer_name'];
             $bao['manager_name'] = $data['manager_name'];
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
+            if($data['areas']){
+                $areas = explode('-', $data['areas']);
+                $data['address'] = $areas[1].$data['address'];
+            }
+            if($data['cities']){
+                $cities = explode('-', $data['cities']);
+                $data['address'] = $cities[1].$data['address'];
+            }
+            if($data['provinces']){
+                $provinces = explode('-', $data['provinces']);
+                $data['address'] = $provinces[1].$data['address'];
+            }
+
+            $bao['address'] =  $data['address'];
+            $bao['provinceid'] = $provinces[0];
+            $bao['cityid'] = $cities[0];
+            $bao['areaid'] = $areas[0];
+
             $bao['addtime'] = time();
       // dump($data);exit;
             //开启事务
@@ -873,6 +912,8 @@ class Offerlist extends Adminbase
             $this->success('添加成功','admin/offerlist/userlist');
                
         }
+        $provinces = Db::name('provinces')->order('id','desc')->select();
+        $this->assign('provinces',$provinces);
         return $this->fetch();
     }
 

@@ -14,6 +14,19 @@ class Quote extends Adminbase
 	public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	public $lower = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 
+    public function ajax_get_address(){
+        $table = ['1'=>'cities','2'=>'areas'];
+        $where = ['1'=>'provinceid','2'=>'cityid'];
+        $type = input('type');
+        $id = input('id');
+        $lists = Db::name($table[$type])->where([$where[$type]=>$id])->select();
+        if($lists){
+            $this->success('success','',$lists);
+        }else{
+            $this->error('none');
+        }
+    }
+
     //模板管理页面
     public function tmp_cost(){
         $userinfo = $this->_userinfo;
