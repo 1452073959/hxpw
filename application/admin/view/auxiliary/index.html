@@ -72,8 +72,8 @@
                 <thead >
                     <tr>
                         <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
-                        <th class="taleft" lay-data="{field:'remark',width:150}">订单备注</th>
                         <th class="taleft" lay-data="{field:'status',width:80}">标签</th>
+                        <th class="taleft" lay-data="{field:'remark',width:150}">订单备注</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:150}">直接费</th>
                         <th class="taleft" lay-data="{field:'quota_all',width:150}">辅材费用</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
@@ -85,7 +85,6 @@
                   {foreach name="datas" item="vo"}
                     <tr>
                       <td class="taleft">{$vo.id}</td>
-                      <td class="taleft">{$vo.remark}</td>
                       <td class="taleft">
                         {switch name="vo.status"}
                         {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
@@ -97,6 +96,7 @@
                         <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
                         {/switch}
                       </td>
+                      <td class="taleft">{$vo.remark}</td>
                       <td class="taleft">{$vo.direct_cost}</td>
                       <td class="taleft">{$vo.quota_all}</td>
                       <td class="taleft">{:date('Y-m-d H:i',$vo.entrytime)}</td>
