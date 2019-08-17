@@ -356,6 +356,7 @@ layui.use('table', function(){
                         html += '       <td>A1</td>'
                         html += '       <td>A1</td>'
                         html += '       <td>100</td>'
+                        html += '       <td></td>'
                         html += '     </tr>'
                         $(res.default_cost).each(function(k,v){
                             html += '     <tr>'
@@ -363,7 +364,7 @@ layui.use('table', function(){
                             html += '       <td>'+v.sign+'</td>'
                             html += '       <td>'+v.formula+'</td>'
                             html += '       <td>'+v.rate+'</td>'
-                            html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                            html += '       <td></td>'
                             html += '     </tr>'
                         })
                         $(res.append_cost).each(function(k,v){
