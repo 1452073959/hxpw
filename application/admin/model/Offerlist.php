@@ -46,7 +46,7 @@ class Offerlist extends Model
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
-            $num = 2;
+            $num = 1;
             foreach($sign as $k2=>$v2){
                 $v['formula'] = str_replace($k2,$v2,$v['formula']);
                 if($count_sign == $num){
