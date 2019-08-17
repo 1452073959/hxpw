@@ -779,6 +779,7 @@ layui.use('table', function(){
 
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">收费项目</th><th style="text-align:center">金额</th><th style="text-align:center">标识符</th><th style="text-align:center">公式</th><th style="text-align:center">比率</th></tr></thead><tbody>';
                 html += '<tr><td style="background-color:#f36f20;color:#ffffff">直接费</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(data.direct_cost) +'</td><td>A1</td><td>A1</td><td>100%</td></tr>'
+                html += '<tr><td style="background-color:#d48ed2;color:#ffffff">优惠</td><td style="background-color:#d48ed2;color:#ffffff">'+ toDecimal2(data.discount) +'</td><td>A2</td><td>A2</td><td>100%</td></tr>'
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+val.name+'</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(val.price) +'</td><td>'+val.sign+'</td><td>'+val.formula+'</td><td>'+ val.rate +'%</td></tr>'
                 });

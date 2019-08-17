@@ -41,7 +41,8 @@ class Offerlist extends Model
 
         $cost_all = 0;//其他费用总计
         $cost_list = [];
-        $sign['A1'] = $offerlist_info['direct_cost'];
+        $sign['A1'] = $offerlist_info['direct_cost'];//直接费
+        $sign['A2'] = $offerlist_info['discount'];//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
