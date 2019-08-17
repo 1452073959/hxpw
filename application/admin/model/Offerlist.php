@@ -42,7 +42,7 @@ class Offerlist extends Model
         $cost_all = 0;//其他费用总计
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
-        $sign['A2'] = $offerlist_info['discount'];//优惠
+        $sign['A2'] = $offerlist_info['discount']?$offerlist_info['discount']:0;//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
@@ -51,7 +51,7 @@ class Offerlist extends Model
                 $v['formula'] = str_replace($k2,$v2,$v['formula']);
                 if($count_sign == $num){
                     $str = $v['formula'];
-                    $sign[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                    $sign[$v['sign']] = round(eval("return $str ;")*$v['rate']/100,2);
                 }else{
                     $num++;
                 }
