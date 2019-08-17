@@ -640,8 +640,8 @@
             space_artificial_total += Number($(v).find('td').eq(6).text());
             space_material_total += Number($(v).find('td').eq(8).text());
         })
-        $('.space[data-space="'+word+'-'+space+'"]').find('td').eq(4).text(space_artificial_total);
-        $('.space[data-space="'+word+'-'+space+'"]').find('td').eq(6).text(space_material_total);
+        $('.space[data-space="'+word+'-'+space+'"]').find('td').eq(4).text(space_artificial_total.toFixed(2));
+        $('.space[data-space="'+word+'-'+space+'"]').find('td').eq(6).text(space_material_total.toFixed(2));
 
         var word_artificial_total = 0;
         var word_material_total = 0;
@@ -650,8 +650,8 @@
             word_artificial_total += Number($(v).find('td').eq(6).text());
             word_material_total += Number($(v).find('td').eq(8).text());
         })
-        $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total);
-        $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total);
+        $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total.toFixed(2));
+        $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total.toFixed(2));
         save_order();
     })
     //======================价格统计end
@@ -679,8 +679,8 @@
                 total_quota += Number($(v1).find('td').eq(6).text());
                 total_craft_show += Number($(v1).find('td').eq(8).text());
             })
-            $(v).find('td').eq(4).text(total_quota);
-            $(v).find('td').eq(6).text(total_craft_show);
+            $(v).find('td').eq(4).text(total_quota.toFixed(2));
+            $(v).find('td').eq(6).text(total_craft_show.toFixed(2));
         })
         //计算工种
         $('#project .word').each(function(k,v){
@@ -691,8 +691,8 @@
                 total_quota += Number($(v1).find('td').eq(4).text());
                 total_craft_show += Number($(v1).find('td').eq(6).text());
             })
-            $(v).find('td').eq(3).text(total_quota);
-            $(v).find('td').eq(5).text(total_craft_show);
+            $(v).find('td').eq(3).text(total_quota.toFixed(2));
+            $(v).find('td').eq(5).text(total_craft_show.toFixed(2));
 
         })
     }
