@@ -39,10 +39,13 @@ class Offerlist extends Model
             $tmp_cost = [];
         }
 
+        //初始化优惠 减空会报错
+        $offerlist_info['discount'] = $offerlist_info['discount']?$offerlist_info['discount']:0;
+
         $cost_all = 0;//其他费用总计
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
-        $sign['A2'] = $offerlist_info['discount']?$offerlist_info['discount']:0;//优惠
+        $sign['A2'] = $offerlist_info['discount'];//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
