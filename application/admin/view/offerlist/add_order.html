@@ -66,6 +66,15 @@
         height:38px;
         padding: 0 10px;
     }
+    .space td:nth-child(3){
+        color:#f36e20;
+    }
+    .project td:nth-child(3){
+        text-align: left !important;
+    }
+    .add_project td:nth-child(3){
+        text-align: left !important;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -187,6 +196,106 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+
+    //=====================================上下移动
+    //删除报价单项目
+    $('#project_datas').on('click',".layui-edge",function(){
+        var type = $(this).parent().parent().parent().attr('class');
+        if(type == 'word'){
+            var tr = $(this).parent().parent().parent();
+            var data_tr=$('tr[data-inword="'+$(tr).attr('data-inword')+'"]');
+            if($(this).hasClass('layui-table-sort-asc')){
+                var prev_word = $(tr).prevAll('.word').eq(0);
+                if($(prev_word).length == 0){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最低部了');
+                    }); 
+                    return false;
+                }else{
+                    $(data_tr).insertBefore($(prev_word)); //将本身插入到目标tr的前面 
+                }
+            }else{
+                var next_word = $(tr).nextAll('.word').eq(0);
+                if($(next_word).length == 0){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最低部了');
+                    }); 
+                    return false;
+                }else{
+                    var next_project = $('.project[data-inword="'+$(next_word).attr('data-inword')+'"]').last();
+                    if(next_project.length){
+                        //工种内有项目 放在项目最后
+                        $(data_tr).insertAfter($(next_project)); //将本身插入到目标tr的前面 
+                    }else{
+                        //没有项目 放在工种后
+                        $(data_tr).insertAfter($(next_word)); //将本身插入到目标tr的前面 
+                    }
+                }
+            }
+        }else if(type == 'space'){
+            var tr = $(this).parent().parent().parent();
+            var data_tr=$('tr[data-inword="'+$(tr).attr('data-inword')+'"][data-inspace="'+$(tr).attr('data-inspace')+'"]');
+            if($(this).hasClass('layui-table-sort-asc')){
+                var prev_space = $(tr).prevAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(0);
+                if($(prev_space).length == 0){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最顶部了');
+                    }); 
+                    return false;
+                }else{
+                    $(data_tr).insertBefore($(prev_space)); //将本身插入到目标tr的前面 
+                }
+            }else{
+                var next_space = $(tr).nextAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(0);
+                if($(next_space).length == 0){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最低部了');
+                    }); 
+                    return false;
+                }else{
+                    var next_project = $('.project[data-inword="'+$(next_space).attr('data-inword')+'"][data-inspace="'+$(next_space).attr('data-inspace')+'"]').last();
+                    if(next_project.length){
+                        //空间内有项目 放在项目最后
+                        $(data_tr).insertAfter($(next_project)); //将本身插入到目标tr的前面 
+                    }else{
+                        //没有项目 放在空间后
+                        $(data_tr).insertAfter($(next_space)); //将本身插入到目标tr的前面 
+                    }
+                    
+                }
+            }
+            
+        }else if(type == 'project'){
+            var data_tr=$(this).parent().parent().parent();
+            if($(this).hasClass('layui-table-sort-asc')){
+                if($(data_tr).prev().html()==null || !$(data_tr).prev().hasClass('project')){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最顶部了');
+                    }); 
+                    return false;
+                }else{
+                    $(data_tr).insertBefore($(data_tr).prev()); //将本身插入到目标tr的前面 
+                }
+            }else{
+                if($(data_tr).next().html()==null || !$(data_tr).next().hasClass('project')){
+                    layui.use('layer', function(){
+                        layer.msg('已经是最低部了');
+                    }); 
+                    return false;
+                }else{
+                    $(data_tr).insertAfter($(data_tr).next()); //将本身插入到目标tr的前面 
+                }
+            }
+        }else{
+            layui.use('layer', function(){
+                layer.msg('非法操作');
+            }); 
+            return false;
+        }
+        save_order();//临时保存订单
+    })
+
+
     //===================自动临时保存报价
     var step_number = 0;//操作的次数
     function save_order(){
@@ -364,7 +473,7 @@
 
                     var project = '';
                     project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                    project += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                    project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                     project += '<td>'+v.item_number+'</td>';
                     project += '<td>'+offerquota[v.item_number]['project']+'</td>';
                     project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
@@ -381,7 +490,7 @@
                         //空间不存在 新建空间
                         var space_html = '';
                         space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                        space_html += '<td><i class="layui-icon layui-icon-delete"></i></td>'
+                        space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                         space_html += '<td></td>'
                         space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'</td>'
                         space_html += '<td colspan="1"></td>';
@@ -397,7 +506,7 @@
                             //不存在 添加工种
                             var word_html = '';
                             word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
-                            word_html += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                            word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                             word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
                             word_html += '<td colspan="1"></td>';
                             word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -513,7 +622,7 @@
         //加入右边报价表
         var project = '';
         project += '<tr class="project" data-inword="'+word+'" data-inspace="'+space+'">';
-        project += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+        project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
         project += '<td>'+data.item_number+'</td>';
         project += '<td>'+data.project+'</td>';
         project += '<td><input type="text" class="layui-input height26" data-project="'+space+'-'+data.item_number+'" name="data['+space+']['+data.item_number+']" /></td>';
@@ -531,7 +640,7 @@
             //空间不存在 新建空间
             var space_html = '';
             space_html += '<tr class="space" data-space="'+word+'-'+space+'" data-inword="'+word+'" data-inspace="'+space+'">';
-            space_html += '<td><i class="layui-icon layui-icon-delete"></i></td>'
+            space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
             space_html += '<td></td>'
             space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+space+'</td>'
             space_html += '<td colspan="1"></td>';
@@ -547,7 +656,7 @@
                 //不存在 添加工种
                 var word_html = '';
                 word_html += '<tr class="word" data-word="'+word+'" data-inword="'+word+'">';
-                word_html += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                 word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+word+'</td>';
                 word_html += '<td colspan="1"></td>';
                 word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -715,7 +824,7 @@
 
                         var project = '';
                         project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                        project += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                        project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                         project += '<td>'+v.item_number+'</td>';
                         project += '<td>'+offerquota[v.item_number]['project']+'</td>';
                         project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
@@ -732,7 +841,7 @@
                             //空间不存在 新建空间
                             var space_html = '';
                             space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                            space_html += '<td><i class="layui-icon layui-icon-delete"></i></td>'
+                            space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
                             space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'</td>'
                             space_html += '<td colspan="1"></td>';
@@ -748,7 +857,7 @@
                                 //不存在 添加工种
                                 var word_html = '';
                                 word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
-                                word_html += '<td><i class="layui-icon layui-icon-delete"></i></td>';
+                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                                 word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
                                 word_html += '<td colspan="1"></td>';
                                 word_html += '<td class="word_material_total" colspan="1"></td>';
