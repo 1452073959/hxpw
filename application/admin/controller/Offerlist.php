@@ -147,6 +147,39 @@ class Offerlist extends Adminbase
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         //取费模板
         $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->field('tmp_id,tmp_name')->group('tmp_id')->select();
+        //另存订单
+        if(input('report_id')){
+            $order_project = Db::name('order_project')->where(['o_id'=>input('report_id')])->select();
+            foreach($offer_type_list as $k=>$v){
+                $offer_type_check[$v['type']][] = $v['name'];
+            }
+            $item_number = [];
+            foreach($order_project as $k=>$v){
+                if(!isset($data[$v['type_of_work']][$v['space']][$v['item_number']])){
+                    if(!in_array($v['type_of_work'],$offer_type_check[1])){
+                        $this->error('工种：'.$v['type_of_work'].' 不存在，另存订单失败');
+                    }
+                    if(!in_array($v['space'], $offer_type_check[2])){
+                        $this->error('空间：'.$v['space'].' 不存在，另存订单失败');
+                    }
+                    $data[$v['type_of_work']][$v['space']][$v['item_number']] = 0;
+                    $item_number[] = $v['item_number'];
+                }
+                $data[$v['type_of_work']][$v['space']][$v['item_number']] += $v['num'];
+            }
+            $item_number = array_unique($item_number);
+            $item_number_num = count($item_number);
+            $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+            if($item_number_num != count($offerquota)){
+                $this->error('订单部分项目不全，另存订单失败');
+            }
+            $offerquota = array_column($offerquota, null,'item_number');
+            Cache::rm('tso_'.input('customer_id').$userinfo['userid']); 
+            $this->assign([ 
+                'data'=>$data,
+                'offerquota'=>$offerquota,
+            ]);
+        }
         $this->assign([
             'offer_type'=>$offer_type,
             'customer_info'=>$customer_info,
@@ -187,7 +220,7 @@ class Offerlist extends Adminbase
                 foreach($v1 as $k2=>$v2){
                     $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
                     if(!$item){
-                        $this->error('项目有误');
+                        $this->error('项目有误','',$k2);
                     }
                     $item['kongjian'] = $k1;
                     $item['gcl']= $v2; //数量

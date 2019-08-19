@@ -44,6 +44,9 @@
 .select_tmp{
     height:30px;
 }
+.layui-btn+.layui-btn{
+    margin-left: 3px;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -66,12 +69,12 @@
                 <thead >
                     <tr>
 
-                        <th class="taleft" lay-data="{field:'id', width:80,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name'}">客户姓名</th>
-                        <th class="taleft" lay-data="{field:'area',width:100}">面积</th>
+                        <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
+                        <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
+                        <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
                         <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th> 
-                        <th class="taleft" lay-data="{field:'history',width:240}">查看报表</th>
-						<th class="taleft" lay-data="{field:'status',width:100}">状态</th>
+                        <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
+						<th class="taleft" lay-data="{field:'status',width:80}">状态</th>
                         <!-- <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th> -->
                         <!-- <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th> -->
                         <!-- <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',}">报价师姓名</th> -->
@@ -105,6 +108,7 @@
                             {gt name="$vo['append_num']" value="0"}
     						  <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
                             {/gt}
+                            <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
                             <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
 					   </td> 

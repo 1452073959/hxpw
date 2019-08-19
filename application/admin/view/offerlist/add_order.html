@@ -193,7 +193,32 @@
                         </tr> 
                     </thead>
                     <tbody id="project_datas">
-                        
+                        {notempty name="data"}
+                            <?php foreach($data as $k1=>$v1){ ?>
+                                <tr class="word" data-word="{$k1}" data-inword="{$k1}">
+                                    <td><i class="layui-icon layui-icon-delete"></i></td><td colspan="4" style="text-align: left;padding-left:10px">{$k1}</td>
+                                    <td colspan="1"></td><td class="word_material_total" colspan="1"></td><td colspan="1"></td><td class="word_artificial_total" colspan="1"></td>
+                                </tr>
+                                <?php foreach($v1 as $k2=>$v2){ ?>
+                                    <tr class="space" data-space="{$k1}-{$k2}" data-inword="{$k1}" data-inspace="{$k2}">
+                                        <td><i class="layui-icon layui-icon-delete"></i></td><td></td><td colspan="3" style="text-align: left;padding-left:10px">{$k2}</td>
+                                        <td colspan="1"></td><td class="space_material_total" colspan="1"></td><td colspan="1"></td><td class="space_artificial_total" colspan="1"></td>
+                                    </tr>
+                                    <?php foreach($v2 as $k3=>$v3){ ?>
+                                        <tr class="project" data-inword="{$k1}" data-inspace="{$k2}">
+                                            <td><i class="layui-icon layui-icon-delete"></i></td><td>{$k3}</td>
+                                            <td>{$offerquota[$k3]['project']}</td>
+                                            <td><input type="text" class="layui-input height26" value="{$v3?:''}" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
+                                            <td>{$offerquota[$k3]['company']}</td>
+                                            <td>{$offerquota[$k3]['quota']}</td>
+                                            <td></td>
+                                            <td>{$offerquota[$k3]['craft_show']}</td>
+                                            <td></td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                        {/notempty}
                     </tbody>
                 </table>
             </form>
@@ -881,6 +906,7 @@
                     })
                     initialize_datas();
                 }else{
+                    initialize_datas();
                     console.log('no temporary order');
                 }
             },'json') 

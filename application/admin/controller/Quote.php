@@ -332,6 +332,7 @@ class Quote extends Adminbase
             $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->order('id','desc')->select();
             $tmp_name = $tmp_list[0]['tmp_name'];
             $data = [];
+            $item_number = [];
             foreach($tmp_list as $k=>$v){
                 if(!in_array($v['work_type'],$offer_type_check[1])){
                     $this->error('工种：'.$v['work_type'].' 不存在，模板失效');
