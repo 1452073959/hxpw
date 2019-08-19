@@ -107,7 +107,12 @@ class Offerlist extends Adminbase
     public function ajax_get_project(){
         $userinfo = $this->_userinfo;
         $word_name = input('word_name');
-        $datas = Db::name('offerquota')->where(['type_of_work'=>$word_name,'frameid'=>$userinfo['companyid']])->field('item_number,type_of_work,project,company,cost_value,quota,craft_show,labor_cost')->select();
+        $where = [];
+        if(input('word_name')){
+            $where['type_of_work'] = input('word_name');
+        }
+        $where['frameid'] = $userinfo['companyid'];
+        $datas = Db::name('offerquota')->where($where)->field('item_number,type_of_work,project,company,cost_value,quota,craft_show,labor_cost')->select();
         echo json_encode(['code'=>1,'datas'=>$datas]);die;
     }
 
@@ -1645,7 +1650,7 @@ class Offerlist extends Adminbase
     }
 
   public function excel_export(){
-    $filename = "报表模板";
+    $filename = date('Y-m-d H:i:s');
     header("Content-type:application/octet-stream");
     header("Accept-Ranges:bytes");
     header("Content-type:application/vnd.ms-excel");
@@ -1653,112 +1658,196 @@ class Offerlist extends Adminbase
     header("Pragma: no-cache");
     header("Expires: 0");
     $str = input('html');
-    
-    $request = request();
-    $id = $request->param('customerid');
-    $report_id = $request->param('report_id');
-    $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($report_id)])->find();
-    if(!empty($rs['content'])){
-      $conditions = [];$room = [];
-        foreach(json_decode($rs['content'],true) as $key=>$value){
-                if(!in_array($value['type_of_work'],$conditions) ){
-                  $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-                  $conditions[$id] = $value['type_of_work'];
-                }
-        }
-        foreach(json_decode($rs['content'],true) as $key=>$value){
-                if(!in_array($value['kongjian'],$room) ){
-                  $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-                  $room[$id] = $value['kongjian'];
-                }
-        }
-        if( !empty($conditions) ){
-                $new_data = [];
-                foreach($conditions as $key=>$value){
-                  foreach($room as $k=>$v){
-                    foreach(json_decode($rs['content'],true) as $ke=>$val){
-                      if($val['type_of_work'] ==$value){
-                        $new_data[$key]['conditionsname'] = $value;
-                        if($val['kongjian'] == $v){
-                          $new_data[$key]['son'][$k]['roomname'] = $v;
-                          $new_data[$key]['son'][$k]['item'][] = $val;
-                        }
-                      }
-                    }
-                  }
-                }
-        }
-        $rs['details'] = $new_data;
+    $o_id = input('report_id');
+    //订单数据
+    $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+    $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+    $where = [];
+    $where['o_id'] = $o_id;
+    if(input('type') != 2){
+        //增减项+原单
+        $where['type'] = 1;
     }
-    $data = $rs;
-    $str = '<style>table,td,th{border:1px solid #000000;}</style><table>
-                <thead>
-                    <tr>
-            <th rowspan="2" colspan="2"><img style="max-width:200px;" src="/fh_offer/public/static/imgs/logo.png"></th>
-            <th class="text-center text-large" colspan="6"><h3>住宅装饰工程造价预算书</h3></th>
-            <th rowspan="2" colspan="2"></th>
-                    </tr>
-                    <tr>
-            <th class="text-center" colspan="6">全国统一24小时客服热线：400-6281-968</th>
-                    </tr>
-                    <tr>
-                        <th style="text-align:center;" colspan="10">
-                          单位：'.$data['unit'].'
-                        </th>        
-                    </tr>
-                    <tr>
-                        <th colspan="3">工程名称：'.$data['address'].'</th>       
-                        <th colspan="3">客户姓名：'.$data['customer_name'].'</th>       
-                        <th colspan="2">设计师姓名：'.$data['designer_name'].'</th>       
-                        <th colspan="2">报价师姓名：'.$data['quoter_name'].'</th>       
-                    </tr>
-                    <tr>      
-                        <th rowspan="2" colspan="2">工程项目名称</th>         
-                        <th rowspan="2">工程量</th>       
-                        <th rowspan="2">单位</th>
-                        <th colspan="2">辅材费</th> 
-                        <th colspan="2">人工费</th>    
-                        <th rowspan="2">施工工艺及材料说明</th> 
-                    </tr>
-                    <tr>   
-                        <th class="text-center">辅材基价</th>       
-                        <th class="text-center">辅材合价</th>       
-                        <th class="text-center">人工基价</th>       
-                        <th class="text-center">人工合价</th> 
-                      </tr>
-                </thead>
-                <tbody>';
-        foreach($data['details'] as $key=>$vo){
-                    $str .= '<tr>
-                        <td colspan="2">'.$vo['conditionsname'].'</td><td colspan="7"></td>
-                      </tr>';
-            foreach($vo['son'] as $vo1){
-                            $str .= '<tr><td class="text-center" colspan="9">'.$vo1['roomname'].'</td></tr>';
-              foreach($vo1['item'] as $value){
-                $str .= '<tr>
-                      <td colspan="2">'.$value['project'].'</td>
-                      <td>'.$value['gcl'].'</td>
-                      <td>'.$value['company'].'</td>
-                      <td>'.$value['quota'].'</td>
-                      <td>'.$value['gcl'] * $value['quota'].'</td>
-                      <td>'.$value['craft_show'].'</td>
-                      <td>'.$value['gcl'] * $value['craft_show'].'</td>
-                      <td class="text-limit">'.$value['material'].'</td>
-                      </tr>';
-            }
-          }
-          $str .= '<tr>
-                    <td class="text-center" colspan="2">小计</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>';
+    $order_project = Db::name('order_project')->where($where)->select();
+    //==========获取工种 空间类型
+    $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+    $offer_type = [1=>[],2=>[]];
+    foreach($offer_type_list as $k=>$v){
+        $offer_type[$v['type']][] = $v;
+    }
+    //===========获取工种结束
+    $datas = [];
+    $item_number = [];
+    foreach($order_project as $k=>$v){
+        if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+            $item_number[] = $v['item_number'];
+
         }
-               $str .= '</tbody></table>';
+        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+    }
+    $item_number = array_unique($item_number);
+    $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+
+    $offerlist_info = Model('offerlist')->get_order_info($o_id);
+
+    //订单底部文字
+    $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
+    // $data = $rs;
+    $str = '<style>table,td,th{border:1px solid #000000;text-align:center}</style>
+            <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" colspan="3" style="text-align: center"><img style="max-width:160px;" src="/static/imgs/logo.png"></th>
+                            <th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
+                            <th rowspan="2" colspan="1"></th>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="5">全国统一24小时客服热线<br />
+                            400-628-1968</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center;" colspan="9">单位：'.$order_info['unit'].'</th>        
+                        </tr>
+                        <tr>
+                            <th colspan="3">工程名称：'.$userinfo['address'].'</th>       
+                            <th colspan="3">客户姓名：'.$userinfo['customer_name'].'</th>       
+                            <th colspan="2">设计师姓名：'.$userinfo['designer_name'].'</th>       
+                            <th colspan="1">报价师姓名：'.$userinfo['quoter_name'].'</th>       
+                        </tr>
+                        <tr>      
+                            <th rowspan="2" colspan="1" style="width:50px;">序号</th>
+                            <th class="text-center" rowspan="2" style="width:150px;">工程项目名称</th>         
+                            <th class="text-center" rowspan="2" style="width:50px;">数量</th>       
+                            <th class="text-center" rowspan="2" style="width:50px;">单位</th>
+                            <th class="text-center" colspan="2" style="width:50px;">辅材费</th> 
+                            <th class="text-center" colspan="2" style="width:50px;">人工费</th>    
+                            <th class="text-center" rowspan="2" style="width:350px;">施工工艺及材料说明</th> 
+                        </tr>
+                        <tr>   
+                            <th class="text-center" style="width:50px;">单价</th>       
+                            <th class="text-center" style="width:50px;">合计</th>       
+                            <th class="text-center" style="width:50px;">单价</th>       
+                            <th class="text-center" style="width:50px;">合计</th> 
+                          </tr>
+                    </thead>
+                    <tbody> ';
+
+        $num1 = 65;
+        $total_quota = 0;
+        $total_craft_show = 0;
+        foreach($datas as $k1=>$v1){
+            $str .= '<tr data-cate="tr'.$k1.'">
+                            <td>'.chr($num1).'</td>
+                            <td colspan="2">'.$k1.'</td>
+                            <td colspan="6"></td>
+                        </tr>';
+            $num1++;$num2=97;
+            foreach($v1 as $k2=>$v2){
+                $str .=  '<tr id="tr'.$k2.'">
+                            <td>'.chr($num2).'</td>
+                            <td class="text-center" colspan="8">'.$k2.'</td>
+                        </tr>';
+                $num3=1; $num2++;
+                $space_quota_total = 0;
+                $space_craft_show_total = 0;
+                foreach($v2 as $k3=>$v3){
+                    $str .=  '<tr class="tr'.$k1.$k2.'">
+                                    <td>'.$num3.'</td>
+                                    <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
+                                    <td>'.$v3['num'].'</td>
+                                    <td>'.$offerquota[$k3]['company'].'</td>
+                                    <td>'.$offerquota[$k3]['quota'].'</td>
+                                    <td>'. $v3['num']*$offerquota[$k3]['quota'] .'</td>
+                                    <td>'.$offerquota[$k3]['craft_show'].'</td>
+                                    <td>'. $v3['num']*$offerquota[$k3]['craft_show'] .'</td>
+                                    <td>'.$offerquota[$k3]['material'].'</td>
+                                </tr>';
+                    $space_quota_total = $v3['num']*$offerquota[$k3]['quota'];
+                    $space_craft_show_total = $v3['num']*$offerquota[$k3]['craft_show'];
+                    $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
+                    $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
+                    $num3++;
+                }
+            }
+            $str .= '<tr class="tr'.$k1.'total">
+                        <td class="text-center" colspan="2">小计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>'.$space_quota_total.'</td>
+                        <td></td>
+                        <td>'.$space_craft_show_total.'</td>
+                        <td></td>
+                    </tr>';
+        }
+        $str .= '<tr>
+                    <td class="text-center" colspan="2">直接费</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>'.$total_quota.'</td>
+                    <td></td>
+                    <td>'.$total_craft_show.'</td>
+                    <td></td>
+                </tr>';
+
+        //其他费用
+        $num=97;
+        foreach ($offerlist_info['order_cost'] as $kcost=>$vcost){
+            $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">'.$vcost['name'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$vcost['price'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>';
+             $num++;
+        }
+
+        if($offerlist_info['discount']){
+            $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">优惠</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$offerlist_info['discount'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>';
+            $num++;
+        }
+        $str .= '<tr>
+                   <td class="text-center" colspan="2">工程报价</td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td>'.$offerlist_info['discount_proquant'].'</td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+               </tr>';
+        //一串字
+        if($cost_tmp['order_tfoot']){
+            foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){
+            $str .= '<tr>
+                        <td colspan="9" style="text-align: left">'.$v.'</td>
+                    </tr>';
+            }
+        }
+                                    
+                                
+
+
+    $str .=  '</tbody></table>';
+
     echo($str);
   }
   

@@ -75,7 +75,7 @@ th{
             <blockquote class="layui-elem-quote news_search">
                 <a style="float: right" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'':2])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('type')==2?'切换原单':'切换完整订单' ?></a>
                 <form class="layui-inline">
-					<!-- <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id')])}">导出报表</a> -->
+					<a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')])}">导出报表</a>
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
 					<select class="form-control" id="changestatus" data-id="{$order_info.id}" data-customerid="{$order_info.customerid}">
 						<option>选择标签</option>
@@ -223,31 +223,31 @@ th{
                                     </tr>
                                     <?php $num++; ?>
                                 {/foreach}
-                                {notempty name="offerlist_info['discount']"}
-                                    <tr>
-                                        <td class="text-center"><?php echo chr($num); ?></td>
-                                        <td class="text-center">优惠</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{$offerlist_info['discount']}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <?php $num++; ?>
-                                    </tr>
-                                {/notempty}
+                            {/notempty}
+                            {notempty name="offerlist_info['discount']"}
                                 <tr>
-                                    <td class="text-center" colspan="2">工程报价</td>
+                                    <td class="text-center"><?php echo chr($num); ?></td>
+                                    <td class="text-center">优惠</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>{$offerlist_info.discount_proquant}</td>
+                                    <td>{$offerlist_info['discount']}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <?php $num++; ?>
                                 </tr>
                             {/notempty}
+                            <tr>
+                                <td class="text-center" colspan="2">工程报价</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{$offerlist_info.discount_proquant}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             {notempty name="cost_tmp['order_tfoot']"}
                                 <?php foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){ ?>
                                     <tr>

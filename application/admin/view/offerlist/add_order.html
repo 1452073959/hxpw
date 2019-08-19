@@ -33,7 +33,7 @@
         /*display: block*/
     }
     .add_project:hover{
-        /*color:red;*/
+        color:red;
     }
     .pad_0{
         padding: 0 !important;
@@ -125,6 +125,7 @@
         <div class="right" style="float: left;width: 8%;height: 92%;overflow:auto;border-right: 1px solid #eee">
             
             <ul style="height: 100%">
+                <li data-val="0">所有工种</li>
                 <!-- 工种 -->
                 <?php $i = 2; ?>
                 <?php foreach($offer_type[1] as $k=>$v){ ?>
@@ -156,6 +157,7 @@
                     </tr> 
                 </thead>
                 <tbody id="seach_datas">
+
                 </tbody>
             </table>
         </div>
