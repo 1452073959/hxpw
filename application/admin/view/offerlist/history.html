@@ -45,10 +45,10 @@
 	.text-center{text-align: center !important;}
     td{
         text-align: center;
-        padding:9px 5px !important;
+        padding:5px 5px !important;
     }
     th{
-        padding:9px 10px !important;
+        padding:5px 5px !important;
     }
 .layui-card-body{
     line-height:normal;
@@ -56,9 +56,14 @@
 .layui-table td, .layui-table th{
     line-height:normal;
 }
-.layui-table td{
-    font-size: 12px;
+/*td{
+    padding: 3px !important;
+    font-size: 12px !important;
 }
+th{
+    padding: 3px !important;
+    font-size: 12px !important;
+}*/
 </style>
   <!-- 导出完成 -->
 <div class="layui-card">
@@ -105,7 +110,7 @@
                       </colgroup>
 					<thead>
 						<tr>
-							<th rowspan="2" colspan="3"><img style="max-width:160px;" src="__STATIC__/imgs/logo.png"></th>
+							<th rowspan="2" colspan="3" style="text-align: center"><img style="max-width:160px;" src="__STATIC__/imgs/logo.png"></th>
 							<th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
 							<th rowspan="2" colspan="1"></th>
 					    </tr>
@@ -263,7 +268,6 @@
 <script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script>
   $(document).ready(function(){
-
     $('tr').each(function(){
     	var cate = $(this).attr('data-cate');
         if(cate){
@@ -278,15 +282,19 @@
           $('.'+cate+'total').find('td').eq(6).html(Math.round(rd_total * 100)/100);
          }
     });
+
+    // $('name["printIframe"]').load(function(){
+    //     alert(1);
+    // })
     
      //打印
-      $(document).on('click','[data-fun="print"]',function(){
+     $(document).on('click','[data-fun="print"]',function(){
           $("table").printThis({
              debug: false,
              importCSS: true,
              importStyle: true,
              printContainer: true,
-    //       loadCSS: "/Content/Themes/Default/style.css",
+             loadCSS: "__STATIC__/bootstrap/css/printThis-p.css",
              pageTitle: "姓名查询汇总表",
              removeInline: false,
              printDelay: 333,
