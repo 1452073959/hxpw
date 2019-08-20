@@ -1650,7 +1650,11 @@ class Offerlist extends Adminbase
     }
 
   public function excel_export(){
-    $filename = date('Y-m-d H:i:s');
+    $o_id = input('report_id');
+    //订单数据
+    $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+    $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+    $filename = $userinfo['address'];
     header("Content-type:application/octet-stream");
     header("Accept-Ranges:bytes");
     header("Content-type:application/vnd.ms-excel");
@@ -1658,10 +1662,6 @@ class Offerlist extends Adminbase
     header("Pragma: no-cache");
     header("Expires: 0");
     $str = input('html');
-    $o_id = input('report_id');
-    //订单数据
-    $order_info = Db::name('offerlist')->where('id',$o_id)->find();
-    $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
     $where = [];
     $where['o_id'] = $o_id;
     if(input('type') != 2){
@@ -1695,11 +1695,11 @@ class Offerlist extends Adminbase
     //订单底部文字
     $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
     // $data = $rs;
-    $str = '<style>table,td,th{border:1px solid #000000;text-align:center}</style>
+    $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" colspan="3" style="text-align: center"><img style="max-width:160px;" src="/static/imgs/logo.png"></th>
+                            <th rowspan="2" colspan="3" style="text-align: center;font-size:25px">华浔品味装饰</th>
                             <th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
                             <th rowspan="2" colspan="1"></th>
                         </tr>
@@ -1717,13 +1717,13 @@ class Offerlist extends Adminbase
                             <th colspan="1">报价师姓名：'.$userinfo['quoter_name'].'</th>       
                         </tr>
                         <tr>      
-                            <th rowspan="2" colspan="1" style="width:50px;">序号</th>
-                            <th class="text-center" rowspan="2" style="width:150px;">工程项目名称</th>         
-                            <th class="text-center" rowspan="2" style="width:50px;">数量</th>       
-                            <th class="text-center" rowspan="2" style="width:50px;">单位</th>
+                            <th rowspan="2" colspan="1" style="width:40px;">序号</th>
+                            <th class="text-center" rowspan="2" style="width:120px;">工程项目名称</th>         
+                            <th class="text-center" rowspan="2" style="width:35px;">数量</th>       
+                            <th class="text-center" rowspan="2" style="width:35px;">单位</th>
                             <th class="text-center" colspan="2" style="width:50px;">辅材费</th> 
                             <th class="text-center" colspan="2" style="width:50px;">人工费</th>    
-                            <th class="text-center" rowspan="2" style="width:350px;">施工工艺及材料说明</th> 
+                            <th class="text-center" rowspan="2" style="width:250px;">施工工艺及材料说明</th> 
                         </tr>
                         <tr>   
                             <th class="text-center" style="width:50px;">单价</th>       
