@@ -91,6 +91,7 @@
             <div class="layui-inline" style="width: 95%">
                 <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">提交报价</a>
                 <a class="layui-btn layui-btn-sm layui-btn-warm"  href="javascript:;" id="import_tmp">导入模板</a>
+                <!-- <a class="layui-btn layui-btn-sm layui-btn-warm"  href="javascript:;" id="swicth_mode">切换模式</a> -->
                 <div class="layui-inline layui-btn layui-btn-primary" >
                     客户名称：{$customer_info['customer_name']}
                 </div>
@@ -125,7 +126,7 @@
         <div class="right" style="float: left;width: 8%;height: 92%;overflow:auto;border-right: 1px solid #eee">
             
             <ul style="height: 100%">
-                <li data-val="0">所有工种</li>
+                <!-- <li data-val="0">所有工种</li> -->
                 <!-- 工种 -->
                 <?php $i = 2; ?>
                 <?php foreach($offer_type[1] as $k=>$v){ ?>
@@ -232,7 +233,55 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-
+    $('#swicth_mode').click(function(){
+        $('.project').attr('data-inword','所有工种');
+        $('.space').remove();
+        $('.word').remove();
+        $('.project').each(function(k,v){
+            if($('tr[data-space="所有工种-'+$(v).attr('data-inspace')+'"]').length > 0){
+                if($('.project[data-inword="所有工种"][data-inspace='+$(v).attr('data-inspace')+']').lenght > 0){
+                    //已存在
+                    var input = $(v).find('input').data('project');
+                    $('input[data-project="'+input+'"]').val($('input[data-project="'+input+'"]').val()+input.val());
+                }else{
+                    $('tr[data-inspace="'+$(v).attr('data-inspace')+'"][data-inword="所有工种"]').last().after($(v));
+                }
+            }else{
+                //空间不存在 新建空间
+                var space_html = '';
+                space_html += '<tr class="space" data-space="所有工种-'+$(v).attr('data-inspace')+'" data-inword="所有工种" data-inspace="'+$(v).attr('data-inspace')+'">';
+                space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
+                space_html += '<td></td>'
+                space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+$(v).attr('data-inspace')+'</td>'
+                space_html += '<td colspan="1"></td>';
+                space_html += '<td class="space_material_total" colspan="1"></td>';
+                space_html += '<td colspan="1"></td>';
+                space_html += '<td class="space_artificial_total" colspan="1"></td>';
+                space_html += '</tr>'
+                //判断工种是否不存 
+                if($('tr[data-word="所有工种"]').length > 0){
+                    $('tr[data-inword="所有工种"]').last().after(space_html);
+                    $('tr[data-inspace="'+$(v).attr('data-inspace')+'"][data-inword="所有工种"]').last().after($(v));
+                }else{
+                    //不存在 添加工种
+                    var word_html = '';
+                    word_html += '<tr class="word" data-word="所有工种" data-inword="所有工种">';
+                    word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                    word_html += '<td colspan="4" style="text-align: left;padding-left:10px">所有工种</td>';
+                    word_html += '<td colspan="1"></td>';
+                    word_html += '<td class="word_material_total" colspan="1"></td>';
+                    word_html += '<td colspan="1"></td>';
+                    word_html += '<td class="word_artificial_total" colspan="1"></td>';
+                    word_html += '</tr>';
+                    $('#project_datas').append(word_html);
+                    $('tr[data-word="所有工种"]').after(space_html);
+                    $('tr[data-space="所有工种-'+$(v).attr('data-inspace')+'"]').after($(v));
+                }
+            }
+        })
+        initialize_datas();
+        $('#btn').trigger("click");
+    })
     //=====================================上下移动
     //删除报价单项目
     $('#project_datas').on('click',".layui-edge",function(){
