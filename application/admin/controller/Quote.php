@@ -558,7 +558,7 @@ class Quote extends Adminbase
 		}
 		$re = Db::name('tmp')->where([ 'tmp_id'=>$id,'f_id'=>$userinfo['companyid'] ])->delete();
 		if($re){
-			$this->success('删除成功','/admin/quote/index');
+			$this->success('删除成功');
 		}else{
 			$this->error('删除失败');
 		}
