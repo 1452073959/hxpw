@@ -207,8 +207,8 @@ th{
                                 <td>{$total_craft_show}</td>
                                 <td></td>
                             </tr>
+                            <?php $num=97; ?>
                             {notempty name="offerlist_info['order_cost']"}
-                                <?php $num=97; ?>
                                 {foreach name="$offerlist_info['order_cost']" item="vcost" key="kcost"}
                                     <tr>
                                         <td class="text-center"><?php echo chr($num); ?></td>
