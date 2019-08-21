@@ -49,7 +49,6 @@ class Quote extends Adminbase
     //获取模板列表
     public function get_tmp_cost_list(){
         $userinfo = $this->_userinfo;
-        $userinfo = $this->_userinfo;
         $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
         echo json_encode(array('code'=>1,'datas'=>$res));
     }
@@ -236,6 +235,8 @@ class Quote extends Adminbase
         $where['f_id']  = $userinfo['companyid'];
         if(input('type')){
             $where['type'] = input('type');
+        }else{
+            $where['type'] = 1;
         }
         $tmp_list = Db::name('tmp')->where($where)->field('tmp_id,tmp_name,remark,update_time')->group('tmp_id')->select();
         foreach($tmp_list as $k=>$v){
