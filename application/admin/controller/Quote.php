@@ -197,7 +197,7 @@ class Quote extends Adminbase
             }
             
             if($re){
-                $this->success('模板保存成功','admin/quote/tmp_cost');
+                $this->success('模板保存成功','/admin/quote/tmp_cost');
             }else{
                 $this->error('模板保存失败');
             }
@@ -232,12 +232,44 @@ class Quote extends Adminbase
     //获取模板列表
     public function ajax_get_tmp_list(){
         $userinfo = $this->_userinfo;
-        $tmp_list = Db::name('tmp')->where(['f_id'=>$userinfo['companyid']])->field('tmp_id,tmp_name,remark,update_time')->group('tmp_id')->select();
+        $where = [];
+        $where['f_id']  = $userinfo['companyid'];
+        if(input('type')){
+            $where['type'] = input('type');
+        }
+        $tmp_list = Db::name('tmp')->where($where)->field('tmp_id,tmp_name,remark,update_time')->group('tmp_id')->select();
         foreach($tmp_list as $k=>$v){
             $tmp_list[$k]['update_time'] = date('Y-m-d H:i',$v['update_time']);
         }
         echo json_encode(array('code'=>1,'datas'=>$tmp_list));
     }
+
+    public function get_f_tmp_info(){
+        $userinfo = $this->_userinfo;
+        $tmp_id = input('tmp_id');
+        if(!$tmp_id){
+            echo json_encode(array('code'=>0,'msg'=>'参数错误'));
+        }
+        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->order('id','desc')->select();
+        $data = [];
+        $item_number = [];
+        foreach($tmp_list as $k=>$v){
+            $item_number[] = $v['item_number'];
+        }
+        $furniture = Db::name('furniture')->where(['serial_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+        $furniture = array_column($furniture,null, 'serial_number');
+        foreach($tmp_list as $k=>$v){
+            $v['name'] = $furniture[$v['item_number']]['name'];
+            $v['price'] = $furniture[$v['item_number']]['price'];
+            $v['unit'] = $furniture[$v['item_number']]['unit'];
+            $v['classify'] = $furniture[$v['item_number']]['classify'];
+            $v['type_name'] = $furniture[$v['item_number']]['type_name'];
+            $v['content'] = $furniture[$v['item_number']]['content'];
+            $data[] = $v;
+        }
+        $this->success('success','',$data);
+    }
+
     //获取模板详情
     public function ajax_get_tmp_info(){
         $userinfo = $this->_userinfo;
@@ -273,10 +305,114 @@ class Quote extends Adminbase
         
         echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
     }
+
+    //主材模板首页
+    public function furniture_tmp(){
+        $userinfo = $this->_userinfo;
+        $where['f_id'] = $userinfo['companyid'];
+        if(input('type')){
+            $where['type'] = input('type');
+        }else{
+            $this->error('参数错误');
+        }
+        $res = Db::name('tmp')->where($where)->group('tmp_id')->order('id','desc')->select();
+        $this->assign([ 'data'=>$res ]);
+        return $this->fetch();
+    }
+
+    //添加主材模板
+    public function add_furniture_tmp(){
+        $userinfo = $this->_userinfo;
+        $type = [2=>'主材',3=>'智能',4=>'家具'];
+        if(!isset($type[input('type')])){
+            $this->error('参数错误');
+        }
+        $where['type_name'] = $type[input('type')];//类型
+        $where['frameid'] = $userinfo['companyid'];//公司
+        $classify = Db::name('furniture')->where($where)->group('classify')->select();
+        //编辑
+        if(input('tmp_id')){
+            $tmp_list = Db::name('tmp')->where(['tmp_id'=>input('tmp_id')])->select();
+            $tmp_name = $tmp_list[0]['tmp_name'];
+            $data = [];
+            $item_number = [];
+            foreach($tmp_list as $k=>$v){
+                $item_number[] = $v['item_number'];
+            }
+            $furniture = Db::name('furniture')->where(['serial_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+            $furniture = array_column($furniture,null, 'serial_number');
+            foreach($tmp_list as $k=>$v){
+                $v['name'] = $furniture[$v['item_number']]['name'];
+                $v['price'] = $furniture[$v['item_number']]['price'];
+                $v['unit'] = $furniture[$v['item_number']]['unit'];
+                $data[$furniture[$v['item_number']]['classify']][] = $v;
+            }
+            $this->assign([
+                'data'=>$data,
+                'tmp_name'=>$tmp_name
+            ]);
+        }
+        $this->assign([
+            'classify'=>$classify,
+            'type_name'=>$type[input('type')],
+        ]);
+        return $this->fetch();
+    }
+    public function add_ftmp_operation(){
+        $userinfo = $this->_userinfo;
+        $type = [2=>'主材',3=>'智能',4=>'家具'];
+        if(!isset($type[input('type')]) || !input('data') || !input('tmp_name')){
+            $this->error('参数错误');
+        }
+        $tmp_id = input('tmp_id')?input('tmp_id'):md5(input('tmp_name').rand(1,999999).microtime(true));
+        $datas = [];
+        $time = time();
+        foreach(input('data') as $k=>$v){
+            $info = [];
+            $info['tmp_id'] = $tmp_id;
+            $info['tmp_name'] = input('tmp_name');
+            $info['f_id'] = $userinfo['companyid'];
+            $info['work_type'] = $type[input('type')];
+            $info['item_number'] = $k;
+            $info['num'] = $v['num'];
+            $info['type'] = input('type');
+            $info['update_time'] = $time;
+            $datas[] = $info;
+        }
+        Db::startTrans();
+        try {
+            if(input('tmp_id')){
+                Db::name('tmp')->where('tmp_id',input('tmp_id'))->delete();
+            }
+            $re = Db::name('tmp')->insertAll($datas);
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->error('模板保存失败');
+        }
+        
+        if($re){
+            $this->success('模板保存成功','/admin/quote/furniture_tmp/type/'.input('type'));
+        }else{
+            $this->error('模板保存失败');
+        }
+        var_dump(input());
+    }
+
+    //查看主材模板
+    public function furniture_tmp_info(){
+
+    }
+
 	//报价模板首页
 	public function index(){
 	    $userinfo = $this->_userinfo;
-		$res = Db::name('tmp')->where('f_id','=',$userinfo['companyid'])->group('tmp_id')->order('id','desc')->select();
+        $where = [];
+        $where['f_id'] = $userinfo['companyid'];
+        $where['type'] = 1;
+		$res = Db::name('tmp')->where($where)->group('tmp_id')->order('id','desc')->select();
 		$this->assign([ 'data'=>$res ]);
 		return $this->fetch();
 	}
@@ -406,7 +542,7 @@ class Quote extends Adminbase
 			}
 			
 			if($re){
-				$this->success('模板保存成功','admin/quote/index');
+				$this->success('模板保存成功','/admin/quote/index');
 			}else{
 				$this->error('模板保存失败');
 			}
@@ -421,7 +557,7 @@ class Quote extends Adminbase
 		}
 		$re = Db::name('tmp')->where([ 'tmp_id'=>$id,'f_id'=>$userinfo['companyid'] ])->delete();
 		if($re){
-			$this->success('删除成功','admin/quote/index');
+			$this->success('删除成功','/admin/quote/index');
 		}else{
 			$this->error('删除失败');
 		}
