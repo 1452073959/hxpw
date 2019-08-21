@@ -53,10 +53,10 @@ class FurnitureOrther extends Adminbase{
         $admininfo = $this->_userinfo; 
         $user_id = input('customer_id');
         $where = [];
-         if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10 && $admininfo['userid'] != $order_info['adminid']){
+         if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10){
             $where['adminid'] = $admininfo['userid'];
         }
-        if($admininfo['roleid'] != 1 && $admininfo['companyid'] != $order_info['frameid']){
+        if($admininfo['roleid'] != 1){
             $where['frameid'] = $admininfo['companyid'];
         }
         if(input('type')){
