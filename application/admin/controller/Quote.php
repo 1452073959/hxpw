@@ -323,7 +323,7 @@ class Quote extends Adminbase
     //添加主材模板
     public function add_furniture_tmp(){
         $userinfo = $this->_userinfo;
-        $type = [2=>'主材',3=>'智能',4=>'家具'];
+        $type = [2=>'主材',3=>'智能、家电',4=>'软装'];
         if(!isset($type[input('type')])){
             $this->error('参数错误');
         }
@@ -360,7 +360,7 @@ class Quote extends Adminbase
     }
     public function add_ftmp_operation(){
         $userinfo = $this->_userinfo;
-        $type = [2=>'主材',3=>'智能',4=>'家具'];
+        $type = [2=>'主材',3=>'智能、家电',4=>'软装'];
         if(!isset($type[input('type')]) || !input('data') || !input('tmp_name')){
             $this->error('参数错误');
         }

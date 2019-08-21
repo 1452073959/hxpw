@@ -112,7 +112,7 @@ class FurnitureOrther extends Adminbase{
             'customer_info'=>$customer_info,
             'classify'=>$classify,
             'type_name'=>input('type'),
-            'type'=>['主材'=>2,'智能'=>3,'家电'=>4]
+            'type'=>['主材'=>2,'智能、家电'=>3,'软装'=>4]
         
         ]);
         return $this->fetch();
@@ -202,7 +202,7 @@ class FurnitureOrther extends Adminbase{
 
     //获取主材信息
     public function ajax_get_project(){
-        $type = [2=>'主材',3=>'智能',4=>'家电'];
+        $type = [2=>'主材',3=>'智能、家电',4=>'软装'];
         if(!input('type') || !input('classify') || !isset($type[input('type')])){
             $this->error('error');
         }
