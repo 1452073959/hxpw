@@ -176,8 +176,8 @@ class FurnitureOrther extends Adminbase{
             $this->error('失败');
         }
         if($re!==false && $order_project_res){
-            // $this->success('保存订单成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
-            $this->error('保存订单成功');
+            $this->success('保存订单成功',url('admin/furniture_orther/order_info',array('o_id'=>$re)));
+            // $this->success('保存订单成功');
         }else{
             $this->error('失败');
         }
