@@ -32,6 +32,17 @@ class Offerlist extends Adminbase
     public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
     public $show_page = 15;
 
+    //获取订单提成明细
+    public function get_commission_info(){
+        $o_id = input('o_id');
+        $commission = Db::name('offerlist')->where(['id'=>$o_id])->field('business_commission,repeat_commission,design_commission,supervisor_commission')->find();
+        if($commission){
+            $this->success('success','',$commission);
+        }else{
+            $this->error('error');
+        }
+    }
+
     //临时保存报价订单
     public function temporary_save_order(){
         $user_id = input('user_id');
