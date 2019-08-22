@@ -45,6 +45,9 @@ a{
   color:#666;
 }
 .ulall li{float:left;border: 1px solid #ccc;padding: 5px;margin-right: 20px;}
+.tishi{
+    float:right;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -65,6 +68,8 @@ a{
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
                 </div>              
+
+                <span class="layui-btn layui-btn-radius layui-btn-primary tishi">公式详情</span>
                 <!-- <a id="tishi" title="点我查看" style="float:right;" > <i class="layui-icon">&#xe702;</i></a> -->
             </blockquote>
             <script type="text/html" id="toolbarDemo">
@@ -86,9 +91,9 @@ a{
                         <th class="taleft" lay-data="{type: 'checkbox',field:'id', fixed: 'left'}">ID</th>
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
-                        <th lay-data="{field:'edit',width:200}">操作</th>
-                        <th class="taleft" lay-data="{field:'proquant',width:100}" >工程报价</th>
-                        <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >优惠后报价</th>
+                        <th lay-data="{field:'edit',width:120}">操作</th>
+                        <th class="taleft" lay-data="{field:'proquant',width:100}" >优惠前报价</th>
+                        <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
@@ -103,10 +108,10 @@ a{
                         <th class="taleft" lay-data="{field:'artificial_cb',event:'artificial_cb',width:90,style:'background-color: #e5f3c5;color:#f36f20' }">人工成本</th>
                         <th class="taleft" lay-data="{field:'material_cb',event:'material_cb',width:90,style:'background-color: #e5f3c5;color:#f36f20' }">辅料成本</th>
                         <th class="taleft" lay-data="{field:'gross_profit',event:'gross_profit',width:100,style:'background-color: #ffe1bb;color:#f36f20' }">工程毛利</th>
-                        <th class="taleft" lay-data="{field:'profit_rate',width:100,style:'background-color: #ffe1bb' }">工程毛利比</th>
+                        <th class="taleft" lay-data="{field:'profit_rate',width:100,style:'background-color: #ffe1bb' }">工程毛利率</th>
 
                         <th class="taleft" lay-data="{field:'gross_profit_total',width:100,style:'background-color: #ffe1bb' }">总毛利</th>
-                        <th class="taleft" lay-data="{field:'profit_rate_total',width:90,style:'background-color: #ffe1bb' }">总毛利比</th>
+                        <th class="taleft" lay-data="{field:'profit_rate_total',width:90,style:'background-color: #ffe1bb' }">总毛利率</th>
 
                         <th class="taleft" lay-data="{field:'entrytime',width:180,hide:true}">录入时间</th>
                     </tr>
@@ -130,7 +135,7 @@ a{
                       <td class="taleft">{$vo.remark}</td>   
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
-                       <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a>
+                       <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td> 
                       <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td class="taleft">{$vo.order_info.proquant}</td>   
@@ -758,14 +763,14 @@ layui.use('table', function(){
               }else{
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">奖励项目</th><th style="text-align:center">金额</th><th style="text-align:center">比率</th></tr></thead><tbody>';
                 
-                html += '<tr><td style="background-color:#f36f20;color:#ffffff">监理提成</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(re.data.supervisor_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="supervisor_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.supervisor_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
-                html += '<tr><td style="background-color:#f36f20;color:#ffffff">设计师提成</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(re.data.design_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="design_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.design_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
-                html += '<tr><td style="background-color:#f36f20;color:#ffffff">回头客奖</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(re.data.repeat_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="repeat_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.repeat_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
-                html += '<tr><td style="background-color:#f36f20;color:#ffffff">业务员提成</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(re.data.business_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="business_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.business_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
+                html += '<tr><td>监理提成</td><td>'+ toDecimal2(re.data.supervisor_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="supervisor_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.supervisor_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
+                html += '<tr><td>设计师提成</td><td>'+ toDecimal2(re.data.design_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="design_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.design_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
+                html += '<tr><td>回头客奖励</td><td>'+ toDecimal2(re.data.repeat_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="repeat_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.repeat_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
+                html += '<tr><td>业务员提成</td><td>'+ toDecimal2(re.data.business_commission*data.discount_proquant/100) +'</td><td><input data-id="'+data.id+'" name="business_commission" class="layui-input" style="width:60px;display:inline-block" value="'+re.data.business_commission+'" />%<a href="javascript:;" style="margin-left:20px; color:#f36e20;" onclick="edit_commission(this)">修改</a></td></tr>'
                 html += '</tbody></table>'
                 layer.open({
-                    title: '奖励提成明细',
-                    area: ['800px', '600px'],
+                    title: '提成奖励明细',
+                    area: ['700px', '430px'],
                     content:html,
                     cancel: function(){ 
                       // window.location.reload(); 
@@ -778,6 +783,47 @@ layui.use('table', function(){
   });
 
 });
+
+//鼠标经过表头显示文字
+$(document).on('mouseenter', '.layui-table th', function(){
+    var th = $(this).find('span').text();
+    var content = '';
+    switch(th) {
+         case '工程报价':
+            content = '工程报价';
+            break;
+         case '优惠后报价':
+            content = '优惠后报价';
+            break;
+         default:
+            content = '';
+    } 
+    if(content != ''){
+        tip_index = layer.tips(content, this, {time: 0,tips: [2, '#5BC0DE']});
+    }
+    // tip_index = layer.tips('项目情况', this, {time: 0,tips: [2, '#5BC0DE']});
+}).on('mouseleave', '.layui-table th', function(){
+    if(tip_index){
+        layer.close(tip_index);
+    }
+    
+});
+
+//鼠标经过公式详情 显示文字
+
+$('.tishi').mouseover(function(){
+    var content = "工程直接费=材料总报价+人工总报价"
+    content +="<br />工程报价=直接费+服务费用{搬运费+清洁费+管理费+（硬楼费+远程费+旧房改造费···）}+税金+工程意外险-优惠";
+    content +="<br />工程毛利=工程报价-工程成本（辅材报价+人工报价";
+    content +="<br />工程毛利率=工程毛利/工程报价";
+    content +="<br />提成奖励=运杂+监理提成（工程报价*手动设置比率）+设计师提成（工程报价*手动设置比率）+业务员提成（工程报价*手动设置比率）+回头客奖励（工程报价*手动设置比率）";
+    content +="<br />总毛利=工程报价-工程成本-提成奖励";
+    content +="<br />总毛利率=总毛利/工程报价";
+    tishi = layer.tips(content, this, {time: 0,tips: [4, '#5BC0DE'],area: ['300px', 'auto'],});
+}).mouseout(function(){
+    layer.close(tishi);
+})
+
 function edit_commission(o){
     var input = $(o).prev('input');
     var field = input.attr('name')
