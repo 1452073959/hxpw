@@ -48,6 +48,12 @@
     margin-left: 3px;
 }
 .ulall li{float:left;border: 1px solid #ccc;padding: 5px;margin-right: 5px;}
+.layui-tab-title li {
+  padding: 0;
+}
+.layui-tab-title li a{
+  padding: 0 25px;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -83,15 +89,9 @@
               </div>
             </script>
      
-            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20}">
-                <colgroup>
-                    <col width="80">
-                    <col width="80">
-                    <col width="160">
-                </colgroup>
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20,page:'true',height:600}">
                 <thead >
                     <tr>
-
                         <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
                         <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
@@ -104,8 +104,8 @@
                         <!-- <th class="taleft" lay-data="{field:'designer_name',}">设计师姓名</th> -->
                         <th class="taleft" lay-data="{field:'proquant',width:120}">工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:120 }">工程直接费</th>
-                        <th class="taleft" lay-data="{field:'matquant',width:120 }">辅材报价</th>
-                        <th class="taleft" lay-data="{field:'manual_quota',width:120 }">人工报价</th>
+                        <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
+                        <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
                         <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
