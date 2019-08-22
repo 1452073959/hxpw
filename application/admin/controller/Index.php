@@ -41,9 +41,19 @@ class Index extends Adminbase
                     $rules1 = Db::name('auth_rule')->where('id','in',$rules)->column('title');
                     if (!empty($v['items'])) {//存在第二级
                         foreach ($v['items'] as $k2 => $v2) {
+
                             if (!in_array($v2['title'],$rules1)) {
                                 unset($data[$k]['items'][$k2]);
                             }
+                            // var_dump($v2);die;
+                            if(isset($v2['items'])){
+                                foreach($v2['items'] as $k3=>$v3){
+                                    if (!in_array($v3['title'],$rules1)) {
+                                        unset($data[$k]['items'][$k2]['items'][$k3]);
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                 }else{
