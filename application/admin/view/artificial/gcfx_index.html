@@ -93,8 +93,8 @@ a{
                         <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
                         <th class="taleft" lay-data="{field:'order_cost_all_price',event:'get_tmp_cost',width:90,style:'background-color: #e4fcfd ;color:#f36f20' }">其他费用</th>
-                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:90,style:'background-color: #e4fcfd' }">优惠</th>
-                        <th class="taleft" lay-data="{field:'sundry',edit:'text',width:90,style:'background-color: #e5f3c5' }">运杂</th>
+                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:90,style:'background-color: #e4fcfd;color:#029687' }">优惠</th>
+                        <th class="taleft" lay-data="{field:'sundry',edit:'text',width:90,style:'background-color: #e5f3c5;color:#029687' }">运杂</th>
                         <th class="taleft" lay-data="{field:'commission',event:'show_commission',width:90,style:'background-color: #e5f3c5;color:#f36f20' }">提成奖励</th>
                         <!-- <th class="taleft" lay-data="{field:'supervisor_commission',width:90,style:'background-color: #e5f3c5' }">监理提成</th>
                         <th class="taleft" lay-data="{field:'design_commission',width:90,style:'background-color: #e5f3c5' }">设计提成</th>
@@ -142,7 +142,7 @@ a{
                       <td class="taleft">{$vo.order_info.order_cost_all_price}</td>   
 
                       <td class="taleft">{$vo.order_info.discount}</td>
-                      <td class="taleft">{$vo.order_info.sundry}</td>
+                      <td class="taleft">{$vo.order_info.sundry ?: 0}</td>
                       <td class="taleft">{$vo.order_info.supervisor_commission+$vo.order_info.design_commission+$vo.order_info.repeat_commission+$vo.order_info.business_commission}</td>
                       <!-- <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.order_info.supervisor_commission}</a></td>
                       <td class="taleft"><a class="" lay-event="design_commission">{$vo.order_info.design_commission}</a></td>
