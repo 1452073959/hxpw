@@ -69,12 +69,13 @@ a{
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckData" id="batch">确认比较</button>
               </div>
             </script>
 
 
 
-            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20,page:true,height:600}">
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#toolbarDemo',limit:20,page:true,height:600}">
                 <colgroup>
                     <col width="80">
                     <col width="80">
@@ -82,10 +83,10 @@ a{
                 </colgroup>
                 <thead >
                     <tr>
-                        <!-- <th class="taleft" lay-data="{type: 'checkbox', fixed: 'left'}">ID</th> -->
+                        <th class="taleft" lay-data="{type: 'checkbox',field:'id', fixed: 'left'}">ID</th>
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
-                        <th class="taleft" lay-data="{field:'id', width:60,hide:true}">ID</th>
+                        <!-- <th class="taleft" lay-data="{field:'id', width:60,hide:true}">ID</th> -->
                         <!-- <th class="taleft" lay-data="{field:'customer_name',width:100}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th>
@@ -114,13 +115,14 @@ a{
                         <th class="taleft" lay-data="{field:'profit_rate_total',width:90,style:'background-color: #ffe1bb' }">总毛利比</th>
 
                         <th class="taleft" lay-data="{field:'entrytime',width:180,hide:true}">录入时间</th>
-                        <th lay-data="{field:'edit',width:120}">操作</th>
+                        <th lay-data="{field:'edit',width:200}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
                   
                   {foreach name="data" item="vo"}
                     <tr>
+                        <td class="taleft">{$vo.id}</td>  
                       <td>
                         {switch name="$vo.order_info.status"}
                             {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
@@ -133,7 +135,7 @@ a{
                         {/switch}
                       </td>
                       <td class="taleft">{$vo.remark}</td>    
-                      <td class="taleft">{$vo.id}</td>    
+                      <!-- <td class="taleft">{$vo.id}</td>     -->
                       <td class="taleft">{$vo.order_info.proquant}</td>   
                       <td class="taleft">{$vo.order_info.discount_proquant}</td>   
                       <td class="taleft">{$vo.order_info.direct_cost}</td>   
@@ -156,6 +158,7 @@ a{
                       <td class="taleft">{$vo.order_info.profit_rate_total}%</td>   
                       <td class="taleft">{$vo.order_info.entrytime|date="Y-m-d H:s:i"}</td>   
                       <td>
+                       <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a>
                       </td>
                     </tr>       
@@ -202,9 +205,6 @@ a{
     
 layui.use('table', function(){
     var table = layui.table;
-
-    
-
   //工具栏事件
   table.on('toolbar(test3)', function(obj){
     var checkStatus = table.checkStatus(obj.config.id);
@@ -212,63 +212,18 @@ layui.use('table', function(){
     // var shujuzu = JSON.stringify(data);//json数据组
     // layer.alert(JSON.stringify(data));return false;  
     if (obj.event == 'getCheckData'){
-      if(data.length == 0){
-          layer.msg('请勾√选数据');
-       }else{
-         var jsonObj = JSON.parse(JSON.stringify(data));//转换为json对象
-         var hezi = "";
-         for (var i = 0; i < data.length; i++) {
-           hezi += jsonObj[i]['id']+',';
-         }
-         hezi = hezi.substring(0, hezi.length - 1);//移除最后一个逗号
-        // layer.alert(hezi);return false;  
-          var box = '<div class="batchs"><span data-fieldval="type_of_work">工种</span><br /><span data-fieldval="project">工程项目</span><br /><span data-fieldval="company">单位</span><br /><span data-fieldval="cost_value">成本价值</span><br /><span data-fieldval="quota">报价定额</span><br /><span data-fieldval="craft_show">工艺说明</span><br /><span data-fieldval="material">工艺说明辅材明细</span></div>';
+      var data = checkStatus.data;
+        if(data.length != 2){alert('请选择两个进行对比');return false;}
+        var josnzu = JSON.parse(JSON.stringify(data));
+        var _ht = '';
+        for (var i = 0; i < 2; i++) {
+          _ht += josnzu[i]['id']+',';
+        }
+        _ht = _ht.substring(0,_ht.length-1);
 
-        //自定页
-        layer.tips(box, '#batch', {
-            tips: [2, '#3595CC'],
-            area:["auto","auto"],
-            time: 5000
-          });
-
-        $('.batchs span').click(function(){
-            var fieldval = $(this).data('fieldval');
-            var fieldtext = $(this).text();
-            var newcon = '<div class="zidauns"><input type="text" style="text-align:center;margin:10px;width:96%" name="valname" autocomplete="off" value="" class="layui-input"><button id="edit_batch" style="margin-left:190px" class="layui-btn ajax-post">立即提交</button></div>';
-            //页面层
-            layer.open({
-              type: 1,
-              fixed: false,    //取消固定定位，因为固定定位是相对body的
-              offset: ['20%', '30%'],   //相对定位
-              skin: 'layui-layer-rim', //加上边框
-              area: ['500px', '150px'], //宽高
-              title: '输入修改<span style="color:green">'+fieldtext+'</span>字段内容',
-              content: newcon
-            }); 
-            $("#edit_batch").click(function(){
-                var xiugais = $(this).parents(".zidauns").find("input[name='valname']").val();
-                if (!xiugais){layer.msg('字段不能为空');return false}
-                // alert(fieldval+'--'+xiugais+'-----'+hezi);return false;
-                $.ajax({
-                  type : 'post',
-                  url  :  '{:url("offerlist/batchedit")}',
-                  dataType : 'json',
-                  data : {batchname:fieldval,value:xiugais,idarray:hezi},
-                  success : function(re){
-                    if(re.status == 0){
-                       layer.msg(re.msg);
-                       window.location.reload();
-
-                    }else{
-                      layer.msg(re.msg);return false;
-                    }
-                  }
-                 });
-            });
-
-        });
- 
-       }
+        // layer.alert(_ht);
+        // 
+        window.open("{:url('admin/Bcontrast/singleone')}"+'?id='+_ht);
     }
 
   });

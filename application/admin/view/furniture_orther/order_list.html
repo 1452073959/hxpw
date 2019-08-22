@@ -54,6 +54,15 @@ i{
     <div class="layui-card-body">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
+                <div class="layui-tab layui-tab-brief">
+                  <ul class="layui-tab-title">
+                    <li class=""><a href="{:url('admin/offerlist/index',['customer_id'=>input('customer_id')])}">半包</a></li>
+                    <li class="{:input('type')==2? 'layui-this' : ''}"><a href="{:url('admin/furniture_orther/order_list',['customer_id'=>input('customer_id'),'type'=>2])}">主材</a></li>
+                    <li class="{:input('type')==3? 'layui-this' : ''}"><a href="{:url('admin/furniture_orther/order_list',['customer_id'=>input('customer_id'),'type'=>3])}">智能、家电</a></li>
+                    <li class="{:input('type')==4? 'layui-this' : ''}"><a href="{:url('admin/furniture_orther/order_list',['customer_id'=>input('customer_id'),'type'=>4])}">软装</a></li>
+                  </ul>
+                  <div class="layui-tab-content"></div>
+                </div>
                 <div class="layui-inline">
                    <ul class="ulall">
                       <li>客户姓名：{$userinfo.customer_name}</li>

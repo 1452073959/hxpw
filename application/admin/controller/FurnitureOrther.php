@@ -51,6 +51,7 @@ class FurnitureOrther extends Adminbase{
     }
     public function order_list(){
         $admininfo = $this->_userinfo; 
+        $type = [2=>'主材',3=>'智能、家电',4=>'软装'];
         $user_id = input('customer_id');
         $where = [];
          if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10){
@@ -59,8 +60,10 @@ class FurnitureOrther extends Adminbase{
         if($admininfo['roleid'] != 1){
             $where['frameid'] = $admininfo['companyid'];
         }
-        if(input('type')){
-            $where['type'] = input('type');
+        if(input('type') && isset($type[input('type')])){
+            $where['type'] = $type[input('type')];
+        }else{
+            $this->error('参数错误');
         }
         $where['userid'] = $user_id;
         $order_list = Db::name('order_furniture')->where($where)->select();
@@ -102,17 +105,18 @@ class FurnitureOrther extends Adminbase{
         if(!input('customer_id') || !input('type')){
             $this->error('非法操作');
         }
+        $type = [2=>'主材',3=>'智能、家电',4=>'软装'];
         $userinfo = $this->_userinfo;
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         $where = [];
-        $where['type_name'] = input('type');//类型
+        $where['type_name'] = $type[input('type')];//类型
         $where['frameid'] = $userinfo['companyid'];//公司
         $classify = Db::name('furniture')->where($where)->group('classify')->select();
         $this->assign([
             'customer_info'=>$customer_info,
             'classify'=>$classify,
-            'type_name'=>input('type'),
-            'type'=>['主材'=>2,'智能、家电'=>3,'软装'=>4]
+            'type'=>input('type'),
+            'type_val'=>$type
         
         ]);
         return $this->fetch();

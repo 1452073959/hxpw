@@ -493,6 +493,7 @@ class Offerlist extends Adminbase
         }
         $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page);
         $this->assign('data',$re);
+        $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
     public function user_delete(){
@@ -544,12 +545,12 @@ class Offerlist extends Adminbase
     {
     // $this->newcheckrule();//权限检测
         error_reporting(E_ALL ^ E_WARNING);
-        $userinfo = $this->_userinfo; 
-        if($userinfo['roleid'] != 1 && $userinfo['roleid'] != 10){
-            $da['o.userid'] = $userinfo['userid'];
+        $admininfo = $this->_userinfo; 
+        if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10){
+            $da['o.userid'] = $admininfo['userid'];
         }
-        if($userinfo['roleid'] == 10){
-            $da['o.frameid'] = $userinfo['companyid'];
+        if($admininfo['roleid'] == 10){
+            $da['o.frameid'] = $admininfo['companyid'];
         }
         $da['o.number'] = 1;
         if(!empty(input('customer_id'))){
@@ -567,10 +568,11 @@ class Offerlist extends Adminbase
             $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
             
         }
+        $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
 
 
         //获取取费模板
-        $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$userinfo['companyid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
+        $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$admininfo['companyid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
         $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);    
         $this->assign('tmp_cost',$tmp_cost);    
