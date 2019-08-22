@@ -61,7 +61,7 @@ class FurnitureOrther extends Adminbase{
             $where['frameid'] = $admininfo['companyid'];
         }
         if(input('type') && isset($type[input('type')])){
-            $where['type'] = $type[input('type')];
+            $where['type'] = input('type');
         }else{
             $this->error('参数错误');
         }
@@ -71,6 +71,7 @@ class FurnitureOrther extends Adminbase{
         $this->assign([
             'data'=>$order_list,
             'userinfo'=>$userinfo,
+            'type'=>$type
         ]);
         return $this->fetch();
     }
