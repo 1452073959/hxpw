@@ -727,13 +727,13 @@ class Quote extends Adminbase
             $col_num = $sheet->getHighestColumn();
             $data = []; //数组形式获取表格数据 
               // dump($col_num);
-            if($col_num != 'D') {
+            if($col_num != 'E') {
                $this->error('文件数据字段不匹配，请重新选择');die;
             } 
             $time = time();
             $tmp_id = md5($fileName.rand(1,999999).microtime(true));
             for ($i = 2; $i <= $row_num; $i ++) {
-            	if(empty($sheet->getCell("A".$i)->getValue()) || empty($sheet->getCell("B".$i)->getValue()) || empty($sheet->getCell("C".$i)->getValue())){
+            	if(empty($sheet->getCell("A".$i)->getValue()) || empty($sheet->getCell("B".$i)->getValue()) || empty($sheet->getCell("C".$i)->getValue()) || empty($sheet->getCell("D".$i)->getValue())){
             		$this->error('字段不能为空');die;
             	}
             	$work_type = trim($sheet->getCell("A".$i)->getValue());
@@ -750,7 +750,7 @@ class Quote extends Adminbase
                 $data[$i]['work_type']  = $work_type;
                 $data[$i]['space']  = $space;
                 $data[$i]['item_number']  = trim($sheet->getCell("C".$i)->getValue());
-                $data[$i]['num']  = $sheet->getCell("D".$i)->getValue() ? trim($sheet->getCell("D".$i)->getValue()): '';
+                $data[$i]['num']  = $sheet->getCell("E".$i)->getValue() ? trim($sheet->getCell("E".$i)->getValue()): '';
                 $data[$i]['update_time']  = $time;
             }
             //将数据保存到数据库
