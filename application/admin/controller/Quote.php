@@ -423,7 +423,7 @@ class Quote extends Adminbase
         $userinfo = $this->_userinfo;
         $item_number = [];//所有项目集合
 		// $type = input('type');//模板预览还是修改
-		$tmp_list = Db::name('tmp')->where('tmp_id','=',$tmp_id)->order('id','desc')->select();
+		$tmp_list = Db::name('tmp')->where('tmp_id','=',$tmp_id)->order('id','asc')->select();
 		$tmp_name = $tmp_list[0]['tmp_name'];
         $data = [];
 		//工种
