@@ -466,7 +466,7 @@ class Quote extends Adminbase
             $offer_type_check[$v['type']][] = $v['name'];
         }
         if(input('tmp_id')){ //编辑
-            $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->order('id','desc')->select();
+            $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->order('id','asc')->select();
             $tmp_name = $tmp_list[0]['tmp_name'];
             $data = [];
             $item_number = [];
