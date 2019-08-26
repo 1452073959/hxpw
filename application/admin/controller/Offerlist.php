@@ -178,7 +178,7 @@ class Offerlist extends Adminbase
                     if(!in_array($v['space'], $offer_type_check[2])){
                         $this->error('空间：'.$v['space'].' 不存在，另存订单失败');
                     }
-                    $data[$v['type_of_work']][$v['space']][$v['item_number']] = 0;
+                    $data[$v['space']][$v['item_number']] = 0;
                     $item_number[] = $v['item_number'];
                 }
                 $data[$v['type_of_work']][$v['space']][$v['item_number']] += $v['num'];

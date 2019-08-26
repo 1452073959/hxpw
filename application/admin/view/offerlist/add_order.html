@@ -60,7 +60,8 @@
         background-color: #ffffff
     }
     .word{
-        background-color: #eee
+        background-color: #eee;
+        display: none;
     }
     .select_tmp{
         height:38px;
@@ -126,7 +127,7 @@
         <div class="right" style="float: left;width: 8%;height: 92%;overflow:auto;border-right: 1px solid #eee">
             
             <ul style="height: 100%">
-                <!-- <li data-val="0">所有工种</li> -->
+                <li data-val="0">所有工种</li>
                 <!-- 工种 -->
                 <?php $i = 2; ?>
                 <?php foreach($offer_type[1] as $k=>$v){ ?>
@@ -164,7 +165,7 @@
         </div>
 
 
-        <div class="layui-card-body" style="width: 61%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
+        <div class="layui-card-body" id="datasform_div" style="width: 61%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
             <form id="datasform" action="/admin/offerlist/add_order_operation" method="post">
                 <input type="hidden" name="customerid" value="{$customer_info['id']}" >
                 <input type="hidden" name="framename" value="" >
@@ -184,7 +185,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th></th>
+                            <th><i class="layui-icon layui-icon-delete" id="clear_all"></i><input type="text" id="movenum" style="width:20px;height:20px;text-align: center" title="每次移动格数" value="1" /></th>
                             <th>编号</th>
                             <th>项目名称</th>
                             <th>工程量</th>
@@ -197,12 +198,13 @@
                     </thead>
                     <tbody id="project_datas">
                         {notempty name="data"}
-                            <?php foreach($data as $k1=>$v1){ ?>
-                                <tr class="word" data-word="{$k1}" data-inword="{$k1}">
-                                    <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td colspan="4" style="text-align: left;padding-left:10px">{$k1}</td>
-                                    <td colspan="1"></td><td class="word_material_total" colspan="1"></td><td colspan="1"></td><td class="word_artificial_total" colspan="1"></td>
-                                </tr>
-                                <?php foreach($v1 as $k2=>$v2){ ?>
+                            <?php $k1 = '所有工种'; ?>
+                            <tr class="word" data-word="{$k1}" data-inword="{$k1}">
+                                <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td colspan="4" style="text-align: left;padding-left:10px">{$k1}</td>
+                                <td colspan="1"></td><td class="word_material_total" colspan="1"></td><td colspan="1"></td><td class="word_artificial_total" colspan="1"></td>
+                            </tr>
+                                <?php $k1 = '所有工种'; ?>
+                                <?php foreach($data as $k2=>$v2){ ?>
                                     <tr class="space" data-space="{$k1}-{$k2}" data-inword="{$k1}" data-inspace="{$k2}">
                                         <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td></td><td colspan="3" style="text-align: left;padding-left:10px">{$k2}</td>
                                         <td colspan="1"></td><td class="space_material_total" colspan="1"></td><td colspan="1"></td><td class="space_artificial_total" colspan="1"></td>
@@ -220,7 +222,6 @@
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
-                            <?php } ?>
                         {/notempty}
                     </tbody>
                 </table>
@@ -283,9 +284,17 @@
         $('#btn').trigger("click");
     })
     //=====================================上下移动
-    //删除报价单项目
     $('#project_datas').on('click',".layui-edge",function(){
         var type = $(this).parent().parent().parent().attr('class');
+        var num = $('#movenum').val();
+        var r=/^[0-9]+$/gi;
+        if(!r.test(num)){
+            layui.use('layer', function(){
+                layer.msg('移动格数设置有误');
+            }); 
+            return false;
+        }
+        num = num -1;
         if(type == 'word'){
             var tr = $(this).parent().parent().parent();
             var data_tr=$('tr[data-inword="'+$(tr).attr('data-inword')+'"]');
@@ -321,20 +330,20 @@
             var tr = $(this).parent().parent().parent();
             var data_tr=$('tr[data-inword="'+$(tr).attr('data-inword')+'"][data-inspace="'+$(tr).attr('data-inspace')+'"]');
             if($(this).hasClass('layui-table-sort-asc')){
-                var prev_space = $(tr).prevAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(0);
+                var prev_space = $(tr).prevAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(num);
                 if($(prev_space).length == 0){
                     layui.use('layer', function(){
-                        layer.msg('已经是最顶部了');
+                        layer.msg('超出可移动范围');
                     }); 
                     return false;
                 }else{
                     $(data_tr).insertBefore($(prev_space)); //将本身插入到目标tr的前面 
                 }
             }else{
-                var next_space = $(tr).nextAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(0);
+                var next_space = $(tr).nextAll('.space[data-inword="'+$(tr).attr('data-inword')+'"]').eq(num);
                 if($(next_space).length == 0){
                     layui.use('layer', function(){
-                        layer.msg('已经是最低部了');
+                        layer.msg('超出可移动范围');
                     }); 
                     return false;
                 }else{
@@ -349,34 +358,41 @@
                     
                 }
             }
+            var top = tr.offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop() -200;
+            $("#datasform_div").animate({scrollTop:top},333);
             
         }else if(type == 'project'){
             var data_tr=$(this).parent().parent().parent();
             if($(this).hasClass('layui-table-sort-asc')){
-                if($(data_tr).prev().html()==null || !$(data_tr).prev().hasClass('project')){
+                if($(data_tr).prevAll('.project[data-inspace="'+$(data_tr).attr('data-inspace')+'"]').eq(num).html()==null || !$(data_tr).prevAll('.project[data-inspace="'+$(data_tr).attr('data-inspace')+'"]').eq(num).hasClass('project')){
                     layui.use('layer', function(){
-                        layer.msg('已经是最顶部了');
+                        layer.msg('超出可移动范围');
                     }); 
                     return false;
                 }else{
-                    $(data_tr).insertBefore($(data_tr).prev()); //将本身插入到目标tr的前面 
+                    $(data_tr).insertBefore($(data_tr).prevAll().eq(num)); //将本身插入到目标tr的前面 
                 }
+                var symbol = -1*(num+1);
             }else{
-                if($(data_tr).next().html()==null || !$(data_tr).next().hasClass('project')){
+                if($(data_tr).nextAll('.project[data-inspace="'+$(data_tr).attr('data-inspace')+'"]').eq(num).html()==null || !$(data_tr).nextAll().eq(num).hasClass('project')){
                     layui.use('layer', function(){
-                        layer.msg('已经是最低部了');
+                        layer.msg('超出可移动范围');
                     }); 
                     return false;
                 }else{
-                    $(data_tr).insertAfter($(data_tr).next()); //将本身插入到目标tr的前面 
+                    $(data_tr).insertAfter($(data_tr).nextAll().eq(num)); //将本身插入到目标tr的前面 
                 }
+                var symbol = 1*(num+1);
             }
+            var top = $("#datasform_div").scrollTop() + ($(data_tr).next().height()+$(data_tr).height())/2*symbol;
+            $("#datasform_div").animate({scrollTop:top},333);
         }else{
             layui.use('layer', function(){
                 layer.msg('非法操作');
             }); 
             return false;
         }
+        
         save_order();//临时保存订单
     })
 
@@ -384,7 +400,7 @@
     //===================自动临时保存报价
     var step_number = 0;//操作的次数
     function save_order(){
-        if(step_number < 4){ //每5步记录一次
+        if(step_number < 2){ //每3步记录一次
             step_number++;
             return false;
         }
@@ -542,6 +558,8 @@
         }); 
     })
 
+    
+
     function check_tmp(o){
         var tmp_id = $(o).data('tid');
         $.post('/admin/quote/ajax_get_tmp_info',{tmp_id:tmp_id},function(res){
@@ -557,6 +575,8 @@
                     }
 
                     var project = '';
+                    //不要工种分类
+                    v.work_type = '所有工种';
                     project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                     project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                     project += '<td>'+v.item_number+'</td>';
@@ -570,7 +590,7 @@
                     project += '</tr>';
 
                     if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
-                    $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
+                        $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
                     }else{
                         //空间不存在 新建空间
                         var space_html = '';
@@ -690,7 +710,9 @@
     //点击+号  向右边报价表添加数据
     $('#seach_datas').on('click',".add_project",function(){
         var space = $('#diolog .left li[class="checkli"]').text();
-        var word = $('#diolog .right li[class="checkli"]').text();
+        // var word = $('#diolog .right li[class="checkli"]').text();
+        //不要工种分类
+        var word = '所有工种';
         if(!space || !word){
             layui.use('layer', function(){
                 layer.msg('工种/空间有误 请重新选择');
@@ -721,6 +743,9 @@
         //判断当前工种下 空间是否存在
         if($('tr[data-space="'+word+'-'+space+'"]').length > 0){
             $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
+            var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+            $("#datasform_div").animate({scrollTop:top},333);
+            
         }else{
             //空间不存在 新建空间
             var space_html = '';
@@ -737,6 +762,8 @@
             if($('tr[data-word="'+word+'"]').length > 0){
                 $('tr[data-inword="'+word+'"]').last().after(space_html);
                 $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+                $("#datasform_div").animate({scrollTop:top},333);
             }else{
                 //不存在 添加工种
                 var word_html = '';
@@ -751,9 +778,36 @@
                 $('#project_datas').append(word_html);
                 $('tr[data-word="'+word+'"]').after(space_html);
                 $('tr[data-space="'+word+'-'+space+'"]').after(project);
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+                $("#datasform_div").animate({scrollTop:top},333);
             }
         }
         save_order();//临时保存订单
+    })
+
+    //删除全部
+    $('#clear_all').click(function(){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+            content: '确认清除所有报价内容吗?',
+            title:'删除确认',
+            btn: ['删除', '取消'],
+                yes: function(index, layero){
+                    $('.space').remove();
+                    $('.project').remove();
+                    save_order();
+                    layer.close(index);
+                },
+                btn2: function(index, layero){
+                    layer.close(index);
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }); 
+        
     })
 
     //删除报价单项目
@@ -908,6 +962,8 @@
                         }
 
                         var project = '';
+                        //不要工种分类
+                        v.work_type = '所有工种';
                         project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                         project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
                         project += '<td>'+v.item_number+'</td>';

@@ -278,7 +278,7 @@ class Quote extends Adminbase
         if(!$tmp_id){
             echo json_encode(array('code'=>0,'msg'=>'参数错误'));
         }
-        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->order('id','desc')->select();
+        $tmp_list = Db::name('tmp')->where(['tmp_id'=>$tmp_id,'f_id'=>$userinfo['companyid']])->order('id','asc')->select();
 
         //=============验证模板是否有效
         $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
@@ -477,7 +477,7 @@ class Quote extends Adminbase
                 if(!in_array($v['space'], $offer_type_check[2])){
                     $this->error('空间：'.$v['space'].' 不存在，模板失效');
                 }
-                $data[$v['work_type']][$v['space']][$v['item_number']] = $v['num'];
+                $data[$v['space']][$v['item_number']] = $v['num'];
                 $item_number[] = $v['item_number'];
             }
             $item_number = array_unique($item_number);
@@ -510,6 +510,17 @@ class Quote extends Adminbase
 			$time = time();
 			//生成订单唯一id md5
 			$tmp_id = input('tmp_id')?input('tmp_id'):md5(input('tmp_name').rand(1,999999).microtime(true));
+            //获取所有编号
+            $item_number = [];
+            foreach(input('data') as $k1=>$v1){
+                foreach($v1 as $k2=>$v2){
+                    foreach($v2 as $k3=>$v3){
+                        $item_number[] = $k3;
+                    }
+                }
+            }
+            $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
+            $offerquota = array_column($offerquota, null,'item_number');
 			foreach(input('data') as $k1=>$v1){
 				$type_word_name = $k1;//工种名称
 				foreach($v1 as $k2=>$v2){
@@ -519,7 +530,7 @@ class Quote extends Adminbase
 							'tmp_id'=>$tmp_id,
 							'tmp_name'=>input('tmp_name'),
 							'f_id'=>$f_id,
-							'work_type'=>$type_word_name,
+							'work_type'=>$offerquota[$k3]['type_of_work'],
 							'space'=>$space,
 							'item_number'=>$k3,
 							'num'=>$v3,
