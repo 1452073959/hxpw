@@ -714,13 +714,13 @@ class Offerlist extends Adminbase
         $datas = [];
         $item_number = [];
         foreach($order_project as $k=>$v){
-            if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
-                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
-                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+            if(!isset($datas[$v['space']][$v['item_number']])){
+                $datas[$v['space']][$v['item_number']]['num'] = 0;
+                $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
                 $item_number[] = $v['item_number'];
 
             }
-            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+            $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
         }
         $item_number = array_unique($item_number);
         $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
