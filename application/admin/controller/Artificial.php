@@ -95,6 +95,7 @@ class Artificial extends Adminbase
 
     //成本分析选择选择客户
     public function gcfx_first(){
+        $userinfo = $this->_userinfo; 
         $condition = [];//用于时间搜索 new where不会用
         $where = [];
         $da = [];
@@ -113,10 +114,12 @@ class Artificial extends Adminbase
         if(input('manager_name')){
             $where[] = ['manager_name','LIKE','%'.input('manager_name').'%'];
         }
+        if(input('frameid') && $userinfo['roleid'] == 1){
+            $where[] = ['frameid','=',input('frameid')];
+        }
         if(input('begin_time') && input('end_time')){
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
-        }        
-        $userinfo = $this->_userinfo; 
+        }   
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
         }
@@ -124,7 +127,10 @@ class Artificial extends Adminbase
             $da['frameid'] = $userinfo['companyid'];
         }
         $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
-
+        if($userinfo['roleid'] == 1){
+          $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
+          $this->assign('frame',$frame);
+        }
         $this->assign('data',$re);
         $this->assign('userinfo',$userinfo);
         return $this->fetch();

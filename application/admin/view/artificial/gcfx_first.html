@@ -51,6 +51,16 @@
             <blockquote class="layui-elem-quote news_search">
             <div class="layui-input-inline">
                 <form class="layui-form" method="get" action="{:url('artificial/gcfx_first')}" class="layui-form form-signin" enctype="multipart/form-data">
+                        {eq name="$userinfo['roleid']" value="1"}
+                            <div class="layui-inline">
+                                <select name="frameid" class="w100" lay-search>
+                                  <option value="">请选择公司</option>
+                                  {foreach $frame as $key=>$vo}
+                                     <option <?php echo $vo['id']==input('frameid')?'selected':'' ?> value="{$vo.id}">{$vo.name}</option>
+                                  {/foreach}
+                                </select>  
+                            </div>
+                        {/eq}
                         <div class="layui-inline">
                             <input type="text" name="customer_name" value="<?php echo input('customer_name') ?>" placeholder="客户姓名" class="layui-input">
                         </div>
