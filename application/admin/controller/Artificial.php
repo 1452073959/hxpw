@@ -21,6 +21,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class Artificial extends Adminbase
 {
 	public $status = [ '未报价','已报价','预算价','合同价','结算价' ];
+  public $show_page = 15;
     // protected function initialize()
     // {
     //     parent::initialize();
@@ -94,20 +95,38 @@ class Artificial extends Adminbase
 
     //成本分析选择选择客户
     public function gcfx_first(){
-        $userinfo = $this->_userinfo; 
+        $condition = [];//用于时间搜索 new where不会用
+        $where = [];
         $da = [];
+        if(input('customer_name')){
+            $where[] = ['customer_name','LIKE','%'.input('customer_name').'%'];
+        }
+        if(input('quoter_name')){
+            $where[] = ['quoter_name','LIKE','%'.input('quoter_name').'%'];
+        }
+        if(input('designer_name')){
+            $where[] = ['designer_name','LIKE','%'.input('designer_name').'%'];
+        }
+        if(input('address')){
+            $where[] = ['address','LIKE','%'.input('address').'%'];
+        }
+        if(input('manager_name')){
+            $where[] = ['manager_name','LIKE','%'.input('manager_name').'%'];
+        }
+        if(input('begin_time') && input('end_time')){
+            $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
+        }        
+        $userinfo = $this->_userinfo; 
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
         }
         if($userinfo['roleid'] == 10){
             $da['frameid'] = $userinfo['companyid'];
         }
-        if(input('search')){
-            $da['customer_name'] = input('search');
-        }
-        $userlist = Db::name('userlist')->where($da)->order('id','desc')->select();
-        $this->assign('data',$userlist);    
-        $this->assign('userinfo',$userinfo);  
+        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+
+        $this->assign('data',$re);
+        $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
     public function gcfx_index(){

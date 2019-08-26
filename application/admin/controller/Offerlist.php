@@ -502,7 +502,8 @@ class Offerlist extends Adminbase
         if($userinfo['roleid'] == 10){
             $da['frameid'] = $userinfo['companyid'];
         }
-        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page);
+        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+
         $this->assign('data',$re);
         $this->assign('userinfo',$userinfo);
         return $this->fetch();
