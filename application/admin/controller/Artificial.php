@@ -589,18 +589,19 @@ class Artificial extends Adminbase
         $arr = [];
         $total = ['price'=>0,'cb'=>0];
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
-        $content = json_decode($offerlist['content'],true);
+        $content = Db::name('order_project')->where(['o_id'=>$id,'type'=>1])->select();
+        // $content = json_decode($offerlist['content'],true);
         foreach($content as $k=>$v){
              if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']]['cb'] = 0;
                 $arr[$v['type_of_work']]['price'] = 0;
             }
-            $arr[$v['type_of_work']]['price'] += $v['quota']*$v['gcl'];//辅材单价
-            $arr[$v['type_of_work']]['price'] += $v['craft_show']*$v['gcl'];//人工单价
-            $arr[$v['type_of_work']]['cb'] += $v['labor_cost']*$v['gcl'];//人工成本
+            $arr[$v['type_of_work']]['price'] += $v['quota']*$v['num'];//辅材单价
+            $arr[$v['type_of_work']]['price'] += $v['craft_show']*$v['num'];//人工单价
+            $arr[$v['type_of_work']]['cb'] += $v['labor_cost']*$v['num'];//人工成本
 
-            $total['price'] += ($v['quota']*$v['gcl']+$v['craft_show']*$v['gcl']);//辅材+人工单价
-            $total['cb'] += $v['labor_cost']*$v['gcl'];//人工成本
+            $total['price'] += ($v['quota']*$v['num']+$v['craft_show']*$v['num']);//辅材+人工单价
+            $total['cb'] += $v['labor_cost']*$v['num'];//人工成本
         }
 
 
