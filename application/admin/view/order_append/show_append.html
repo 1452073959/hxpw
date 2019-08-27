@@ -135,19 +135,19 @@
                                     {foreach name="$v2" item="v3" key="k3"}
                                         <tr class="tr{$k1}{$k2}">
                                             <td>{$num3}</td>
-                                            <td>{$offerquota[$k3]['project']}</td>
+                                            <td>{$v3['info']['project']}</td>
                                             <td>{$v3.num}</td>
-                                            <td>{$offerquota[$k3]['company']}</td>
-                                            <td>{$offerquota[$k3]['quota']}</td>
-                                            <td>{$v3.num?$v3.num*$offerquota[$k3]['quota']:''}</td>
-                                            <td>{$offerquota[$k3]['craft_show']}</td>
-                                            <td>{$v3.num?$v3.num*$offerquota[$k3]['craft_show']:''}</td>
-                                            <td>{$offerquota[$k3]['material']}</td>
+                                            <td>{$v3['info']['company']}</td>
+                                            <td>{$v3['info']['quota']}</td>
+                                            <td>{$v3.num?$v3.num*$v3['info']['quota']:''}</td>
+                                            <td>{$v3['info']['craft_show']}</td>
+                                            <td>{$v3.num?$v3.num*$v3['info']['craft_show']:''}</td>
+                                            <td>{$v3['info']['material']}</td>
                                             <input type="hidden" form="myform" name="" value="">
                                         </tr>
                                         <?php 
-                                            $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
-                                            $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
+                                            $total_quota += $v3['num']?$v3['num']*$v3['info']['quota']:0;
+                                            $total_craft_show += $v3['num']?$v3['num']*$v3['info']['craft_show']:0;
                                             $num3++;
                                          ?>
                                     {/foreach}
