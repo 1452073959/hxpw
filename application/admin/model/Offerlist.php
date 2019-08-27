@@ -11,16 +11,16 @@ class Offerlist extends Model
     //获取订单详情
     public function get_order_info($id,$type=1){ //offerquota表 的id type=2 直接费加上增减项的项目
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
-        $content = json_decode($offerlist_info['content'],true);
+        $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
         if(is_array($content)){
             foreach($content as $keys => $values){
-                $offerlist_info['matquant'] += $values['quotaall'];//辅材报价
-                $offerlist_info['manual_quota'] += $values['craft_showall'];//人工报价
+                $offerlist_info['matquant'] += $values['quota']*$values['num'];//辅材报价
+                $offerlist_info['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
             }
         }
         $offerlist_info['direct_cost'] = $offerlist_info['matquant']+$offerlist_info['manual_quota'];//工程直接费= 辅材报价+人工报价
 
-        if($type = 2){
+        if($type == 2){
             $order_appned = Db::name('order_project')->where(['type'=>2,'o_id'=>$id])->select();
             foreach($order_appned as $k=>$v){
                 $offerlist_info['direct_cost'] += $v['craft_show']*$v['num'];

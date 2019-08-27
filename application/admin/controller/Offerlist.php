@@ -724,8 +724,11 @@ class Offerlist extends Adminbase
         }
         $item_number = array_unique($item_number);
         $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
-
-        $offerlist_info = Model('offerlist')->get_order_info($o_id);
+        if(input('type') == 2){
+            $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
+        }else{
+            $offerlist_info = Model('offerlist')->get_order_info($o_id);
+        }
 
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
