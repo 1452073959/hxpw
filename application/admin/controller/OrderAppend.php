@@ -70,7 +70,7 @@ class OrderAppend extends Adminbase
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
                     //旧客户手动输入价格 start
-                    if(!isset($price[$k2]['quota'])){
+                    if(!isset($price[$k2]['quota'])  || empty($price[$k2]['quota'])){
                         $project['quota'] = $item['quota'];
                         $project['quota_now'] = '';
                     }else{
@@ -78,10 +78,10 @@ class OrderAppend extends Adminbase
                             $project['quota'] = $price[$k2]['quota'];
                             $project['quota_now'] = $item['quota'];
                         }else{
-                            $this->error('手动输入的价格有误','',$k2);
+                            $this->error('手动输入的价格有误1','',$k2);
                         }
                     }
-                    if(!isset($price[$k2]['craft_show'])){
+                    if(!isset($price[$k2]['craft_show'])  || empty($price[$k2]['craft_show'])){
                         $project['craft_show'] = $item['craft_show'];
                         $project['craft_show_now'] = '';
                     }else{
@@ -89,7 +89,7 @@ class OrderAppend extends Adminbase
                             $project['craft_show'] = $price[$k2]['craft_show'];
                             $project['craft_show_now'] = $item['craft_show'];
                         }else{
-                            $this->error('手动输入的价格有误','',$k2);
+                            $this->error('手动输入的价格有误2','',$k2);
                         }
                     }
                     //旧客户手动输入价格 end
