@@ -544,7 +544,9 @@ class Artificial extends Adminbase
         if(!$info){
             echo json_encode(array('code'=>1,'msg'=>'订单信息有误'));die;
         }
-        $artificial = json_decode($info['artificial'],true);
+        // $artificial = json_decode($info['artificial'],true);
+        
+        $artificial = Db::name('order_project')->where(['o_id'=>$id,'type'=>1])->select();
         if(!$artificial){
             echo json_encode(array('code'=>1,'msg'=>'无成本详情'));die;
         }
@@ -554,8 +556,8 @@ class Artificial extends Adminbase
             if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']] = 0;
             }
-            $arr[$v['type_of_work']] += $v['cb']*$v['num'];
-            $total += $v['cb']*$v['num'];
+            $arr[$v['type_of_work']] += $v['labor_cost']*$v['num'];
+            $total += $v['labor_cost']*$v['num'];
         }
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
     }
