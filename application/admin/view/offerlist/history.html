@@ -214,12 +214,14 @@ th{
                                 <td></td>
                             </tr>
                             <?php $num=97; ?>
+                            <?php $has_tax=0; ?>
                             {notempty name="offerlist_info['order_cost']"}
                                 {foreach name="$offerlist_info['order_cost']" item="vcost" key="kcost"}
+                                    <?php if($vcost['name'] == '税金'){ $has_tax = $vcost['price']; } ?>
                                     <tr>
                                         <td class="text-center" colspan="2">{$vcost.name}</td>
                                         <td colspan="6">{$vcost.price}</td>
-                                        <td></td>
+                                        <td>{$vcost.content}</td>
                                     </tr>
                                     <?php $num++; ?>
                                 {/foreach}
@@ -228,15 +230,33 @@ th{
                                 <tr>
                                     <td class="text-center" colspan="2">优惠</td>
                                     <td colspan="6">{$offerlist_info['discount']}</td>
-                                    <td></td>
+                                    <td>{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/notempty}
-                            <tr>
-                                <td class="text-center" colspan="2">工程报价</td>
-                                <td colspan="6">{$offerlist_info.discount_proquant}</td>
-                                <td></td>
-                            </tr>
+                            <?php  
+                                if($has_tax){  ?>
+                                    <tr>
+                                        <td class="text-center" colspan="2">税前工程报价</td>
+                                        <td colspan="6">{$offerlist_info['discount_proquant']-$has_tax}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2">工程报价</td>
+                                        <td colspan="6">{$offerlist_info.discount_proquant}</td>
+                                        <td></td>
+                                    </tr>
+
+                            <?php 
+                                }else{ ?>
+                                    <tr>
+                                        <td class="text-center" colspan="2">工程报价</td>
+                                        <td colspan="6">{$offerlist_info.discount_proquant}</td>
+                                        <td></td>
+                                    </tr>
+                            <?php }  ?>
+                            
+                            
                             {notempty name="cost_tmp['order_tfoot']"}
                                 <?php foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){ ?>
                                     <tr>

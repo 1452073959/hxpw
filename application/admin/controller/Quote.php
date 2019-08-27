@@ -70,15 +70,18 @@ class Quote extends Adminbase
             $this->error('合同价/结算价禁止修改模板');
         }
         $datas = [];
+        //array_filter是去空值
         $name = array_filter(input('name'));
         $sign = array_filter(input('sign'));
         $formula = array_filter(input('formula'));
         $rate = array_filter(input('rate'));
+        $content = input('content');
         $count_name = count($name);
         $count_sign = count($sign);
         $count_formula = count($formula);
         $count_rate = count($rate);
-        if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate){
+        $count_content = count($content);
+        if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate || $count_rate != $count_content){
             $this->error('参数错误');
         }
         $time = time();
@@ -89,6 +92,7 @@ class Quote extends Adminbase
             $info['sign'] = $sign[$k];
             $info['formula'] = $formula[$k];
             $info['rate'] = $rate[$k];
+            $info['content'] = $content[$k];
             $info['add_time'] = $time;
             $datas[] = $info;
         }
@@ -134,6 +138,16 @@ class Quote extends Adminbase
             $sign = array_filter(input('sign'));
             $formula = array_filter(input('formula'));
             $rate = array_filter(input('rate'));
+            $content = array_filter(input('content'));
+
+            $count_name = count($name);
+            $count_sign = count($sign);
+            $count_formula = count($formula);
+            $count_rate = count($rate);
+            $count_content = count($content);
+            if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate || $count_rate != $count_content){
+                $this->error('参数错误');
+            }
             $time = time();
             $userinfo = $this->_userinfo;
             foreach($name as $k=>$v){
@@ -145,6 +159,7 @@ class Quote extends Adminbase
                 $info['sign'] = $sign[$k];
                 $info['formula'] = $formula[$k];
                 $info['rate'] = $rate[$k];
+                $info['content'] = $content[$k];
                 $info['add_time'] = $time;
                 $datas[] = $info;
             }

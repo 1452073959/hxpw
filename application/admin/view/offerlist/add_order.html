@@ -210,7 +210,7 @@
                                 <?php $k1 = '所有工种'; ?>
                                 <?php foreach($data as $k2=>$v2){ ?>
                                     <tr class="space" data-space="{$k1}-{$k2}" data-inword="{$k1}" data-inspace="{$k2}">
-                                        <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td></td><td colspan="3" style="text-align: left;padding-left:10px">{$k2}</td>
+                                        <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td></td><td colspan="3" style="text-align: left;padding-left:10px">{$k2}<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>
                                         <td colspan="1"></td><td class="space_material_total" colspan="1"></td><td colspan="1"></td><td class="space_artificial_total" colspan="1"></td>
                                     </tr>
                                     <?php foreach($v2 as $k3=>$v3){ ?>
@@ -238,55 +238,84 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-    $('#swicth_mode').click(function(){
-        $('.project').attr('data-inword','所有工种');
-        $('.space').remove();
-        $('.word').remove();
-        $('.project').each(function(k,v){
-            if($('tr[data-space="所有工种-'+$(v).attr('data-inspace')+'"]').length > 0){
-                if($('.project[data-inword="所有工种"][data-inspace='+$(v).attr('data-inspace')+']').lenght > 0){
-                    //已存在
-                    var input = $(v).find('input').data('project');
-                    $('input[data-project="'+input+'"]').val($('input[data-project="'+input+'"]').val()+input.val());
-                }else{
-                    $('tr[data-inspace="'+$(v).attr('data-inspace')+'"][data-inword="所有工种"]').last().after($(v));
+    //空间复制
+    $('#project_datas').on('click','.copy',function(){
+        var this_space = $(this).parent().parent().attr('data-inspace');
+        var target_space =  $('#diolog .left li[class="checkli"]').text();
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+            content: '确定复制'+this_space+'的报价条目到'+target_space+'吗?',
+            title:'添加空间',
+            btn: ['提交', '取消'],
+                yes: function(index, layero){
+                    var project = $('.project[data-inspace="'+this_space+'"]');
+                    var work_type = '所有工种';
+                    $(project).each(function(k,v){
+                        var project = $(v).clone();
+                        $(project).attr('data-inspace',target_space);
+                        // console.log($(project).find('input').attr('data-project'));
+                        $(project).find('input').attr('data-project',$(project).find('input').attr('data-project').replace(this_space,target_space));
+                        $(project).find('input').attr('name',$(project).find('input').attr('name').replace(this_space,target_space));
+                        var item_number = $(project).find('td').eq(1).text();
+                        // var html = $(project).prop("outerHTML");
+
+                        if($('input[data-project="'+target_space+'-'+item_number+'"]').length > 0){
+                            return true;
+                        }
+                        if($('tr[data-space="'+work_type+'-'+target_space+'"]').length > 0){
+                            $('tr[data-inspace="'+target_space+'"][data-inword="'+work_type+'"]').last().after(project);
+                            var top = $('tr[data-inspace="'+target_space+'"][data-inword="'+work_type+'"]').first().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-80;
+                            $("#datasform_div").animate({scrollTop:top},333);
+                        }else{
+                            //空间不存在 新建空间
+                            var space_html = '';
+                            space_html += '<tr class="space" data-space="'+work_type+'-'+target_space+'" data-inword="'+work_type+'" data-inspace="'+target_space+'">';
+                            space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
+                            space_html += '<td></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+target_space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
+                            space_html += '<td colspan="1"></td>';
+                            space_html += '<td class="space_material_total" colspan="1"></td>';
+                            space_html += '<td colspan="1"></td>';
+                            space_html += '<td class="space_artificial_total" colspan="1"></td>';
+                            space_html += '</tr>'
+                            //判断工种是否不存 
+                            if($('tr[data-word="'+work_type+'"]').length > 0){
+                                $('tr[data-inword="'+work_type+'"]').last().after(space_html);
+                                $('tr[data-inspace="'+target_space+'"][data-inword="'+work_type+'"]').last().after(project);
+                                var top = $('tr[data-inspace="'+target_space+'"][data-inword="'+work_type+'"]').first().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-80;
+                                $("#datasform_div").animate({scrollTop:top},333);
+                            }else{
+                                //不存在 添加工种
+                                var word_html = '';
+                                word_html += '<tr class="word" data-word="'+work_type+'" data-inword="'+work_type+'">';
+                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                                word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+work_type+'</td>';
+                                word_html += '<td colspan="1"></td>';
+                                word_html += '<td class="word_material_total" colspan="1"></td>';
+                                word_html += '<td colspan="1"></td>';
+                                word_html += '<td class="word_artificial_total" colspan="1"></td>';
+                                word_html += '</tr>';
+                                $('#project_datas').append(word_html);
+                                $('tr[data-word="'+work_type+'"]').after(space_html);
+                                $('tr[data-space="'+work_type+'-'+target_space+'"]').after(project);
+                            }
+                        }
+                    })
+                    
+                    
+                },
+                btn2: function(index, layero){
+                    layer.close(index);
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
                 }
-            }else{
-                //空间不存在 新建空间
-                var space_html = '';
-                space_html += '<tr class="space" data-space="所有工种-'+$(v).attr('data-inspace')+'" data-inword="所有工种" data-inspace="'+$(v).attr('data-inspace')+'">';
-                space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
-                space_html += '<td></td>'
-                space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+$(v).attr('data-inspace')+'</td>'
-                space_html += '<td colspan="1"></td>';
-                space_html += '<td class="space_material_total" colspan="1"></td>';
-                space_html += '<td colspan="1"></td>';
-                space_html += '<td class="space_artificial_total" colspan="1"></td>';
-                space_html += '</tr>'
-                //判断工种是否不存 
-                if($('tr[data-word="所有工种"]').length > 0){
-                    $('tr[data-inword="所有工种"]').last().after(space_html);
-                    $('tr[data-inspace="'+$(v).attr('data-inspace')+'"][data-inword="所有工种"]').last().after($(v));
-                }else{
-                    //不存在 添加工种
-                    var word_html = '';
-                    word_html += '<tr class="word" data-word="所有工种" data-inword="所有工种">';
-                    word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
-                    word_html += '<td colspan="4" style="text-align: left;padding-left:10px">所有工种</td>';
-                    word_html += '<td colspan="1"></td>';
-                    word_html += '<td class="word_material_total" colspan="1"></td>';
-                    word_html += '<td colspan="1"></td>';
-                    word_html += '<td class="word_artificial_total" colspan="1"></td>';
-                    word_html += '</tr>';
-                    $('#project_datas').append(word_html);
-                    $('tr[data-word="所有工种"]').after(space_html);
-                    $('tr[data-space="所有工种-'+$(v).attr('data-inspace')+'"]').after($(v));
-                }
-            }
-        })
-        initialize_datas();
-        $('#btn').trigger("click");
+            });
+        }); 
     })
+
+
     //=====================================上下移动
     $('#project_datas').on('click',".layui-edge",function(){
         var type = $(this).parent().parent().parent().attr('class');
@@ -747,7 +776,7 @@
         //判断当前工种下 空间是否存在
         if($('tr[data-space="'+word+'-'+space+'"]').length > 0){
             $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
-            var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+            var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
             $("#datasform_div").animate({scrollTop:top},333);
             
         }else{
@@ -756,7 +785,7 @@
             space_html += '<tr class="space" data-space="'+word+'-'+space+'" data-inword="'+word+'" data-inspace="'+space+'">';
             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
             space_html += '<td></td>'
-            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+space+'</td>'
+            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
             space_html += '<td colspan="1"></td>';
             space_html += '<td class="space_material_total" colspan="1"></td>';
             space_html += '<td colspan="1"></td>';
@@ -766,7 +795,7 @@
             if($('tr[data-word="'+word+'"]').length > 0){
                 $('tr[data-inword="'+word+'"]').last().after(space_html);
                 $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
-                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
                 $("#datasform_div").animate({scrollTop:top},333);
             }else{
                 //不存在 添加工种
@@ -782,7 +811,7 @@
                 $('#project_datas').append(word_html);
                 $('tr[data-word="'+word+'"]').after(space_html);
                 $('tr[data-space="'+word+'-'+space+'"]').after(project);
-                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop();
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
                 $("#datasform_div").animate({scrollTop:top},333);
             }
         }
@@ -867,6 +896,19 @@
     })
     $('#project_datas').on('change',".layui-input",function(){
         var num = $(this).val();
+        if(num[0] === '='){
+            try{
+                num = eval(num.slice(1));
+                $(this).val(num);
+            }catch(exception) {
+                layui.use('layer', function(){
+                    layer.msg('输入数量有误，请重新输入');
+                }); 
+                $(this).val(old_val);
+                return false;
+            }
+        }
+
         if(isNaN(num)){
             layui.use('layer', function(){
                 layer.msg('输入数量有误，请重新输入');
@@ -956,12 +998,10 @@
         var datasform_div = document.querySelector('#datasform_div');
         var left = document.querySelector('.left');
         function scrollHandle (e){
-            console.log(this);
             var scrollTop = this.scrollTop;
             this.querySelector('thead').style.transform = 'translateY(' + scrollTop + 'px)';
         }
         function scrollHandleUl (e){
-            console.log(this);
             var scrollTop = this.scrollTop;
             this.querySelector('#add_space').style.transform = 'translateY(' + scrollTop + 'px)';
         }
@@ -1008,7 +1048,7 @@
                             space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
-                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'</td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td class="space_material_total" colspan="1"></td>';
                             space_html += '<td colspan="1"></td>';

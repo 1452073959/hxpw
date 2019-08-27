@@ -109,6 +109,7 @@
                         <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
+                        <th class="taleft" lay-data="{field:'discount_content',width:100,edit:'text' }">优惠说明</th>
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th> 
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>         
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
@@ -151,6 +152,7 @@
                       <td class="taleft">{$vo.info.matquant}</td>   
                       <td class="taleft">{$vo.info.manual_quota}</td>   
                       <td class="taleft">{$vo.info.discount}</td>   
+                      <td class="taleft">{$vo.info.discount_content}</td> 
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>   
                       <td class="taleft">{$vo.info.remark}</td>   
                       <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>   
@@ -421,7 +423,7 @@ layui.use('table', function(){
                         html += ' </form>'
                         layer.open({
                             content: html,
-                            title:'查看模板',
+                            title:'查看/修改模板',
                             area: ['580px', '480px'], //宽高
                             btn: ['提交', '取消'],
                             yes: function(index, layero){

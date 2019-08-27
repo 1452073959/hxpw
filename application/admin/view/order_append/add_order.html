@@ -62,6 +62,9 @@
     .word{
         background-color: #eee
     }
+    .layui-table td, .layui-table th {
+        position:static;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -105,7 +108,7 @@
         </div>
 
 
-        <div class="layui-card-body" style="width: 22%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
+        <div class="layui-card-body" id="seach_project_div" style="width: 22%;float: left;text-align: center;border-right: 1px solid #eee;padding:0;overflow:auto;height:92%">
             <table class="layui-table" id="seach_project" >
                 <colgroup>
                     <col width="40">
@@ -174,6 +177,26 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    $(function(){
+        //固定表头 start
+        var seach_project_div = document.querySelector('#seach_project_div');
+        var datasform_div = document.querySelector('#datasform_div');
+        var left = document.querySelector('.left');
+        function scrollHandle (e){
+            console.log(this);
+            var scrollTop = this.scrollTop;
+            this.querySelector('thead').style.transform = 'translateY(' + scrollTop + 'px)';
+        }
+        function scrollHandleUl (e){
+            console.log(this);
+            var scrollTop = this.scrollTop;
+            this.querySelector('#add_space').style.transform = 'translateY(' + scrollTop + 'px)';
+        }
+        seach_project_div.addEventListener('scroll',scrollHandle);
+        datasform_div.addEventListener('scroll',scrollHandle);
+        left.addEventListener('scroll',scrollHandleUl);
+        //固定表头 end
+    })
 
     //======================提交订单
     $('#submit_datas').click(function(){

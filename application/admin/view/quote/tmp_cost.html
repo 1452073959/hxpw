@@ -57,6 +57,7 @@
         html += '       <td><input class="layui-input" name="sign[]" /></td>'
         html += '       <td><input class="layui-input" name="formula[]" /></td>'
         html += '       <td><input class="layui-input" name="rate[]" /></td>'
+        html += '       <td><input class="layui-input" name="content[]" /></td>'
         html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
         $('#add_word tbody').append(html);
@@ -73,8 +74,9 @@
                     html += '     <colgroup>'
                     html += '         <col width="150">'
                     html += '         <col width="100">'
-                    html += '         <col width="250">'
-                    html += '         <col width="160">'
+                    html += '         <col width="200">'
+                    html += '         <col width="180">'
+                    html += '         <col width="300">'
                     html += '         <col width="30">'
                     html += '         <col>'
                     html += '     </colgroup>'
@@ -84,6 +86,7 @@
                     html += '           <th>标识符</th>'
                     html += '           <th>公式</th>'
                     html += '           <th>费率(范围0-100)</th>'
+                    html += '           <th>说明</th>'
                     html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                     html += '       </tr> '
                     html += '     </thead>'
@@ -94,6 +97,7 @@
                     html += '       <td>A1</td>'
                     html += '       <td>100</td>'
                     html += '       <td></td>'
+                    html += '       <td></td>'
                     html += '     </tr>'
                     html += '     <tr>'
                     html += '       <td>优惠</td>'
@@ -101,19 +105,21 @@
                     html += '       <td>A2</td>'
                     html += '       <td>100</td>'
                     html += '       <td></td>'
+                    html += '       <td></td>'
                     html += '     </tr>'
                     html += '     <tr>'
                     html += '       <td><input class="layui-input" name="name[]" /></td>'
                     html += '       <td><input class="layui-input" name="sign[]" /></td>'
                     html += '       <td><input class="layui-input" name="formula[]" /></td>'
                     html += '       <td><input class="layui-input" name="rate[]" /></td>'
+                    html += '       <td><input class="layui-input" name="content[]" /></td>'
                     html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                     html += '     </tr>'
                     html += '     </tbody>'
                     html += '     <tfoot>'
                     html += '       <tr>'
                     html += '           <td>模板名称</td>'
-                    html += '           <td colspan="4"><input class="layui-input" name="tmp_name" /></td>'
+                    html += '           <td colspan="5"><input class="layui-input" name="tmp_name" /></td>'
                     html += '       </tr>'
                     html += '     </tfoot>'
                     html += '   </table>'
@@ -122,7 +128,7 @@
                 layer.open({
                 content: html,
                 title:'添加模板',
-                area: ['580px', '480px'], //宽高
+                area: ['780px', '480px'], //宽高
                 btn: ['提交', '取消'],
                     yes: function(index, layero){
                         var addform = $('#addform').serializeArray();
@@ -168,8 +174,10 @@
                         html += '     <colgroup>'
                         html += '         <col width="150">'
                         html += '         <col width="100">'
-                        html += '         <col width="250">'
                         html += '         <col width="200">'
+                        html += '         <col width="180">'
+                        html += '         <col width="300">'
+                        html += '         <col width="30">'
                         html += '         <col>'
                         html += '     </colgroup>'
                         html += '     <thead>'
@@ -178,6 +186,7 @@
                         html += '           <th>标识符</th>'
                         html += '           <th>公式</th>'
                         html += '           <th>费率(范围0-100)</th>'
+                        html += '           <th>说明</th>'
                         html += '       </tr> '
                         html += '     </thead>'
                         html += '     <tbody>'
@@ -186,12 +195,14 @@
                         html += '       <td>A1</td>'
                         html += '       <td>A1</td>'
                         html += '       <td>100</td>'
+                        html += '       <td></td>'
                         html += '     </tr>'
                         html += '     <tr>'
                         html += '       <td>优惠</td>'
                         html += '       <td>A2</td>'
                         html += '       <td>A2</td>'
                         html += '       <td>100</td>'
+                        html += '       <td></td>'
                         html += '     </tr>'
 
                         $(res.datas).each(function(k,v){
@@ -200,6 +211,7 @@
                             html += '       <td>'+v.sign+'</td>'
                             html += '       <td>'+v.formula+'</td>'
                             html += '       <td>'+v.rate+'</td>'
+                            html += '       <td>'+v.content+'</td>'
                             html += '     </tr>'
                         })
 

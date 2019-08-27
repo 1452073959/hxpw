@@ -29,7 +29,7 @@ class Offerlist extends Model
         }
         //=========================计算毛利开始
 
-        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate')->select();
+        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate,content')->select();
         $append_tmp_cost = json_decode($offerlist_info['tmp_append_cost'],true);//附加项
         $append_tmp_cost = is_array($append_tmp_cost)?$append_tmp_cost:[];
         $offerlist_info['default_cost'] = $tmp_cost;//默认模板明细
