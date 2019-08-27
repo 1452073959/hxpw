@@ -32,6 +32,9 @@ class OrderAppend extends Adminbase
             'customer_info'=>$customer_info,
             'order_id'=>input('order_id'),
         ]);
+        if($customer_info['is_new'] == 9){
+            return $this->fetch('add_order_olduser');
+        }
         return $this->fetch();
     }
 
@@ -39,6 +42,10 @@ class OrderAppend extends Adminbase
     public function add(){
         $userinfo = $this->_userinfo; 
         if (input('data') && input('order_id')) {
+            $price = [];
+            if(input('price')){
+                $price = input('price');
+            }
             $time = time();
             $order_info = Db::name('offerlist')->where('id',input('order_id'))->where('userid',$userinfo['userid'])->find();
             if(!$order_info){
@@ -62,8 +69,30 @@ class OrderAppend extends Adminbase
                     $project['project'] = $item['project'];
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
-                    $project['quota'] = $item['quota'];
-                    $project['craft_show'] = $item['craft_show'];
+                    //旧客户手动输入价格 start
+                    if(!isset($price[$k2]['quota'])){
+                        $project['quota'] = $item['quota'];
+                        $project['quota_now'] = '';
+                    }else{
+                        if(is_numeric($price[$k2]['quota'])){
+                            $project['quota'] = $price[$k2]['quota'];
+                            $project['quota_now'] = $item['quota'];
+                        }else{
+                            $this->error('手动输入的价格有误','',$k2);
+                        }
+                    }
+                    if(!isset($price[$k2]['craft_show'])){
+                        $project['craft_show'] = $item['craft_show'];
+                        $project['craft_show_now'] = '';
+                    }else{
+                        if(is_numeric($price[$k2]['craft_show'])){
+                            $project['craft_show'] = $price[$k2]['craft_show'];
+                            $project['craft_show_now'] = $item['craft_show'];
+                        }else{
+                            $this->error('手动输入的价格有误','',$k2);
+                        }
+                    }
+                    //旧客户手动输入价格 end
                     $project['labor_cost'] = $item['labor_cost'];
                     $project['material'] = $item['material'];
                     $project['content'] = $item['content'];

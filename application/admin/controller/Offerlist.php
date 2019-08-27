@@ -171,7 +171,7 @@ class Offerlist extends Adminbase
             }
             $item_number = [];
             foreach($order_project as $k=>$v){
-                if(!isset($data[$v['type_of_work']][$v['space']][$v['item_number']])){
+                if(!isset($data[$v['space']][$v['item_number']])){
                     if(!in_array($v['type_of_work'],$offer_type_check[1])){
                         $this->error('工种：'.$v['type_of_work'].' 不存在，另存订单失败');
                     }
@@ -181,7 +181,7 @@ class Offerlist extends Adminbase
                     $data[$v['space']][$v['item_number']] = 0;
                     $item_number[] = $v['item_number'];
                 }
-                $data[$v['type_of_work']][$v['space']][$v['item_number']] += $v['num'];
+                $data[$v['space']][$v['item_number']] += $v['num'];
             }
             $item_number = array_unique($item_number);
             $item_number_num = count($item_number);
@@ -201,13 +201,20 @@ class Offerlist extends Adminbase
             'customer_info'=>$customer_info,
             'tmp_cost'=>$tmp_cost,
         ]);
+        if($customer_info['is_new'] == 9){
+            //旧客户 可以改单价
+            return $this->fetch('add_order_olduser');
+        }
         return $this->fetch();
     }
 
     //报价操作 - 生成订单
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
-            
+            $price = [];
+            if(input('price')){
+                $price = input('price');
+            }
             if(!input('customerid')){
                 $this->error('参数错误');
             }
@@ -254,8 +261,31 @@ class Offerlist extends Adminbase
                     $project['project'] = $item['project'];
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
-                    $project['quota'] = $item['quota'];
-                    $project['craft_show'] = $item['craft_show'];
+                    //旧客户手动输入价格 start
+                    if(!isset($price[$k2]['quota'])){
+                        $project['quota'] = $item['quota'];
+                        $project['quota_now'] = '';
+                    }else{
+                        if(is_numeric($price[$k2]['quota'])){
+                            $project['quota'] = $price[$k2]['quota'];
+                            $project['quota_now'] = $item['quota'];
+                        }else{
+                            $this->error('手动输入的价格有误','',$k2);
+                        }
+                    }
+                    if(!isset($price[$k2]['craft_show'])){
+                        $project['craft_show'] = $item['craft_show'];
+                        $project['craft_show_now'] = '';
+                    }else{
+                        if(is_numeric($price[$k2]['craft_show'])){
+                            $project['craft_show'] = $price[$k2]['craft_show'];
+                            $project['craft_show_now'] = $item['craft_show'];
+                        }else{
+                            $this->error('手动输入的价格有误','',$k2);
+                        }
+                    }
+                   //旧客户手动输入价格 end
+
                     $project['labor_cost'] = $item['labor_cost'];
                     $project['material'] = $item['material'];
                     $project['content'] = $item['content'];
@@ -715,15 +745,16 @@ class Offerlist extends Adminbase
         $item_number = [];
         foreach($order_project as $k=>$v){
             if(!isset($datas[$v['space']][$v['item_number']])){
+                $datas[$v['space']][$v['item_number']]['info'] = $v;
                 $datas[$v['space']][$v['item_number']]['num'] = 0;
                 $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                $item_number[] = $v['item_number'];
+                // $item_number[] = $v['item_number'];
 
             }
             $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
         }
-        $item_number = array_unique($item_number);
-        $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+        // $item_number = array_unique($item_number);
+        // $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
         if(input('type') == 2){
             $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
         }else{
@@ -737,7 +768,7 @@ class Offerlist extends Adminbase
             'datas'=>$datas,
             'order_info'=>$order_info,
             'userinfo'=>$userinfo,
-            'offerquota'=>$offerquota,
+            // 'offerquota'=>$offerquota,
             'offer_type'=>$offer_type,
             'offerlist_info'=>$offerlist_info,
             'cost_tmp'=>$cost_tmp,

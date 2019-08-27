@@ -174,21 +174,21 @@ th{
                                 {foreach name="$v1" key="k2" item="v2"}
                                     <tr class="">
                                             <td>{$num1}</td>
-                                            <td style="text-align: left;">{$offerquota[$k2]['project']}</td>
+                                            <td style="text-align: left;">{$v2['info']['project']}</td>
                                             <td>{$v2.num}</td>
-                                            <td>{$offerquota[$k2]['company']}</td>
-                                            <td>{$offerquota[$k2]['quota']}</td>
-                                            <td>{$v2.num?$v2.num*$offerquota[$k2]['quota']:0}</td>
-                                            <td>{$offerquota[$k2]['craft_show']}</td>
-                                            <td>{$v2.num?$v2.num*$offerquota[$k2]['craft_show']:0}</td>
-                                            <td>{$offerquota[$k2]['material']}</td>
+                                            <td>{$v2['info']['company']}</td>
+                                            <td>{$v2['info']['quota']}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['quota']:0}</td>
+                                            <td>{$v2['info']['craft_show']}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['craft_show']:0}</td>
+                                            <td>{$v2['info']['material']}</td>
                                             <input type="hidden" form="myform" name="" value="">
                                         </tr>
                                         <?php 
-                                            $total_quota += $v2['num']?$v2['num']*$offerquota[$k2]['quota']:0;
-                                            $total_craft_show += $v2['num']?$v2['num']*$offerquota[$k2]['craft_show']:0;
-                                            $space_total1 += $v2['num']?$v2['num']*$offerquota[$k2]['quota']:0;
-                                            $space_total2 += $v2['num']?$v2['num']*$offerquota[$k2]['craft_show']:0;
+                                            $total_quota += $v2['num']?$v2['num']*$v2['info']['quota']:0;
+                                            $total_craft_show += $v2['num']?$v2['num']*$v2['info']['craft_show']:0;
+                                            $space_total1 += $v2['num']?$v2['num']*$v2['info']['quota']:0;
+                                            $space_total2 += $v2['num']?$v2['num']*$v2['info']['craft_show']:0;
                                             $num1++;
                                          ?>
                                 {/foreach}
