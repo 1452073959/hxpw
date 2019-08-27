@@ -214,7 +214,7 @@
             }); 
             return false;
         }
-        $('#project_datas input').each(function(k,v){
+        $('#project_datas input[data-bj="1"]').each(function(k,v){
             if($(v).val() == ''){
                 var word = $(v).parent().parent().attr('data-inword');
                 var project = $(v).attr('data-project');
