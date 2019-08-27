@@ -66,13 +66,24 @@
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">单选框</label>
+                <label class="layui-form-label">房屋类型</label>
                 <div class="layui-input-block">
                     <input type="radio" name="room_type" value="平层" title="平层" checked>
                     <input type="radio" name="room_type" value="复式" title="复式" >
                     <input type="radio" name="room_type" value="别墅" title="别墅" >
-                    <input type="radio" name="room_type" value="工装" title="工装" >
+                    <input type="radio" name="room_type" value="公装" title="公装" >
                     <input type="radio" name="room_type" value="酒店" title="酒店" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户类型</label>
+                <div class="layui-input-block">
+                    <!-- layui-hide -->
+                    <input type="radio" name="is_new" lay-filter="is_new" value="1" title="新客户" checked>
+                    <input type="radio" name="is_new" lay-filter="is_new" value="9" title="旧客户" >
+                    <input type="text" class="layui-input layui-hide w100" style="display: inline;" name="oldtime" id="oldtime" placeholder="签单时间" >
+                    
                 </div>
             </div>
             <div class="layui-form-item">
@@ -146,8 +157,25 @@
                 }
             })
         });
+
+        form.on('radio(is_new)', function(data){
+            console.log(data.elem); //得到radio原始DOM对象
+            console.log(data.value); //被点击的radio的value值
+            if(data.value == 9){
+                $('#oldtime').removeClass('layui-hide');
+            }else{
+                $('#oldtime').val('');
+                $('#oldtime').addClass('layui-hide');
+            }
+        });
     });
 
-    
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#oldtime'
+        });
+    })
 </script>
 {/block}

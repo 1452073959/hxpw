@@ -931,6 +931,10 @@ class Offerlist extends Adminbase
             $bao['manager_name'] = $data['manager_name'];
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
+            $bao['is_new'] = $data['is_new'];
+            if($data['oldtime']){
+                $bao['oldtime'] = strtotime($data['oldtime']);
+            }
             if($data['areas']){
                 $areas = explode('-', $data['areas']);
                 $data['address'] = $areas[1].$data['address'];
