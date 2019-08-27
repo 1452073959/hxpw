@@ -966,9 +966,14 @@ class Offerlist extends Adminbase
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
             $bao['is_new'] = $data['is_new'];
-            if($data['oldtime']){
-                $bao['oldtime'] = strtotime($data['oldtime']);
+            if($bao['is_new'] == 9){
+                if($data['oldtime']){
+                    $bao['oldtime'] = strtotime($data['oldtime']);
+                }else{
+                    $this->error('旧客户请填写签单时间');
+                }
             }
+            
             if($data['areas']){
                 $areas = explode('-', $data['areas']);
                 $data['address'] = $areas[1].$data['address'];
