@@ -558,12 +558,12 @@
         });  
         $.each(price, function() {  
             if (datas[this.name]) {  
-                if (!datas[this.name].push) {  
-                    datas[this.name] = [ datas[this.name] ];  
-                }   
-                if(this.value != ''){
-                    datas[this.name].push(this.value); 
-                }
+                // if (!datas[this.name].push) {  
+                //     datas[this.name] = [ datas[this.name] ];  
+                // }   
+                // if(this.value != ''){
+                //     datas[this.name].push(this.value); 
+                // }
             } else {  
                 if(this.value != ''){
                     datas[this.name] = this.value; 
