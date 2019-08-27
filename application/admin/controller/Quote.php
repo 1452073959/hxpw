@@ -439,7 +439,7 @@ class Quote extends Adminbase
             if(!in_array($v['space'], $offer_type[2])){
                 $this->error('空间：'.$v['space'].' 不存在，模板失效');
             }
-            $data[$v['work_type']][$v['space']][$v['item_number']] = $v['num'];
+            $data[$v['space']][$v['item_number']] = $v['num'];
             $item_number[] = $v['item_number'];
         }
         $item_number = array_unique($item_number);
