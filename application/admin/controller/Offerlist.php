@@ -262,7 +262,7 @@ class Offerlist extends Adminbase
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
                     //旧客户手动输入价格 start
-                    if(!isset($price[$k2]['quota'])){
+                    if(!isset($price[$k2]['quota']) && !empty($price[$k2]['quota'])){
                         $project['quota'] = $item['quota'];
                         $project['quota_now'] = '';
                     }else{
@@ -273,7 +273,7 @@ class Offerlist extends Adminbase
                             $this->error('手动输入的价格有误','',$k2);
                         }
                     }
-                    if(!isset($price[$k2]['craft_show'])){
+                    if(!isset($price[$k2]['craft_show']) && !empty($price[$k2]['craft_show'])){
                         $project['craft_show'] = $item['craft_show'];
                         $project['craft_show_now'] = '';
                     }else{
