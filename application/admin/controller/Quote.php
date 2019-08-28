@@ -365,7 +365,8 @@ class Quote extends Adminbase
             }
             $this->assign([
                 'data'=>$data,
-                'tmp_name'=>$tmp_name
+                'tmp_name'=>$tmp_name,
+                'tmp_id'=>input('tmp_id')
             ]);
         }
         $this->assign([
@@ -393,6 +394,7 @@ class Quote extends Adminbase
             $info['num'] = $v['num'];
             $info['type'] = input('type');
             $info['update_time'] = $time;
+            $info['adminid'] = $userinfo['userid'];
             $datas[] = $info;
         }
         Db::startTrans();
@@ -428,6 +430,10 @@ class Quote extends Adminbase
         $where = [];
         $where['f_id'] = $userinfo['companyid'];
         $where['type'] = 1;
+        $where['adminid'] = [$userinfo['userid']];
+        //获取分总的id
+        $fzids = array_column(Db::name('admin')->where(['companyid'=>$userinfo['companyid'],'roleid'=>10])->field('userid')->select() ,'userid');
+        $where['adminid'] = array_merge($where['adminid'],$fzids);
 		$res = Db::name('tmp')->where($where)->group('tmp_id')->order('id','desc')->select();
 		$this->assign([ 'data'=>$res ]);
 		return $this->fetch();
@@ -482,6 +488,9 @@ class Quote extends Adminbase
         }
         if(input('tmp_id')){ //编辑
             $tmp_list = Db::name('tmp')->where('tmp_id','=',input('tmp_id'))->order('id','asc')->select();
+            if($userinfo['userid'] != $tmp_list[0]['adminid']){
+                $this->error('禁止修改他人的模板');
+            }
             $tmp_name = $tmp_list[0]['tmp_name'];
             $data = [];
             $item_number = [];
@@ -550,6 +559,7 @@ class Quote extends Adminbase
 							'item_number'=>$k3,
 							'num'=>$v3,
 							'update_time'=>$time,
+                            'adminid'=>$userinfo['userid']
 						];
 					}
 				}

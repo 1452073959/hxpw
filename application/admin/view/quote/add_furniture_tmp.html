@@ -92,6 +92,7 @@
                 <a class="layui-btn layui-btn-sm layui-btn-danger" href="javascript:;" id="submit_datas">保存模板</a>
                 <div class="layui-inline">
                     <input type="text" name="tmp_name_input" value="{$tmp_name?$tmp_name: ''}" placeholder="模板名称" class="layui-input">
+                    <input type="hidden" name="tmp_id" value="{$tmp_id?$tmp_id: ''}">
                 </div>
                 
             </div>     
@@ -306,6 +307,7 @@
         var remark = $('input[name="remark"]').val();
         var type = $('input[name="type"]').val();
         var tmp_name = $('input[name="tmp_name_input"]').val();
+        var tmp_id = $('input[name="tmp_id"]').val();
         if(tmp_name == ''){
             layui.use('layer', function(){
                 layer.msg('请填写模板名称');
@@ -345,6 +347,9 @@
         });  
         datas['type'] = type;
         datas['tmp_name'] = tmp_name;
+        if(tmp_id != ''){
+            datas['tmp_id'] = tmp_id;
+        }
         $.post('/admin/quote/add_ftmp_operation',datas,function(res){
             if(res.code == 1){
                 layui.use('layer', function(){
