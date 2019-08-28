@@ -231,10 +231,10 @@
                                             <td><input type="text" class="layui-input height26" value="{$v3?:''}"  data-bj="1" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
                                             <td>{$offerquota[$k3]['company']}</td>
                                             <td>{$offerquota[$k3]['quota']}</td>
-                                            <td><input type="text" class="layui-input height26 reality" data-bj="2" value="" name="price[{$k3}][quota]" /></td>
+                                            <td><input type="text" class="layui-input height26 reality" data-bj="2" data-field="quota" value="" name="price[{$k3}][quota]" /></td>
                                             <td></td>
                                             <td>{$offerquota[$k3]['craft_show']}</td>
-                                            <td><input type="text" class="layui-input height26 reality" data-bj="2" value="" name="price[{$k3}][craft_show]" /></td>
+                                            <td><input type="text" class="layui-input height26 reality" data-bj="2" data-field="craft_show" value="" name="price[{$k3}][craft_show]" /></td>
                                             <td></td>
                                         </tr>
                                     <?php } ?>
@@ -251,6 +251,25 @@
 {block name="script"}
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    //手动输入价格 同时修改相同项目的价格
+    var bj2_old_val = '';
+    $("#project_datas").on('focus','input[data-bj="2"]', function () {
+        bj2_old_val = $(this).val();
+    })
+    $('#project_datas').on('change','input[data-bj="2"]',function(){
+        var name = $(this).attr('name');
+        var num = $(this).val();
+        if(isNaN(num)){
+            layui.use('layer', function(){
+                layer.msg('输入数量有误，请重新输入');
+            }); 
+            $(this).val(bj2_old_val);
+            return false;
+        }
+        $('#project_datas input[data-bj="2"][name="'+name+'"]').val(num);
+        // alert(name);
+    })
+
     //空间复制
     $('#project_datas').on('click','.copy',function(){
         var this_space = $(this).parent().parent().attr('data-inspace');
