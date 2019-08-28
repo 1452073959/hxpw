@@ -80,6 +80,7 @@
                       <li>设计师姓名：{$userinfo.designer_name}</li>
                       <li>面积：{$userinfo.area}</li>
                       <li>房屋类型：{$userinfo.room_type}</li>
+                      {eq name="$userinfo['is_new']" value="9"}<li>签单时间：{$userinfo.oldtime|date="Y-m-d"}</li>{/eq}
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
                 </div> 
@@ -128,11 +129,13 @@
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
 						{else/}
                             <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
-                            <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
+                            {eq name="$vo['status']" value="3"}
+                                <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
+                            {/eq}
                             {gt name="$vo['append_num']" value="0"}
-    						  <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
+    						  <a class="layui-btn layui-btn-xs layui-btn-normal" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
                             {/gt}
-                            <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
+                            <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
                             <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
 					   </td> 
