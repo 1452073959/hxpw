@@ -94,9 +94,9 @@
                 <thead >
                     <tr>
                         <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
-                        <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
+                        <!-- <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
                         <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
-                        <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th> 
+                        <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th>  -->
                         <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
 						<th class="taleft" lay-data="{field:'status',width:80}">状态</th>
                         <!-- <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th> -->
@@ -121,9 +121,9 @@
                   {foreach name="data" item="vo"}
                      <tr>   
                       <td class="taleft">{$vo.id}</td>    
-                      <td class="taleft">{$vo.customer_name}</td>
+                      <!-- <td class="taleft">{$vo.customer_name}</td>
                       <td class="taleft">{$vo.area|default=''}</td>
-                      <td class="taleft">{$vo.room_type|default=''}</td>
+                      <td class="taleft">{$vo.room_type|default=''}</td> -->
                       <td class="taleft">
 						{eq name=":input('type')" value="edit"}
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
