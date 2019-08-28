@@ -65,6 +65,7 @@ a{
                       <li>设计师姓名：{$userinfo.designer_name}</li>
                       <li>面积：{$userinfo.area}</li>
                       <li>房屋类型：{$userinfo.room_type}</li>
+                      {eq name="$userinfo['is_new']" value="9"}<li>签单时间：{$userinfo.oldtime|date="Y-m-d"}</li>{/eq}
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
                 </div>              
