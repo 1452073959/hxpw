@@ -50,6 +50,7 @@ class Menu extends Model
                     "title" => $a['title'],
                     "icon" => $a['icon'],
                     "parent" => $parent,
+                    "name" => $name.'/'.$controller.'/'.$action,
                     "url" => url("{$name}/{$controller}/{$action}{$fu}", array("menuid" => $id)),
                 );
                 if ($a['title'] == '公告列表') {

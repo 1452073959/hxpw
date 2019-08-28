@@ -38,17 +38,18 @@ class Index extends Adminbase
                 // 默认权限
                 if ($this->_userinfo['is_rule'] != 1) {
                     $rules  = Db::name('auth_group')->field('rules')->where(['id' =>$this->_userinfo['roleid']])->find()['rules'];
-                    $rules1 = Db::name('auth_rule')->where('id','in',$rules)->column('title');
+                    // $rules1 = Db::name('auth_rule')->where('id','in',$rules)->column('title');
+                    $rules_url = Db::name('auth_rule')->where('id','in',$rules)->column('name');
                     if (!empty($v['items'])) {//存在第二级
                         foreach ($v['items'] as $k2 => $v2) {
 
-                            if (!in_array($v2['title'],$rules1)) {
+                            if (!in_array($v2['name'],$rules_url)) {
                                 unset($data[$k]['items'][$k2]);
                             }
                             // var_dump($v2);die;
                             if(isset($v2['items'])){
                                 foreach($v2['items'] as $k3=>$v3){
-                                    if (!in_array($v3['title'],$rules1)) {
+                                    if (!in_array($v3['name'],$rules_url)) {
                                         unset($data[$k]['items'][$k2]['items'][$k3]);
                                     }
                                 }
@@ -60,7 +61,7 @@ class Index extends Adminbase
                     $rule = Session('admin_user_auth')['rules'];
                     if (!empty($v['items'])) {//存在第二级
                         foreach ($v['items'] as $k2 => $v2) {
-                            if (!in_array($v2['title'],$rule)) {
+                            if (!in_array($v2['name'],$rule)) {
                                 unset($data[$k]['items'][$k2]);
                             }
                         }
