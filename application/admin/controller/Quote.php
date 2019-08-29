@@ -242,17 +242,19 @@ class Quote extends Adminbase
 
 
 
-
     //获取模板列表
     public function ajax_get_tmp_list(){
         $userinfo = $this->_userinfo;
         $where = [];
         $where['f_id']  = $userinfo['companyid'];
+        $where['adminid'] = [$userinfo['userid']];
         if(input('type')){
             $where['type'] = input('type');
         }else{
             $where['type'] = 1;
         }
+        $fzids = array_column(Db::name('admin')->where(['companyid'=>$userinfo['companyid'],'roleid'=>[10,1]])->field('userid')->select() ,'userid');
+        $where['adminid'] = array_merge($where['adminid'],$fzids);
         $tmp_list = Db::name('tmp')->where($where)->field('tmp_id,tmp_name,remark,update_time')->group('tmp_id')->select();
         foreach($tmp_list as $k=>$v){
             $tmp_list[$k]['update_time'] = date('Y-m-d H:i',$v['update_time']);
@@ -432,7 +434,7 @@ class Quote extends Adminbase
         $where['type'] = 1;
         $where['adminid'] = [$userinfo['userid']];
         //获取分总的id
-        $fzids = array_column(Db::name('admin')->where(['companyid'=>$userinfo['companyid'],'roleid'=>10])->field('userid')->select() ,'userid');
+        $fzids = array_column(Db::name('admin')->where(['companyid'=>$userinfo['companyid'],'roleid'=>[10,1]])->field('userid')->select() ,'userid');
         $where['adminid'] = array_merge($where['adminid'],$fzids);
 		$res = Db::name('tmp')->where($where)->group('tmp_id')->order('id','desc')->select();
 		$this->assign([ 'data'=>$res ]);
