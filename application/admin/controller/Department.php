@@ -88,6 +88,14 @@ class Department extends Adminbase{
     //删除部门
     public function del(){
         if (input('id')) {
+            $haschild = Db::name('department')->where(['pid'=>input('id')])->count();
+            if($haschild){
+                $this->error('存在子部门，禁止删除'); 
+            }
+            $hasperson = Db::name('personnel')->where(['did'=>input('id')])->count();
+            if($hasperson){
+                $this->error('部门下存在员工，禁止删除');
+            }
             $res = Db::name('department')->where(['id'=>input('id')])->delete();
             if ($res) {
                 $this->success('删除成功');
