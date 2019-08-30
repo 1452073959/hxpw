@@ -75,14 +75,14 @@ layui.define(['layer', 'table'], function (exports) {
                     iconHtml += '<span class="treeTable-empty"></span>';
                 }
                 if (isDir) {
-                    iconHtml += '<i class="layui-icon layui-icon-triangle-d"></i> <i class="layui-icon layui-icon-layer"></i>';
+                    iconHtml += '<i class="layui-icon layui-icon-triangle-d"></i>';
                 } else {
                     iconHtml += '<i class="layui-icon layui-icon-file"></i>';
                 }
                 iconHtml += '&nbsp;&nbsp;';
                 var ttype = isDir ? 'dir' : 'file';
                 var vg = '<span class="treeTable-icon open" lay-tid="' + mId + '" lay-tpid="' + mPid + '" lay-ttype="' + ttype + '">';
-                return vg + iconHtml + d[param.cols[0][param.treeColIndex].field] + '</span>'
+                return vg + iconHtml + '<a>' + d[param.cols[0][param.treeColIndex].field] +'</a>'+ '</span>'
             };
 
             param.done = function (res, curr, count) {
@@ -135,6 +135,7 @@ layui.define(['layer', 'table'], function (exports) {
             }
             $dom.closest('tbody').find('tr').each(function () {
                 var $ti = $(this).find('.treeTable-icon');
+                var span = $(this).find('.treeTable-icon i')
                 var pid = $ti.attr('lay-tpid');
                 var ttype = $ti.attr('lay-ttype');
                 var tOpen = $ti.hasClass('open');
@@ -142,12 +143,12 @@ layui.define(['layer', 'table'], function (exports) {
                     if (isOpen) {
                         $(this).hide();
                         if ('dir' == ttype && tOpen == isOpen) {
-                            $ti.trigger('click');
+                            span.trigger('click');
                         }
                     } else {
                         $(this).show();
                         if (linkage && 'dir' == ttype && tOpen == isOpen) {
-                            $ti.trigger('click');
+                            span.trigger('click');
                         }
                     }
                 }
@@ -193,12 +194,13 @@ layui.define(['layer', 'table'], function (exports) {
     layui.link(layui.cache.base + 'treetable-lay/treetable.css');
 
     // 给图标列绑定事件
-    $('body').on('click', '.treeTable .treeTable-icon', function () {
-        var treeLinkage = $(this).parents('.treeTable').attr('treeLinkage');
+    $('body').on('click', '.treeTable .treeTable-icon i', function () {
+        var that = $(this).parent();
+        var treeLinkage = $(that).parents('.treeTable').attr('treeLinkage');
         if ('true' == treeLinkage) {
-            treetable.toggleRows($(this), true);
+            treetable.toggleRows($(that), true);
         } else {
-            treetable.toggleRows($(this), false);
+            treetable.toggleRows($(that), false);
         }
     });
 

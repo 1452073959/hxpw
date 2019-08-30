@@ -1,0 +1,284 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+/* 修改文件夹图标：*/
+/** 未展开 */
+.treeTable-icon .layui-icon-layer:before {content: "\e672";}
+/** 展开 */
+.treeTable-icon.open .layui-icon-layer:before {content: "\e672";}
+/*修改文件图标：*/
+.treeTable-icon .layui-icon-file:before {content: "\e621";}
+.tanceng{width: 100%;text-align: center; line-height: 30px;}
+.layui-form-label{width:60px}
+.layui-form-item{margin:20px 0}
+#edt-search{
+            height: 33px;
+            line-height: 33px;
+            padding: 0 7px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            margin-bottom: -2px;
+            outline: none;
+        }
+
+#edt-search:focus {
+    border-color: #009E94;
+}
+.layui-elem-quote{
+    background-color: #ffffff;
+
+}
+.layui-form{
+    background-color: #ffffff;
+}
+#frameid{width: 299px;padding: 10px;border: 1px solid #D2D2D2;}
+#frameid option{}
+
+#left{
+    width:25%
+    height:710px;
+    float: left;
+    overflow:auto;
+}
+#left thead{
+    display: none
+}
+#left th,#left td{
+    border:none;
+}
+.layui-table-view{
+    border:none;   
+}
+#right{
+    width:60%;
+    float: left;
+}
+#right th,#right td{
+    background-color: #ffffff;
+}
+table tr:first-child{
+    background-color: #c6e5ff;
+ }
+ .check{
+    background-color: #c6e5ff !important;
+ }
+</style>
+<div class="layui-card">
+    <div class="layui-card-body" id="left">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search" style="background-color: #fffff">
+                <input id="edt-search" type="text" placeholder="输入关键词" style="width: 120px;"/>
+                <button class="layui-btn layui-btn-radius layui-btn-primary" id="btn-search">搜索</button> 
+            </blockquote>
+            <table id="table1" style="display: none" class="layui-table" lay-filter="table1"></table>
+        </div>
+    </div>
+
+    <div class="layui-card-body" id="right" style=" ">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <button class="layui-btn layui-btn-radius layui-btn-primary" data-fid="0" data-fname='' id="add_personnel">员工录入</button> 
+            </blockquote>
+            <table id="demo" lay-filter="test"></table>
+        </div>
+        
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script type="text/html" id="oper-col">
+    <a class="" lay-event="add"><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
+    <a class="" lay-event="edit"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+    <a class="" lay-event="del"><i class="layui-icon layui-icon-delete" title="删除"></i></a>
+</script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    //右边表格渲染
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo',
+            height: 600,
+            url: '/admin/department/get_personnel/', //数据接口
+            where:{did:0},
+            page: true, //开启分页
+            limit: 10, 
+            limits: [10,30,50,100,200], 
+            cols: [[ //表头
+                {field: 'id', title: 'ID', width:80, sort: true,hide:true},
+                {field: 'name', title: '用户名', width:120},
+                {field: 'department', title: '部门', width:130},
+                {field: 'sex', title: '性别', width:80, sort: true},
+                {field: 'phone', title: '手机号码', width:150, sort: true},
+                {field: 'email', title: '邮箱', width:200, sort: true},
+                {field: 'status', title: '状态', width:80, sort: true},
+                {field: 'addtime', title: '添加时间', sort: true},
+            ]]
+        });
+    });
+
+
+    //左边公司渲染
+    layui.config({
+        base: '__STATIC__/module/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+        // 渲染表格
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                // toolbar: '#', //设置打印
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'id',
+                treePidName: 'pid',
+                treeDefaultClose: false,
+                treeLinkage: false,
+                elem: '#table1',
+                // width: 290,
+                url: '{:url("department/TreeType")}',
+                // url: '__STATIC__/module/json/data.json',
+                page: false,
+                cols: [[
+                    {type: 'space'},
+                    {field: 'name', title: '名称',event:'check'},
+                    {field: 'id', title: 'id',hide:true},
+                    // {field: 'remark', title: '备注'},
+                    // {templet: '#oper-col', title: '操作'}
+                ]],
+                
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+        // 搜索显示
+        $('#btn-search').click(function () {
+            var keyword = $('#edt-search').val();
+            var searchCount = 0;
+            $('#table1').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                $(this).css('background-color', 'transparent');
+                var text = $(this).text();
+                if (keyword != '' && text.indexOf(keyword) >= 0) {
+                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount == 0) {
+                        treetable.expandAll('#table1');
+                        $('html,body').stop(true);
+                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword == '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount == 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+        //监听工具条
+        table.on('tool(table1)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'check'){
+                // $('#add_personnel').attr('data-fid',data.id);
+            }
+        });
+        renderTable();
+    });
+
+    //点击左边换颜色
+    $('#left').on('click','a',function(){
+        console.log($(this).parent().attr('lay-tid'));
+        var did = $(this).parent().attr('lay-tid');
+        $('#left tr').css('background-color','#ffffff');
+        $('#left tr').removeClass('check').attr('data-check',0);
+        var that = $(this).parent();
+        //上面的遍历会比下面的慢一点
+        setTimeout(function(){$(that).parent().parent().parent().addClass('check').attr('data-check',1);},100);
+        $('#add_personnel').attr('data-fid',did);
+        $('#add_personnel').attr('data-fname',$(this).text());
+        layui.use('table', function(){
+            var table = layui.table;
+            table.reload('demo', {
+                url: '/admin/department/get_personnel', //数据接口
+                where: {did:did} //设定异步数据接口的额外参数
+              //,height: 300
+            });
+        });
+    })
+
+    $('#add_personnel').click(function(){
+        console.log($(this).attr('data-fid'));
+        if($(this).attr('data-fid') == 0){
+            layer.msg('请先选择左侧部门后添加');
+            return false;
+        }
+        var inputs = '<form class="layui-form" action=""><div class="newaddbox">'
+                    +   '<input type="hidden" value="'+$(this).attr('data-fid')+'" name="did">'
+                    +   '<div class="layui-form-item">'
+                    +   '    <label class="layui-form-label">员工姓名</label>'
+                    +   '    <div class="layui-input-inline w200"><input type="text" name="name" lay-verify="required" autocomplete="off" value="" class="layui-input"></div>'
+                    +   '</div>'
+                    +   '<div class="layui-form-item">'
+                    +      '<label class="layui-form-label">性别</label>'
+                    +      '<div class="layui-input-block w200">'
+                    +          '<input type="radio" name="sex" value="1" title="男">'
+                    +          '<input type="radio" name="sex" value="2" title="女" checked>'
+                    +      '</div>'
+                    +   '</div>'
+                    +   '<div class="layui-form-item">'
+                    +      '<label class="layui-form-label">手机号码</label>'
+                    +      '<div class="layui-input-inline w200">'
+                    +          '<input type="text" lay-verify="required|phone" name="phone" autocomplete="off" value="" class="layui-input">'
+                    +      '</div>'
+                    +   '</div>'
+                    +   '<div class="layui-form-item">'
+                    +      '<label class="layui-form-label">邮箱地址</label>'
+                    +      '<div class="layui-input-inline w200">'
+                    +          '<input type="text" lay-verify="email" name="email" autocomplete="off" value="" class="layui-input">'
+                    +      '</div>'
+                    +   '</div>'
+                    +   '<div class="layui-form-item" style="text-align:center">'
+                    +       '<div class="layui-input-inline" style="float:inherit">'
+                    +           '<button class="layui-btn" lay-submit lay-filter="add_ajax">立即提交</button>'
+                    +           '<button type="reset" class="layui-btn layui-btn-primary">重置</button>'
+                    +       '</div>'
+                    +   '</div>'
+                    +'</div></form>';
+                
+        layer.open({
+            type: 1,
+            fixed: false,    //取消固定定位，因为固定定位是相对body的
+            // offset: ['30%', '30%'],   //相对定位
+            // skin: 'layui-layer-rim', //加上边框
+            area: ['380px', '400px'], //宽高
+            title: $(this).attr('data-fname')+' - 员工录入',
+            content: inputs
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+            form.on('submit(add_ajax)', function(data){
+                console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+
+                $.post('{:url("department/add_personnel")}',data.field,function(res){
+
+                },'json')
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        });
+        // });     
+    })
+
+</script>
+{/block}
