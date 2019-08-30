@@ -19,11 +19,13 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class Department extends Adminbase{
     public $show_page = 15;
 
+    //部门列表
     public function index(){
         return $this->fetch();
     }
 
-    public function TreeType(){
+    //获取部门列表 - json格式 供treetable使用
+    public function treetype(){
         $admininfo = $this->_userinfo;
         $where = [];//部门筛选
         $where = [];//公司筛选
@@ -99,6 +101,7 @@ class Department extends Adminbase{
 
 
     //------------------------下面人员管理
+    //人员列表
     public function personnel_index(){
         $admininfo = $this->_userinfo;
         $where = [];
@@ -110,6 +113,7 @@ class Department extends Adminbase{
         return $this->fetch();
     }
 
+    //添加人员
     public function add_personnel(){
         if(input('did')){
             $admininfo = $this->_userinfo;
@@ -130,6 +134,7 @@ class Department extends Adminbase{
         }
     }
 
+    //获取人员列表  - json格式 供treetable使用
     public function get_personnel(){
         if(input('did') || input('did') == '0'){
             $admininfo = $this->_userinfo;
