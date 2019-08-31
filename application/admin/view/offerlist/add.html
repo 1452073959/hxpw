@@ -75,9 +75,16 @@
                     <input type="radio" name="room_type" value="酒店" title="酒店" >
                 </div>
             </div>
-
             <div class="layui-form-item">
-                <label class="layui-form-label">客户类型</label>
+                <label class="layui-form-label">单选项</label>
+                <div class="layui-input-block">
+                    <!-- layui-hide -->
+                    <input type="radio" name="house_type" lay-filter="" value="1" title="新房" checked>
+                    <input type="radio" name="house_type" lay-filter="" value="2" title="旧房" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户状态</label>
                 <div class="layui-input-block">
                     <!-- layui-hide -->
                     <input type="radio" name="is_new" lay-filter="is_new" value="1" title="新客户" checked>

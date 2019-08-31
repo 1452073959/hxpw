@@ -1005,6 +1005,7 @@ class Offerlist extends Adminbase
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
             $bao['is_new'] = $data['is_new'];
+            $bao['house_type'] = $data['house_type'];
             if($bao['is_new'] == 9){
                 if($data['oldtime']){
                     $bao['oldtime'] = strtotime($data['oldtime']);
