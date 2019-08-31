@@ -1,0 +1,254 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+    .layui-form-item{
+        margin-bottom: 0;
+        width: 250px;
+        float: left;
+        clear:none;
+    }
+    #left{
+        width:25%
+        height:710px;
+        float: left;
+        overflow:auto;
+    }
+    #left thead{
+        display: none
+    }
+    #left th,#left td{
+        border:none;
+    }
+    .layui-table-view{
+        border:none;   
+    }
+    #right{
+        /*width:60%;*/
+        float: left;
+        background-color: #ffffff;
+    }
+    #right th,#right td{
+        background-color: #ffffff;
+    }
+    table tr:first-child{
+        background-color: #c6e5ff;
+     }
+    .check{
+        background-color: #c6e5ff !important;
+    }
+    .layui-table-view{
+        margin-top: 0;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">职位</label>
+                        <div class="layui-input-block">
+                            <select name="city" lay-verify="required">
+                                <option value=""></option>
+                                <option value="1">设计师</option>
+                                <option value="2">报价师</option>
+                                <option value="3">商务经理</option>
+                                <option value="4">工程监理</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="float: left;margin-right: 15px">
+                        <label class="layui-form-label">选择时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                        </div>
+                        <span> - </span>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn layui-btn-warm" lay-submit lay-filter="formDemo">立即提交</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <script type="text/html" id="toolbarDemo">
+              <div class="layui-btn-container">
+              </div>
+            </script>
+     
+            <div class="layui-card-body" id="left">
+                <div class="layui-form">
+                    <div style="background-color: #ffffff;padding:10px 15px;border:1px solid #eee">
+                        <input id="edt-search" type="text" placeholder="" style="width: 120px;height:25px"/>
+                        <button class="layui-btn layui-btn-radius layui-btn-primary" style="height:30px;line-height: 30px;" id="btn-search">搜索</button> 
+                    </div>
+                    <table id="table1" style="display: none" class="layui-table" lay-filter="table1"></table>
+                </div>
+            </div>
+
+            <div class="layui-card-body" id="right" style=" ">
+                    <table id="demo" lay-filter="test"></table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+</script>
+<script type="text/javascript">
+    //左边部分 初始化数据
+    layui.config({
+        base: '__STATIC__/module/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+        // 渲染表格
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                // toolbar: '#', //设置打印
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'id',
+                treePidName: 'pid',
+                treeDefaultClose: false,
+                treeLinkage: false,
+                elem: '#table1',
+                // width: 290,
+                url: '{:url("statistical/return_department_data")}',
+                // url: '__STATIC__/module/json/data.json',
+                page: false,
+                cols: [[
+                    {type: 'space'},
+                    {field: 'name', title: '名称',event:'check'},
+                    {field: 'id', title: 'id',hide:true},
+                    // {field: 'remark', title: '备注'},
+                    // {templet: '#oper-col', title: '操作'}
+                ]],
+                
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+        // 搜索显示
+        $('#btn-search').click(function () {
+            var keyword = $('#edt-search').val();
+            var searchCount = 0;
+            $('#table1').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
+                $(this).css('background-color', 'transparent');
+                var text = $(this).text();
+                if (keyword != '' && text.indexOf(keyword) >= 0) {
+                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
+                    if (searchCount == 0) {
+                        treetable.expandAll('#table1');
+                        $('html,body').stop(true);
+                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
+                    }
+                    searchCount++;
+                }
+            });
+            if (keyword == '') {
+                layer.msg("请输入搜索内容", {icon: 5});
+            } else if (searchCount == 0) {
+                layer.msg("没有匹配结果", {icon: 5});
+            }
+        });
+        //监听工具条
+        table.on('tool(table1)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'check'){
+                // $('#add_personnel').attr('data-fid',data.id);
+            }
+        });
+        renderTable();
+    });
+
+    //右边table
+    //右边表格渲染
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo',
+            height: 600,
+            url: '/admin/statistical/return_data/', //数据接口
+            where:{did:0},
+            page: true, //开启分页
+            limit: 10, 
+            limits: [10,30,50,100,200], 
+            cols: [[ //表头
+                {field: 'td1', title: '职位', width:100},
+                {field: 'td2', title: '姓名', width:80},
+                {field: 'td3', title: '开工额', width:80},
+                {field: 'td4', title: '平均毛利', width:100},
+                {field: 'td5', title: '米平均价', width:100},
+                {field: 'td6', title: '开工数量', width:100,event:'show_info'},
+                {field: 'td7', title: '二手房数量', width:100},
+                {field: 'td8', title: '套房数量', width:100},
+                {field: 'td9', title: '复式数量', width:100},
+                {field: 'td10', title: '别墅数量', width:100},
+                {field: 'td11', title: '公装数量', width:100},
+            ]]
+        });
+
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if(layEvent === 'show_info'){
+                // alert(1);
+            }
+        })
+    });
+
+    //点击左边换颜色
+    $('#left').on('click','a',function(){
+        console.log($(this).parent().attr('lay-tid'));
+        var did = $(this).parent().attr('lay-tid');
+        $('#left tr').css('background-color','#ffffff');
+        $('#left tr').removeClass('check').attr('data-check',0);
+        var that = $(this).parent();
+        //上面的遍历会比下面的慢一点
+        setTimeout(function(){$(that).parent().parent().parent().addClass('check').attr('data-check',1);},100);
+        $('#add_personnel').attr('data-fid',did);
+        $('#add_personnel').attr('data-fname',$(this).text());
+        //右边数据重新渲染
+        // layui.use('table', function(){
+        //     var table = layui.table;
+        //     table.reload('demo', {
+        //         url: '/admin/department/get_personnel', //数据接口
+        //         where: {did:did} //设定异步数据接口的额外参数
+        //       //,height: 300
+        //     });
+        // });
+    })
+    //初始化时间差距
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#begin_time'
+        });
+        laydate.render({
+            elem: '#end_time'
+        });
+    })
+</script>
+{/block}

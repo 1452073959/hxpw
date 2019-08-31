@@ -1,0 +1,171 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">职位</label>
+                        <div class="layui-input-block">
+                            <select name="city" lay-verify="required">
+                                <option value=""></option>
+                                <option value="1">设计师</option>
+                                <option value="2">报价师</option>
+                                <option value="3">商务经理</option>
+                                <option value="4">工程监理</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="layui-inline" style="float: left;margin-right: 15px">
+                        <label class="layui-form-label">选择时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                        </div>
+                        <span> - </span>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn layui-btn-warm" lay-submit lay-filter="formDemo">立即提交</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+     
+            <table class="layui-table">
+                <colgroup>
+                    <col width="100">
+                    <col width="100">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th>客户姓名</th>
+                        <th>监理姓名</th>
+                        <th>预计领料金额</th>
+                        <th>已领金额</th>
+                        <th>未领金额</th>
+                        <th>第一次领料金额</th>
+                        <th>第二次领料金额</th>
+                        <th>第三次领料金额</th>
+                        <th>第四次领料金额</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    <tr>
+                        <td>冯小姐</td>
+                        <td>刘兴隆</td>
+                        <td>35800</td>
+                        <td>19690</td>
+                        <td>16110</td>
+                        <td>10740</td>
+                        <td>7160</td>
+                        <td>17900</td>
+                        <td>0</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>胡先生</td>
+                        <td>杜平</td>
+                        <td>44963</td>
+                        <td>17955.52</td>
+                        <td>26777.8</td>
+                        <td>13488.9</td>
+                        <td>4496</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>蒋先生</td>
+                        <td>杜平</td>
+                        <td>31190</td>
+                        <td>9357</td>
+                        <td>21833</td>
+                        <td>9366</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>韩小姐</td>
+                        <td>常远</td>
+                        <td>26800</td>
+                        <td>31260</td>
+                        <td>5360</td>
+                        <td>10720</td>
+                        <td>5000</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+
+  
+  layui.use('laydate', function(){
+    var laydate = layui.laydate;
+    //常规用法
+    laydate.render({
+      elem: '#begin_time'
+    });
+    laydate.render({
+      elem: '#end_time'
+    });
+  })
+</script>
+{/block}

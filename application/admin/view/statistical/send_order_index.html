@@ -1,0 +1,165 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">职位</label>
+                        <div class="layui-input-block">
+                            <select name="city" lay-verify="required">
+                                <option value=""></option>
+                                <option value="1">设计师</option>
+                                <option value="2">报价师</option>
+                                <option value="3">商务经理</option>
+                                <option value="4">工程监理</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="layui-inline" style="float: left;margin-right: 15px">
+                        <label class="layui-form-label">选择时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                        </div>
+                        <span> - </span>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn layui-btn-warm" lay-submit lay-filter="formDemo">立即提交</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+     
+            <table class="layui-table">
+                <colgroup>
+                    <col width="100">
+                    <col width="300">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th>客户姓名</th>
+                        <th>工程地址</th>
+                        <th>房屋类型</th>
+                        <th>面积</th>
+                        <th>工程报价</th>
+                        <th>设计师名称</th>
+                        <th>报价师名称</th>
+                        <th>签单时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    <tr>
+                        <td>冯小姐</td>
+                        <td>广州市黄埔区黄埔万科中心</td>
+                        <td>别墅</td>
+                        <td>300</td>
+                        <td>720000</td>
+                        <td>张鹏飞</td>
+                        <td>周诗雨</td>
+                        <td>2019-8-28</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">派单</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">查看报价</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>胡先生</td>
+                        <td>广州市越秀区北京路374号</td>
+                        <td>复式</td>
+                        <td>180</td>
+                        <td>320000</td>
+                        <td>付超</td>
+                        <td>林南南</td>
+                        <td>2019-8-29</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">派单</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">查看报价</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>蒋先生</td>
+                        <td>广州市黄埔区黄埔黄埔东路123号</td>
+                        <td>二手房</td>
+                        <td>133</td>
+                        <td>264000</td>
+                        <td>吴宇</td>
+                        <td>林绵绵</td>
+                        <td>2019-8-29</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">派单</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">查看报价</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>韩小姐</td>
+                        <td>广州市黄埔区黄埔碧桂园3期5栋1301</td>
+                        <td>套房</td>
+                        <td>125</td>
+                        <td>155000</td>
+                        <td>李建波</td>
+                        <td>周诗雨</td>
+                        <td>2019-8-31</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">派单</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-primary">查看报价</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+
+    
+  layui.use('laydate', function(){
+    var laydate = layui.laydate;
+    //常规用法
+    laydate.render({
+      elem: '#begin_time'
+    });
+    laydate.render({
+      elem: '#end_time'
+    });
+  })
+</script>
+{/block}
