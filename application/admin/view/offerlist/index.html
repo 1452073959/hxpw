@@ -98,7 +98,7 @@
                         <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
                         <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th>  -->
                         <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
-						<th class="taleft" lay-data="{field:'status',width:80}">状态</th>
+						<th class="taleft" lay-data="{field:'status',width:110,event:'set_status'}">状态</th>
                         <!-- <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th> -->
                         <!-- <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th> -->
                         <!-- <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',}">报价师姓名</th> -->
@@ -141,13 +141,14 @@
 					   </td> 
 						<td>
 							{switch name="$vo.status"}
-									{case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
-									{case value="1"} <a class="layui-btn layui-btn-xs layui-btn-primary">已报价</a>{/case}
-									{case value="2"}<a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
-									{case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
-									{case value="4"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
+									{case value="0"} <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>{/case}
+									{case value="1"} <a class="layui-btn layui-btn-xs">已报价</a>{/case}
+									{case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
+                                    {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价(未审)</a>{/case}
+									{case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
+									{case value="5"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
 									{default /}
-									<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
+									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
 							{/switch}
 						</td>
                       <td class="taleft">{$vo.info.proquant}</td>   
@@ -501,10 +502,113 @@ layui.use('table', function(){
                 }
             },'json')
             
+        }else if(obj.event=== 'set_status'){
+            if(data.status.indexOf("合同价") >= 0){
+                layer.msg('合同价禁止修改标签');
+                return false;
+            }
+            if(data.status.indexOf("结算价") >= 0){
+                layer.msg('结算价禁止修改标签');
+                return false;
+            }
+            var html = 
+                     '<div class="layui-form-item" style="margin-bottom:5px">'
+                    + '     <label class="layui-form-label" style="line-height:25px">选择标签</label>'
+                    + '     <div class="layui-input-block">'
+                    + '          <select id="set_status" style="height:25px;margin:10px;">'
+                    + '               <option value="0">未报价</option>'
+                    + '               <option value="1">已报价</option>'
+                    + '               <option value="2">预算价</option>'
+                    + '               <option value="3">合同价</option>'
+                    // + '               <option value="4">结算价</option>'
+                    + '          </select>'
+                    + '     </div>'
+                    + '</div>'
+                    + '<div class="layui-upload" id="upload_file" style="margin-bottom:5px;text-align:center;display:none">'
+                    + '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test8">选择文件</button>'
+                    + '<br />'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test9">修改标签</button>'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                    + '</div>'
+                    + '<div style="text-align:center;" id="set_status_btn">'
+                    + '     <button type="button" class="layui-btn layui-btn-normal" data-id="'+data.id+'" id="set_status_submit">修改标签</button>'
+                    + '     <button type="button" class="layui-btn close">取消</button>'
+                    + '</div>';
+            layer.open({
+              title: '设置标签',
+              area: ['300px', '200px'], //宽高
+              type:1,
+              content: html
+            });
+            layui.use('upload', function(){
+                var upload = layui.upload;
+                upload.render({
+                    elem: '#test8',
+                    url: '/admin/offerlist/upload_cad/',
+                    auto: false,
+                    accept:'file',
+                    size:10240,
+                    //,multiple: true
+                    bindAction: '#test9',
+                    data:{
+                        o_id:data.id,
+                        status:3,
+                        customer_id:{:input('customer_id')}
+                    },
+                    done: function(res){
+                        if(res.code == 1){
+                            layer.closeAll();
+                            layer.msg(res.msg);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                        return false;
+                    }
+                });
+            });
         }
     });
-
-
 });
+$(document).on('click','.close',function(){
+    layer.closeAll();
+})
+$(document).on('change','#set_status',function(){
+    var status = $(this).val();
+    if(status == 3){
+        $('#upload_file').show();
+        $('#set_status_btn').hide();
+    }else{
+        $('#upload_file').hide();
+        $('#set_status_btn').show();
+    }
+})
+$(document).on('click','#set_status_submit',function(){
+    // layer.closeAll();
+    var status = $('#set_status').val();
+    var id = $(this).data('id');
+    if(status == 3){
+        layer.msg('非法操作');
+        return false;
+    }
+    $.ajax({
+        type : 'post',
+        url  :  '{:url("offerlist/status")}',
+        dataType : 'json',
+        data : {id:id,status:status},
+        success : function(res){
+            if(res.code == 1){
+                layer.closeAll();
+                layer.msg(res.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 500);
+                return false;
+            }else{ 
+                layer.msg(res.msg);
+                return false;
+            }
+        }
+    });
+})
 </script>
 {/block}

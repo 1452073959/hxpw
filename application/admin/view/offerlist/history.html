@@ -79,14 +79,6 @@ th{
                 <form class="layui-inline">
                     <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')])}">导出报表</a>
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
-                    <select class="form-control" id="changestatus" data-id="{$order_info.id}" data-customerid="{$order_info.customerid}">
-                        <option>选择标签</option>
-                        <option value="0">未报价</option>
-                        <option value="1">已报价</option>
-                        <option value="2">预算价</option>
-                        <option value="3">合同价</option>
-                        <option value="4">结算价</option>
-                    </select>
                     {switch name="order_info.status"}
                         {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
                         {case value="1"} <a class="layui-btn layui-btn-xs layui-btn-danger">已报价</a>{/case}
@@ -373,26 +365,6 @@ th{
              formValues: false
            });
       })
-        //改变报表标签
-    $(document).on('change','#changestatus',function(){
-      var id= $(this).attr('data-id'),customerid = $(this).attr('data-customerid'),status = $(this).val();
-      // mystatus(id,customerid);
-      $.ajax({
-          type : 'post',
-          url  :  '{:url("offerlist/status")}',
-          dataType : 'json',
-          data : {id:id,customerid:customerid,status:status},
-          success : function(re){
-            if(re.code == 0){
-                alert(re.msg);
-            }else{
-                alert(re.msg);
-                window.location.reload();
-            }
-          }
-        });
-    });
-    
   });
 </script>
 {/block}

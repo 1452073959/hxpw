@@ -488,7 +488,30 @@ class Offerlist extends Adminbase
         }
     }
 
-
+    public function upload_cad(){
+        $file = request()->file('file');
+        if($file && input('o_id') && input('customer_id')){
+            $in = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->count();
+            if($in > 0){
+                $this->error('一个客户只能拥有一份合同价');
+            }
+            $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
+            if($info){
+                // 成功上传后 获取上传信息
+                $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
+                if($res){
+                    $this->success('修改成功');
+                }else{
+                    $this->error('修改失败');
+                }
+            }else{
+                // 上传失败获取错误信息
+                $this->error($file->getError());
+            }
+        }else{
+            $this->error('参数错误');
+        }
+    }
 
 
 
@@ -948,20 +971,22 @@ class Offerlist extends Adminbase
             }
             $data = input();
             if($data){
-                $status = input('status');$id = input('id');$cid = input('customerid');
+                $status = input('status');
+                $id = input('id');
                 if($id && ($status || input('status')==0 )){
                   $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
                   if($res !== false){
-                    $this->success('操作成功');
+                    $this->success('修改成功');
                   }else{
-                    $this->error('操作失败');
+                    $this->error('修改失败');
                   }
                 }
             }else{
-              Result(1,'信息获取失败');
+              $this->error('参数错误');
             }
+        }else{
+          $this->error('参数错误');
         }
-      
     }
 
 

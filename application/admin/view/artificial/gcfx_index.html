@@ -124,13 +124,14 @@ a{
                         <td class="taleft">{$vo.id}</td>  
                       <td>
                         {switch name="$vo.order_info.status"}
-                            {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-disabled">未报价</a>{/case}
-                            {case value="1"} <a class="layui-btn layui-btn-xs layui-btn-primary">已报价</a>{/case}
-                            {case value="2"}<a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
-                            {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
-                            {case value="4"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
+                            {case value="0"} <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>{/case}
+                            {case value="1"} <a class="layui-btn layui-btn-xs">已报价</a>{/case}
+                            {case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
+                            {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价(未审)</a>{/case}
+                            {case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
+                            {case value="5"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
                             {default /}
-                            <a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>
+                            <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
                         {/switch}
                       </td>
                       <td class="taleft">{$vo.remark}</td>   
