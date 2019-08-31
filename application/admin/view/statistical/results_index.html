@@ -30,7 +30,7 @@
     #right th,#right td{
         background-color: #ffffff;
     }
-    table tr:first-child{
+    #left table tr:first-child{
         background-color: #c6e5ff;
      }
     .check{
@@ -171,14 +171,6 @@
                 layer.msg("没有匹配结果", {icon: 5});
             }
         });
-        //监听工具条
-        table.on('tool(table1)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if (layEvent === 'check'){
-                // $('#add_personnel').attr('data-fid',data.id);
-            }
-        });
         renderTable();
     });
 
@@ -201,7 +193,7 @@
                 {field: 'td3', title: '开工额', width:80},
                 {field: 'td4', title: '平均毛利', width:100},
                 {field: 'td5', title: '米平均价', width:100},
-                {field: 'td6', title: '开工数量', width:100,event:'show_info'},
+                {field: 'td6', title: '开工数量', width:100,event:'show_info',style:'color:red'},
                 {field: 'td7', title: '二手房数量', width:100},
                 {field: 'td8', title: '套房数量', width:100},
                 {field: 'td9', title: '复式数量', width:100},
@@ -214,7 +206,76 @@
             var data = obj.data;
             var layEvent = obj.event;
             if(layEvent === 'show_info'){
-                // alert(1);
+                var html =   '<table class="layui-table">'
+                            +'  <colgroup>'
+                            +'      <col width="100">'
+                            +'      <col width="250">'
+                            +'      <col width="100">'
+                            +'      <col width="80">'
+                            +'      <col width="100">'
+                            +'      <col>'
+                            +'  </colgroup>'
+                            +'  <thead >'
+                            +'      <tr>'
+                            +'          <th>客户姓名</th>'
+                            +'          <th>工程地址</th>'
+                            +'          <th>房屋类型</th>'
+                            +'          <th>面积</th>'
+                            +'          <th>开工金额</th>'
+                            +'          <th>操作</th>'
+                            +'      </tr>'
+                            +'  </thead>'
+                            +'  <tbody> '
+                            +'      <tr>'
+                            +'          <td>冯小姐</td>'
+                            +'          <td>广州市黄埔区黄埔万科中心</td>'
+                            +'          <td>别墅</td>'
+                            +'          <td>300</td>'
+                            +'          <td>720000</td>'
+                            +'          <td>'
+                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
+                            +'          </td>'
+                            +'      </tr>'
+                            +'      <tr>'
+                            +'          <td>胡先生</td>'
+                            +'          <td>广州市越秀区北京路374号</td>'
+                            +'          <td>复式</td>'
+                            +'          <td>180</td>'
+                            +'          <td>320000</td>'
+                            +'          <td>'
+                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
+                            +'          </td>'
+                            +'      </tr>'
+                            +'      <tr>'
+                            +'          <td>蒋先生</td>'
+                            +'          <td>广州市黄埔区黄埔黄埔东路123号</td>'
+                            +'          <td>二手房</td>'
+                            +'          <td>80</td>'
+                            +'          <td>60000</td>'
+                            +'          <td>'
+                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
+                            +'          </td>'
+                            +'      </tr>'
+                            +'      <tr>'
+                            +'          <td>韩小姐</td>'
+                            +'          <td>广州市黄埔区黄埔碧桂园3期5栋1301</td>'
+                            +'          <td>复式</td>'
+                            +'          <td>150</td>'
+                            +'          <td>280000</td>'
+                            +'          <td>'
+                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
+                            +'          </td>'
+                            +'      </tr>'
+                            +'  </tbody>'
+                            +'</table>'
+                // layui.use('layer', function(){
+                    layer.open({
+                        type:1,
+                        title: '开工明细',
+                        area: ['650px', '400px'],
+                        content: html
+                    });
+                // });
             }
         })
     });
