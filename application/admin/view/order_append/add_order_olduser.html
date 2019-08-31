@@ -112,6 +112,7 @@
             
             <ul style="height: 100%">
                 <!-- 工种 -->
+                <li data-val="0">所有工种</li>
                 <?php $i = 2; ?>
                 <?php foreach($offer_type[1] as $k=>$v){ ?>
                     <li {$i==1?'class="checkli"':''} data-val="{$v['name']}">{$v['name']}</li>
@@ -228,7 +229,37 @@
         if(is_null){
             return false;
         }
-        $('#datasform').submit();
+        var project = $('#project .project input').serializeArray();
+        var datas = {};  
+        $.each(project, function() {  
+            if (datas[this.name]) {  
+                if (!datas[this.name].push) {  
+                    datas[this.name] = [ datas[this.name] ];  
+                }  
+                datas[this.name].push(this.value || '');  
+            } else {  
+                datas[this.name] = this.value || '';  
+            }  
+        }); 
+        
+        datas['customerid'] = $('input[name="customerid"]').val();
+        datas['order_id'] = $('input[name="order_id"]').val();
+        $.post('/admin/order_append/add',datas,function(res){
+            if(res.code == 1){
+                layui.use('layer', function(){
+                    layer.msg(res.msg);
+                    setTimeout(function () { 
+                        window.location.href = res.url; 
+                    }, 2000); 
+                });
+
+            }else{
+                //失败 提醒
+                layui.use('layer', function(){
+                    layer.msg(res.msg);
+                }); 
+            }
+        })
     })
     //======================提交订单end
 

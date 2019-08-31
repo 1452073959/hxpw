@@ -78,7 +78,7 @@ class OrderAppend extends Adminbase
                             $project['quota'] = $price[$k2]['quota'];
                             $project['quota_now'] = $item['quota'];
                         }else{
-                            $this->error('手动输入的价格有误1','',$k2);
+                            $this->error($k2.'手动输入的价格有误');
                         }
                     }
                     if(!isset($price[$k2]['craft_show'])  || empty($price[$k2]['craft_show'])){
@@ -89,7 +89,17 @@ class OrderAppend extends Adminbase
                             $project['craft_show'] = $price[$k2]['craft_show'];
                             $project['craft_show_now'] = $item['craft_show'];
                         }else{
-                            $this->error('手动输入的价格有误2','',$k2);
+                            $this->error($k2.'手动输入的价格有误');
+                        }
+                    }
+                    //判断手动输入的价格与原单是否冲突
+                    if(!empty($project['quota_now']) || empty($project['craft_show_now'])){
+                        $history_project = Db::name('order_project')->where(['o_id'=>input('order_id'),'item_number'=>$k2])->find();
+                        if($history_project){
+                            if($history_project['quota'] != $project['quota'] || $history_project['craft_show'] != $project['craft_show']){
+                                // $this->error($history_project['craft_show'].'-'.$project['craft_show'].'-'.$history_project['craft_show'].'-'.$project['craft_show']);
+                                $this->error($k2.'手动输入的价格与原单不匹配'.$history_project['quota'].'-'.$history_project['craft_show']);
+                            }
                         }
                     }
                     //旧客户手动输入价格 end
