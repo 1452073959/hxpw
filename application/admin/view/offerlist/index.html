@@ -559,6 +559,9 @@ layui.use('table', function(){
                         if(res.code == 1){
                             layer.closeAll();
                             layer.msg(res.msg);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
                         }else{
                             layer.msg(res.msg);
                         }
