@@ -150,13 +150,13 @@
 </script>
 <script type="text/javascript">
     $('.send').click(function(){
-        var html =   '<table class="layui-table">'
+        var html =   '<table class="layui-table" style="text-align:center !important">'
                     +'  <colgroup>'
+                    +'      <col width="120">'
                     +'      <col width="100">'
                     +'      <col width="100">'
-                    +'      <col width="70">'
-                    +'      <col width="70">'
-                    +'      <col width="70">'
+                    +'      <col width="100">'
+                    +'      <col width="100">'
                     +'      <col width="100">'
                     +'      <col width="140">'
                     +'      <col width="110">'
@@ -246,7 +246,7 @@
             layer.open({
                 type:1,
                 title: '选择监理',
-                area: ['900px', '500px'],
+                area: ['1000px', '500px'],
                 content: html
             });
         });
