@@ -64,9 +64,24 @@ table tr:first-child{
  }
 </style>
 <div class="layui-card">
+
     <div class="layui-card-body" id="left">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search" style="background-color: #fffff">
+                {eq name="$admininfo['roleid']" value="1" }
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block w200" style="margin-left:0px">
+                                <select name="fid" id="check_fid" lay-filter="check_fid" lay-search>
+                                    <option value="">请选择公司</option>
+                                    {foreach name="frame" item="v" key="k"}
+                                        <option value="{$v['id']}">{$v['name']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {/eq}
                 <input id="edt-search" type="text" placeholder="输入关键词" style="width: 120px;"/>
                 <button class="layui-btn layui-btn-radius layui-btn-primary" id="btn-search">搜索</button> 
             </blockquote>
@@ -212,7 +227,7 @@ table tr:first-child{
         var layer = layui.layer;
         var treetable = layui.treetable;
         // 渲染表格
-        var renderTable = function () {
+        var renderTable = function (fid=0) {
             layer.load(2);
             treetable.render({
                 // toolbar: '#', //设置打印
@@ -223,8 +238,10 @@ table tr:first-child{
                 treeDefaultClose: false,
                 treeLinkage: false,
                 elem: '#table1',
-                // width: 290,
+                width: 290,
                 url: '{:url("department/treetype")}',
+                where: {fid:fid} ,
+                height: 600,
                 // url: '__STATIC__/module/json/data.json',
                 page: false,
                 cols: [[
@@ -271,6 +288,21 @@ table tr:first-child{
                 // $('#add_personnel').attr('data-fid',data.id);
             }
         });
+        //最高管理员 选择分公司重新加载
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('select(check_fid)', function(data){
+                // console.log(data.value); 
+                renderTable(data.value);
+                layui.use('table', function(){
+                    var table = layui.table;
+                    table.reload('demo', {
+                        url: '/admin/department/get_personnel', //数据接口
+                        where: {fid:data.value} //设定异步数据接口的额外参数
+                    });
+                });
+            });      
+        })
         renderTable();
     });
 

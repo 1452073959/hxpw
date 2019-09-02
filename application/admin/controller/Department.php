@@ -21,6 +21,14 @@ class Department extends Adminbase{
 
     //部门列表
     public function index(){
+        $admininfo = $this->_userinfo;
+        if($admininfo['roleid'] == 1){
+            $frame = Db::name('frame')->where(['levelid'=>3])->order('id','asc')->select();
+            $this->assign('frame',$frame);
+        }
+        $this->assign([
+            'admininfo'=>$admininfo
+        ]);
         return $this->fetch();
     }
 
@@ -28,9 +36,11 @@ class Department extends Adminbase{
     public function treetype(){
         $admininfo = $this->_userinfo;
         $where = [];//部门筛选
-        $where = [];//公司筛选
+        if($admininfo['roleid'] == 1 && empty(input('fid'))){
+            TreeResult(0,'ok',[],0);die;
+        }
         if($admininfo['roleid'] == 1){
-            // $admininfo['companyid'] = input('fid')?input('fid'):0;
+            $admininfo['companyid'] = input('fid')?input('fid'):0;
         }
         $where['fid'] = $admininfo['companyid'];
         $frame = Db::name('frame')->where(['id'=>$admininfo['companyid']])->order('id','asc')->select();
@@ -112,11 +122,16 @@ class Department extends Adminbase{
     //人员列表
     public function personnel_index(){
         $admininfo = $this->_userinfo;
+        if($admininfo['roleid'] == 1){
+            $frame = Db::name('frame')->where(['levelid'=>3])->order('id','asc')->select();
+            $this->assign('frame',$frame);
+        }
         $where = [];
         $where['fid'] = $admininfo['companyid'];
-        $datas = Db::name('personnel')->where($where)->select();
+        // $datas = Db::name('personnel')->where($where)->select();
         $this->assign([
-            'datas'=>$datas
+            // 'datas'=>$datas,
+            'admininfo'=>$admininfo
         ]);
         return $this->fetch();
     }
@@ -126,8 +141,12 @@ class Department extends Adminbase{
         if(input('did')){
             $admininfo = $this->_userinfo;
             if($admininfo['roleid'] == 1){
-                // $this->error('最高管理员不能添加/修改部门'); 
+                $this->error('最高管理员不能添加/修改部门'); 
             }
+            //预防以后最高管理员要添加用户
+            // if($admininfo['roleid'] == 1){
+            //     $admininfo['companyid'] = input('fid');
+            // }
             $data = input();
             $data['addtime'] = time();
             $data['fid'] = $admininfo['companyid'];
@@ -147,7 +166,7 @@ class Department extends Adminbase{
         if(input('id')){
             $admininfo = $this->_userinfo;
             if($admininfo['roleid'] == 1){
-                // $this->error('最高管理员不能添加/修改部门'); 
+                $this->error('最高管理员不能添加/修改部门'); 
             }
             $data = input();
             $res = Db::name('personnel')->where(['id'=>input('id')])->update($data);
@@ -166,9 +185,12 @@ class Department extends Adminbase{
         if(input('did') || input('did') == '0'){
             $admininfo = $this->_userinfo;
             $where = [];
-            // if($admininfo['roleid'] == 1){
-
-            // }
+            if($admininfo['roleid'] == 1 && empty(input('fid'))){
+                TreeResult(0,'ok',[],0);die;
+            }
+            if($admininfo['roleid'] == 1){
+                $admininfo['companyid'] = input('fid')?input('fid'):0;
+            }
             $where[] = ['fid','=',$admininfo['companyid']];
             if(input('did') != '0'){
                 $where[] = ['info_pid','like','%-'.input('did').'%'];

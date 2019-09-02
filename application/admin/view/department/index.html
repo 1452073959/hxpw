@@ -29,18 +29,32 @@
 </style>
 <div class="layui-card">
     <div class="layui-card-body">
-        <div class="layui-form">
-            <blockquote class="layui-elem-quote news_search">
-                <div class="layui-btn-group">
-                    <button class="layui-btn" id="btn-expand">全部展开</button>
-                    <button class="layui-btn" id="btn-fold">全部折叠</button>
-                    <button class="layui-btn" id="btn-refresh">刷新表格</button>
+        <blockquote class="layui-elem-quote news_search">
+            <div class="layui-btn-group">
+                <button class="layui-btn" id="btn-expand">全部展开</button>
+                <button class="layui-btn" id="btn-fold">全部折叠</button>
+                <button class="layui-btn" id="btn-refresh">刷新表格</button>
+            </div>
+            <input id="edt-search" type="text" placeholder="输入关键词" style="width: 120px;"/>&nbsp;&nbsp;
+            <button class="layui-btn" id="btn-search">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+        </blockquote>
+        {eq name="$admininfo['roleid']" value="1" }
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择公司</label>
+                    <div class="layui-input-block w200">
+                        <select name="fid" id="check_fid" lay-filter="check_fid" lay-search>
+                            <option value=""></option>
+                            {foreach name="frame" item="v" key="k"}
+                                <option value="{$v['id']}">{$v['name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
                 </div>
-                <input id="edt-search" type="text" placeholder="输入关键词" style="width: 120px;"/>&nbsp;&nbsp;
-                <button class="layui-btn" id="btn-search">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button> 
-            </blockquote>
-            <table id="table1" class="layui-table" lay-filter="table1"></table>
-        </div>
+            </div>
+        {/eq}
+        <table id="table1" class="layui-table" lay-filter="table1"></table>
+        
     </div>
 </div>
 {/block}
@@ -65,7 +79,7 @@
         var treetable = layui.treetable;
 
         // 渲染表格
-        var renderTable = function () {
+        var renderTable = function (fid=0) {
             layer.load(2);
             treetable.render({
                 // toolbar: '#', //设置打印
@@ -77,6 +91,7 @@
                 treeLinkage: false,
                 elem: '#table1',
                 url: '{:url("department/treetype")}',
+                where: {fid:fid} ,
                 // url: '__STATIC__/module/json/data.json',
                 page: false,
                 cols: [[
@@ -119,7 +134,6 @@
 
          // treetable.foldAll('#table1');
         renderTable();
-
         //全部展开
         $('#btn-expand').click(function () {
             treetable.expandAll('#table1');
@@ -244,15 +258,20 @@
                 });
             }
         });
+
+        //最高管理员 选择分公司重新加载
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('select(check_fid)', function(data){
+                // console.log(data.value); 
+                renderTable(data.value);
+            });      
+        })
     });
 
-    // $(function(){
-    //   $("table").on("click","tr td",function(){
-    //     var _this = $(this).children();
-    //     alert(_this.html())
-    //   })
-      
-    // })
+
+
+    
 
 </script>
 {/block}
