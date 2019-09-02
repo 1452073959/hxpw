@@ -31,6 +31,10 @@ class Statistical extends Adminbase{
         return $this->fetch();
     }
 
+    //在施工地
+    public function in_word(){
+        return $this->fetch();
+    }
     //模拟返回数据
     public function return_data(){
         $data =[
