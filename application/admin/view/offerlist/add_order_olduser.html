@@ -915,6 +915,7 @@
             // var msg = '确定要删除选中项目吗？';
             $(this).parent().parent().remove();
             save_order();
+            initialize_datas()
             return false;
         }else{
             layui.use('layer', function(){
@@ -935,6 +936,7 @@
                         $('tr[data-inspace="'+inspace+'"]').remove();
                     }
                     save_order();
+                    initialize_datas();
                     layer.close(index);
 
                 },

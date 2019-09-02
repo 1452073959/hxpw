@@ -856,6 +856,7 @@
         }else if(type == 'project'){
             // var msg = '确定要删除选中项目吗？';
             $(this).parent().parent().remove();
+            initialize_datas()
             save_order();
             return false;
         }else{
@@ -877,6 +878,7 @@
                         $('tr[data-inspace="'+inspace+'"]').remove();
                     }
                     save_order();
+                    initialize_datas();
                     layer.close(index);
 
                 },
