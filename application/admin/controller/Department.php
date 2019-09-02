@@ -49,7 +49,7 @@ class Department extends Adminbase{
     public function adds(){
         $admininfo = $this->_userinfo;
         if($admininfo['roleid'] == 1){
-            // $this->error('最高管理员不能添加/修改部门'); 
+            $this->error('最高管理员不能添加/修改部门'); 
         }
         $input = input();
         if($input){
@@ -142,6 +142,25 @@ class Department extends Adminbase{
         }
     }
 
+    //编辑人员
+    public function edit_personnel(){
+        if(input('id')){
+            $admininfo = $this->_userinfo;
+            if($admininfo['roleid'] == 1){
+                // $this->error('最高管理员不能添加/修改部门'); 
+            }
+            $data = input();
+            $res = Db::name('personnel')->where(['id'=>input('id')])->update($data);
+            if ($res) {
+                $this->success('修改成功');
+            }else{
+                $this->error('修改失败'); 
+            }
+        }else{
+            $this->error('参数错误'); 
+        }
+    }
+
     //获取人员列表  - json格式 供treetable使用
     public function get_personnel(){
         if(input('did') || input('did') == '0'){
@@ -161,8 +180,10 @@ class Department extends Adminbase{
             // $department_ids[] = input('did');//所有部门id
             $datas = Db::name('personnel')->where(['did'=>$department_ids])->page(input('page'))->limit(input('limit'))->select();
             $count = Db::name('personnel')->where(['did'=>$department_ids])->count();
+            $job = [1=>'设计师', 2=>'报价师', 3=>'商务经理', 4=>'工程监理', 5=>'其他'];
             foreach($datas as $k=>$v){
                 $datas[$k]['sex'] = $v['sex']==1?'男':'女';
+                $datas[$k]['job'] = $job[$v['job']];
                 $datas[$k]['status'] = $v['status']==1?'在职':'离职';
                 $datas[$k]['department'] = $department[$v['did']]['name'];
                 $datas[$k]['addtime'] = date('Y-m-d',$v['addtime']);
