@@ -89,6 +89,19 @@ class Statistical extends Adminbase{
                         "td9"=>"1",
                         "td10"=>"4",
                         "td11"=>"2",
+                    ],
+                    [
+                        "td1"=>"合计",
+                        "td2"=>"",
+                        "td3"=>"271500",
+                        "td4"=>"48%",
+                        "td5"=>"1025",
+                        "td6"=>"29",
+                        "td7"=>"6",
+                        "td8"=>"12",
+                        "td9"=>"3",
+                        "td10"=>"8",
+                        "td11"=>"2",
                     ]
                 ];
         echo json_encode(array('code'=>0,'count'=>count($data),'data'=>$data,'msg'=>'ok'));
