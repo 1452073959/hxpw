@@ -174,7 +174,8 @@ layui.define(['layer', 'table'], function (exports) {
                 var ttype = $ti.attr('lay-ttype');
                 var tOpen = $ti.hasClass('open');
                 if ('dir' == ttype && !tOpen) {
-                    $ti.trigger('click');
+                    var sapn = $ti.find('i');
+                    sapn.trigger('click');
                 }
             });
         },
@@ -185,7 +186,8 @@ layui.define(['layer', 'table'], function (exports) {
                 var ttype = $ti.attr('lay-ttype');
                 var tOpen = $ti.hasClass('open');
                 if ('dir' == ttype && tOpen) {
-                    $ti.trigger('click');
+                    var sapn = $ti.find('i');
+                    sapn.trigger('click');
                 }
             });
         }
