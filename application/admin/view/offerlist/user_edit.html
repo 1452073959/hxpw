@@ -18,61 +18,125 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">房屋面积</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="area" autocomplete="off" placeholder="房屋面积" class="layui-input" value="{$data.area|default=''}">
+                    <input type="text" name="area" autocomplete="off" class="layui-input" value="{$data.area|default=''}">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">工程地址</label>
                 <div class="layui-input-inline">
                     <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
-                        <option value="">请选择地址</option>
+                        <option value="">请选择省份</option>
                         {foreach $provinces as $k=>$v } 
-                            <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
+                            <option value="{$v.provinceid}-{$v.province}" {eq name="$data['provinceid']" value="$v['provinceid']"}selected{/eq}>{$v.province}</option>
                         {/foreach}
                     </select>
                 </div>
                 <div class="layui-input-inline">
                     <select name="cities" lay-filter="cities" lay-verify="required" data-type=2 lay-search>
+                        <option value="">请选择城市</option>
+                        {foreach $cities as $k=>$v } 
+                            <option value="{$v.cityid}-{$v.city}" {eq name="$data['cityid']" value="$v['cityid']"}selected{/eq}>{$v.city}</option>
+                        {/foreach}
                     </select>
                 </div>
                 <div class="layui-input-inline">
                     <select name="areas" lay-verify="required" class="">
+                        <option value="">请选择县区</option>
+                        {foreach $areas as $k=>$v } 
+                            <option value="{$v.areaid}-{$v.area}" {eq name="$data['areaid']" value="$v['areaid']"}selected{/eq}>{$v.area}</option>
+                        {/foreach}
                     </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">详细地址</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="详细地址" class="layui-input">
+                    <input type="text" name="address" lay-verify="required" value="<?php echo str_replace($address,'',$data['address']) ?>" autocomplete="off" placeholder="详细地址" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">商务经理</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="manager_name" autocomplete="off" placeholder="商务经理" class="layui-input" value="{$data.manager_name|default=''}">
+                    <input type="text" name="manager_name" disabled autocomplete="off" placeholder="商务经理" class="layui-input" value="{$data.manager_name|default=''}">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">报价师姓名</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="quoter_name" autocomplete="off" placeholder="报价师姓名" class="layui-input" value="{$data.quoter_name|default=''}">
+                    <input type="text" name="quoter_name" disabled autocomplete="off" placeholder="报价师姓名" class="layui-input" value="{$data.quoter_name|default=''}">
                 </div>
             </div>
              <div class="layui-form-item">
                 <label class="layui-form-label">设计师姓名</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="designer_name" autocomplete="off" placeholder="设计师姓名" class="layui-input" value="{$data.designer_name|default=''}">
+                    <input type="text" name="designer_name" disabled autocomplete="off" placeholder="设计师姓名" class="layui-input" value="{$data.designer_name|default=''}">
                 </div>
             </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">设计总监</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="director_designer" value="{$data.director_designer|default=''}" autocomplete="off" placeholder="设计总监" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">木作设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="wood_designer" value="{$data.wood_designer|default=''}" autocomplete="off" placeholder="木作设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">家具设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="furniture_designer" value="{$data.furniture_designer|default=''}" autocomplete="off" placeholder="家具设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">软装设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="soft_designer" value="{$data.soft_designer|default=''}" autocomplete="off" placeholder="软装设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">水电设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="sd_designer" value="{$data.sd_designer|default=''}" autocomplete="off" placeholder="水电设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">助理设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="aid_designer" value="{$data.aid_designer|default=''}" autocomplete="off" placeholder="助理设计师" class="layui-input">
+                </div>
+            </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label">房屋类型</label>
                 <div class="layui-input-block">
                     <input type="radio" name="room_type" value="平层" title="平层" {eq name="$data['room_type']" value="平层"}checked{/eq} >
                     <input type="radio" name="room_type" value="复式" title="复式" {eq name="$data['room_type']" value="复式"}checked{/eq}>
                     <input type="radio" name="room_type" value="别墅" title="别墅" {eq name="$data['room_type']" value="别墅"}checked{/eq}>
-                    <input type="radio" name="room_type" value="工装" title="工装" {eq name="$data['room_type']" value="工装"}checked{/eq}>
+                    <input type="radio" name="room_type" value="公装" title="公装" {eq name="$data['room_type']" value="公装"}checked{/eq}>
                     <input type="radio" name="room_type" value="酒店" title="酒店" {eq name="$data['room_type']" value="酒店"}checked{/eq}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">单选项</label>
+                <div class="layui-input-block">
+                    <!-- layui-hide -->
+                    <input type="radio" name="house_type" lay-filter="" value="1" title="新房" {eq name="$data['house_type']" value="1"}checked{/eq}>
+                    <input type="radio" name="house_type" lay-filter="" value="2" title="旧房" {eq name="$data['house_type']" value="2"}checked{/eq}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户状态</label>
+                <div class="layui-input-block">
+                    <!-- layui-hide -->
+                    <input type="radio" name="is_new" disabled lay-filter="is_new" value="1" title="新客户" {eq name="$data['is_new']" value="1"}checked{/eq}>
+                    <input type="radio" name="is_new" disabled lay-filter="is_new" value="9" title="旧客户" {eq name="$data['is_new']" value="9"}checked{/eq}>
+                    <!-- <input type="text" class="layui-input layui-hide w100" style="display: inline;" name="oldtime" id="oldtime" placeholder="签单时间" > -->
+                    
                 </div>
             </div>
 
@@ -149,7 +213,6 @@
             })
         });
     });
-
     
 </script>
 {/block}

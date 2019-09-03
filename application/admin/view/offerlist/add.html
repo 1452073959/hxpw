@@ -49,22 +49,77 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">商务经理</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="商务经理" class="layui-input">
+                    <!-- <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="商务经理" class="layui-input"> -->
+                    <select name="manager_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value="">请选择</option>
+                        {foreach $manager_name as $k=>$v } 
+                            <option value="{$v.id}">{$v.name}</option>
+                        {/foreach}
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">报价师姓名</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="报价师姓名" class="layui-input">
+                    <!-- <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="报价师姓名" class="layui-input"> -->
+                    <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value="">请选择</option>
+                        {foreach $quoter_name as $k=>$v } 
+                            <option value="{$v.id}">{$v.name}</option>
+                        {/foreach}
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">设计师姓名</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="设计师姓名" class="layui-input">
+                    <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="设计师姓名" class="layui-input"> -->
+                    <select name="designer_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value="">请选择</option>
+                        {foreach $designer_name as $k=>$v } 
+                            <option value="{$v.id}">{$v.name}</option>
+                        {/foreach}
+                    </select>
                 </div>
             </div>
-            
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">设计总监</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="director_designer" autocomplete="off" placeholder="设计总监" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">木作设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="wood_designer" autocomplete="off" placeholder="木作设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">家具设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="furniture_designer" autocomplete="off" placeholder="家具设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">软装设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="soft_designer" autocomplete="off" placeholder="软装设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">水电设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="sd_designer" autocomplete="off" placeholder="水电设计师" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">助理设计师</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="aid_designer" autocomplete="off" placeholder="助理设计师" class="layui-input">
+                </div>
+            </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label">房屋类型</label>
                 <div class="layui-input-block">

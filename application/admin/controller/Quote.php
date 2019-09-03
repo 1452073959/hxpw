@@ -19,7 +19,7 @@ class Quote extends Adminbase
         $where = ['1'=>'provinceid','2'=>'cityid'];
         $type = input('type');
         $id = input('id');
-        $lists = Db::name($table[$type])->where([$where[$type]=>$id])->select();
+        $lists = Db::name($table[$type])->where([$where[$type]=>$id])->order('id','asc')->select();
         if($lists){
             $this->success('success','',$lists);
         }else{
