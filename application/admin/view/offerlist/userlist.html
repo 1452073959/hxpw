@@ -141,11 +141,10 @@
                       <td >
                         <a class="add_order" data-userid="{$vo.id}"  href="javascript:;"><i class="layui-icon layui-icon-add-1" title="业务报价"></i></a>
                         <a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}" ><i class="layui-icon layui-icon-search" title="查看报价"></i></a>
-
                         <!-- 编辑删除只有最高管理员可以 -->
                         {eq name="$userinfo['roleid']" value="1"}
-                            <a class="" href="{:url('admin/offerlist/user_delete',['id'=>$vo.id])}"><i class="layui-icon layui-icon-delete" title="删除" onclick="javascript:if(!confirm('确定要删除选择客户吗？\n此操作不可以恢复！')) { return false; }"></i></a>
                             <a class="" href="{:url('admin/offerlist/user_edit',['id'=>$vo.id])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                            <a class="" href="{:url('admin/offerlist/user_delete',['id'=>$vo.id])}"><i class="layui-icon layui-icon-delete" title="删除" onclick="javascript:if(!confirm('确定要删除选择客户吗？\n此操作不可以恢复！')) { return false; }"></i></a>
                         {/eq}
                       </td>    
                  {/foreach}
@@ -170,10 +169,10 @@
         layui.use('layer', function(){
             var html = '';
             html += '<ul style="text-align:center;padding:10px">'
-            html += '<li style="margin:3px;"><a href="/admin/offerlist/add_order/customer_id/'+userid+'" class="layui-btn layui-btn-radius layui-btn-primary">半包报价</a></li>'
-            html += '<li style="margin:3px;"><a href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/2" class="layui-btn layui-btn-radius layui-btn-primary">主材报价</a></li>'
-            html += '<li style="margin:3px;"><a href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/3" class="layui-btn layui-btn-radius layui-btn-primary">智能、家电报价</a></li>'
-            html += '<li style="margin:3px;"><a href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/4" class="layui-btn layui-btn-radius layui-btn-primary">软装报价</a></li>'
+            html += '<li style="margin:3px;"><a style="width:150px" href="/admin/offerlist/add_order/customer_id/'+userid+'" class="layui-btn layui-btn-radius layui-btn-primary">半包报价</a></li>'
+            html += '<li style="margin:3px;"><a  style="width:150px" href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/2" class="layui-btn layui-btn-radius layui-btn-primary">主材报价</a></li>'
+            html += '<li style="margin:3px;"><a  style="width:150px" href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/3" class="layui-btn layui-btn-radius layui-btn-primary">智能、家电报价</a></li>'
+            html += '<li style="margin:3px;"><a  style="width:150px" href="/admin/furniture_orther/add_order/customer_id/'+userid+'/type/4" class="layui-btn layui-btn-radius layui-btn-primary">软装报价</a></li>'
             html += '</ul>'
             layer.open({
                 title: '选择报价内容',
