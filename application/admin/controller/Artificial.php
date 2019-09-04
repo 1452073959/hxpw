@@ -27,35 +27,23 @@ class Artificial extends Adminbase
     //     parent::initialize();
     //     $this->Menu = new Menu_Model;
     // }
-   public function index()
-    {
+    public function index(){
 
-       $userinfo = $this->_userinfo; 
-       $da['userid'] = $userinfo['userid'];
-         if($userinfo['roleid'] != 1){
-           $da['o.frameid'] = $userinfo['companyid'];
+        $userinfo = $this->_userinfo; 
+        $condition = [];
+        $da['userid'] = $userinfo['userid'];
+        if($userinfo['roleid'] != 1){
+            $da['frameid'] = $userinfo['companyid'];
         }
-      if($this->request->isPost()){
-         $search = input('search'); 
-         if($search){
-            $sres = Db::name('artificial')->where('itemcode','like',"%".$search."%")->paginate(20);
-            // dump($sres);
-            $this->assign('data',$sres); 
-             $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
-             $this->assign('frame',$frame);   
-            return $this->fetch();       
-         }else{
-           $this->error('请输入搜索内容', url("Artificial/index"));
-         }
-
-      }else{
-       // echo __STATIC__;
-        $res = Db::name('Offerquota')->where($da)->paginate(20);
+        if(input('search')){
+            $condition[] = ['item_number','like','%'.input('search').'%'] ;
+        }
+        // echo __STATIC__;
+        $res = Db::name('Offerquota')->where($da)->where($condition)->paginate(20,false,['query'=>request()->param()]);
         $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
         $this->assign('data',$res);    
         $this->assign('frame',$frame);    
         return $this->fetch();
-      } 
     }
     //工程成本分析
     public function gcfx(){
