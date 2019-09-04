@@ -149,30 +149,44 @@ class Manager extends Adminbase
      */
     public function edit()
     {
+        $admininfo = $this->_userinfo;
         if ($this->request->isPost()) {
             $data = $this->request->post('');
-                  // dump($data);exit;
-
             $result = $this->validate($data, 'AdminUser.update');
             if ($result !== true) {
                 return $this->error($result);
             }
-            $data['password'] = md5($data['password']);
+            // var_dump($data);die;
+            
+            if(!empty($data['password'])){
+                $data['password'] = md5($data['password']);
+            }else{
+                unset($data['password']);
+            }
+            if($admininfo['roleid'] != 1){
+                unset($data['companyid']);
+                unset($data['username']);
+                unset($data['roleid']);
+                unset($data['rule']);
+                unset($data['status']);
+                unset($data['userid']);
+            }
             unset($data['password_confirm']);
             unset($data['nickname']);
             // dump($data);exit;
-            if (Db::name('admin')->update($data)) {
+            if (Db::name('admin')->update($data) !== false) {
                 $this->success("修改成功！");
             } else {
                 $this->error(Db::name('admin')->getError() ?: '修改失败！');
             }
         }else{
-            $id = $this->request->param('id/d');
+            $id = $admininfo['userid'];
             $data = Db::name('admin')->where(array("userid" => $id))->find();
             if (empty($data)) {
                 $this->error('该信息不存在！');
             }
             $this->assign("data", $data);
+            $this->assign("admininfo", $admininfo);
             $this->assign("roles", model('admin/AuthGroup')->getGroups());
             return $this->fetch();
         }

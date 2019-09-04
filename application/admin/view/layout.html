@@ -92,6 +92,8 @@
                </li> -->
                 <li class="layui-nav-item"><a href="javascript:;">{$userInfo.username}</a>
                     <dl class="layui-nav-child">
+                        <!-- <dd><a href="{:url('admin/index/video')}" lay-id="999admin" class="orderment">教学视频</a></dd> -->
+                        <dd><a href="{:url('admin/manager/edit',array('id'=>$userInfo.userid,'type'=>1))}" lay-id="998admin" class="orderment">修改信息</a></dd>
                         <dd><a href="{:url('admin/login/logout')}">安全退出</a></dd>
                     </dl>
                 </li>
@@ -130,14 +132,14 @@ $('dl.skin > dd').on('click', function () {
         <div class="site-mobile-shade"></div>
         <div class="layui-body" id="B_frame">
             <div class="layui-tab mag0" id="top_tabs_box" lay-filter="Tab">
-                <div class="tab-go-left" id="page-prev"><i class="layui-icon layui-icon-left"></i></div>
+                <div class="tab-go-left" id="page-prev"><a href="javascript:;" onClick="javascript :history.back(-1);"><i class="layui-icon layui-icon-left"></i></a></div>
                 <ul class="layui-tab-title top_tab" id="B_history">
                     <li class="layui-this" lay-id="default"><i class="layui-icon layui-icon-home"></i>&nbsp;后台首页
                     </li>
                 </ul>
                 <div class="tab-right">
-                    <div class="tab-go-right"  style="" id="page-next">
-                        <i class="layui-icon layui-icon-right"></i>
+                    <div class="tab-go-right"  style="border:none" id="page-next">
+                        <!-- <i class="layui-icon layui-icon-right"></i> -->
                     </div>
                     <div class="tab-go-right"  style="margin-left: 95px" id="">
                         <a href="javascript:;" title="刷新当前页面" class="refresh" id="J_refresh"><i class="layui-icon layui-icon-refresh"></i>&nbsp;</a>
@@ -252,6 +254,7 @@ $('dl.skin > dd').on('click', function () {
 
         //左边菜单点击
         $('#B_menubar').on('click', 'a', function(e) {
+            
             e.preventDefault();
             e.stopPropagation();
             //iframe_height();
@@ -287,6 +290,30 @@ $('dl.skin > dd').on('click', function () {
             });
 
         });
+        //右上角菜单点击
+        $('.layui-layout-right').on('click', '.orderment', function(e) {
+
+            $(this).parent().removeClass('layui-this')
+            // return false;
+            e.preventDefault();
+            e.stopPropagation();
+            //iframe_height();
+            var $this = $(this),
+                _dt = $this.parent(),
+                _dl = $this.next('dl');
+            if (_dl.length) {
+                return false;
+            };
+            var data_id = $(this).attr('lay-id'),
+                li = $('#B_history li[lay-id=' + data_id + ']');
+            var href = this.href;
+            iframeJudge({
+                elem: $this,
+                href: href,
+                id: data_id
+            });
+        });
+
         $('#notice_btn').on('click', function() {
             $('#notice_btn a').trigger('click');
         })
@@ -324,6 +351,9 @@ $('dl.skin > dd').on('click', function () {
                 id: data_id
             });
         })
+
+       
+
         //判断显示或创建iframe
         function iframeJudge(options) {
             var elem = options.elem,
@@ -421,6 +451,7 @@ $('dl.skin > dd').on('click', function () {
 
         //上一个选项卡
         $('#page-prev').click(function(e) {
+            return false;
             e.preventDefault();
             e.stopPropagation();
             var ul = $('#B_history'),
@@ -432,6 +463,7 @@ $('dl.skin > dd').on('click', function () {
 
         //下一个选项卡
         $('#page-next').click(function(e) {
+            return false;
             e.preventDefault();
             e.stopPropagation();
             var ul = $('#B_history'),

@@ -47,7 +47,9 @@ class AdminUser extends Validate
     public function sceneUpdate()
     {
         return $this->only(['username', 'password', 'email', 'roleid'])
-            ->remove('password', 'require');
+            ->remove('username')
+            ->remove('password')
+            ->remove('roleid');
     }
 
     //定义验证场景
