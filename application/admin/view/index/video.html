@@ -1,0 +1,77 @@
+{extend name="index_layout"/}
+
+{block name="main"}
+<style type="text/css">
+    video::-internal-media-controls-download-button {
+        display:none;
+    }
+
+    video::-webkit-media-controls-enclosure {
+        overflow:hidden;
+    }
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 50px); 
+    }
+    #main{
+        width: 1300px;
+        height:800px;
+        margin:0 auto;
+    }
+    #left{
+        width: 200px;
+        height:700px;
+        float: left;
+        /*background-color: red*/
+    }
+    #right{
+        margin-left: 5px;
+        float: left;
+    }
+    #left .layui-nav{
+        margin-top: 75px;
+    }
+</style>
+<div id="main">
+    <div id="left">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">报价员</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" data-src="__UPLOADS__/video/eee.mp4">报价员基础操作</a></dd>
+                    <dd><a href="javascript:;" data-src="__UPLOADS__/video/aaa.mp4">报价员基础操作2</a></dd>
+                </dl>
+            </li>
+           
+        </ul>
+    </div>
+    <div id="right">
+        <video width="800" height="600" id="myVideo" controls="controls" oncontextmenu="return(false)" controlslist="nodownload">
+            <source src="" type="video/mp4">
+            您的浏览器不支持视频播放标签。
+        </video>
+    </div>
+{/block}
+</div>
+
+
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#myVideo').bind('contextmenu',function() { return false; });
+    });
+    $('dd a').click(function(){
+        var src = $(this).data('src');
+        var sourceDom = $("<source src="+src+">");
+        $("#myVideo").html('您的浏览器不支持视频播放标签。');
+        $("#myVideo").append(sourceDom);
+        setTimeout(function () { 
+            $("#myVideo").load()
+        }, 1000); // 延时1秒
+        
+    })
+</script>
+
+{/block}

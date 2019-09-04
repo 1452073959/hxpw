@@ -10,6 +10,11 @@ use think\Db;
 
 class Index extends Adminbase
 {
+
+    //教学视频
+    public function video(){
+        return $this->fetch();
+    }
     //后台首页
     public function index()
     {

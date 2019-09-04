@@ -23,7 +23,8 @@ return [
     //模板输出替换
     'tpl_replace_string' => [
         '__STATIC__' => ROOT_URL . (defined('IF_PUBLIC') ? 'static' : 'public/static'),
-        '__UPLOADS__' => ROOT_URL.'public/uploads',
+        // '__UPLOADS__' => ROOT_URL.'public/uploads',
+        '__UPLOADS__' => ROOT_URL.'uploads',
         '__TEMPLATE__' => ROOT_URL.'Template',
         '__AJAXURL__' => ROOT_URL.'admin',
     ],
