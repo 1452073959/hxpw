@@ -121,11 +121,11 @@ table tr:first-child{
             limits: [10,30,50,100,200], 
             cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true,hide:true},
-                {field: 'name', title: '用户名', width:120},
-                {field: 'job', title: '职位', width:120},
-                {field: 'department', title: '部门', width:130},
+                {field: 'name', title: '用户名', width:100},
+                {field: 'job', title: '职位', width:100},
+                {field: 'department', title: '部门', width:100},
                 {field: 'sex', title: '性别', width:80, sort: true},
-                {field: 'phone', title: '手机号码', width:150, sort: true},
+                {field: 'phone', title: '手机号码', width:130, sort: true},
                 {field: 'email', title: '邮箱', width:200, sort: true},
                 {field: 'status', title: '状态', width:80, sort: true},
                 {field: 'addtime', title: '添加时间',width: 130, sort: true},
@@ -136,6 +136,11 @@ table tr:first-child{
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'edit'){
+                //获取部门
+                var option = '';
+                $('.treeTable table tr').each(function(k,v){
+                    option += '<option '+ ($(v).find('span').attr('lay-tid')==data.did?'selected':'') +' value="'+$(v).find('span').attr('lay-tid')+'">'+$(v).find('a').text()+'</option>'
+                })
                 //编辑
                 var inputs = '<form class="layui-form" action=""><div class="neweditbox">'
                 +   '<input type="hidden" value="'+data.id+'" name="id">'
@@ -154,18 +159,26 @@ table tr:first-child{
                 +   '<div class="layui-form-item">'
                 +      '<label class="layui-form-label">职位</label>'
                 +      '<div class="layui-input-block ">'
-                +          '<input type="radio" name="job" '+ (data.job=="设计师"?'checked':"") +' value="1" title="设计师">'
-                +          '<input type="radio" name="job" '+ (data.job=="报价师"?'checked':"") +' value="2" title="报价师">'
-                +          '<input type="radio" name="job" '+ (data.job=="商务经理"?'checked':"") +' value="3" title="商务经理">'
-                +          '<input type="radio" name="job" '+ (data.job=="工程监理"?'checked':"") +' value="4" title="工程监理">'
-                +          '<input type="radio" name="job" '+ (data.job=="其他"?'checked':"") +' value="5" title="其他">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="设计师"?'checked':"") +' value="1" title="设计师">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="报价师"?'checked':"") +' value="2" title="报价师">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="商务经理"?'checked':"") +' value="3" title="商务经理">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="工程监理"?'checked':"") +' value="4" title="工程监理">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="其他"?'checked':"") +' value="5" title="其他">'
                 +      '</div>'
                 +   '</div>'
                 +   '<div class="layui-form-item">'
                 +      '<label class="layui-form-label">状态</label>'
                 +      '<div class="layui-input-block w200">'
-                +          '<input type="radio" name="status" '+ (data.status=="在职"?'checked':"") +' value="1" title="在职">'
-                +          '<input type="radio" name="status" '+ (data.status=="离职"?'checked':"") +' value="2" title="离职">'
+                +          '<input type="radio" lay-verify="required" name="status" '+ (data.status=="在职"?'checked':"") +' value="1" title="在职">'
+                +          '<input type="radio" lay-verify="required" name="status" '+ (data.status=="离职"?'checked':"") +' value="2" title="离职">'
+                +      '</div>'
+                +   '</div>'
+                +   '<div class="layui-form-item">'
+                +      '<label class="layui-form-label">部门</label>'
+                +      '<div class="layui-input-block w200">'
+                +          '<select name="did" lay-verify="required">'
+                +          option
+                +          '</select>'
                 +      '</div>'
                 +   '</div>'
                 +   '<div class="layui-form-item" style="text-align:center">'
@@ -180,7 +193,7 @@ table tr:first-child{
                     fixed: false,    //取消固定定位，因为固定定位是相对body的
                     // offset: ['30%', '30%'],   //相对定位
                     // skin: 'layui-layer-rim', //加上边框
-                    area: ['430px', '400px'], //宽高
+                    area: ['430px', '500px'], //宽高
                     title:'编辑'+data.name,
                     content: inputs
                 });
