@@ -13,6 +13,9 @@ class Index extends Adminbase
 
     //教学视频
     public function video(){
+        $admininfo = $this->_userinfo;
+        $this->assign('admininfo', $admininfo);
+
         return $this->fetch();
     }
     //后台首页
