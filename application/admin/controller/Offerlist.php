@@ -1070,14 +1070,15 @@ class Offerlist extends Adminbase
         //获取省份
         $provinces = Db::name('provinces')->order('id','asc')->select();
         //获取报价师 设计师  商务经理
-        $quoter_name = Db::name('personnel')->where(['job'=>2,'status'=>1,'fid'=>$admininfo['companyid']])->select();
-        $designer_name = Db::name('personnel')->where(['job'=>1,'status'=>1,'fid'=>$admininfo['companyid']])->select();
-        $manager_name = Db::name('personnel')->where(['job'=>3,'status'=>1,'fid'=>$admininfo['companyid']])->select();
+        // $quoter_name = Db::name('personnel')->where(['job'=>2,'status'=>1,'fid'=>$admininfo['companyid']])->select();
+        // $designer_name = Db::name('personnel')->where(['job'=>1,'status'=>1,'fid'=>$admininfo['companyid']])->select();
+        // $manager_name = Db::name('personnel')->where(['job'=>3,'status'=>1,'fid'=>$admininfo['companyid']])->select();
+        $personnel = Db::name('personnel')->where(['status'=>1,'fid'=>$admininfo['companyid']])->select();
         $this->assign([
             'provinces'=>$provinces,
-            'quoter_name'=>$quoter_name,
-            'designer_name'=>$designer_name,
-            'manager_name'=>$manager_name,
+            'quoter_name'=>$personnel,
+            'designer_name'=>$personnel,
+            'manager_name'=>$personnel,
         ]);
         return $this->fetch();
     }
