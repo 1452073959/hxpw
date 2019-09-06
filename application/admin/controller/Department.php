@@ -55,6 +55,14 @@ class Department extends Adminbase{
         }
     }
 
+    public function add_job(){
+        if(input('name') && input('fid')){
+            
+        }else{
+            $this->error('参数错误'); 
+        }
+    }
+
     //添加部门
     public function adds(){
         $admininfo = $this->_userinfo;
@@ -193,7 +201,7 @@ class Department extends Adminbase{
             }
             $where[] = ['fid','=',$admininfo['companyid']];
             if(input('did') != '0'){
-                $where[] = ['info_pid','like','%-'.input('did').'%'];
+                $where[] = ['info_pid','like','%-'.input('did').'-%'];
             }
             //
             $department = array_column(Db::name('department')->where($where)->whereOr(['id'=>input('did')])->select(),null,'id');
