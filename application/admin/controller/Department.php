@@ -84,7 +84,7 @@ class Department extends Adminbase{
                 $data['addtime'] = time();
                 $data['pid'] = $input['pid'];
                 if($data['pid'] == '0'){
-                    $data['info_pid'] = 0;
+                    $data['info_pid'] = '0-';
                 }else{
                     $info_pid = Db::name('department')->where(['fid'=>$admininfo['companyid'],'id'=>$data['pid']])->value('info_pid');
                     $data['info_pid'] = $info_pid.$data['pid'].'-';
