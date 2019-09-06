@@ -41,8 +41,12 @@ layui.use(['element', 'layer', 'form'], function() {
     $('.ajax-get').click(function() {
         var target;
         var that = this;
+        var msg = '确认要执行该操作吗?';
+        if($(this).data('msg')){
+            msg = $(this).data('msg');
+        }
         if ($(this).hasClass('confirm')) {
-            layer.confirm('确认要执行该操作吗?', { icon: 3, title: '提示' }, function(index) {
+            layer.confirm(msg, { icon: 3, title: '提示' }, function(index) {
                 if ((target = $(that).attr('href')) || (target = $(that).attr('url'))) {
                     $.get(target).success(function(data) {
                         if (data.code == 1) {

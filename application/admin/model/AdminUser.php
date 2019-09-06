@@ -139,9 +139,9 @@ class AdminUser extends Model
         $map['phone'] = $phone;
         $userInfo = self::get($map);
         if (!$userInfo) {
-            $this->error = '用户不存在！';
+            $this->error = '用户不存在';
         } elseif (!$userInfo['status']) {
-            $this->error = '用户已被禁用！';
+            $this->error = '登录失败，请联系管理员';
         } else {
             //密码判断
             if (empty($code) || $code != session('code')) {
@@ -167,13 +167,13 @@ class AdminUser extends Model
         $userInfo = self::get($map);
         // dump($userInfo);exit;
         if (!$userInfo) {
-            $this->error = '用户不存在！';
+            $this->error = '账号/密码错误';
         } elseif (!$userInfo['status']) {
-            $this->error = '用户已被禁用！';
+            $this->error = '登录失败，请联系管理员';
         } else {
             //密码判断
             if (empty($password) || md5($password) != $userInfo['password']) {
-                $this->error = '密码错误！';
+                $this->error = '账号/密码错误';
             } else {
                 $this->autoLogin($userInfo);
                 return true;

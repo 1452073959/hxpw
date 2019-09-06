@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\admin\model\AdminUser;
 use app\common\controller\Adminbase;
 use think\Db;
+use think\Paginator;
 
 /**
  * 管理员管理
@@ -16,6 +17,77 @@ class Manager extends Adminbase
     //     parent::initialize();
     //     $this->AdminUser = new AdminUser;
     // }
+
+    //账号管理  //人事专用
+    public function account_management(){
+        $admininfo = $this->_userinfo;
+        $where = [];
+        $condition = [];
+        $where['companyid'] = $admininfo['companyid'];
+        $where['roleid'] = [2];
+        if(input('username')){
+            $condition[] = ['username','like','%'.trim(input('username')).'%'];
+        }
+        if(input('name')){
+            $condition[] = ['name','like','%'.trim(input('name')).'%'];
+        }
+        // var_dump($where);die;
+        $datas = Db::name('admin')->where($where)->where($condition)->order('userid','desc')->paginate(20,false,['query'=>request()->param()]);
+        // $sid = array_column($datas->items(), 'sid');
+        // $personnel = [];
+        // if($sid){
+        //     $personnel = array_column(Db::name('personnel')->where(['id'=>$sid])->select(),null ,'id');
+        // }
+        $this->assign("admininfo", $admininfo);
+        // $this->assign("personnel", $personnel);
+        $this->assign("datas", $datas);
+        return $this->fetch();
+    }
+    /**
+     * 添加管理员 //人事专用
+     */
+    public function account_add(){
+        $admininfo = $this->_userinfo;
+        if ($this->request->isPost()) {
+            $data = $this->request->post('');
+            $result = $this->validate($data, 'AdminUser.insert');
+            if ($result !== true) {
+                return $this->error($result);
+            }
+            unset($data['password_confirm']);
+            $data['roleid'] = 2;//报价师  目前只能添加报价师
+            $data['companyid'] = $admininfo['companyid'];
+            $data['password'] = md5($data['password']);
+            $data['addid'] =$admininfo['userid'];
+            if ($res = Db::name('admin')->insert($data)) {
+                $this->success("添加账号成功！", url('admin/manager/account_management'));
+            } else {
+                $this->error('添加失败！');
+            }
+        } else {
+            return $this->fetch();
+        }
+    }
+    /**
+     * 编辑管理员 //人事专用
+     */
+    public function account_edit(){
+        $admininfo = $this->_userinfo;
+        if ($this->request->isPost() && input('id')) {
+            $info['name'] = input('name');
+            $info['phone'] = input('phone');
+            if(input('email')){
+                $info['email'] = input('email');
+            }
+            if ($res = Db::name('admin')->where(['userid'=>input('id')])->update($info)) {
+                $this->success("修改成功！", url('admin/manager/account_management'));
+            } else {
+                $this->error('添加失败！');
+            }
+        } else {
+            $this->error('添加失败！');
+        }
+    }
 
     /**
      * 管理员管理列表
@@ -198,19 +270,20 @@ class Manager extends Adminbase
     public function bankai()
     {
         $allurl = input('param.');
-        // dump($allurl);
         if($allurl['status']==1){
-          $data['status'] = 0;
-            if (Db::name('admin')->where('userid',$allurl['id'])->update($data)){
-                $this->success("禁用成功！");
-            } else {
-                $this->error('操作失败！');
-            }           
-          
+            $data['status'] = 0;
         }else{
-            // $data['status'] = 1;
-            $this->error('已经禁用！');
+            $data['status'] = 1;
         }
+        if (Db::name('admin')->where('userid',$allurl['id'])->update($data)){
+            if($data['status'] === 0){
+                $this->success("禁用成功！");
+            }else{
+                $this->success("启用成功！");
+            }
+        } else {
+            $this->error('操作失败！');
+        }     
         
     }
 
