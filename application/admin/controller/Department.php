@@ -204,7 +204,7 @@ class Department extends Adminbase{
                 $where[] = ['info_pid','like','%-'.input('did').'-%'];
             }
             //
-            $department = array_column(Db::name('department')->where($where)->whereOr(['id'=>input('did')])->select(),null,'id');
+            $department = array_column(Db::name('department')->whereOr($where)->whereOr(['id'=>input('did')])->select(),null,'id');
             // var_dump($department);die;
             $department_ids = array_column($department, 'id');
             // $department_ids[] = input('did');//所有部门id
