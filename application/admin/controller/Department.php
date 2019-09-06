@@ -87,7 +87,7 @@ class Department extends Adminbase{
                     $data['info_pid'] = 0;
                 }else{
                     $info_pid = Db::name('department')->where(['fid'=>$admininfo['companyid'],'id'=>$data['pid']])->value('info_pid');
-                    $data['info_pid'] = $info_pid.'-'.$data['pid'];
+                    $data['info_pid'] = $info_pid.$data['pid'].'-';
                     //拼接所有pid
                 }
 
