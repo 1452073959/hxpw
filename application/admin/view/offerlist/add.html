@@ -3,6 +3,9 @@
 <style type="text/css">
     .fenname{padding:10px;padding-right:8px;line-height:30px}
     #sougs{line-height:35px;background-color:#009688;color:#fff;padding:5px;border-radius:2px;cursor:pointer;}
+    .bred{
+        color: red;
+    }
 </style>
 <div class="layui-card">
     <div class="layui-card-header">添加</div>
@@ -10,19 +13,19 @@
         <form class="layui-form form-horizontal" action="{:url('admin/Offerlist/add')}" method="post">
             
             <div class="layui-form-item">
-                <label class="layui-form-label">客户姓名 </label>
+                <label class="layui-form-label">客户姓名<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="customer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">房屋面积</label>
+                <label class="layui-form-label">房屋面积<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="area" autocomplete="off" lay-verify="required" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">工程地址</label>
+                <label class="layui-form-label">工程地址<i class="bred">*</i></label>
                 <div class="layui-input-inline">
                     <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
                         <option value="">请选择地址</option>
@@ -41,17 +44,17 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">详细地址</label>
+                <label class="layui-form-label">详细地址<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">商务经理</label>
+                <label class="layui-form-label">商务经理<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="manager_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">请选择</option>
+                        <option value="">可手动输入后选择</option>
                         {foreach $manager_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
@@ -59,11 +62,11 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">报价师姓名</label>
+                <label class="layui-form-label">报价师姓名<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">请选择</option>
+                        <option value="">可手动输入后选择</option>
                         {foreach $quoter_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
@@ -71,11 +74,11 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">设计师姓名</label>
+                <label class="layui-form-label">设计师姓名<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="designer_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">请选择</option>
+                        <option value="">可手动输入后选择</option>
                         {foreach $designer_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
@@ -121,7 +124,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">房屋类型</label>
+                <label class="layui-form-label">房屋类型<i class="bred">*</i></label>
                 <div class="layui-input-block">
                     <input type="radio" name="room_type" value="平层" title="平层" checked>
                     <input type="radio" name="room_type" value="复式" title="复式" >
@@ -131,7 +134,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">单选项</label>
+                <label class="layui-form-label">单选项<i class="bred">*</i></label>
                 <div class="layui-input-block">
                     <!-- layui-hide -->
                     <input type="radio" name="house_type" lay-filter="" value="1" title="新房" checked>
@@ -139,7 +142,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">客户状态</label>
+                <label class="layui-form-label">客户状态<i class="bred">*</i></label>
                 <div class="layui-input-block">
                     <!-- layui-hide -->
                     <input type="radio" name="is_new" lay-filter="is_new" value="1" title="新客户" checked>
