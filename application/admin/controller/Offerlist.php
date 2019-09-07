@@ -140,7 +140,6 @@ class Offerlist extends Adminbase
             $this->error('订单已存在模板');
         }
         $res = Db::name('offerlist')->where(['id'=>$o_id])->update(['tmp_cost_id'=>$tmp_id]);
-        Model('offerlist')->statistical_order($o_id);
         if($res){
             $this->success('选择模板成功');
         }else{
