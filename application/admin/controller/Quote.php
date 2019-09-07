@@ -121,6 +121,7 @@ class Quote extends Adminbase
         }
         $datas = json_encode($datas);
         $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['tmp_append_cost'=>$datas]);
+        Model('offerlist')->statistical_order(input('o_id'));
         if($res){
             $this->success('保存成功');
         }else{

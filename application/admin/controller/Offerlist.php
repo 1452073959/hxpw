@@ -140,6 +140,7 @@ class Offerlist extends Adminbase
             $this->error('订单已存在模板');
         }
         $res = Db::name('offerlist')->where(['id'=>$o_id])->update(['tmp_cost_id'=>$tmp_id]);
+        Model('offerlist')->statistical_order($o_id);
         if($res){
             $this->success('选择模板成功');
         }else{
@@ -237,6 +238,10 @@ class Offerlist extends Adminbase
             if(input('remark')){
                 $data['remark'] = input('remark');
             }
+            //$data['proquant'] = 0;//工程报价
+            //$data['direct_cost'] = 0; //直接费
+            //$data['matquant'] = 0;  //辅材报价
+            //$data['manual_quota'] = 0;  //人工报价
             $content = [];
             $order_project = [];
             foreach (input('data') as $k1 => $v1) {
@@ -492,6 +497,10 @@ class Offerlist extends Adminbase
         $file = request()->file('file');
         if($file && input('o_id') && input('customer_id')){
             $in = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->count();
+            $order_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
+            if(!$order_info['tmp_cost_id']){
+                $this->error('请选择取费模板');
+            }
             if($in > 0){
                 $this->error('一个客户只能拥有一份合同价');
             }
@@ -499,6 +508,8 @@ class Offerlist extends Adminbase
             if($info){
                 // 成功上传后 获取上传信息
                 $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
+                Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time()]);
+                Model('offerlist')->statistical_order(input('o_id'));
                 if($res){
                     $this->success('修改成功');
                 }else{

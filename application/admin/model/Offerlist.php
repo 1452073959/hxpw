@@ -114,6 +114,20 @@ class Offerlist extends Model
         return $offerlist_info;
     }
 
+    //统计订单 工程报价 直接费 辅材报价 人工报价  并修改到订单
+    public function statistical_order($oid){
+        $order_info = $this->get_order_info($oid);
+        $info = [];
+        $info['direct_cost'] = $order_info['direct_cost'];//直接费
+        $info['matquant'] = $order_info['matquant'];//辅材报价
+        $info['manual_quota'] = $order_info['manual_quota'];//人工报价
+        $info['order_cost_all_price'] = $order_info['order_cost_all_price'];//其他费用
+        $info['discount_proquant'] = $order_info['discount_proquant'];//优惠后报价
+        return Db::name('userlist')->where(['id'=>$order_info['customerid']])->update($info);
+        //加入订单表??  加入客户表???  看以后需求
+        //增减项后的 要存吗??
+    }
+
     //根据项目编号返回订单明细
     public function get_info_for_item($id){
         $arr = [];
