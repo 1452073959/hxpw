@@ -306,6 +306,33 @@
                                         +'<textarea name="order_tfoot" style="height:300px;width:550px">'+ re.data.order_tfoot+'</textarea>'
                                     +'</div>'
                                 +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">一期款收费比率（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="take_rate1" autocomplete="off" value="'+ re.data.take_rate1+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">二期款收费比率（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="take_rate2" autocomplete="off" value="'+ re.data.take_rate2+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">三期款收费比率（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="take_rate3" autocomplete="off" value="'+ re.data.take_rate3+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">四期款收费比率（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="take_rate4" autocomplete="off" value="'+ re.data.take_rate4+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
                                 +'<div class="layui-input-inline w300">'
                                     +'<button id="edit_tmp" style="margin-left:70px" class="layui-btn ajax-post">立即提交</button>'
                                 +'</div>'
@@ -321,39 +348,20 @@
                               content: inputs
                             });
                             $("#edit_tmp").click(function() {
-                            // var tubemoney= $(this).parents(".tmp_datas").find("input[name='tubemoney']").val();
-                            // var carry = $(this).parents(".tmp_datas").find("input[name='carry']").val();
-                            // var clean = $(this).parents(".tmp_datas").find("input[name='clean']").val();
-                            // var accident = $(this).parents(".tmp_datas").find("input[name='accident']").val();
-                            // var remote = $(this).parents(".tmp_datas").find("input[name='remote']").val();
-                            // var old_house = $(this).parents(".tmp_datas").find("input[name='old_house']").val();
-                            // var taxes = $(this).parents(".tmp_datas").find("input[name='taxes']").val();
                             var supervisor = $(this).parents(".tmp_datas").find("input[name='supervisor']").val();
                             var design = $(this).parents(".tmp_datas").find("input[name='design']").val();
                             var repeat = $(this).parents(".tmp_datas").find("input[name='repeat']").val();
                             var business = $(this).parents(".tmp_datas").find("input[name='business']").val();
                             var order_tfoot = $(this).parents(".tmp_datas").find("textarea[name='order_tfoot']").val();
-                            // if (!tubemoney || isNaN(tubemoney)) {
-                            //     layer.msg('管理费输入有误');return false;
-                            // }
-                            // if (!carry || isNaN(carry)) {
-                            //     layer.msg('搬运费输入有误');return false;
-                            // }
-                            // if (!clean || isNaN(clean)) {
-                            //     layer.msg('清洁费输入有误');return false;
-                            // }
-                            // if (!accident || isNaN(accident)) {
-                            //     layer.msg('工程意外险输入有误');return false;
-                            // }
-                            // if (!remote || isNaN(remote)) {
-                            //     layer.msg('远程费输入有误');return false;
-                            // }
-                            // if (!old_house || isNaN(old_house)) {
-                            //     layer.msg('旧房局部改造费输入有误');return false;
-                            // }
-                            // if (!taxes || isNaN(taxes)) {
-                            //     layer.msg('税金输入有误');return false;
-                            // }
+
+                            var take_rate1 = $(this).parents(".tmp_datas").find("input[name='take_rate1']").val();
+                            var take_rate2 = $(this).parents(".tmp_datas").find("input[name='take_rate2']").val();
+                            var take_rate3 = $(this).parents(".tmp_datas").find("input[name='take_rate3']").val();
+                            var take_rate4 = $(this).parents(".tmp_datas").find("input[name='take_rate4']").val();
+
+                            if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
+                                layer.msg('收款比率合计必须为100');return false;
+                            }
                             if (!supervisor || isNaN(supervisor)) {
                                 layer.msg('监理提成输入有误');return false;
                             }
@@ -366,9 +374,6 @@
                             if (!business || isNaN(business)) {
                                 layer.msg('业务提成输入有误');return false;
                             }
-                            // if (parseFloat(tubemoney)+parseFloat(carry)+parseFloat(clean)+parseFloat(accident)+parseFloat(remote)+parseFloat(old_house)+parseFloat(taxes)+parseFloat(supervisor)+parseFloat(design)+parseFloat(repeat)+parseFloat(business) > 100) {
-                            //     layer.msg('全部合计不得超过100');return false;
-                            // }
                             if (parseFloat(supervisor)+parseFloat(design)+parseFloat(repeat)+parseFloat(business) > 100) {
                                 layer.msg('全部合计不得超过100');return false;
                             }
@@ -378,18 +383,15 @@
                                 dataType : 'json',
                                 data : {
                                             f_id:data.id,
-                                            // tubemoney:tubemoney,
-                                            // carry:carry,
-                                            // clean:clean,
-                                            // accident:accident,
-                                            // remote:remote,
-                                            // old_house:old_house,
-                                            // taxes:taxes,
                                             order_tfoot:order_tfoot,
                                             supervisor:supervisor,
                                             design:design,
                                             repeat:repeat,
-                                            business:business
+                                            business:business,
+                                            take_rate1:take_rate1,
+                                            take_rate2:take_rate2,
+                                            take_rate3:take_rate3,
+                                            take_rate4:take_rate4,
                                         },
                                 success : function(re){
                                   if(re.status == 0){

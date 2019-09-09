@@ -24,8 +24,11 @@ class OrderAppend extends Adminbase
         }
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         $offerlist = Db::name('offerlist')->where(['id'=>input('order_id')])->find();
-        if($offerlist['status'] != 3){
+        if($offerlist['status'] < 3){
             $this->error('只有合同价才能增减项');
+        }
+        if($offerlist['status'] >= 6){
+            $this->error('该报价已结算');
         }
         $this->assign([
             'offer_type'=>$offer_type,
@@ -193,7 +196,8 @@ class OrderAppend extends Adminbase
             }
             Db::startTrans();
             try{
-                $re = Db::name('order_append')->insertGetId(['o_id'=>input('order_id'),'adminid'=>$userinfo['userid'],'add_time'=>$time,'remark'=>input('remark')?input('remark'):'']);
+                $userlist = Db::name('userlist')->where(['id'=>$order_info['customerid']])->find();
+                $re = Db::name('order_append')->insertGetId(['o_id'=>input('order_id'),'adminid'=>$userinfo['userid'],'add_time'=>$time,'remark'=>input('remark')?input('remark'):'','type'=>($userlist['status']-1) ]);
                 if($order_material_datas){
                     foreach($order_material_datas as $k=>$v){
                         $order_material_datas[$k]['oa_id'] = $re;
