@@ -346,18 +346,18 @@ class Indent extends Adminbase
 
     public function edit_tmp(){
         $f_id = input('f_id');
-        // $datas['tubemoney'] = input('tubemoney');
-        // $datas['carry'] = input('carry');
-        // $datas['clean'] = input('clean');
-        // $datas['accident'] = input('accident');
-        // $datas['remote'] = input('remote');
-        // $datas['old_house'] = input('old_house');
-        // $datas['taxes'] = input('taxes');
         $datas['supervisor'] = input('supervisor');
         $datas['design'] = input('design');
         $datas['repeat'] = input('repeat');
         $datas['business'] = input('business');
         $datas['order_tfoot'] = input('order_tfoot');
+        $datas['take_rate1'] = input('take_rate1');
+        $datas['take_rate2'] = input('take_rate2');
+        $datas['take_rate3'] = input('take_rate3');
+        $datas['take_rate4'] = input('take_rate4');
+        if($datas['take_rate1'] + $datas['take_rate2'] + $datas['take_rate3'] + $datas['take_rate4'] != 100){
+            Result(1,'收款比率合计必须为100');
+        }
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
         if($cost_tmp){
             //修改
