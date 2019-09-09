@@ -92,11 +92,15 @@ table tr:first-child{
     <div class="layui-card-body" id="right" style=" ">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
-                <button class="layui-btn layui-btn-radius layui-btn-primary" data-fid="0" data-fname='' id="add_personnel">员工录入</button> 
+                {neq name="$admininfo['roleid']" value="10"}
+                    <button class="layui-btn layui-btn-radius layui-btn-primary" data-fid="0" data-fname='' id="add_personnel">员工录入</button>
+                {/neq}
             </blockquote>
             <table id="demo" lay-filter="test"></table>
             <script type="text/html" id="barDemo">
-                <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius whui-btn-commend" lay-event="edit">修改</a>
+                {neq name="$admininfo['roleid']" value="10"}
+                    <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius whui-btn-commend" lay-event="edit">修改</a>
+                {/neq}
             </script>
         </div>
         
@@ -130,6 +134,7 @@ table tr:first-child{
                 {field: 'status', title: '状态', width:80, sort: true},
                 {field: 'addtime', title: '添加时间',width: 130, sort: true},
                 {field: 'operation', title: '操作',  templet: '#barDemo'}
+                
             ]]
         });
         table.on('tool(test)', function (obj) {

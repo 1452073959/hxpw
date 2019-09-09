@@ -139,9 +139,15 @@
                       <td >{$vo.addtime|date='Y-m-d'}</td> 
                       <!-- <td><a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a></td> -->
                       <td >
-                        <a class="add_order" data-userid="{$vo.id}"  href="javascript:;"><i class="layui-icon layui-icon-add-1" title="业务报价"></i></a>
+                        
+                        
+                        {neq name="$userinfo['roleid']" value="10"}
+                            <a class="add_order" data-userid="{$vo.id}"  href="javascript:;"><i class="layui-icon layui-icon-add-1" title="业务报价"></i></a>
+                        {/neq}
                         <a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}" ><i class="layui-icon layui-icon-search" title="查看报价"></i></a>
-                        <a class="" href="{:url('admin/offerlist/user_edit',['id'=>$vo.id])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                        {neq name="$userinfo['roleid']" value="10"}
+                            <a class="" href="{:url('admin/offerlist/user_edit',['id'=>$vo.id])}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                        {/neq}
                         <!-- 编辑删除只有最高管理员可以 -->
                         {eq name="$userinfo['roleid']" value="1"}
                             <a class="" href="{:url('admin/offerlist/user_delete',['id'=>$vo.id])}"><i class="layui-icon layui-icon-delete" title="删除" onclick="javascript:if(!confirm('确定要删除选择客户吗？\n此操作不可以恢复！')) { return false; }"></i></a>
