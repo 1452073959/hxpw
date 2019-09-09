@@ -657,6 +657,7 @@ class Offerlist extends Adminbase
         $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$admininfo['companyid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
         $this->assign('data',$res);    
         $this->assign('userinfo',$userinfo);    
+        $this->assign('admininfo',$admininfo);    
         $this->assign('tmp_cost',$tmp_cost);    
         return $this->fetch();
     }
