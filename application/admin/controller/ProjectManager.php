@@ -34,7 +34,7 @@ class ProjectManager extends Adminbase{
     public function ajax_get_supervision(){
         $admininfo = $this->_userinfo;
         $where = [];
-        $where['a.roleid'] = 12;
+        $where['a.roleid'] = 13;
         $where['a.status'] = 1;
         $where['a.companyid'] = $admininfo['companyid'];
         $datas = Db::name('admin')->alias('a')->leftjoin('userlist u','a.userid = u.jid')->field(['a.*', 'SUM(u.discount_proquant)'=>'total_money','count(u.jid)'=>'total_count','SUM(u.status=3)'=>'count1','SUM(u.status=4)'=>'count2','SUM(u.status=5)'=>'count3','SUM(u.status=6)'=>'count4'])->where($where)->group('a.userid')->select();
