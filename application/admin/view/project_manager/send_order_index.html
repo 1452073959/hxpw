@@ -183,8 +183,15 @@
     $(document).on('click','.send_order',function(){
         var uid = $(this).data('uid');
         var jid = $(this).data('jid');
-        $.post('/admin/project_manager/send_order',{uid:uid,jid:jid},function(){
-
+        $.post('/admin/project_manager/send_order',{uid:uid,jid:jid},function(res){
+            if(res.code == 1){
+                layer.msg(res.msg);
+                setTimeout(function(){
+                    location.reload();
+                },500);
+            }else{
+                layer.msg(res.msg);return false;
+            }
         })
     })
     
