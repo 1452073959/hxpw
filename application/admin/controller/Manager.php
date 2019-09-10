@@ -24,7 +24,7 @@ class Manager extends Adminbase
         $where = [];
         $condition = [];
         $where['companyid'] = $admininfo['companyid'];
-        $where['roleid'] = [2];
+        $where['roleid'] = [2,13];
         if(input('username')){
             $condition[] = ['username','like','%'.trim(input('username')).'%'];
         }
