@@ -507,7 +507,7 @@ class Offerlist extends Adminbase
             if($info){
                 // 成功上传后 获取上传信息
                 $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
-                Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time()]);
+                Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
                 Model('offerlist')->statistical_order(input('o_id'));
                 if($res){
                     $this->success('修改成功');

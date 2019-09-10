@@ -1,0 +1,202 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">职位</label>
+                        <div class="layui-input-block">
+                            <select name="city" lay-verify="required">
+                                <option value=""></option>
+                                <option value="1">设计师</option>
+                                <option value="2">报价师</option>
+                                <option value="3">商务经理</option>
+                                <option value="4">工程监理</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="layui-inline" style="float: left;margin-right: 15px">
+                        <label class="layui-form-label">签单时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                        </div>
+                        <span> - </span>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+     
+            <table class="layui-table">
+                <colgroup>
+                    <col width="120">
+                    <col>
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="210">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th>客户姓名</th>
+                        <th>工程地址</th>
+                        <th>房屋类型</th>
+                        <th>面积</th>
+                        <th>工程报价</th>
+                        <th>设计师名称</th>
+                        <th>报价师名称</th>
+                        <th>签单时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {foreach name="$datas" item="v" key="k"}
+                        <tr>
+                        <td>{$v['customer_name']}</td>
+                        <td>{$v['address']}</td>
+                        <td>{$v['room_type']}</td>
+                        <td>{$v['area']}</td>
+                        <td>{$v['discount_proquant']}</td>
+                        <td>{$v['designer_name']}</td>
+                        <td>{$v['quoter_name']}</td>
+                        <td>{:date('Y-m-d',$v['sign_bill_time'])}</td>
+                        <td>
+                            <a href="javascript:;" data-uid="{$v.id}" class="layui-btn layui-btn-primary send">派单</a>
+                            <a href="/admin/offerlist/history/customerid/{$v.id}/report_id/{$v.oid}" class="layui-btn layui-btn-primary">查看报价</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+    $('.send').click(function(){
+        var uid = $(this).data('uid');
+        var html =   
+            '<table class="layui-table" style="text-align:center !important">'
+            +'  <colgroup>'
+            +'      <col width="120">'
+            // +'      <col width="300">'
+            // +'      <col width="90">'
+            // +'      <col width="90">'
+            // +'      <col width="90">'
+            // +'      <col width="90">'
+            +'      <col width="100">'
+            +'      <col width="140">'
+            +'      <col width="110">'
+            +'      <col width="110">'
+            +'      <col width="110">'
+            +'      <col>'
+            +'  </colgroup>'
+            +'  <thead >'
+            +'      <tr>'
+            +'          <th>监理姓名</th>'
+            // +'          <th>监理标签</th>'
+            // +'          <th>水电工</th>'
+            // +'          <th>木工</th>'
+            // +'          <th>瓦工</th>'
+            // +'          <th>漆工</th>'
+            +'          <th>在施金额</th>'
+            +'          <th>在施工地数</th>'
+            +'          <th>前期施工</th>'
+            +'          <th>中期施工</th>'
+            +'          <th>尾期施工</th>'
+            +'          <th>操作</th>'
+            +'      </tr>'
+            +'  </thead>'
+            +'  <tbody> ';
+        $.post('/admin/project_manager/ajax_get_supervision',{},function(res){
+            $(res.data).each(function(k,v){
+                html +=  ' <tr>'
+                    +'     <td>'+v.name+'</td>'
+                    // +'     <td>'
+                    // +'         <a href="javascript:;" style="margin-left:0px" class="layui-btn layui-btn-primary layui-btn-xs">10年经验</a>'
+                    // +'         <a href="javascript:;" style="margin-left:0px" class="layui-btn layui-btn-primary layui-btn-xs">延期少</a>'
+                    // +'         <a href="javascript:;" style="margin-left:0px" class="layui-btn layui-btn-primary layui-btn-xs">可接公装</a>'
+                    // +'         <a href="javascript:;" style="margin-left:0px" class="layui-btn layui-btn-primary layui-btn-xs">客户关系好</a>'
+                    // +'     </td>'
+                    // +'     <td>2</td>'
+                    // +'     <td>2</td>'
+                    // +'     <td>1</td>'
+                    // +'     <td>1</td>'
+                    +'     <td>'+Number(v.total_money)+'</td>'
+                    +'     <td>'+Number(v.total_count)+'</td>'
+                    +'     <td>'+Number(v.count1)+'</td>'
+                    +'     <td>'+Number(v.count2)+'</td>'
+                    +'     <td>'+ (Number(v.count3)+Number(v.count4)) +'</td>'
+                    +'     <td>'
+                    +'         <a href="javascript:;" data-uid="'+uid+'" data-jid="'+v.userid+'" class="layui-btn layui-btn-warm send_order">派单</a>'
+                    +'     </td>'
+                    +' </tr>';
+            })
+             html += '  </tbody></table>'
+             layui.use('layer', function(){
+                layer.open({
+                    type:1,
+                    title: '选择监理',
+                    area: ['700px', '500px'],
+                    content: html
+                });
+            });
+        },'json')
+    })
+
+    $(document).on('click','.send_order',function(){
+        var uid = $(this).data('uid');
+        var jid = $(this).data('jid');
+        $.post('/admin/project_manager/send_order',{uid:uid,jid:jid},function(){
+
+        })
+    })
+    
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#begin_time'
+        });
+        laydate.render({
+            elem: '#end_time'
+        });
+    })
+</script>
+{/block}

@@ -84,6 +84,13 @@ class Financial extends Adminbase{
                     $this->error('已收款，请勿重复添加');
                 }
             }
+            //一期款 改变订单状态
+            if(input('type') == 1){
+                Db::name('offerlist')->where(['customerid'=>input('uid'),'status'=>3])->update(['status'=>4]);
+            }
+            if(input('type') == 4){
+                Db::name('offerlist')->where(['customerid'=>input('uid'),'status'=>4])->update(['status'=>5]);
+            }
             $data = [];
             $data['userid'] = input('uid');
             $data['type'] = input('type');

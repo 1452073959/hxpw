@@ -31,15 +31,10 @@ class Manager extends Adminbase
         if(input('name')){
             $condition[] = ['name','like','%'.trim(input('name')).'%'];
         }
-        // var_dump($where);die;
         $datas = Db::name('admin')->where($where)->where($condition)->order('userid','desc')->paginate(20,false,['query'=>request()->param()]);
-        // $sid = array_column($datas->items(), 'sid');
-        // $personnel = [];
-        // if($sid){
-        //     $personnel = array_column(Db::name('personnel')->where(['id'=>$sid])->select(),null ,'id');
-        // }
+        $personnel = Db::name('personnel')->where(['fid'=>$admininfo['companyid']])->select();
         $this->assign("admininfo", $admininfo);
-        // $this->assign("personnel", $personnel);
+        $this->assign("personnel", $personnel);
         $this->assign("datas", $datas);
         return $this->fetch();
     }
@@ -69,17 +64,18 @@ class Manager extends Adminbase
         }
     }
     /**
-     * 编辑管理员 //人事专用
+     * 绑定管理员 //人事专用
      */
     public function account_edit(){
         $admininfo = $this->_userinfo;
-        if ($this->request->isPost() && input('id')) {
-            $info['name'] = input('name');
-            $info['phone'] = input('phone');
-            if(input('email')){
-                $info['email'] = input('email');
-            }
-            if ($res = Db::name('admin')->where(['userid'=>input('id')])->update($info)) {
+        if (input('pid') && input('aid')) {
+            $personnel = Db::name('personnel')->where(['id'=>input('pid')])->find();
+            $info = [];
+            $info['name'] = $personnel['name'];
+            $info['phone'] = $personnel['phone'];
+            $info['email'] = $personnel['email'];
+            $info['pid'] = input('pid');
+            if ($res = Db::name('admin')->where(['userid'=>input('aid')])->update($info)) {
                 $this->success("修改成功！", url('admin/manager/account_management'));
             } else {
                 $this->error('添加失败！');
@@ -242,6 +238,8 @@ class Manager extends Adminbase
                 unset($data['rule']);
                 unset($data['status']);
                 unset($data['userid']);
+            }else{
+                $data['name'] = $data['nickname'];
             }
             unset($data['password_confirm']);
             unset($data['nickname']);
@@ -252,7 +250,12 @@ class Manager extends Adminbase
                 $this->error(Db::name('admin')->getError() ?: '修改失败！');
             }
         }else{
-            $id = $admininfo['userid'];
+            if($admininfo['roleid'] == 1){
+                $id = input('id');
+            }else{
+                $id = $admininfo['userid'];
+            }
+            
             $data = Db::name('admin')->where(array("userid" => $id))->find();
             if (empty($data)) {
                 $this->error('该信息不存在！');

@@ -178,6 +178,11 @@ class Department extends Adminbase{
             }
             $data = input();
             $res = Db::name('personnel')->where(['id'=>input('id')])->update($data);
+            if ($data['status'] == 2) {
+                if(Db::name('admin')->where(['pid'=>input('id'),'status'=>1])->count()){
+                    Db::name('admin')->where(['pid'=>input('id'),'status'=>1])->update(['status'=>0]);
+                }
+            }
             if ($res) {
                 $this->success('修改成功');
             }else{

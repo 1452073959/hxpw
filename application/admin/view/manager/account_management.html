@@ -66,13 +66,13 @@
                     <tr>
                         <!-- <td>{$vo['userid']}</td> -->
                         <td>{$vo.username}</td>
-                        <td>{$vo.name}</td>
+                        <td>{$vo.name}{eq name="$vo['pid']" value="0"}<i class="layui-icon layui-icon-about" title="未绑定员工">{/eq}</i></td>
                         <td>{$vo.phone}</td>
                         <td>{php} echo model('admin/AuthGroup')->getRoleIdName($vo['roleid']) {/php}</td>
                         <td>{php} echo $vo['companyid'] ? getcid($vo['companyid']) : '总公司' {/php}</td>
                         <td>{$vo.email}</td>
                         <td>
-                            <a class="edit" data-id="{$vo.userid}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
+                            <a class="edit" data-id="{$vo.userid}" data-pid="{$vo.pid}"><i class="layui-icon layui-icon-edit" title="编辑"></i></a>
                             <a class="ajax-get confirm" data-msg="确定{php} echo ($vo['status']==1)?'禁用':'启用'{/php}该用户吗?" url="{:url('admin/manager/bankai',['id'=>$vo.userid,'status'=>$vo.status])}">{php} echo ($vo['status']==1)?'<i style="color:#3d53ff" class="layui-icon layui-icon-face-smile" title="启用"></i>':'<i style="color:red" class="layui-icon layui-icon-about" title="禁用"></i>'{/php}</a>
                         </td>
                     </tr>
@@ -90,24 +90,19 @@
     $('.edit').click(function(){
         var tr = $(this).parent().parent();
         var id = $(this).data('id');
+        var pid = $(this).data('pid');
+        var option =  '{foreach name="personnel" item="v" key="k"}<option value="{$v.id}">{$v.name}</option>{/foreach}'
+        if(option.indexOf('value="'+pid+'"') != -1){
+            option = option.replace('value="'+pid+'"','value="'+pid+'" selected');
+        }
         var inputs = '<form class="layui-form" action=""><div class="editbox">'
-                +   '<input type="hidden" value="'+id+'" name="id">'
+                +   '<input type="hidden" value="'+id+'" name="aid">'
                 +   '<div class="layui-form-item" style="margin-top:10px">'
                 +      '<label class="layui-form-label">真实姓名</label>'
                 +      '<div class="layui-input-inline w200">'
-                +          '<input type="text" lay-verify="required" name="name" autocomplete="off" value="'+$(tr).find('td').eq(1).text()+'" class="layui-input">'
-                +      '</div>'
-                +   '</div>'
-                +   '<div class="layui-form-item">'
-                +      '<label class="layui-form-label">手机号码</label>'
-                +      '<div class="layui-input-inline w200">'
-                +          '<input type="text" lay-verify="phone" name="phone" autocomplete="off" value="'+$(tr).find('td').eq(2).text()+'" class="layui-input">'
-                +      '</div>'
-                +   '</div>'
-                +   '<div class="layui-form-item">'
-                +      '<label class="layui-form-label">E-mail</label>'
-                +      '<div class="layui-input-inline w200">'
-                +          '<input type="text" lay-verify="" name="email" autocomplete="off" value="'+$(tr).find('td').eq(5).text()+'" class="layui-input">'
+                +          '<select name="pid" lay-search>'
+                +               option
+                +          '</select>'
                 +      '</div>'
                 +   '</div>'
                 +   '<div class="layui-form-item" style="text-align:center">'
