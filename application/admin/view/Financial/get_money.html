@@ -172,7 +172,7 @@
                     {/foreach}
                     <tr>
                         <td>实收</td>
-                        <td>剩余：{:round($should_get_total - array_sum(array_column($get_money, 'money')),2)}</td>
+                        <td>剩余：{:round(($should_get_total - array_sum(array_column($get_money, 'money'))),2)}</td>
                         <td>{:number_format(array_sum(array_column($get_money, 'money')),2)}</td>
                         <td class="get" data-type="1">{$get_money[1]['money'] ?: 0}</td>
                         <td class="get" data-type="2">{$get_money[2]['money'] ?: 0}</td>
