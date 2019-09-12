@@ -89,6 +89,9 @@
     .layui-table td, .layui-table th {
         position:static;
     }
+    #project_datas input{
+        min-width: 60px;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -101,7 +104,7 @@
                     客户名称：{$customer_info['customer_name']}
                 </div>
                 <div class="layui-inline">
-                    <input type="text" name="unit" value="" placeholder="单位/公司" class="layui-input">
+                    <input type="text" name="unit" value="{$unit ?: ''}" placeholder="单位/公司" class="layui-input">
                 </div>
                 <div class="layui-inline">
                     <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
@@ -217,7 +220,7 @@
                                         <tr class="project" data-inword="{$k1}" data-inspace="{$k2}">
                                             <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td>{$k3}</td>
                                             <td>{$offerquota[$k3]['project']}</td>
-                                            <td><input type="text" class="layui-input height26" value="{$v3?:''}" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
+                                            <td><input type="text" class="layui-input height26" value="{$v3 ?: 0}" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
                                             <td>{$offerquota[$k3]['company']}</td>
                                             <td>{$offerquota[$k3]['quota']}</td>
                                             <td></td>

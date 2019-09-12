@@ -189,10 +189,12 @@ class Offerlist extends Adminbase
             if($item_number_num != count($offerquota)){
                 $this->error('订单部分项目不全，另存订单失败');
             }
+            $unit = Db::name('offerlist')->where(['id'=>input('report_id')])->value('unit');
             $offerquota = array_column($offerquota, null,'item_number');
             Cache::rm('tso_'.input('customer_id').$userinfo['userid']); 
             $this->assign([ 
                 'data'=>$data,
+                'unit'=>$unit,
                 'offerquota'=>$offerquota,
             ]);
         }
