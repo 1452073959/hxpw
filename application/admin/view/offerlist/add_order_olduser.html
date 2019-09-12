@@ -104,7 +104,7 @@
                     客户名称：{$customer_info['customer_name']}
                 </div>
                 <div class="layui-inline">
-                    <input type="text" name="unit" value="{$unit ?: ''}" placeholder="单位/公司" class="layui-input">
+                    <input type="text" name="unit" value="{$order_info['unit'] ?: ''}" placeholder="单位/公司" class="layui-input">
                 </div>
                 <div class="layui-inline">
                     <input type="text" name="remark" value="" placeholder="订单备注" class="layui-input">
@@ -113,7 +113,11 @@
                     <select name="tmp_cost" class="select_tmp">
                         <option value=''>选择取费模板</option>
                         <?php foreach($tmp_cost as $k=>$v){
-                            echo '<option value="'.$v['tmp_id'].'">'.$v['tmp_name'].'</option>';
+                            $selected = '';
+                            if( isset($order_info['tmp_cost_id']) && $v['tmp_id'] == $order_info['tmp_cost_id']){
+                                $selected = 'selected';
+                            }
+                            echo '<option '.$selected.' value="'.$v['tmp_id'].'">'.$v['tmp_name'].'</option>';
                         } ?>
                     </select>
                 </div>
