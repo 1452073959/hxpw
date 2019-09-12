@@ -62,6 +62,9 @@
 p{
     color: #484646
 }
+.text-left{
+    text-align: left
+}
 
 /*td{
     padding: 3px !important;
@@ -259,7 +262,7 @@ th{
                             <?php }?>
                             
                             <tr>
-                                <td class="text-center" colspan="2">直接费</td>
+                                <td class="text-left" colspan="2">直接费</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -274,7 +277,7 @@ th{
                                 {foreach name="$offerlist_info['order_cost']" item="vcost" key="kcost"}
                                     <?php if($vcost['name'] == '税金'){ $has_tax = $vcost['price']; } ?>
                                     <tr>
-                                        <td class="text-center" colspan="2">{$vcost.name}</td>
+                                        <td class="text-left" colspan="2">{$vcost.name}</td>
                                         <td colspan="6">{$vcost.price}</td>
                                         <td>{$vcost.content}</td>
                                     </tr>
@@ -283,7 +286,7 @@ th{
                             {/notempty}
                             {notempty name="offerlist_info['discount']"}
                                 <tr>
-                                    <td class="text-center" colspan="2">优惠</td>
+                                    <td class="text-left" colspan="2">优惠</td>
                                     <td colspan="6">{$offerlist_info['discount']}</td>
                                     <td>{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>
@@ -292,12 +295,12 @@ th{
                             <?php  
                                 if($has_tax){  ?>
                                     <tr>
-                                        <td class="text-center" colspan="2">税前工程报价</td>
+                                        <td class="text-left" colspan="2">税前工程报价</td>
                                         <td colspan="6">{$offerlist_info['discount_proquant']-$has_tax}</td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center" colspan="2">工程报价</td>
+                                        <td class="text-left" colspan="2">工程报价</td>
                                         <td colspan="6">{$offerlist_info.discount_proquant}</td>
                                         <td></td>
                                     </tr>
@@ -305,7 +308,7 @@ th{
                             <?php 
                                 }else{ ?>
                                     <tr>
-                                        <td class="text-center" colspan="2">工程报价</td>
+                                        <td class="text-left" colspan="2">工程报价</td>
                                         <td colspan="6">{$offerlist_info.discount_proquant}</td>
                                         <td></td>
                                     </tr>
