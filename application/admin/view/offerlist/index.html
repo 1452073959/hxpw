@@ -129,7 +129,7 @@
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
 						{else/}
                             <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
-                            {if($admininfo['roleid'] != 10 && $vo['status'] == 0)}
+                            {if($admininfo['roleid'] != 10 && $vo['status'] >= 3 && $vo['status'] < 5)}
                                 <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
                             {/if}
                             {gt name="$vo['append_num']" value="0"}
