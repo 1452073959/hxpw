@@ -12,19 +12,23 @@ class Offerlist extends Model
     public function get_order_info($id,$type=1){ //offerquota表 的id type=2 直接费加上增减项的项目
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
+        $offerlist_info['artificial_cb'] = 0;
         if(is_array($content)){
             foreach($content as $keys => $values){
                 $offerlist_info['matquant'] += $values['quota']*$values['num'];//辅材报价
                 $offerlist_info['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
+                $offerlist_info['artificial_cb'] += $values['labor_cost']*$values['num'];//人工成本
             }
         }
         $offerlist_info['direct_cost'] = $offerlist_info['matquant']+$offerlist_info['manual_quota'];//工程直接费= 辅材报价+人工报价
 
         if($type == 2){
+            //加上增减项
             $order_appned = Db::name('order_project')->where(['type'=>2,'o_id'=>$id])->select();
             foreach($order_appned as $k=>$v){
                 $offerlist_info['direct_cost'] += $v['craft_show']*$v['num'];
                 $offerlist_info['direct_cost'] += $v['quota']*$v['num'];
+                $offerlist_info['artificial_cb'] += $v['labor_cost']*$values['num'];//人工成本
             }
         }
         //=========================计算毛利开始
@@ -72,17 +76,20 @@ class Offerlist extends Model
         
 
         //计算总人工成本
-        $artificial = json_decode($offerlist_info['artificial'],true);
-        $offerlist_info['artificial_cb'] = 0;
-        foreach($artificial as $k=>$v){
-            $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
-        }
+        // $offerlist_info['artificial_cb'] = $offerlist_info['artificial_cb'];//上面获取了
+        // $artificial = json_decode($offerlist_info['artificial'],true);
+        // $offerlist_info['artificial_cb'] = 0;
+        // foreach($artificial as $k=>$v){
+        //     $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
+        // }
+
         //计算辅材成本
-        $material = json_decode($offerlist_info['material'],true);
-        $offerlist_info['material_cb'] = 0;
-        foreach($material as $k=>$v){
-            $offerlist_info['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
-        }
+        $offerlist_info['material_cb'] = $this->get_material_list($offerlist_info['id'],$type)['total_money'];
+        // $material = json_decode($offerlist_info['material'],true);
+        // $offerlist_info['material_cb'] = 0;
+        // foreach($material as $k=>$v){
+        //     $offerlist_info['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
+        // }
 
         //工程报价 = 直接费+其他费用总计
         $offerlist_info['proquant'] = $offerlist_info['direct_cost'] + $cost_all;
@@ -281,9 +288,17 @@ class Offerlist extends Model
     }
 
     //领料清单
-    //type 0-系数后 1->系数前 
+    //type 1合同单 2整点
     public function get_material_list($id,$type=1){
-        $order_material = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();
+        $total_money = 0;
+        $where = [];
+        $where['o_id'] = $id;
+        if($type == 2){
+            $where['status'] = [1,2];
+        }else{
+            $where['status'] = 1;
+        }
+        $order_material = Db::name('order_material')->where($where)->select();
         $datas = [];
         foreach($order_material as $k=>$v){
             $v['fine'] = $v['fine']?$v['fine']:'通用';
@@ -325,9 +340,14 @@ class Offerlist extends Model
                         }
                     }
                     $datas[$k1][$k2][$k3]['coefficient'] += $datas[$k1][$k2][$k3]['omit_num'] * $v3['cb'];
+                    $total_money += $datas[$k1][$k2][$k3]['coefficient'];
                 }
             }
         }
-        return $datas;
+        return ['datas'=>$datas,'total_money'=>$total_money];
     }
+
+    
+
+    //获取人工成本
 }

@@ -98,7 +98,7 @@ class Auxiliary extends Adminbase
         $o_id = input('id');//订单id
         
 
-        $material_list = model('offerlist')->get_material_list($o_id);
+        $material_list = model('offerlist')->get_material_list($o_id)['datas'];
         $c_id = Db::name('offerlist')->where(['id'=>$o_id])->value('customerid');//客户id
         $userinfo = Db::name('userlist')->where(['id'=>$c_id])->find();//客户信息
         // echo $id;
