@@ -7,7 +7,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">选择分公司</label>
                 <div class="layui-input-inline w300">
-                  <select name="frameid" lay-verify="required"  lay-filter="business">
+                  <select name="frameid" lay-verify="required"  lay-filter="business" lay-search>
                     <option value=""></option>
                   {volist name="data" id="vo"}
                     <option value="{$vo.id}">{$vo.name}</option>
