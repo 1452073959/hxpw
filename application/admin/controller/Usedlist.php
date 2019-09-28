@@ -58,14 +58,17 @@ class Usedlist extends Adminbase
         $res = Db::name('Offerquota')->field('id,item_number,project,content')->where($da)->select();
          foreach ($res as $key => $value) {
                  $res[$key]['content'] = json_decode($value['content'],true);//解析json数据
-                 foreach ($res[$key]['content'] as $k => $val) {
-                   foreach ($val as $kk => $vv) {
-                  // dump($val);去掉NULL带来的bug
-                    if ($vv == NULL) {
-                      $res[$key]['content'][$k][$kk] = "";
-                    }
-                  }
+                 if($res[$key]['content']){
+                    foreach ($res[$key]['content'] as $k => $val) {
+                       foreach ($val as $kk => $vv) {
+                      // dump($val);去掉NULL带来的bug
+                        if ($vv == NULL) {
+                          $res[$key]['content'][$k][$kk] = "";
+                        }
+                      }
+                     }
                  }
+                 
           } 
 
 
