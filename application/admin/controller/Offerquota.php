@@ -128,6 +128,8 @@ class Offerquota extends Adminbase
             }   
             $userinfo = $this->_userinfo; 
             $data['userid'] = $userinfo['userid'];
+            //辣鸡外包写的 不加这个报错
+            $data['content'] = '[[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null]]';
             // dump($data);exit;
             if (Db::name('Offerquota')->insert($data)) {
                 $this->success("添加成功！", url("Offerquota/index"));
