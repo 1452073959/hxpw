@@ -182,6 +182,7 @@
         html += '       <td><input class="layui-input" name="sign[]" /></td>'
         html += '       <td><input class="layui-input" name="formula[]" /></td>'
         html += '       <td><input class="layui-input" name="rate[]" /></td>'
+        html += '       <td><input class="layui-input" name="content[]" /></td>'
         html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
         $('#add_word tbody').append(html);
@@ -373,6 +374,7 @@ layui.use('table', function(){
                         html += '         <col width="100">'
                         html += '         <col width="250">'
                         html += '         <col width="200">'
+                        html += '         <col width="200">'
                         html += '         <col width="30">'
                         html += '         <col>'
                         html += '     </colgroup>'
@@ -382,6 +384,7 @@ layui.use('table', function(){
                         html += '           <th>标识符</th>'
                         html += '           <th>公式</th>'
                         html += '           <th>费率(范围0-100)</th>'
+                        html += '           <th>说明</th>'
                         html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                         html += '       </tr> '
                         html += '     </thead>'
@@ -392,12 +395,14 @@ layui.use('table', function(){
                         html += '       <td>A1</td>'
                         html += '       <td>100</td>'
                         html += '       <td></td>'
+                        html += '       <td></td>'
                         html += '     </tr>'
                         html += '     <tr>'
                         html += '       <td>优惠</td>'
                         html += '       <td>A2</td>'
                         html += '       <td>A2</td>'
                         html += '       <td>100</td>'
+                        html += '       <td></td>'
                         html += '       <td></td>'
                         html += '     </tr>'
                         $(res.default_cost).each(function(k,v){
@@ -406,6 +411,7 @@ layui.use('table', function(){
                             html += '       <td>'+v.sign+'</td>'
                             html += '       <td>'+v.formula+'</td>'
                             html += '       <td>'+v.rate+'</td>'
+                            html += '       <td>'+v.content+'</td>'
                             html += '       <td></td>'
                             html += '     </tr>'
                         })
@@ -415,6 +421,7 @@ layui.use('table', function(){
                             html += '       <td><input class="layui-input" value="'+v.sign+'" name="sign[]" /></td>'
                             html += '       <td><input class="layui-input" value="'+v.formula+'" name="formula[]" /></td>'
                             html += '       <td><input class="layui-input" value="'+v.rate+'" name="rate[]" /></td>'
+                            html += '       <td><input class="layui-input" value="'+v.content+'" name="content[]" /></td>'
                             html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                             html += '     </tr>'
                         })
@@ -430,7 +437,7 @@ layui.use('table', function(){
                         layer.open({
                             content: html,
                             title:'查看/修改模板',
-                            area: ['580px', '480px'], //宽高
+                            area: ['680px', '580px'], //宽高
                             btn: ['提交', '取消'],
                             yes: function(index, layero){
                                 var addform = $('#editform').serializeArray();

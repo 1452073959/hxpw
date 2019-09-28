@@ -82,7 +82,7 @@ class Quote extends Adminbase
         $count_rate = count($rate);
         $count_content = count($content);
         if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate || $count_rate != $count_content){
-            $this->error('参数错误');
+            $this->error('新增项目不得留空');
         }
         $time = time();
         $userinfo = $this->_userinfo;
