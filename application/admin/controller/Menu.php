@@ -132,4 +132,111 @@ class Menu extends Adminbase
         }
     }
 
+
+    public function applet_menu(){
+        $menu_list = [];
+        $applet_menu = array_column(Db::name('applet_menu')->order('pid','asc')->order('sort','asc')->order('id','asc')->select(), null,'id') ;
+        //获取角色信息
+        $auth_group = array_column(Db::name('auth_group')->select(), null,'id') ;
+        $menu = [];
+        foreach($applet_menu as $k=>$v){
+            if($v['auth']){
+                $v['auth'] = explode(',', $v['auth']);
+                foreach($v['auth'] as $k1=>$v1){
+                    $v['auth'][$k1] = $auth_group[$v1]['title'];
+                }
+                $v['auth'] = implode(',', $v['auth']);
+            }
+            
+            if($v['pid'] == 0){
+                $menu[$v['id']] = $v;
+            }else{
+                $menu[$v['pid']]['child'][] = $v;
+            }
+        }
+        $this->assign("auth_group", $auth_group);
+        $this->assign("menu", $menu);//排序好的
+        $this->assign("applet_menu", $applet_menu);//原始数据
+        return $this->fetch();
+    }
+
+    //添加小程序菜单
+    public function add_applet_menu(){
+        if(input()){
+            $data = input();
+            unset($data['file']);
+            if(isset($data['auth'])){
+                $data['auth'] = implode(',', $data['auth']);
+            }
+            $res = Db::name('applet_menu')->insert($data);
+            if($res){
+                $this->success('添加成功');
+            }else{
+                $this->error('添加失败');
+            }
+        }else{
+            $this->error("添加失败");
+        }
+    }
+
+    //编辑小程序菜单
+    public function edit_applet_menu(){
+        if(input() && input('id')){
+            $data = input();
+            unset($data['file']);
+            if(isset($data['auth'])){
+                $data['auth'] = implode(',', $data['auth']);
+            }
+            if(empty($data['img'])){
+                unset($data['img']);
+            }
+            $res = Db::name('applet_menu')->update($data);
+            if($res){
+                $this->success('编辑成功');
+            }else{
+                $this->error('编辑失败');
+            }
+        }else{
+            $this->error("编辑失败");
+        }
+    }
+
+    //删除小程序菜单
+    public function del_applet_menu(){
+        if(input('id')){
+            $result = Db::name('applet_menu')->where(["pid" => input('id')])->count();
+            if($result){
+                $this->error('含有子菜单，无法删除！');
+            }
+            $res = Db::name('applet_menu')->where(['id'=>input('id')])->delete();
+            if($res){
+                $this->success('删除成功');
+            }else{
+                $this->error('删除失败');
+            }
+        }else{
+            $this->error("删除失败");
+        }
+    }
+
+    //上传图片
+    public function upload_image(){
+        $file = request()->file('file');
+        if($file){
+            // 1048576 = 1mb
+            $info = $file->validate(['size'=>1048576])->move( './uploads/images');
+            if($info){
+                // 成功上传后 获取上传信息
+                $images = $info->getSaveName();
+                $images = str_replace('\\', '/', $images);
+                $this->success('success','',$images);
+            }else{
+                // 上传失败获取错误信息
+                $this->error($file->getError());
+            }
+        }else{
+            $this->error('图片未上传');
+        }
+    }
+
 }

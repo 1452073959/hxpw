@@ -333,6 +333,19 @@
                                         +'<input type="text" name="take_rate4" autocomplete="off" value="'+ re.data.take_rate4+'" class="layui-input">'
                                     +'</div>'
                                 +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">领料审核界限（%）</label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<input type="text" name="pick_rate" autocomplete="off" value="'+ re.data.pick_rate+'" class="layui-input">'
+                                    +'</div>'
+                                +'</div>'
+                                +'<div class="layui-form-item">'
+                                    +'<label class="layui-form-label w150">质检流程<p>（每行一条，名称与说明使用"-"分开，名称不得超过3个字）</p></label>'
+                                    +'<div class="layui-input-inline w100">'
+                                        +'<textarea placeholder="例子： 流程1-流程1说明" name="order_check" style="height:300px;width:550px">'+ re.data.order_check+'</textarea>'
+                                    +'</div>'
+                                +'</div>'
+
                                 +'<div class="layui-input-inline w300">'
                                     +'<button id="edit_tmp" style="margin-left:70px" class="layui-btn ajax-post">立即提交</button>'
                                 +'</div>'
@@ -359,6 +372,9 @@
                             var take_rate3 = $(this).parents(".tmp_datas").find("input[name='take_rate3']").val();
                             var take_rate4 = $(this).parents(".tmp_datas").find("input[name='take_rate4']").val();
 
+                            var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
+                            var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
+
                             if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
                                 layer.msg('收款比率合计必须为100');return false;
                             }
@@ -377,6 +393,12 @@
                             if (parseFloat(supervisor)+parseFloat(design)+parseFloat(repeat)+parseFloat(business) > 100) {
                                 layer.msg('全部合计不得超过100');return false;
                             }
+                            if (!pick_rate || isNaN(pick_rate)) {
+                                layer.msg('领料审核界限输入有误');return false;
+                            }
+                            if (!order_check) {
+                                layer.msg('质检流程不能为空');return false;
+                            }
                             $.ajax({
                                 type : 'post',
                                 url  :  '{:url("indent/edit_tmp")}',
@@ -392,6 +414,8 @@
                                             take_rate2:take_rate2,
                                             take_rate3:take_rate3,
                                             take_rate4:take_rate4,
+                                            pick_rate:pick_rate,
+                                            order_check:order_check,
                                         },
                                 success : function(re){
                                   if(re.status == 0){

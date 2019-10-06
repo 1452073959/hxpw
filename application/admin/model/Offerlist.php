@@ -9,7 +9,7 @@ use think\Session;
 class Offerlist extends Model
 {
     //获取订单详情
-    public function get_order_info($id,$type=1){ //offerquota表 的id type=2 直接费加上增减项的项目
+    public function get_order_info($id,$type=1){ //offerquota表 的id , type ->1:合同单 2:整单
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
         $offerlist_info['artificial_cb'] = 0;
@@ -154,7 +154,7 @@ class Offerlist extends Model
         $cost_all = 0;//其他费用总计
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
-        $sign['A2'] = $offerlist_info['discount'];//优惠
+        $sign['A2'] = 0;//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);

@@ -1,0 +1,106 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+.input{
+    width:60px;
+    height:28px;
+    line-height: 28px;
+    text-align: center;
+}
+.confirm{
+    display: none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',page:true,limit:20,limits:[20,50,100,300,500,1000,5000]}">
+                <colgroup>
+                    <col width="80">
+                    <col width="80">
+                    <col width="160">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th class="" lay-data="{field:'item_number',width:100}">项目编号</th>
+                        <th class="" lay-data="{field:'frameid',width:150}">所属公司</th>
+                        <th class="" lay-data="{field:'type_of_work',width:150}">工种</th>
+                        <th class="" lay-data="{field:'project',width:300}">项目名称</th>
+                        <th class="" lay-data="{field:'company',width:100}">单位</th>                   
+                        <th class="" lay-data="{field:'quota',width:100}">辅材单价</th>
+                        <th class="" lay-data="{field:'craft_show',width:100}">人工单价</th>
+                        <th class="" lay-data="{field:'labor_cost',width:100}">人工成本</th>
+                        <!-- <th class="" lay-data="{field:'cost_value',totalRow: true,width:100}">综合价</th> -->
+                        <th class="" lay-data="{field:'material'}">施工工艺与材料说明</th>
+                        <th width="150" lay-data="{field:'save',width:100}">操作</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {foreach name="data" item="vo"}
+                    <tr>
+                      <td class="">{$vo.item_number}</td>     
+                      <td class=""><?php echo getcid($vo['frameid']);?></td>    
+                      <td class="">{$vo.type_of_work}</td>                                     
+                      <td class="">{$vo.project}</td>                                     
+                      <td class="">{$vo.company}</td>                                     
+                      <td class=""><input class="input" name="quota" value="" placeholder="{$vo.quota}" /></td>                                     
+                      <td class=""><input class="input" name="craft_show" value="" placeholder="{$vo.craft_show}" /></td> 
+                      <td class=""><input class="input" name="labor_cost" value="" placeholder="{$vo.labor_cost}" /></td> 
+                      <!-- <td class="">{$vo.cost_value}</td>                                       -->
+                      <td class="">{$vo.material}</td>
+                      <td>
+                        <a class="confirm" lay-event="save"><i class="layui-icon layui-icon-ok" style="cursor:pointer;" title="保存"></i></a>
+                      </td>
+                    </tr>       
+                 {/foreach}
+                </tbody>
+            </table>
+                
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+layui.use('table', function(){
+    var table = layui.table;
+    table.on('tool(test3)', function(obj){
+        var data = obj.data;
+        if(obj.event === 'save'){
+            var tr = $(this).parent().parent().parent();
+            var quota = $(tr).find('input[name="quota"]').val();
+            var craft_show = $(tr).find('input[name="craft_show"]').val();
+            var item_number = data.item_number
+            if(!quota || !craft_show || isNaN(craft_show) || isNaN(quota)){
+                layer.msg('输入数据格式有误');
+                return false;
+            }
+            $.post('/admin/basis_data/save_project',{item_number:item_number,craft_show:craft_show,quota:quota},function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg);
+                    $(this).parent().parent().parent().find('.confirm').show();
+                    return false;
+                }else{
+                    layer.msg(res.msg);
+                    return false;
+                }
+            },'json')
+        }
+    })
+});
+$(document).on('change','.input',function(){
+    var value = $(this).val();
+    if(isNaN(value)){
+        layer.msg('输入数据格式有误');
+        $(this).val('');
+        return false;
+    }
+    $(this).parent().parent().parent().find('.confirm').show();
+})
+</script>
+{/block}
