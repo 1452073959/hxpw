@@ -42,6 +42,7 @@ class Base extends Controller{
     public function getImgSrc($src,$path="uploads/images/",$http='http://'){
 
         if(file_exists($path.$src) && $src != '/' && !empty($src)){
+            $src = str_replace('\\','/',$src);
             return $http.$_SERVER['HTTP_HOST'].'/'.$path.$src;
         }else{
             return $http.$_SERVER['HTTP_HOST']."/static/imgs/logo1.png";

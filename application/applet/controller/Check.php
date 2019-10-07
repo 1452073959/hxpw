@@ -32,7 +32,7 @@ class Check extends UserBase{
         if($in_check == 1){
             $this->json(2,'请耐心等待验收');
         }
-        $res = Db::name('userlist')->where(['id'=>$uid])->update(['in_check'=>1]);
+        $res = Db::name('userlist')->where(['id'=>$uid])->update(['in_check'=>1,'check_time'=>time()]);
         if($res){
             $this->json(0,'success');
         }else{
@@ -70,7 +70,7 @@ class Check extends UserBase{
             if($file->getInfo()['size'] > 10485760){
                 $this->json(2,'图片大小不得超过10M');
             }
-            $info = $file->move( './uploads/cad');
+            $info = $file->move( './uploads/images');
             if($info){
                 // 成功上传后 获取上传信息
                 // $info->getSaveName() 储存路径
@@ -84,6 +84,55 @@ class Check extends UserBase{
         }
     }
 
+    //验收列表 - 某客户的
+    public function getCheckByUser(){
+        $uid = input('uid');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        
+        $list = Db::name('check')->where(['userid'=>$uid])->select();
+        if($userinfo['in_check'] == 1 && $userinfo['work_status'] != '待验收'){
+            //待验收状态
+            $check = [];
+            $check['userid'] = input('uid');
+            $check['id'] = 0;
+            $check['check_name'] = $userinfo['work_status'];
+            $check['time'] = date('Y-m-d',$userinfo['check_time']);
+            $check['status'] = 999;//待验收
+            $order_check = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->value('order_check');
+            $order_check = json_decode($order_check,true);
+            if(is_array($order_check)){
+                $order_check = array_column($order_check, null,0);
+            }
+            $check['check_content'] = $order_check[$userinfo['work_status']][1];
+            $list[] = $check;
+        }
+        foreach($list as $k=>$v){
+            $list[$k]['time'] = date('Y-m-d',strtotime($v['time']));
+        }
+        if($list){
+            $this->json(0,'success',$list);
+        }else{
+            $this->json(2,'暂无验收记录');
+        }
+    }
+
+    //验收详情 某一条
+    public function getCheckById(){
+        $id = input('id');
+        $info = Db::name('check')->where(['id'=>$id])->find();
+        if(!$info){
+            $this->json(2,'参数错误');
+        }
+        $imgs = Db::name('check_img')->where(['cid'=>$id])->select();
+        if($imgs){
+            foreach($imgs as $k=>$v){
+                $info['img'][] = $this->getImgSrc($v['img']);
+            }
+        }
+        $this->json(0,'success',$info);
+    }
+
+    //验收操作
     public function comfirmCheck(){
         // var_dump(input());
         $data = [];
