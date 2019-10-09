@@ -52,7 +52,7 @@
                 <div class="layui-inline">
                     <!-- <a class="layui-btn layui-btn-sm" href="{:url('Anbank/add')}">添加辅材{__STATIC__}</a> -->
                     <form method="post" action="{:url('Anbank/ImportExcel')}" class="form-signin" enctype="multipart/form-data" style="float: right;margin:0 18px;position:relative;">
-                      <select name="frameid" lay-verify="required"  lay-filter="business">
+                      <select name="frameid" lay-verify="required"  lay-filter="business" lay-search>
                               <option value=""></option>
                               {foreach $frame as $key=>$vo}
                                  <option value="{$vo.id}">{$vo.name}</option>
