@@ -265,7 +265,7 @@ class Anbank extends Adminbase
                if ($col_num != 'N') {
                    $this->error($col_num);die;
                 } 
-                var_dump($row_num);die;
+                var_dump($row_num);
                 for ($i = 3; $i <= $row_num; $i ++) {
                     $data[$i]['amcode']  = $sheet->getCell("A".$i)->getValue() ?: '';
                     $data[$i]['category']  = $sheet->getCell("B".$i)->getValue() ?: '';
@@ -287,6 +287,7 @@ class Anbank extends Adminbase
                     $data[$i]['userid']  = $userInfo['userid']; 
                     $data[$i]['frameid']  = $da['frameid'];  
                 }
+                var_dump($data);die;
                 //将数据保存到数据库
                 if ($data) {
                    //把获取到的二维数组遍历进数据库
