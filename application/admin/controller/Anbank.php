@@ -302,7 +302,7 @@ class Anbank extends Adminbase
                        Db::commit();
                     }catch (\Exception $e) {
                         Db::rollback();
-                        $this->error('获取导入文件数据失败');
+                        $this->error($e->getMessage());
                     }
                    $this->success('导入成功');
                 }else{
