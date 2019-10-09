@@ -265,6 +265,7 @@ class Anbank extends Adminbase
                if ($col_num != 'N') {
                    $this->error($col_num);die;
                 } 
+                var_dump($row_num);die;
                 for ($i = 3; $i <= $row_num; $i ++) {
                     $data[$i]['amcode']  = $sheet->getCell("A".$i)->getValue() ?: '';
                     $data[$i]['category']  = $sheet->getCell("B".$i)->getValue() ?: '';
