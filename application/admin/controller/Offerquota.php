@@ -137,7 +137,7 @@ class Offerquota extends Adminbase
                 $this->error('添加失败！');
             }
         }else{
-             $res = Db::name('frame')->where('levelid',3)->field('id,name')->select();;
+             $res = Db::name('frame')->where('levelid',3)->field('id,name')->select();
               $this->assign("data", $res);
             return $this->fetch();
         }
@@ -268,9 +268,8 @@ class Offerquota extends Adminbase
                 //获取总列数
                 $col_num = $sheet->getHighestColumn();
                 $data = []; //数组形式获取表格数据 
-                  // dump($col_num);exit;
                if ($col_num != 'AW') {
-                   $this->error('文件数据字段不匹配，请重新选择');die;
+                   $this->error('文件数据字段不匹配，请重新选择'.$col_num);die;
                 } 
                 // if ($col_num == 'AW') {
                 //    $this->error('输出AW正确');die;
@@ -318,7 +317,7 @@ class Offerquota extends Adminbase
                         Db::commit();
                     }catch (\Exception $e) {
                         Db::rollback();
-                        $this->error('获取导入文件数据失败');
+						$this->error($e->getMessage());
                     }
                     $this->success('导入成功');
                 }else{
