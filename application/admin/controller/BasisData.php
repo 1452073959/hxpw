@@ -49,14 +49,17 @@ class BasisData extends Adminbase{
         if(input('samcode')){
             $where[] = ['amcode','like','%'.input('samcode').'%'];
         }
-        if(input('type_of_work')){
-            $where[] = ['type_of_work','like','%'.input('type_of_work').'%'];
+        if(input('stype_of_work')){
+            $where[] = ['type_of_work','like','%'.input('stype_of_work').'%'];
         }
-        if(input('fine')){
-            $where[] = ['fine','like','%'.input('fine').'%'];
+        if(input('sclassify')){
+            $where[] = ['classify','like','%'.input('sclassify').'%'];
         }
-        if(input('name')){
-            $where[] = ['name','like','%'.input('name').'%'];
+        if(input('sfine')){
+            $where[] = ['fine','like','%'.input('sfine').'%'];
+        }
+        if(input('sname')){
+            $where[] = ['name','like','%'.input('sname').'%'];
         }
         $res = Db::name('basis_materials')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
         $this->assign('data',$res);
@@ -67,13 +70,14 @@ class BasisData extends Adminbase{
     public function add_public_warehouse(){
         $data['amcode'] = input('amcode');
         $data['type_of_work'] = input('type_of_work');
+        $data['classify'] = input('classify');
         $data['fine'] = input('fine');
         $data['name'] = input('name');
         $data['unit'] = input('unit');
         $data['coefficient'] = input('coefficient');
         $data['important'] = input('important');
-        if(!$data['amcode'] || !$data['type_of_work'] || !$data['fine'] || !$data['name'] || !$data['unit']){
-            $this->error('参数错误');
+        if(!$data['amcode'] || !$data['type_of_work'] || !$data['fine'] || !$data['name'] || !$data['unit'] ){
+            $this->error('参数不得为空');
         }
         if($data['coefficient'] < 0 || $data['coefficient'] > 100 || !is_numeric($data['coefficient']) || $data['coefficient']%1 != 0){
             $this->error('系数输入不规范');
@@ -254,7 +258,7 @@ class BasisData extends Adminbase{
     //分公司 添加辅材操作
     public function add_fwarehouse_operation(){
         $datas = input();
-        $datas['fid'] = $this->_userinfo;
+        $datas['fid'] = $this->_userinfo['companyid'];
         $info = Db::name('basis_materials')->where(['id'=>$datas['bs_id']])->find();
         if(!$info){
             $this->error('参数错误');
@@ -284,7 +288,7 @@ class BasisData extends Adminbase{
         $bp_id = array_unique(array_column($data->items(), 'bp_id'));
         $basis_project = array_column(Db::name('basis_project')->where(['id'=>$bp_id])->select(),null, 'id');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
-        
+
         $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');
         $this->assign('admininfo',$this->_userinfo);
         $this->assign('type_work',$type_work);
@@ -330,7 +334,7 @@ class BasisData extends Adminbase{
     //分公司 添加项目操作(改ajax添加了 暂时不用了)
     public function add_fproject_operation(){
         $datas = input();
-        $datas['fid'] = $this->_userinfo;
+        $datas['fid'] = $this->_userinfo['companyid'];
         $info = Db::name('basis_project')->where(['id'=>$datas['bp_id']])->find();
         if(!$info){
             $this->error('参数错误');
@@ -383,7 +387,7 @@ class BasisData extends Adminbase{
             $info['frameid'] = $v['fid'];
             $info['userid'] = $admininfo['userid'];
             $info['amcode'] = $v['amcode'];
-            $info['fine'] = $v['fine'];
+            $info['fine'] = $basis_materials[$v['bs_id']]['classify'];
             $info['brand'] = $v['brank'];
             $info['place'] = $v['place'];
             $info['category'] = $basis_materials[$v['bs_id']]['type_of_work'];

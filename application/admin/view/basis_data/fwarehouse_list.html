@@ -98,7 +98,8 @@
                     <tr>
                         <th class="taleft" lay-data="{field:'amcode',width:100}">编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="taleft" lay-data="{field:'fine',width:150}">辅材细类</th>
+                        <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
+                        <th class="taleft" lay-data="{field:'fine',width:150}">分类</th>
                         <th class="taleft" lay-data="{field:'name', width:100}">辅材名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="taleft" lay-data="{field:'brank',width:100}">品牌</th>
@@ -115,7 +116,8 @@
                     <tr>
                       <td class="taleft">{$vo.amcode}</td>
                       <td class="taleft">{$basis_materials[$vo['bs_id']]['type_of_work']}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['name']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['classify']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['fine']}</td>
                       <td class="taleft">{$basis_materials[$vo['bs_id']]['name']}</td>
                       <td class="taleft">{$basis_materials[$vo['bs_id']]['unit']}</td>
                       <td class="taleft">{$vo.brank}</td>

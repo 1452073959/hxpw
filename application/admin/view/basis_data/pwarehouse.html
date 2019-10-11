@@ -102,7 +102,8 @@
                         <th class="" lay-data="{field:'id',hide:'true',width:100}">id</th>
                         <th class="" lay-data="{field:'amcode',width:100}">编码</th>
                         <th class="" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="" lay-data="{field:'fine',width:150}">辅材细类</th>
+                        <th class="" lay-data="{field:'classify',width:150}">辅材细类</th>
+                        <th class="" lay-data="{field:'fine',width:150}">分类</th>
                         <th class="" lay-data="{field:'name', width:100}">辅材名称</th>
                         <th class="" lay-data="{field:'unit',width:100}">单位</th>
 
@@ -124,6 +125,7 @@
                     <td class="">{$vo.id}</td>
                     <td class="">{$vo.amcode}{if(in_array($vo['id'],$bs_ids))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
                     <td class="">{$vo.type_of_work}</td>
+                    <td class="">{$vo.classify}</td>
                     <td class="">{$vo.fine}</td>
                     <td class="">{$vo.name}</td>
                     <td class="">{$vo.unit}</td>

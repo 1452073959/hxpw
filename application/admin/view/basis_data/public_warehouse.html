@@ -58,25 +58,31 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">编码</label>
                         <div class="layui-input-block">
-                            <input type="text" name="samcode" placeholder="" value="{:input('amcode')}" autocomplete="off" class="layui-input">
+                            <input type="text" name="samcode" placeholder="" value="{:input('samcode')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">工种类别</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="" value="{:input('type_of_work')}" autocomplete="off" class="layui-input">
+                            <input type="text" name="stype_of_work" placeholder="" value="{:input('stype_of_work')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">辅材细类</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="" value="{:input('fine')}" autocomplete="off" class="layui-input">
+                            <input type="text" name="sclassify" placeholder="" value="{:input('sclassify')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分类</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sfine" placeholder="" value="{:input('sfine')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">辅材名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                            <input type="text" name="sname" placeholder="" value="{:input('sname')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item" style="margin-left:10px">
@@ -102,12 +108,12 @@
                     <tr>
                         <th class="taleft" lay-data="{field:'amcode',width:100}">编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="taleft" lay-data="{field:'fine',width:150}">辅材细类</th>
+                        <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
+                        <th class="taleft" lay-data="{field:'fine',width:150}">分类</th>
                         <th class="taleft" lay-data="{field:'name', width:100}">辅材名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="taleft" lay-data="{field:'coefficient',width:100}">系数</th>
                         <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
-                        <!-- <th width="150" lay-data="{field:'edit',width:100}">操作</th> -->
                     </tr>
                 </thead>
                 <tbody> 
@@ -115,6 +121,7 @@
                     <tr>
                       <td class="taleft">{$vo.amcode}</td>
                       <td class="taleft">{$vo.type_of_work}</td>
+                      <td class="taleft">{$vo.classify}</td>
                       <td class="taleft">{$vo.fine}</td>
                       <td class="taleft">{$vo.name}</td>
                       <td class="taleft">{$vo.unit}</td>
@@ -160,6 +167,13 @@
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材细类：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="classify" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="fine" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
@@ -200,12 +214,13 @@
                         yes: function(index, layero){
                             var amcode = $('input[name="amcode"]').val();
                             var type_of_work = $('input[name="type_of_work"]').val();
+                            var classify = $('input[name="classify"]').val();
                             var fine = $('input[name="fine"]').val();
                             var name = $('input[name="name"]').val();
                             var unit = $('input[name="unit"]').val();
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
-                            if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important){
+                            if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
                             }
@@ -217,7 +232,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important},function(res){
+                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
