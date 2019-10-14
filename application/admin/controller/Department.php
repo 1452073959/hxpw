@@ -260,18 +260,18 @@ class Department extends Adminbase
         $data = $request->post();
         $staff = Db::name('personnel')->where(['status' => 1, 'fid' => $admininfo['companyid'], 'id' => $data['quoter_id']])->find();
 //        dump($staff);die;
-            $n=[
-                'companyid'=>$staff['fid'],
-                'username'=>$data['username'],
-                'password'=>md5($data['password']),
-                'roleid'=>$data['roleid'],
-                'name'=>$staff['name'],
-                'phone'=>$staff['phone'],
-                'email'=>$staff['email'],
-                'status'=>0,
-                'addid'=>$admininfo['userid']
-            ];
-            $res=Db::table('fdz_admin')->data($n)->insert();
+        $n = [
+            'companyid' => $staff['fid'],
+            'username' => $data['username'],
+            'password' => md5($data['password']),
+            'roleid' => $data['roleid'],
+            'name' => $staff['name'],
+            'phone' => $staff['phone'],
+            'email' => $staff['email'],
+            'status' => 0,
+            'addid' => $admininfo['userid']
+        ];
+        $res = Db::table('fdz_admin')->data($n)->insert();
         if ($res) {
             $this->success("添加管理员成功！超级管理员审核成功后可以登陆", url('admin/manager/index'));
         } else {
