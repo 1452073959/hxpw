@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9a78f5f-0ee6-47a3-a568-3fcc06c17596" name="默认" comment="">
-      <change beforePath="$PROJECT_DIR$/application/admin/view/indent/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/application/admin/view/indent/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fh_offer.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/admin/controller/Department.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/admin/controller/Department.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,14 +17,6 @@
     <execution>
       <executable />
     </execution>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>render</find>
-      <find>exportExcel</find>
-      <find>baojia</find>
-      <find>btn-fold</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,10 +70,33 @@
       <workItem from="1560735175834" duration="11787000" />
       <workItem from="1560835970771" duration="675000" />
       <workItem from="1570772991073" duration="29000" />
+      <workItem from="1571038240072" duration="1889000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/admin/controller/Department.php</url>
+          <line>247</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
