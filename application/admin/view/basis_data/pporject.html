@@ -1,0 +1,303 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+/*分页样式*/
+.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}
+.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}
+.pagination .active{background-color: #dd1a20;color: #fff;}
+.pagination .disabled{color:#aaa;}
+.layui-form-select{float:left;margin-right:10px}
+.onfile {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.onfile input {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.onfile:hover {
+  opacity:0.8;
+  color: #1E88C7
+   /* background: #AADFFD;
+    border-color: #78C3F3;
+    color: #fff;
+    text-decoration: none;*/
+}
+.daoru{position:absolute;top:1px;right:-90px;}
+.daorus{position:absolute;top:1px;right:-50px;height:35px}
+.bigbox{padding:10px}
+.bigbox input{margin-bottom:10px}
+#imgs{position:relative;}
+.batchs span{cursor:pointer;}
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+.project_select .layui-form-select{
+    width:100px;
+}
+#add_html .layui-form-item{
+    width:350px;
+    line-height: 38px;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="item_number" placeholder="" value="{:input('item_number')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工种类别</label>
+                        <div class="layui-input-block">
+                            <select name="type_word_id" lay-search>
+                                    <option value="">请选择</option>
+                                {foreach name="type_work" item="v"}
+                                    <option value="{$v.id}">{$v.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-left:10px">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                          <a href="/admin/basis_data/public_project" class="layui-btn layui-btn-primary">重置</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                </div>
+            </script>
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:[],limit:20}">
+                <colgroup>
+                    <col width="80">
+                    <col width="80">
+                    <col width="160">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th class="" lay-data="{field:'id',hide:'true',width:100}">编码</th>
+                        <th class="" lay-data="{field:'item_number',width:100}">编码</th>
+                        <th class="" lay-data="{field:'type_word_id',width:150}">工种类别</th>
+                        <th class="" lay-data="{field:'name',width:200}">名称</th>
+                        <th class="" lay-data="{field:'unit', width:100}">单位</th>
+                        <!-- <th class="" lay-data="{field:'materials',width:100}">用料</th> -->
+                        <th class="" lay-data="{field:'content',}">工艺说明</th>
+                        <th width="150" lay-data="{field:'edit',event:'edit',width:100}">操作编辑</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {foreach name="data" item="vo"}
+                    <tr>
+                      <td class="">{$vo.id}</td>
+                      <td class="">{$vo.item_number} {if(in_array($vo['id'],$bp_ids))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if} </td>
+                      <td class="">{$type_work[$vo['type_word_id']]['name']}</td>
+                      <td class="">{$vo.name}</td>
+                      <td class="">{$vo.unit}</td>
+                      <!-- <td class="">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td> -->
+                      <td class="">{$vo.content}</td>
+                      <td>
+                        <a href="javascript:;" lay-event="add"><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
+                      </td>
+                    </tr>       
+                 {/foreach}
+                </tbody>
+            </table>
+            {$data->render()|raw}
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(add_projcet)', function(data){
+            //验证数据 不能使用自带的  自带的弹框会关闭输入的内容
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.quota))){
+                alert('辅材单价格式错误');
+                return false;
+            }
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.craft_show))){
+                alert('人工单价格式错误');
+                return false;
+            }
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.labor_cost))){
+                alert('人工成本格式错误');
+                return false;
+            }
+            console.log(data.field);
+            $.post('/admin/basis_data/add_fproject_operation',data.field,function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg);
+                    setTimeout(function(){
+                    　　window.location.reload()
+                    },1000);
+                }else{
+                    alert(res.msg);
+                }
+            },'json')
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+    
+    layui.use('table', function(){
+        var table = layui.table;
+        //工具栏事件
+        table.on('tool(test3)', function(obj){
+            var data = obj.data; //获得当前行数据
+            if (obj.event == 'add'){
+                //获取细类
+                var option = '';
+                //ajax改成同步请求
+                $.ajaxSettings.async = false;
+                $.post('/admin/basis_data/get_fine',{item_number:data.item_number},function(res){
+                    if(res.code == 1){
+                        option += '<p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p>'
+                        $.each(res.data, function (key, val) {
+                            option += '<div class="layui-form-item" style="margin:5px 0">'
+                            option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
+                            option += '  <div class="layui-input-block" style="margin-left:85px">'
+                            option += '    <select name="material['+key+']">'
+                            $.each(val, function (k, v) {
+                                option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                            });
+                            option += '    </select>'
+                            option += '  </div>'
+                            option += '</div>'
+                         });
+                    }else{
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                },'json')
+                //改回异步
+                $.ajaxSettings.async = true;
+                
+                var html = '<form id="add_html" class="layui-form">';
+
+                html += '<input type="hidden" name="bp_id" value="'+data.id+'">'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="quota" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">人工单价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="craft_show" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">人工成本：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="labor_cost" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += option
+
+                html += '<div class="layui-form-item" style="margin:5px 0;text-align:center">'
+                html += '   <button class="layui-btn" style="margin:0 auto;" id="add_projcet" lay-submit lay-filter="add_projcet">立即提交</button>'
+                html += '</div>'
+
+                html += '</form>'
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: html,
+                        area:['400px', '600px'],
+                        title:'添加报价项目',
+                        btn: ['取消'],
+                        success:function(layero, index){
+                            layui.use('form', function(){
+                                var form = layui.form;
+                                form.render();
+                            });
+                        },
+                        yes: function(index, layero){
+                            
+                            layer.close(index);
+                            return false;
+                            
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+                
+            }
+            
+        });
+    });
+    //鼠标经过表头显示文字
+    $(document).on('mouseenter', '.layui-table th', function(){
+        var th = $(this).find('span').text();
+        var content = '';
+        switch(th) {
+            case '编码':
+                content = '编码，打钩表示已添加，可重复添加';
+                break;
+            case '工种类别':
+                content = '报价所属工种';
+                break;
+            case '名称':
+                content = '报价名称';
+                break;
+            case '单位':
+                content = '报价单位';
+                break;
+            default:
+                content = '';
+        } 
+        if(content != ''){
+            tip_index = layer.tips(content, this, {time: 0,tips: [1, '#5BC0DE']});
+        }
+        // tip_index = layer.tips('项目情况', this, {time: 0,tips: [2, '#5BC0DE']});
+    }).on('mouseleave', '.layui-table th', function(){
+        if(tip_index){
+            layer.close(tip_index);
+        }
+        
+    });
+</script>
+{/block}

@@ -1,0 +1,262 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+/*分页样式*/
+.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}
+.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}
+.pagination .active{background-color: #dd1a20;color: #fff;}
+.pagination .disabled{color:#aaa;}
+.layui-form-select{float:left;margin-right:10px}
+.onfile {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.onfile input {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.onfile:hover {
+  opacity:0.8;
+  color: #1E88C7
+   /* background: #AADFFD;
+    border-color: #78C3F3;
+    color: #fff;
+    text-decoration: none;*/
+}
+.daoru{position:absolute;top:1px;right:-90px;}
+.daorus{position:absolute;top:1px;right:-50px;height:35px}
+.bigbox{padding:10px}
+.bigbox input{margin-bottom:10px}
+#imgs{position:relative;}
+.batchs span{cursor:pointer;}
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="amcode" placeholder="" value="{:input('amcode')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工种类别</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="type_of_work" placeholder="" value="{:input('type_of_work')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">辅材细类</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="fine" placeholder="" value="{:input('fine')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">辅材名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-left:10px">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                          <a href="/admin/basis_data/pwarehouse" class="layui-btn layui-btn-primary">重置</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                </div>
+            </script>
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:[],limit:20}">
+                <colgroup>
+                    <col width="80">
+                    <col width="80">
+                    <col width="160">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th class="" lay-data="{field:'id',hide:'true',width:100}">id</th>
+                        <th class="" lay-data="{field:'amcode',width:100}">编码</th>
+                        <th class="" lay-data="{field:'type_of_work',width:100}">工种类别</th>
+                        <th class="" lay-data="{field:'classify',width:150}">辅材细类</th>
+                        <th class="" lay-data="{field:'fine',width:150}">分类</th>
+                        <th class="" lay-data="{field:'name', width:100}">辅材名称</th>
+                        <th class="" lay-data="{field:'unit',width:100}">单位</th>
+
+                        <th width="150" lay-data="{edit:'text',field:'brank',width:100}">品牌</th>
+                        <th width="150" lay-data="{edit:'text',field:'place',width:100}">产地</th>
+                        <th width="150" lay-data="{edit:'text',field:'in_price',width:100}">进货单价</th>
+                        <th width="150" lay-data="{edit:'text',field:'price',width:100}">出货单价</th>
+                        <th width="150" lay-data="{edit:'text',field:'pack',width:100}">包装单位</th>
+                        <th width="150" lay-data="{edit:'text',field:'phr',width:100}">包装规格</th>
+                        <th width="150" lay-data="{edit:'text',field:'source',width:100}">来源</th>
+
+
+                        <th width="150" lay-data="{field:'edit',width:100}">操作</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {foreach name="data" item="vo"}
+                    <tr>
+                    <td class="">{$vo.id}</td>
+                    <td class="">{$vo.amcode}{if(in_array($vo['id'],$bs_ids))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
+                    <td class="">{$vo.type_of_work}</td>
+                    <td class="">{$vo.classify}</td>
+                    <td class="">{$vo.fine}</td>
+                    <td class="">{$vo.name}</td>
+                    <td class="">{$vo.unit}</td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td>
+                        <a href="javascript:;" style="color:#007498" lay-event="add">添加到仓库</a>
+                    </td>
+                    </tr>       
+                 {/foreach}
+                </tbody>
+            </table>
+            {$data->render()|raw}
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table;
+        //工具栏事件
+        table.on('tool(test3)', function(obj){
+            if(obj.event == 'add'){
+                var data = obj.data; //获得当前行数据
+                var bs_id = data.id;
+                var brank = data.brank;
+                var place = data.place;
+                var in_price = data.in_price;
+                var price = data.price;
+                var pack = data.pack;
+                var phr = data.phr;
+                var source = data.source;
+                if(!brank || !place || !in_price || !price || !pack || !phr || !source){
+                    layer.msg('数据不能留空，无数据可添"无"');
+                    return false;
+                }
+                if (source != '公司仓库' && source != '监理自购') {
+                    layer.msg('来源只能输入"公司仓库" 或 "监理自购"');
+                    return false;
+                }
+                if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(price))){
+                    layer.msg('请输入正确的金额格式');
+                    return false;
+                }
+                if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(in_price))){
+                    layer.msg('请输入正确的金额格式');
+                    return false;
+                }
+                if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(pack))){
+                    layer.msg('请输入正确的包装单位');
+                    return false;
+                }
+                $.post('/admin/basis_data/add_fwarehouse_operation',{bs_id:bs_id,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
+                    if(res.code == 1){
+                        obj.update({
+                            amcode: data.amcode+'<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>',
+                            brank:'',
+                            place:'',
+                            in_price:'',
+                            price:'',
+                            pack:'',
+                            phr:'',
+                            source:'',
+                        });
+                        layer.msg(res.msg);
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                },'json')
+            }
+            
+        });
+    });
+    //鼠标经过表头显示文字
+    $(document).on('mouseenter', '.layui-table th', function(){
+        var th = $(this).find('span').text();
+        var content = '';
+        switch(th) {
+            case '编码':
+                content = '编码，打钩表示已添加，可重复添加';
+                break;
+            case '基本单位':
+                content = '辅材基本单位';
+                break;
+            case '品牌':
+                content = '辅材品牌(必填)';
+                break;
+            case '品牌':
+                content = '辅材品牌(必填)';
+                break;
+            case '产地':
+                content = '辅材产地(必填)';
+                break;
+            case '进货单价':
+                content = '辅材进货单价(必填)';
+                break;
+            case '出库单价':
+                content = '辅材出库单价(必填)';
+                break;
+            case '包装单位':
+                content = '辅材包装单位(必填)，例如油漆基本单位为"L"，包装规格为"桶"，此处填入10，最终形成10L/桶';
+                break;
+            case '包装规格':
+                content = '辅材包装规格(必填)，例如油漆基本单位为"L"，包装单位为"10"，此处填入桶，最终形成10L/桶';
+                break;
+            case '来源':
+                content = '辅材来源，目前只能输入 "公司仓库" 、 "监理自购"';
+                break;
+            default:
+                content = '';
+        } 
+        if(content != ''){
+            tip_index = layer.tips(content, this, {time: 0,tips: [1, '#5BC0DE']});
+        }
+        // tip_index = layer.tips('项目情况', this, {time: 0,tips: [2, '#5BC0DE']});
+    }).on('mouseleave', '.layui-table th', function(){
+        if(tip_index){
+            layer.close(tip_index);
+        }
+        
+    });
+</script>
+{/block}

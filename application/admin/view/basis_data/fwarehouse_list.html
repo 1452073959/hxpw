@@ -1,0 +1,152 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+/*分页样式*/
+.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}
+.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}
+.pagination .active{background-color: #dd1a20;color: #fff;}
+.pagination .disabled{color:#aaa;}
+.layui-form-select{float:left;margin-right:10px}
+.onfile {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.onfile input {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.onfile:hover {
+  opacity:0.8;
+  color: #1E88C7
+   /* background: #AADFFD;
+    border-color: #78C3F3;
+    color: #fff;
+    text-decoration: none;*/
+}
+.daoru{position:absolute;top:1px;right:-90px;}
+.daorus{position:absolute;top:1px;right:-50px;height:35px}
+.bigbox{padding:10px}
+.bigbox input{margin-bottom:10px}
+#imgs{position:relative;}
+.batchs span{cursor:pointer;}
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+</style>
+
+  <!-- 导出完成 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form layui-inline" action="">
+                    {if ($admininfo['userid'] == 1)}
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">选择分公司</label>
+                            <div class="layui-input-block">
+                              <select name="fid" lay-search>
+                                <option value=""></option>
+                                  {volist name="frame" id="vo"}
+                                    <option {$vo.id==input('fid')?'selected':''} value="{$vo.id}">{$vo.name}</option>
+                                  {/volist}
+                              </select>
+                            </div>
+                        </div>
+                    {/if}
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="amcode" placeholder="" value="{:input('amcode')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-left:10px">
+                        <div class="layui-input-inline">
+                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                          <a href="/admin/basis_data/fwarehouse_list" class="layui-btn layui-btn-primary">重置</a>
+                        </div>
+                    </div>
+                </form>
+            </blockquote>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <!-- <a class="layui-btn layui-btn-sm" href="/admin/basis_data/add_fwarehouse">添加</a>  -->
+                </div>
+            </script>
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['print'],limit:20}">
+                <colgroup>
+                    <col width="80">
+                    <col width="80">
+                    <col width="160">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <th class="taleft" lay-data="{field:'amcode',width:100}">编码</th>
+                        <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
+                        <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
+                        <th class="taleft" lay-data="{field:'fine',width:150}">分类</th>
+                        <th class="taleft" lay-data="{field:'name', width:100}">辅材名称</th>
+                        <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
+                        <th class="taleft" lay-data="{field:'brank',width:100}">品牌</th>
+                        <th class="taleft" lay-data="{field:'place',width:100}">产地</th>
+                        <th class="taleft" lay-data="{field:'price',width:100}">单价</th>
+                        <th class="taleft" lay-data="{field:'pack',width:100}">包装</th>
+                        <th class="taleft" lay-data="{field:'phr',width:100}">包装规格</th>
+                        <th class="taleft" lay-data="{field:'source',width:100}">来源</th>
+                        <!-- <th width="150" lay-data="{field:'edit',event:'edit',width:100}">操作编辑</th> -->
+                    </tr>
+                </thead>
+                <tbody> 
+                  {foreach name="data" item="vo"}
+                    <tr>
+                      <td class="taleft">{$vo.amcode}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['type_of_work']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['classify']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['fine']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['name']}</td>
+                      <td class="taleft">{$basis_materials[$vo['bs_id']]['unit']}</td>
+                      <td class="taleft">{$vo.brank}</td>
+                      <td class="taleft">{$vo.place}</td>
+                      <td class="taleft">{$vo.price}</td>
+                      <td class="taleft">{$vo.pack}</td>
+                      <td class="taleft">{$vo.phr}</td>
+                      <td class="taleft">{$vo.source}</td>
+                    </tr>       
+                 {/foreach}
+                </tbody>
+            </table>
+            {$data->render()|raw}
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table;
+        //工具栏事件
+        table.on('toolbar(test3)', function(obj){
+            
+            
+        });
+    });
+</script>
+{/block}
