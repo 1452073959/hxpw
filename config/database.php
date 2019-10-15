@@ -15,12 +15,12 @@ return [
     // 服务器地址
     'hostname' => 'localhost',
     // 数据库名
-    'database' => 'baojia',
+    'database' => 'hxpwsql',
     // 用户名
-    'username' => 'root',
+    'username' => 'hxpwsql',
     // 密码
 
-    'password' => '123456',
+    'password' => 'P8GZf4EJMJWjCc7J',
 
     // 端口
     'hostport' => '',
