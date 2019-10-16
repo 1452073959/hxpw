@@ -488,6 +488,18 @@ class BasisData extends Adminbase{
         }
     }
 
+    //删除分公司报价
+    public function del_fproject(){
+        $id = input('id');
+        $res = Db::name('f_project')->where(['id'=>$id])->delete();
+        if($res){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+
+    }
+
     public function create_datas(){
         $admininfo = $this->_userinfo;
         $fid = input('fid')?input('fid'):$admininfo['companyid'];
@@ -517,7 +529,7 @@ class BasisData extends Adminbase{
         $datas = [];
         foreach($materials as $k=>$v){
             if(!isset($basis_materials[$v['p_amcode']])){
-                $this->error('数据有误');
+                $this->error('辅材仓库数据有误');
             }
             $info = [];
             $info['frameid'] = $v['fid'];

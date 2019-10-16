@@ -109,7 +109,7 @@
                         <th class="taleft" lay-data="{field:'labor_cost',width:100}">人工成本</th>
                         <th class="taleft" lay-data="{field:'content'}">说明</th>
                         <th class="taleft" lay-data="{field:'status',width:210}">状态</th>
-                        <th width="150" lay-data="{field:'edit',width:120}">操作</th>
+                        <th width="150" lay-data="{field:'edit',width:150}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -134,6 +134,7 @@
                       <td>
                         <a href="javascript:;" lay-event="show" class="">查看辅材</a>
                         <a href="javascript:;" lay-event="edit" class="">编辑</i></a>
+                        <a href="javascript:;" lay-event="del" class="">删除</i></a>
                       </td>
                     </tr>       
                  {/foreach}
@@ -290,6 +291,35 @@
                             layer.close(index);
                             return false;
                             
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+            }else if(obj.event == 'del'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '确定删除选中条目吗',
+                        title:'删除报价',
+                        btn: ['确定','取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/del_fproject',{id:data.id},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　  window.location.reload()
+                                    },1000);
+                                    return false;
+                                }else{
+                                    layer.msg(res.msg);
+                                    return false;
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
                         },
                         cancel: function(){ 
                         //return false 开启该代码可禁止点击该按钮关闭
