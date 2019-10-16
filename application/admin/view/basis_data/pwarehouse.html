@@ -99,7 +99,7 @@
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="" lay-data="{field:'id',hide:'true',width:100}">id</th>
+                        <!-- <th class="" lay-data="{field:'id',hide:'true',width:100}">id</th> -->
                         <th class="" lay-data="{field:'amcode',width:100}">编码</th>
                         <th class="" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                         <th class="" lay-data="{field:'classify',width:150}">辅材细类</th>
@@ -122,12 +122,12 @@
                 <tbody> 
                   {foreach name="data" item="vo"}
                     <tr>
-                    <td class="">{$vo.id}</td>
-                    <td class="">{$vo.amcode}{if(in_array($vo['id'],$bs_ids))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
+                    <!-- <td class="">{$vo.id}</td> -->
+                    <td class="">{$vo.amcode}</td>
                     <td class="">{$vo.type_of_work}</td>
                     <td class="">{$vo.classify}</td>
                     <td class="">{$vo.fine}</td>
-                    <td class="">{$vo.name}</td>
+                    <td class="">{$vo.name}{if(in_array($vo['amcode'],$amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
                     <td class="">{$vo.unit}</td>
 
                     <td></td>
@@ -161,7 +161,7 @@
         table.on('tool(test3)', function(obj){
             if(obj.event == 'add'){
                 var data = obj.data; //获得当前行数据
-                var bs_id = data.id;
+                var amcode = data.amcode;
                 var brank = data.brank;
                 var place = data.place;
                 var in_price = data.in_price;
@@ -189,10 +189,10 @@
                     layer.msg('请输入正确的包装单位');
                     return false;
                 }
-                $.post('/admin/basis_data/add_fwarehouse_operation',{bs_id:bs_id,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
+                $.post('/admin/basis_data/add_fwarehouse_operation',{p_amcode:amcode,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
                     if(res.code == 1){
                         obj.update({
-                            amcode: data.amcode+'<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>',
+                            name: data.name+'<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>',
                             brank:'',
                             place:'',
                             in_price:'',

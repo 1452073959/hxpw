@@ -41,7 +41,7 @@
 .bigbox input{margin-bottom:10px}
 #imgs{position:relative;}
 .batchs span{cursor:pointer;}
-.layui-form-item{
+.news_search .layui-form-item{
     margin-bottom: 0;
     width: 250px;
     float: left;
@@ -96,9 +96,11 @@
                 </colgroup>
                 <thead >
                     <tr>
+                        <th class="taleft" lay-data="{field:'id',width:100,hide:'true'}">id</th>
                         <th class="taleft" lay-data="{field:'item_number',width:100}">编码</th>
+                        <th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="taleft" lay-data="{field:'name', width:100}">名称</th>
+                        <th class="taleft" lay-data="{field:'name', width:200}">名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
 
                         <th class="taleft" lay-data="{field:'quota',width:120}">辅材单价报价</th>
@@ -106,24 +108,32 @@
                         <th class="taleft" lay-data="{field:'cost_value',width:100}">综合价</th>
                         <th class="taleft" lay-data="{field:'labor_cost',width:100}">人工成本</th>
                         <th class="taleft" lay-data="{field:'content'}">说明</th>
-                        <th width="150" lay-data="{field:'show',width:120}">查看使用辅材</th>
+                        <th class="taleft" lay-data="{field:'status',width:210}">状态</th>
+                        <th width="150" lay-data="{field:'edit',width:120}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
                   {foreach name="data" item="vo"}
                     <tr>
+                      <td class="taleft">{$vo.id}</td>
                       <td class="taleft">{$vo.item_number}</td>
-                      <td class="taleft">{$type_work[$basis_project[$vo['bp_id']]['type_word_id']]['name']}</td>
-                      <td class="taleft">{$basis_project[$vo['bp_id']]['name']}</td>
-                      <td class="taleft">{$basis_project[$vo['bp_id']]['unit']}</td>
+                      <td class="taleft">{$basis_project[$vo['p_item_number']]['item_number']}</td>
+                      <td class="taleft">{$type_work[$basis_project[$vo['p_item_number']]['type_word_id']]['name']}</td>
+                      <td class="taleft">{$basis_project[$vo['p_item_number']]['name']}</td>
+                      <td class="taleft">{$basis_project[$vo['p_item_number']]['unit']}</td>
 
                       <td class="taleft">{$vo.quota}</td>
                       <td class="taleft">{$vo.craft_show}</td>
                       <td class="taleft">{$vo.cost_value}</td>
                       <td class="taleft">{$vo.labor_cost}</td>
-                      <td class="taleft">{$basis_project[$vo['bp_id']]['content']}</td>
+                      <td class="taleft">{$basis_project[$vo['p_item_number']]['content']}</td>
+                      <td class="taleft">
+                        {if($vo['status'] == 2)}<a style="color:red;margin-left: 5px">辅材发生变动，请重新编辑</a>{/if}
+                        {if($vo['status'] == 3)}<a style="color:red;margin-left: 5px">基础库项目已删除，此项目已失效，请手动删除</a>{/if}
+                      </td>
                       <td>
-                        <a href="javascript:;" lay-event="show" class=""><i class="layui-icon layui-icon-search" title="查看使用辅材"></i></a>
+                        <a href="javascript:;" lay-event="show" class="">查看辅材</a>
+                        <a href="javascript:;" lay-event="edit" class="">编辑</i></a>
                       </td>
                     </tr>       
                  {/foreach}
@@ -139,6 +149,37 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(edit_projcet)', function(data){
+            //验证数据 不能使用自带的  自带的弹框会关闭输入的内容
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.quota))){
+                alert('辅材单价格式错误');
+                return false;
+            }
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.craft_show))){
+                alert('人工单价格式错误');
+                return false;
+            }
+            if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(data.field.labor_cost))){
+                alert('人工成本格式错误');
+                return false;
+            }
+            console.log(data.field);
+            $.post('/admin/basis_data/edit_fproject_operation',data.field,function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg);
+                    setTimeout(function(){
+                    　　window.location.reload()
+                    },1000);
+                }else{
+                    alert(res.msg);
+                }
+            },'json')
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
     layui.use('table', function(){
         var table = layui.table;
         //工具栏事件
@@ -163,6 +204,99 @@
                         layer.msg(res.msg);
                     }
                 },'json')
+            }else if(obj.event == 'edit'){
+                //获取细类
+                var option = '';
+                var ajax_true = 1;
+                //ajax改成同步请求
+                $.ajaxSettings.async = false;
+                $.post('/admin/basis_data/get_fine',{item_number:data.p_item_number},function(res){
+                    if(res.code == 1){
+                        if(res.msg != 'none'){
+                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p></div>'
+                            $.each(res.data, function (key, val) {
+                                option += '<div class="layui-form-item" style="margin:10px 0">'
+                                option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
+                                option += '  <div class="layui-input-block" style="margin-left:85px">'
+                                option += '    <select name="material['+key+']">'
+                                $.each(val, function (k, v) {
+                                    option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                                });
+                                option += '    </select>'
+                                option += '  </div>'
+                                option += '</div>'
+                             });
+                        }
+                    }else{
+                        layer.msg(res.msg);
+                        ajax_true = 0
+                        return false;
+                    }
+                },'json')
+                //改回异步
+                $.ajaxSettings.async = true;
+                if(ajax_true != 1){
+                    return false;
+                }
+                var html = '<form id="add_html" class="layui-form">';
+
+                html += '<input type="hidden" name="id" value="'+data.id+'">'
+                html += '<input type="hidden" name="p_item_number" value="'+data.p_item_number+'">'
+
+                html += '<div class="layui-form-item" style="margin:10px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="quota" value="'+data.quota+'" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:10px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">人工单价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="craft_show"  value="'+data.craft_show+'" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:10px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">人工成本：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="labor_cost"  value="'+data.labor_cost+'" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += option
+
+                html += '<div class="layui-form-item" style="margin:10px 0;text-align:center">'
+                html += '   <button class="layui-btn" style="margin:0 auto;" id="edit_projcet" lay-submit lay-filter="edit_projcet">立即提交</button>'
+                html += '</div>'
+
+                html += '</form>'
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: html,
+                        area:['400px', '600px'],
+                        title:'编辑报价项目',
+                        btn: ['取消'],
+                        success:function(layero, index){
+                            layui.use('form', function(){
+                                var form = layui.form;
+                                form.render();
+                            });
+                        },
+                        yes: function(index, layero){
+                            
+                            layer.close(index);
+                            return false;
+                            
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+                
             }
         });
     });

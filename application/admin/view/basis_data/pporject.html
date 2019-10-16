@@ -112,22 +112,31 @@
                         <th class="" lay-data="{field:'unit', width:100}">单位</th>
                         <!-- <th class="" lay-data="{field:'materials',width:100}">用料</th> -->
                         <th class="" lay-data="{field:'content',}">工艺说明</th>
+                        <th class="" lay-data="{field:'fine_info', width:300}">所需辅材分类</th>
                         <th width="150" lay-data="{field:'edit',event:'edit',width:100}">操作编辑</th>
                     </tr>
                 </thead>
                 <tbody> 
                   {foreach name="data" item="vo"}
                     <tr>
-                      <td class="">{$vo.id}</td>
-                      <td class="">{$vo.item_number} {if(in_array($vo['id'],$bp_ids))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if} </td>
-                      <td class="">{$type_work[$vo['type_word_id']]['name']}</td>
-                      <td class="">{$vo.name}</td>
-                      <td class="">{$vo.unit}</td>
-                      <!-- <td class="">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td> -->
-                      <td class="">{$vo.content}</td>
-                      <td>
-                        <a href="javascript:;" lay-event="add"><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
-                      </td>
+                        <td class="">{$vo.id}</td>
+                        <td class="">{$vo.item_number}</td>
+                        <td class="">{$type_work[$vo['type_word_id']]['name']}</td>
+                        <td class="">{$vo.name}{if(in_array($vo['item_number'],$item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
+                        <td class="">{$vo.unit}</td>
+                        <!-- <td class="">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td> -->
+                        <td class="">{$vo.content}</td>
+                        <td class="">
+                            <?php foreach($vo['fine_info']['has'] as $k=>$v){
+                                echo '<span style="margin:0 5px">'.$v.'</span>';
+                            } ?>
+                            <?php foreach($vo['fine_info']['nohas'] as $k=>$v){
+                                echo '<span style="margin:0 5px;color:red">'.$v.'</span>';
+                            } ?>
+                        </td>
+                        <td>
+                          <a href="javascript:;" lay-event="add"><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
+                        </td>
                     </tr>       
                  {/foreach}
                 </tbody>
@@ -176,6 +185,7 @@
     
     layui.use('table', function(){
         var table = layui.table;
+        var ajax_true = 1;
         //工具栏事件
         table.on('tool(test3)', function(obj){
             var data = obj.data; //获得当前行数据
@@ -186,30 +196,35 @@
                 $.ajaxSettings.async = false;
                 $.post('/admin/basis_data/get_fine',{item_number:data.item_number},function(res){
                     if(res.code == 1){
-                        option += '<p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p>'
-                        $.each(res.data, function (key, val) {
-                            option += '<div class="layui-form-item" style="margin:5px 0">'
-                            option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
-                            option += '  <div class="layui-input-block" style="margin-left:85px">'
-                            option += '    <select name="material['+key+']">'
-                            $.each(val, function (k, v) {
-                                option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                        if(res.msg != 'none'){
+                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p></div>'
+                            $.each(res.data, function (key, val) {
+                                option += '<div class="layui-form-item" style="margin:10px 0">'
+                                option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
+                                option += '  <div class="layui-input-block" style="margin-left:85px">'
+                                option += '    <select name="material['+key+']">'
+                                $.each(val, function (k, v) {
+                                    option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                                });
+                                option += '    </select>'
+                                option += '  </div>'
+                                option += '</div>'
                             });
-                            option += '    </select>'
-                            option += '  </div>'
-                            option += '</div>'
-                         });
+                        }
                     }else{
                         layer.msg(res.msg);
+                        ajax_true = 0;
                         return false;
                     }
                 },'json')
                 //改回异步
                 $.ajaxSettings.async = true;
-                
+                if(ajax_true != 1){
+                    return false;
+                }
                 var html = '<form id="add_html" class="layui-form">';
 
-                html += '<input type="hidden" name="bp_id" value="'+data.id+'">'
+                html += '<input type="hidden" name="p_item_number" value="'+data.item_number+'">'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'
@@ -270,21 +285,25 @@
         });
     });
     //鼠标经过表头显示文字
+    var tip_index = '';
     $(document).on('mouseenter', '.layui-table th', function(){
         var th = $(this).find('span').text();
         var content = '';
         switch(th) {
             case '编码':
-                content = '编码，打钩表示已添加，可重复添加';
+                content = '项目编码';
                 break;
             case '工种类别':
                 content = '报价所属工种';
                 break;
             case '名称':
-                content = '报价名称';
+                content = '报价名称，打钩表示已添加，可重复添加';
                 break;
             case '单位':
                 content = '报价单位';
+                break;
+            case '所需辅材分类':
+                content = '所需辅材分类，红色表示仓库缺失的辅材';
                 break;
             default:
                 content = '';

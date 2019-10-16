@@ -96,6 +96,7 @@
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="add" id="add">添加</button> 
+                    <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button> 
                 </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['print'],limit:20}">
@@ -110,9 +111,9 @@
                         <th class="taleft" lay-data="{field:'type_word_id',width:150}">工种类别</th>
                         <th class="taleft" lay-data="{field:'name',width:200}">名称</th>
                         <th class="taleft" lay-data="{field:'unit', width:100}">单位</th>
-                        <th class="taleft" lay-data="{field:'materials',width:100}">用料</th>
-                        <th class="taleft" lay-data="{field:'content',}">工艺说明</th>
-                        <!-- <th width="150" lay-data="{field:'edit',event:'edit',width:100}">操作编辑</th> -->
+                        <th class="taleft" lay-data="{field:'materials'}">用料</th>
+                        <th class="taleft" lay-data="{field:'content',width:400}">工艺说明</th>
+                        <th width="150" lay-data="{field:'edit',width:100}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -122,11 +123,21 @@
                       <td class="taleft">{$type_work[$vo['type_word_id']]['name']}</td>
                       <td class="taleft">{$vo.name}</td>
                       <td class="taleft">{$vo.unit}</td>
-                      <td class="taleft">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td>
+                      <td class="taleft">
+                        <?php foreach(json_decode($vo['fine'],true) as $k=>$v){ ?>
+                            <?php foreach( $v as $k1=>$v1){ 
+                                if($k1 == 'funit'){
+                                    echo ' - '.$v1.'，';
+                                }else{
+                                    echo $v1;
+                                }
+                             } ?>
+                        <?php } ?>
+                        </td>
                       <td class="taleft">{$vo.content}</td>
-                      <!-- <td>
-                        <a href="/admin/basis_data/add_fproject/id/{$vo.id}" class=""><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
-                      </td> -->
+                      <td>
+                        <a href="javascript:;" lay-event="edit" class="">编辑</a>
+                      </td>
                     </tr>       
                  {/foreach}
                 </tbody>
@@ -143,13 +154,19 @@
 <script type="text/javascript">
     layui.use('form', function(){
         var form = layui.form;
+        //添加
         form.on('submit(add_projcet)', function(data){
+            var go = 1;
             $.each(data.field,function(index,value){  //arrTmp数组数据
                 if(value == ''){
                     alert('所填资料不能为空');
+                    go = 0;
                     return false;
                 }
             });
+            if(go != 1){
+                return false;
+            }
             $.post('/admin/basis_data/add_public_project',data.field,function(res){
                 if(res.code == 1){
                     layer.msg(res.msg);
@@ -162,8 +179,39 @@
             },'json')
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
+        //修改
+        form.on('submit(edit_projcet)', function(data){
+            var go = 1;
+            $.each(data.field,function(index,value){  //arrTmp数组数据
+                if(value == ''){
+                    alert('所填资料不能为空');
+                    go = 0;
+                    return false;
+                }
+            });
+            if(go != 1){
+                return false;
+            }
+            $.post('/admin/basis_data/edit_public_project',data.field,function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg);
+                    setTimeout(function(){
+                    　　window.location.reload()
+                    },1000);
+                }else{
+                    alert(res.msg);
+                }
+            },'json')
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
     });
-    function add_material(){
+    function add_material(type){
+        if(type == 1){
+            var type = 'add_projcet';
+        }else{
+             var type = 'edit_projcet';
+        }
+        // var type = '';
         var option = '';
         var unit = '';
         <?php foreach($fines as $k=>$v){ ?>
@@ -182,7 +230,7 @@
         html += '    <input type="text" style="width:130px;" name="funit[]" autocomplete="off" placeholder="数量 - 单位：'+unit+'" class="layui-input">'
         html += '  </div>'
         html += '</div>'
-        $('#add_projcet').before(html);
+        $('#'+type).before(html);
         layui.use('form', function(){
             var form = layui.form;
             form.render();
@@ -196,6 +244,94 @@
     }
     layui.use('table', function(){
         var table = layui.table;
+        table.on('tool(test3)', function(obj){
+            var data = obj.data;
+            console.log(data);
+            if (obj.event == 'edit'){
+                var option = '';
+                <?php foreach($type_work as $k=>$v){ ?>
+                    option += '<option value="{$v['id']}" >{$v['name']}</option>'
+                <?php } ?>
+                var html = '<form id="add_html" class="layui-form">';
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">编号：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="item_number" value="'+data.item_number+'" disabled autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工种类别：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <select name="type_word_id" lay-search>'
+                html +=         option
+                html += '    </select>'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">名称：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="name" value="'+data.name+'" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="unit" value="'+data.unit+'" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工艺说明：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '   <textarea name="content" class="layui-textarea">'+data.content+'</textarea>'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">用料：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px;line-height:36px;">'
+                html += '    <a href="javascript:;:;" onclick="add_material(2)"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0;text-align:center">'
+                html += '   <button class="layui-btn" style="margin:0 auto;" id="edit_projcet" lay-submit lay-filter="edit_projcet">立即提交</button>'
+                html += '</div>'
+
+                html += '</form>'
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: html,
+                        area:['400px', '600px'],
+                        title:'编辑报价项目',
+                        btn: ['取消'],
+                        success:function(layero, index){
+                            layui.use('form', function(){
+                                var form = layui.form;
+                                form.render();
+                            });
+                        },
+                        yes: function(index, layero){
+                            
+                            layer.close(index);
+                            return false;
+                            
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+                
+            }
+            
+        });
         //工具栏事件
         table.on('toolbar(test3)', function(obj){
             if (obj.event == 'add'){
@@ -245,7 +381,7 @@
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">用料：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px;line-height:36px;">'
-                html += '    <a href="javascript:;:;" onclick="add_material()"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
+                html += '    <a href="javascript:;:;" onclick="add_material(1)"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
                 html += '  </div>'
                 html += '</div>'
 
@@ -279,7 +415,48 @@
                         }
                     });
                 }); 
-                
+            }
+            if (obj.event == 'excel'){
+                var html = 
+                     '<div class="layui-upload" id="upload_file" style="margin-bottom:15px;margin-top:15px;text-align:center">'
+                    + '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test8">上传xls,xlsx</button>'
+                    + '<br />'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test9">上传</button>'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                    + '</div>'
+                layer.open({
+                  title: '导入报价项目',
+                  area: ['300px', '200px'], //宽高
+                  type:1,
+                  content: html
+                });
+                layui.use('upload', function(){
+                    var upload = layui.upload;
+                    upload.render({
+                        elem: '#test8',
+                        url: '/admin/basis_data/excel_public_project/',
+                        auto: false,
+                        accept:'file',
+                        size:10240,
+                        //,multiple: true
+                        bindAction: '#test9',
+                        data:{
+                            
+                        },
+                        done: function(res){
+                            if(res.code == 1){
+                                layer.closeAll();
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                            }else{
+                                layer.msg(res.msg);
+                            }
+                            return false;
+                        }
+                    });
+                });
             }
             
         });

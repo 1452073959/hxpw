@@ -115,11 +115,11 @@
                   {foreach name="data" item="vo"}
                     <tr>
                       <td class="taleft">{$vo.amcode}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['type_of_work']}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['classify']}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['fine']}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['name']}</td>
-                      <td class="taleft">{$basis_materials[$vo['bs_id']]['unit']}</td>
+                      <td class="taleft">{$basis_materials[$vo['p_amcode']]['type_of_work']}</td>
+                      <td class="taleft">{$basis_materials[$vo['p_amcode']]['classify']}</td>
+                      <td class="taleft">{$basis_materials[$vo['p_amcode']]['fine']}</td>
+                      <td class="taleft">{$basis_materials[$vo['p_amcode']]['name']}</td>
+                      <td class="taleft">{$basis_materials[$vo['p_amcode']]['unit']}</td>
                       <td class="taleft">{$vo.brank}</td>
                       <td class="taleft">{$vo.place}</td>
                       <td class="taleft">{$vo.price}</td>
