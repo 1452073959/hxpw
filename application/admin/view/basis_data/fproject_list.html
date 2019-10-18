@@ -97,6 +97,7 @@
                 <thead >
                     <tr>
                         <th class="taleft" lay-data="{field:'id',width:100,hide:'true'}">id</th>
+                        <th class="taleft" lay-data="{field:'remark',width:100,hide:'true'}">名称额外说明</th>
                         <th class="taleft" lay-data="{field:'item_number',width:100}">编码</th>
                         <th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
@@ -116,10 +117,11 @@
                   {foreach name="data" item="vo"}
                     <tr>
                       <td class="taleft">{$vo.id}</td>
+                      <td class="taleft">{$vo.remark}</td>
                       <td class="taleft">{$vo.item_number}</td>
                       <td class="taleft">{$basis_project[$vo['p_item_number']]['item_number']}</td>
                       <td class="taleft">{$type_work[$basis_project[$vo['p_item_number']]['type_word_id']]['name']}</td>
-                      <td class="taleft">{$basis_project[$vo['p_item_number']]['name']}</td>
+                      <td class="taleft">{$basis_project[$vo['p_item_number']]['name']}{if($vo['remark'])}（{$vo['remark']}）{/if}</td>
                       <td class="taleft">{$basis_project[$vo['p_item_number']]['unit']}</td>
 
                       <td class="taleft">{$vo.quota}</td>
@@ -128,6 +130,7 @@
                       <td class="taleft">{$vo.labor_cost}</td>
                       <td class="taleft">{$basis_project[$vo['p_item_number']]['content']}</td>
                       <td class="taleft">
+                        {if($vo['status'] == 1)}正常{/if}
                         {if($vo['status'] == 2)}<a style="color:red;margin-left: 5px">辅材发生变动，请重新编辑</a>{/if}
                         {if($vo['status'] == 3)}<a style="color:red;margin-left: 5px">基础库项目已删除，此项目已失效，请手动删除</a>{/if}
                       </td>
@@ -214,14 +217,14 @@
                 $.post('/admin/basis_data/get_fine',{item_number:data.p_item_number},function(res){
                     if(res.code == 1){
                         if(res.msg != 'none'){
-                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p></div>'
+                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">名字 - 品牌 - 规格</p></div>'
                             $.each(res.data, function (key, val) {
                                 option += '<div class="layui-form-item" style="margin:10px 0">'
                                 option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
                                 option += '  <div class="layui-input-block" style="margin-left:85px">'
                                 option += '    <select name="material['+key+']">'
                                 $.each(val, function (k, v) {
-                                    option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                                    option +=         '<option value="'+v.amcode+'">'+v.name+' - '+v.brank+' - '+v.pack+v.unit+'/'+v.phr   +'</option>'
                                 });
                                 option += '    </select>'
                                 option += '  </div>'
@@ -243,6 +246,13 @@
 
                 html += '<input type="hidden" name="id" value="'+data.id+'">'
                 html += '<input type="hidden" name="p_item_number" value="'+data.p_item_number+'">'
+
+                html += '<div class="layui-form-item" style="margin:10px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">名称额外说明：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="remark" value="'+data.remark+'" placeholder="以括号形式添加到名称里(可为空)" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:10px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'

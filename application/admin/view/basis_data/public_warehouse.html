@@ -107,15 +107,17 @@
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="taleft" lay-data="{field:'amcode',width:100}">编码</th>
+                        <th class="taleft" lay-data="{field:'amcode',width:150}">编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                         <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
-                        <th class="taleft" lay-data="{field:'fine',width:150}">分类</th>
-                        <th class="taleft" lay-data="{field:'name', width:100}">辅材名称</th>
+                        <th class="taleft" lay-data="{field:'fine',width:100}">分类</th>
+                        <th class="taleft" lay-data="{field:'name', width:200}">辅材名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
+                        <th class="taleft" lay-data="{field:'brank',width:100}">品牌</th>
+                        <th class="taleft" lay-data="{field:'place',width:100}">产地</th>
                         <th class="taleft" lay-data="{field:'coefficient',width:100}">系数</th>
                         <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
-                        <th class="taleft" lay-data="{field:'edit',width:180}">操作</th>
+                        <th class="taleft" lay-data="{field:'edit',width:100}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -127,6 +129,8 @@
                       <td class="taleft">{$vo.fine}</td>
                       <td class="taleft">{$vo.name}</td>
                       <td class="taleft">{$vo.unit}</td>
+                      <td class="taleft">{$vo.brank}</td>
+                      <td class="taleft">{$vo.place}</td>
                       <td class="taleft">{$vo.coefficient}</td>
                       <td class="taleft">{$vo.important}</td>
                       <td class="taleft"><a href="javascript:;" lay-event="edit">修改</a></td>                                
@@ -197,6 +201,20 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">品牌：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.brank+'" name="brank" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">产地：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.place+'" name="place" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">系数：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" value="'+data.coefficient+'" name="coefficient" placeholder="取值范围0~100 整数" autocomplete="off" class="layui-input">'
@@ -222,6 +240,8 @@
                             var fine = $('input[name="fine"]').val();
                             var name = $('input[name="name"]').val();
                             var unit = $('input[name="unit"]').val();
+                            var brank = $('input[name="brank"]').val();
+                            var place = $('input[name="place"]').val();
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
@@ -236,7 +256,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify},function(res){
+                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,place:place,coefficient:coefficient,important:important,classify:classify},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
@@ -300,6 +320,20 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="unit" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">品牌：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="brank" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">产地：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="place" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 

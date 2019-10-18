@@ -61,7 +61,7 @@ class BasisData extends Adminbase{
         if(input('sname')){
             $where[] = ['name','like','%'.input('sname').'%'];
         }
-        $res = Db::name('basis_materials')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $this->assign('data',$res);
         return $this->fetch();
     }
@@ -93,11 +93,14 @@ class BasisData extends Adminbase{
         //判断细类单位是否一致
         $unit = Db::name('basis_materials')->where(['fine'=>$data['fine']])->value('unit');
         if($unit && $unit != $data['unit']){
-            $this->error('细类单位错误，应为：'.$unit);
+            $this->error('分类单位错误，应为：'.$unit);
         }
-
         $res = Db::name('basis_materials')->insert($data);
         if($res){
+            if(input('apply_material_id')){
+                //分公司申请后 管理员添加的辅材 自动绑定的申请的辅材里面
+                Db::name('apply_material')->where(['id'=>input('apply_material_id')])->update(['p_amcode'=>$data['amcode'],'status'=>2,'audittime'=>time()]);
+            }
             $this->success('添加成功');
         }else{
             $this->error('添加失败');
@@ -112,6 +115,8 @@ class BasisData extends Adminbase{
         $data['fine'] = input('fine');
         $data['name'] = input('name');
         $data['unit'] = input('unit');
+        $data['brank'] = input('brank');
+        $data['place'] = input('place');
         $data['coefficient'] = input('coefficient');
         $data['important'] = input('important');
         if(!$data['amcode'] || !$data['type_of_work'] || !$data['fine'] || !$data['name'] || !$data['unit'] ){
@@ -123,11 +128,6 @@ class BasisData extends Adminbase{
         if($data['important'] != '0' && $data['important'] != 1){
             $this->error('是否重要输入不规范');
         }
-
-        // $id = Db::name('basis_materials')->where(['amcode'=>$data['amcode']])->value('id');
-        // if($id){
-        //     $this->error('编号已存在');
-        // }
         //判断细类单位是否一致
         $unit = Db::name('basis_materials')->where(['fine'=>$data['fine']])->value('unit');
         if($unit && $unit != $data['unit']){
@@ -154,7 +154,7 @@ class BasisData extends Adminbase{
         if(input('name')){
             $where[] = ['name','like','%'.input('name').'%'];
         }
-        $res = Db::name('basis_project')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('basis_project')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         //获取所有辅材细类
         $fines = Db::name('basis_materials')->field('fine,unit')->group('fine')->select();
         $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');
@@ -199,6 +199,10 @@ class BasisData extends Adminbase{
         
         $res = Db::name('basis_project')->insert($datas);
         if($res){
+            if(input('apply_project_id')){
+                //分公司申请后 管理员添加的辅材 自动绑定的申请的辅材里面
+                Db::name('apply_project')->where(['id'=>input('apply_project_id')])->update(['p_item_number'=>$datas['item_number'],'status'=>2,'audittime'=>time()]);
+            }
             $this->success('添加成功');
         }else{
             $this->error('添加失败');
@@ -253,6 +257,40 @@ class BasisData extends Adminbase{
         }
     }
 
+    public function del_public_project(){
+        $item_number = input('item_number');
+        Db::startTrans();
+        try {
+            Db::name('basis_project')->where(['item_number'=>$item_number])->delete();
+            Db::name('f_project')->where(['p_item_number'=>$item_number])->update(['status'=>3]);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        $this->success('删除成功');
+    }
+
+    //获取单个基础辅材库
+    public function get_public_warehouse(){
+        $amcode = input('amcode');
+        $info = Db::name('basis_materials')->where(['amcode'=>$amcode])->find();
+        if(!$info){
+            $this->error('参数错误');
+        }
+        $this->success('success','',$info);
+    }
+
+    //获取单个基础报价项目库
+    public function get_public_project(){
+        $item_number = input('item_number');
+        $info = Db::name('basis_project')->where(['item_number'=>$item_number])->find();
+        if(!$info){
+            $this->error('参数错误');
+        }
+        $this->success('success','',$info);
+    }
+
     //=========================================================分公司
 
     //分公司添加页面 
@@ -270,16 +308,17 @@ class BasisData extends Adminbase{
         if(input('name')){
             $where[] = ['name','like','%'.input('name').'%'];
         }
-        $res = Db::name('basis_materials')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_column($res->items(), 'amcode');
         $p_amcode = array_column(Db::name('f_materials')->where(['p_amcode'=>$p_amcode])->field('p_amcode')->select(),'p_amcode');
+        // var_dump($p_amcode);die;
         $this->assign('amcode',$p_amcode);
         $this->assign('data',$res);
         return $this->fetch();
     }
 
      //分公司添加页面 
-    public function pporject(){
+    public function pproject(){
         $where = [];
         if(input('item_number')){
             $where[] = ['item_number','like','%'.input('item_number').'%'];
@@ -290,7 +329,7 @@ class BasisData extends Adminbase{
         if(input('name')){
             $where[] = ['name','like','%'.input('name').'%'];
         }
-        $res = Db::name('basis_project')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+        $res = Db::name('basis_project')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
             $fine = $item['fine'];
             $fine_info['has'] = [];
             $fine_info['nohas'] = [];
@@ -319,7 +358,7 @@ class BasisData extends Adminbase{
 
         //判断是否已添加
         $item_number = array_column($res->items(), 'item_number');
-        $item_number = array_column(Db::name('f_project')->where(['p_item_number'=>$item_number])->field('item_number')->select(),'item_number');
+        $item_number = array_column(Db::name('f_project')->where(['p_item_number'=>$item_number,'fid'=>$this->_userinfo['companyid']])->field('p_item_number')->select(),'p_item_number');
         $this->assign('item_number',$item_number);
         $this->assign('data',$res);
         $this->assign('fines',$fines);
@@ -339,7 +378,7 @@ class BasisData extends Adminbase{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
           
-        $data = Db::name('f_materials')->where($where)->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $data = Db::name('f_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_unique(array_column($data->items(), 'p_amcode'));
         $basis_materials = array_column(Db::name('basis_materials')->where(['amcode'=>$p_amcode])->select(),null, 'amcode');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
@@ -350,7 +389,7 @@ class BasisData extends Adminbase{
         return $this->fetch();
     }
 
-    //分公司 添加辅材页面
+    //分公司 添加辅材页面(忘记还有没有用了)
     public function add_fwarehouse(){
         $amcode = input('amcode');
         $info = Db::name('basis_materials')->where(['amcode'=>$amcode])->find();
@@ -372,12 +411,44 @@ class BasisData extends Adminbase{
             $this->error('参数错误');
         }
         $datas['fine'] = $info['fine'];
+        // var_dump($datas);die;
         $res = Db::name('f_materials')->insertGetId($datas);
         if($res){
             Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$info['amcode'].'_'.$res]);
             $this->success('添加成功','fwarehouse_list');
         }else{
             $this->error('添加失败');
+        }
+    }
+
+    //分公司 修改辅材操作
+    public function edit_fwarehouse_operation(){
+        $datas = input();
+        $res = Db::name('f_materials')->where(['amcode'=>$datas['amcode']])->update($datas);
+        if($res){
+            $this->success('修改成功');
+        }else{
+            $this->error('修改失败');
+        }
+    }
+
+    //分公司 删除辅材操作
+    public function del_fwarehouse_operation(){
+        $amcode = input('amcode');
+        $info = Db::name('f_materials')->where(['amcode'=>$amcode])->find();
+        Db::startTrans();
+        try {
+            Db::name('f_project')->where('material','like','%'.$amcode.'%')->where(['fid'=>$info['fid']])->update(['status'=>2]);
+            $res = Db::name('f_materials')->where(['amcode'=>$amcode])->delete();
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if($res){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
         }
     }
 
@@ -393,7 +464,7 @@ class BasisData extends Adminbase{
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
-        $data = Db::name('f_project')->where($where)->order('status','desc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $data = Db::name('f_project')->where($where)->order('status','desc')->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_item_number = array_unique(array_column($data->items(), 'p_item_number'));
         $basis_project = array_column(Db::name('basis_project')->where(['item_number'=>$p_item_number])->select(),null, 'item_number');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
@@ -505,19 +576,22 @@ class BasisData extends Adminbase{
         $fid = input('fid')?input('fid'):$admininfo['companyid'];
         Db::startTrans();
         try {
-            $materials = $this->create_materials($fid);
-            $projects = $this->create_project($fid);
             // 先清空原来的
             Db::name('materials')->where(['frameid'=>$fid])->delete();
             Db::name('offerquota')->where(['frameid'=>$fid])->delete();
-            // // //再添加
+
+            $materials = $this->create_materials($fid);
             Db::name('materials')->insertAll($materials);
+
+            $projects = $this->create_project($fid);
             Db::name('offerquota')->insertAll($projects);
+           
             Db::commit();
         } catch (\Exception $e) {
             Db::rollback();
             $this->error($e->getMessage());
         }
+        $this->success('更新成功');
     }
 
     //生成 最终仓库数据 并保存
@@ -529,7 +603,8 @@ class BasisData extends Adminbase{
         $datas = [];
         foreach($materials as $k=>$v){
             if(!isset($basis_materials[$v['p_amcode']])){
-                $this->error('辅材仓库数据有误');
+                // $this->error('辅材编码'.$v['amcode'].'的基础库不存在');
+                throw new \think\Exception('辅材编码'.$v['amcode'].'的基础库不存在', 10006);
             }
             $info = [];
             $info['frameid'] = $v['fid'];
@@ -542,8 +617,8 @@ class BasisData extends Adminbase{
             $info['name'] = $basis_materials[$v['p_amcode']]['name'];
             $info['img'] = $v['img'];
             // $info['norms'] = $v['xxx'];
-            $info['units'] = $basis_materials[$v['p_amcode']]['unit'];
-            $info['phr'] = $v['phr'];
+            $info['units'] = $v['phr'];
+            $info['phr'] = $v['pack'].$basis_materials[$v['p_amcode']]['unit'].'/'.$v['phr'];
             $info['price'] = $v['price'];
             $info['in_price'] = $v['in_price'];
             $info['remarks'] = $v['source'];
@@ -563,7 +638,8 @@ class BasisData extends Adminbase{
         $datas = [];
         foreach($project as $k=>$v){
             if(!isset($basis_project[$v['p_item_number']])){
-                $this->error('数据有误');
+                // $this->error('项目编号'.$v['item_number'].'找不到公共基础项目');
+                throw new \think\Exception('项目编号'.$v['item_number'].'找不到公共基础项目', 10006);
             }
             $info = [];
             //计算辅材基数
@@ -575,12 +651,16 @@ class BasisData extends Adminbase{
                 $datas_material = [];
                 foreach($material as $k1=>$v1){
                     // $fine[$k1] 需要的数量
-                    $phr = Db::name('f_materials')->where(['amcode'=>$v1])->value('phr');//包装数量
+                    $pack = Db::name('f_materials')->where(['amcode'=>$v1])->value('pack');//包装数量
+                    if(!$pack){
+                        // $this->error('项目编号'.$v['item_number'].'中,辅材编号'.$v1.'不存在');
+                        throw new \think\Exception('项目编号'.$v['item_number'].'中,辅材编号'.$v1.'不存在', 10006);
+                    }
                     //下面这个格式是按照之前的格式的 [对应辅材id,基数]
                     // v1 的id不对
-                    $num = round($fine[$k1]/$phr,2);
+                    $num = round($fine[$k1]/$pack,2);
                     if($num <= 0){
-                        $num = 0.01;
+                        $num = 0.001;
                     }
                     $datas_material[] = [$v1,round($num,2)];
                 }
@@ -592,7 +672,13 @@ class BasisData extends Adminbase{
             $info['userid'] = $admininfo['userid'];
             $info['item_number'] = $v['item_number'];
             $info['type_of_work'] = $basis_project[$v['p_item_number']]['type_word_id'];
-            $info['project'] = $basis_project[$v['p_item_number']]['name'];
+
+            if($v['remark']){
+                $info['project'] = $basis_project[$v['p_item_number']]['name'].'（'.$v['remark'].'）';
+            }else{
+                $info['project'] = $basis_project[$v['p_item_number']]['name'];
+            }
+            
             $info['company'] = $basis_project[$v['p_item_number']]['unit'];
             $info['cost_value'] = $v['cost_value'];
             $info['quota'] = $v['quota'];
@@ -654,6 +740,12 @@ class BasisData extends Adminbase{
         $basis_materials = Db::name('f_materials')->where(['fine'=>$fine])->select();
         $datas = [];
         foreach($basis_materials as $k=>$v){
+            $basis_materials = Db::name('basis_materials')->where(['amcode'=>$v['p_amcode']])->find();
+            if(!$basis_materials){
+                $this->error('基础库'.$v['p_amcode'].'不存在');
+            }
+            $v['name'] = $basis_materials['name'];
+            $v['unit'] = $basis_materials['unit'];
             $datas[$v['fine']][] = $v;
         }
         if(count($fine) != count($datas)){
@@ -701,10 +793,12 @@ class BasisData extends Adminbase{
                 $data[$i]['type_of_work']  = trim($sheet->getCell("B".$i)->getValue());
                 $data[$i]['classify']  = trim($sheet->getCell("C".$i)->getValue());
                 $data[$i]['fine']  = trim($sheet->getCell("D".$i)->getValue());
-                $data[$i]['name']  = trim($sheet->getCell("E".$i)->getValue()); 
-                $data[$i]['unit']  = trim($sheet->getCell("F".$i)->getValue()); 
-                $data[$i]['coefficient']  = trim($sheet->getCell("G".$i)->getValue()); 
-                $data[$i]['important']  = trim($sheet->getCell("H".$i)->getValue()); 
+                $data[$i]['brank']  = trim($sheet->getCell("E".$i)->getValue()); 
+                $data[$i]['place']  = trim($sheet->getCell("F".$i)->getValue()); 
+                $data[$i]['name']  = trim($sheet->getCell("G".$i)->getValue()); 
+                $data[$i]['unit']  = trim($sheet->getCell("H".$i)->getValue()); 
+                $data[$i]['coefficient']  = trim($sheet->getCell("I".$i)->getValue()); 
+                $data[$i]['important']  = trim($sheet->getCell("J".$i)->getValue()); 
                 if(empty($data[$i]['amcode']) || empty($data[$i]['type_of_work']) || empty($data[$i]['classify']) || empty($data[$i]['fine']) || empty($data[$i]['name']) || empty($data[$i]['unit'])){
                     $this->error('第'.$i.'行数据不能为空');
                 }
@@ -717,20 +811,44 @@ class BasisData extends Adminbase{
             if(count($amcodes) != count(array_unique($amcodes))){
                 $this->error('编码重复');
             }
+
+            $basis_materials = Db::name('basis_materials')->select();
+            $data_list = array_column($data, null ,'amcode');
+            $del_amcode = [];//删除的
+            // $edit_amcode = [];//修改单位的
+            //判断项目是否发生改变
+            foreach($basis_materials as $k=>$v){
+                if(isset($data_list[$v['amcode']])){
+                    if($v['unit'] != $data_list[$v['amcode']]['unit']){
+                        $this->error('编号'.$v['amcode'].'的单位与之前不一致');
+                        // $edit_amcode[] = $v['amcode'];//修改了单位
+                    }
+                }else{
+                    $del_amcode[] = $v['amcode'];//已删除的项目
+                }
+            }
+            
+            
+
             //将数据保存到数据库
             if ($data) {
             //把获取到的二维数组遍历进数据库
                 Db::startTrans();
                 try {
                     Db::name('basis_materials')->delete(true);
+
                     foreach ($data as $key => $value) {
                         //判断是否存在
                         $is_has = Db::name('basis_materials')->where(['fine'=>$value['fine']])->find();
                         if($is_has && $is_has['unit'] != $value['unit']){
-                            throw new \think\Exception('分类 - '.$value['fine'].' 单位不一致', 10006);
+                            throw new \think\Exception('编号 - '.$value['amcode'].' 的分类与其他分类单位不一致', 10006);
                         }
                         Db::name('basis_materials')->insert($value);
                        
+                    }
+                    //修改了单位/删除了辅材  (就是对报价有影响的)
+                    foreach($del_amcode as $k=>$v){
+                        Db::name('f_project')->where('material','like','%'.$v.'%')->update(['status'=>2]);
                     }
                     Db::commit();
                 }catch (\Exception $e) {
@@ -801,6 +919,7 @@ class BasisData extends Adminbase{
                 try {
                     $data_fine = [];
                     if($fine){
+                        $fine = str_replace("，",",",$fine);
                         $fine = explode(',', $fine);
                         foreach($fine as $k=>$v){
                             $info = explode('-', $v);
@@ -863,6 +982,179 @@ class BasisData extends Adminbase{
             }
         }else{
             $this->error('请选择上传文件');
+        }
+    }
+
+
+    //没有的辅材分公司申请提交
+    public function apply_new_material_index(){
+        // $this->assign('data',$res);
+        $where = [];
+        if($this->_userinfo['userid'] == 1){
+            if(input('fid')){
+                $where['fid'] = input('fid');
+            }
+        }else{
+            $where['fid'] = $this->_userinfo['companyid'];
+        }
+        if(input('status')){
+            $where['status'] = input('status');
+        }
+        $datas = Db::name('apply_material')->where($where)->paginate(20,false,['query'=>request()->param()]);
+
+        //判断是否已添加
+        $amcode = array_column($datas->items(), 'p_amcode');
+        $condintion = [];
+        $condintion['p_amcode'] = $amcode;
+        if(isset($where['fid'])){
+            $condintion['fid'] = $where['fid'];
+        }
+        $p_amcode = array_column(Db::name('f_materials')->where($condintion)->field('p_amcode')->select(),'p_amcode');
+
+
+        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $this->assign('admininfo',$this->_userinfo);
+        $this->assign('frame',$frame);
+        $this->assign('p_amcode',$p_amcode);
+        $this->assign('datas',$datas);
+        return $this->fetch();
+    }
+
+    //ajax申请辅材
+    public function apply_new_material(){
+        $name = input('name');
+        $brank = input('brank');
+        $place = input('place');
+        $unit = input('unit');
+        if(empty($name) || empty($brank) || empty($place) || empty($unit)){
+            $this->error('参数有误');
+        }
+        foreach($name as $k=>$v){
+            $name[$k] = trim($v);
+            if(empty($name[$k])){
+                $this->error('辅材名称不能为空');
+            }
+        }
+        foreach($brank as $k=>$v){
+            $brank[$k] = trim($v);
+            if(empty($brank[$k])){
+                $this->error('品牌不能为空');
+            }
+        }
+        foreach($place as $k=>$v){
+            $place[$k] = trim($v);
+            if(empty($place[$k])){
+                $this->error('产地不能为空');
+            }
+        }
+        foreach($place as $k=>$v){
+            $place[$k] = trim($v);
+            if(empty($place[$k])){
+                $this->error('单位不能为空');
+            }
+        }
+        if(count($name) != count(array_unique($name))){
+            $this->error('名字重复');
+        }
+        if(count($brank) != count(array_unique($brank))){
+            $this->error('品牌重复');
+        }
+        if(count($place) != count(array_unique($place))){
+            $this->error('产地重复');
+        }
+        $insert_datas = [];
+        foreach($name as $k=>$v){
+            $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
+            $insert_datas[$k]['name'] = $v;
+            $insert_datas[$k]['brank'] = $brank[$k];
+            $insert_datas[$k]['place'] = $place[$k];
+            $insert_datas[$k]['unit'] = $unit[$k];
+        }
+        $res = Db::name('apply_material')->insertAll($insert_datas);
+        if($res){
+            $this->success('申请成功，请等待回复');
+        }else{
+            $this->error('申请失败');
+        }
+    }
+
+    //没有的 项目 分公司申请提交
+    public function apply_new_project_index(){
+        // $this->assign('data',$res);
+        $where = [];
+        if($this->_userinfo['userid'] == 1){
+            if(input('fid')){
+                $where['fid'] = input('fid');
+            }
+        }else{
+            $where['fid'] = $this->_userinfo['companyid'];
+        }
+        if(input('status')){
+            $where['status'] = input('status');
+        }
+        $datas = Db::name('apply_project')->where($where)->paginate(20,false,['query'=>request()->param()]);
+
+        //判断是否已添加
+        $item_number = array_column($datas->items(), 'p_item_number');
+        $condintion = [];
+        $condintion['p_item_number'] = $item_number;
+        if(isset($where['fid'])){
+            $condintion['fid'] = $where['fid'];
+        }
+        $p_item_number = array_column(Db::name('f_project')->where($condintion)->field('p_item_number')->select(),'p_item_number');
+
+        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');//获取所有辅材细类
+        $fines = Db::name('basis_materials')->field('fine,unit')->group('fine')->select();
+        $this->assign('admininfo',$this->_userinfo);
+        $this->assign('frame',$frame);
+        $this->assign('type_work',$type_work);
+        $this->assign('fines',$fines);
+        $this->assign('p_item_number',$p_item_number);
+        $this->assign('datas',$datas);
+        return $this->fetch();
+    }
+
+    public function apply_new_project(){
+        $name = input('name');
+        $content = input('content');
+        $unit = input('unit');
+        if(empty($name) || empty($content) || empty($unit)){
+            $this->error('参数有误');
+        }
+        foreach($name as $k=>$v){
+            $name[$k] = trim($v);
+            if(empty($name[$k])){
+                $this->error('项目名称不能为空');
+            }
+        }
+        foreach($content as $k=>$v){
+            $content[$k] = trim($v);
+            if(empty($content[$k])){
+                $this->error('施工工艺与材料说明不能为空');
+            }
+        }
+        foreach($unit as $k=>$v){
+            $unit[$k] = trim($v);
+            if(empty($unit[$k])){
+                $this->error('单位不能为空');
+            }
+        }
+        if(count($name) != count(array_unique($name))){
+            $this->error('项目名称重复');
+        }
+        $insert_datas = [];
+        foreach($name as $k=>$v){
+            $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
+            $insert_datas[$k]['name'] = $v;
+            $insert_datas[$k]['content'] = $content[$k];
+            $insert_datas[$k]['unit'] = $unit[$k];
+        }
+        $res = Db::name('apply_project')->insertAll($insert_datas);
+        if($res){
+            $this->success('申请成功，请等待回复');
+        }else{
+            $this->error('申请失败');
         }
     }
 }

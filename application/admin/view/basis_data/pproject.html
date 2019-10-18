@@ -61,6 +61,13 @@
     <div class="layui-card-body">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
+                <div class="layui-tab layui-tab-brief">
+                  <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('admin/basis_data/pproject')}">基础报价库</a></li>
+                    <li class=""><a href="{:url('admin/basis_data/apply_new_project_index')}">新报价申请列表</a></li>
+                  </ul>
+                  <div class="layui-tab-content"></div>
+                </div>
                 <form class="layui-form layui-inline" action="">
                     <div class="layui-form-item">
                         <label class="layui-form-label">编码</label>
@@ -95,6 +102,7 @@
             </blockquote>
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm" href="javascript:;" lay-event="apply_new">申请新项目</a> 
                 </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:[],limit:20}">
@@ -111,7 +119,7 @@
                         <th class="" lay-data="{field:'name',width:200}">名称</th>
                         <th class="" lay-data="{field:'unit', width:100}">单位</th>
                         <!-- <th class="" lay-data="{field:'materials',width:100}">用料</th> -->
-                        <th class="" lay-data="{field:'content',}">工艺说明</th>
+                        <th class="" lay-data="{field:'content',}">施工工艺与材料说明</th>
                         <th class="" lay-data="{field:'fine_info', width:300}">所需辅材分类</th>
                         <th width="150" lay-data="{field:'edit',event:'edit',width:100}">操作编辑</th>
                     </tr>
@@ -122,7 +130,7 @@
                         <td class="">{$vo.id}</td>
                         <td class="">{$vo.item_number}</td>
                         <td class="">{$type_work[$vo['type_word_id']]['name']}</td>
-                        <td class="">{$vo.name}{if(in_array($vo['item_number'],$item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}</td>
+                        <td class="">{if(in_array($vo['item_number'],$item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}{$vo.name}</td>
                         <td class="">{$vo.unit}</td>
                         <!-- <td class="">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td> -->
                         <td class="">{$vo.content}</td>
@@ -151,6 +159,18 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
+    function add_tr(o){
+        html  = '     <tr>'
+        html += '       <td><input class="layui-input" name="name[]" /></td>'
+        html += '       <td><input class="layui-input" name="unit[]" /></td>'
+        html += '       <td><input class="layui-input" name="content[]" /></td>'
+        html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+        html += '     </tr>'
+        $('#apply_new tbody').append(html);
+    }
+    function delete_tr(o){
+        $(o).parent().parent().remove();
+    }
     layui.use('form', function(){
         var form = layui.form;
         form.on('submit(add_projcet)', function(data){
@@ -185,6 +205,72 @@
     
     layui.use('table', function(){
         var table = layui.table;
+
+        table.on('toolbar(test3)',function(obj){
+            if(obj.event == 'apply_new'){
+                var html  = '<form id="formdatas">'
+                html += '   <table class="layui-table" id="apply_new" >'
+                html += '     <colgroup>'
+                html += '         <col width="200">'
+                html += '         <col width="100">'
+                html += '         <col width="300">'
+                html += '         <col width="30">'
+                html += '         <col>'
+                html += '     </colgroup>'
+                html += '     <thead>'
+                html += '       <tr>'
+                html += '           <th>项目名称</th>'
+                html += '           <th>单位</th>'
+                html += '           <th>施工工艺与材料说明</th>'
+                html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
+                html += '       </tr> '
+                html += '     </thead>'
+                html += '     <tbody>'
+                html += '     <tr>'
+                html += '       <td><input class="layui-input" name="name[]" /></td>'
+                html += '       <td><input class="layui-input" name="unit[]" /></td>'
+                html += '       <td><input class="layui-input" name="content[]" /></td>'
+                html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                html += '     </tr>'
+                html += '     </tbody>'
+                html += '   </table>'
+                html += ' </form>'
+                layer.open({
+                    content: html,
+                    title:'申请新辅材',
+                    area: ['680px', '580px'], //宽高
+                    btn: ['提交', '取消'],
+                    yes: function(index, layero){
+                        var addform = $('#formdatas').serializeArray();
+                        var datas = {};  
+                        $.each(addform, function() {  
+                            if (datas[this.name]) {  
+                                if (!datas[this.name].push) {  
+                                    datas[this.name] = [ datas[this.name] ];  
+                                }  
+                                datas[this.name].push(this.value || '');  
+                            } else {  
+                                datas[this.name] = this.value || '';  
+                            } 
+                        });  
+                        $.post('/admin/basis_data/apply_new_project',datas,function(res){
+                            if(res.code === 0){
+                                alert(res.msg);
+                            }else{
+                                layer.msg(res.msg);
+                            }
+                        },'json')
+                    },
+                    btn2: function(index, layero){
+                        layer.close(index);
+                    },
+                    cancel: function(){ 
+                    //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            }
+        })
+
         var ajax_true = 1;
         //工具栏事件
         table.on('tool(test3)', function(obj){
@@ -197,14 +283,14 @@
                 $.post('/admin/basis_data/get_fine',{item_number:data.item_number},function(res){
                     if(res.code == 1){
                         if(res.msg != 'none'){
-                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">编号 - 出库价格 - 品牌 - 产地 - 来源</p></div>'
+                            option += '<div class="layui-form-item" style="margin:10px 0"><p style="margin-left: 85px">名字 - 品牌 - 规格</p></div>'
                             $.each(res.data, function (key, val) {
                                 option += '<div class="layui-form-item" style="margin:10px 0">'
                                 option += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">'+key+'：</label>'
                                 option += '  <div class="layui-input-block" style="margin-left:85px">'
                                 option += '    <select name="material['+key+']">'
                                 $.each(val, function (k, v) {
-                                    option +=         '<option value="'+v.amcode+'">'+v.amcode+' - '+v.price+' - '+v.brank+' - '+v.place+' - '+v.source+'</option>'
+                                    option +=         '<option value="'+v.amcode+'">'+v.name+' - '+v.brank+' - '+v.pack+v.unit+'/'+v.phr   +'</option>'
                                 });
                                 option += '    </select>'
                                 option += '  </div>'
@@ -225,6 +311,13 @@
                 var html = '<form id="add_html" class="layui-form">';
 
                 html += '<input type="hidden" name="p_item_number" value="'+data.item_number+'">'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">名称额外说明：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="remark" placeholder="以括号形式添加到名称里(可为空)" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'

@@ -137,6 +137,7 @@
                       <td class="taleft">{$vo.content}</td>
                       <td>
                         <a href="javascript:;" lay-event="edit" class="">编辑</a>
+                        <a href="javascript:;" lay-event="del" class="">删除</a>
                       </td>
                     </tr>       
                  {/foreach}
@@ -330,6 +331,36 @@
                 }); 
                 
             }
+
+            if (obj.event == 'del'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '确定删除选中项目吗',
+                        title:'删除基础项目?',
+                        btn: ['删除','取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/del_public_project',{item_number:data.item_number},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　window.location.reload()
+                                    },1000);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                            // return false //开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+                
+            }
             
         });
         //工具栏事件
@@ -458,7 +489,6 @@
                     });
                 });
             }
-            
         });
     });
 </script>
