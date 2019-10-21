@@ -1225,4 +1225,34 @@ class BasisData extends Adminbase{
             $this->error('绑定失败');
         }
     }
+
+    public function img(Request $request){
+        $data =$request->post();
+//        return json(['code'=>1,'msg'=>'上传成功','data'=>$data]);
+        if($_FILES['image']['error'] !=4) {
+            $file = request()->file('image');
+            if($file){
+                $info = $file->validate(['size'=>1048576])->move( './uploads/images');
+                if($info){
+                    // 成功上传后 获取上传信息
+                    $images = $info->getSaveName();
+                    $images = str_replace('\\', '/', $images);
+                    $res=  Db::name('f_materials')->where('id', $data['id'])->data(['img' => $images])->update();
+                    session('msg','上传成功');
+                    session('msg1',1);
+                    $this->redirect($_SERVER['HTTP_REFERER']);
+                }else{
+                    // 上传失败获取错误信息
+                    $this->error($file->getError());
+                }
+            }
+        }else{
+            $this->error('图片未上传');
+        }
+
+
+
+
+    }
+
 }
