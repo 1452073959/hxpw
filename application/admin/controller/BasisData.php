@@ -912,6 +912,7 @@ class BasisData extends Adminbase{
             $data = []; //数组形式获取表格数据 
             //获取所有辅材分类
             $basis_materials_fine = array_column(Db::name('basis_materials')->group('fine')->field('fine')->select(), 'fine');
+            $arrletter = array('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS');//辅材基数字母
             for ($i = 2; $i <= $row_num; $i ++) {
                 $data[$i]['item_number']  = trim($sheet->getCell("A".$i)->getValue());
 
@@ -924,8 +925,33 @@ class BasisData extends Adminbase{
 
                 $data[$i]['name']  = trim($sheet->getCell("C".$i)->getValue());
                 $data[$i]['unit']  = trim($sheet->getCell("D".$i)->getValue());
+                $data[$i]['content']  = trim($sheet->getCell("E".$i)->getValue()); 
 
-                $fine = trim($sheet->getCell("E".$i)->getValue()); 
+                //辅材基数对应转json数组开始
+                $fine = '';
+                $j = 0;
+                foreach ($arrletter as $key => $value) {
+                  if($j%2==0){
+                    if($j === 0){
+                        if($sheet->getCell($arrletter[$key].$i)->getValue()){
+                            if(!$sheet->getCell($arrletter[$key+1].$i)->getValue()){
+                                $this->error('第'.$i.'行,项目编号'.$data[$i]['item_number'].'所需的辅材分类数量不能为空', 10006);
+                            }
+                            $fine .= trim($sheet->getCell($arrletter[$key].$i)->getValue()).'-'.trim($sheet->getCell($arrletter[$key+1].$i)->getValue());
+                        }
+                    }else{
+                        if($sheet->getCell($arrletter[$key].$i)->getValue()){
+                            if(!$sheet->getCell($arrletter[$key+1].$i)->getValue()){
+                                $this->error('第'.$i.'行,项目编号'.$data[$i]['item_number'].'所需的辅材分类数量不能为空', 10006);
+                            }
+                            $fine .= ','.trim($sheet->getCell($arrletter[$key].$i)->getValue()).'-'.trim($sheet->getCell($arrletter[$key+1].$i)->getValue());
+                        }
+                    }
+                  }
+                  $j++;
+                }
+
+                // $fine = trim($sheet->getCell("F".$i)->getValue()); 
                 try {
                     $data_fine = [];
                     if($fine){
@@ -946,7 +972,6 @@ class BasisData extends Adminbase{
                 }
                 $data[$i]['fine'] = json_encode($data_fine);
 
-                $data[$i]['content']  = trim($sheet->getCell("F".$i)->getValue()); 
                 
                 if(empty($data[$i]['item_number']) || empty($data[$i]['type_word_id']) || empty($data[$i]['name']) || empty($data[$i]['unit']) || empty($data[$i]['content']) || empty($data[$i]['fine'])){
                     $this->error('第'.$i.'行数据不能为空');
