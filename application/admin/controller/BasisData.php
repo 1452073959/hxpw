@@ -574,6 +574,7 @@ class BasisData extends Adminbase{
     public function create_datas(){
         $admininfo = $this->_userinfo;
         $fid = input('fid')?input('fid'):$admininfo['companyid'];
+        $time = time();
         Db::startTrans();
         try {
             // 先清空原来的
@@ -583,8 +584,17 @@ class BasisData extends Adminbase{
             $materials = $this->create_materials($fid);
             Db::name('materials')->insertAll($materials);
 
+            foreach($materials as $k=>$v){
+                $materials[$k]['time'] = $time;
+            }
+            Db::name('materials_fb')->insertAll($materials);
+
             $projects = $this->create_project($fid);
             Db::name('offerquota')->insertAll($projects);
+            foreach($projects as $k=>$v){
+                $projects[$k]['time'] = $time;
+            }
+            Db::name('offerquota_fb')->insertAll($projects);
            
             Db::commit();
         } catch (\Exception $e) {

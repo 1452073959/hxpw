@@ -115,10 +115,10 @@
                             <th lay-data="{field:'fine', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">辅材细类</th>
                             <th lay-data="{field:'brand', sort:true, width:80,align:'center',style:'font-size:12px',align:'center'}">品牌</th>
                             <th lay-data="{field:'place', sort:true, width:100,align:'center',style:'font-size:12px',align:'center'}">产地</th>
-                            <th lay-data="{field:'phr', width:120, sort:true,align:'center',style:'font-size:12px',align:'center'}">包装规格</th>
                             <th lay-data="{field:'units', width:80, sort:true,align:'center',style:'font-size:12px',align:'center'}">单位</th>
-                            <th lay-data="{field:'omit_num', width:100, sort:true,align:'center',style:'font-size:12px',align:'center'}">领料数量</th>
                             <th lay-data="{field:'price', width:80, sort:true,align:'center',style:'font-size:12px',align:'center'}">单价</th>
+                            <th lay-data="{field:'phr', width:120, sort:true,align:'center',style:'font-size:12px',align:'center'}">包装规格</th>
+                            <th lay-data="{field:'omit_num', width:100, sort:true,align:'center',style:'font-size:12px',align:'center'}">领料数量</th>
                             <th lay-data="{field:'total_price', width:120, sort:true,align:'center',style:'font-size:12px',align:'center'}">总价</th>
                             <th lay-data="{field:'remarks', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">供应来源</th>
                         </tr> 
@@ -126,18 +126,10 @@
                     <tbody>
                         <?php $all_total=0; ?>
                         <?php foreach($material as $k1=>$v1){ ?>
-                            <!-- <tr>
-                                <td class="" colspan="8" style="color:#029687;text-align: center;font-weight: 600;font-size:14px">{$k1}</td>
-                                
-                            </tr> -->
                                 <?php 
                                     $big_total=0;//大类合计
                                  ?>
                             <?php foreach($v1 as $k2=>$v2){ ?>
-                                <!-- <tr>
-                                    <td class="" colspan="8" style="color:#393d49;text-align: center;">{$k2}</td>
-                                    
-                                </tr> -->
                                 <?php 
                                     $small_total=0;//小类合计
                                  ?>
@@ -148,13 +140,11 @@
                                         <td class="">{$v3.category}</td>
                                         <td class="">{$k2}</td>
                                         <td class="">{$v3.brand}</td>
-                                        <!-- <td class="">{$v3.img}</td> -->
                                         <td class="">{$v3.place}</td>
-                                        <!-- <td class="">{$v3.num}</td> -->
-                                        <td class="">{$v3.phr}</td>
                                         <td class="">{$v3.units}</td>
-                                        <td class="">{$v3.omit_num}</td>
                                         <td class="">{$v3.cb}</td>
+                                        <td class="">{$v3.phr}</td>
+                                        <td class="">{$v3.omit_num}</td>
                                         <td class="">{$v3.cb*$v3.omit_num}</td>
                                         <td class="">{$v3.remarks}</td>
                                         <?php 
@@ -164,17 +154,8 @@
                                         ?>
                                     </tr>
                                 <?php } ?>
-                                    <!-- <tr>
-                                        <td class="" colspan="8" style="text-align: right;padding-right: 30px;">{$k2} - 合计：{$small_total}</td>
-                                    </tr> -->
                             <?php } ?>
-                                <!-- <tr>
-                                    <td class="" colspan="8" style="text-align: right;padding-right: 30px;">合计：{$big_total}</td>
-                                </tr> -->
                         <?php } ?>
-                            <!-- <tr>
-                                <td class="" colspan="8"  style="text-align: right;padding-right: 30px;">领料总价：{$all_total}</td>
-                            </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -208,10 +189,10 @@
                 <th  style="text-align: center">辅材细类</th>
                 <th  style="text-align: center">品牌</th>
                 <th  style="text-align: center">产地</th>
-                <th  style="text-align: center">包装规格</th>
                 <th  style="text-align: center">单位</th>
-                <th  style="text-align: center">领料数量</th>
                 <th  style="text-align: center">单价</th>
+                <th  style="text-align: center">包装规格</th>
+                <th  style="text-align: center">领料数量</th>
                 <th  style="text-align: center">总价</th>
                 <th  style="text-align: center">供应来源</th>
             </tr> 
@@ -227,10 +208,6 @@
                         $big_total=0;//大类合计
                      ?>
                 <?php foreach($v1 as $k2=>$v2){ ?>
-                    <!-- <tr>
-                        <td class="" colspan="12" style="color:#393d49;text-align: center;">{$k2}</td>
-                        
-                    </tr> -->
                     <?php 
                         $small_total=0;//小类合计
                      ?>
@@ -241,13 +218,11 @@
                             <td class="">{$v3.category}</td>
                             <td class="">{$k2}</td>
                             <td class="">{$v3.brand}</td>
-                            <!-- <td class="">{$v3.img}</td> -->
                             <td class="">{$v3.place}</td>
-                            <!-- <td class="">{$v3.num}</td> -->
-                            <td class="">{$v3.phr}</td>
                             <td class="">{$v3.units}</td>
-                            <td class="">{$v3.omit_num}</td>
                             <td class="">{$v3.cb}</td>
+                            <td class="">{$v3.phr}</td>
+                            <td class="">{$v3.omit_num}</td>
                             <td class="">{$v3.cb*$v3.omit_num}</td>
                             <td class="">{$v3.remarks}</td>
                             <?php 
