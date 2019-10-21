@@ -1125,6 +1125,7 @@ class BasisData extends Adminbase{
         return $this->fetch();
     }
 
+	//ajax申请项目
     public function apply_new_project(){
         $name = input('name');
         $content = input('content');
@@ -1165,6 +1166,38 @@ class BasisData extends Adminbase{
             $this->success('申请成功，请等待回复');
         }else{
             $this->error('申请失败');
+        }
+    }
+
+    //绑定辅材
+    public function bind_material(){
+        $id = input('id');
+        $amcode = input('amcode');
+        $basis_materials = Db::name('basis_materials')->where(['amcode'=>$amcode])->find();
+        if(!$basis_materials){
+            $this->error('未找到绑定的辅材');
+        }
+        $res = Db::name('apply_material')->where(['id'=>$id])->update(['audittime'=>time(),'p_amcode'=>$amcode,'status'=>2]);
+        if($res){
+            $this->success('绑定成功');
+        }else{
+            $this->error('绑定失败');
+        }
+    }
+
+    //绑定项目
+    public function bind_project(){
+        $id = input('id');
+        $item_number = input('item_number');
+        $basis_project = Db::name('basis_project')->where(['item_number'=>$item_number])->find();
+        if(!$basis_project){
+            $this->error('未找到绑定的报价项目');
+        }
+        $res = Db::name('apply_project')->where(['id'=>$id])->update(['audittime'=>time(),'p_item_number'=>$item_number,'status'=>2]);
+        if($res){
+            $this->success('绑定成功');
+        }else{
+            $this->error('绑定失败');
         }
     }
 }

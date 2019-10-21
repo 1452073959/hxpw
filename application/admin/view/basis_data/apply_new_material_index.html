@@ -144,6 +144,7 @@
                                 {if($admininfo['userid'] == 1)}
                                     {if($vo['status'] == 1)}
                                         <a style="color:red" href="javascript:;" lay-event="add_pmaterial">添加基础辅材</a>
+                                        <a style="color:green" href="javascript:;" lay-event="bind_pmaterial">绑定</a>
                                     {else /}
                                         <a style="color:blue">已处理</a>
                                     {/if}
@@ -318,6 +319,38 @@
                     });
 
                 },'json')
+            }
+
+            //绑定
+            if(obj.event == 'bind_pmaterial'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '<input type="text" class="layui-input" placeholder="请输入辅材编码" id="bind_amcode" value=""/>',
+                        title:'绑定辅材',
+                        btn: ['绑定', '取消'],
+                        yes: function(index, layero){
+                            var id = data.id;
+                            var bind_amcode = $('#bind_amcode').val();
+                            $.post('/admin/basis_data/bind_material',{id:id,amcode:bind_amcode},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　window.location.reload()
+                                    },1000);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
             }
 
             //添加到基础库
