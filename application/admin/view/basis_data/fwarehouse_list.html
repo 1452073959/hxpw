@@ -192,8 +192,8 @@
                     <td class="taleft">{$vo.source}</td>
                     <td class="" id="taleft">
                         {if $vo.img!=""}
-                        <a href="javascript:;" style="color:#007498" lay-event="bianda">
-                            <img src="/uploads/images/{$vo.img}" style="width:auto; height:38px">
+                        <a href="javascript:;" style="color:#007498;text-align: center;display:block;" lay-event="bianda">
+                            <img src="/uploads/images/{$vo.img}" style="width:auto; height:28px">
                         </a>
                         {else /}
                         <div style="font-size: 15px;text-align: center">暂无</div>
@@ -497,11 +497,13 @@
             if (obj.event == 'bianda') {
                 // var html = '<form ">';
                 var html = '' + data.img + '';
+                html = html.replace('style="width:auto; height:28px"','style="max-width:590px;height:auto;margin:5px auto;"');
+
 
 
                 layer.open({
-                    title: '显示原图',
-                    // area: ['450px', '200px'], //宽高
+                    title: '查看大图',
+                    area: ['600px'], //宽高
                     type: 1,
                     content: html,
                 });
