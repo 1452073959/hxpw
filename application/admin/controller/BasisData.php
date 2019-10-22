@@ -1256,8 +1256,173 @@ class BasisData extends Adminbase{
             $this->error('图片未上传');
         }
 
+    }
+
+    public function export(){
+        //1.从数据库中取出数据
+        $data = Db::table('fdz_basis_project')->select();
+        $type_word_ids = array_unique(array_column($data,'type_word_id'));
+        $basis_type_work = Db::table('fdz_basis_type_work')->where(['id'=>$type_word_ids])->select();
+        $basis_type_work = array_column($basis_type_work,null,'id');
+        foreach ($data as $k=>$v){
+            $data[$k]['word'] = $basis_type_work[$v['type_word_id']]['name'];
+        }
+//        dump($data);die;
+        //2.加载PHPExcle类库
+        require '../extend/PHPExcel/PHPExcel.php';
+        //3.实例化PHPExcel类
+        $objPHPExcel = new \PHPExcel();
+        //4.激活当前的sheet表
+        $objPHPExcel->setActiveSheetIndex(0);
+        //5.设置表格头（即excel表格的第一行）
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '编码')
+            ->setCellValue('B1', '工种类别')
+            ->setCellValue('C1', '项目名称')
+            ->setCellValue('D1', '单位')
+            ->setCellValue('E1', ' 施工工艺与说明')
+            ->setCellValue('F1', ' 用料1')
+            ->setCellValue('G1', ' 数量1')
+            ->setCellValue('H1', ' 用料2')
+            ->setCellValue('I1', ' 数量2')
+            ->setCellValue('J1', ' 用料3')
+            ->setCellValue('K1', ' 数量3')
+            ->setCellValue('L1', ' 用料4')
+            ->setCellValue('M1', ' 数量4')
+            ->setCellValue('N1', ' 用料5')
+            ->setCellValue('O1', ' 数量5')
+            ->setCellValue('P1', ' 用料6')
+            ->setCellValue('Q1', ' 数量6')
+            ->setCellValue('R1', ' 用料7')
+            ->setCellValue('S1', ' 数量7')
+            ->setCellValue('T1', ' 用料8')
+            ->setCellValue('U1', ' 数量8')
+            ->setCellValue('V1', ' 用料9')
+            ->setCellValue('W1', ' 数量9')
+            ->setCellValue('X1', ' 用料10')
+            ->setCellValue('Y1', ' 数量10')
+            ->setCellValue('Z1', ' 用料11')
+            ->setCellValue('AA1', ' 数量11')
+            ->setCellValue('AB1', ' 用料12')
+            ->setCellValue('AC1', ' 数量12')
+            ->setCellValue('AD1', ' 用料13')
+            ->setCellValue('AE1', ' 数量13')
+            ->setCellValue('AF1', ' 用料14')
+            ->setCellValue('AG1', ' 数量14')
+            ->setCellValue('AH1', ' 数量15')
+            ->setCellValue('AI1', ' 数量15');
+        //设置F列水平居中
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle('F')->getAlignment()
+            ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //设置单元格宽度
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(30);
+        $arrletter = array('F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS');//辅材基数字母
+        //6.循环刚取出来的数组，将数据逐一添加到excel表格。
+
+        $con = Db::view('basis_project', 'type_word_id')
+            ->view('basis_type_work', 'name', 'basis_project.type_word_id=basis_type_work.id')
+            ->select();
+//        dump($con);die;
+        foreach ($data as $k => $v) {
+            $data[$k]['js'] = json_decode($v['fine'],true);
+        }
+//        dump($data);die;
+//        dump($data);die;
+        for($i=0;$i<count($data);$i++){
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.($i+2),$data[$i]['item_number']);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.($i+2),$data[$i]['word']);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.($i+2),$data[$i]['name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.($i+2),$data[$i]['unit']);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.($i+2),$data[$i]['content']);
+            if(is_array($data[$i]['js'])){
+                $j = 0;
+                foreach($data[$i]['js'] as $k=>$v){
+                    $objPHPExcel->getActiveSheet()->setCellValue($arrletter[$j].($i+2),$v['fine']);
+                    $j++;
+                    $objPHPExcel->getActiveSheet()->setCellValue($arrletter[$j].($i+2),$v['funit']);
+                    $j++;
+                }
+            }
 
 
+        }
+//        var_dump($data);die;
+
+        //7.设置保存的Excel表格名称
+        $filename = '报价信息'.date('ymd',time()).'.xls';
+        //8.设置当前激活的sheet表格名称；
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息');
+        //9.设置浏览器窗口下载表格
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$filename.'"');
+        //生成excel文件
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        //下载文件在浏览器窗口
+        $objWriter->save('php://output');
+        exit;
+    }
+
+
+    public function excel()
+    {
+
+        $data = Db::table('fdz_basis_materials')->select();
+        //2.加载PHPExcle类库
+        require '../extend/PHPExcel/PHPExcel.php';
+        //3.实例化PHPExcel类
+        $objPHPExcel = new \PHPExcel();
+        //4.激活当前的sheet表
+        $objPHPExcel->setActiveSheetIndex(0);
+        //5.设置表格头（即excel表格的第一行）
+        // Add title
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '辅材编码')
+            ->setCellValue('B1', '工种类别')
+            ->setCellValue('C1', '辅材细类')
+            ->setCellValue('D1', '分类')
+            ->setCellValue('E1', ' 品牌')
+            ->setCellValue('F1', '产地')
+            ->setCellValue('G1', '辅材名称')
+            ->setCellValue('H1', '最小单位')
+            ->setCellValue('I1', '系数')
+            ->setCellValue('J1', '是否重要(0:不是,1:是)');
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('基础辅材报表');
+
+        $i = 2;
+        foreach ($data as $rs) {
+            // Add data
+            $objPHPExcel->getActiveSheet()
+                ->setCellValue('A' . $i, $rs['amcode'])
+                ->setCellValue('B' . $i, $rs['type_of_work'])
+                ->setCellValue('C' . $i, $rs['classify'])
+                ->setCellValue('D' . $i, $rs['fine'])
+                ->setCellValue('E' . $i, $rs['brank'])
+                ->setCellValue('F' . $i, $rs['place'])
+                ->setCellValue('G' . $i, $rs['name'])
+                ->setCellValue('H' . $i, $rs['unit'])
+                ->setCellValue('I' . $i, $rs['coefficient'])
+                ->setCellValue('J' . $i, $rs['important']);
+            $i++;
+        }
+
+        //7.设置保存的Excel表格名称
+        $filename = '辅材信息'.date('ymd',time()).'.xls';
+        //8.设置当前激活的sheet表格名称；
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息');
+        //9.设置浏览器窗口下载表格
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$filename.'"');
+        //生成excel文件
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        //下载文件在浏览器窗口
+        $objWriter->save('php://output');
+        exit;
 
     }
 
