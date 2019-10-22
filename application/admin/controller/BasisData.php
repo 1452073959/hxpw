@@ -851,7 +851,8 @@ class BasisData extends Adminbase{
                         //判断是否存在
                         $is_has = Db::name('basis_materials')->where(['fine'=>$value['fine']])->find();
                         if($is_has && $is_has['unit'] != $value['unit']){
-                            throw new \think\Exception('编号 - '.$value['amcode'].' 的分类与其他分类单位不一致', 10006);
+                            // throw new \think\Exception('编号 - '.$value['amcode'].' 的分类与其他分类单位不一致', 10006);
+                            throw new \think\Exception('编号 - '.$value['amcode'].' 的分类与其他分类单位不一致，应为'.$is_has['unit'], 10006);
                         }
                         Db::name('basis_materials')->insert($value);
                        
