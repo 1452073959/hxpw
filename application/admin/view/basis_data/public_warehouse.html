@@ -48,7 +48,12 @@
     clear:none;
 }
 </style>
-
+<div style="display: none">
+    <?php if(empty(session('name'))): ?>
+    <div id="msg">{:Session::pull('msg')}</div>
+    <div id="msg1"> {:Session::pull('msg1')}</div>
+    <?php endif?>
+</div>
   <!-- 导出完成 -->
 <div class="layui-card">
     <div class="layui-card-body">
@@ -108,6 +113,7 @@
                 </colgroup>
                 <thead >
                     <tr>
+                        <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
                         <th class="taleft" lay-data="{field:'amcode',width:150}">编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                         <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
@@ -118,12 +124,14 @@
                         <th class="taleft" lay-data="{field:'place',width:100}">产地</th>
                         <th class="taleft" lay-data="{field:'coefficient',width:100}">系数</th>
                         <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
-                        <th class="taleft" lay-data="{field:'edit',width:100}">操作</th>
+                        <th width="150" lay-data="{field:'img',width:80}">图片</th>
+                        <th class="taleft" lay-data="{field:'edit',width:200}">操作</th>
                     </tr>
                 </thead>
                 <tbody> 
                   {foreach name="data" item="vo"}
                     <tr>
+                        <td class="taleft">{$vo.id}</td>
                       <td class="taleft">{$vo.amcode}</td>
                       <td class="taleft">{$vo.type_of_work}</td>
                       <td class="taleft">{$vo.classify}</td>
@@ -134,7 +142,20 @@
                       <td class="taleft">{$vo.place}</td>
                       <td class="taleft">{$vo.coefficient}</td>
                       <td class="taleft">{$vo.important}</td>
-                      <td class="taleft"><a href="javascript:;" lay-event="edit">修改</a></td>                                
+                        <td class="" id="taleft">
+                            {if $vo.img!=""}
+                            <a href="javascript:;" style="color:#007498;text-align: center;display:block;" lay-event="bianda">
+                                <img src="/uploads/images/{$vo.img}" style="width:auto; height:28px">
+                            </a>
+                            {else /}
+                            <div style="font-size: 15px;text-align: center">暂无</div>
+                            {/if}
+                        </td>
+                      <td class="taleft">
+                          <a href="javascript:;" lay-event="edit">修改</a>
+                          <a href="javascript:;" style="color:#007498" lay-event="img">上传图片</a>
+
+                      </td>
                       <!-- <td>
                         <a href="/admin/basis_data/add_fwarehouse/id/{$vo.id}" class=""><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
                       </td> -->
@@ -276,6 +297,48 @@
                         }
                     });
                 }); 
+            }
+            if (obj.event == 'img') {
+                // var html = '<form ">';
+                var html = '<form action="/admin/basis_data/uploading" enctype="multipart/form-data" id="myform" class="layui-form" method="post">\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '<!--        <label class="layui-form-label">输入框</label>-->\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input type="hidden" value="' + data.id + '" name="id">\n' +
+                    '            <input type="file" name="image" class="layui-btn layui-btn-radius layui-btn-primary" style="margin-top: 10%"/ >\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '</form>\n' +
+                    '<div style="height: 40% "></div>' +
+                    '<button class="layui-btn" lay-submit lay-filter="formDemo"  id="pop"  style="display:block;margin:0 auto"  >立即提交</button>\n'
+                layer.open({
+                    title: '上传图片',
+                    area: ['450px', '200px'], //宽高
+                    type: 1,
+                    content: html,
+                });
+
+                $(function () {
+                    $("#pop").click(function () {
+                        // alert('12313');
+                        $("#myform").submit();
+
+
+                    })
+
+
+                });
+            }
+            if (obj.event == 'bianda') {
+                // var html = '<form ">';
+                var html = '' + data.img + '';
+                html = html.replace('style="width:auto; height:28px"','style="max-width:590px;height:auto;margin:5px auto;"');
+                layer.open({
+                    title: '查看大图',
+                    area: ['600px'], //宽高
+                    type: 1,
+                    content: html,
+                });
             }
         })
         //新增操作
@@ -440,8 +503,21 @@
                     });
                 });
             }
+
             
         });
     });
+</script>
+
+<script>
+    var msg = $('#msg').text()
+    var msg1 = $('#msg1').text()
+    console.log(msg);
+    console.log(typeof (msg));
+    if (msg1 == 1) {
+        layer.msg(msg);
+        // return false;
+    }
+
 </script>
 {/block}

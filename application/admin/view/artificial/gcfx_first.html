@@ -127,6 +127,7 @@
                         <th>地址</th>
                         <th>添加时间</th>
                         <!-- <th>报价历史</th> -->
+                        <th>合同价图纸下载</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -143,7 +144,12 @@
                       <td >{$vo.designer_name}</td> 
                       <td >{$vo.manager_name}</td> 
                       <td >{$vo.address}</td> 
-                      <td >{$vo.addtime|date='Y-m-d'}</td> 
+                      <td >{$vo.addtime|date='Y-m-d'}</td>
+
+                        {if $vo.profile.cad_file!=''}
+                        <td class="taleft"><a href="/admin/Artificial/down?id={$vo.profile.id} ">下载</a></td>
+                        {else /}   <td ></td>
+                        {/if}
                       <!-- <td><a class="" href="{:url('admin/offerlist/index',['customer_id'=>$vo.id])}"><i class="layui-icon layui-icon-search" title="查看历史"></i></a></td> -->
                       <td >
                         <a class="" href="{:url('admin/artificial/gcfx_index',['id'=>$vo.id])}" ><i class="layui-icon layui-icon-search" title="查看报价"></i></a>

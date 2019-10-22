@@ -114,6 +114,7 @@
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th> 
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>         
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
+                        <th class="taleft" lay-data="{field:'cad',width:100}">图纸</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -161,8 +162,13 @@
                       <td class="taleft">{$vo.info.discount_content}</td> 
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>   
                       <td class="taleft">{$vo.info.remark}</td>   
-                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>   
-                    </tr>       
+                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>
+                         {if $vo.cad_file!=''}
+                         <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
+                         {else /}
+                         {/if}
+
+                    </tr>
                  {/foreach}
                 </tbody>
             </table>

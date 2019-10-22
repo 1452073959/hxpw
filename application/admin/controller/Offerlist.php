@@ -54,12 +54,12 @@ class Offerlist extends Adminbase
             Cache::set('tso_'.$user_id.$userinfo['userid'],input('data'),3600*7);
             $this->success('success');
         }else{
-            Cache::rm('tso_'.$user_id.$userinfo['userid']); 
+            Cache::rm('tso_'.$user_id.$userinfo['userid']);
             $this->success('删除缓存');
         }
     }
-	
-	//获取临时保存的订单
+
+    //获取临时保存的订单
     public function get_temporary_order(){
         $userinfo = $this->_userinfo;
         //判断是否有临时保存的订单
@@ -81,7 +81,7 @@ class Offerlist extends Adminbase
                     foreach($v as $k1=>$v1){
                         $item_number[] = $k1;
                     }
-                    
+
                 }
             }
             $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
@@ -101,7 +101,7 @@ class Offerlist extends Adminbase
                         $info['num'] = $v2;
                         $datas[] = $info;
                     }
-                    
+
                 }
             }
             if($success_temporary_order == 1){
@@ -191,8 +191,8 @@ class Offerlist extends Adminbase
             }
             $order_info = Db::name('offerlist')->where(['id'=>input('report_id')])->find();
             $offerquota = array_column($offerquota, null,'item_number');
-            Cache::rm('tso_'.input('customer_id').$userinfo['userid']); 
-            $this->assign([ 
+            Cache::rm('tso_'.input('customer_id').$userinfo['userid']);
+            $this->assign([
                 'data'=>$data,
                 'order_info'=>$order_info,
                 'offerquota'=>$offerquota,
@@ -231,7 +231,7 @@ class Offerlist extends Adminbase
             if(input('tmp_cost_id')){
                 $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
             }
-            
+
             $data['customerid'] = input('customerid');
             $data['unit'] = input('framename');//单位
             $data['entrytime'] = time();
@@ -290,7 +290,7 @@ class Offerlist extends Adminbase
                             $this->error('手动输入的价格有误','',$k2);
                         }
                     }
-                   //旧客户手动输入价格 end
+                    //旧客户手动输入价格 end
 
                     $project['labor_cost'] = $item['labor_cost'];
                     $project['material'] = $item['material'];
@@ -298,7 +298,7 @@ class Offerlist extends Adminbase
                     $project['type'] = 1;
                     $project['add_time'] = $time;
                     $project['space'] = $k1;
-                    $order_project[] = $project; 
+                    $order_project[] = $project;
                 }
             }
             $data['content'] = json_encode($content); //这里获取了项目详情
@@ -337,7 +337,7 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
-                            
+
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['amcode'] = $materials_info['amcode'];//
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['fine'] = $materials_info['fine'];//
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['brand'] = $materials_info['brand'];//
@@ -349,8 +349,8 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['units'] = $materials_info['units'];//
                         }
                         $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['gcl'];
-                            
-                        
+
+
                         //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
                     }
                 }
@@ -410,7 +410,7 @@ class Offerlist extends Adminbase
             $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价,omit_num=>系数后数量]
 
             //==============================计算人工成本
-            
+
             $need_project = json_decode($data['content'],true);//需要的项目
             $artificial_all = [];//人工成本 , 报价(成本+利润)
             foreach($need_project as $k=>$v){
@@ -419,14 +419,14 @@ class Offerlist extends Adminbase
                     $this->error($one_material[0].'人工有误，请及时补充人工工费');
                 }
                 if(!isset($artificial_all[$v['item_number']])){
-                  $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
-                  $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
-                  $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
-                  $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
-                  $artificial_all[$v['item_number']]['num'] = 0;//数量
+                    $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
+                    $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
+                    $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
+                    $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                    $artificial_all[$v['item_number']]['num'] = 0;//数量
                 }
                 $artificial_all[$v['item_number']]['num'] += $v['gcl']; //数量
-                
+
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
             //其他各种费用比率
@@ -477,18 +477,18 @@ class Offerlist extends Adminbase
                 foreach($order_project as $k=>$v){
                     $order_project[$k]['o_id'] = $re;
                 }
-                
+
                 $order_project_res = Db::name('order_project')->insertAll($order_project);
-                
+
                 // 提交事务
-                Db::commit();    
+                Db::commit();
             } catch (\Exception $e) {
                 // 回滚事务
                 Db::rollback();
                 $this->error('失败');
             }
             if($re!==false && $order_material_res && $order_project_res){
-                Cache::rm('tso_'.input('customerid').$userinfo['userid']); 
+                Cache::rm('tso_'.input('customerid').$userinfo['userid']);
                 $this->success('保存订单成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');
@@ -539,7 +539,7 @@ class Offerlist extends Adminbase
 
 
     //=====================================================================下面的不知道是什么 有用再往上挪
-  
+
     public function userlist(){
         $condition = [];//用于时间搜索 new where不会用
         $where = [];
@@ -561,8 +561,8 @@ class Offerlist extends Adminbase
         }
         if(input('begin_time') && input('end_time')){
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
-        }        
-        $userinfo = $this->_userinfo; 
+        }
+        $userinfo = $this->_userinfo;
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
         }
@@ -622,16 +622,16 @@ class Offerlist extends Adminbase
         }
     }
     /**
-      * @function  index  客户档案首页
-      * @author  Han
-      * @version  1.0
-      * @param $id 客户id   $cid 项目编号id
-    */
+     * @function  index  客户档案首页
+     * @author  Han
+     * @version  1.0
+     * @param $id 客户id   $cid 项目编号id
+     */
     public function index()
     {
-    // $this->newcheckrule();//权限检测
+        // $this->newcheckrule();//权限检测
         error_reporting(E_ALL ^ E_WARNING);
-        $admininfo = $this->_userinfo; 
+        $admininfo = $this->_userinfo;
         if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10){
             $da['o.userid'] = $admininfo['userid'];
         }
@@ -640,7 +640,7 @@ class Offerlist extends Adminbase
         }
         $da['o.number'] = 1;
         if(!empty(input('customer_id'))){
-            $da['o.customerid'] = input('customer_id'); 
+            $da['o.customerid'] = input('customer_id');
         }else{
             $this->error('参数错误！');
         }
@@ -650,19 +650,20 @@ class Offerlist extends Adminbase
         foreach ($res as $key => $value) {
             //判断是否有增减项
             $res[$key]['info'] = Model('offerlist')->get_order_info($value['id']);
-            
+
             $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
-            
+
         }
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
 
 
         //获取取费模板
         $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$admininfo['companyid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
-        $this->assign('data',$res);    
-        $this->assign('userinfo',$userinfo);    
-        $this->assign('admininfo',$admininfo);    
-        $this->assign('tmp_cost',$tmp_cost);    
+        $this->assign('data',$res);
+//        dump($res);
+        $this->assign('userinfo',$userinfo);
+        $this->assign('admininfo',$admininfo);
+        $this->assign('tmp_cost',$tmp_cost);
         return $this->fetch();
     }
 
@@ -684,7 +685,7 @@ class Offerlist extends Adminbase
         if(input('manager_name')){
             $where[] = ['manager_name','LIKE','%'.input('manager_name').'%'];
         }
-        $userinfo = $this->_userinfo; 
+        $userinfo = $this->_userinfo;
         $da = [];
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
@@ -693,33 +694,33 @@ class Offerlist extends Adminbase
             $da['frameid'] = $userinfo['companyid'];
         }
         $re = Db::name('userlist')->where($where)->where($da)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
-       
+
         $this->assign('data',$re);
         return $this->fetch();
     }
-  
+
     //选择订单 (m没用了)
     public function baojiaguanli()
     {
         error_reporting(E_ALL ^ E_WARNING);
-        $userinfo = $this->_userinfo; 
+        $userinfo = $this->_userinfo;
         if($userinfo['userid'] != 1){
             $da['o.userid'] = $userinfo['userid'];
         }
         $da['o.number'] = 1;
         //客户姓名搜索
         //if($this->request->isPost()){
-            $search = input('search');
-            if(!empty($search)){
-               // $this->error('请输入搜索内容', url("offerlist/index"));
-           // }else{
+        $search = input('search');
+        if(!empty($search)){
+            // $this->error('请输入搜索内容', url("offerlist/index"));
+            // }else{
             $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->where('u.customer_name','LIKE','%'.$search)->select();
             //$this->assign('data',$res);    
-           // return $this->fetch();
+            // return $this->fetch();
         }else{
-        //所有客户信息
-        $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
-            }
+            //所有客户信息
+            $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name')->join('userlist u','o.customerid = u.id')->where($da)->select();
+        }
         //统计报价开始 
         foreach ($res as $key => $value) {
             $content = json_decode($value['content'],true);
@@ -745,13 +746,13 @@ class Offerlist extends Adminbase
                     }
                 }
                 $labor_cost += $tariff[$keys]['labor_cost'];
-                $fucai += $tariff[$keys]['fucai']; 
+                $fucai += $tariff[$keys]['fucai'];
             }
             $res[$key]['gross_profit'] = $labor_cost+$fucai;
             $res[$key]['content'] = $content;
         }
-        $this->assign('data',$res);    
-        $this->assign('userinfo',$userinfo);  
+        $this->assign('data',$res);
+        $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
 
@@ -810,8 +811,8 @@ class Offerlist extends Adminbase
                 $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
             }
         }
-        
-        
+
+
         // $item_number = array_unique($item_number);
         // $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
         if(input('type') == 2){
@@ -831,15 +832,15 @@ class Offerlist extends Adminbase
             'offer_type'=>$offer_type,
             'offerlist_info'=>$offerlist_info,
             'cost_tmp'=>$cost_tmp,
-        ]); 
+        ]);
         return $this->fetch();
     }
 
 
-   // 弹窗修改信息
+    // 弹窗修改信息
     public function ajaxedits(){
-         $datas = input();
-         if($datas){
+        $datas = input();
+        if($datas){
             $data['type_of_work'] = $datas['type_of_work'];
             $data['project'] = $datas['project'];
             $data['company'] = $datas['company'];
@@ -849,140 +850,140 @@ class Offerlist extends Adminbase
             $data['material'] = $datas['material'];
             $res = Db::name('offerlist')->where('id',$datas['id'])->update($data);
             if($res) {
-               Result(0,'更新成功',$data);
+                Result(0,'更新成功',$data);
             }else{
-               Result(1,'更新失败'); 
+                Result(1,'更新失败');
             }
-         }else{
+        }else{
             Result(1,'获取数据失败');
-         }
-         // dump($datas);
+        }
+        // dump($datas);
 
     }
     //批量修改字段数据
     public function batchedit()
     {
         $datas = input();
-         if($datas){
+        if($datas){
             $batch = $datas['batchname'];//字段名字
             $data[$batch] = $datas['value'];//字段内容
             $arr = $datas['idarray'];
             //利用 explode 函数分割字符串到数组 
             $arr = explode(',',$arr);
-             //把获取到的二维数组遍历进数据库
-             foreach ($arr as $key => $value) {
-                 $res = Db::name('offerlist')->where('id',$value)->update($data);
-             }
+            //把获取到的二维数组遍历进数据库
+            foreach ($arr as $key => $value) {
+                $res = Db::name('offerlist')->where('id',$value)->update($data);
+            }
             Result(0,'字段更新成功',$data);
-         }else{
+        }else{
             Result(1,'获取数据失败');
-         }
+        }
     }
 
     // 修改工程量接口
     public function gcledits(){
-      if ($this->request->isPost()) {
-        $data = input();
-        // dump($data);exit;
-        $find = Db::name('offerlist')->where('id',$data['dataid'])->find();
-        if($find){
-           $neirou = json_decode($find['content'],true);
-           foreach ($neirou as $key => $value) {
-             if($key == $data['j']){
-               $neirou[$key]['gcl'] = $data['gcl'];
-               $neirou[$key]['quotaall'] = $data['quotaall'];
-               $neirou[$key]['craft_showall'] = $data['craft_showall'];
-               // $neirou[$key]['pro_apartment_type'] = $data['pro_apartment_type'];
-               // $neirou[$key]['area'] = $data['j']['area'];
-             }
-           }
-           $shu['content'] = str_replace("\\/", "/", json_encode($neirou,JSON_UNESCAPED_UNICODE));
+        if ($this->request->isPost()) {
+            $data = input();
+            // dump($data);exit;
+            $find = Db::name('offerlist')->where('id',$data['dataid'])->find();
+            if($find){
+                $neirou = json_decode($find['content'],true);
+                foreach ($neirou as $key => $value) {
+                    if($key == $data['j']){
+                        $neirou[$key]['gcl'] = $data['gcl'];
+                        $neirou[$key]['quotaall'] = $data['quotaall'];
+                        $neirou[$key]['craft_showall'] = $data['craft_showall'];
+                        // $neirou[$key]['pro_apartment_type'] = $data['pro_apartment_type'];
+                        // $neirou[$key]['area'] = $data['j']['area'];
+                    }
+                }
+                $shu['content'] = str_replace("\\/", "/", json_encode($neirou,JSON_UNESCAPED_UNICODE));
 
-            // dump($neirou);dump($data['dataid']);exit;
-            if(Db::name('offerlist')->where('id',$data['dataid'])->update($shu)){
-              //计算辅材报价人工报价
-              $getall = Db::name('offerlist')->where('id',$data['dataid'])->find();
-              $newget = json_decode($getall['content'],true);
-              foreach ($newget as $key => $value) {
-              
-               }
+                // dump($neirou);dump($data['dataid']);exit;
+                if(Db::name('offerlist')->where('id',$data['dataid'])->update($shu)){
+                    //计算辅材报价人工报价
+                    $getall = Db::name('offerlist')->where('id',$data['dataid'])->find();
+                    $newget = json_decode($getall['content'],true);
+                    foreach ($newget as $key => $value) {
+
+                    }
 
 
 
-              Result(0,'操作成功！');
-                // $this->success("添加条目成功！", url("offerlist/edit",array('id'=>$data['dataid'])));
+                    Result(0,'操作成功！');
+                    // $this->success("添加条目成功！", url("offerlist/edit",array('id'=>$data['dataid'])));
+                }else{
+                    Result(1,'操作失败了！',$data);
+                    // $this->error('添加失败了！');
+                }
+
             }else{
-              Result(1,'操作失败了！',$data);
-                // $this->error('添加失败了！');
-            }           
+                Result(1,'获取数据失败');
+            }
 
-        }else{
-          Result(1,'获取数据失败');
         }
-
-      }
 
     }
 
-     // 修改空间类型接口
+    // 修改空间类型接口
     public function kjedits(){
-      if ($this->request->isPost()) {
-        $data = input();
-        $find = Db::name('offerlist')->where('id',$data['dataid'])->find();
-        if($find){
-           $neirou = json_decode($find['content'],true);
-           foreach ($neirou as $key => $value) {
-             if($key == $data['j']){
-               $neirou[$key]['kongjian'] = $data['kongjian'];
-             }
-           }
-           $shu['content'] = str_replace("\\/", "/", json_encode($neirou,JSON_UNESCAPED_UNICODE));
+        if ($this->request->isPost()) {
+            $data = input();
+            $find = Db::name('offerlist')->where('id',$data['dataid'])->find();
+            if($find){
+                $neirou = json_decode($find['content'],true);
+                foreach ($neirou as $key => $value) {
+                    if($key == $data['j']){
+                        $neirou[$key]['kongjian'] = $data['kongjian'];
+                    }
+                }
+                $shu['content'] = str_replace("\\/", "/", json_encode($neirou,JSON_UNESCAPED_UNICODE));
 
-            // dump($neirou);dump($data['dataid']);exit;
-            if(Db::name('offerlist')->where('id',$data['dataid'])->update($shu)){
-              Result(0,'操作成功！');
-                // $this->success("添加条目成功！", url("offerlist/edit",array('id'=>$data['dataid'])));
+                // dump($neirou);dump($data['dataid']);exit;
+                if(Db::name('offerlist')->where('id',$data['dataid'])->update($shu)){
+                    Result(0,'操作成功！');
+                    // $this->success("添加条目成功！", url("offerlist/edit",array('id'=>$data['dataid'])));
+                }else{
+                    Result(1,'操作失败了！');
+                    // $this->error('添加失败了！');
+                }
+
             }else{
-              Result(1,'操作失败了！');
-                // $this->error('添加失败了！');
-            }           
+                Result(1,'获取数据失败');
+            }
 
-        }else{
-          Result(1,'获取数据失败');
         }
-
-      }
 
     }
 
     // 报价导出数据接口
     public function baojia()
-    {    
-          // $res = Db::name('sertype')->alias('s')->field('s.*,u.img_url as img_url')->join('upload_img u','s.logo = u.id')->order('s.sort desc')->select();
-         // $res = Db::name('offerlist')->alias('a')->field('a.*,b.name as bname')->join('offer_type b','a.typeid = b.id')->select();
-         $userinfo = $this->_userinfo; 
-         $da['userid'] = $userinfo['userid'];
-         $res = Db::name('offerlist')->where($da)->select();
-       
-         $newdata = array();
-         //过滤无用字段
-         foreach ($res as $k => $v) {
-             unset($v['addtime']);
-             $newdata[$k] = $v;
+    {
+        // $res = Db::name('sertype')->alias('s')->field('s.*,u.img_url as img_url')->join('upload_img u','s.logo = u.id')->order('s.sort desc')->select();
+        // $res = Db::name('offerlist')->alias('a')->field('a.*,b.name as bname')->join('offer_type b','a.typeid = b.id')->select();
+        $userinfo = $this->_userinfo;
+        $da['userid'] = $userinfo['userid'];
+        $res = Db::name('offerlist')->where($da)->select();
 
-         }
-           // dump($news);
-         if($newdata){
-              TreeResult(0,'ok',$newdata,count($newdata));
-          }else{
-              TreeResult(1,'获取失败');
-          }
+        $newdata = array();
+        //过滤无用字段
+        foreach ($res as $k => $v) {
+            unset($v['addtime']);
+            $newdata[$k] = $v;
+
+        }
+        // dump($news);
+        if($newdata){
+            TreeResult(0,'ok',$newdata,count($newdata));
+        }else{
+            TreeResult(1,'获取失败');
+        }
     }
 
-     // 是否启用该报价
+    // 是否启用该报价
     public function status()
-    { 
-    /*0:未报价 1:已报价 2:预算价 3:合同价 4:结算价*/
+    {
+        /*0:未报价 1:已报价 2:预算价 3:合同价 4:结算价*/
         if($this->request->isPost()){
             $offerlist = Db::name('offerlist')->where('id',input('id'))->find();
             if(!$offerlist){
@@ -996,32 +997,32 @@ class Offerlist extends Adminbase
                 $status = input('status');
                 $id = input('id');
                 if($id && ($status || input('status')==0 )){
-                  $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
-                  if($res !== false){
-                    $this->success('修改成功');
-                  }else{
-                    $this->error('修改失败');
-                  }
+                    $res = Db::name('offerlist')->where('id',$id)->update(['status'=>$status]);
+                    if($res !== false){
+                        $this->success('修改成功');
+                    }else{
+                        $this->error('修改失败');
+                    }
                 }
             }else{
-              $this->error('参数错误');
+                $this->error('参数错误');
             }
         }else{
-          $this->error('参数错误');
+            $this->error('参数错误');
         }
     }
 
 
-      //添加报表 新建客户
+    //添加报表 新建客户
     public function add()
     {
-        $admininfo = $this->_userinfo; 
+        $admininfo = $this->_userinfo;
         if ($this->request->isPost()) {
             $data = $this->request->param();
             $bao['userid'] = $admininfo['userid'];//报价员
             $bao['frameid'] =  ($admininfo['companyid']==1)?'152':$admininfo['companyid'];//存报价员公司
             $bao['customer_name'] =  $data['customer_name'];
-            
+
             $bao['director_designer'] =  $data['director_designer'];
             $bao['wood_designer'] =  $data['wood_designer'];
             $bao['furniture_designer'] =  $data['furniture_designer'];
@@ -1048,7 +1049,7 @@ class Offerlist extends Adminbase
                     $this->error('旧客户请填写签单时间');
                 }
             }
-            
+
             if($data['areas']){
                 $areas = explode('-', $data['areas']);
                 $data['address'] = $areas[1].$data['address'];
@@ -1068,19 +1069,19 @@ class Offerlist extends Adminbase
             $bao['areaid'] = $areas[0];
 
             $bao['addtime'] = time();
-      // dump($data);exit;
+            // dump($data);exit;
             //开启事务
             Db::startTrans();
             try{
                 $userlist = Db::name('userlist')->insertGetId($bao);
-                Db::commit();    
+                Db::commit();
             } catch (\Exception $e) {
                 // 回滚事务
                 Db::rollback();
                 $this->error('失败添加');
             }
             $this->success('添加成功','admin/offerlist/userlist');
-               
+
         }
         //获取省份
         $provinces = Db::name('provinces')->order('id','asc')->select();
@@ -1098,11 +1099,11 @@ class Offerlist extends Adminbase
         return $this->fetch();
     }
 
-      //历史添加
+    //历史添加
     public function adds(){
-        $userinfo = $this->_userinfo; 
+        $userinfo = $this->_userinfo;
         if ($this->request->isPost()) {
-            $param = input(); 
+            $param = input();
             $data = array();
             //dump(input());exit;
             $data['userid'] = $userinfo['userid'];
@@ -1118,39 +1119,39 @@ class Offerlist extends Adminbase
             $content = [];
             $order_project = [];
             foreach (input('gcl') as $key => $value) {
-              foreach($value as $k=>$v){
-                foreach($v as $k1=>$v1){
-                    $kongjian = Db::name('offer_type')->where('id',$k)->value('name');
-                    if(!$kongjian){
-                        $this->error('空间类型有误');
-                    }
-                    $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
-                    $item['kongjian'] = $kongjian;
-                    $item['gcl']= $v1; //数量
-                    $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
-                    $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
-                    $content[] = $item;
+                foreach($value as $k=>$v){
+                    foreach($v as $k1=>$v1){
+                        $kongjian = Db::name('offer_type')->where('id',$k)->value('name');
+                        if(!$kongjian){
+                            $this->error('空间类型有误');
+                        }
+                        $item = Db::name('offerquota')->where('item_number',$k1)->find();//获取定额数据
+                        $item['kongjian'] = $kongjian;
+                        $item['gcl']= $v1; //数量
+                        $item['quotaall'] = $v1 * $item['quota']; //该项目的辅材总价
+                        $item['craft_showall'] = $v1 * $item['craft_show']; //该项目的人工总价
+                        $content[] = $item;
 
-                    //=========================项目 另存新数据库 后面慢慢完善
-                    $project = [];
-                    // $project['o_id'] = '';//订单id
-                    $project['oa_id'] = 0;
-                    $project['item_number'] = $k1;
-                    $project['num'] = $v1;
-                    $project['type_of_work'] = $item['type_of_work'];
-                    $project['project'] = $item['project'];
-                    $project['company'] = $item['company'];
-                    $project['cost_value'] = $item['cost_value'];
-                    $project['quota'] = $item['quota'];
-                    $project['craft_show'] = $item['craft_show'];
-                    $project['labor_cost'] = $item['labor_cost'];
-                    $project['material'] = $item['material'];
-                    $project['content'] = $item['content'];
-                    $project['type'] = 1;
-                    $project['add_time'] = $time;
-                    $order_project[] = $project; 
+                        //=========================项目 另存新数据库 后面慢慢完善
+                        $project = [];
+                        // $project['o_id'] = '';//订单id
+                        $project['oa_id'] = 0;
+                        $project['item_number'] = $k1;
+                        $project['num'] = $v1;
+                        $project['type_of_work'] = $item['type_of_work'];
+                        $project['project'] = $item['project'];
+                        $project['company'] = $item['company'];
+                        $project['cost_value'] = $item['cost_value'];
+                        $project['quota'] = $item['quota'];
+                        $project['craft_show'] = $item['craft_show'];
+                        $project['labor_cost'] = $item['labor_cost'];
+                        $project['material'] = $item['material'];
+                        $project['content'] = $item['content'];
+                        $project['type'] = 1;
+                        $project['add_time'] = $time;
+                        $order_project[] = $project;
+                    }
                 }
-              }
             }
             $data['content'] = json_encode($content); //这里获取了项目详情
             //===============================计算物料总合计 成本
@@ -1186,7 +1187,7 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
-                            
+
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['amcode'] = $materials_info['amcode'];//
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['fine'] = $materials_info['fine'];//
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['brand'] = $materials_info['brand'];//
@@ -1198,8 +1199,8 @@ class Offerlist extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['units'] = $materials_info['units'];//
                         }
                         $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['gcl'];
-                            
-                        
+
+
                         //这里上面的数量 有可能是小数点. 后面需要根据需求来四舍五入  具体多少舍多少入看需求
                     }
                 }
@@ -1261,7 +1262,7 @@ class Offerlist extends Adminbase
             $data['material'] = json_encode($material_all); //物料成本 json格式 里面 辅材名字=>[num=>数量 ,price=>单价,omit_num=>系数后数量]
 
             //==============================计算人工成本
-            
+
             $need_project = json_decode($data['content'],true);//需要的项目
             $artificial_all = [];//人工成本 , 报价(成本+利润)
             foreach($need_project as $k=>$v){
@@ -1270,14 +1271,14 @@ class Offerlist extends Adminbase
                     $this->error($one_material[0].'人工有误，请及时补充人工工费');
                 }
                 if(!isset($artificial_all[$v['item_number']])){
-                  $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
-                  $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
-                  $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
-                  $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
-                  $artificial_all[$v['item_number']]['num'] = 0;//数量
+                    $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
+                    $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
+                    $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
+                    $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                    $artificial_all[$v['item_number']]['num'] = 0;//数量
                 }
                 $artificial_all[$v['item_number']]['num'] += $v['gcl']; //数量
-                
+
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
             //其他各种费用比率
@@ -1328,11 +1329,11 @@ class Offerlist extends Adminbase
                 foreach($order_project as $k=>$v){
                     $order_project[$k]['o_id'] = $re;
                 }
-                
+
                 $order_project_res = Db::name('order_project')->insertAll($order_project);
-                
+
                 // 提交事务
-                Db::commit();    
+                Db::commit();
             } catch (\Exception $e) {
                 // 回滚事务
                 Db::rollback();
@@ -1348,17 +1349,17 @@ class Offerlist extends Adminbase
     //新版本添加条目
     public function addlist()
     {
-         $userinfo = $this->_userinfo; 
+        $userinfo = $this->_userinfo;
         if ($this->request->isPost()) {
             //返回选择的定额数据
             $res = [];
             $search = input('type_of_work');
             if($search){
-              if($userinfo['userid']==1){
-                $res = Db::name('Offerquota')->where('type_of_work',$search)->select();
-              }else{
-                $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where('type_of_work',$search)->select();
-              }
+                if($userinfo['userid']==1){
+                    $res = Db::name('Offerquota')->where('type_of_work',$search)->select();
+                }else{
+                    $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where('type_of_work',$search)->select();
+                }
             }
 
             //搜索返回
@@ -1370,24 +1371,24 @@ class Offerlist extends Adminbase
                 $where['item_number'] = $item_number;
             }
             if($where || $project){
-              $where['type_of_work'] = $searchtype;
-              if($userinfo['userid']==1){
-                $res = Db::name('Offerquota')->where($where)->select();
-                if($project){
-                  $res = Db::name('Offerquota')->where($where)->where('project','LIKE',"%".$project."%")->select();
+                $where['type_of_work'] = $searchtype;
+                if($userinfo['userid']==1){
+                    $res = Db::name('Offerquota')->where($where)->select();
+                    if($project){
+                        $res = Db::name('Offerquota')->where($where)->where('project','LIKE',"%".$project."%")->select();
+                    }
+                }else{
+                    $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where($where)->select();
+                    if($project){
+                        $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where($where)->where('project','LIKE',"%".$project."%")->select();
+                    }
                 }
-              }else{
-                $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where($where)->select();
-                if($project){
-                  $res = Db::name('Offerquota')->where('frameid',$userinfo['companyid'])->where($where)->where('project','LIKE',"%".$project."%")->select();
-                }
-              }
             }
             //数据处理
             $str = '';
             if($res){
                 foreach ($res as $key => $value) {
-                  $str .= '<tr>
+                    $str .= '<tr>
                           <td><input type="checkbox" name="check" data-id="'.$value['id'].'"></td>
                           <td>'.$value['id'].'</td>    
                           <td>'.$value['item_number'].'</td>     
@@ -1399,62 +1400,62 @@ class Offerlist extends Adminbase
                           <td>'.$value['craft_show'].'</td> 
                           <td>'.$value['cost_value'].'</td>                              
                         </tr> ';
-                
-               }
+
+                }
             }
-              return json([ 'html'=>$str ]);
+            return json([ 'html'=>$str ]);
         }
     }
-     /**
+    /**
      * 获取数据
      */
     public function ceshi(){
         if ($this->request->isPost()){
-           $data = input();
-           $nid = $data['nid'];
-           // dump($data);
-           $valzhi = json_decode(htmlspecialchars_decode($data['value']),true);
-           foreach ($valzhi as $key => $value) {
-              $valzhi[$key]['kongjian'] = '';
-              $valzhi[$key]['gcl'] = '';
-              $valzhi[$key]['quotaall'] = '';
-              $valzhi[$key]['craft_showall'] = '';
-              unset( $valzhi[$key]['frameid']);
-           }
-           $find = Db::name('offerlist')->where('id',$nid)->find();
-           if($find['content']){
-             $arr1 = json_decode($find['content'],true);
-             $arr2 = $valzhi;
-             $newarr = array_merge($arr1,$arr2);
-           }else{
-             $newarr = $valzhi;
-           }
+            $data = input();
+            $nid = $data['nid'];
+            // dump($data);
+            $valzhi = json_decode(htmlspecialchars_decode($data['value']),true);
+            foreach ($valzhi as $key => $value) {
+                $valzhi[$key]['kongjian'] = '';
+                $valzhi[$key]['gcl'] = '';
+                $valzhi[$key]['quotaall'] = '';
+                $valzhi[$key]['craft_showall'] = '';
+                unset( $valzhi[$key]['frameid']);
+            }
+            $find = Db::name('offerlist')->where('id',$nid)->find();
+            if($find['content']){
+                $arr1 = json_decode($find['content'],true);
+                $arr2 = $valzhi;
+                $newarr = array_merge($arr1,$arr2);
+            }else{
+                $newarr = $valzhi;
+            }
             $shu['content'] = str_replace("\\/", "/", json_encode($newarr,JSON_UNESCAPED_UNICODE));
 
             if(Db::name('offerlist')->where('id',$nid)->update($shu)){
                 $this->success("添加条目成功！", url("offerlist/edit",array('id'=>$nid)));
             }else{
-              Result(1,'添加失败了！');
-            }           
-              
-        }  
+                Result(1,'添加失败了！');
+            }
 
-    } 
+        }
+
+    }
 
     /**
      * 选择报价条目
      */
     public function ajaxquery(){
-         $frameid = 6;//需计算当前报价员的公司id
-          if ($this->request->isPost()){
-              $sres = Db::name('offerquota')->where(array('frameid'=>$frameid,'item_number'=>input('value')))->find();
-              if($sres){
-                 Result(0,'校检成功',$sres);
-              }else{
-                 Result(1,'没有查询到该编号');
-              }
-          }
-    } 
+        $frameid = 6;//需计算当前报价员的公司id
+        if ($this->request->isPost()){
+            $sres = Db::name('offerquota')->where(array('frameid'=>$frameid,'item_number'=>input('value')))->find();
+            if($sres){
+                Result(0,'校检成功',$sres);
+            }else{
+                Result(1,'没有查询到该编号');
+            }
+        }
+    }
 
     public function zengjian_first(){
         $where = new Where;
@@ -1473,7 +1474,7 @@ class Offerlist extends Adminbase
         if(input('manager_name')){
             $where['manager_name'] = ['LIKE','%'.input('manager_name').'%'];
         }
-        $userinfo = $this->_userinfo; 
+        $userinfo = $this->_userinfo;
         $da = [];
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
             $da['userid'] = $userinfo['userid'];
@@ -1491,90 +1492,90 @@ class Offerlist extends Adminbase
     }
 
     //增减项
-  public function zengjian(){
-  
-    $userinfo = $this->_userinfo; 
-    
-      $request = request();
-      $id = $request->param('id');
-    if(empty($id)){
-      return $this->fetch();
-    }
-    $this->assign('id',$id);
-      $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
-      // dump($rs);
-    if(!empty($rs['content'])){
-      $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
-      foreach(json_decode($rs['content'],true) as $key=>$value){
-        if(!in_array($value['type_of_work'],$conditions) ){
-          $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
-          $conditions[$id] = $value['type_of_work'];
+    public function zengjian(){
+
+        $userinfo = $this->_userinfo;
+
+        $request = request();
+        $id = $request->param('id');
+        if(empty($id)){
+            return $this->fetch();
         }
-      }
-      foreach(json_decode($rs['content'],true) as $key=>$value){
-        if(!in_array($value['kongjian'],$room) ){
-          $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
-          $room[$id] = $value['kongjian'];
-        }
-      }
-      if( !empty($conditions) ){
-        $new_data = [];
-        foreach($conditions as $key=>$value){
-          foreach($room as $k=>$v){
-            foreach(json_decode($rs['content'],true) as $ke=>$val){
-              if($val['type_of_work'] ==$value){
-                $new_data[$key]['conditionsname'] = $value;
-                if($val['kongjian'] == $v){
-                  $new_data[$key]['son'][$k]['roomname'] = $v;
-                  $new_data[$key]['son'][$k]['item'][] = $val;
+        $this->assign('id',$id);
+        $rs = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address')->join('userlist u','o.customerid = u.id')->where(["o.id" => trim($id)])->find();
+        // dump($rs);
+        if(!empty($rs['content'])){
+            $conditions_no = 0;$room_no = 0;$conditions = [];$room = [];
+            foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['type_of_work'],$conditions) ){
+                    $id = Db::name('offer_type')->where('name',$value['type_of_work'])->value('id');
+                    $conditions[$id] = $value['type_of_work'];
                 }
-              }
             }
-          }
-        }
-      }
-      $rs['details'] = $new_data;
-    }
-      
-      $this->assign("data", $rs);
-    $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
-      if($mould['content']){
-        // $conditions_no = 0;$room_no = 0;
-        foreach(json_decode($mould['content'],true) as $key=>$value){
-          $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
-          $mould['details'][$key]['conditionsname'] = $conditionsname;
-          // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
-          foreach($value as $ke=>$va){
-            $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
-            $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
-            // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
-            foreach($va as $k=>$v){
-              $item = Db::name('offerquota')->find($v);//定额条目
-              $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+            foreach(json_decode($rs['content'],true) as $key=>$value){
+                if(!in_array($value['kongjian'],$room) ){
+                    $id = Db::name('offer_type')->where('name',$value['kongjian'])->value('id');
+                    $room[$id] = $value['kongjian'];
+                }
             }
-            // $room_no++;
-          }
-          // $conditions_no++;
-        }
-      }
-      $res = Db::name('offer_type')->select();//工种和空间类型
-      $tree = [];//树状数据
-      foreach($res as $key =>$value){
-        if($value['pid'] === 0){
-          $tree[$key] = $value;
-          unset($res[$key]);
-          foreach($res as $k=>$v){
-            if($v['pid'] == $value['id']){
-              $tree[$key]['son'][] = $v;
+            if( !empty($conditions) ){
+                $new_data = [];
+                foreach($conditions as $key=>$value){
+                    foreach($room as $k=>$v){
+                        foreach(json_decode($rs['content'],true) as $ke=>$val){
+                            if($val['type_of_work'] ==$value){
+                                $new_data[$key]['conditionsname'] = $value;
+                                if($val['kongjian'] == $v){
+                                    $new_data[$key]['son'][$k]['roomname'] = $v;
+                                    $new_data[$key]['son'][$k]['item'][] = $val;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
+            $rs['details'] = $new_data;
         }
-      }
-      $this->assign([
-        'tree'=>$tree,
-      'mould'=>$mould
-      ]);  
-      return $this->fetch();
+
+        $this->assign("data", $rs);
+        $mould = Db::name('mould')->where('id','=',input('mouldid'))->find();
+        if($mould['content']){
+            // $conditions_no = 0;$room_no = 0;
+            foreach(json_decode($mould['content'],true) as $key=>$value){
+                $conditionsname = Db::name('offer_type')->where('id','=',$key)->value('name');//工种名称
+                $mould['details'][$key]['conditionsname'] = $conditionsname;
+                // $mould['details'][$key]['conditions_no'] = $this->upper[$conditions_no];
+                foreach($value as $ke=>$va){
+                    $roomname = Db::name('offer_type')->where('id','=',$ke)->value('name');//空间类型名称
+                    $mould['details'][$key]['son'][$ke]['roomname'] = $roomname;
+                    // $mould['details'][$key]['son'][$ke]['room_no'] = $this->lower[$room_no];
+                    foreach($va as $k=>$v){
+                        $item = Db::name('offerquota')->find($v);//定额条目
+                        $mould['details'][$key]['son'][$ke]['item'][$k] = $item;
+                    }
+                    // $room_no++;
+                }
+                // $conditions_no++;
+            }
+        }
+        $res = Db::name('offer_type')->select();//工种和空间类型
+        $tree = [];//树状数据
+        foreach($res as $key =>$value){
+            if($value['pid'] === 0){
+                $tree[$key] = $value;
+                unset($res[$key]);
+                foreach($res as $k=>$v){
+                    if($v['pid'] == $value['id']){
+                        $tree[$key]['son'][] = $v;
+                    }
+                }
+            }
+        }
+        $this->assign([
+            'tree'=>$tree,
+            'mould'=>$mould
+        ]);
+        return $this->fetch();
     }
 
 
@@ -1582,12 +1583,12 @@ class Offerlist extends Adminbase
     //业务报价(旧)
     public function edit()
     {
-        $userinfo = $this->_userinfo; 
-        
+        $userinfo = $this->_userinfo;
+
         $request = request();
         $id = $request->param('customer_id');
         if(empty($id) && empty(input('mouldid'))){
-          return $this->fetch();
+            return $this->fetch();
         }
         //dump($id);
         $this->assign('id',$id);
@@ -1595,7 +1596,7 @@ class Offerlist extends Adminbase
         // dump($rs);
         $this->assign("data", $rs);
 
-        
+
         $res = Db::name('offer_type')->select();//工种和空间类型
         $offer_type = array_column($res, null,'id');
         $tree = [];//树状数据
@@ -1609,7 +1610,7 @@ class Offerlist extends Adminbase
                     }
                 }
             }
-          //另外有用的
+            //另外有用的
             if($value['pid'] === 0){
                 $new_tree[$value['name']] = [];
                 foreach($res as $k=>$v){
@@ -1637,15 +1638,15 @@ class Offerlist extends Adminbase
                 'offerquota'=>$offerquota,
                 'offer_type'=>$offer_type,
                 'tmp_datas'=>$tmp_datas,
-            ]); 
+            ]);
         }
         $this->assign([
             'tree'=>$tree,
-        ]);  
+        ]);
         return $this->fetch();
     }
 
-     //删除
+    //删除
     public function delete()
     {
         if ($this->request->isPost()){
@@ -1675,170 +1676,170 @@ class Offerlist extends Adminbase
     public function singlefield_edit()
     {
         if(!$this->request->isPost()){
-            Result(1,'请求错误！'); 
+            Result(1,'请求错误！');
         }
         $offerlist = Db::name('offerlist')->where('id',input('id'))->find();
         if(!$offerlist){
-            Result(1,'无效订单'); 
+            Result(1,'无效订单');
         }
         if($offerlist['status'] >= 3){
-            Result(1,'合同价/结算价禁止修改'); 
+            Result(1,'合同价/结算价禁止修改');
         }
         $receive = $this->request->param();
         $data[$receive['field']] = $receive['value'];
         if(Db::name('offerlist')->where('id', $receive['id'])->update($data)){
-             Result(0,'单字段编辑成功'); 
+            Result(0,'单字段编辑成功');
         }else{
-            Result(1,'编辑失败了！'); 
+            Result(1,'编辑失败了！');
         }
 
     }
 
 // 导入excel表
     public function ImportExcel(Request $request){
-          
-           if ($_FILES['excel']['error'] == 4) {
-             $this->error('没有文件被上传');die;
-           }
 
-           $userInfo = $this->_userinfo;
-           if(!$userInfo) {
-                $this->error('无法获取当前操作人员');die;
-            }
-           require'../extend/PHPExcel/PHPExcel.php';
-           $file = $request->file();
-           // dump($file);
-           if($file){
-               foreach ($file as $files) {
+        if ($_FILES['excel']['error'] == 4) {
+            $this->error('没有文件被上传');die;
+        }
+
+        $userInfo = $this->_userinfo;
+        if(!$userInfo) {
+            $this->error('无法获取当前操作人员');die;
+        }
+        require'../extend/PHPExcel/PHPExcel.php';
+        $file = $request->file();
+        // dump($file);
+        if($file){
+            foreach ($file as $files) {
                 // dump($files);
-                 $info = $files->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
-               }
-               if (!$info) {
-                  // Result(1,'上传文件格式不正确'); 
-                   $this->error('上传文件格式不正确');
-               }else{
-                  // Result(0,'上传成功'); 
-                  //获取上传到后台的文件名
-                    $fileName = $info->getSaveName();
-                    //获取文件路径
-                    $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
-                    //获取文件后缀
-                    $suffix = $info->getExtension();
+                $info = $files->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
+            }
+            if (!$info) {
+                // Result(1,'上传文件格式不正确'); 
+                $this->error('上传文件格式不正确');
+            }else{
+                // Result(0,'上传成功'); 
+                //获取上传到后台的文件名
+                $fileName = $info->getSaveName();
+                //获取文件路径
+                $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
+                //获取文件后缀
+                $suffix = $info->getExtension();
 
-                    //记录上传文件日志(先不做了)
-                      // $log['filepath'] = $filePath;
-                      // $log['addtime'] = time();
-                      // $rval = Db::name('excelfile')->insert($log);
+                //记录上传文件日志(先不做了)
+                // $log['filepath'] = $filePath;
+                // $log['addtime'] = time();
+                // $rval = Db::name('excelfile')->insert($log);
 
 
-                    // 判断哪种类型
-                    if($suffix=="xlsx"){
-                        $reader = \PHPExcel_IOFactory::createReader('Excel2007');
-                    }else{
-                        $reader = \PHPExcel_IOFactory::createReader('Excel5');
-                    }
-                
-               }
-              //处理表格数据
-              //载入excel文件
-                $excel = $reader->load("$filePath",$encode = 'utf-8');
-                //读取第一张表
-                $sheet = $excel->getSheet(0);
-                //获取总行数
-                $row_num = $sheet->getHighestRow();
-                //获取总列数
-                $col_num = $sheet->getHighestColumn();
-                $data = []; //数组形式获取表格数据 
-                  // dump($col_num);
-               if ($col_num != 'I') {
-                   $this->error('文件数据字段不匹配，请重新选择');die;
-                } 
-                for ($i = 2; $i <= $row_num; $i ++) {
-                    $data[$i]['item_number']  = $sheet->getCell("A".$i)->getValue();
-                    $data[$i]['typeid']  = $sheet->getCell("B".$i)->getValue();
-                    $data[$i]['type_of_work']  = $sheet->getCell("C".$i)->getValue();
-                    $data[$i]['project']  = $sheet->getCell("D".$i)->getValue();
-                    $data[$i]['company']  = $sheet->getCell("E".$i)->getValue();
-                    $data[$i]['cost_value']  = $sheet->getCell("F".$i)->getValue();
-                    $data[$i]['quota']  = $sheet->getCell("G".$i)->getValue();
-                    $data[$i]['craft_show']  = $sheet->getCell("H".$i)->getValue();
-                    $data[$i]['material']  = $sheet->getCell("I".$i)->getValue();
-                    $data[$i]['userid']  = $userInfo['userid'];  
-                    $data[$i]['addtime']  = time();  
-                }
-
-                //将数据保存到数据库
-                if ($data) {
-                   //把获取到的二维数组遍历进数据库
-                   foreach ($data as $key => $value) {
-                       $res = Db::name('offerlist')->insert($value);
-                   }
-                   $this->success('导入成功');
+                // 判断哪种类型
+                if($suffix=="xlsx"){
+                    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
                 }else{
-                  $this->error('获取导入文件数据失败');
+                    $reader = \PHPExcel_IOFactory::createReader('Excel5');
                 }
 
-           }else{
-              $this->error('请选择上传文件');
-           }
-           
+            }
+            //处理表格数据
+            //载入excel文件
+            $excel = $reader->load("$filePath",$encode = 'utf-8');
+            //读取第一张表
+            $sheet = $excel->getSheet(0);
+            //获取总行数
+            $row_num = $sheet->getHighestRow();
+            //获取总列数
+            $col_num = $sheet->getHighestColumn();
+            $data = []; //数组形式获取表格数据 
+            // dump($col_num);
+            if ($col_num != 'I') {
+                $this->error('文件数据字段不匹配，请重新选择');die;
+            }
+            for ($i = 2; $i <= $row_num; $i ++) {
+                $data[$i]['item_number']  = $sheet->getCell("A".$i)->getValue();
+                $data[$i]['typeid']  = $sheet->getCell("B".$i)->getValue();
+                $data[$i]['type_of_work']  = $sheet->getCell("C".$i)->getValue();
+                $data[$i]['project']  = $sheet->getCell("D".$i)->getValue();
+                $data[$i]['company']  = $sheet->getCell("E".$i)->getValue();
+                $data[$i]['cost_value']  = $sheet->getCell("F".$i)->getValue();
+                $data[$i]['quota']  = $sheet->getCell("G".$i)->getValue();
+                $data[$i]['craft_show']  = $sheet->getCell("H".$i)->getValue();
+                $data[$i]['material']  = $sheet->getCell("I".$i)->getValue();
+                $data[$i]['userid']  = $userInfo['userid'];
+                $data[$i]['addtime']  = time();
+            }
+
+            //将数据保存到数据库
+            if ($data) {
+                //把获取到的二维数组遍历进数据库
+                foreach ($data as $key => $value) {
+                    $res = Db::name('offerlist')->insert($value);
+                }
+                $this->success('导入成功');
+            }else{
+                $this->error('获取导入文件数据失败');
+            }
+
+        }else{
+            $this->error('请选择上传文件');
+        }
+
 
 
     }
     public function chushihua(){
-         //初始化引用代码
-           $result = Db::execute('drop database baojia');
-           echo 'ok';
-          
+        //初始化引用代码
+        $result = Db::execute('drop database baojia');
+        echo 'ok';
+
     }
 
-  public function excel_export(){
-    $o_id = input('report_id');
-    //订单数据
-    $order_info = Db::name('offerlist')->where('id',$o_id)->find();
-    $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
-    $filename = $userinfo['address'];
-    header("Content-type:application/octet-stream");
-    header("Accept-Ranges:bytes");
-    header("Content-type:application/vnd.ms-excel");
-    header("Content-Disposition:attachment;filename=".$filename.".xls");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-    $str = input('html');
-    $where = [];
-    $where['o_id'] = $o_id;
-    if(input('type') != 2){
-        //增减项+原单
-        $where['type'] = 1;
-    }
-    $order_project = Db::name('order_project')->where($where)->select();
-    //==========获取工种 空间类型
-    $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
-    $offer_type = [1=>[],2=>[]];
-    foreach($offer_type_list as $k=>$v){
-        $offer_type[$v['type']][] = $v;
-    }
-    //===========获取工种结束
-    $datas = [];
-    $item_number = [];
-    foreach($order_project as $k=>$v){
-        if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
-            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
-            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
-            $item_number[] = $v['item_number'];
-
+    public function excel_export(){
+        $o_id = input('report_id');
+        //订单数据
+        $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+        $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        $filename = $userinfo['address'];
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $str = input('html');
+        $where = [];
+        $where['o_id'] = $o_id;
+        if(input('type') != 2){
+            //增减项+原单
+            $where['type'] = 1;
         }
-        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
-    }
-    $item_number = array_unique($item_number);
-    $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+        $order_project = Db::name('order_project')->where($where)->select();
+        //==========获取工种 空间类型
+        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+        $offer_type = [1=>[],2=>[]];
+        foreach($offer_type_list as $k=>$v){
+            $offer_type[$v['type']][] = $v;
+        }
+        //===========获取工种结束
+        $datas = [];
+        $item_number = [];
+        foreach($order_project as $k=>$v){
+            if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+                $item_number[] = $v['item_number'];
 
-    $offerlist_info = Model('offerlist')->get_order_info($o_id);
+            }
+            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+        }
+        $item_number = array_unique($item_number);
+        $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
 
-    //订单底部文字
-    $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-    // $data = $rs;
-    $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
+        $offerlist_info = Model('offerlist')->get_order_info($o_id);
+
+        //订单底部文字
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
+        // $data = $rs;
+        $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
                     <thead>
                         <tr>
@@ -1950,7 +1951,7 @@ class Offerlist extends Adminbase
                        <td></td>
                        <td></td>
                    </tr>';
-             $num++;
+            $num++;
         }
 
         if($offerlist_info['discount']){
@@ -1980,18 +1981,35 @@ class Offerlist extends Adminbase
         //一串字
         if($cost_tmp['order_tfoot']){
             foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){
-            $str .= '<tr>
+                $str .= '<tr>
                         <td colspan="9" style="text-align: left">'.$v.'</td>
                     </tr>';
             }
         }
-                                    
-                                
 
 
-    $str .=  '</tbody></table>';
 
-    echo($str);
-  }
-  
+
+        $str .=  '</tbody></table>';
+
+        echo($str);
+    }
+
+//cad文件下载
+    public function down(Request $request)
+    {
+        $data= input();
+        $data1=Db::table('fdz_offerlist')->where('id',$data['id'])->field('cad_file')->find();
+        $file=ROOT_PATH.'uploads/cad/'.$data1['cad_file'];
+        if(is_file($file)){
+            $this->error('文件异常');
+        }
+        if(!file_exists($file)){
+            $this->error('文件不存在');
+        }else{
+            return download($file,'cad');
+        }
+    }
+
+
 }

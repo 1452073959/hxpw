@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller; 
 
+use app\admin\model\Userlist;
 use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
@@ -114,12 +115,20 @@ class Artificial extends Adminbase
         if($userinfo['roleid'] == 10){
             $da['frameid'] = $userinfo['companyid'];
         }
-        $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+        $off=Db::name('offerlist')->field('customerid')->select();
+        $off = array_unique(array_column($off,'customerid'));
+        $re = Userlist::with('profile')->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+
+//        $re = json_decode($re,true);
+//        dump($re);
+//        $kn = Userlist::with('profile')->select();
+//        dump($kn);die;
         if($userinfo['roleid'] == 1){
           $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
           $this->assign('frame',$frame);
         }
         $this->assign('data',$re);
+//        dump($re);
         $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
@@ -612,6 +621,22 @@ class Artificial extends Adminbase
         
         //其他成本 
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
+    }
+//图纸下载
+    public function down(Request $request)
+    {
+        $data= input();
+        $data1=Db::table('fdz_offerlist')->where('id',$data['id'])->field('cad_file')->find();
+//        dump($data1);die;
+        $file=ROOT_PATH.'uploads/cad/'.$data1['cad_file'];
+        if(is_file($file)){
+            $this->error('文件异常');
+        }
+        if(!file_exists($file)){
+            $this->error('文件不存在');
+        }else{
+            return download($file,'cad');
+        }
     }
 
 }

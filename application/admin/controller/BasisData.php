@@ -1257,17 +1257,46 @@ class BasisData extends Adminbase{
         }
 
     }
+//辅材上传图片
+
+    public function uploading(Request $request){
+        $data =$request->post();
+        if($_FILES['image']['error'] !=4) {
+            $file = request()->file('image');
+            if($file){
+                $info = $file->validate(['size'=>1048576])->move( './uploads/images');
+                if($info){
+                    // 成功上传后 获取上传信息
+                    $images = $info->getSaveName();
+                    $images = str_replace('\\', '/', $images);
+                    $res=  Db::name('basis_materials')->where('id', $data['id'])->data(['img' => $images])->update();
+                    session('msg','上传成功');
+                    session('msg1',1);
+                    $this->redirect($_SERVER['HTTP_REFERER']);
+                }else{
+                    // 上传失败获取错误信息
+                    $this->error($file->getError());
+                }
+            }
+        }else{
+            $this->error('图片未上传');
+        }
+
+    }
 
     public function export(){
         //1.从数据库中取出数据
         $data = Db::table('fdz_basis_project')->select();
         $type_word_ids = array_unique(array_column($data,'type_word_id'));
+        dump($type_word_ids);
         $basis_type_work = Db::table('fdz_basis_type_work')->where(['id'=>$type_word_ids])->select();
+        dump($basis_type_work);
         $basis_type_work = array_column($basis_type_work,null,'id');
+        dump($basis_type_work);
         foreach ($data as $k=>$v){
             $data[$k]['word'] = $basis_type_work[$v['type_word_id']]['name'];
         }
-//        dump($data);die;
+        dump($data);die;
         //2.加载PHPExcle类库
         require '../extend/PHPExcel/PHPExcel.php';
         //3.实例化PHPExcel类
@@ -1315,8 +1344,7 @@ class BasisData extends Adminbase{
         $objPHPExcel->setActiveSheetIndex(0)->getStyle('F')->getAlignment()
             ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         //设置单元格宽度
-        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(30);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(30);
         $arrletter = array('F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS');//辅材基数字母
         //6.循环刚取出来的数组，将数据逐一添加到excel表格。
 
