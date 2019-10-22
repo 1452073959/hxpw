@@ -151,13 +151,13 @@
                 <thead>
                 <tr>
 
-                    <th width="150" lay-data="{field:'id',width:200,hide:'true'}">id</th>
-                    <th class="taleft" lay-data="{field:'amcode',width:200}">编码</th>
+                    <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
+                    <th class="taleft" lay-data="{field:'amcode'}">编码</th>
                     <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                     <th class="taleft" lay-data="{field:'classify',width:100}">辅材细类</th>
                     <th class="taleft" lay-data="{field:'fine',width:100}">分类</th>
-                    <th class="taleft" lay-data="{field:'name', width:150}">辅材名称</th>
-                    <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
+                    <th class="taleft" lay-data="{field:'name', width:180}">辅材名称</th>
+                    <th class="taleft" lay-data="{field:'unit',width:60}">单位</th>
                     <th class="taleft" lay-data="{field:'brank',width:100}">品牌</th>
                     <th class="taleft" lay-data="{field:'place',width:100}">产地</th>
                     <th class="taleft" lay-data="{field:'in_price',width:100}">进货单价</th>
@@ -165,9 +165,9 @@
                     <th class="taleft" lay-data="{field:'pack',width:100}">包装数量</th>
                     <th class="taleft" lay-data="{field:'phr',width:90}">包装规格</th>
                     <th class="taleft" lay-data="{field:'source',width:100}">来源</th>
-                    <th width="150" lay-data="{field:'img',width:100}">图片</th>
-                    <th class="taleft" lay-data="{field:'time',width:180}">添加/修改时间</th>
-                    <th width="150" lay-data="{field:'edit',width:200}">操作</th>
+                    <th width="150" lay-data="{field:'img',width:80}">图片</th>
+                    <th class="taleft" lay-data="{field:'time',width:110}">修改时间</th>
+                    <th width="150" lay-data="{field:'edit',width:160}">操作</th>
 
 
                 </tr>
@@ -193,13 +193,13 @@
                     <td class="" id="taleft">
                         {if $vo.img!=""}
                         <a href="javascript:;" style="color:#007498" lay-event="bianda">
-                            <img src="/uploads/images/{$vo.img}" width="300px">
+                            <img src="/uploads/images/{$vo.img}" style="width:auto; height:38px">
                         </a>
                         {else /}
-                        <div style="font-size: 15px;text-align: center">暂无图片</div>
+                        <div style="font-size: 15px;text-align: center">暂无</div>
                         {/if}
                     </td>
-                    <td class="taleft">{$vo.time}</td>
+                    <td class="taleft"><?php echo date('Y-m-d',strtotime($vo['time']));?></td>
                     <td class="taleft">
                         <a href="javascript:;" style="color:#007498" lay-event="edit">编辑</a>
                         <a href="javascript:;" style="color:#007498" lay-event="del">删除</a>
@@ -383,7 +383,12 @@
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">来源：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
-                html += '    <input type="text" name="source" value="' + data.source + '" autocomplete="off" class="layui-input">'
+                // html += '    <input type="text" name="source" value="' + data.source + '" autocomplete="off" class="layui-input">'
+                html += '    <select name="source" style="height:35px">'
+                html += '       <option value="公司仓库">公司仓库</option>'
+                html += '       <option value="监理自购">监理自购</option>'
+                html += '       <option value="公司定点">公司定点</option>'
+                html += '    </select>'
                 html += '  </div>'
                 html += '</div>'
 

@@ -260,7 +260,12 @@
                     html += '<div class="layui-form-item" style="margin:5px 0">'
                     html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">来源：</label>'
                     html += '  <div class="layui-input-block" style="margin-left:85px">'
-                    html += '    <input type="text" name="source" autocomplete="off" class="layui-input">'
+                    // html += '    <input type="text" name="source" autocomplete="off" class="layui-input">'
+                    html += '    <select name="source" style="height:35px">'
+                    html += '       <option value="公司仓库">公司仓库</option>'
+                    html += '       <option value="监理自购">监理自购</option>'
+                    html += '       <option value="公司定点">公司定点</option>'
+                    html += '    </select>'
                     html += '  </div>'
                     html += '</div>'
                     layui.use('layer', function(){
@@ -277,13 +282,13 @@
                                 var price = $('input[name="price"]').val();
                                 var pack = $('input[name="pack"]').val();
                                 var phr = $('input[name="phr"]').val();
-                                var source = $('input[name="source"]').val();
+                                var source = $('select[name="source"]').val();
                                 if(!brank || !place || !in_price || !price || !pack || !phr || !source){
                                     alert('数据不能留空，无数据可添"无"');
                                     return false;
                                 }
-                                if (source != '公司仓库' && source != '监理自购') {
-                                    alert('来源只能输入"公司仓库" 或 "监理自购"');
+                                if (source != '公司仓库' && source != '监理自购' && source != '公司定点') {
+                                    alert('来源只能输入"公司仓库" 或 "监理自购" 或 "公司定点"');
                                     return false;
                                 }
                                 if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9]{1,})?$)/.test(price))){
