@@ -410,6 +410,9 @@ class BasisData extends Adminbase{
         if(!$info){
             $this->error('参数错误');
         }
+        if($info['img']){
+            $datas['img'] = $info['img'];
+        }
         $datas['fine'] = $info['fine'];
         // var_dump($datas);die;
         $res = Db::name('f_materials')->insertGetId($datas);
