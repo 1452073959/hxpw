@@ -625,6 +625,12 @@ class BasisData extends Adminbase{
             $info['place'] = $v['place'];
             $info['category'] = $basis_materials[$v['p_amcode']]['type_of_work'];
             $info['name'] = $basis_materials[$v['p_amcode']]['name'];
+            //基础库还没有图片
+            // if($v['img']){
+            //     $info['img'] = $v['img'];
+            // }else{
+            //     $info['img'] = $basis_materials[$v['p_amcode']]['img'];
+            // }
             $info['img'] = $v['img'];
             // $info['norms'] = $v['xxx'];
             $info['units'] = $v['phr'];
@@ -1036,7 +1042,7 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
-        $datas = Db::name('apply_material')->where($where)->paginate(20,false,['query'=>request()->param()]);
+        $datas = Db::name('apply_material')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
 
         //判断是否已添加
         $amcode = array_column($datas->items(), 'p_amcode');
@@ -1128,7 +1134,7 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
-        $datas = Db::name('apply_project')->where($where)->paginate(20,false,['query'=>request()->param()]);
+        $datas = Db::name('apply_project')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
 
         //判断是否已添加
         $item_number = array_column($datas->items(), 'p_item_number');

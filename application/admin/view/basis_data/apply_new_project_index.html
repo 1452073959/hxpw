@@ -138,8 +138,13 @@
                             <td class="">{$vo.content}</td>
                             <td class="">
                                 {if($vo['status'] == 2)}
-                                    {if(in_array($vo['p_item_number'],$p_item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}
-                                    <a style="color:blue" href="javascript:;" data-id="{$vo.p_item_number}" lay-event="add_fwarehouse">添加到仓库</a>
+                                    {if($admininfo['userid'] == 1)}
+                                        已处理
+                                    {else /}
+                                        {if(in_array($vo['p_item_number'],$p_item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}
+                                        <a style="color:blue" href="javascript:;" data-id="{$vo.p_item_number}" lay-event="add_fwarehouse">添加到仓库</a>
+                                    {/if}
+                                    
                                 {else /}
                                     <a style="color:red">待处理</a>
                                 {/if}

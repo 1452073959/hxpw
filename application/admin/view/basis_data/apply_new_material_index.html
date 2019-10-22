@@ -133,8 +133,13 @@
                             <td class="">{$vo.unit}</td>
                             <td class="">
                                 {if($vo['status'] == 2)}
-                                    {if(in_array($vo['p_amcode'],$p_amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}
-                                    <a style="color:blue" href="javascript:;" data-id="{$vo.p_amcode}" lay-event="add_fwarehouse">添加到仓库</a>
+                                    {if($admininfo['userid'] == 1)}
+                                        已处理
+                                    {else /}
+                                        {if(in_array($vo['p_amcode'],$p_amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}
+                                        <a style="color:blue" href="javascript:;" data-id="{$vo.p_amcode}" lay-event="add_fwarehouse">添加到仓库</a>
+                                    {/if}
+                                    
                                 {else /}
                                     <a style="color:red">待处理</a>
                                 {/if}
@@ -209,13 +214,6 @@
                     html += '</div>'
 
                     html += '<div class="layui-form-item" style="margin:5px 0">'
-                    html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
-                    html += '  <div class="layui-input-block" style="margin-left:85px">'
-                    html += '    <input type="text" name="" value="'+res.data.unit+'" disabled autocomplete="off" class="layui-input">'
-                    html += '  </div>'
-                    html += '</div>'
-
-                    html += '<div class="layui-form-item" style="margin:5px 0">'
                     html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">品牌：</label>'
                     html += '  <div class="layui-input-block" style="margin-left:85px">'
                     html += '    <input type="text" name="brank" value="'+res.data.brank+'" autocomplete="off" class="layui-input">'
@@ -247,6 +245,13 @@
                     html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">包装数量：</label>'
                     html += '  <div class="layui-input-block" style="margin-left:85px">'
                     html += '    <input type="text" name="pack" autocomplete="off" class="layui-input">'
+                    html += '  </div>'
+                    html += '</div>'
+
+                    html += '<div class="layui-form-item" style="margin:5px 0">'
+                    html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">计量单位：</label>'
+                    html += '  <div class="layui-input-block" style="margin-left:85px">'
+                    html += '    <input type="text" name="" value="'+res.data.unit+'" disabled autocomplete="off" class="layui-input">'
                     html += '  </div>'
                     html += '</div>'
 
