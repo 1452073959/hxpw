@@ -1229,7 +1229,6 @@ class BasisData extends Adminbase{
 
     public function img(Request $request){
         $data =$request->post();
-//        return json(['code'=>1,'msg'=>'上传成功','data'=>$data]);
         if($_FILES['image']['error'] !=4) {
             $file = request()->file('image');
             if($file){

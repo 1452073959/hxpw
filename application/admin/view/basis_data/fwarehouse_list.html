@@ -152,8 +152,6 @@
                 <tr>
 
                     <th width="150" lay-data="{field:'id',width:200,hide:'true'}">id</th>
-
-                    <th width="150" lay-data="{field:'img',width:100}">图片</th>
                     <th class="taleft" lay-data="{field:'amcode',width:200}">编码</th>
                     <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                     <th class="taleft" lay-data="{field:'classify',width:100}">辅材细类</th>
@@ -196,7 +194,7 @@
                     <td class="" id="taleft">
                         <a href="javascript:;" style="color:#007498" lay-event="bianda">
                             {if $vo.img!=""} <img src="/uploads/images/{$vo.img}" width="300px">
-                            {else /}暂无图片
+                            {else /}<div style="font-size: 15px;text-align: center">暂无图片</div>
                             {/if}
                         </a>
                     </td>
@@ -491,13 +489,17 @@
 
             if (obj.event == 'bianda') {
                 // var html = '<form ">';
-                var html = '' + data.img + ''
-                layer.open({
-                    title: '显示原图',
-                    // area: ['450px', '200px'], //宽高
-                    type: 1,
-                    content: html,
-                });
+                var html = '' + data.img + '';
+
+
+                    layer.open({
+                        title: '显示原图',
+                        // area: ['450px', '200px'], //宽高
+                        type: 1,
+                        content: html,
+                    });
+
+
 
 
             }
