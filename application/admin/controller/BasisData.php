@@ -724,6 +724,9 @@ class BasisData extends Adminbase{
             $p_amcode = Db::name('basis_materials')->field('id,amcode,name,unit')->where(['amcode'=>$p_amcode])->select();
             $p_amcode = array_column($p_amcode,null, 'amcode');
             foreach($material as $k=>$v){
+                if(!isset($p_amcode[$v['p_amcode']])){
+                    $this->error('辅材信息有误');
+                }
                 $material[$k]['name'] = $p_amcode[$v['p_amcode']]['name'];
             }
 
@@ -840,7 +843,6 @@ class BasisData extends Adminbase{
                 if(isset($data_list[$v['amcode']])){
                     if($v['unit'] != $data_list[$v['amcode']]['unit']){
                         $this->error('编号'.$v['amcode'].'的单位与之前不一致');
-                        // $edit_amcode[] = $v['amcode'];//修改了单位
                     }
                 }else{
                     $del_amcode[] = $v['amcode'];//已删除的项目
