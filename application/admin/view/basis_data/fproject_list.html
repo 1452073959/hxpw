@@ -81,6 +81,23 @@
                             <input type="text" name="sp_item_number" placeholder="" value="{:input('sp_item_number')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">工种类别</label>
+                        <div class="layui-input-block">
+                            <select name="type_word_id" lay-search>
+                                    <option value="">请选择</option>
+                                {foreach name="type_work" item="v"}
+                                    <option value="{$v.id}">{$v.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sname" placeholder="" value="{:input('sname')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div> -->
                     <div class="layui-form-item" style="margin-left:10px">
                         <div class="layui-input-inline">
                           <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
@@ -107,7 +124,7 @@
                         <th class="taleft" lay-data="{field:'item_number',width:100}">编码</th>
                         <th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="taleft" lay-data="{field:'name', width:200}">名称</th>
+                        <th class="taleft" lay-data="{field:'name', width:200}">项目名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
 
                         <th class="taleft" lay-data="{field:'quota',width:120}">辅材单价报价</th>

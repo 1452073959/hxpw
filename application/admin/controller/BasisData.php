@@ -657,6 +657,7 @@ class BasisData extends Adminbase{
         $project = Db::name('f_project')->where(['fid'=>$fid,'status'=>1])->select();
         $p_item_number = array_unique(array_column($project, 'p_item_number'));
         $basis_project = array_column(Db::name('basis_project')->where(['item_number'=>$p_item_number])->select(),null ,'item_number');
+        $basis_type_work = array_column(Db::name('basis_type_work')->select(), 'name','id') ;
         $datas = [];
         foreach($project as $k=>$v){
             if(!isset($basis_project[$v['p_item_number']])){
@@ -693,7 +694,7 @@ class BasisData extends Adminbase{
             $info['frameid'] = $v['fid'];
             $info['userid'] = $admininfo['userid'];
             $info['item_number'] = $v['item_number'];
-            $info['type_of_work'] = $basis_project[$v['p_item_number']]['type_word_id'];
+            $info['type_of_work'] = $basis_type_work[$basis_project[$v['p_item_number']]['type_word_id']];
 
             if($v['remark']){
                 $info['project'] = $basis_project[$v['p_item_number']]['name'].'（'.$v['remark'].'）';
