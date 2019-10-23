@@ -97,6 +97,9 @@ class Mail extends UserBase{
     //下单
     public function placeTheOrder(){
         $cart = input('cart');
+        if(empty($cart)){
+            $this->json(1,'请选择辅材后再提交');
+        }
         $uid = input('uid');
         $amcode = array_keys($cart);
         $materials = array_column(Db::name('materials')->where(['frameid'=>$this->admininfo['companyid'],'amcode'=>$amcode])->select(),null,'amcode');
@@ -173,7 +176,7 @@ class Mail extends UserBase{
             Db::rollback();
             $this->json(1,'下单失败');
         }
-        $this->json(0,'success');
+        $this->json(0,'下单成功');
         
     }
 
@@ -200,16 +203,19 @@ class Mail extends UserBase{
         $name = input('name');
         $price = input('price');
         $uid = input('uid');
+        $img = input('img');
         $cart = Cache::get('cart_'.$uid.$this->admininfo['userid']);
         if($cart){
             $cart[$amcode]['num'] = $num;
             $cart[$amcode]['name'] = $name;
             $cart[$amcode]['price'] = $price;
+            $cart[$amcode]['img'] = $img;
         }else{
             $cart = [];
             $cart[$amcode]['num'] = $num;
             $cart[$amcode]['name'] = $name;
             $cart[$amcode]['price'] = $price;
+            $cart[$amcode]['img'] = $img;
         }
         Cache::set('cart_'.$uid.$this->admininfo['userid'],$cart,86400*7);
         $this->json(0,'success',$cart);
@@ -229,6 +235,9 @@ class Mail extends UserBase{
         foreach($picking_material as $k=>$v){
             $picking_material[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
             $picking_material[$k]['info'] = Db::name('picking_material_info')->where(['pmid'=>$v['id']])->order('id','asc')->select();
+            foreach($picking_material[$k]['info'] as $k1=>$v1){
+                $picking_material[$k]['info'][$k1]['total'] = round($v1['price']*$v1['num'],2);
+            }
         }
         $this->json(0,'success',$picking_material);
     }

@@ -72,9 +72,32 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">编码</label>
                         <div class="layui-input-block">
-                            <input type="text" name="amcode" placeholder="" value="{:input('amcode')}" autocomplete="off" class="layui-input">
+                            <input type="text" name="sitem_number" placeholder="" value="{:input('sitem_number')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">基础库编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sp_item_number" placeholder="" value="{:input('sp_item_number')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!-- <div class="layui-form-item">
+                        <label class="layui-form-label">工种类别</label>
+                        <div class="layui-input-block">
+                            <select name="type_word_id" lay-search>
+                                    <option value="">请选择</option>
+                                {foreach name="type_work" item="v"}
+                                    <option value="{$v.id}">{$v.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sname" placeholder="" value="{:input('sname')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div> -->
                     <div class="layui-form-item" style="margin-left:10px">
                         <div class="layui-input-inline">
                           <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
@@ -101,7 +124,7 @@
                         <th class="taleft" lay-data="{field:'item_number',width:100}">编码</th>
                         <th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
-                        <th class="taleft" lay-data="{field:'name', width:200}">名称</th>
+                        <th class="taleft" lay-data="{field:'name', width:200}">项目名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
 
                         <th class="taleft" lay-data="{field:'quota',width:120}">辅材单价报价</th>
@@ -193,9 +216,9 @@
                 var item_number = data.item_number;
                 $.post('/admin/basis_data/get_project_material',{item_number:item_number},function(res){
                     if(res.code == 1){
-                        var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">细类</th><th style="text-align:center">名称</th><th style="text-align:center">辅材编码</th><th style="text-align:center">品牌</th><th style="text-align:center">产地</th><th style="text-align:center">出库价</th><th style="text-align:center">进库价</th><th style="text-align:center">来源</th></tr></thead><tbody>';
+                        var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">分类</th><th style="text-align:center">名称</th><th style="text-align:center">辅材编码</th><th style="text-align:center">品牌</th><th style="text-align:center">产地</th><th style="text-align:center">出库价</th><th style="text-align:center">进库价</th><th style="text-align:center">来源</th></tr></thead><tbody>';
                         $.each(res.data, function (key, val) {
-                              html += '<tr><td>'+val.fine+'</td><td>'+val.amcode+'</td><td>'+val.name+'</td><td>'+val.brank+'</td><td>'+val.place+'</td><td>'+val.price+'</td><td>'+val.in_price+'</td><td>'+val.source+'</td></tr>'
+                              html += '<tr><td>'+val.fine+'</td><td>'+val.name+'</td><td>'+val.amcode+'</td><td>'+val.brank+'</td><td>'+val.place+'</td><td>'+val.price+'</td><td>'+val.in_price+'</td><td>'+val.source+'</td></tr>'
                          });
                         html += '</tbody></table>'
                         //显示人工明细

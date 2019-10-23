@@ -807,10 +807,11 @@
         // var word = $('#diolog .right li[class="checkli"]').text();
         //不要工种分类
         var word = '所有工种';
-        if(!space || !word){
+        if(!space || !word || space == '添加空间'){
             layui.use('layer', function(){
                 layer.msg('工种/空间有误 请重新选择');
             }); 
+            return false;
         }
         var data = $(this).data();
         //判断该项目在当前功空间和工种下 是否已经存在
