@@ -12,7 +12,9 @@ class Mail extends UserBase{
     //监理领料 客户列表
     public function userlist(){
         $where = [];
-        $where['jid'] = $this->admininfo['userid'];
+        if($this->admininfo['userid'] != 1){
+            $where['jid'] = $this->admininfo['userid'];
+        }
         $where['status'] = [3,4,5,6,7];
         $where['frameid'] = $this->admininfo['companyid'];
         $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id') ;
@@ -225,7 +227,7 @@ class Mail extends UserBase{
     public function getHistoryPicking(){
         $where = [];
         $where['userid'] = input('uid');
-        $where['adminid'] = $this->admininfo['userid'];
+        // $where['adminid'] = $this->admininfo['userid'];
         $picking_material = Db::name('picking_material')->where($where)->order('id','asc')->select();
         if(!$picking_material){
             //为空 未领料

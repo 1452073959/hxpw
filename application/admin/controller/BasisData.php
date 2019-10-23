@@ -410,6 +410,9 @@ class BasisData extends Adminbase{
         if(!$info){
             $this->error('参数错误');
         }
+        if($info['img']){
+            $datas['img'] = $info['img'];
+        }
         $datas['fine'] = $info['fine'];
         // var_dump($datas);die;
         $res = Db::name('f_materials')->insertGetId($datas);
@@ -456,8 +459,11 @@ class BasisData extends Adminbase{
     public function fproject_list(){
         $where = [];
         // $where[] = ['status', 'IN', [1,2]];
-        if(input('amcode')){
-            $where[] = ['amcode','like','%'.input('amcode').'%'];
+        if(input('sitem_number')){
+            $where[] = ['item_number','like','%'.input('sitem_number').'%'];
+        } 
+        if(input('sp_item_number')){
+            $where[] = ['p_item_number','like','%'.input('sp_item_number').'%'];
         } 
         if(input('fid')){
             $where[] = ['fid','=',input('fid')];
@@ -651,6 +657,7 @@ class BasisData extends Adminbase{
         $project = Db::name('f_project')->where(['fid'=>$fid,'status'=>1])->select();
         $p_item_number = array_unique(array_column($project, 'p_item_number'));
         $basis_project = array_column(Db::name('basis_project')->where(['item_number'=>$p_item_number])->select(),null ,'item_number');
+        $basis_type_work = array_column(Db::name('basis_type_work')->select(), 'name','id') ;
         $datas = [];
         foreach($project as $k=>$v){
             if(!isset($basis_project[$v['p_item_number']])){
@@ -687,7 +694,7 @@ class BasisData extends Adminbase{
             $info['frameid'] = $v['fid'];
             $info['userid'] = $admininfo['userid'];
             $info['item_number'] = $v['item_number'];
-            $info['type_of_work'] = $basis_project[$v['p_item_number']]['type_word_id'];
+            $info['type_of_work'] = $basis_type_work[$basis_project[$v['p_item_number']]['type_word_id']];
 
             if($v['remark']){
                 $info['project'] = $basis_project[$v['p_item_number']]['name'].'（'.$v['remark'].'）';
@@ -721,6 +728,9 @@ class BasisData extends Adminbase{
             $p_amcode = Db::name('basis_materials')->field('id,amcode,name,unit')->where(['amcode'=>$p_amcode])->select();
             $p_amcode = array_column($p_amcode,null, 'amcode');
             foreach($material as $k=>$v){
+                if(!isset($p_amcode[$v['p_amcode']])){
+                    $this->error('辅材信息有误');
+                }
                 $material[$k]['name'] = $p_amcode[$v['p_amcode']]['name'];
             }
 
@@ -837,7 +847,6 @@ class BasisData extends Adminbase{
                 if(isset($data_list[$v['amcode']])){
                     if($v['unit'] != $data_list[$v['amcode']]['unit']){
                         $this->error('编号'.$v['amcode'].'的单位与之前不一致');
-                        // $edit_amcode[] = $v['amcode'];//修改了单位
                     }
                 }else{
                     $del_amcode[] = $v['amcode'];//已删除的项目
@@ -1157,7 +1166,7 @@ class BasisData extends Adminbase{
         return $this->fetch();
     }
 
-	//ajax申请项目
+    //ajax申请项目
     public function apply_new_project(){
         $name = input('name');
         $content = input('content');
@@ -1261,6 +1270,7 @@ class BasisData extends Adminbase{
 
     public function uploading(Request $request){
         $data =$request->post();
+//        dump($data);die;
         if($_FILES['image']['error'] !=4) {
             $file = request()->file('image');
             if($file){
@@ -1288,15 +1298,12 @@ class BasisData extends Adminbase{
         //1.从数据库中取出数据
         $data = Db::table('fdz_basis_project')->select();
         $type_word_ids = array_unique(array_column($data,'type_word_id'));
-        dump($type_word_ids);
         $basis_type_work = Db::table('fdz_basis_type_work')->where(['id'=>$type_word_ids])->select();
-        dump($basis_type_work);
         $basis_type_work = array_column($basis_type_work,null,'id');
-        dump($basis_type_work);
         foreach ($data as $k=>$v){
             $data[$k]['word'] = $basis_type_work[$v['type_word_id']]['name'];
         }
-        dump($data);die;
+//        dump($data);die;
         //2.加载PHPExcle类库
         require '../extend/PHPExcel/PHPExcel.php';
         //3.实例化PHPExcel类
@@ -1344,7 +1351,8 @@ class BasisData extends Adminbase{
         $objPHPExcel->setActiveSheetIndex(0)->getStyle('F')->getAlignment()
             ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         //设置单元格宽度
-        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(30);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(30);
         $arrletter = array('F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS');//辅材基数字母
         //6.循环刚取出来的数组，将数据逐一添加到excel表格。
 
