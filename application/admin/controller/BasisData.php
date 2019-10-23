@@ -459,8 +459,11 @@ class BasisData extends Adminbase{
     public function fproject_list(){
         $where = [];
         // $where[] = ['status', 'IN', [1,2]];
-        if(input('amcode')){
-            $where[] = ['amcode','like','%'.input('amcode').'%'];
+        if(input('sitem_number')){
+            $where[] = ['item_number','like','%'.input('sitem_number').'%'];
+        } 
+        if(input('sp_item_number')){
+            $where[] = ['p_item_number','like','%'.input('sp_item_number').'%'];
         } 
         if(input('fid')){
             $where[] = ['fid','=',input('fid')];
