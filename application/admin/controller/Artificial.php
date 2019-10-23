@@ -622,18 +622,6 @@ class Artificial extends Adminbase
         //其他成本 
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
     }
-//图纸下载
-    public function down(Request $request)
-    {
-        $data= input();
-        $data1=Db::table('fdz_offerlist')->where('id',$data['id'])->field('cad_file')->find();
-//        dump($data1);die;
-        $file=ROOT_PATH.'uploads/cad/'.$data1['cad_file'];
-        if(!file_exists($file)){
-            $this->error('文件不存在');
-        }else{
-            return download($file,'cad');
-        }
-    }
+
 
 }
