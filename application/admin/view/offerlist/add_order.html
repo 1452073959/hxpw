@@ -756,6 +756,7 @@
         if(!space || !word){
             layui.use('layer', function(){
                 layer.msg('工种/空间有误 请重新选择');
+                return false;
             }); 
         }
         var data = $(this).data();
