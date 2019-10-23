@@ -629,9 +629,6 @@ class Artificial extends Adminbase
         $data1=Db::table('fdz_offerlist')->where('id',$data['id'])->field('cad_file')->find();
 //        dump($data1);die;
         $file=ROOT_PATH.'uploads/cad/'.$data1['cad_file'];
-        if(is_file($file)){
-            $this->error('文件异常');
-        }
         if(!file_exists($file)){
             $this->error('文件不存在');
         }else{
