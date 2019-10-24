@@ -103,6 +103,9 @@
                     <button class="layui-btn layui-btn-sm" lay-event="add" id="add">添加</button> 
                     <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button>
                     <a href="/admin/basis_data/excel/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a>
+                    <button class="layui-btn layui-btn-sm" lay-event="add_imgs" id="add_imgs">批量上传图片</button>
+                    <button class="layui-btn layui-btn-sm" lay-event="save_img" id="save_img">保存图片</button>
+                    <button class="layui-btn layui-btn-sm" lay-event="update_img" id="update_img">更新图片</button>
                 </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['print'],limit:20}">
@@ -504,7 +507,83 @@
                 });
             }
 
-            
+            if(obj.event == 'add_imgs'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                    content: '确定批量上传图片吗？此操作应由程序员操作，其他人请勿点确定',
+                    title:'提示框',
+                    btn: ['确定', '取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/update_img',{},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+            }
+
+            if(obj.event == 'save_img'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                    content: '确定批量保存图片吗？此操作应由程序员操作，其他人请勿点确定',
+                    title:'提示框',
+                    btn: ['确定', '取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/save_basis_materials_img',{},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
+            }
+
+            if (obj.event == 'update_img'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                    content: '确定批量更新图片吗？此操作应由程序员操作，其他人请勿点确定',
+                    title:'提示框',
+                    btn: ['确定', '取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/update_basis_materials_img',{},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
+            }
         });
     });
 </script>

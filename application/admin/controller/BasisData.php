@@ -860,6 +860,7 @@ class BasisData extends Adminbase{
             //把获取到的二维数组遍历进数据库
                 Db::startTrans();
                 try {
+                    $this->save_basis_materials_img(1);
                     Db::name('basis_materials')->delete(true);
 
                     foreach ($data as $key => $value) {
@@ -876,6 +877,7 @@ class BasisData extends Adminbase{
                     foreach($del_amcode as $k=>$v){
                         Db::name('f_project')->where('material','like','%'.$v.'%')->update(['status'=>2]);
                     }
+                    $this->update_basis_materials_img(1);
                     Db::commit();
                 }catch (\Exception $e) {
                     Db::rollback();
@@ -1462,4 +1464,71 @@ class BasisData extends Adminbase{
 
     }
 
+  
+
+
+    //更新导入图片
+    public function update_img(){
+        $file = "./uploads/update_img";//存储图片的文件
+        $target_file = "./uploads/images/".date('Ymd');//储存目标文件夹
+        $temp = scandir($file);
+        if (file_exists($target_file) == false){
+            if (!mkdir($target_file, 0755, true)) {
+                $this->error('创建文件夹'.$target_file.'失败');
+            }
+        }
+        
+        foreach($temp as $k=>$v){
+            if($k <= 1){
+                continue;
+            }
+            if(@copy($file.'/'.$v,$target_file.'/'.$v)){
+                $amcode = explode('.', $v)[0];
+                Db::name('basis_materials')->where(['amcode'=>$amcode])->update(['img'=>date('Ymd').'/'.$v]);
+            }
+        }
+        $this->success('success');
+    }
+
+    //另建一个表 储存basis_materials的图片
+    //把basis_materials的图片存到basis_materials_other
+    public function save_basis_materials_img($type="1"){
+        $basis_materials = Db::name('basis_materials')->order('id','asc')->select();
+        foreach($basis_materials as $k=>$v){
+            if(!$v['img']){
+                continue;
+            }
+            $basis_materials_other_info = Db::name('basis_materials_other')->where(['amcode'=>$v['amcode']])->find();
+            if($basis_materials_other_info){
+                if($v['img'] != $basis_materials_other_info['img']){
+                    Db::name('basis_materials_other')->where(['amcode'=>$v['amcode']])->update(['img'=>$v['img']]);
+                }
+            }else{
+                Db::name('basis_materials_other')->insert(['amcode'=>$v['amcode'],'img'=>$v['img']]);
+            }
+        }
+        if($type){
+            return 1;
+        }
+        $this->success('成功');
+    }
+    //吧basis_materials_other的图片存到basis_materials
+    public function update_basis_materials_img($type="1"){
+        $basis_materials_other = Db::name('basis_materials_other')->select();
+        foreach($basis_materials_other as $k=>$v){
+            if(!$v['img']){
+                continue;
+            }
+            $basis_materials = Db::name('basis_materials')->where(['amcode'=>$v['amcode']])->find();
+            if($basis_materials){
+                if($v['img'] != $basis_materials['img']){
+                    Db::name('basis_materials')->where(['amcode'=>$v['amcode']])->update(['img'=>$v['img']]);
+                }
+            }
+        }
+        if($type){
+            return 1;
+        }
+        $this->success('成功');
+    }
 }
