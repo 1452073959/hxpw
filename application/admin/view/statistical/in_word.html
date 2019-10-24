@@ -130,8 +130,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="customer_name" placeholder="" autocomplete="off"
-                                   class="layui-input">
+                            <input type="text" name="customer_name" placeholder="" autocomplete="off" value="{:input('customer_name')?: input('customer_name')}" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-input-inline" style="margin-left:30px;">
@@ -140,7 +139,7 @@
                             <select name="jid" lay-filter="roleid" lay-verify="" lay-search>
                                 <option value="">可手动输入后选择</option>
                                 {foreach $users as $k=>$v }
-                                <option value="{$v['userid']}">{$v['name']}</option>
+                                <option value="{$v['userid']}" {if(input('jid') == $v['userid'])}selected{/if}>{$v['name']}</option>
                                 {/foreach}
                             </select>
                         </div>

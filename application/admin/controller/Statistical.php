@@ -51,7 +51,7 @@ class Statistical extends Adminbase
             $where[] = ['jid', 'in', "{$_GET['jid']}"];
         }
 
-        $order = Userlist::with('profile', 'user', 'picking')->where($where)->where('oid','<>',0)->paginate(4);
+        $order = Userlist::with('profile', 'user', 'picking')->where($where)->where('status','>=',3)->where('oid','>','0')->paginate(10,false,['query'=>request()->param()]);
         foreach ($order as $k => $v) {
             $order[$k]['total_picking'] = 0;
             if (!empty($v['picking'])) {
@@ -67,9 +67,7 @@ class Statistical extends Adminbase
             if (!$v2['profile']) {
                 continue;
             }
-
             $order[$k2]['order_info'] = model('offerlist')->get_order_info($v2['profile']['id'], 2);
-
         }
         $user = Db::table('fdz_admin')->where('roleid', '13')->select();
         $this->assign('order', $order);
