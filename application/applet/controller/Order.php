@@ -117,11 +117,32 @@ class Order extends UserBase{
             //未设置质检流程
             $this->json(2,'施工流程未设置，请联系管理员设置施工流程');
         }
-        $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
+        //获取第一个流程
+        $order_check = json_decode($cost_tmp['order_check'],true);
+        if(is_array($order_check)){
+            $order_check = array_column($order_check, null,0);
+        }else{
+            $this->json(2,'验收流程有误，请联系管理员');
+        }
+        //获取所有工种
+        $type_of_work = Db::name('order_project')->where(['o_id'=>$userinfo['oid']])->field('type_of_work')->group('type_of_work')->select();
+        $type_of_work = array_unique(array_column($type_of_work,'type_of_work'));
+        //只取前面2个字
+        foreach($type_of_work as $k=>$v){
+            $type_of_work[$k] = mb_substr($v, 0, 2);
+        }
+        $next_check = '待结算';
+        foreach($order_check as $k=>$v){
+            if(in_array($k, $type_of_work)){
+                $next_check = $k;
+                break;
+            }
+
+        }
 
         
         //这里需要找到分公司验收顺序 是个字符串
-        $work_status = $cost_tmp['order_check'][0][0];
+        $work_status = $next_check;
         $res = Db::name('userlist')->where(['id'=>$uid])->update(['work_status'=>$work_status,'work_time'=>time()]);
         if($res){
             $this->json('0','success',$work_status);
