@@ -16,10 +16,10 @@ class Userlist extends Model
         return $this->belongsTo(AdminUser::class,'jid','userid');
     }
 
-//    public function picking()
-//    {
-//        return $this->hasMany(PickingMaterial::class,'userid','id');
-//    }
+    public function picking()
+    {
+        return $this->hasMany(PickingMaterial::class,'userid','id');
+    }
 
 
 }
