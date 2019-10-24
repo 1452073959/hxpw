@@ -159,21 +159,50 @@ class Check extends UserBase{
             $data['check_name'] = $userinfo['work_status'];
             $this->json(2,'验收流程发生改变，请联系管理员');
         }
-        
+
+        // 获取下一个流程
         if($data['status']){
-            //验收通过 获取下一个流程
-            $next_check = '';
+            //获取需要施工的所有工种
+            $oid = $userinfo['oid'];
+            $type_of_work = Db::name('order_project')->where(['o_id'=>$oid])->field('type_of_work')->group('type_of_work')->select();
+            $type_of_work = array_unique(array_column($type_of_work,'type_of_work'));
+            //只取前面2个字
+            foreach($type_of_work as $k=>$v){
+                $type_of_work[$k] = mb_substr($v, 0, 2);
+            }
+            $next_check = '待结算';
+            $is = true;
             foreach($order_check as $k=>$v){
                 if($k == $userinfo['work_status']){
-                    $next_check = next($order_check);
-                    if(!$next_check){
-                        $next_check = '待结算';
-                    }
-                }else{
-                    next($order_check);
+                    $is = false;//前面的流程不要
+                    continue;
                 }
+                if($is){
+                    continue;
+                }
+                if(in_array($k, $type_of_work)){
+                    $next_check = $k;
+                    break;
+                }
+
             }
         }
+        //按顺序找到下一个流程 , 后面流程改成工种, 所有定义的流程(工种)可能项目没有 所以重写 , (如果以后改成按流程不按工种, 这个方法又可以用了)
+        //下面 Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>$next_check[0],'in_check'=>0]);   $next_check 是数组 取下标0
+        // if($data['status']){
+        //     //验收通过 获取下一个流程
+        //     $next_check = '';
+        //     foreach($order_check as $k=>$v){
+        //         if($k == $userinfo['work_status']){
+        //             $next_check = next($order_check);
+        //             if(!$next_check){
+        //                 $next_check = '待结算';
+        //             }
+        //         }else{
+        //             next($order_check);
+        //         }
+        //     }
+        // }
         
         $img = [];
         Db::startTrans();
@@ -196,7 +225,7 @@ class Check extends UserBase{
                 if($next_check == '待结算'){
                     Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>'待结算','in_check'=>0,'status'=>7]);
                 }else{
-                    Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>$next_check[0],'in_check'=>0]);
+                    Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>$next_check,'in_check'=>0]);
                 }
                 
             }else{
