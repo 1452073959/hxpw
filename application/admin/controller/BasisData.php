@@ -369,6 +369,7 @@ class BasisData extends Adminbase{
     //公司添加的仓库列表
     public function fwarehouse_list(){
         $where = [];
+        $condition = [];
         if(input('amcode')){
             $where[] = ['amcode','like','%'.input('amcode').'%'];
         }
@@ -377,8 +378,16 @@ class BasisData extends Adminbase{
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
+        if(input('name')){
+            $name = Db::name('basis_materials')->where('name','like','%'.input('name').'%')->field('amcode')->select();
+            if($name){
+                $condition['p_amcode'] = array_column($name, 'amcode');
+            }else{
+                $condition['p_amcode'] = 0;
+            }
+        }
           
-        $data = Db::name('f_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
+        $data = Db::name('f_materials')->where($condition)->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_unique(array_column($data->items(), 'p_amcode'));
         $basis_materials = array_column(Db::name('basis_materials')->where(['amcode'=>$p_amcode])->select(),null, 'amcode');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
@@ -458,6 +467,7 @@ class BasisData extends Adminbase{
     //公司添加的报价项目
     public function fproject_list(){
         $where = [];
+        $condition = [];
         // $where[] = ['status', 'IN', [1,2]];
         if(input('sitem_number')){
             $where[] = ['item_number','like','%'.input('sitem_number').'%'];
@@ -470,7 +480,15 @@ class BasisData extends Adminbase{
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
-        $data = Db::name('f_project')->where($where)->order('status','desc')->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
+        if(input('sname')){
+            $name = Db::name('basis_project')->where('name','like','%'.input('sname').'%')->field('item_number')->select();
+            if($name){
+                $condition['p_item_number'] = array_column($name, 'item_number');
+            }else{
+                $condition['p_item_number'] = 0;
+            }
+        }
+        $data = Db::name('f_project')->where($condition)->where($where)->order('status','desc')->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_item_number = array_unique(array_column($data->items(), 'p_item_number'));
         $basis_project = array_column(Db::name('basis_project')->where(['item_number'=>$p_item_number])->select(),null, 'item_number');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
