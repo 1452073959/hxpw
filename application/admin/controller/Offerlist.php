@@ -316,7 +316,8 @@ class Offerlist extends Adminbase
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
                         }
-                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        // $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
                         if(!$price){
@@ -1167,7 +1168,8 @@ class Offerlist extends Adminbase
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
                         }
-                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        // $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
                         if(!$price){
