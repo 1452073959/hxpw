@@ -43,6 +43,12 @@
 .bigbox input{margin-bottom:10px}
 #imgs{position:relative;float: left;}
 .batchs span{cursor:pointer;}
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -54,20 +60,7 @@
                 <div class="layui-inline">
                     <!-- <a class="layui-btn layui-btn-sm" href="{:url('Offerquota/add')}">添加报价</a> -->
                     <form method="post" action="{:url('Offerquota/ImportExcel')}" class="form-signin" enctype="multipart/form-data" style="float: right;margin:0 18px;position:relative;">
-                     <!--  <select name="frameid" lay-verify="required"  lay-filter="business">
-                              <option value=""></option>
-                              {foreach $frame as $key=>$vo}
-                                 <option value="{$vo.id}">{$vo.name}</option>
-                              {/foreach}
-                        </select> -->
                         <input name="" id="jianting" type="text" class="layui-input dao" style="width:45%"><input type="hidden" name="frameid" id="yinchang"><span style="color:#58b0d2;line-height:35px"  class="dao" id="chashuju"><i class="layui-icon layui-icon-search" title="查询"></i></span>
-                        <!-- <datalist id="url_list"> -->
-                          <!-- {foreach $frame as $key=>$vo}
-                              <option label="{$vo.id}" value="{$vo.name}" />
-                          {/foreach} -->
-                          <!-- <option label="W3School" value="http://www.w3school.com.cn" />
-                          <option label="Google" value="http://www.google.com" />
-                          <option label="Microsoft" value="http://www.microsoft.com" /> -->
                         <!-- </datalist> -->
                         <a href="javascript:;" class="onfile dao">选择文件
                           <input name="excel" type="file" class="" id="imgInput">
@@ -77,35 +70,42 @@
                     </form>
                     <a class="layui-btn layui-btn-sm" style="float:right;margin-left:10px" href="__TEMPLATE__/tmp2.xls">下载空模板</a>
                 </div>     
-                 <div class="layui-input-inline" style="margin-left: 100px;">
+                 <div class="layui-input-inline" style="margin-left: 30px;">
                      <form class="layui-form layui-inline" action="{:url('Offerquota/index')}">
-                         <div class="layui-input-inline" style="margin-left:30px;">
-                             <input type="text" name="item_number" placeholder="请输入项目编号" autocomplete="off"
-                                    class="layui-input" value="{:input('item_number')?: input('item_number')}">
-                         </div>
-                         <div class="layui-input-inline" style="margin-left:30px;">
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">项目编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="item_number" placeholder="" value="{:input('item_number')}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                         <div class="layui-input-inline">
                              <label class="layui-form-label">公司</label>
-                             <div class="layui-input-inline" id="tipsc">
-                                 <select name="company" lay-filter="company" id="select" lay-verify="" lay-search>
-                                     <option value="">可手动输入后选择</option>
-                                     {foreach $company as $k=>$vo }
-                                     <option value="{$vo['id']}" {if(input('company') == $vo['id'])}selected{/if} >{$vo['name']}</option>
+                             <div class="layui-input-inline" id="">
+                                 <select name="frame" lay-filter="frame" id="" lay-verify="" lay-search>
+                                     <option value="">请选择</option>
+                                     {foreach $frame as $k=>$vo }
+                                     <option value="{$vo['id']}" {if(input('frame') == $vo['id'])}selected{/if} >{$vo['name']}</option>
                                      {/foreach}
                                  </select>
                              </div>
                          </div>
-                         <div class="layui-input-inline" style="margin-left:30px;">
+                         <div class="layui-input-inline">
                              <label class="layui-form-label">工种</label>
-                             <div class="layui-input-inline" id="tipsc">
+                             <div class="layui-input-inline" id="">
                                  <select name="type_of_work" lay-filter="type_of_work" lay-verify="" lay-search>
-                                     <option value="">可手动输入后选择</option>
-                                     {foreach $gz as $k=>$vo }
+                                     <option value="">请选择</option>
+                                     {foreach $type_of_work as $k=>$vo }
                                      <option value="{$vo['type_of_work']}" {if(input('type_of_work') == $vo['type_of_work'])}selected{/if} >{$vo['type_of_work']}</option>
                                      {/foreach}
                                  </select>
                              </div>
-                             <input type="submit" value="搜索" class="layui-btn layui-btn-sm daoru">
                          </div>
+                         <div class="layui-form-item" style="margin-left:10px;float: right">
+                            <div class="layui-input-inline">
+                              <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                              <a href="/admin/offerquota/index" class="layui-btn layui-btn-primary">重置</a>
+                            </div>
+                        </div>
 
 
 
