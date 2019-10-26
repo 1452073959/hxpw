@@ -66,10 +66,38 @@
                     </form> -->
                 </div>     
                  <div class="layui-input-inline" style="margin-left: 100px;">
-                   <form method="post" action="{:url('Artificial/index')}" class="form-signin" enctype="multipart/form-data">
-                    <input type="text" name="search" placeholder="请按项目编号搜索" value="{:input('search')}" autocomplete="off" class="layui-input">
-                    <input type="submit" value="搜索" class="layui-btn layui-btn-sm daorus">
-                  </form>
+                     <form class="layui-form layui-inline" action="{:url('Artificial/index')}">
+                         <div class="layui-input-inline" style="margin-left:30px;">
+                             <input type="text" name="item_number" placeholder="请输入项目编号" autocomplete="off"
+                                    class="layui-input" value="{:input('item_number')?: input('item_number')}">
+                         </div>
+                         <div class="layui-input-inline" style="margin-left:30px;">
+                             <label class="layui-form-label">公司</label>
+                             <div class="layui-input-inline" id="tipsc">
+                                 <select name="company" lay-filter="company" id="select" lay-verify="" lay-search>
+                                     <option value="">可手动输入后选择</option>
+                                     {foreach $company as $k=>$vo }
+                                     <option value="{$vo['id']}" {if(input('company') == $vo['id'])}selected{/if} >{$vo['name']}</option>
+                                     {/foreach}
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="layui-input-inline" style="margin-left:30px;">
+                             <label class="layui-form-label">工种</label>
+                             <div class="layui-input-inline" id="tipsc">
+                                 <select name="type_of_work" lay-filter="type_of_work" lay-verify="" lay-search>
+                                     <option value="">可手动输入后选择</option>
+                                     {foreach $gz as $k=>$vo }
+                                     <option value="{$vo['type_of_work']}" {if(input('type_of_work') == $vo['type_of_work'])}selected{/if} >{$vo['type_of_work']}</option>
+                                     {/foreach}
+                                 </select>
+                             </div>
+                             <input type="submit" value="搜索" class="layui-btn layui-btn-sm daoru">
+                         </div>
+
+
+
+                     </form>
                  </div>         
                 <!-- <a class="layui-btn layui-btn-sm" title="辅材空模板.xls" style="float:right;margin-left:10px" href="__TEMPLATE__/人工工费空模板 .xls">下载空模板</a> -->
                 <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a>

@@ -30,20 +30,31 @@ class Artificial extends Adminbase
     // }
     public function index(){
 
-        $userinfo = $this->_userinfo; 
-        $condition = [];
+        $userinfo = $this->_userinfo;
+        $where = [];
         $da['userid'] = $userinfo['userid'];
         if($userinfo['roleid'] != 1){
             $da['frameid'] = $userinfo['companyid'];
         }
-        if(input('search')){
-            $condition[] = ['item_number','like','%'.input('search').'%'] ;
+        if (!empty($_GET['item_number'])) {
+            $where[] = ['item_number','like',"%{$_GET['item_number']}%"];
+        }
+        if (!empty($_GET['company'])) {
+            $where[] = ['frameid','like',"{$_GET['company']}"];
+        }
+
+        if (!empty($_GET['type_of_work'])) {
+            $where[] = ['type_of_work','like',"{$_GET['type_of_work']}"];
         }
         // echo __STATIC__;
-        $res = Db::name('Offerquota')->where($da)->where($condition)->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('Offerquota')->where($da)->where($where)->paginate(20,false,['query'=>request()->param()]);
         $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
+        $company = Db::table('fdz_frame')->select();
+        $gz=Db::name('offerquota')->group('type_of_work')->select();
         $this->assign('data',$res);    
-        $this->assign('frame',$frame);    
+        $this->assign('frame',$frame);
+        $this->assign('gz',$gz);
+        $this->assign(  'company' ,$company);
         return $this->fetch();
     }
     //工程成本分析

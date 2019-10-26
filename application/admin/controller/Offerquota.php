@@ -33,12 +33,25 @@ class Offerquota extends Adminbase
         $userinfo = $this->_userinfo; 
         $where = [];
         $da['userid'] = $userinfo['userid'];
-        if(input('search')){
-            $where[] = ['item_number','like',"%".input('search')."%"];
+        if (!empty($_GET['item_number'])) {
+            $where[] = ['item_number','like',"%{$_GET['item_number']}%"];
         }
+        if (!empty($_GET['company'])) {
+            $where[] = ['frameid','like',"{$_GET['company']}"];
+        }
+
+        if (!empty($_GET['type_of_work'])) {
+            $where[] = ['type_of_work','like',"{$_GET['type_of_work']}"];
+        }
+
         $res = Db::name('Offerquota')->where($da)->where($where)->paginate(20,false,['query'=>request()->param()]);
         $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
+        $company = Db::table('fdz_frame')->select();
+        $gz=Db::name('offerquota')->group('type_of_work')->select();
+//        dump($gz['']);die;
         $this->assign('data',$res);
+        $this->assign('gz',$gz);
+        $this->assign(  'company' ,$company);
         $this->assign('frame',$frame);
         return $this->fetch();
     }
