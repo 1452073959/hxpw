@@ -248,7 +248,7 @@ class Offerlist extends Model
         }
         //获取每期的详情
         foreach($oa_ids as $k=>$v){
-            $datas[$k] =  Model('offerlist')->get_append_order_info($v);
+            $datas[$k] =  Model('admin/offerlist')->get_append_order_info($v);
         }
         return $datas;
     }

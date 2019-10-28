@@ -198,7 +198,7 @@ class OrderAppend extends Adminbase
             }
             Db::startTrans();
             try{
-                $userlist = Db::name('userlist')->where(['id'=>$order_info['customerid']])->find();
+                $userlist = Db::name('userlist')->where(['id'=>input('customerid')])->find();
                 $re = Db::name('order_append')->insertGetId(['o_id'=>input('order_id'),'adminid'=>$userinfo['userid'],'add_time'=>$time,'remark'=>input('remark')?input('remark'):'','type'=>($userlist['status']-1) ]);
                 if($order_material_datas){
                     foreach($order_material_datas as $k=>$v){
