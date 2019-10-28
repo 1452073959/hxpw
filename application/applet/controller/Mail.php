@@ -76,7 +76,7 @@ class Mail extends UserBase{
             $this->json(1,'none',[]);
         }
         $where = [];
-        $cate = Db::name('materials')->where(['frameid'=>$this->admininfo['companyid']])->field('category')->group('category')->select();
+        $cate = Db::name('materials')->where(['frameid'=>$this->admininfo['companyid'],'remarks'=>'公司仓库'])->field('category')->group('category')->select();
         $cate = array_column($cate,'category' ,'category');
         foreach($cate as $k=>$v){
             if($v){
