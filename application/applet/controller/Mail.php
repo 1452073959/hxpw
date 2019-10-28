@@ -14,9 +14,9 @@ class Mail extends UserBase{
         $where = [];
         if($this->admininfo['userid'] != 1){
             $where['jid'] = $this->admininfo['userid'];
+            $where['frameid'] = $this->admininfo['companyid'];
         }
         $where['status'] = [3,4,5,6,7];
-        $where['frameid'] = $this->admininfo['companyid'];
         $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id') ;
         foreach($userlist as $k=>$v){
             $userlist[$k]['sign_bill_time'] = date('Y-m-d');
