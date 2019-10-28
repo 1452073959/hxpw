@@ -41,10 +41,10 @@ class Financial extends Adminbase{
             $where[] = ['status','gt',1];
         }
         $userinfo = $this->_userinfo; 
-        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
-            $da['userid'] = $userinfo['userid'];
-        }
-        if($userinfo['roleid'] == 10){
+        // if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+        //     $da['userid'] = $userinfo['userid'];
+        // }
+        if($userinfo['roleid'] != 10){
             $da['frameid'] = $userinfo['companyid'];
         }
         $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
