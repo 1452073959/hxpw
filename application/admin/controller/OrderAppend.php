@@ -52,7 +52,7 @@ class OrderAppend extends Adminbase
             $time = time();
             $order_info = Db::name('offerlist')->where('id',input('order_id'))->where('userid',$userinfo['userid'])->find();
             if(!$order_info){
-                $this->error('订单信息有误');
+                // $this->error('订单信息有误');
             }
             $order_project = [];
             foreach (input('data') as $k1 => $v1) {
@@ -127,7 +127,8 @@ class OrderAppend extends Adminbase
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
                         }
-                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        // $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
+                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
                         if(!$price){
@@ -142,6 +143,7 @@ class OrderAppend extends Adminbase
                             //初始化数据 这个框架会神奇的报错 = =
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['cb'] = $materials_info['price'];//成本
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['price'] = $v['quota'];//辅材单价
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['name'] = $materials_info['name'];//辅材名称
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
@@ -171,7 +173,7 @@ class OrderAppend extends Adminbase
                         $data_info['f_id'] = $order_info['frameid'];
                         $data_info['type_of_work'] = $k1;;
                         $data_info['item_number'] = $k2;;
-                        $data_info['m_name'] = $k3;
+                        $data_info['m_name'] = $v3['name'];
                         $data_info['num'] = $v3['num'];
                         $data_info['cb'] = $v3['cb'];
                         $data_info['price'] = $v3['price'];
