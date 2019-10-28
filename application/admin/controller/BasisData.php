@@ -771,7 +771,7 @@ class BasisData extends Adminbase{
             $this->error('参数错误'); 
         }
         $fine = Db::name('basis_project')->where($where)->value('fine');
-        if(empty($fine) || $fine == '{}'){
+        if(!$fine || $fine == '{}' || $fine == '[]'){
             $this->success('none');
         }
 
