@@ -48,6 +48,7 @@
                     <a href="javascript:;">分总经理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-src="__UPLOADS__/video/fenz.mp4">分总经理介绍</a></dd>
+                        <dd><a href="javascript:;" data-src="__UPLOADS__/video/basis_data.mp4">分公司后台数据配置</a></dd>
                     </dl>
                 </li>
             {/if}
@@ -56,6 +57,15 @@
                     <a href="javascript:;">人事</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-src="__UPLOADS__/video/rs.mp4">人事功能介绍</a></dd>
+                    </dl>
+                </li>
+            {/if}
+            {if(in_array($admininfo['roleid'],[1,10,12]))}
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">小程序</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-src="__UPLOADS__/video/jl.mp4">监理功能讲解</a></dd>
+                        <dd><a href="javascript:;" data-src="__UPLOADS__/video/cg.mp4">仓管功能讲解</a></dd>
                     </dl>
                 </li>
             {/if}
