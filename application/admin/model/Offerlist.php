@@ -92,7 +92,7 @@ class Offerlist extends Model
         // }
 
         //工程报价 = 直接费+其他费用总计
-        $offerlist_info['proquant'] = $offerlist_info['direct_cost'] + $cost_all;
+        $offerlist_info['proquant'] = round($offerlist_info['direct_cost'] + $cost_all,2);
         //优惠后工程报价 工程报价-优惠
         $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'];
         //计算杂项
@@ -188,7 +188,7 @@ class Offerlist extends Model
         }
 
         //工程报价 = 直接费+其他费用总计
-        $offerlist_info['proquant'] = $offerlist_info['direct_cost'] + $cost_all;
+        $offerlist_info['proquant'] = round($offerlist_info['direct_cost'] + $cost_all,2);
         //优惠后工程报价 工程报价-优惠
         $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'];
         //计算杂项
