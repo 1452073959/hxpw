@@ -52,7 +52,7 @@ class OrderAppend extends Adminbase
             $time = time();
             $order_info = Db::name('offerlist')->where('id',input('order_id'))->where('userid',$userinfo['userid'])->find();
             if(!$order_info){
-                // $this->error('订单信息有误');
+                $this->error('订单信息有误');
             }
             $order_project = [];
             foreach (input('data') as $k1 => $v1) {
