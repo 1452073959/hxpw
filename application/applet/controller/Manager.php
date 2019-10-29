@@ -99,7 +99,7 @@ class Manager extends UserBase{
             $new_data[5]['give'] += $new_data[$k]['give'];
         }
         $new_data[5]['get'] = round($new_data[5]['get'],2);
-        $new_data[5]['give'] = round($new_data[5]['get'],2);
+        $new_data[5]['give'] = round($new_data[5]['give'],2);
         $this->json(0,'success',$new_data);
     }
 
