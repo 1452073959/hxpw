@@ -174,14 +174,14 @@ th{
                                 {foreach name="datas" item="v1" key="k1"}
                                     <tr data-cate="tr{$k1}">
                                         <td><?php echo chr($num1); ?></td>
-                                        <td colspan="2">{$k1}</td>
+                                        <td colspan="2" style="font-weight:bold;">{$k1}</td>
                                         <td colspan="7"></td>
                                     </tr>
                                     <?php $num1++;$num2=97; ?>
                                     {foreach name="$v1" key="k2" item="v2"}
                                         <tr id="tr{$k2}">
                                             <td><?php echo chr($num2); ?></td>
-                                            <td class="text-center" colspan="9">{$k2}</td>
+                                            <td class="text-center" colspan="9" style="font-weight:bold;">{$k2}</td>
                                         </tr>
                                         <?php $num3=1; $num2++; ?>
                                         {foreach name="$v2" item="v3" key="k3"}
@@ -219,7 +219,7 @@ th{
                                 {foreach name="datas" item="v1" key="k1"}
                                     <tr id="tr{$k1}">
                                             <td><?php echo chr($num2); ?></td>
-                                            <td style="text-align: left; padding-left: 25px!important" colspan="9">{$k1}</td>
+                                            <td style="text-align: left; padding-left: 25px!important;font-weight:bold;" colspan="9">{$k1}</td>
                                         </tr>
                                     <?php
                                             $num1 = 1;
