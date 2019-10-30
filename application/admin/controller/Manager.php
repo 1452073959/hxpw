@@ -164,15 +164,14 @@ class Manager extends Adminbase
             if ($result !== true) {
                 return $this->error($result);
             }
-            if (!$data['hidecid']) {
+            if (!$data['companyid']) {
                 return $this->error('请选择所属公司');
             }
             unset($data['password_confirm']);
             unset($data['nickname']);
             $data['roleid'] = $data['roleid'];
-            $data['companyid'] = $data['hidecid'];
+            $data['companyid'] = $data['companyid'];
             $data['password'] = md5($data['password']);
-            unset($data['hidecid']);
             // $data = array_values($data);
             // $appinfo['username'] = $data['username'];
             // $appinfo['password'] = $data['password'];
@@ -190,9 +189,9 @@ class Manager extends Adminbase
             }
 
         } else {
-            // $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
+            $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
                
-            // $this->assign("company",$company);
+            $this->assign("company",$company);
             $this->assign("roles", model('admin/AuthGroup')->getGroups());
 
             return $this->fetch();

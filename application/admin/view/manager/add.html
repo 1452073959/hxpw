@@ -48,27 +48,29 @@
                     <input type="text" name="phone" lay-verify="phone" autocomplete="off" placeholder="手机号" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <!-- <div class="layui-form-item">
                 <label class="layui-form-label">选择公司</label>
                 <div class="layui-input-inline" id="xiaxian">
                     <input type="text" name="companyid" lay-verify="companyid" autocomplete="off" placeholder="所属公司" class="layui-input">
                     <input type="hidden" name="hidecid" lay-verify="hidecid" autocomplete="off" placeholder="所属公司id" class="layui-input">
                 </div>
                 <span id="sougs"  onclick="return myquery()">搜索公司</span>
-            </div>
-            <!-- <div class="layui-form-item">
+            </div> -->
+            <div class="layui-form-item">
                 <label class="layui-form-label">所属公司</label>
                 <div class="layui-input-inline">
-                    <select name="companyid" lay-filter="companyid">
-                        
+                    <select name="companyid" lay-filter="companyid" lay-search>
+                          <option value="">请选择</option>
+                        {volist name="company" id="vo"}
+                          <option value="{$vo['id']}">{$vo['name']}</option>
+                        {/volist}
                     </select>
-                    <span id="xuanze">选择</span>
                 </div>
-            </div> -->
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">权限组</label>
                 <div class="layui-input-inline" id="tipsc">
-                    <select name="roleid" lay-filter="roleid">
+                    <select name="roleid" lay-filter="roleid" lay-search>
                         {volist name="roles" id="vo"}
                         <option value="{$vo['id']}">{$vo['title']}</option>
                         {/volist}
