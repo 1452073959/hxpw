@@ -88,43 +88,24 @@ class Manager extends Adminbase
     /**
      * 管理员管理列表
      */
-    public function index()
-    {
+    public function index(){
+        $where = [];
+        if(input('name')){
+            $where[] = ['username','like','%'.input('name').'%'];
+        }
+        if(input('companyid')){
+            $where[] = ['companyid','=',input('companyid')];
+        }
+        if(input('roleid')){
+            $where[] = ['roleid','=',input('roleid')];
+        }
 
-          if($this->request->isPost()){
-             //模糊搜索
-                $search = input('search'); 
-                $len = preg_match('/^[\x{4e00}-\x{9fa5}]+$/u',$search);
-                if($len){
-                    //查询分公司返公司id
-                  $frame = Db::name('frame')->where(array('name'=>$search))->find();
-                  if($frame){
-                      $re = Db::name('admin')->where(array('companyid'=>$frame['id']))->order(array('userid' => 'ASC'))->select();
-                      $this->assign('Userlist',$re); 
-                      return $this->fetch();
-                  }else{
-                      return $this->error('无该公司信息', url("Manager/index"));
-                  }
-                }
-               if($search){          
-                 $User = Db::name('admin')->where('username|phone','like',"%".$search."%")->order(array('userid' => 'ASC'))->select();
-                 if ($User) {
-                      $this->assign('Userlist',$User); 
-                 }else{
-                     return $this->error('数据查询失败', url("Manager/index"));
-                 }
-                 return $this->fetch();       
-                }else{
-                 $this->error('请输入搜索内容', url("Manager/index"));
-                } 
-         
-          }else{
-            $User = Db::name("admin")->order(array('userid' => 'ASC'))->select();
-            $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
-            $this->assign("Userlist", $User);
-            $this->assign("company", $company);
-            return $this->fetch();
-          }  
+        $User = Db::name("admin")->where($where)->order(array('userid' => 'ASC'))->select();
+        $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
+        $this->assign("Userlist", $User);
+        $this->assign("company", $company);
+        $this->assign("roles", model('admin/AuthGroup')->getGroups());
+        return $this->fetch();
     }
 
     // 分公司选择
