@@ -12,10 +12,10 @@ class Mail extends UserBase{
     //监理领料 客户列表
     public function userlist(){
         $where = [];
-        if($this->admininfo['userid'] != 1){
+        if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             $where['jid'] = $this->admininfo['userid'];
-            $where['frameid'] = $this->admininfo['companyid'];
         }
+        $where['frameid'] = $this->admininfo['companyid'];
         $where['status'] = [3,4,5,6,7];
         $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id') ;
         foreach($userlist as $k=>$v){
