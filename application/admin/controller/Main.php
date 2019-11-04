@@ -236,7 +236,7 @@ class Main extends Adminbase
             $res->content    = $data['content'];
             $res->save();
               if($res){
-                  $this->success('发布成功');
+                  $this->success('发布成功,可关闭该窗口刷新查看');
               }else{
                   $this->error('发布失败');
               }

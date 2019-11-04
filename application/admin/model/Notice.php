@@ -6,5 +6,5 @@ use think\Model;
 class Notice extends Model
 {
     protected $table = 'fdz_notice';
-    protected $autoWriteTimestamp = 'datetime';
+    protected $autoWriteTimestamp = 'false';
 }

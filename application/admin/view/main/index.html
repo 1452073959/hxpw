@@ -285,14 +285,8 @@
                                                 id="oid">
                                                 {foreach $notice as $v}
                                                 <li id="{$v.id}">
-                                                    <span style="margin-right: 30px">{$v.create_time}</span>
+                                                    <span style="margin-right: 30px;">{$v.create_time|date="Y-m-d H:i"}</span>
                                                     <a href="#">{$v.title}</a></li>
-                                                <!--                                            <li style="line-height: 25px;border:1px solid #dddddd" id="{$v.id}"  >
-                                                                                               <i>{$v.title}</i>
-                                                                                                <span style="float: right;margin-right: 30px">
-                                                                                                {$v.create_time}
-                                                                                            </span>
-                                                                                            </li>-->
                                                 {/foreach}
                                             </ul>
                                         </div>
@@ -351,7 +345,7 @@
                                         </div>
                                     </div>
                                     <div id="container3" style="width: 40%; height:420px;float: right; margin-right: 20px; border:1px solid #DDDDDD;">
-                                            此区域待定内容
+
                                     </div>
                                 </div>
                             </div>
