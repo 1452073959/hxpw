@@ -100,7 +100,7 @@ class Manager extends Adminbase
             $where[] = ['roleid','=',input('roleid')];
         }
 
-        $User = Db::name("admin")->where($where)->order(array('userid' => 'ASC'))->select();
+        $User = Db::name("admin")->where($where)->order('companyid','asc')->order('userid','asc')->select();
         $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
         $this->assign("Userlist", $User);
         $this->assign("company", $company);
