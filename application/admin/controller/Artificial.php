@@ -168,8 +168,11 @@ class Artificial extends Adminbase
         }
         //用户信息
         $userinfo = Db::name('userlist')->where(['id'=>input('id')])->find();//客户信息
-        $this->assign('data',$res);    
-        $this->assign('userinfo',$userinfo);    
+        $this->assign('data',$res);
+//        dump($res);
+//        dump($userinfo);die;
+
+        $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
     //解决预算和结算的数据来源 $true 已报价的项目 $false 未报价的项目
@@ -632,5 +635,155 @@ class Artificial extends Adminbase
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));
     }
 
+
+    public function regulation(Request $request)
+    {
+        $userinfo=$request->get();
+        $regulation=Db::table('fdz_order_append')->where('o_id',$userinfo['id'])->select();
+        if(!empty($regulation)){
+            $this->assign('regulation',$regulation);
+            return $this->fetch();
+        }else{
+            $this->error('该订单无增减项!');
+        }
+
+    }
+
+    public function show_append(Request $request)
+    {
+        $data=$request->get();
+        if(! isset($data['one'])){
+            $o_id =$data['id'];
+            //订单数据
+            $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+            $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+            $where = [];
+            $where['o_id'] = $o_id;
+            if(input('type') != 2){
+                //增减项+原单
+                $where['type'] = 1;
+            }
+            $order_project = Db::name('order_project')->where($where)->select();
+            //==========获取工种 空间类型
+            $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+            $offer_type = [1=>[],2=>[]];
+            foreach($offer_type_list as $k=>$v){
+                $offer_type[$v['type']][] = $v;
+            }
+            //===========获取工种结束
+            $datas = [];
+            $item_number = [];
+            if(input('word') == 1){
+                foreach($order_project as $k=>$v){
+                    if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+
+                    }
+                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+                }
+            }else{
+                foreach($order_project as $k=>$v){
+                    if(!isset($datas[$v['space']][$v['item_number']])){
+                        $datas[$v['space']][$v['item_number']]['info'] = $v;
+                        $datas[$v['space']][$v['item_number']]['num'] = 0;
+                        $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
+                        // $item_number[] = $v['item_number'];
+
+                    }
+                    $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+                }
+            }
+
+
+            // $item_number = array_unique($item_number);
+            // $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+            if(input('type') == 2){
+                $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
+            }else{
+                $offerlist_info = Model('offerlist')->get_order_info($o_id);
+            }
+
+            //订单底部文字
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
+            // var_dump($order_project);die;
+            $this->assign([
+                'datas'=>$datas,
+                'order_info'=>$order_info,
+                'userinfo'=>$userinfo,
+                // 'offerquota'=>$offerquota,
+                'offer_type'=>$offer_type,
+                'offerlist_info'=>$offerlist_info,
+                'cost_tmp'=>$cost_tmp,
+            ]);
+            return $this->fetch();
+        }else{
+            $o_id =$data['id'];
+            $one=$data['one'];
+            //订单数据
+            $order_info = Db::name('offerlist')->where('id',$o_id)->find();
+            $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+            $where = [];
+            $where['o_id'] = $o_id;
+            if(input('type') != 2){
+                //增减项+原单
+                $where['type'] = 1;
+            }
+            $order_project = Db::name('order_project')->where($where)->where('oa_id',$one)->select();
+            //==========获取工种 空间类型
+            $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
+            $offer_type = [1=>[],2=>[]];
+            foreach($offer_type_list as $k=>$v){
+                $offer_type[$v['type']][] = $v;
+            }
+            //===========获取工种结束
+            $datas = [];
+            $item_number = [];
+            if(input('word') == 1){
+                foreach($order_project as $k=>$v){
+                    if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+
+                    }
+                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+                }
+            }else{
+                foreach($order_project as $k=>$v){
+                    if(!isset($datas[$v['space']][$v['item_number']])){
+                        $datas[$v['space']][$v['item_number']]['info'] = $v;
+                        $datas[$v['space']][$v['item_number']]['num'] = 0;
+                        $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
+                        // $item_number[] = $v['item_number'];
+
+                    }
+                    $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+                }
+            }
+
+            if(input('type') == 2){
+                $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
+            }else{
+                $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
+            }
+
+            //订单底部文字
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
+            // var_dump($order_project);die;
+            $this->assign([
+                'datas'=>$datas,
+                'order_info'=>$order_info,
+                'userinfo'=>$userinfo,
+                // 'offerquota'=>$offerquota,
+                'offer_type'=>$offer_type,
+                'offerlist_info'=>$offerlist_info,
+                'cost_tmp'=>$cost_tmp,
+            ]);
+            return $this->fetch();
+        }
+
+    }
 
 }

@@ -65,6 +65,7 @@ a{
                       <li>设计师姓名：{$userinfo.designer_name}</li>
                       <li>面积：{$userinfo.area}</li>
                       <li>房屋类型：{$userinfo.room_type}</li>
+                       <li id="ht" style="display: none">{$userinfo.oid}</li>
                       {eq name="$userinfo['is_new']" value="9"}<li>签单时间：{$userinfo.oldtime|date="Y-m-d"}</li>{/eq}
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
@@ -92,7 +93,7 @@ a{
                         <th class="taleft" lay-data="{type: 'checkbox',field:'id', fixed: 'left'}">ID</th>
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
-                        <th lay-data="{field:'edit',width:190}">操作</th>
+                        <th lay-data="{field:'edit',width:250}">操作</th>
                         <th class="taleft" lay-data="{field:'proquant',width:100}" >优惠前报价</th>
                         <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
@@ -138,6 +139,7 @@ a{
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id])}">查看报价</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
+                       <a class="layui-btn layui-btn-xs"  lay-event="kkk">增减项</a>
                        <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
@@ -278,6 +280,23 @@ layui.use('table', function(){
 
   //监听单元格事件
   table.on('tool(test3)', function(obj){
+      if(obj.event === 'kkk'){
+
+          var Tresult= $("#ht").text();
+                  layer.open({
+                      type: 2,
+                      title: '增减项',
+                      shadeClose: true,
+                      shade: 0.8,
+                      area: ['90%', '90%'],
+                      maxmin: true,
+                      tipsMore: true,
+                      content: '/admin/artificial/regulation?id='+Tresult
+                  });
+      }
+
+
+
     var data = obj.data;
     if(obj.event === 'detail'){
       layer.prompt({
@@ -894,5 +913,30 @@ function toDecimal2(x) {
   }
   return s;
 }
+</script>
+
+<script>
+    $(function () {
+        $("#regulation").on('click', function(){
+            alert(123123454);
+        })
+/*        var a= $("#ht").text();
+        alert(a);*/
+    })
+
+
+/*    $("#regulation").click(function () {
+        // var a= $("#ht").text();
+        alert(123123454);*/
+/*        layer.open({
+            type: 2,
+            title: '公告内容',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['80%', '80%'],
+            content: '/admin/main/show?id='+Tresult
+        });*/
+
+    // })
 </script>
 {/block}

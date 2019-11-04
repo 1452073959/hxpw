@@ -5,8 +5,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\Notice;
 use app\common\controller\Adminbase;
 use think\Db;
+use think\Request;
 
 class Main extends Adminbase
 {
@@ -45,7 +47,7 @@ class Main extends Adminbase
         $this->assign('userInfo', $this->_userinfo);
         $this->assign('sys_info', $this->get_sys_info());
 
-        // dump($rerole);
+//         dump($re);die;
         
           // 统计表数据
         $count_sj = count(Db::name('driver')->select());
@@ -53,9 +55,10 @@ class Main extends Adminbase
         $count_yh = 17;
         $countall = array($count_djl,$count_sj,$count_yh);
 
-
+        $notice=Db::table('fdz_notice')->order('create_time','desc')->select();
         // dump($countall); 
         $this->assign('countall', $countall);
+        $this->assign('notice', $notice);
         $this->assign('session_info', $_SESSION);
         return $this->fetch();
     }
@@ -195,4 +198,104 @@ class Main extends Adminbase
             );
         echo json_encode($data);
     }
+
+    public function query()
+    {
+        $userinfo = $this->_userinfo;
+        $query=Db::table('fdz_memo')->where('aid',$userinfo['userid'])->order('time', 'desc')->select();
+
+        return json(['code'=>0,'msg'=>'请求成功','data'=>$query]);
+    }
+
+
+    public function memo(Request $request,$chooseData,$type)
+    {
+
+        $userinfo = $this->_userinfo;
+        if($type=='post'){
+            $chooseData['aid']=$userinfo['userid'];
+            Db::table('fdz_memo')->data($chooseData)->insert();
+            return json(['code'=>1,'msg'=>'添加成功','data'=>$chooseData,'type'=>$type]);
+        }elseif ($type=='delete')
+        {
+            Db::table('fdz_memo')->where('aid',$userinfo['userid'])->where('time', $chooseData['time'])->delete();
+            return json(['code'=>1,'msg'=>'删除成功','data'=>$chooseData,'type'=>$type]);
+        }else{
+            Db::table('fdz_memo')->where('aid',$userinfo['userid'])->where('time', $chooseData['time'])->data($chooseData)->update();
+            return json(['code'=>1,'msg'=>'修改成功','data'=>$chooseData,'type'=>$type]);
+        }
+    }
+
+
+    public function notice(Request $request)
+    {
+        if (!request()->isGet()){
+            $data=$request->post();
+            $res= new Notice;
+            $res->title     = $data['title'];
+            $res->content    = $data['content'];
+            $res->save();
+              if($res){
+                  $this->success('发布成功');
+              }else{
+                  $this->error('发布失败');
+              }
+
+        }
+
+
+        return $this->fetch();
+    }
+
+    public function show(Request $request )
+    {
+        $data=$request->get();
+        $res= Db::table('fdz_notice')->where('id',$data['id'])->find();
+        $this->assign('notice',$res);
+        return $this->fetch();
+    }
+
+    public function noticelist()
+    {
+        $data=Db::table('fdz_notice')->order('create_time','desc')->select();
+        $this->assign('data',$data);
+        return $this->fetch();
+    }
+
+    public function noticedelte(Request $request)
+    {
+        $data=$request->get();
+        $res=Db::table('fdz_notice')->where('id',$data['id'])->delete();
+        if($res){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+
+    public function noticeedit(Request $request)
+    {
+        if(!empty($request->post())){
+            $data=$request->post();
+            $res= Notice::get($data['id']);
+            $res->title     = $data['title'];
+            $res->content    = $data['content'];
+            $res->save();
+            if($res){
+                $this->success('更新成功');
+            }else{
+                $this->error('更新失败');
+            }
+        }
+
+
+        if(!empty($request->get())){
+            $id=$request->get();
+            $notice = Notice::where('id',$id['id'])->find();
+            $this->assign('notice',$notice);
+            return $this->fetch();
+        }
+
+    }
+
 }
