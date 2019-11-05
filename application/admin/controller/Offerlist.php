@@ -596,7 +596,7 @@ class Offerlist extends Adminbase
                 $provinces = explode('-', $data['provinces']);
                 $data['address'] = $provinces[1].$data['address'];
             }
-
+            $data['phone']=$data['phone'];
             $data['address'] =  $data['address'];
             $data['provinceid'] = $provinces[0];
             $data['cityid'] = $cities[0];
@@ -1023,7 +1023,7 @@ class Offerlist extends Adminbase
             $bao['userid'] = $admininfo['userid'];//报价员
             $bao['frameid'] =  ($admininfo['companyid']==1)?'152':$admininfo['companyid'];//存报价员公司
             $bao['customer_name'] =  $data['customer_name'];
-
+            $bao['phone']=$data['phone'];
             $bao['director_designer'] =  $data['director_designer'];
             $bao['wood_designer'] =  $data['wood_designer'];
             $bao['furniture_designer'] =  $data['furniture_designer'];

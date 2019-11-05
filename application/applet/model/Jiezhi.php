@@ -6,7 +6,7 @@ use think\Model;
 class Jiezhi extends Model
 {
     protected $pk = 'id';
-    protected $table = 'yj_jiezhi';
+    protected $table = 'fdz_jiezhi';
     protected $autoWriteTimestamp = 'datetime';
     public function user()
     {

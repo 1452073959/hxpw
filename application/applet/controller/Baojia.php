@@ -23,7 +23,7 @@ class Baojia extends UserBase
             'create_time' => date('y-m-d h:i:s', time())
         ];
 
-        $res = Db::table('yj_jiezhi')->data($data)->insert();
+        $res = Db::table('fdz_jiezhi')->data($data)->insert();
         if ($res) {
             return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
         } else {
@@ -34,7 +34,7 @@ class Baojia extends UserBase
     public function audit()
     {
         //获取未审核的订单
-        $audit = Db::table('yj_jiezhi')->where('sid', 0)->select();
+        $audit = Db::table('fdz_jiezhi')->where('sid', 0)->select();
         $user = Userappler::with('jiezhi')->all();
         $audit = Jiezhi::with(['offer', 'user'])->where('sid', 0)->all();
 //      if($audit['jid'])

@@ -16,9 +16,15 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">客户电话<i class="bred">*</i></label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="phone" autocomplete="off" lay-verify="required|phone|number" placeholder="" class="layui-input" value="{$data.phone|default=''}">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">房屋面积</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="area" autocomplete="off" class="layui-input" value="{$data.area|default=''}">
+                    <input type="text" name="area" autocomplete="off" lay-verify="required|number" class="layui-input" value="{$data.area|default=''}">
                 </div>
             </div>
             <div class="layui-form-item">
