@@ -109,8 +109,9 @@
                         <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
                         <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
-                        <th class="taleft" lay-data="{field:'discount',width:100,edit:'text' }">优惠</th>
-                        <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">优惠说明</th>
+                        <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
+                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th>
+                        <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">金额优惠说明</th>
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th> 
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>         
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
@@ -154,11 +155,12 @@
 									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
 							{/switch}
 						</td>
-                      <td class="taleft">{$vo.info.proquant}</td>   
+                      <td class="taleft">{$vo.info.discount_proquant}</td>   
                       <td class="taleft">{$vo.info.direct_cost}</td>   
                       <td class="taleft">{$vo.info.matquant}</td>   
                       <td class="taleft">{$vo.info.manual_quota}</td>   
-                      <td class="taleft">{$vo.info.discount}</td>   
+                      <td class="taleft">{if($vo['info']['discount_type']==2)}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{elseif ($vo['info']['discount_type']==3) /}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{else /}<a lay-event="set_discount" data-type="1" data-num="">设置优惠</a>{/if}</td>   
+                      <td class="taleft">{$vo.info.discount}</td> 
                       <td class="taleft">{$vo.info.discount_content}</td> 
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>   
                       <td class="taleft">{$vo.info.remark}</td>   
@@ -584,6 +586,53 @@ layui.use('table', function(){
                     }
                 });
             });
+        }else if(obj.event == 'set_discount'){
+            if(data.status.indexOf("结算价") >= 0){
+                layer.msg('结算价禁止修改标签');
+                return false;
+            }
+            var type = $(data.discount_zk).data('type');
+            var num = $(data.discount_zk).data('num');
+            var option1 = '';
+            var option2 = '';
+            var option3 = '';
+            if(type == 1){
+                option1 = 'selected';
+            }
+            if(type == 2){
+                option2 = 'selected';
+            }
+            if(type == 3){
+                option3 = 'selected';
+            }
+            var html = '';
+            html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
+            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠方式：</label>'
+            html +=   '     <div class="layui-input-block">'
+            html +=   '          <select id="discount_type" style="height:25px;margin:10px;">'
+            html +=   '               <option value="1" '+option1+'>不打折</option>'
+            html +=   '               <option value="2" '+option2+'>整单打折</option>'
+            html +=   '               <option value="3" '+option3+'>人工打折</option>'
+            html +=   '          </select>'
+            html +=   '     </div>'
+            html +=   '</div>'
+            html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
+            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠额度：</label>'
+            html +=   '     <div class="layui-input-block">'
+            html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" /> %'
+            html +=   '          <span style="display:block">（若打9折，应输入90）</span>'
+            html +=   '     </div>'
+            html +=   '</div>'
+            html +=   '<div style="text-align:center;" id="set_status_btn">'
+            html +=   '     <button type="button" class="layui-btn layui-btn-normal" data-id="'+data.id+'" id="set_discount_submit">修改优惠</button>'
+            html +=   '     <button type="button" class="layui-btn close">取消</button>'
+            html +=   '</div>';
+            layer.open({
+                title: '设置优惠',
+                area: ['300px', '200px'], //宽高
+                type:1,
+                content: html
+            });
         }
     });
 });
@@ -623,6 +672,35 @@ $(document).on('click','#set_status_submit',function(){
                 return false;
             }else{ 
                 layer.msg(res.msg);
+                return false;
+            }
+        }
+    });
+})
+$(document).on('click','#set_discount_submit',function(){
+    // layer.closeAll();
+    var discount_type = $('#discount_type').val();
+    var discount_num = $('#discount_num').val();
+    var id = $(this).data('id');
+    var ex = /^\d+$/;
+    if ((!ex.test(discount_num) || discount_num <= 0 || discount_num >100) && discount_type > 1) {
+        alert('折扣输入有误');
+    }
+    $.ajax({
+        type : 'post',
+        url  :  '{:url("offerlist/set_discount")}',
+        dataType : 'json',
+        data : {id:id,discount_type:discount_type,discount_num:discount_num},
+        success : function(res){
+            if(res.code == 1){
+                layer.closeAll();
+                layer.msg(res.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+                return false;
+            }else{ 
+                alert(res.msg);
                 return false;
             }
         }

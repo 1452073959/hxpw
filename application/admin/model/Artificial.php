@@ -12,14 +12,14 @@ class Artificial extends Model
         $list = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料
         $material_list = [];//辅材
         foreach($list as $k=>$v){
-            if(!isset($material_list[$v['type_of_work']][$v['m_name']])){
-                $material_list[$v['type_of_work']][$v['m_name']]['num'] = 0;
-                $material_list[$v['type_of_work']][$v['m_name']]['cb'] = $v['cb'];
-                $material_list[$v['type_of_work']][$v['m_name']]['price'] = $v['price'];
-                $material_list[$v['type_of_work']][$v['m_name']]['coefficient'] = $v['coefficient'];
-                $material_list[$v['type_of_work']][$v['m_name']]['important'] = $v['important'];
+            if(!isset($material_list[$v['type_of_work']][$v['amcode']])){
+                $material_list[$v['type_of_work']][$v['amcode']]['num'] = 0;
+                $material_list[$v['type_of_work']][$v['amcode']]['cb'] = $v['cb'];
+                $material_list[$v['type_of_work']][$v['amcode']]['price'] = $v['price'];
+                $material_list[$v['type_of_work']][$v['amcode']]['coefficient'] = $v['coefficient'];
+                $material_list[$v['type_of_work']][$v['amcode']]['important'] = $v['important'];
             }
-            $material_list[$v['type_of_work']][$v['m_name']]['num'] += $v['num'];
+            $material_list[$v['type_of_work']][$v['amcode']]['num'] += $v['num'];
         }
         //整理系数 获取真正的数量
         foreach($material_list as $k1=>$v1){

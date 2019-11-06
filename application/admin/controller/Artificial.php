@@ -598,23 +598,27 @@ class Artificial extends Adminbase
     public function ajax_get_order_cb(){
         $id = input('id');
         $arr = [];
-        $total = ['price'=>0,'cb'=>0];
+        $total = ['quota'=>0,'craft_show'=>0,'labor_cost'=>0,'quota_cb'=>0,'discount_total'=>0,'discount_quota'=>0,'discount_craft_show'=>0];
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['o_id'=>$id,'type'=>1])->select();
-        // $content = json_decode($offerlist['content'],true);
         foreach($content as $k=>$v){
              if(!isset($arr[$v['type_of_work']])){
-                $arr[$v['type_of_work']]['cb'] = 0;
-                $arr[$v['type_of_work']]['price'] = 0;
+                $arr[$v['type_of_work']]['quota'] = 0;//辅材单价
+                $arr[$v['type_of_work']]['craft_show'] = 0;//人工单价
+                $arr[$v['type_of_work']]['labor_cost'] = 0;//人工成本
+                $arr[$v['type_of_work']]['quota_cb'] = 0;//辅材成本
+                $arr[$v['type_of_work']]['discount_total'] = 0;//优惠后单条总价
+                $arr[$v['type_of_work']]['discount_quota'] = 0;//优惠后辅材单价
+                $arr[$v['type_of_work']]['discount_craft_show'] = 0;//优惠后人工单价
             }
-            $arr[$v['type_of_work']]['price'] += $v['quota']*$v['num'];//辅材单价
-            $arr[$v['type_of_work']]['price'] += $v['craft_show']*$v['num'];//人工单价
-            $arr[$v['type_of_work']]['cb'] += $v['labor_cost']*$v['num'];//人工成本
+            $arr[$v['type_of_work']]['quota'] += $v['quota']*$v['num'];//辅材单价
+            $arr[$v['type_of_work']]['craft_show'] += $v['craft_show']*$v['num'];//人工单价
+            $arr[$v['type_of_work']]['labor_cost'] += $v['labor_cost']*$v['num'];//人工成本
 
-            $total['price'] += ($v['quota']*$v['num']+$v['craft_show']*$v['num']);//辅材+人工单价
-            $total['cb'] += $v['labor_cost']*$v['num'];//人工成本
+            $total['quota'] += $v['quota']*$v['num'];//辅材+
+            $total['craft_show'] += $v['craft_show']*$v['num'];//人工单价
+            $total['labor_cost'] += $v['labor_cost']*$v['num'];//人工成本
         }
-
 
         // //辅材成本
         $order_material = Db::name('order_material')->where(['o_id'=>$id,'status'=>1])->select();//该订单全部辅料 增减项除外
@@ -622,14 +626,65 @@ class Artificial extends Adminbase
         foreach($material_list as $k1=>$v1){
             foreach($v1 as $k2=>$v2){
                 if(!isset($arr[$k1])){
-                    $arr[$k1]['cb'] = 0;
-                    $arr[$k1]['price'] = 0;
+                    $arr[$k1]['quota'] = 0;//辅材单价
+                    $arr[$k1]['craft_show'] = 0;//人工单价
+                    $arr[$k1]['labor_cost'] = 0;//人工成本
+                    $arr[$k1]['quota_cb'] = 0;//辅材成本
                 }
-                $arr[$k1]['cb'] += $v2['omit_num']*$v2['cb']; //辅材成本
-                $total['cb'] += $v2['omit_num']*$v2['cb'];  //辅材成本合计
+                $arr[$k1]['quota_cb'] += $v2['omit_num']*$v2['cb']; //辅材成本
+                $total['quota_cb'] += $v2['omit_num']*$v2['cb'];  //辅材成本合计
             }
         }
 
+        //不打折
+        if($offerlist['discount_type'] == 1){
+            foreach($arr as $k=>$v){
+                $arr[$k]['discount_total'] = $v['quota'] + $v['craft_show']; //折后报价
+                $arr[$k]['discount_quota'] = $v['quota']; //折后辅材报价
+                $arr[$k]['discount_craft_show'] = $v['craft_show']; //折后人工报价
+                $total['discount_total'] += $arr[$k]['discount_total'];
+                $total['discount_quota'] += $arr[$k]['discount_quota'];
+                $total['discount_craft_show'] += $arr[$k]['discount_craft_show'];
+            }
+        }
+
+        //整单打折
+        if($offerlist['discount_type'] == 2){
+            foreach($arr as $k=>$v){
+                if($k != '打拆工程'){
+                    //优惠后金额
+                    $arr[$k]['discount_total'] = ($v['quota'] + $v['craft_show']) * $offerlist['discount_num']/100;
+                    $arr[$k]['discount_quota'] = $v['quota'] * $offerlist['discount_num']/100;
+                    $arr[$k]['discount_craft_show'] = $v['craft_show'] * $offerlist['discount_num']/100;
+                }else{
+                    $arr[$k]['discount_total'] = $v['quota'] + $v['craft_show'];
+                    $arr[$k]['discount_quota'] = $v['quota'];
+                    $arr[$k]['discount_craft_show'] = $v['craft_show'];
+                }
+                $total['discount_total'] += $arr[$k]['discount_total'];
+                $total['discount_quota'] += $arr[$k]['discount_quota'];
+                $total['discount_craft_show'] += $arr[$k]['discount_craft_show'];
+
+            }
+        }
+        //人工打折
+        if($offerlist['discount_type'] == 3){
+            foreach($arr as $k=>$v){
+                if($k != '打拆工程'){
+                    //优惠后金额
+                    $arr[$k]['discount_total'] =  ($v['craft_show'] * $offerlist['discount_num']/100) + $v['quota'];
+                    $arr[$k]['discount_quota'] = $v['quota'];
+                    $arr[$k]['discount_craft_show'] = $v['craft_show'] * $offerlist['discount_num']/100;
+                }else{
+                    $arr[$k]['discount_total'] = $v['quota'] + $v['craft_show'];
+                    $arr[$k]['discount_quota'] = $v['quota'];
+                    $arr[$k]['discount_craft_show'] = $v['craft_show'];
+                }
+                $total['discount_total'] += $arr[$k]['discount_total'];
+                $total['discount_quota'] += $arr[$k]['discount_quota'];
+                $total['discount_craft_show'] += $arr[$k]['discount_craft_show'];
+            }
+        }
         
         //其他成本 
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));

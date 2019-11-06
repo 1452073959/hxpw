@@ -50,7 +50,7 @@ class OrderAppend extends Adminbase
                 $price = input('price');
             }
             $time = time();
-            $order_info = Db::name('offerlist')->where('id',input('order_id'))->where('userid',$userinfo['userid'])->find();
+            $order_info = Db::name('offerlist')->where('id',input('order_id'))->find();
             if(!$order_info){
                 $this->error('订单信息有误');
             }

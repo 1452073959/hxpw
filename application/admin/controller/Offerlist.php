@@ -43,6 +43,33 @@ class Offerlist extends Adminbase
         }
     }
 
+    //设置订单折扣
+    public  function set_discount(){
+        $id = input('id');
+        $discount_type = input('discount_type');
+        $discount_num = input('discount_num');
+        $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
+        if($offerlist['status'] == 5){
+            $this->error('结算价禁止修改');
+        }
+        if($discount_type == 1){
+            //不打折
+            $discount_num = 100;
+        }else{
+            if(!is_numeric($discount_num) || strpos($discount_num,".") || $discount_num <= 0 || $discount_num > 100){
+                $this->error('优惠额度设置有误');
+            }
+        }
+        $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num]);
+        if($res){
+            $this->success('设置优惠成功');
+        }else{
+            $this->error('设置优惠失败');
+        }
+
+    }
+
+
     //临时保存报价订单
     public function temporary_save_order(){
         $user_id = input('user_id');
@@ -990,7 +1017,7 @@ class Offerlist extends Adminbase
             if(!$offerlist){
                 $this->error('无效订单');
             }
-            if($offerlist['status'] >= 3){
+            if($offerlist['status'] == 5){
                 $this->error('合同价/结算价禁止修改');
             }
             $data = input();
@@ -1684,8 +1711,8 @@ class Offerlist extends Adminbase
         if(!$offerlist){
             Result(1,'无效订单');
         }
-        if($offerlist['status'] >= 3){
-            Result(1,'合同价/结算价禁止修改');
+        if($offerlist['status'] == 5){
+            Result(1,'结算价禁止修改');
         }
         $receive = $this->request->param();
         $data[$receive['field']] = $receive['value'];

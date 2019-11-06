@@ -12,25 +12,26 @@ class Offerlist extends Model
     public function get_order_info($id,$type=1){ //offerquota表 的id , type ->1:合同单 2:整单
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
+        if($type == 2){
+            $content = Db::name('order_project')->where(['o_id'=>$id])->select();
+        }else{
+            $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
+        }
         $offerlist_info['artificial_cb'] = 0;
+        $dacai = ['matquant'=>0,'manual_quota'=>0];//打拆工程
         if(is_array($content)){
             foreach($content as $keys => $values){
                 $offerlist_info['matquant'] += $values['quota']*$values['num'];//辅材报价
                 $offerlist_info['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
                 $offerlist_info['artificial_cb'] += $values['labor_cost']*$values['num'];//人工成本
+                if($values['type_of_work'] == '打拆工程'){
+                    $dacai['matquant'] += $values['quota']*$values['num'];//打拆辅材报价
+                    $dacai['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
+                }
             }
         }
         $offerlist_info['direct_cost'] = $offerlist_info['matquant']+$offerlist_info['manual_quota'];//工程直接费= 辅材报价+人工报价
 
-        if($type == 2){
-            //加上增减项
-            $order_appned = Db::name('order_project')->where(['type'=>2,'o_id'=>$id])->select();
-            foreach($order_appned as $k=>$v){
-                $offerlist_info['direct_cost'] += $v['craft_show']*$v['num'];
-                $offerlist_info['direct_cost'] += $v['quota']*$v['num'];
-                $offerlist_info['artificial_cb'] += $v['labor_cost']*$values['num'];//人工成本
-            }
-        }
         //=========================计算毛利开始
 
         $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$offerlist_info['tmp_cost_id']])->field('tmp_name,name,sign,formula,rate,content')->select();
@@ -44,12 +45,24 @@ class Offerlist extends Model
         }
 
         //初始化优惠 减空会报错
-        $offerlist_info['discount'] = $offerlist_info['discount']?$offerlist_info['discount']:0;
+        $offerlist_info['discount_zk'] = 0;//折扣优惠金额
+        if($offerlist_info['discount_type'] == 2){
+            //整单打折
+            $offerlist_info['discount_zk'] = ($offerlist_info['direct_cost']-$dacai['matquant']-$dacai['manual_quota']) * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
 
+        }elseif($offerlist_info['discount_type'] == 3){
+            // 人工打折
+            $offerlist_info['discount_zk'] = ($offerlist_info['manual_quota']-$dacai['manual_quota']) * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
+        }else{
+            $offerlist_info['discount_zk'] = 0;
+        }
+        $offerlist_info['discount_zk'] = round($offerlist_info['discount_zk'],2);
+        $offerlist_info['discount'] = $offerlist_info['discount']?$offerlist_info['discount']:0;
+        // $offerlist_info['discount'] += $offerlist_info['discount_zk'];
         $cost_all = 0;//其他费用总计
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
-        $sign['A2'] = $offerlist_info['discount'];//优惠
+        $sign['A2'] = $offerlist_info['discount'] + $offerlist_info['discount_zk'];//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
@@ -69,32 +82,14 @@ class Offerlist extends Model
         $offerlist_info['order_cost'] = $tmp_cost; //全部模板明细
         $offerlist_info['order_cost_all_price'] = $cost_all; //其他费用总计
 
-        // // $offerlist_info['sundry'] //运杂
-        // // $offerlist_info['discount'] //优惠
-            
-
-        
-
-        //计算总人工成本
-        // $offerlist_info['artificial_cb'] = $offerlist_info['artificial_cb'];//上面获取了
-        // $artificial = json_decode($offerlist_info['artificial'],true);
-        // $offerlist_info['artificial_cb'] = 0;
-        // foreach($artificial as $k=>$v){
-        //     $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
-        // }
 
         //计算辅材成本
         $offerlist_info['material_cb'] = $this->get_material_list($offerlist_info['id'],$type)['total_money'];
-        // $material = json_decode($offerlist_info['material'],true);
-        // $offerlist_info['material_cb'] = 0;
-        // foreach($material as $k=>$v){
-        //     $offerlist_info['material_cb'] += ($v['omit_num']*$v['price']);//辅材总成本
-        // }
 
         //工程报价 = 直接费+其他费用总计
         $offerlist_info['proquant'] = round($offerlist_info['direct_cost'] + $cost_all,2);
         //优惠后工程报价 工程报价-优惠
-        $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'];
+        $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'] - $offerlist_info['discount_zk'];
         //计算杂项
         $offerlist_info['supervisor_commission'] = round($offerlist_info['supervisor_commission']/100*$offerlist_info['discount_proquant'],2);//监理提成
         $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
@@ -149,11 +144,25 @@ class Offerlist extends Model
         if(!$tmp_cost){
             $tmp_cost = [];
         }
+
         //初始化优惠 减空会报错
+        $offerlist_info['discount_zk'] = 0;//折扣优惠金额
+        if($offerlist_info['discount_type'] == 2){
+            //整单打折
+            $offerlist_info['discount_zk'] = $offerlist_info['direct_cost'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
+
+        }elseif($offerlist_info['discount_type'] == 3){
+            // 人工打折
+            $offerlist_info['discount_zk'] = $offerlist_info['manual_quota'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
+        }else{
+            $offerlist_info['discount_zk'] = 0;
+        }
+        $offerlist_info['discount_zk'] = round($offerlist_info['discount_zk'],2);
+
         $offerlist_info['discount'] = $offerlist_info['discount']?$offerlist_info['discount']:0;
         $cost_all = 0;//其他费用总计
         $cost_list = [];
-        $sign['A1'] = $offerlist_info['direct_cost'];//直接费
+        $sign['A1'] = $offerlist_info['direct_cost'] + $offerlist_info['discount_zk'];//直接费
         $sign['A2'] = 0;//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
@@ -288,7 +297,7 @@ class Offerlist extends Model
     }
 
     //领料清单
-    //type 1合同单 2整点
+    //type 1合同单 2整单
     public function get_material_list($id,$type=1){
         $total_money = 0;
         $where = [];
@@ -333,21 +342,18 @@ class Offerlist extends Model
                         $datas[$k1][$k2][$k3]['omit_num'] = ceil($v3['num']);
                     }else{
                         //不足1时向上取证
-                        if($v['num'] < 1 && $v['important']){
+                        if($v3['num'] < 1 && $v['important']){
                             $datas[$k1][$k2][$k3]['omit_num'] = ceil($v3['num']);
                         }else{
                             $datas[$k1][$k2][$k3]['omit_num'] = floor($v3['num']);
                         }
                     }
-                    $datas[$k1][$k2][$k3]['coefficient'] += $datas[$k1][$k2][$k3]['omit_num'] * $v3['cb'];
+                    $datas[$k1][$k2][$k3]['coefficient'] = ($datas[$k1][$k2][$k3]['omit_num'] * $v3['cb']);
                     $total_money += $datas[$k1][$k2][$k3]['coefficient'];
                 }
             }
         }
         return ['datas'=>$datas,'total_money'=>$total_money];
     }
-
-    
-
     //获取人工成本
 }
