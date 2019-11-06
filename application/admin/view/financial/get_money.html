@@ -174,10 +174,10 @@
                         <td>实收</td>
                         <td>剩余：<?php  echo round($should_get_total-array_sum(array_column($get_money, 'money')),2); ?></td>
                         <td>{:number_format(array_sum(array_column($get_money, 'money')),2)}</td>
-                        <td class="get" data-type="1">{$get_money[1]['money'] ?: 0}</td>
-                        <td class="get" data-type="2">{$get_money[2]['money'] ?: 0}</td>
-                        <td class="get" data-type="3">{$get_money[3]['money'] ?: 0}</td>
-                        <td class="get" data-type="4">{$get_money[4]['money'] ?: 0}</td>
+                        <td>{if(isset($get_money[1]['money']) && $get_money[1]['money'] > 0)}<a href="javascript:;" class="get" data-type="1">{$get_money[1]['money']}</a><a href="javascript:;" data-type="1" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="1">0</a>{/if}</td>
+                        <td>{if(isset($get_money[2]['money']) &&$get_money[2]['money'] > 0)}<a href="javascript:;" class="get" data-type="2">{$get_money[2]['money']}</a><a href="javascript:;" data-type="2" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="2">0</a>{/if}</td>
+                        <td>{if(isset($get_money[3]['money']) &&$get_money[3]['money'] > 0)}<a href="javascript:;" class="get" data-type="3">{$get_money[3]['money']}</a><a href="javascript:;" data-type="3" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="3">0</a>{/if}</td>
+                        <td>{if(isset($get_money[4]['money']) &&$get_money[4]['money'] > 0)}<a href="javascript:;" class="get" data-type="4">{$get_money[4]['money']}</a><a href="javascript:;" data-type="4" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="4">0</a>{/if}</td>
                     </tr>
                 </tbody>
             </table>
@@ -189,28 +189,67 @@
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    $('.info').click(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var userid = $('#userid').val();
+        var type = $(this).data('type');
+        $.post('/admin/financial/get_financial_info',{uid:userid,type:type},function(res){
+            if(res.code === 0){
+                layer.msg(res.msg);
+            }else{
+                var html = '';
+                html += '<table style="text-align:center" class="layui-table"><thead>'
+                html +=     '<tr>'
+                html +=         '<th style="text-align:center">收款金额</th>'
+                html +=         '<th style="text-align:center">备注</th>'
+                html +=         '<th style="text-align:center">时间</th>'
+                html +=     '</tr>'
+                html += '</thead><tbody>';
+
+                $.each(res.data, function (key, val) {
+                    html += '<tr>'
+                    html +=   '<td>'+val.money+'</td>'
+                    html +=   '<td>'+val.remark+'</td>'
+                    html +=   '<td>'+val.addtime+'</td>'
+                    html += '</tr>'
+                 });
+                
+                html += '</tbody></table>'
+                //显示人工明细
+                layer.open({
+                    title: '收款明细',
+                    area: ['400px', '400px'],
+                    content:html
+                });
+            }
+        },'json')
+    })
     $('.get').click(function(){
-        if($(this).text() <= 0){
+        if(1){
             var type = $(this).data('type');
             if($('.get[data-type="'+(type-1)+'"]').text() <= 0 && type > 1){
                 return false;
             }
-            type = type;
+            if($('.get[data-type="'+(type+1)+'"]').text() > 0 ){
+                return false;
+            }
             //下一个收费弹框
             layui.use('layer', function(){
                 var layer = layui.layer;
                 layer.open({
-                content: '<input type="text" id="money" placeholder="请输入金额" class="layui-input">',
+                content: '<input type="text" id="money" placeholder="请输入金额" class="layui-input"><input type="text" style="margin-top:10px" id="remark" placeholder="备注信息" class="layui-input">',
                 title:'第'+(type)+'期收费金额',
                 btn: ['提交', '取消'],
                     yes: function(index, layero){
                         var money = $('#money').val();
+                        var remark = $('#remark').val();
                         var userid = $('#userid').val();
                         if(isNaN(money)){
                             layer.msg('金额格式错误，请重新输入');
                             return false;
                         }
-                        $.post('/admin/financial/take_money',{uid:userid,type:type,money:money},function(res){
+                        $.post('/admin/financial/take_money',{uid:userid,type:type,money:money,remark:remark},function(res){
                             if(res.code === 0){
                                 layer.msg(res.msg);
                             }else{

@@ -61,7 +61,8 @@ class Financial extends Adminbase{
         $o_id = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->value('id');
         $order_info = Model('offerlist')->get_order_info($o_id,2);//原单
         $append_list = Model('offerlist')->get_append_info(input('customer_id'));//增减项
-        $get_money = array_column(Db::name('financial')->where(['userid'=>input('customer_id'),'type'=>[1,2,3,4]])->select(),null,'type');//收款详情
+        $financial = Db::name('financial')->field('sum(money) as money,id,userid,fid,type,remark,addtime')->where(['userid'=>input('customer_id'),'type'=>[1,2,3,4]])->group('type')->select();
+        $get_money = array_column($financial,null,'type');//收款详情
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->find();
         if(!$cost_tmp){
             $this->error('未设置收款比率，请先设置');
@@ -80,7 +81,8 @@ class Financial extends Adminbase{
     public function take_money(){
         if(input('uid') && input('type') && input('money')){
             if(in_array(input('type'), [1,2,3,4])){
-                if(Db::name('financial')->where(['userid'=>input('uid'),'type'=>input('type')])->count()){
+                $now_type = Db::name('financial')->where(['userid'=>input('uid'),'type'=>[1,2,3,4]])->order('type','desc')->value('type');
+                if($now_type > input('type')){
                     $this->error('已收款，请勿重复添加');
                 }
             }
@@ -93,6 +95,7 @@ class Financial extends Adminbase{
             }
             $data = [];
             $data['userid'] = input('uid');
+            $data['remark'] = input('remark');
             $data['type'] = input('type');
             $data['money'] = input('money');
             $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find();
@@ -100,7 +103,7 @@ class Financial extends Adminbase{
             Db::startTrans();
             try{
                 Db::name('financial')->insert($data);
-                Db::name('userlist')->where(['id'=>input('uid')])->setInc('status');
+                Db::name('userlist')->where(['id'=>input('uid')])->update(['status'=>(input('type')+2)]);
                 Db::commit();    
             } catch (\Exception $e) {
                 // 回滚事务
@@ -108,6 +111,16 @@ class Financial extends Adminbase{
                 $this->error('添加失败');
             }
             $this->success('添加成功');
+        }
+    }
+
+    //获取收款明细
+    public function get_financial_info(){
+        $financial = Db::name('financial')->where(['userid'=>input('uid'),'type'=>input('type')])->order('id','asc')->select();
+        if($financial){
+            $this->success('success','',$financial);
+        }else{
+            $this->error('无收款记录');
         }
     }
 
