@@ -3,6 +3,7 @@
 // | 仓管
 // +----------------------------------------------------------------------
 namespace app\applet\controller;
+use app\admin\model\PickingMaterial;
 use think\Db;
 use think\Controller;
 use app\applet\controller\UserBase;
@@ -19,7 +20,7 @@ class WareHouse extends UserBase{
             $where['status'] = input('status');
         }
         $where['f_id'] = $this->admininfo['companyid'];
-        $picking_material = Db::name('picking_material')->where($where)->order('id','desc')->paginate(15,false,['query'=>request()->param()])->each(function($item, $key){
+        $picking_material = PickingMaterial::with(['userlist','jianli'])->where($where)->order('id','desc')->paginate(15,false,['query'=>request()->param()])->each(function($item, $key){
             $item['addtime'] = date('Y-m-d',strtotime($item['addtime']));
             $info = Db::name('picking_material_info')->where(['pmid'=>$item['id']])->order('id','asc')->select();
             foreach($info as $k=>$v){
@@ -39,6 +40,7 @@ class WareHouse extends UserBase{
             //为空 未领料
             $this->json(2,'none',[]);
         }
+
         $this->json(0,'success',['datas'=>$picking_material,'status'=>input('status')]);
     }
 

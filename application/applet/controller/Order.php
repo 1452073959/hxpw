@@ -4,6 +4,7 @@
 // | 订单
 // +----------------------------------------------------------------------
 namespace app\applet\controller;
+use mysql_xdevapi\Table;
 use think\Db;
 use think\Controller;
 use app\applet\controller\UserBase;
@@ -49,7 +50,22 @@ class Order extends UserBase{
                 $total_money += $datas[$v['space']][$v['item_number']]['info']['craft_show']*$v['num'];
             }
         }
+
         $order_info = Model('admin/offerlist')->get_order_info($userinfo['oid'],$type);
+        $supervisor=Db::Table('fdz_admin')->where('userid',$userinfo['jid'])->field('name,phone')->find();
+        $userinfo['supervisor']=$supervisor;
+        $manager_name=Db::table('fdz_personnel')->where('name',$userinfo['manager_name'])->field('phone,name')->find();
+        $userinfo['manager_name']=$manager_name;
+        $designer_name=Db::table('fdz_personnel')->where('name',$userinfo['designer_name'])->field('phone,name')->find();
+        $userinfo['designer_name']=$designer_name;
+        $quoter_name=Db::table('fdz_personnel')->where('name',$userinfo['quoter_name'])->field('phone,name')->find();
+        $userinfo['quoter_name']=$quoter_name;
+        if($userinfo['house_type']==1){
+            $userinfo['house_type']='新房';
+        }else{
+            $userinfo['house_type']='旧房';
+        }
+
         unset($order_info['content']);
         unset($order_info['artificial']);
         unset($order_info['material']);

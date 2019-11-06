@@ -20,9 +20,19 @@ class PickingMaterial extends Model
         return $this->hasOne(AdminUser::class,'userid','auditid');
     }
 
-    public function client()
+/*    public function client()
     {
         return $this->hasOne(Userlist::class,'id','userid');
+    }*/
+
+    public function userlist()
+    {
+        return $this->belongsTo(Userlist::class,'userid','id');
+    }
+
+    public function jianli()
+    {
+        return $this->belongsTo(AdminUser::class,'adminid','userid');
     }
 
 }
