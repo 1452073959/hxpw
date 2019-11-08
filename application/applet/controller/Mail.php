@@ -244,4 +244,76 @@ class Mail extends UserBase{
         $this->json(0,'success',$picking_material);
     }
 
+     //提交定点/自购领料
+    public function addPickingOrder(){
+        $data = [];
+        $data['type'] = input('type');
+        $data['money'] = input('money');
+        $data['remark'] = input('remark');
+        $data['userid'] = input('uid');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        $data['f_id'] = $userinfo['frameid'];
+        $data['adminid'] = $this->admininfo['userid'];
+        $img = [];
+        Db::startTrans();
+        try {
+            //保存验收记录
+            $poid = Db::name('picking_order')->insertGetId($data);
+            //保存图片
+            if(input('img')){
+                foreach(input('img') as $k=>$v){
+                    $info = [];
+                    $info['img'] = $v;
+                    $info['poid'] = $poid;
+                    $img[] = $info;
+                }
+                Db::name('picking_order_img')->insertAll($img);
+            }
+            // 提交事务
+            Db::commit();
+            $this->json(0,'提交成功');
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->json(0,'提交失败');
+        }
+    }
+
+
+    //获取定点/自购领料列表  type 1:定点 2:自购
+    public function getPickingOrderList(){
+        $where = [];
+        $where['userid'] = input('uid');
+        $where['type'] = input('type');
+        $picking_order = Db::name('picking_order')->where($where)->order('id','asc')->select();
+        if(!$picking_order){
+            $this->json(2,'success',[]);
+        }
+        foreach ($picking_order as $k => $v) {
+            $img = Db::name('picking_order_img')->where(['poid'=>$v['id']])->order('id','desc')->select();
+            foreach($img as $k1=>$v2){
+                $picking_order[$k]['img'][] = $this->getImgSrc($v2['img']);
+            }
+        }
+        $this->json(0,'success',$picking_order);
+    }
+
+    //获取订单领料总计  工程总报价,已领金额,已领比率
+    public function picking_statistic(){
+        $uid = input('uid');
+        $userinfo = Db::name('userlist')->where(['id'=>$uid])->find();
+        if(!$userinfo || !$userinfo['oid']){
+            $this->json(1,'获取用户信息失败');
+        }
+        $order_info  = model('admin/offerlist')->get_order_info($userinfo['oid'],2);
+        $data = [];
+        $data['discount_proquant'] = round($order_info['discount_proquant'],2); //工程总报价
+        if(!$data['discount_proquant'] || $data['discount_proquant'] == 0){
+            $this->json(1,'工程报价有误');
+        }
+        $data['actual_total_money'] = round(Db::name('picking_material')->where(['oid'=>$userinfo['oid']])->sum('actual_total_money'),2);
+        $data['actual_total_money'] += round(Db::name('picking_order')->where(['userid'=>$userinfo['id']])->sum('money'),2);
+        $data['pinking_rate'] = round($data['actual_total_money'] / $data['discount_proquant'] *100,2);
+        $this->json(0,'success',$data);
+    }
 }
