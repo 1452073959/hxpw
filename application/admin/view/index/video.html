@@ -35,7 +35,7 @@
     <div id="left">
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
         <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-            {if(in_array($admininfo['roleid'],[1,2,10,12]))}
+            {if(in_array($admininfo['roleid'],[1,2,10,12,17]))}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">报价师</a>
                     <dl class="layui-nav-child">
@@ -43,7 +43,7 @@
                     </dl>
                 </li>
             {/if}
-            {if(in_array($admininfo['roleid'],[1,10,12]))}
+            {if(in_array($admininfo['roleid'],[1,10,12,17]))}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">分总经理</a>
                     <dl class="layui-nav-child">
@@ -52,7 +52,7 @@
                     </dl>
                 </li>
             {/if}
-            {if(in_array($admininfo['roleid'],[1,10,11,12]))}
+            {if(in_array($admininfo['roleid'],[1,10,11,12,17]))}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">人事</a>
                     <dl class="layui-nav-child">
@@ -60,7 +60,7 @@
                     </dl>
                 </li>
             {/if}
-            {if(in_array($admininfo['roleid'],[1,10,12]))}
+            {if(in_array($admininfo['roleid'],[1,10,12,17]))}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">小程序</a>
                     <dl class="layui-nav-child">
