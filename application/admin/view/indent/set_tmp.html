@@ -1,0 +1,205 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+    .tmp_datas{
+        background-color: #ffffff;
+        padding-top:20px;
+    }
+</style>
+
+<div class="tmp_datas">
+    <input type="hidden" name="f_id" value="{$f_id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">监理提成*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="supervisor" autocomplete="off" value="{$data.supervisor}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">设计提成*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="design" autocomplete="off" value="{$data.design}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">回头客提成*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="repeat" autocomplete="off" value="{$data.repeat}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">业务提成*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="business" autocomplete="off" value="{$data.business}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">订单底部文字*<p>（每行一条）</p></label>
+        <div class="layui-input-inline w150">
+            <textarea name="order_tfoot" style="height:300px;width:550px">{$data.order_tfoot}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">一期款收费比率*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="take_rate1" autocomplete="off" value="{$data.take_rate1}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">二期款收费比率*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="take_rate2" autocomplete="off" value="{$data.take_rate2}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">三期款收费比率*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="take_rate3" autocomplete="off" value="{$data.take_rate3}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">四期款收费比率*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="take_rate4" autocomplete="off" value="{$data.take_rate4}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">领料审核界限*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="text" name="pick_rate" autocomplete="off" value="{$data.pick_rate}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w150">质检流程*<p>（每行一条，名称与说明使用"-"分开，名称不得超过3个字）</p></label>
+        <div class="layui-input-inline w150">
+            <textarea placeholder="例子：&#13;&#10;打拆-打拆具体流程说明&#13;&#10;水工-水工具体流程说明" name="order_check" style="height:300px;width:550px">{$data.order_check}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-input-inline w300">
+        <button id="edit_tmp" style="margin-left:70px" class="layui-btn ajax-post">立即提交</button>
+    </div>
+    <div class="layui-input-inline w300">
+        
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    $("#edit_tmp").click(function() {
+        var fid = $('input[name="f_id"]').val();
+        var supervisor = $(this).parents(".tmp_datas").find("input[name='supervisor']").val();
+        var design = $(this).parents(".tmp_datas").find("input[name='design']").val();
+        var repeat = $(this).parents(".tmp_datas").find("input[name='repeat']").val();
+        var business = $(this).parents(".tmp_datas").find("input[name='business']").val();
+        var order_tfoot = $(this).parents(".tmp_datas").find("textarea[name='order_tfoot']").val();
+
+        var take_rate1 = $(this).parents(".tmp_datas").find("input[name='take_rate1']").val();
+        var take_rate2 = $(this).parents(".tmp_datas").find("input[name='take_rate2']").val();
+        var take_rate3 = $(this).parents(".tmp_datas").find("input[name='take_rate3']").val();
+        var take_rate4 = $(this).parents(".tmp_datas").find("input[name='take_rate4']").val();
+
+        var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
+        var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
+
+        if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('收款比率合计必须为100');
+            });
+            return false;
+        }
+        if (!supervisor || isNaN(supervisor)) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('监理提成输入有误');
+            });
+            return false;
+        }
+        if (!design || isNaN(design)) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('设计提成输入有误');
+            });
+            return false;
+        }
+        if (!repeat || isNaN(repeat)) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('回头客提成输入有误');
+            });
+            return false;
+        }
+        if (!business || isNaN(business)) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('业务提成输入有误');
+            });
+            return false;
+        }
+        if (parseFloat(supervisor)+parseFloat(design)+parseFloat(repeat)+parseFloat(business) > 100) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('全部合计不得超过100');
+            });
+            return false;
+        }
+        if (!pick_rate || isNaN(pick_rate)) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('领料审核界限输入有误');
+            });
+            return false;
+        }
+        if (!order_check) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('质检流程不能为空');
+            });
+            return false;
+        }
+        $.ajax({
+            type : 'post',
+            url  :  '{:url("indent/edit_tmp")}',
+            dataType : 'json',
+            data : {
+                f_id:fid,
+                order_tfoot:order_tfoot,
+                supervisor:supervisor,
+                design:design,
+                repeat:repeat,
+                business:business,
+                take_rate1:take_rate1,
+                take_rate2:take_rate2,
+                take_rate3:take_rate3,
+                take_rate4:take_rate4,
+                pick_rate:pick_rate,
+                order_check:order_check,
+            },
+            success : function(re){
+              if(re.status == 0){
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.msg(re.msg);
+                    });
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                    return false;
+              }else{
+                layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.msg(re.msg);
+                    });
+                return false;
+              }
+            }
+        });
+    });
+</script>
+{/block}

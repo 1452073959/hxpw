@@ -322,6 +322,42 @@ class Indent extends Adminbase
        }
     }
 
+    //分公司自行配置基础信息页面
+    public function set_tmp(){
+        // $this->assign("data", $rs);
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$this->_userinfo['companyid']])->find();
+        if(!$cost_tmp){
+            $cost_tmp = [
+                // 'taxes'=>0,
+                'supervisor'=>0,
+                'design'=>0,
+                'repeat'=>0,
+                'business'=>0,
+                'order_tfoot'=>'',
+                'take_rate1'=>0,
+                'take_rate2'=>0,
+                'take_rate3'=>0,
+                'take_rate4'=>0,
+                'pick_rate'=>0,
+                'order_check'=>'',
+            ];//返回空数据
+        }
+        if($cost_tmp['order_check']){
+            $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
+            foreach ($cost_tmp['order_check'] as $k => $v) {
+                if(empty($v[1])){
+                    $cost_tmp['order_check'][$k] = $v[0];
+                }else{
+                    $cost_tmp['order_check'][$k] = implode('-', $v);
+                }
+            }
+            $cost_tmp['order_check'] = implode("\n", $cost_tmp['order_check']);
+        }
+        $this->assign("data", $cost_tmp);
+        $this->assign("f_id", $this->_userinfo['companyid']);
+        return $this->fetch();
+    }
+
     public function get_tmp(){
         $f_id = input('f_id');
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$f_id])->find();
@@ -412,7 +448,7 @@ class Indent extends Adminbase
 
         }
         if($res){
-            Result(0,'succees');
+            Result(0,'修改成功');
         }else{
             Result(1,'修改失败');
         }
