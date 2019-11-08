@@ -16,12 +16,12 @@ class AdminUser extends Validate
         'password' => 'require|length:4,20|confirm',
         'email' => 'email',
         'roleid' => 'require',
-        'phone' => 'unique:admin|require',
+        'phone' => 'require',
 
     ];
     //定义验证提示
     protected $message = [
-        'phone.unique'       => '手机号已经存在！',
+        // 'phone.unique'       => '手机号已经存在！',
         'phone.require'      => '手机号不能为空！',
         'username.unique'    => '用户名已经存在！',
         'username.require'   => '用户名不能为空！',
