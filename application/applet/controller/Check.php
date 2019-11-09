@@ -12,6 +12,9 @@ class Check extends UserBase{
     //质检 客户列表
     public function userlist(){
         $where = [];
+        if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            $where['check_id'] = $this->admininfo['userid'];
+        }
         $where['frameid'] = $this->admininfo['companyid'];
         $where['in_check'] = 1;
         $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id') ;

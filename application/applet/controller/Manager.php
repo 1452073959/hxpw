@@ -13,6 +13,9 @@ class Manager extends UserBase{
     public function getUserListBySupervisor(){
         $where = [];
         $where['status'] = [3,4,5,6,7];
+        if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            $where['gcmanager_id'] = $this->admininfo['userid'];
+        }
         $where['frameid'] = $this->admininfo['companyid'];
         $field = 'id,customer_name,address,area,room_type,status,discount_proquant,sign_bill_time,jid,oid,work_status,work_time,in_check,sign_bill_time';
         $userlist = Db::name('userlist')->where($where)->where('jid','>','0')->field($field)->order('sign_bill_time','asc')->select();
