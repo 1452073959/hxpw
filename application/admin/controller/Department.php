@@ -227,7 +227,7 @@ class Department extends Adminbase
             // $department_ids[] = input('did');//所有部门id
             $datas = Db::name('personnel')->where(['did' => $department_ids])->page(input('page'))->limit(input('limit'))->select();
             $count = Db::name('personnel')->where(['did' => $department_ids])->count();
-            $job = [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他'];
+            $job = [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事'];
             foreach ($datas as $k => $v) {
                 $datas[$k]['sex'] = $v['sex'] == 1 ? '男' : '女';
                 $datas[$k]['job'] = $job[$v['job']];
