@@ -14,7 +14,7 @@ class Login extends Controller
     public function index()
     {
        $AdminUser_model = new AdminUser_model;
-        if ($AdminUser_model->isLogin()) {
+        if ($AdminUser_model->isLogin() && input('type') != 1) {
             $this->redirect('admin/index/index');
         }
         if ($this->request->isPost()) {

@@ -33,12 +33,13 @@ class Adminbase extends Base
                 if (Session('admin_user_auth')['is_rule'] == 1) {
                     $authList = Db::name('auth_rule')->where('title','in',Session('admin_user_auth')['rules'])->column('name');
                     if (!in_array($rule,$authList)) {
-                        $this->error('未授权访问!');
+                        // $this->error('未授权访问!');
+                        $this->error('未授权访问!', url('admin/login/index',['type'=>1]));
                         // echo "<script>alert('未授权访问!')</script>";die;
                     }
                 }else{
                     if (!$this->checkRule($rule, [1, 2])) {
-                        $this->error('未授权访问!');
+                        $this->error('未授权访问!', url('admin/login/index',['type'=>1]));
                         // echo "<script>alert('未授权访问!')</script>";die;
                     }
                 }
@@ -79,12 +80,14 @@ class Adminbase extends Base
 		    if (Session('admin_user_auth')['is_rule'] == 1) {
 		        $authList = Db::name('auth_rule')->where('title','in',Session('admin_user_auth')['rules'])->column('name');
 		        if (!in_array($rule,$authList)) {
-		            $this->error('未授权访问!');
+		            // $this->error('未授权访问!');
+                    $this->error('未授权访问!', url('admin/login/index',['type'=>1]));
 		            // echo "<script>alert('未授权访问!')</script>";die;
 		        }
 		    }else{
 		        if (!$this->checkRule($rule, [1, 2])) {
-		            $this->error('未授权访问!');
+		            // $this->error('未授权访问!');
+                    $this->error('未授权访问!', url('admin/login/index',['type'=>1]));
 		            // echo "<script>alert('未授权访问!')</script>";die;
 		        }
 		    }
