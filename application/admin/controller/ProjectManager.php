@@ -90,7 +90,7 @@ class ProjectManager extends Adminbase{
                     $total_count++;
                 }
             }
-            $v['total_money'] = $total_money;
+            $v['total_money'] = round($total_money,2);
             $v['total_count'] = $total_count;
             $v['count1'] = $count1;
             $v['count2'] = $count2;
