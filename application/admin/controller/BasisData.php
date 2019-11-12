@@ -310,7 +310,7 @@ class BasisData extends Adminbase{
         }
         $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_column($res->items(), 'amcode');
-        $p_amcode = array_column(Db::name('f_materials')->where(['p_amcode'=>$p_amcode])->field('p_amcode')->select(),'p_amcode');
+        $p_amcode = array_column(Db::name('f_materials')->where(['p_amcode'=>$p_amcode,'fid'=>$this->_userinfo['companyid']])->field('p_amcode')->select(),'p_amcode');
         // var_dump($p_amcode);die;
         $this->assign('amcode',$p_amcode);
         $this->assign('data',$res);
@@ -339,7 +339,7 @@ class BasisData extends Adminbase{
             }
             $fine = json_decode($fine);
             $fine = array_column($fine,'fine');
-            $m_fine = Db::name('f_materials')->where(['fine'=>$fine])->group('fine')->select();
+            $m_fine = Db::name('f_materials')->where(['fine'=>$fine,'fid'=>$this->_userinfo['companyid']])->group('fine')->select();
             $m_fine = array_column($m_fine,'fine');
             
             foreach($fine as $k=>$v){
