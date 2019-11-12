@@ -1553,6 +1553,10 @@ class BasisData extends Adminbase{
 
     public function excel_f_warehouse(){
         require'../extend/PHPExcel/PHPExcel.php';
+        $f_project = Db::name('f_project')->where(['fid'=>$this->_userinfo['companyid']])->find();
+        if($f_project){
+            $this->error('新增定额数据后，此功能将会无法使用');
+        }
         $file = request()->file('file');
         if($file){
             $info = $file->validate(['ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
