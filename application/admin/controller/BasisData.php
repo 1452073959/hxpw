@@ -1549,4 +1549,109 @@ class BasisData extends Adminbase{
         }
         $this->success('成功');
     }
+
+
+    public function excel_f_warehouse(){
+        require'../extend/PHPExcel/PHPExcel.php';
+        $file = request()->file('file');
+        if($file){
+            $info = $file->validate(['ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
+            if (!$info) {
+                $this->error('上传文件格式不正确');
+            }else{
+                //获取上传到后台的文件名
+                $fileName = $info->getSaveName();
+                //获取文件路径
+                $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
+                //获取文件后缀
+                $suffix = $info->getExtension();
+
+                // 判断哪种类型
+                if($suffix=="xlsx"){
+                    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+                }else{
+                    $reader = \PHPExcel_IOFactory::createReader('Excel5');
+                }
+
+            }
+            //处理表格数据
+            //载入excel文件
+            $excel = $reader->load("$filePath",$encode = 'utf-8');
+            //读取第一张表
+            $sheet = $excel->getSheet(0);
+            //获取总行数
+            $row_num = $sheet->getHighestRow();
+            //获取总列数
+            $col_num = $sheet->getHighestColumn();
+            $data = []; //数组形式获取表格数据 
+            for ($i = 2; $i <= $row_num; $i ++) {
+                $info = [];
+                $info['p_amcode']  = trim($sheet->getCell("A".$i)->getValue());
+                
+                
+                $info['fid']  = $this->_userinfo['companyid'];
+                $info['brank']  = trim($sheet->getCell("C".$i)->getValue());
+                $info['place']  = trim($sheet->getCell("D".$i)->getValue()); 
+                $info['in_price']  = trim($sheet->getCell("E".$i)->getValue()); 
+                $info['price']  = trim($sheet->getCell("F".$i)->getValue()); 
+                $info['pack']  = trim($sheet->getCell("G".$i)->getValue()); 
+                $info['phr']  = trim($sheet->getCell("I".$i)->getValue()); 
+                $info['source']  = trim($sheet->getCell("J".$i)->getValue()); 
+                $info['status']  = 1;
+
+
+
+                if( empty($info['in_price']) && empty($info['price']) && empty($info['pack']) && empty($info['phr']) && empty($info['source'])){
+                    //没有填资料 默认不上传
+                    continue;
+                }
+                if( empty($info['pack']) || empty($info['phr']) || empty($info['source']) ){
+                    //有添数据,但是没填完整
+                    $this->error('第'. ($i) .'行，数据不能留空');
+                }
+
+                if(empty($info['brank']) || empty($info['place'])){
+                    $this->error('第'. ($i) .'行，数据不能为空');
+                }
+
+                if(!is_numeric($info['in_price']) || !is_numeric($info['price']) || $info['in_price'] < 0 || $info['price'] < 0 ){
+                    $this->error('第'. ($i) .'行，价格格式错误');
+                }
+
+                if($info['source'] != '公司仓库' && $info['source'] != '公司定点' && $info['source'] != '监理自购'){
+                    $this->error('第'. ($i) .'行，材料来源必须为 公司仓库 或 公司定点 或 监理自购');
+                }
+
+                $basis = Db::name('basis_materials')->where(['amcode'=>$info['p_amcode']])->find();
+                if(!$basis){
+                    $this->error('第'. ($i) .'行，编码'.$data[$i]['p_amcode'].'不存在');
+                }
+                $info['fine']  = $basis['fine'];
+                $info['img']  = $basis['img'];
+                $data[] = $info;
+            }
+
+            //将数据保存到数据库
+            if ($data) {
+            //把获取到的二维数组遍历进数据库
+                Db::startTrans();
+                try{
+                    Db::name('f_materials')->where(['fid'=>$this->_userinfo['companyid']])->delete();
+                    foreach($data as $k=>$v){
+                        $id = Db::name('f_materials')->insertGetId($v);
+                        Db::name('f_materials')->where(['id'=>$id])->update(['amcode'=>$v['p_amcode'].'_'.$id]);
+                    }
+                    Db::commit();
+                }catch (\Exception $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+                $this->success('导入成功');
+            }else{
+                $this->error('获取导入文件数据失败');
+            }
+        }else{
+            $this->error('请选择上传文件');
+        }
+    }
 }

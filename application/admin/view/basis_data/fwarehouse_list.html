@@ -145,6 +145,7 @@
             </blockquote>
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入辅材数据</button>
                     <!-- <a class="layui-btn layui-btn-sm" href="javascript:;" lay-event="apply_new">申请新辅材</a>  -->
                 </div>
             </script>
@@ -305,6 +306,52 @@
                     cancel: function () {
                         //return false 开启该代码可禁止点击该按钮关闭
                     }
+                });
+            }
+            if (obj.event == 'excel'){
+                var html = 
+                     '<div class="layui-upload" id="upload_file" style="margin-bottom:15px;margin-top:15px;text-align:center">'
+                    + '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test8">上传xls,xlsx</button>'
+                    + '<br />'
+                    + '<br />'
+                    + '     <span style="width:80%;display:block;margin:0 auto;text-align:left;color:red">1.使用此功能将会覆盖原有已新增的辅材数据，请谨慎使用</span>'
+                    + '     <span style="width:80%;display:block;margin:0 auto;text-align:left;color:red">2.新增定额数据后，此功能将会无法使用</span>'
+                    + '<br />'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test9">上传</button>'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                    + '</div>'
+                layer.open({
+                  title: '导入辅材',
+                  area: ['400px', '250px'], //宽高
+                  type:1,
+                  content: html
+                });
+                layui.use('upload', function(){
+                    var upload = layui.upload;
+                    upload.render({
+                        elem: '#test8',
+                        url: '/admin/basis_data/excel_f_warehouse/',
+                        auto: false,
+                        accept:'file',
+                        size:10240,
+                        //,multiple: true
+                        bindAction: '#test9',
+                        data:{
+                            
+                        },
+                        done: function(res){
+                            if(res.code == 1){
+                                layer.closeAll();
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                            }else{
+                                layer.msg(res.msg);
+                            }
+                            return false;
+                        }
+                    });
                 });
             }
         })
