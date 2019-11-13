@@ -224,7 +224,7 @@ class Manager extends Adminbase
             unset($data['password_confirm']);
             unset($data['nickname']);
             // dump($data);exit;
-            if (Db::name('admin')->update($data) !== false) {
+            if (Db::name('admin')->where(['userid'=>input('userid')])->update($data) !== false) {
                 $this->success("修改成功！");
             } else {
                 $this->error(Db::name('admin')->getError() ?: '修改失败！');
