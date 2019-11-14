@@ -52,6 +52,14 @@
                     </dl>
                 </li>
             {/if}
+            {if(in_array($admininfo['roleid'],[1,19]))}
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">数据配置</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-src="__UPLOADS__/video/basis_data.mp4">台数据配置</a></dd>
+                    </dl>
+                </li>
+            {/if}
             {if(in_array($admininfo['roleid'],[1,10,11,12,17]))}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">人事</a>
