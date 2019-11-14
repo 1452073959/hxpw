@@ -1127,12 +1127,12 @@ class BasisData extends Adminbase{
         if(count($name) != count(array_unique($name))){
             $this->error('名字重复');
         }
-        if(count($brank) != count(array_unique($brank))){
-            $this->error('品牌重复');
-        }
-        if(count($place) != count(array_unique($place))){
-            $this->error('产地重复');
-        }
+        // if(count($brank) != count(array_unique($brank))){
+        //     $this->error('品牌重复');
+        // }
+        // if(count($place) != count(array_unique($place))){
+        //     $this->error('产地重复');
+        // }
         $insert_datas = [];
         foreach($name as $k=>$v){
             $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
