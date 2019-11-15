@@ -781,7 +781,7 @@ class BasisData extends Adminbase{
             $this->error('该项目辅材配置有误，请联系管理员处理');
         }
         $fine = array_column($fine, 'fine');
-        $basis_materials = Db::name('f_materials')->where(['fine'=>$fine])->select();
+        $basis_materials = Db::name('f_materials')->where(['fine'=>$fine,'fid'=>$this->_userinfo['companyid']])->select();
         $datas = [];
         foreach($basis_materials as $k=>$v){
             $basis_materials = Db::name('basis_materials')->where(['amcode'=>$v['p_amcode']])->find();
