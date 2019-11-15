@@ -136,7 +136,7 @@
                         <th width="150" lay-data="{edit:'text',field:'price',width:100}">出库价</th>
                         <th width="150" lay-data="{edit:'text',field:'pack',width:100}">包装数量</th>
                         <th class="" lay-data="{field:'unit',width:100}">计量单位</th>
-                        <th width="150" lay-data="{edit:'text',field:'phr',width:100}">包装单位</th>
+                        <th width="150" lay-data="{edit:'text',field:'phr',width:100}">出库单位</th>
                         <th width="150" lay-data="{edit:'text',field:'source',width:100}">来源</th>
 
 
@@ -292,7 +292,7 @@
                     return false;
                 }
                 if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,})?$)|(^[0-9]\.[0-9]([0-9])?$)/.test(pack)) && pack <= 0){
-                    layer.msg('请输入正确的包装单位');
+                    layer.msg('请输入正确的出库单位');
                     return false;
                 }
                 $.post('/admin/basis_data/add_fwarehouse_operation',{p_amcode:amcode,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
@@ -355,10 +355,10 @@
                 content = '辅材出库单价(必填)';
                 break;
             case '包装数量':
-                content = '辅材包装数量(必填)，例如油漆计量单位为"L"，包装单位为"桶"，此处填入10，最终形成10L/桶';
+                content = '辅材包装数量(必填)，例如油漆计量单位为"L"，出库单位为"桶"，此处填入10，最终形成10L/桶';
                 break;
-            case '包装单位':
-                content = '辅材包装单位(必填)，例如油漆计量单位为"L"，包装数量为"10"，此处填入桶，最终形成10L/桶';
+            case '出库单位':
+                content = '辅材出库单位(必填)，例如油漆计量单位为"L"，包装数量为"10"，此处填入桶，最终形成10L/桶';
                 break;
             case '来源':
                 content = '辅材来源，目前只能输入 "公司仓库" 、 "监理自购"';

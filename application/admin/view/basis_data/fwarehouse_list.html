@@ -171,7 +171,7 @@
                     <th class="taleft" lay-data="{field:'price',width:100}">出库价</th>
                     <th class="taleft" lay-data="{field:'pack',width:100}">包装数量</th>
                     <th class="taleft" lay-data="{field:'unit',width:90}">计量单位</th>
-                    <th class="taleft" lay-data="{field:'phr',width:90}">包装单位</th>
+                    <th class="taleft" lay-data="{field:'phr',width:90}">出库单位</th>
                     <th class="taleft" lay-data="{field:'source',width:100}">来源</th>
                     <th width="150" lay-data="{field:'img',width:80}">图片</th>
                     <th class="taleft" lay-data="{field:'time',width:110}">修改时间</th>
@@ -435,7 +435,7 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
-                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">包装单位：</label>'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">出库单位：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="phr" value="' + data.phr + '" autocomplete="off" class="layui-input">'
                 html += '  </div>'
@@ -488,7 +488,7 @@
                                 return false;
                             }
                             if (!(/(^[1-9]([0-9]+)?(\.[0-9]{1,})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9]{1,})?$)/.test(pack))) {
-                                layer.msg('请输入正确的包装单位');
+                                layer.msg('请输入正确的出库单位');
                                 return false;
                             }
                             $.post('/admin/basis_data/edit_fwarehouse_operation', {

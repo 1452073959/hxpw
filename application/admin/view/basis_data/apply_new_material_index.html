@@ -309,7 +309,7 @@
                                     return false;
                                 }
                                 if(!(/(^[1-9]([0-9]+)?(\.[0-9]{1,})?$)|(^[0-9]\.[0-9]([0-9])?$)/.test(pack)) && pack <= 0){
-                                    alert('请输入正确的包装单位');
+                                    alert('请输入正确的出库单位');
                                     return false;
                                 }
                                 $.post('/admin/basis_data/add_fwarehouse_operation',{p_amcode:amcode,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
