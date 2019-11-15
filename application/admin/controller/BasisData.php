@@ -1083,7 +1083,7 @@ class BasisData extends Adminbase{
         $p_amcode = array_column(Db::name('f_materials')->where($condintion)->field('p_amcode')->select(),'p_amcode');
 
 
-        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(),null,'id');
         $this->assign('admininfo',$this->_userinfo);
         $this->assign('frame',$frame);
         $this->assign('p_amcode',$p_amcode);
