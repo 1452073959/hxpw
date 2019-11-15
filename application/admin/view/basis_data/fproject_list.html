@@ -222,9 +222,9 @@
                 var item_number = data.item_number;
                 $.post('/admin/basis_data/get_project_material',{item_number:item_number},function(res){
                     if(res.code == 1){
-                        var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">分类</th><th style="text-align:center">名称</th><th style="text-align:center">辅材编码</th><th style="text-align:center">品牌</th><th style="text-align:center">产地</th><th style="text-align:center">出库价</th><th style="text-align:center">进库价</th><th style="text-align:center">来源</th></tr></thead><tbody>';
+                        var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">分类</th><th style="text-align:center">名称</th><th style="text-align:center">辅材编码</th><th style="text-align:center">品牌</th><th style="text-align:center">产地</th><th style="text-align:center">来源</th></tr></thead><tbody>';
                         $.each(res.data, function (key, val) {
-                              html += '<tr><td>'+val.fine+'</td><td>'+val.name+'</td><td>'+val.amcode+'</td><td>'+val.brank+'</td><td>'+val.place+'</td><td>'+val.price+'</td><td>'+val.in_price+'</td><td>'+val.source+'</td></tr>'
+                              html += '<tr><td>'+val.fine+'</td><td>'+val.name+'</td><td>'+val.amcode+'</td><td>'+val.brank+'</td><td>'+val.place+'</td><td>'+val.source+'</td></tr>'
                          });
                         html += '</tbody></table>'
                         //显示人工明细
