@@ -47,6 +47,15 @@
     float: left;
     clear:none;
 }
+.ty{
+    /*border: 1px dashed red;*/
+    width: 100%;
+    margin-top: 100px;
+}
+
+    .ty li{
+        float: left;
+    }
 </style>
 
   <!-- 导出完成 -->
@@ -61,17 +70,23 @@
                   </ul>
                   <div class="layui-tab-content"></div>
                 </div>
-                <form class="layui-form layui-inline" action="">
+                <form class="layui-form layui-inline" action="" id="registerform">
+                    <div class="layui-form-item" >
+                        <label class="layui-form-label">辅材名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">编码</label>
                         <div class="layui-input-block">
                             <input type="text" name="samcode" placeholder="" value="{:input('samcode')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">工种类别</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="type_of_work" placeholder="" value="{:input('type_of_work')}" autocomplete="off" class="layui-input">
+                    <div class="layui-form-item" style="margin-left:10px;float: right">
+                        <div class="layui-input-inline">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                            <a href="/admin/basis_data/pwarehouse" class="layui-btn layui-btn-primary">重置</a>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -80,18 +95,19 @@
                             <input type="text" name="fine" placeholder="" value="{:input('fine')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">辅材名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="margin-left:10px">
-                        <div class="layui-input-inline">
-                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
-                          <a href="/admin/basis_data/pwarehouse" class="layui-btn layui-btn-primary">重置</a>
-                        </div>
-                    </div>
+
+                <div>
+                    <ul class="ty">
+                        {foreach typeof as $k=>$v}
+                        <li class="typ">
+                            <input type="radio" name="typeof" value="{$v.type_of_work}" {if (input('typeof')==$v.type_of_work)} checked {/if} title="{$v.type_of_work}">
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+
+
+
                 </form>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
@@ -360,5 +376,13 @@
         }
         
     });
+</script>
+
+<script>
+$(function () {
+    $(".typ").click(function(){
+        $("#registerform").submit();
+    });
+})
 </script>
 {/block}

@@ -6,10 +6,11 @@
 namespace app\admin\controller;
 
 use app\admin\model\Notice;
+use app\admin\model\Personnel;
 use app\common\controller\Adminbase;
 use think\Db;
 use think\Request;
-
+use app\admin\model\Department;
 class Main extends Adminbase
 {
     //欢迎首页
@@ -288,7 +289,6 @@ class Main extends Adminbase
             }
         }
 
-
         if(!empty($request->get())){
             $id=$request->get();
             $notice = Notice::where('id',$id['id'])->find();
@@ -297,5 +297,38 @@ class Main extends Adminbase
         }
 
     }
+
+
+    public function  calendar()
+    {
+        $userinfo = $this->_userinfo;
+        $arr=Department::getCates($pid=0,$userinfo['companyid']);
+        foreach ( $arr as &$v ) {
+            $v->title = $v->name;
+            if (!empty($v['children'])){
+                foreach ($v['children'] as $k1 => $v1) {
+                  if(!empty($v1['ou'])){
+                      $v1->children=$v1['ou'];
+                      foreach ($v1['ou'] as $k2=>$v2){
+                          $v2->title=$v2->name.$v2->phone;
+                      }
+                  }
+                    $v1->title=$v1->name;
+                }
+            }else {
+                $v->children = $v['ou'];
+                if(!empty($v['ou'])){
+                    $v->children=$v['ou'];
+                    foreach ($v['ou'] as $k3=>$v3){
+                        $v3->title=$v3->name.$v3->phone;
+                    }
+                }
+            }
+        }
+        return json($arr);
+
+    }
+
+
 
 }

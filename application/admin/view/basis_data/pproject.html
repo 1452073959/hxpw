@@ -54,6 +54,26 @@
     width:350px;
     line-height: 38px;
 }
+#t{
+display: block;
+    /*height: 30px;*/
+    /*width: 500px;*/
+    /*border: 1px dashed red;*/
+    margin-top: 50px;
+}
+.ty{
+    /*border: 1px dashed red;*/
+    /*display: inline;*/
+    width: 100%;
+    /*margin-top: 100px;*/
+    margin-top: 100px;
+}
+
+.ty li{
+    float: left;
+    /*border: 1px dashed blue;*/
+
+}
 </style>
 
   <!-- 导出完成 -->
@@ -68,13 +88,21 @@
                   </ul>
                   <div class="layui-tab-content"></div>
                 </div>
-                <form class="layui-form layui-inline" action="">
+                <form class="layui-form layui-inline" action="" id="registerform">
                     <div class="layui-form-item">
                         <label class="layui-form-label">编码</label>
                         <div class="layui-input-block">
                             <input type="text" name="item_number" placeholder="" value="{:input('item_number')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">工种类别</label>
                         <div class="layui-input-block">
@@ -86,18 +114,23 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">项目名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
                     <div class="layui-form-item" style="margin-left:10px">
                         <div class="layui-input-inline">
-                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
-                          <a href="/admin/basis_data/public_project" class="layui-btn layui-btn-primary">重置</a>
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                            <a href="/admin/basis_data/public_project" class="layui-btn layui-btn-primary">重置</a>
                         </div>
                     </div>
+                    <div id="t">
+                        <ul class="ty">
+                            {foreach type_work as $k=>$v}
+                            <li class="typ">
+                                <input type="radio" name="type_word_id" value="{$v.id}" {if (input('type_word_id')==$v.id)} checked {/if} title="{$v.name}">
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+
+
                 </form>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
@@ -411,5 +444,13 @@
         }
         
     });
+</script>
+
+<script>
+    $(function () {
+        $(".typ").click(function(){
+            $("#registerform").submit();
+        });
+    })
 </script>
 {/block}

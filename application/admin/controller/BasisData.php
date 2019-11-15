@@ -308,12 +308,17 @@ class BasisData extends Adminbase{
         if(input('name')){
             $where[] = ['name','like','%'.input('name').'%'];
         }
+        if(input('typeof')){
+            $where[] = ['type_of_work','like','%'.input('typeof').'%'];
+        }
+        $neq=Db::table('fdz_basis_materials')->field('type_of_work')->group('type_of_work')->select();
         $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_column($res->items(), 'amcode');
         $p_amcode = array_column(Db::name('f_materials')->where(['p_amcode'=>$p_amcode,'fid'=>$this->_userinfo['companyid']])->field('p_amcode')->select(),'p_amcode');
         // var_dump($p_amcode);die;
         $this->assign('amcode',$p_amcode);
         $this->assign('data',$res);
+        $this->assign('typeof',$neq);
         return $this->fetch();
     }
 

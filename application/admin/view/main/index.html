@@ -4,10 +4,12 @@
 <script src="__STATIC__/12/admin/js/jquery-2.0.0.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 <link rel="stylesheet" href="__STATIC__/12/admin/css/index.css"/>
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css"/>
 <script src="__STATIC__/12/admin/js/highcharts.js" type="text/javascript" charset="utf-8"></script>
 <script src="__STATIC__/12/admin/js/exporting.js" type="text/javascript" charset="utf-8"></script>
 <script src="__STATIC__/12/admin/js/highcharts-zh_cn.js" type="text/javascript" charset="utf-8"></script>
 <script src="http://cdn.zhuchenchen.com/js/jquery.leoweather.all.js"></script>
+
 <style>
     .skin2 {
         display: inline-block;
@@ -232,9 +234,9 @@
                             <div style="margin: 10px 0;height: 38px">您当前所在位置：<a><cite>首页</cite></a></div>
                         </div>
                         <div class="background"></div>
-                        <div class="layui-fluid main" style="padding-bottom:15px ">
-                            <div class="layui-row">
-                                <div class="information-box" style="width: 50%; float: left; border:1px solid #DDDDDD">
+                        <div class="layui-fluid main" style="padding-bottom:15px  ">
+                            <div class="layui-row" style="height: 450px">
+                                <div class="information-box" style="width: 35%; float: left; border:1px solid #DDDDDD; height: 425px">
                                     <p class="index-title">帐户信息<a href="{:url('main/edit')}"><span
                                             style="margin-left:30px;color:green;display:none;">信息修改</span></a></p></p>
                                     {if $Think.session.admin_user_auth.pyid != '0'}
@@ -255,11 +257,12 @@
                                                 <p class="index-p">上次登录地址:<span class="userct">{$Think.session.admin_user_auth.last_login_address}</span>
                                                 </p>
                                             </div>
-                                            <div class="xinxi">
-                                                <h2 style="text-align: center;line-height:52px">{$rerole['title']}</h2>
-                                                <p class="index-p">所属公司：{$rerole['name']}</p>
-                                                <p class="index-p">{$rerole['description']}</p>
-                                            </div>
+
+                                        </div>
+                                        <div style="width: 50%;text-align: center;margin-top: 30px" >
+                                            <h2 style="text-align: center;line-height:52px">{$rerole['title']}</h2>
+                                            <p class="index-p">所属公司：{$rerole['name']}</p>
+                                            <p class="index-p">{$rerole['description']}</p>
                                         </div>
                                         <!-- <?php dump($rerole)?> -->
                                     </div>
@@ -268,85 +271,45 @@
                                     {/if}
 
                                 </div>
-
                                 <div class="information-box"
-                                     style="width: 40%; border:1px solid #DDDDDD;float: right; overflow: hidden;text-overflow:ellipsis;">
-                                    <div class="news_list">
-                                        <div style="text-align: center; font-size: 30px;"><b>公告</b>
-                                            {if $re['roleid']==1}
-                                            <button id="issue" style="width: 100px" ;
-                                                    class="layui-btn layui-btn-normal">发布公告
-                                            </button>
-                                            {else}
-                                            {/if}
-                                        </div>
-                                        <div class="news_content">
-                                            <ul style="font-size: 20px;overflow: hidden;text-overflow:ellipsis;"
-                                                id="oid">
-                                                {foreach $notice as $v}
-                                                <li id="{$v.id}">
-                                                    <span style="margin-right: 30px;">{$v.create_time|date="Y-m-d H:i"}</span>
-                                                    <a href="#">{$v.title}</a></li>
-                                                {/foreach}
-                                            </ul>
-                                        </div>
-                                    </div>
+                                     style="width: 550px; border:1px solid #DDDDDD;float: left;height: 425px; margin-left: 5px ;position: relative;">
+                                    <iframe seamless="seamless"	width="550" scrolling="no" frameborder="no" height="425" src="http://cdn.zhuchenchen.com/html/index.html"></iframe>
                                 </div>
-                                <div style="clear: both"></div>
+<!--                                <div style="clear: both"></div>-->
+                                <div class="information-box" style="border:1px solid #DDDDDD; width: 200px;margin-right: 10px; height:425px; overflow-y: auto;">
+                                    <h3 style="text-align: center">通讯录</h3>
+                                    <div id="test1" class="demo-tree demo-tree-box"></div>
+                                </div>
                             </div>
                             <div class="layui-row">
                                 <div class="layui-col-xs12 layui-col-sm12 inf-box" style="margin-top: 20px;">
-                                    <div style="width: 100%;height: auto;">
-                                        <div id="container1" style="width: 25%;float: left; border: 0px dashed red">
-                                            <div class="layui-row">
-                                                <div class="layui-col-md12">
-                                                    <!--                                                    <blockquote class="layui-elem-quote">
-                                                                                                         日历
-                                                                                                        </blockquote>-->
-                                                    <!--容器-->
-                                                    <div class="layui-inline laydateNote" id="test-n2"></div>
-                                                    <!--容器-->
-
-                                                    <!--详细记事本-->
-                                                    <div class="laydateNotebook">
-                                                        <div class="box"
-                                                             style="overflow:auto;overflow-y:auto; overflow-x:auto;height: 200px"></div>
-                                                    </div>
-                                                    <!--容器-->
-                                                    <script type="text/html" id="fineTpl">
-                                                        <ul class="layui-timeline">
-                                                            {{each lists v i }}
-                                                            <li class="layui-timeline-item">
-                                                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                                                <div class="layui-timeline-content layui-text">
-                                                                    <h3 class="layui-timeline-title">{{v.time}}</h3>
-                                                                    <p>
-                                                                        {{v.value}}
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            {{/each}}
-                                                            <li class="layui-timeline-item">
-                                                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                                                <div class="layui-timeline-content layui-text">
-                                                                    <div class="layui-timeline-title">...</div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </script>
-                                                    <!---->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="container2" style="width: 25%;float: left;margin-left: 20px">
+                                    <div id="container3" style="width: 35%; float: left; height: 200px; border:1px solid #DDDDDD;">
+                                         <div class="news_list">
+                                             <div style="text-align: center; font-size: 30px;"><b>公告</b>
+                                                 {if $re['roleid']==1}
+                                                 <button id="issue" style="width: 100px" ;
+                                                         class="layui-btn layui-btn-normal">发布公告
+                                                 </button>
+                                                 {else}
+                                                 {/if}
+                                             </div>
+                                             <div class="news_content">
+                                                 <ul style="font-size: 20px;overflow: hidden;text-overflow:ellipsis;"
+                                                     id="oid">
+                                                     {foreach $notice as $v}
+                                                     <li id="{$v.id}">
+                                                         <span style="margin-right: 30px;">{$v.create_time|date="Y-m-d H:i"}</span>
+                                                         <a href="#">{$v.title}</a></li>
+                                                     {/foreach}
+                                                 </ul>
+                                             </div>
+                                         </div>
+                                    </div>
+                                    <div id="container2" style="float: left; margin-left:15px ">
                                             <div class="welcome-info">
-                                                <div class="skin2" id="weather1"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="container3" style="width: 40%; height:420px;float: right; margin-right: 20px; border:1px solid #DDDDDD;">
-
-                                    </div>
+                                    <div class="skin2"  style="width:550px;height: 200px;overflow: hidden;"; id="weather1"></div>
+                                </div>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +322,7 @@
 </div>
 
 
-<script>
+<!--<script>
     //调用
     layui
         .config({
@@ -395,7 +358,7 @@
             }
         })
     })
-</script>
+</script>-->
 
 <script>
     $('#weather1').leoweather({
@@ -464,6 +427,40 @@
         $("#oid li:even").css("background-color","#c2c2c2");*/
         // $("#oid li:odd").addClass("layui-bg-green");
         // $("#oid li:even").addClass("even");
+
+    });
+</script>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+<script>
+    layui.use(['tree', 'util'], function () {
+        var tree = layui.tree
+            , layer = layui.layer
+            , util = layui.util
+            //模拟数据1
+        //常规用法
+        $.ajax({
+            type: "get",
+            url: "/admin/main/calendar",
+            async:false,
+            success: function (e) {
+                 da=e;
+            }
+
+        });
+        console.log(da);
+        tree.render({
+            elem: '#test1' //默认是点击节点可进行收缩
+            , data: da
+            ,click: function(obj){
+            console.log(obj.data); //得到当前点击的节点数据
+            console.log(obj.state); //得到当前节点的展开状态：open、close、normal
+            console.log(obj.elem); //得到当前节点元素
+
+            console.log(obj.data.children); //当前节点下是否有子节点
+        }
+            // ,data:data3
+        });
+
 
     });
 </script>
