@@ -1174,7 +1174,7 @@ class BasisData extends Adminbase{
         }
         $p_item_number = array_column(Db::name('f_project')->where($condintion)->field('p_item_number')->select(),'p_item_number');
 
-        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(),null,'id');
         $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');//获取所有辅材细类
         $fines = Db::name('basis_materials')->field('fine,unit')->group('fine')->select();
         $this->assign('admininfo',$this->_userinfo);
