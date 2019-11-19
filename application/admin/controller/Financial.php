@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller; 
 
+use app\applet\model\Jiezhi;
 use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
@@ -126,7 +127,33 @@ class Financial extends Adminbase{
 
     //借支 
     public function lend_money(){
+        $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('frameid', $login['companyid'])->select();
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->select();
+        }
+        $this->assign('userinfo',$userinfo);
+        $this->assign('audit',$audit);
+        return $this->fetch();
+    }
 
+    public function net_payroll(Request $request)
+    { 
+        $login = $this->_userinfo;
+        $net_payroll=$request->get();
+        $res = Jiezhi::get($net_payroll['id']);
+        $res->status=3;
+        $res->bid=$login['userid'];
+        $res->net_payroll=$net_payroll['net_payroll'];
+        $res->cwtime=date('y-m-d h:i:s', time());
+        $res->save();
+        if($res){
+            $this->success('拨款成功');
+        }else{
+            $this->error('拨款失败');
+        }
     }
     // //订单列表 (只显示 合同价-未审 合同价以审 结算价) 未审订单靠上
     // public function order_list(){
