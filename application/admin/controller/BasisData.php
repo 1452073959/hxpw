@@ -467,7 +467,7 @@ class BasisData extends Adminbase{
         $res = Db::name('f_materials')->insertGetId($datas);
         if($res){
             Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$info['amcode'].'_'.$res]);
-            // $this->update_fwarehouse($info['amcode'].'_'.$res);
+            $this->update_fwarehouse($info['amcode'].'_'.$res);
             $this->success('添加成功','fwarehouse_list');
         }else{
             $this->error('添加失败');
@@ -478,7 +478,7 @@ class BasisData extends Adminbase{
     public function edit_fwarehouse_operation(){
         $datas = input();
         $res = Db::name('f_materials')->where(['amcode'=>$datas['amcode']])->update($datas);
-        // $this->update_fwarehouse($datas['amcode']);
+        $this->update_fwarehouse($datas['amcode']);
         if($res){
             $this->success('修改成功');
         }else{
@@ -493,8 +493,8 @@ class BasisData extends Adminbase{
         Db::startTrans();
         try {
             Db::name('f_project')->where('material','like','%'.$amcode.'%')->where(['fid'=>$info['fid']])->update(['status'=>2]);
+            $this->update_fwarehouse($amcode,1);
             $res = Db::name('f_materials')->where(['amcode'=>$amcode])->delete();
-            // $this->update_fwarehouse($amcode,1);
             Db::commit();
         } catch (\Exception $e) {
             Db::rollback();
@@ -592,10 +592,10 @@ class BasisData extends Adminbase{
         }else{
             $datas['material'] = '';
         }
-        
         $res = Db::name('f_project')->insertGetId($datas);
         if($res){
             Db::name('f_project')->where(['id'=>$res])->update(['item_number'=>$info['item_number'].'_'.$res]);
+            $this->update_fproject($info['item_number'].'_'.$res);
             $this->success('添加成功','fproject_list');
         }else{
             $this->error('添加失败');
@@ -607,7 +607,9 @@ class BasisData extends Adminbase{
         $datas = input();
         // $datas['fid'] = $this->_userinfo['companyid'];
         $info = Db::name('basis_project')->where(['item_number'=>$datas['p_item_number']])->find();
-        if(!$info){
+
+        $f_project = Db::name('f_project')->where(['id'=>$datas['id']])->find();
+        if(!$info || !$f_project){
             $this->error('参数错误');
         }
         $datas['cost_value'] = $datas['quota'] + $datas['craft_show'];
@@ -618,6 +620,7 @@ class BasisData extends Adminbase{
         }
         $datas['status'] = 1;
         $res = Db::name('f_project')->where(['id'=>$datas['id']])->update($datas);
+        $this->update_fproject($f_project['item_number']);
         if($res){
             
             $this->success('添加成功','fproject_list');
@@ -629,6 +632,11 @@ class BasisData extends Adminbase{
     //删除分公司报价
     public function del_fproject(){
         $id = input('id');
+        $f_project = Db::name('f_project')->where(['id'=>$id])->find();
+        if(!$f_project){
+            $this->error('参数错误');
+        }
+        $this->update_fproject($f_project['item_number'],1);
         $res = Db::name('f_project')->where(['id'=>$id])->delete();
         if($res){
             $this->success('删除成功');
@@ -1704,10 +1712,14 @@ class BasisData extends Adminbase{
 
     //新增 删除 修改 分公司辅材 及时更新到线上    以后加到model里面
     public function update_fwarehouse($amcode,$is_del=0){
-        // return true;
+        return true;
         $f_materials = Db::name('f_materials')->where(['amcode'=>$amcode])->find();
         if(!$f_materials){
             throw new \think\Exception('分公司辅材库有误', 10006);
+        }
+        if($is_del == 1){
+            Db::name('materials')->where(['amcode'=>$amcode])->delete();
+            return true;
         }
         $basis_materials = Db::name('basis_materials')->where(['amcode'=>$f_materials['p_amcode']])->find();
         if(!$basis_materials){
@@ -1742,14 +1754,20 @@ class BasisData extends Adminbase{
 
     //新增 删除 修改 分公司报价 及时更新到线上    以后加到model里面
     public function update_fproject($item_number,$is_del=0){
-        $f_project = Db::name('f_project')->where(['amcode'=>$item_number])->find();
+        return true;
+        $f_project = Db::name('f_project')->where(['item_number'=>$item_number])->find();
         if(!$f_project){
             throw new \think\Exception('分公司项目库库有误', 10006);
         }
-        $basis_project = Db::name('basis_project')->where(['amcode'=>$f_materials['p_item_number']])->find();
+        if($is_del == 1){
+            Db::name('offerquota')->where(['item_number'=>$item_number])->delete();
+            return true;
+        }
+        $basis_project = Db::name('basis_project')->where(['item_number'=>$f_project['p_item_number']])->find();
         if(!$basis_project){
             throw new \think\Exception('辅材基础库有误', 10006);
         }
+        $basis_type_work = array_column(Db::name('basis_type_work')->select(), 'name','id') ;
         $info = [];
         //计算辅材基数
         if($f_project['material']){
@@ -1778,7 +1796,7 @@ class BasisData extends Adminbase{
             $info['content'] = '';
         }
         $info['frameid'] = $f_project['fid'];
-        $info['userid'] = $admininfo['userid'];
+        $info['userid'] = $this->_userinfo['companyid'];
         $info['item_number'] = $f_project['item_number'];
         $info['type_of_work'] = $basis_type_work[$basis_project['type_word_id']];
 
@@ -1794,5 +1812,12 @@ class BasisData extends Adminbase{
         $info['craft_show'] = $f_project['craft_show'];
         $info['labor_cost'] = $f_project['labor_cost'];
         $info['material'] = $basis_project['content'];
+        $offerquota = Db::name('offerquota')->where(['item_number'=>$info['item_number']])->find();
+        if($offerquota){
+            //已有了 就修改
+            Db::name('offerquota')->where(['item_number'=>$info['item_number']])->update($info);
+        }else{
+            Db::name('offerquota')->insert($info);
+        }
     }
 }
