@@ -21,6 +21,41 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 class BasisData extends Adminbase{
+
+    //查看每间分公司录入情况报表
+    public function get_entry_statistical(){
+        $arr = [];
+        $f_materials = array_column(Db::name('f_materials')->group('fid')->field('count(id) as f_materials,fid')->select(),null, 'fid') ;
+        $f_project = array_column(Db::name('f_project')->group('fid')->field('count(id) as f_project,fid')->select(),null, 'fid');
+        $apply_material1 = array_column(Db::name('apply_material')->where(['status'=>1])->group('fid')->field('count(id) as apply_material1,fid')->select(),null, 'fid');
+        $apply_material2 = array_column(Db::name('apply_material')->where(['status'=>2])->group('fid')->field('count(id) as apply_material2,fid')->select(),null, 'fid');
+        $apply_project1 = array_column(Db::name('apply_project')->where(['status'=>1])->group('fid')->field('count(id) as apply_project1,fid')->select(),null, 'fid');
+        $apply_project2 = array_column(Db::name('apply_project')->where(['status'=>2])->group('fid')->field('count(id) as apply_project2,fid')->select(),null, 'fid');
+        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        foreach($frame as $k=>$v){
+            if(isset($f_materials[$v['id']])){
+                $arr[$v['name']]['f_materials'] = $f_materials[$v['id']]['f_materials'];
+            }
+            if(isset($f_project[$v['id']])){
+                $arr[$v['name']]['f_project'] = $f_project[$v['id']]['f_project'];
+            }
+            if(isset($apply_material1[$v['id']])){
+                $arr[$v['name']]['apply_material1'] = $apply_material1[$v['id']]['apply_material1'];
+            }
+            if(isset($apply_material2[$v['id']])){
+                $arr[$v['name']]['apply_material2'] = $apply_material2[$v['id']]['apply_material2'];
+            }
+            if(isset($apply_project1[$v['id']])){
+                $arr[$v['name']]['apply_project1'] = $apply_project1[$v['id']]['apply_project1'];
+            }
+            if(isset($apply_project2[$v['id']])){
+                $arr[$v['name']]['apply_project2'] = $apply_project2[$v['id']]['apply_project2'];
+            }
+        }
+        $this->assign('data',$arr);
+        return $this->fetch();
+    }
+
     //公共工种列表
     public function public_type_work(){
         $where = [];
@@ -432,6 +467,7 @@ class BasisData extends Adminbase{
         $res = Db::name('f_materials')->insertGetId($datas);
         if($res){
             Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$info['amcode'].'_'.$res]);
+            // $this->update_fwarehouse($info['amcode'].'_'.$res);
             $this->success('添加成功','fwarehouse_list');
         }else{
             $this->error('添加失败');
@@ -442,6 +478,7 @@ class BasisData extends Adminbase{
     public function edit_fwarehouse_operation(){
         $datas = input();
         $res = Db::name('f_materials')->where(['amcode'=>$datas['amcode']])->update($datas);
+        // $this->update_fwarehouse($datas['amcode']);
         if($res){
             $this->success('修改成功');
         }else{
@@ -457,6 +494,7 @@ class BasisData extends Adminbase{
         try {
             Db::name('f_project')->where('material','like','%'.$amcode.'%')->where(['fid'=>$info['fid']])->update(['status'=>2]);
             $res = Db::name('f_materials')->where(['amcode'=>$amcode])->delete();
+            // $this->update_fwarehouse($amcode,1);
             Db::commit();
         } catch (\Exception $e) {
             Db::rollback();
@@ -1662,5 +1700,99 @@ class BasisData extends Adminbase{
         }else{
             $this->error('请选择上传文件');
         }
+    }
+
+    //新增 删除 修改 分公司辅材 及时更新到线上    以后加到model里面
+    public function update_fwarehouse($amcode,$is_del=0){
+        // return true;
+        $f_materials = Db::name('f_materials')->where(['amcode'=>$amcode])->find();
+        if(!$f_materials){
+            throw new \think\Exception('分公司辅材库有误', 10006);
+        }
+        $basis_materials = Db::name('basis_materials')->where(['amcode'=>$f_materials['p_amcode']])->find();
+        if(!$basis_materials){
+            throw new \think\Exception('辅材基础库有误', 10006);
+        }
+        $info = [];
+        $info['frameid'] = $f_materials['fid'];
+        $info['userid'] = $this->_userinfo['userid'];
+        $info['amcode'] = $f_materials['amcode'];
+        $info['fine'] = $basis_materials['classify'];
+        $info['brand'] = $f_materials['brank'];
+        $info['place'] = $f_materials['place'];
+        $info['category'] = $basis_materials['type_of_work'];
+        $info['name'] = $basis_materials['name'];
+        $info['img'] = $f_materials['img'];
+        $info['units'] = $f_materials['phr'];
+        $info['phr'] = $f_materials['pack'].$basis_materials['unit'].'/'.$f_materials['phr'];
+        $info['price'] = $f_materials['price'];
+        $info['in_price'] = $f_materials['in_price'];
+        $info['remarks'] = $f_materials['source'];
+        $info['coefficient'] = $basis_materials['coefficient'];
+        $info['important'] = $basis_materials['important'];
+        
+        $materials = Db::name('materials')->where(['amcode'=>$info['amcode']])->find();
+        if($materials){
+            //已有了 就修改
+            Db::name('materials')->where(['amcode'=>$info['amcode']])->update($info);
+        }else{
+            Db::name('materials')->insert($info);
+        }
+    }
+
+    //新增 删除 修改 分公司报价 及时更新到线上    以后加到model里面
+    public function update_fproject($item_number,$is_del=0){
+        $f_project = Db::name('f_project')->where(['amcode'=>$item_number])->find();
+        if(!$f_project){
+            throw new \think\Exception('分公司项目库库有误', 10006);
+        }
+        $basis_project = Db::name('basis_project')->where(['amcode'=>$f_materials['p_item_number']])->find();
+        if(!$basis_project){
+            throw new \think\Exception('辅材基础库有误', 10006);
+        }
+        $info = [];
+        //计算辅材基数
+        if($f_project['material']){
+            $fine = json_decode($basis_project['fine'],true);
+            $fine = array_column($fine, 'funit','fine');//公式
+
+            $material = json_decode($f_project['material'],true);
+            $datas_material = [];
+            foreach($material as $k1=>$v1){
+                // $fine[$k1] 需要的数量
+                $pack = Db::name('f_materials')->where(['amcode'=>$v1])->value('pack');//包装数量
+                if(!$pack){
+                    // $this->error('项目编号'.$f_project['item_number'].'中,辅材编号'.$v1.'不存在');
+                    throw new \think\Exception('项目编号'.$f_project['item_number'].'中,辅材编号'.$v1.'不存在', 10006);
+                }
+                //下面这个格式是按照之前的格式的 [对应辅材id,基数]
+                // v1 的id不对
+                $num = round($fine[$k1]/$pack,2);
+                if($num <= 0){
+                    $num = 0.001;
+                }
+                $datas_material[] = [$v1,round($num,2)];
+            }
+            $info['content'] = json_encode($datas_material);
+        }else{
+            $info['content'] = '';
+        }
+        $info['frameid'] = $f_project['fid'];
+        $info['userid'] = $admininfo['userid'];
+        $info['item_number'] = $f_project['item_number'];
+        $info['type_of_work'] = $basis_type_work[$basis_project['type_word_id']];
+
+        if($f_project['remark']){
+            $info['project'] = $basis_project['name'].'（'.$f_project['remark'].'）';
+        }else{
+            $info['project'] = $basis_project['name'];
+        }
+        
+        $info['company'] = $basis_project['unit'];
+        $info['cost_value'] = $f_project['cost_value'];
+        $info['quota'] = $f_project['quota'];
+        $info['craft_show'] = $f_project['craft_show'];
+        $info['labor_cost'] = $f_project['labor_cost'];
+        $info['material'] = $basis_project['content'];
     }
 }
