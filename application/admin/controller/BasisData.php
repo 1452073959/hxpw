@@ -31,6 +31,8 @@ class BasisData extends Adminbase{
         $apply_material2 = array_column(Db::name('apply_material')->where(['status'=>2])->group('fid')->field('count(id) as apply_material2,fid')->select(),null, 'fid');
         $apply_project1 = array_column(Db::name('apply_project')->where(['status'=>1])->group('fid')->field('count(id) as apply_project1,fid')->select(),null, 'fid');
         $apply_project2 = array_column(Db::name('apply_project')->where(['status'=>2])->group('fid')->field('count(id) as apply_project2,fid')->select(),null, 'fid');
+        $personnel = array_column(Db::name('personnel')->group('fid')->field('count(id) as personnel,fid')->select(),null, 'fid');
+        $department = array_column(Db::name('department')->group('fid')->field('count(id) as department,fid')->select(),null, 'fid');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
         foreach($frame as $k=>$v){
             if(isset($f_materials[$v['id']])){
@@ -50,6 +52,12 @@ class BasisData extends Adminbase{
             }
             if(isset($apply_project2[$v['id']])){
                 $arr[$v['name']]['apply_project2'] = $apply_project2[$v['id']]['apply_project2'];
+            }
+            if(isset($personnel[$v['id']])){
+                $arr[$v['name']]['personnel'] = $personnel[$v['id']]['personnel'];
+            }
+            if(isset($department[$v['id']])){
+                $arr[$v['name']]['department'] = $department[$v['id']]['department'];
             }
         }
         $this->assign('data',$arr);

@@ -71,6 +71,8 @@
                         <th class="taleft" lay-data="{field:'f_project',width:180}">报价录入</th>
                         <th class="taleft" lay-data="{field:'apply_project1',width:180}">报价未审</th>
                         <th class="taleft" lay-data="{field:'apply_project2',width:180}">报价已审</th>
+                        <th class="taleft" lay-data="{field:'department',width:180}">部门已录</th>
+                        <th class="taleft" lay-data="{field:'personnel',width:180}">人员已录</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -83,6 +85,8 @@
                       <td class="taleft">{$vo.f_project ?: 0}</td>
                       <td class="taleft">{$vo.apply_project1 ?: 0}</td>
                       <td class="taleft">{$vo.apply_project2 ?: 0}</td>
+                      <td class="taleft">{$vo.department ?: 0}</td>
+                      <td class="taleft">{$vo.personnel ?: 0}</td>
                     </tr>       
                  {/foreach}
                 </tbody>
