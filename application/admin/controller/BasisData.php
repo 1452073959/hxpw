@@ -662,7 +662,10 @@ class BasisData extends Adminbase{
 
     public function create_datas(){
         $admininfo = $this->_userinfo;
-        $fid = input('fid')?input('fid'):$admininfo['companyid'];
+        if(!input('fid')){
+            $this->error('参数错误');
+        }
+        $fid = input('fid');
         $time = time();
         Db::startTrans();
         try {
