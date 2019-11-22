@@ -1272,7 +1272,7 @@ class BasisData extends Adminbase{
             }
         }
         if(count($name) != count(array_unique($name))){
-            $this->error('项目名称重复');
+            // $this->error('项目名称重复');
         }
         $insert_datas = [];
         foreach($name as $k=>$v){
