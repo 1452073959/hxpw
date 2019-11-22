@@ -1726,7 +1726,7 @@ class BasisData extends Adminbase{
 
     //新增 删除 修改 分公司辅材 及时更新到线上    以后加到model里面
     public function update_fwarehouse($amcode,$is_del=0){
-        return true;
+        // return true;
         $f_materials = Db::name('f_materials')->where(['amcode'=>$amcode])->find();
         if(!$f_materials){
             throw new \think\Exception('分公司辅材库有误', 10006);
@@ -1768,7 +1768,7 @@ class BasisData extends Adminbase{
 
     //新增 删除 修改 分公司报价 及时更新到线上    以后加到model里面
     public function update_fproject($item_number,$is_del=0){
-        return true;
+        // return true;
         $f_project = Db::name('f_project')->where(['item_number'=>$item_number])->find();
         if(!$f_project){
             throw new \think\Exception('分公司项目库库有误', 10006);
