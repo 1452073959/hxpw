@@ -117,6 +117,8 @@ class BasisData extends Adminbase{
         $data['fine'] = input('fine');
         $data['name'] = input('name');
         $data['unit'] = input('unit');
+        $data['brank'] = input('brank');
+        $data['place'] = input('place');
         $data['coefficient'] = input('coefficient');
         $data['important'] = input('important');
         if(!$data['amcode'] || !$data['type_of_work'] || !$data['fine'] || !$data['name'] || !$data['unit'] ){

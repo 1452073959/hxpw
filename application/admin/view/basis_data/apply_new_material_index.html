@@ -454,6 +454,8 @@
                             var fine = $('input[name="fine"]').val();
                             var name = $('input[name="name"]').val();
                             var unit = $('input[name="unit"]').val();
+                            var brank = $('input[name="brank"]').val();
+                            var place = $('input[name="place"]').val();
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
@@ -468,7 +470,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/add_public_warehouse',{apply_material_id:apply_material_id,amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify},function(res){
+                            $.post('/admin/basis_data/add_public_warehouse',{apply_material_id:apply_material_id,amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify,brank:brank,place:place},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
