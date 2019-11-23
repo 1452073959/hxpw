@@ -513,7 +513,7 @@ class BasisData extends Adminbase{
         $info = Db::name('f_materials')->where(['amcode'=>$amcode])->find();
         Db::startTrans();
         try {
-            Db::name('f_project')->where('material','like','%'.$amcode.'%')->where(['fid'=>$info['fid']])->update(['status'=>2]);
+            // Db::name('f_project')->where('material','like','%'.$amcode.'%')->where(['fid'=>$info['fid']])->update(['status'=>2]);
             $this->update_fwarehouse($amcode,1);
             $res = Db::name('f_materials')->where(['amcode'=>$amcode])->delete();
             Db::commit();
