@@ -1207,7 +1207,7 @@ class BasisData extends Adminbase{
             }
         }
         if(count($name) != count(array_unique($name))){
-            $this->error('名字重复');
+            // $this->error('名字重复');
         }
         // if(count($brank) != count(array_unique($brank))){
         //     $this->error('品牌重复');
