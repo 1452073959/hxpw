@@ -304,9 +304,10 @@ display: block;
             }
         })
 
-        var ajax_true = 1;
+        
         //工具栏事件
         table.on('tool(test3)', function(obj){
+            var ajax_true = 1;
             var data = obj.data; //获得当前行数据
             if (obj.event == 'add'){
                 //获取细类
