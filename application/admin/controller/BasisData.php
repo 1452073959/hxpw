@@ -22,6 +22,33 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BasisData extends Adminbase{
 
+    public function text1(){
+        $basis_project = Db::name('basis_project')->select();
+        foreach($basis_project as $k=>$v){
+            if($v['fine']){
+              $json = json_decode($v['fine'],true);  
+              foreach($json as $k1=>$v2){
+                if(!is_numeric($v2['funit'])){
+                    echo $v['item_number'].'<br />';
+                }
+              }
+            }
+            
+        }
+    }
+    public function text(){
+        $in = ['NW025','NW026','NW046','NW048','NW049','NW059','NW059','NW061','NW061','NW063','NW068','NW068','NW068','NW069','NW069','NW069','NW070','NW070','NW070','NW071','NW071','NW071','NW072','NW123','NW124','NW125','NW126','NW127','NW128','NW129','NW130','NW131','NW132','NW133','NW134','NW135','NW136','NW143','NW144','NW145','NW146','NW147','NW148','NW149','NW150','NW151','NW152','NW153','NW154','NW155','NW156','NW157','NW158','NW168','NW200','NW214','NW214','NW215','NW215','NW228','NW254','NW260','NW264','NW265','NW266','NW267','NW268','NW269','NW270','NW272','MZ089','MZ090','MZ090','MZ090','MZ091','MZ091','MZ091','MZ092','MZ092','MZ092','MZ093','MZ093','MZ094','MZ094','MZ095','MZ095','MZ095','MZ096','MZ096','MZ097','MZ097','MZ098','MZ098','MZ098','MZ099','MZ099','MZ099','MZ100','MZ100','MZ101','MZ101','MZ102','MZ102','MZ103','MZ103','MZ104','MZ104','MZ105','MZ106','MZ107','MZ108','MZ109','MZ110','MZ111','MZ112','MZ113','MZ117','MZ118','MZ118','MZ118','MZ119','MZ119','MZ119','MZ120','MZ120','MZ121','MZ121','MZ122','MZ122','MZ122','MZ124','MZ124','MZ124','MZ124','MZ125','MZ125','MZ125','MZ125','MZ125','MZ126','MZ126','MZ126','MZ126','MZ126','MZ127','MZ127','MZ127','MZ127','MZ127','MZ128','MZ128','MZ128','MZ128','MZ128','MZ129','MZ129','MZ129','MZ130','MZ130','MZ131','MZ131','MZ132','MZ132','MZ132','MZ133','MZ133','MZ133','MZ133','MZ134','MZ134','MZ135','MZ135','MZ135','MZ135','MZ136','MZ136','MZ136','MZ136','MZ137','MZ137','MZ137','MZ138','MZ138','MZ138','MZ139','MZ139','MZ139','MZ140','MZ140','MZ140','MZ141','MZ141','MZ141','MZ142','MZ142','MZ142','MZ143','MZ143','MZ143','MZ144','MZ144','MZ144','MZ144','MZ144','MZ145','MZ145','MZ145','MZ145','MZ145','MZ146','MZ146','MZ146','MZ146','MZ146','MZ147','MZ147','MZ147','MZ148','MZ148','MZ148','MZ148','MZ149','MZ149','MZ149','MZ149','MZ149','MZ152','MZ152','MZ157','MZ157','MZ158','MZ158','MZ163','MZ164','MZ164','MZ164','MZ165','MZ165','MZ165','MZ166','MZ166','MZ167','MZ167','MZ167','MZ170','MZ173','MZ173','MZ173','MZ174','MZ174','MZ174','MZ174','MZ175','MZ175','MZ175','MZ175','MZ175','MZ180','MZ183','MZ183','MZ183','MZ185','MZ185','MZ185','MZ185','MZ186','MZ186','MZ186','MZ186','MZ188','MZ189','MZ193','MZ193','MZ193','MG001','MG001','MG001','MG001','MG002','MG002','MG002','MG002','MG003','MG003','MG003','MG003','MG004','MG004','MG005','MG005','MG006','MG007','MG007','MG008','MG009','MG010','MG011','MG012','MG013','MG014','MG015','MG016','MG017','MG018','MG019','MG020','MG021','MG024','MG025','MG026','MG027','MG028','MG029','MG050','MG051','MG051','MG064','MG065','MG066','MG066','MG079','MG080','MG080','MG081','MG082','MG083','MG084','MG084','MG098','MG099','MG100','MG101','MG102','MG103','MG104','MG105','MG106','MG107','MG109','MG110','MG116','MG116','MG116','MG116','MG117','MG117','MG117','MG117','MG118','MG118','MG118','MG118','MG119','MG120','MG121','MG122','MG123','MG123','MG123','MG123','MG124','MG124','MG124','MG125','MG128','MG128','MG129','MG133','MG133','MG133','MG134','MG134','MG134','MG135','MG135','MG135','MG136','MG136','MG136','MG137','MG137','MG137','MG139','MG139','MG139','MG145','MG145','MG145','MG146','MG146','MG147','MG147','MG147','MG148','MG149','MG154','MG158','MG159','MG162','MG162','MG162','MG162','MG164','MG164','MG164','MG165','MG165','MG165','MG166','MG166','MG166','MG168','MG168','MG168','MG168','MG179','MG179','MG180','MG188','MG189','MG190','MG191','MG192','MG193','MG197','MG198','MG199','MG200','YQ003','YQ003','YQ004','YQ004','YQ005','YQ005','YQ006','YQ007','YQ007','YQ007','YQ008','YQ008','YQ008','YQ009','YQ009','YQ009','YQ010','YQ010','YQ010','YQ011','YQ011','YQ011','YQ012','YQ012','YQ012','YQ013','YQ013','YQ013','YQ014','YQ014','YQ014','YQ015','YQ015','YQ016','YQ017','YQ017','YQ018','YQ018','YQ020','YQ021','YQ021','YQ022','YQ022','YQ023','YQ023','YQ024','YQ024','YQ025','YQ025','YQ026','YQ026','YQ027','YQ028','YQ030','YQ031','YQ032','YQ038','YQ038','YQ039','YQ039','YQ040','YQ040','YQ041','YQ041'];
+        $basis_project = Db::name('basis_project')->where(['item_number'=>$in])->select();
+        foreach($basis_project as $k=>$v){
+            $info = json_decode($v['fine'],true);
+            foreach($info as $k1=>$v1){
+                $funit = str_replace('=', '', $v1['funit']);
+                $info[$k1]['funit'] = eval("return $funit;");
+            }
+            Db::name('basis_project')->where(['item_number'=>$v['item_number']])->update(['fine'=>json_encode($info)]);
+        }
+    }
+
     //查看每间分公司录入情况报表
     public function get_entry_statistical(){
         $arr = [];
