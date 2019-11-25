@@ -197,6 +197,7 @@ display: block;
         html += '       <td><input class="layui-input" name="name[]" /></td>'
         html += '       <td><input class="layui-input" name="unit[]" /></td>'
         html += '       <td><input class="layui-input" name="content[]" /></td>'
+        html += '       <td><input class="layui-input" name="material[]" /></td>'
         html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
         $('#apply_new tbody').append(html);
@@ -247,6 +248,7 @@ display: block;
                 html += '         <col width="200">'
                 html += '         <col width="100">'
                 html += '         <col width="300">'
+                html += '         <col width="250">'
                 html += '         <col width="30">'
                 html += '         <col>'
                 html += '     </colgroup>'
@@ -255,6 +257,7 @@ display: block;
                 html += '           <th>项目名称</th>'
                 html += '           <th>单位</th>'
                 html += '           <th>施工工艺与材料说明</th>'
+                html += '           <th>使用辅材明细</th>'
                 html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                 html += '       </tr> '
                 html += '     </thead>'
@@ -263,6 +266,7 @@ display: block;
                 html += '       <td><input class="layui-input" name="name[]" /></td>'
                 html += '       <td><input class="layui-input" name="unit[]" /></td>'
                 html += '       <td><input class="layui-input" name="content[]" /></td>'
+                html += '       <td><input class="layui-input" name="material[]" /></td>'
                 html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                 html += '     </tr>'
                 html += '     </tbody>'
@@ -271,7 +275,7 @@ display: block;
                 layer.open({
                     content: html,
                     title:'申请新辅材',
-                    area: ['680px', '580px'], //宽高
+                    area: ['780px', '580px'], //宽高
                     btn: ['提交', '取消'],
                     yes: function(index, layero){
                         var addform = $('#formdatas').serializeArray();

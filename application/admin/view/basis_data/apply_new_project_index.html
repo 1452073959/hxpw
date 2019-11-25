@@ -121,6 +121,9 @@
                         <th class="" lay-data="{field:'name',width:200}">项目名称</th>
                         <th class="" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="" lay-data="{field:'content',width:300}">施工工艺与材料说明</th>
+                        {if($admininfo['userid'] == 1)}
+                            <th class="" lay-data="{field:'material',width:200}">所需辅材</th>
+                        {/if}
                         <th class="" lay-data="{field:'status',width:180}">状态</th>
                         <th class="" lay-data="{field:'addtime',width:180}">申请时间</th>
                         {if($admininfo['userid'] == 1)}
@@ -137,6 +140,9 @@
                             <td class="">{$vo.name}</td>
                             <td class="">{$vo.unit}</td>
                             <td class="">{$vo.content}</td>
+                            {if($admininfo['userid'] == 1)}
+                                <td class="">{$vo.material}</td>
+                            {/if}
                             <td class="">
                                 {if($vo['status'] == 2)}
                                     {if($admininfo['userid'] == 1)}

@@ -1273,6 +1273,7 @@ class BasisData extends Adminbase{
         $name = input('name');
         $content = input('content');
         $unit = input('unit');
+        $material = input('material');
         if(empty($name) || empty($content) || empty($unit)){
             $this->error('参数有误');
         }
@@ -1303,6 +1304,7 @@ class BasisData extends Adminbase{
             $insert_datas[$k]['name'] = $v;
             $insert_datas[$k]['content'] = $content[$k];
             $insert_datas[$k]['unit'] = $unit[$k];
+            $insert_datas[$k]['material'] = $material[$k];
         }
         $res = Db::name('apply_project')->insertAll($insert_datas);
         if($res){
