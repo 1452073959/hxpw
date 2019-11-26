@@ -114,6 +114,7 @@
                         <th class="taleft" lay-data="{field:'unit', width:100}">单位</th>
                         <th class="taleft" lay-data="{field:'materials'}">用料</th>
                         <th class="taleft" lay-data="{field:'content',width:400}">工艺说明</th>
+                        <th class="taleft" lay-data="{field:'count',width:100}">已用数</th>
                         <th width="150" lay-data="{field:'edit',width:100}">操作</th>
                     </tr>
                 </thead>
@@ -136,6 +137,7 @@
                         <?php } ?>
                         </td>
                       <td class="taleft">{$vo.content}</td>
+                      <td class="taleft">{$vo.count}</td>
                       <td>
                         <a href="javascript:;" lay-event="edit" class="">编辑</a>
                         <a href="javascript:;" lay-event="del" class="">删除</a>

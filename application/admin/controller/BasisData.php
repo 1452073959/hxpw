@@ -104,7 +104,10 @@ class BasisData extends Adminbase{
         if(input('sname')){
             $where[] = ['name','like','%'.input('sname').'%'];
         }
-        $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('basis_materials')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['count'] = Db::name('f_materials')->where(['p_amcode'=>$item['amcode']])->field('count(id) as count')->find()['count'];
+            return $item;
+        });
         $this->assign('data',$res);
         return $this->fetch();
     }
@@ -178,16 +181,25 @@ class BasisData extends Adminbase{
             $this->error('是否重要输入不规范');
         }
         //判断细类单位是否一致
-        $unit = Db::name('basis_materials')->where(['fine'=>$data['fine']])->value('unit');
-        if($unit && $unit != $data['unit']){
-            $this->error('细类单位错误，应为：'.$unit);
+        
+        $edit_unit = 0;
+        Db::startTrans();
+        try {
+            $unit = Db::name('basis_materials')->where(['fine'=>$data['fine']])->value('unit');
+            if($unit && $unit != $data['unit']){
+                $edit_unit = Db::name('basis_materials')->where(['fine'=>$data['fine']])->update(['unit'=>$data['unit']]);
+                unset($data['unit']);
+            }
+            $res = Db::name('basis_materials')->where(['amcode'=>$data['amcode']])->update($data);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
         }
-
-        $res = Db::name('basis_materials')->where(['amcode'=>$data['amcode']])->update($data);
-        if($res){
-            $this->success('编辑成功');
+        if($edit_unit){
+            $this->success('编辑成功，同时修改了'. ($edit_unit-1) .'个辅材单位');
         }else{
-            $this->error('编辑失败');
+            $this->success('编辑成功');
         }
     }
 
@@ -203,7 +215,10 @@ class BasisData extends Adminbase{
         if(input('name')){
             $where[] = ['name','like','%'.input('name').'%'];
         }
-        $res = Db::name('basis_project')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('basis_project')->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['count'] = Db::name('f_project')->where(['p_item_number'=>$item['item_number']])->field('count(id) as count')->find()['count'];
+            return $item;
+        });;
         //获取所有辅材细类
         $fines = Db::name('basis_materials')->field('fine,unit')->group('fine')->select();
         $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');
