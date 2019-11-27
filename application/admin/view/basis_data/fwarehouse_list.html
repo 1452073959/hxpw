@@ -146,7 +146,9 @@
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入辅材数据{:input('fid')}</button>
+                    {if $user==1}
                     <a href="/admin/basis_data/auxiliaryderive/?id={:input('fid')}"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a>
+                    {/if}
                     <!-- <a class="layui-btn layui-btn-sm" href="javascript:;" lay-event="apply_new">申请新辅材</a>  -->
                 </div>
             </script>

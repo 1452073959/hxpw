@@ -113,6 +113,7 @@ class BasisData extends Adminbase{
             $item['count'] = Db::name('f_materials')->where(['p_amcode'=>$item['amcode']])->field('count(id) as count')->find()['count'];
             return $item;
         });
+
         $this->assign('data',$res);
         return $this->fetch();
     }
@@ -480,6 +481,8 @@ class BasisData extends Adminbase{
         $p_amcode = array_unique(array_column($data->items(), 'p_amcode'));
         $basis_materials = array_column(Db::name('basis_materials')->where(['amcode'=>$p_amcode])->select(),null, 'amcode');
         $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $user=$this->_userinfo;
+        $this->assign('user',$user['roleid']);
         $this->assign('frame',$frame);
         $this->assign('admininfo',$this->_userinfo);
         $this->assign('basis_materials',$basis_materials);
@@ -1901,8 +1904,6 @@ class BasisData extends Adminbase{
     {
 
         $da=$request->get();
-
-
         if(empty($da['id'])){
             $data = Db::name('f_materials')->select();
             $frame='全部数据';
@@ -1910,7 +1911,6 @@ class BasisData extends Adminbase{
             $frame=Db::table('fdz_frame')->where('id',$da['id'])->value('name');
             $data = Db::name('f_materials')->where('fid',$da['id'])->select();
         }
-        
         foreach ($data as $k=>$v)
         {
             $data[$k]['type_of_work']=Db::table('fdz_basis_materials')->where('amcode',$v['p_amcode'])->value('type_of_work');
