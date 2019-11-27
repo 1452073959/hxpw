@@ -24,6 +24,42 @@ class BasisData extends Adminbase{
 
     //辅材报表
     public function material_report(){
+
+        $where = [];
+        if(input('type_of_work')){
+            $where['b.type_of_work'] = explode(',', input('type_of_work'));
+        }
+        if(input('classify')){
+            $where['b.classify'] = explode(',', input('classify'));
+        }
+        if(input('fine')){
+            $where['b.fine'] = explode(',', input('fine'));
+        }
+        if(input('source')){
+            $where['f.source'] = explode(',', input('source'));
+        }
+        if(input('frame')){
+            $where['f.fid'] = explode(',', input('frame'));
+        }
+
+        if(!empty($where)){
+            $data = Db::name('f_materials')->alias('f')->leftJoin('basis_materials b','f.p_amcode = b.amcode')->group('f.amcode')->where($where)->order('f.p_amcode','asc')->select();
+            // var_dump($data);
+        }else{
+            $data = [];
+        }
+
+        $type_of_work = Db::name('basis_materials')->field('type_of_work')->group('type_of_work')->select();
+        $classify = Db::name('basis_materials')->field('classify')->group('classify')->select();
+        $fine = Db::name('basis_materials')->field('fine')->group('fine')->select();
+        $source = Db::name('f_materials')->field('source')->group('source')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $this->assign('type_of_work',$type_of_work);
+        $this->assign('classify',$classify);
+        $this->assign('fine',$fine);
+        $this->assign('source',$source);
+        $this->assign('frame',$frame);
+        $this->assign('data',$data);
         return $this->fetch();
     }
 
@@ -1938,7 +1974,7 @@ class BasisData extends Adminbase{
             ->setCellValue('I1', '出库价')
             ->setCellValue('J1', '包装数量')
             ->setCellValue('K1', '计量单位')
-            ->setCellValue('L1', '出口单位')
+            ->setCellValue('L1', '出库单位')
             ->setCellValue('M1', '来源');
         // Rename worksheet
         $objPHPExcel->getActiveSheet()->setTitle('基础辅材报表');
