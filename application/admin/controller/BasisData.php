@@ -1896,4 +1896,84 @@ class BasisData extends Adminbase{
             Db::name('offerquota')->insert($info);
         }
     }
+
+    public function auxiliaryderive(Request $request)
+    {
+
+        $da=$request->get();
+
+
+        if(empty($da['id'])){
+            $data = Db::name('f_materials')->select();
+            $frame='全部数据';
+        }else{
+            $frame=Db::table('fdz_frame')->where('id',$da['id'])->value('name');
+            $data = Db::name('f_materials')->where('fid',$da['id'])->select();
+        }
+        
+        foreach ($data as $k=>$v)
+        {
+            $data[$k]['type_of_work']=Db::table('fdz_basis_materials')->where('amcode',$v['p_amcode'])->value('type_of_work');
+            $data[$k]['classify']=Db::table('fdz_basis_materials')->where('amcode',$v['p_amcode'])->value('classify');
+            $data[$k]['name']=Db::table('fdz_basis_materials')->where('amcode',$v['p_amcode'])->value('name');
+            $data[$k]['unit']=Db::table('fdz_basis_materials')->where('amcode',$v['p_amcode'])->value('unit');
+        }
+        //2.加载PHPExcle类库
+        require '../extend/PHPExcel/PHPExcel.php';
+        //3.实例化PHPExcel类
+        $objPHPExcel = new \PHPExcel();
+        //4.激活当前的sheet表
+        $objPHPExcel->setActiveSheetIndex(0);
+        //5.设置表格头（即excel表格的第一行）
+        // Add title
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '编码')
+            ->setCellValue('B1', '工种类别')
+            ->setCellValue('C1', '辅材细类 ')
+            ->setCellValue('D1', '分类')
+            ->setCellValue('E1', '辅材名称')
+            ->setCellValue('F1', '品牌')
+            ->setCellValue('G1', '产地')
+            ->setCellValue('H1', '入库价')
+            ->setCellValue('I1', '出库价')
+            ->setCellValue('J1', '包装数量')
+            ->setCellValue('K1', '计量单位')
+            ->setCellValue('L1', '出口单位')
+            ->setCellValue('M1', '来源');
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('基础辅材报表');
+                $i = 2;
+        foreach ($data as $rs) {
+            // Add data
+            $objPHPExcel->getActiveSheet()
+                ->setCellValue('A' . $i, $rs['amcode'])
+                ->setCellValue('B' . $i, $rs['type_of_work'])
+                ->setCellValue('C' . $i, $rs['classify'])
+                ->setCellValue('D' . $i, $rs['fine'])
+                ->setCellValue('E' . $i, $rs['name'])
+                ->setCellValue('F' . $i, $rs['brank'])
+                ->setCellValue('G' . $i, $rs['place'])
+                ->setCellValue('H' . $i, $rs['in_price'])
+                ->setCellValue('I' . $i, $rs['price'])
+                ->setCellValue('J' . $i, $rs['pack'])
+                ->setCellValue('k' . $i, $rs['unit'])
+                ->setCellValue('L' . $i, $rs['phr'])
+                ->setCellValue('M' . $i, $rs['source']);
+            $i++;
+        }
+        //7.设置保存的Excel表格名称
+        $filename =$frame. '辅材信息'.date('ymd',time()).'.xls';
+        //8.设置当前激活的sheet表格名称；
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息');
+        //9.设置浏览器窗口下载表格
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$filename.'"');
+        //生成excel文件
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        //下载文件在浏览器窗口
+        $objWriter->save('php://output');
+        exit;
+    }
 }
