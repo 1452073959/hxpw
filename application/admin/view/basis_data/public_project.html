@@ -252,6 +252,53 @@
             var data = obj.data;
             console.log(data);
             if (obj.event == 'edit'){
+
+
+                var ajax_true = 1;
+                var select = '';
+                $.ajaxSettings.async = false;
+                $.post('/admin/basis_data/get_b_project_fine',{item_number:data.item_number},function(res){
+                    if(res.code == 1){
+                        var fine_option = '';
+                        var unit = '';
+                        <?php foreach($fines as $k=>$v){ ?>
+                            if(unit == ''){
+                                unit = '{$v['unit']}'
+                            }
+                            fine_option += '<option value="{$v['fine']}" data-unit="{$v['unit']}">{$v['fine']}</option>'
+                        <?php } ?>
+                        $(res.data).each(function(k,v){
+                            //前端取出单位
+                            var reg = new RegExp("<option value=\""+ v.fine +"\".*>"+ v.fine +"</option>");
+                            if(fine_option.match(reg)[0]){
+                                var unit = $(fine_option.match(reg)[0]).attr('data-unit');
+                                var select_option = $(fine_option.match(reg)[0]).html();
+                            }
+                            var new_fine_option = fine_option.replace(fine_option.match(reg)[0],$(fine_option.match(reg)[0]).attr('selected','').prop("outerHTML"));
+                            select  += '<div class="layui-form-item project_select" style="margin:5px 0;">'
+                            select += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材：</label>'
+                            select += '  <div class="layui-input-block" style="margin-left:85px">'
+                            select += '    <a style="float:left" href="javascript:;" onclick="del_material(this)"><i class="layui-icon layui-icon-close"></i></a>'
+                            select += '    <select style="width:50px" name="find[]" lay-filter="test1" lay-search>'
+                            select +=         new_fine_option
+                            select += '    </select>'
+                            select += '    <input type="text" style="width:130px;" name="funit[]" value="'+v.funit+'" autocomplete="off" placeholder="数量 - 单位：'+unit+'" class="layui-input">'
+                            select += '  </div>'
+                            select += '</div>'
+                        })
+                    }else{
+                        layer.msg(res.msg);
+                        ajax_true = 0
+                        return false;
+                    }
+                },'json')
+                if(!ajax_true){
+                    return false;
+                }
+                //改回异步
+                $.ajaxSettings.async = true;
+
+
                 var option = '';
                 <?php foreach($type_work as $k=>$v){ ?>
                     option += '<option value="{$v['id']}" >{$v['name']}</option>'
@@ -301,6 +348,8 @@
                 html += '    <a href="javascript:;:;" onclick="add_material(2)"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
                 html += '  </div>'
                 html += '</div>'
+
+                html += select
 
                 html += '<div class="layui-form-item" style="margin:5px 0;text-align:center">'
                 html += '   <button class="layui-btn" style="margin:0 auto;" id="edit_projcet" lay-submit lay-filter="edit_projcet">立即提交</button>'

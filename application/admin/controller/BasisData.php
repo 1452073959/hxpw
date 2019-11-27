@@ -22,6 +22,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BasisData extends Adminbase{
 
+    //辅材报表
+    public function material_report(){
+        return $this->fetch();
+    }
+
     //查看每间分公司录入情况报表
     public function get_entry_statistical(){
         $arr = [];
@@ -273,6 +278,20 @@ class BasisData extends Adminbase{
         }
     }
 
+    //获取报价基础库所需辅材
+    public function get_b_project_fine(){
+        $fine = Db::name('basis_project')->where(['item_number'=>input('item_number')])->value('fine');
+        if(!$fine){
+            $this->success('success','',[]);
+        }
+        $data = json_decode($fine,true);
+        if($fine){
+            $this->success('success','',$data);
+        }else{
+            $this->success('success','',[]);
+        }
+    }
+
     public function edit_public_project(){
         $datas = [];
         $datas['item_number'] = input('item_number');
@@ -307,6 +326,7 @@ class BasisData extends Adminbase{
             if($basis_project['fine'] != $datas['fine']){
                 //辅材修改了 需要分公司重新设置该报价
                 $rs = Db::name('f_project')->where(['p_item_number'=>$basis_project['item_number']])->update(['status'=>2]);
+                Db::name('offerquota')->where('item_number','like',$basis_project['item_number'].'%')->delete();
             }
             Db::commit();
         } catch (\Exception $e) {
