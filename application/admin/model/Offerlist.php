@@ -356,4 +356,14 @@ class Offerlist extends Model
         return ['datas'=>$datas,'total_money'=>$total_money];
     }
     //获取人工成本
+
+
+    public function user()
+    {
+        return $this->belongsTo(AdminUser::class,'userid','userid');
+    }
+    public function ddyl()
+    {
+        return $this->hasMany(OrderProject::class,'o_id','id');
+    }
 }

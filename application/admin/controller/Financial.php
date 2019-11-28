@@ -140,14 +140,14 @@ class Financial extends Adminbase{
     }
 
     public function net_payroll(Request $request)
-    { 
+    {
         $login = $this->_userinfo;
         $net_payroll=$request->get();
         $res = Jiezhi::get($net_payroll['id']);
         $res->status=3;
         $res->bid=$login['userid'];
         $res->net_payroll=$net_payroll['net_payroll'];
-        $res->cwtime=date('y-m-d h:i:s', time());
+        $res->cwtime=date('y-m-d H:i:s', time());
         $res->save();
         if($res){
             $this->success('拨款成功');

@@ -223,7 +223,7 @@
                                     <tr class="space" data-space="{$k1}-{$k2}" data-inword="{$k1}" data-inspace="{$k2}">
                                         <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>
                                         <td></td>
-                                        <td colspan="3" style="text-align: left;padding-left:10px">{$k2}<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>
+                                        <td colspan="3" style="text-align: left;padding-left:10px">{$k2}<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>
                                         <td colspan="1"></td>
                                         <td colspan="1"></td>
                                         <td class="space_material_total" colspan="1"></td>
@@ -258,6 +258,115 @@
 {block name="script"}
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    //添加非标
+    $('#project_datas').on('click','.no_standard',function(){
+        //非标最多100条
+        if($('#project .project input[type="hidden"]').length / 5 > 100){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('非标报价不得超过100个');
+                return false;
+            })
+            return false;
+        }
+        //判断
+        var space = $(this).parent().parent().attr('data-inspace');
+        var work_type = '所有工种';
+        //生成不重复 随机值
+        var math_num = new Date().getTime().toString();
+        //这个估计就不会重复了
+        math_num = math_num.substr(7) + Math.ceil(Math.random(4)*10000).toString();
+
+        var html = '';
+        html += '<div class="layui-form-item" style="margin:5px 0">'
+        html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">项目名称：</label>'
+        html += '  <div class="layui-input-block" style="margin-left:85px">'
+        html += '    <input type="text" name="" id="ns_name" autocomplete="off" class="layui-input">'
+        html += '  </div>'
+        html += '</div>'
+
+        html += '<div class="layui-form-item" style="margin:5px 0">'
+        html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
+        html += '  <div class="layui-input-block" style="margin-left:85px">'
+        html += '    <input type="text" name="" id="ns_unit" autocomplete="off" class="layui-input">'
+        html += '  </div>'
+        html += '</div>'
+
+        html += '<div class="layui-form-item" style="margin:5px 0">'
+        html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材单价：</label>'
+        html += '  <div class="layui-input-block" style="margin-left:85px">'
+        html += '    <input type="text" name="" id="ns_mprice" autocomplete="off" class="layui-input">'
+        html += '  </div>'
+        html += '</div>'
+
+        html += '<div class="layui-form-item" style="margin:5px 0">'
+        html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">人工单价：</label>'
+        html += '  <div class="layui-input-block" style="margin-left:85px">'
+        html += '    <input type="text" name="" id="ns_aprice" autocomplete="off" class="layui-input">'
+        html += '  </div>'
+        html += '</div>'
+
+        html += '<div class="layui-form-item" style="margin:5px 0">'
+        html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工艺说明：</label>'
+        html += '  <div class="layui-input-block" style="margin-left:85px">'
+        html += '    <textarea id="ns_content"></textarea>'
+        html += '  </div>'
+        html += '</div>'
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                content: html,
+                title:'添加非标项目',
+                btn: ['确认','取消'],
+                yes: function(index, layero){
+                    var name = $('#ns_name').val();
+                    var unit = $('#ns_unit').val();
+                    var mprice = $('#ns_mprice').val();
+                    var aprice = $('#ns_aprice').val();
+                    var content = $('#ns_content').val();
+                    if(parseFloat(mprice).toString() == "NaN" || parseFloat(aprice).toString() == "NaN"){
+                        alert('单价格式错误');
+                        return false;
+                    }
+                    if(!name || !unit){
+                        alert('项目名称或单位 不能为空');
+                        return false;
+                    }
+                    var project = '';
+
+                    project += '<tr class="project" data-inword="'+work_type+'" data-inspace="'+space+'">'
+                    project += '<input type="hidden" class="no_standard name" name="no_standard['+space+']['+math_num+'][name]" value="'+name+'" />';
+                    project += '<input type="hidden" class="no_standard unit" name="no_standard['+space+']['+math_num+'][unit]" value="'+unit+'" />';
+                    project += '<input type="hidden" class="no_standard mprice" name="no_standard['+space+']['+math_num+'][mprice]" value="'+mprice+'" />';
+                    project += '<input type="hidden" class="no_standard aprice" name="no_standard['+space+']['+math_num+'][aprice]" value="'+aprice+'" />';
+                    project += '<input type="hidden" class="no_standard content" name="no_standard['+space+']['+math_num+'][content]" value="'+content+'" />';
+                    project += '    <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
+                    project += '    <td><span style="color:red">非标</span></td>'
+                    project += '    <td>'+name+'</td>'
+                    project += '    <td><input type="text" class="layui-input height26" data-bj="1" data-project="'+space+'-'+math_num+'" name="data['+space+']['+math_num+']"></td>'
+                    project += '    <td>'+unit+'</td>'
+                    project += '    <td>'+mprice+'</td>'
+                    project += '    <td></td>'
+                    project += '    <td></td>'
+                    project += '    <td>'+aprice+'</td>'
+                    project += '    <td></td>'
+                    project += '    <td></td>'
+                    project += '</tr>'
+
+                    $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().after(project);
+                    var top = $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
+                    $("#datasform_div").animate({scrollTop:top},333);
+                    layer.close(index);
+                    return false;
+                    
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }); 
+       
+    })
     //手动输入价格 同时修改相同项目的价格
     var bj2_old_val = '';
     $("#project_datas").on('focus','input[data-bj="2"]', function () {
@@ -294,11 +403,29 @@
                         var project = $(v).clone();
                         $(project).attr('data-inspace',target_space);
                         // console.log($(project).find('input').attr('data-project'));
-                        $(project).find('input[data-bj="1"]').attr('data-project',$(project).find('input[data-bj="1"]').attr('data-project').replace(this_space,target_space));
-                        $(project).find('input[data-bj="1"]').attr('name',$(project).find('input[data-bj="1"]').attr('name').replace(this_space,target_space));
+                        $(project).find('td input').attr('data-project',$(project).find('td input').attr('data-project').replace(this_space,target_space));
+                        $(project).find('td input').attr('name',$(project).find('td input').attr('name').replace(this_space,target_space));
                         var item_number = $(project).find('td').eq(1).text();
                         // var html = $(project).prop("outerHTML");
+                        if($(project).find('input[class="name"]').attr('name')){
+                            if($('#project .project input[type="hidden"]').length / 5 > 100){
+                                layui.use('layer', function(){
+                                    var layer = layui.layer;
+                                    layer.msg('非标报价不得超过100个，超过部分已自动忽略');
+                                    return false;
+                                })
+                                return true;
+                            }
+                            var myreg = /\]\[(\d)+\]/gi;
+                            //获取非标的编码
+                            item_number = $(project).find('input[class="name"]').attr('name').match(myreg).toString().replace('][','').replace(']','');
 
+                            $(project).find('input[class="name"]').attr('name',$(project).find('input[class="name"]').attr('name').replace(this_space,target_space));
+                            $(project).find('input[class="unit"]').attr('name',$(project).find('input[class="unit"]').attr('name').replace(this_space,target_space));
+                            $(project).find('input[class="mprice"]').attr('name',$(project).find('input[class="mprice"]').attr('name').replace(this_space,target_space));
+                            $(project).find('input[class="aprice"]').attr('name',$(project).find('input[class="aprice"]').attr('name').replace(this_space,target_space));
+                            $(project).find('input[class="content"]').attr('name',$(project).find('input[class="content"]').attr('name').replace(this_space,target_space));
+                        }
                         if($('input[data-project="'+target_space+'-'+item_number+'"]').length > 0){
                             return true;
                         }
@@ -312,7 +439,7 @@
                             space_html += '<tr class="space" data-space="'+work_type+'-'+target_space+'" data-inword="'+work_type+'" data-inspace="'+target_space+'">';
                             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
-                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+target_space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+target_space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td class="space_material_total" colspan="1"></td>';
@@ -570,6 +697,7 @@
         }
         var project = $('#project .project input[data-bj="1"]').serializeArray();
         var price = $('#project .project input[data-bj="2"]').serializeArray();
+        var no_standard = $('#project .no_standard').serializeArray();
         var datas_price = {};  
         var datas = {};  
         $.each(project, function() {  
@@ -584,12 +712,14 @@
         });  
         $.each(price, function() {  
             if (datas[this.name]) {  
-                // if (!datas[this.name].push) {  
-                //     datas[this.name] = [ datas[this.name] ];  
-                // }   
-                // if(this.value != ''){
-                //     datas[this.name].push(this.value); 
-                // }
+            } else {  
+                if(this.value != ''){
+                    datas[this.name] = this.value; 
+                } 
+            }  
+        }); 
+        $.each(no_standard, function() {  
+            if (datas[this.name]) {  
             } else {  
                 if(this.value != ''){
                     datas[this.name] = this.value; 
@@ -849,7 +979,7 @@
             space_html += '<tr class="space" data-space="'+word+'-'+space+'" data-inword="'+word+'" data-inspace="'+space+'">';
             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
             space_html += '<td></td>'
-            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
+            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
             space_html += '<td colspan="1"></td>';
             space_html += '<td colspan="1"></td>';
             space_html += '<td class="space_material_total" colspan="1"></td>';
@@ -1118,7 +1248,7 @@
                             space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
-                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px">'+v.space+'<a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td class="space_material_total" colspan="1"></td>';
                             space_html += '<td></td>';

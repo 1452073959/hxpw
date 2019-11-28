@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\OrderProject;
 use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
@@ -17,7 +18,7 @@ use PHPExcel_IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use think\paginator\driver\Bootstrap;
 
 
 class Offerlist extends Adminbase
@@ -240,6 +241,7 @@ class Offerlist extends Adminbase
     //报价操作 - 生成订单
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
+//        var_dump(input());die;
             $price = [];
             if(input('price')){
                 $price = input('price');
@@ -266,18 +268,40 @@ class Offerlist extends Adminbase
             if(input('remark')){
                 $data['remark'] = input('remark');
             }
-            //$data['proquant'] = 0;//工程报价
-            //$data['direct_cost'] = 0; //直接费
-            //$data['matquant'] = 0;  //辅材报价
-            //$data['manual_quota'] = 0;  //人工报价
+            $no_standard = [];
+            if(input('no_standard')){
+                $no_standard = input('no_standard');
+                $data['no_standard'] = 1;
+            }
             $content = [];
             $order_project = [];
+            $user=$this->_userinfo;
             foreach (input('data') as $k1 => $v1) {
                 foreach($v1 as $k2=>$v2){
-                    $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
-                    if(!$item){
-                        $this->error('项目有误','',$k2);
+                    if(isset($no_standard[$k1][$k2])){
+                        $item = [];
+                        $item['frameid'] = $userinfo['companyid'];
+                        $item['item_number'] = $k2;
+                        $item['type_of_work'] = '非标报价';
+                        $item['of_fb'] =1;
+                        $item['uname'] =$user['userid'];
+                        $item['frame'] =$user['companyid'];
+                        $item['project'] = $no_standard[$k1][$k2]['name'];
+                        $item['company'] = $no_standard[$k1][$k2]['unit'];
+                        $item['cost_value'] = $no_standard[$k1][$k2]['mprice'] + $no_standard[$k1][$k2]['aprice'];
+                        $item['quota'] = $no_standard[$k1][$k2]['mprice'];
+                        $item['craft_show'] = $no_standard[$k1][$k2]['aprice'];
+                        $item['labor_cost'] = 0;//人工成本 非标不算成本 所以为0
+                        $item['material'] = $no_standard[$k1][$k2]['content'];
+                        $item['content'] = '';
+
+                    }else{
+                        $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
+                        if(!$item){
+                            $this->error('项目有误','',$k2);
+                        }   
                     }
+                    
                     $item['kongjian'] = $k1;
                     $item['gcl']= $v2; //数量
                     $item['quotaall'] = $v2 * $item['quota']; //该项目的辅材总价
@@ -288,12 +312,28 @@ class Offerlist extends Adminbase
                     $project = [];
                     // $project['o_id'] = '';//订单id
                     $project['oa_id'] = 0;
+                    if(isset($item['frame']) && $item['frame'] ==$user['companyid']){
+                        $project['frame']=$user['companyid'];
+                    }else{
+                        $project['frame']='';
+                    }
+                    if(isset($item['of_fb']) && $item['of_fb'] ==1){
+                        $project['of_fb']=1;
+                    }else{
+                        $project['of_fb']=0;
+                    }
+                    if(isset($item['uname']) && $item['uname'] ==$user['userid']){
+                        $project['uname']=$user['userid'];
+                    }else{
+                        $project['uname']='';
+                    }
                     $project['item_number'] = $k2;
                     $project['num'] = $v2;
                     $project['type_of_work'] = $item['type_of_work'];
                     $project['project'] = $item['project'];
                     $project['company'] = $item['company'];
                     $project['cost_value'] = $item['cost_value'];
+
                     //旧客户手动输入价格 start
                     if(!isset($price[$k2]['quota'])){
                         $project['quota'] = $item['quota'];
@@ -321,13 +361,14 @@ class Offerlist extends Adminbase
 
                     $project['labor_cost'] = $item['labor_cost'];
                     $project['material'] = $item['material'];
-                    $project['content'] = $item['content'];
+                    $project['content'] = $item['content']; 
                     $project['type'] = 1;
                     $project['add_time'] = $time;
                     $project['space'] = $k1;
                     $order_project[] = $project;
                 }
             }
+
             $data['content'] = json_encode($content); //这里获取了项目详情
             //===============================计算物料总合计 成本
             // $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
@@ -401,7 +442,6 @@ class Offerlist extends Adminbase
                         $data_info['profit'] = $v3['profit'];
                         $data_info['coefficient'] = $v3['coefficient'];
                         $data_info['important'] = $v3['important'];
-
                         $data_info['amcode'] = $v3['amcode'];
                         $data_info['fine'] = $v3['fine'];
                         $data_info['brand'] = $v3['brand'];
@@ -442,15 +482,15 @@ class Offerlist extends Adminbase
             $need_project = json_decode($data['content'],true);//需要的项目
             $artificial_all = [];//人工成本 , 报价(成本+利润)
             foreach($need_project as $k=>$v){
-                $Offerquota_info = Db::name('Offerquota')->where(array('frameid'=>$userinfo['companyid'],'item_number'=>$v['item_number']))->find();
-                if(!$Offerquota_info){
-                    $this->error($one_material[0].'人工有误，请及时补充人工工费');
-                }
+                // $Offerquota_info = Db::name('Offerquota')->where(array('frameid'=>$userinfo['companyid'],'item_number'=>$v['item_number']))->find();
+                // if(!$Offerquota_info){
+                //     $this->error($one_material[0].'人工有误，请及时补充人工工费');
+                // }
                 if(!isset($artificial_all[$v['item_number']])){
-                    $artificial_all[$v['item_number']]['type_of_work'] = $Offerquota_info['type_of_work']; //工种
-                    $artificial_all[$v['item_number']]['price'] = $Offerquota_info['craft_show']; //单价 
-                    $artificial_all[$v['item_number']]['cb'] = $Offerquota_info['labor_cost']; //单个成本
-                    $artificial_all[$v['item_number']]['profit'] = $Offerquota_info['craft_show'] - $Offerquota_info['labor_cost']; //单个利润 
+                    $artificial_all[$v['item_number']]['type_of_work'] = $v['type_of_work']; //工种
+                    $artificial_all[$v['item_number']]['price'] = $v['craft_show']; //单价 
+                    $artificial_all[$v['item_number']]['cb'] = $v['labor_cost']; //单个成本
+                    $artificial_all[$v['item_number']]['profit'] = $v['craft_show'] - $v['labor_cost']; //单个利润 
                     $artificial_all[$v['item_number']]['num'] = 0;//数量
                 }
                 $artificial_all[$v['item_number']]['num'] += $v['gcl']; //数量
@@ -529,26 +569,39 @@ class Offerlist extends Adminbase
         if($file && input('o_id') && input('customer_id')){
             $in = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->count();
             $order_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
+
             if(!$order_info['tmp_cost_id']){
                 $this->error('请选择取费模板');
             }
             if($in > 0){
                 $this->error('一个客户只能拥有一份合同价');
             }
-            $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
-            if($info){
-                // 成功上传后 获取上传信息
-                $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
-                Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
-                Model('offerlist')->statistical_order(input('o_id'));
-                if($res){
-                    $this->success('修改成功');
-                }else{
-                    $this->error('修改失败');
-                }
+            $offerlist=  Db::table('fdz_offerlist')->where('id',input('o_id'))->value('no_standard');
+            if($offerlist==1){
+                $this->error('该订单有非标,请审核后再变更');
+            }else if($offerlist==3){
+                $this->error('该订单正在审核,请在审核后变更');
+            }else if($offerlist==4) {
+                $this->error('该订单正在审核,请在审核后变更');
+            }
+            else if($offerlist==6){
+                $this->error('该订单非标被驳回,无法变更');
             }else{
-                // 上传失败获取错误信息
-                $this->error($file->getError());
+                $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
+                if($info){
+                    // 成功上传后 获取上传信息
+                    $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
+                    Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
+                    Model('offerlist')->statistical_order(input('o_id'));
+                    if($res){
+                        $this->success('修改成功');
+                    }else{
+                        $this->error('修改失败');
+                    }
+                }else{
+                    // 上传失败获取错误信息
+                    $this->error($file->getError());
+                }
             }
         }else{
             $this->error('参数错误');
@@ -2036,6 +2089,439 @@ class Offerlist extends Adminbase
             return download($file,'cad');
         }
     }
+    //提交非标申请,修改非标状态
+    public function fbsh()
+    {
+        $data=input();
+       $res= Db::table('fdz_offerlist')->where('id',$data['key'])->setField('no_standard',$data['status']);
+        return json(['code'=>1,'msg'=>'成功','data'=>$res]);
+    }
+    //
+    public function gcjlsh()
+    {
+        $user=$this->_userinfo;
+        $res=\app\admin\model\Offerlist::with(['user','ddyl'])->where('frameid',$user['companyid'])->where('no_standard','in',[3,4,5,6])->select();
+        $fb=[];
+        foreach ($res as $k=>$v){
+            foreach ($v['ddyl'] as $k1=>$v1){
 
+                if($v1['of_fb']==0){
+                    unset($v['ddyl'][$k1]);
+                }else{
+                    $fb[]= $v['ddyl'][$k1];
+                }
+            }
+        }
+        foreach ($fb as $k3=>$v3)
+        {
+            $fb[$k3] = json_decode($v3,true);
+
+        }
+        foreach ($fb as  $k4=>$v4)
+        {
+            $fb[$k4]['frame']=Db::table('fdz_frame')->where('id', $v4['frame'])->value('name');
+            $fb[$k4]['uname']=Db::table('fdz_admin')->where('userid', $v4['uname'])->value('name');
+        }
+        $data = $fb;
+        $curpage = input('page') ? input('page') : 1;//当前第x页，有效值为：1,2,3,4,5...
+        $listRow = 10;//每页10行记录
+        $dataTo = array();
+        $dataTo = array_chunk($data, $listRow);
+
+        $showdata = array();
+        if ($dataTo) {
+            $showdata = $dataTo[$curpage - 1];
+        } else {
+            $showdata = null;
+        }
+        $p = Bootstrap::make($showdata, $listRow, $curpage, count($data), false, [
+            'var_page' => 'page',
+            'path' => '/admin/offerlist/gcjlsh/',//这里根据需要修改url
+            'query'=>request()->param(),//此处参数可以保留当前数据集的查询条件
+            'fragment' => '',
+        ]);
+        $p->appends($_GET);
+        $this->assign('fb',$p);
+        return $this->fetch();
+    }
+
+
+    //工程经理修改
+    public function gcjledit(Request $request )
+    {
+        if(request()->isGet()){
+            $da=$request->get();
+            $res=OrderProject::where('id',$da['id'])->find();
+            $this->assign('data',$res);
+            return $this->fetch();
+        }else{
+           $da=$request->post();
+            $res=OrderProject::where('id',$da['id'])->data(['project' => $da['project'],'company'=>$da['company'],'quota'=>$da['quota'],'craft_show'=>$da['craft_show'],'material'=>$da['material']])
+                ->update();
+            if($res){
+                echo "<script>window.parent.location.reload();</script>";
+            }else{
+                $this->error('更新出错');
+            }
+        }
+
+    }
+
+
+    public function cjsh()
+    {
+        $data=input();
+        if($data['status']==6){
+           $user= Db::table('fdz_order_project')->where('id',$data['key'])->value('o_id');
+           Db::table('fdz_offerlist')->where('id',$user)->update(['no_standard'=>$data['status']]);
+           Db::table('fdz_order_project')->where('id',$data['key'])->update(['of_fb'=>$data['status'],'gname'=>$user['userid']]);
+           return json(['code'=>1,'msg'=>'提交成功']);
+        }else{
+            $user=$this->_userinfo;
+            $res= Db::table('fdz_order_project')->where('id',$data['key'])->update(['of_fb'=>$data['status'],'gname'=>$user['userid']]);
+            return json(['code'=>1,'msg'=>'成功','data'=>$res]);
+        }
+    }
+
+    public function cjbind()
+    {
+        $res=\app\admin\model\Offerlist::with(['user','ddyl'])->where('no_standard','3')->select();
+        $fb=[];
+        foreach ($res as $k=>$v){
+            foreach ($v['ddyl'] as $k1=>$v1){
+                if($v1['of_fb']==2){
+                    $fb[]= $v['ddyl'][$k1];
+                }else{
+                    unset($v['ddyl'][$k1]);
+                }
+            }
+        }
+        foreach ($fb as $k3=>$v3)
+        {
+            $fb[$k3] = json_decode($v3,true);
+        }
+        foreach ($fb as  $k4=>$v4)
+        {
+            $fb[$k4]['frame']=Db::table('fdz_frame')->where('id', $v4['frame'])->value('name');
+            $fb[$k4]['gname']=Db::table('fdz_admin')->where('userid', $v4['uname'])->value('name');
+        }
+
+        $this->assign('data',$fb);
+        return $this->fetch();
+
+    }
+
+    public function cjbindedit(Request $request)
+    {
+        if(request()->isGet()) {
+            $da = $request->get();
+            $user=$this->_userinfo;
+            $where = [];
+            if(input('typeof')){
+                $where[] = ['type_of_work','like','%'.input('typeof').'%'];
+            }
+            if($user['roleid']==1){
+                $frame=Db::table('fdz_order_project')->where('id',$da['id'])->value('frame');
+                $type_of_work=Db::table('fdz_offerquota')->where('frameid',$frame)->group('type_of_work')->select();
+                $company = Db::table('fdz_offerquota')->where('frameid',$frame)->where($where)->select();
+            }else{
+                $company = Db::table('fdz_offerquota')->where('frameid',$user['companyid'])->where($where)->select();
+                $type_of_work=Db::table('fdz_offerquota')->where('frameid',$user['companyid'])->group('type_of_work')->select();
+            }
+            $this->assign('company', $company);
+            $this->assign('typeof', $type_of_work);
+            $this->assign('data', $da);
+            return $this->fetch();
+        }else{
+            $da = $request->post();
+            $bingid=Db::table('fdz_offerquota')->where('id',$da['bindid'])->find();
+            $id=Db::table('fdz_order_project')->where('id',$da['id'])->find();
+            $new['item_number']=$bingid['item_number'];
+            $new['type_of_work']=$bingid['type_of_work'];
+            $new['project']=$bingid['project'];
+            $new['company']=$bingid['company'];
+            $new['cost_value']=$bingid['cost_value'];
+            $new['quota']=$bingid['quota'];
+            $new['craft_show']=$bingid['craft_show'];
+            $new['labor_cost']=$bingid['labor_cost'];
+            $new['material']=$bingid['material'];
+            $new['content']=$bingid['content'];
+            $new['of_fb']=3;
+            $res=Db::table('fdz_order_project')->where('id',$da['id'])->data($new)->update();
+            if(!empty($new['content'])){
+                $new['content']=json_decode( $new['content']);
+                foreach ($new['content'] as $key=>$value)
+                {
+                    if(!$value[0]){
+                        continue;
+                    };
+                    $nu[]=$value[1];
+                    $new['content'][$key]['fc']=Db::table('fdz_materials')->where('frameid',$bingid['frameid'])->where('name|amcode',$value[0])->find();
+                    $material['o_id']=$id['o_id'];
+                    $material['c_id']=$bingid['userid'];
+                    $material['f_id']=$bingid['frameid'];
+                    $material['type_of_work']=$bingid['type_of_work'];
+                    $material['item_number']=$bingid['item_number'];
+                    $material['m_name']=  $new['content'][$key]['fc']['name'];
+                    $material['num']=  $value[1]*$id['num'];
+                    $material['cb']=  $new['content'][$key]['fc']['price'];
+                    $material['price']=   $bingid['quota'];
+                    $material['profit']=  $material['price']- $material['cb'];
+                    $material['coefficient']= $new['content'][$key]['fc']['coefficient'];
+                    $material['important']= $new['content'][$key]['fc']['important'];
+                    $material['amcode']=  $new['content'][$key]['fc']['amcode'];
+                    $material['fine']=  $new['content'][$key]['fc']['fine'];
+                    $material['brand']=  $new['content'][$key]['fc']['brand'];
+                    $material['place']=  $new['content'][$key]['fc']['place'];
+                    $material['img']=  $new['content'][$key]['fc']['img'];
+                    $material['phr']=  $new['content'][$key]['fc']['phr'];
+                    $material['remarks']=  $new['content'][$key]['fc']['remarks'];
+                    $material['category']=  $new['content'][$key]['fc']['category'];
+                    $material['units']=  $new['content'][$key]['fc']['units'];
+                    Db::table('fdz_order_material')->insert($material);
+                }
+            }
+
+            $company = Db::table('fdz_order_project')->where('o_id',$id['o_id'])->select();
+            foreach ($company as $k2=>$v2)
+            {
+                if($v2['type_of_work']!='非标报价'){
+                    unset($company[$k2]);
+                }
+            }
+            if(count($company)==0){
+               Db::table('fdz_offerlist')->where('id',$id['o_id'])->update(['no_standard' => 5]);
+            }
+            if($res){
+                echo "<script src='https://www.layuicdn.com/layer/layer.js'></script>";
+                echo   "<script>layer.msg('绑定成功'); </script>";
+                echo "<script>window.parent.location.reload()</script>";
+            }else{
+                $this->error('失败');
+            }
+        }
+
+    }
+
+    public function createfb(Request $request)
+    {
+        if(request()->isGet()) {
+            $da = $request->get();
+            $fb = Db::table('fdz_order_project')->where('id', $da['id'])->find();
+            //工种类别type_of_work 编号item_number,.操作员userid,内容content
+            $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(), null, 'id');
+            //获取所有辅材细类
+            $fines = Db::name('basis_materials')->field('fine,unit')->group('fine')->select();
+//            dump($fb);
+            $this->assign('data', $fb);
+
+            $this->assign('fines', $fines);
+            $this->assign('type_work', $type_work);
+            return $this->fetch();
+        }else{
+            $da = $request->post();
+            $datas = [];
+            $datas['item_number'] = input('item_number');
+            $datas['type_word_id'] = input('type_word_id');
+            $datas['name'] = input('name');
+            $datas['unit'] = input('unit');
+            $datas['content'] = input('content');
+            $find = input('find');
+            $funit = input('funit');
+            if ($find && count($find) != count(array_unique($find))) {
+                $this->error('细类不得重复');
+            }
+            //判断编号是否有重复
+            $has_project = Db::name('basis_project')->where(['item_number'=>$datas['item_number']])->value('id');
+            if($has_project){
+                $this->error('编号已存在');
+            }
+            if($find){
+                $materials = [];
+                foreach($find as $k=>$v){
+                    $info = [];
+                    $info['fine'] = $v;
+                    $info['funit'] = $funit[$k];
+                    $materials[] = $info;
+                }
+                $datas['fine'] = json_encode($materials);
+            }else{
+                $datas['fine'] = '{}';
+            }
+          $n=  Db::table('fdz_basis_type_work')->where('id',$da['type_word_id'])->find();
+            $neq=Db::table('fdz_order_project')->where('id',$da['key'])->update([
+                'item_number'=>$da['item_number'],
+                'type_of_work'=>$n['name'] ,
+                'project'=>$da['name'],
+                'company'=>$da['unit'],
+                'material'=>$da['content'],
+            ]);
+            $res = Db::name('basis_project')->insert($datas);
+            if($res){
+                Db::table('fdz_order_project')->where('id',$da['key'])->setField('of_fb',4);
+                echo "<script>window.parent.location.reload()</script>";
+            }else{
+                $this->error('失败');
+            }
+        }
+    }
+
+    public function insergsck(Request $request)
+    {
+        if (request()->isGet()) {
+            $da = $request->get();
+            $fb = Db::table('fdz_order_project')->where('id', $da['id'])->find();
+            $p_item_number = Db::table('fdz_basis_project')->where('item_number', $fb['item_number'])->find();
+            //工种类别type_of_work 编号item_number,.操作员userid,内容content
+            $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(), null, 'id');
+            $p_item_number['fine'] = json_decode($p_item_number['fine'], true);
+            foreach ($p_item_number['fine'] as $k => $v) {
+                $p_item_number['fine'][$k]['fi'] = [];
+                $p_item_number['fine'][$k]['fi'] = Db::table('fdz_f_materials')->where('fid',$fb['frame'])->where('fine', $v['fine'])->select();
+                foreach ($p_item_number['fine'][$k]['fi'] as $k1 => $v1) {
+                    $p_item_number['fine'][$k]['fi'][$k1]['name'] = '';
+                    $p_item_number['fine'][$k]['fi'][$k1]['na'][] = Db::table('fdz_basis_materials')->where('amcode', $v1['p_amcode'])->find();
+                    foreach ($p_item_number['fine'][$k]['fi'][$k1]['na'] as $k2 => $v2) {
+                        $p_item_number['fine'][$k]['fi'][$k1]['name'] = $v2['name'];
+                    }
+                }
+            }
+            $this->assign('p_item_number', $p_item_number);
+            $this->assign('fb', $fb);
+            $this->assign('type_work', $type_work);
+            return $this->fetch();
+        } else {
+            $da = $request->post();
+            $jk=OrderProject::with('offerlist')->where('id',$da['id'])->find();
+            $user = $this->_userinfo;
+            $f_project['p_item_number'] = $da['item_number'];
+            $f_project['fid'] = $user['companyid'];
+            $f_project['cost_value'] = $da['quota'] + $da['craft_show'];
+            $f_project['quota'] = $da['quota'];
+            $f_project['craft_show'] = $da['craft_show'];
+            $f_project['labor_cost'] = $da['labor_cost'];
+            if(empty($da['fine'])){
+           $f_project['material']=[];
+            }else{
+                foreach ($da['fine'] as $k => $v) {
+                    foreach ($da['content'] as $k1 => $v1) {
+                        if ($k == $k1) {
+                            unset($da['content'][$k]);
+                            $da['content'][$v] = $v1;
+                        }
+                    }
+                }
+                $f_project['material'] = json_encode($da['content']);
+            }
+            $res = Db::table('fdz_f_project')->insertGetId($f_project);
+            if ($res) {
+                $re=$f_project['p_item_number'] . '_' . $res;
+                Db::name('f_project')->where(['id' => $res])->update(['item_number' => $re]);
+            }
+            $f_project = Db::name('f_project')->where(['item_number'=>$re])->find();
+            $basis_project = Db::name('basis_project')->where(['item_number'=>$f_project['p_item_number']])->find();
+
+            $info = [];
+            //计算辅材基数
+            if($f_project['material']){
+                $fine = json_decode($basis_project['fine'],true);
+                $fine = array_column($fine, 'funit','fine');//公式
+                $material = json_decode($f_project['material'],true);
+                $datas_material = [];
+                foreach($material as $k1=>$v1){
+                    // $fine[$k1] 需要的数量
+                    $pack = Db::name('f_materials')->where(['amcode'=>$v1])->value('pack');//包装数量
+                    $num = round($fine[$k1]/$pack,2);
+                    if($num <= 0){
+                        $num = 0.001;
+                    }
+                    $datas_material[] = [$v1,round($num,2)];
+                }
+                $info['content'] = json_encode($datas_material);
+            }else{
+                $info['content'] = '';
+            }
+            $info['frameid'] = $f_project['fid'];
+            $info['userid'] = $this->_userinfo['companyid'];
+            $info['item_number'] = $re;
+            $info['type_of_work'] =$da['type_of_work'] ;
+            $info['project'] = $da['project'];
+            $info['company'] = $da['company'];
+            $info['cost_value'] = $da['quota'] + $da['craft_show'];
+            $info['quota'] = $da['quota'];
+            $info['craft_show'] = $da['craft_show'];
+            $info['labor_cost'] = $da['labor_cost'];
+            $info['material'] = $da['material'];
+          $unm=Db::table('fdz_offerquota')->insert($info);
+         //更新到订单  $da['order_project']
+            $new['item_number']=$info['item_number'];
+            $new['type_of_work']=$info['type_of_work'];
+            $new['project']=$info['project'];
+            $new['company']=$info['company'];
+            $new['cost_value']=$info['cost_value'];
+            $new['quota']=$info['quota'];
+            $new['craft_show']=$info['craft_show'];
+            $new['labor_cost']=$info['labor_cost'];
+            $new['material']=$info['material'];
+            $new['content']=$info['content'];
+            $new['of_fb']=5;
+
+            $yes= Db::table('fdz_order_project')->where('id',$da['order_project'] )->update($new);
+            if(!empty($new['content'])){
+                $new['content']=json_decode( $new['content']);
+                foreach ($new['content'] as $key=>$value)
+                {
+                    if(!$value[0]){
+                        continue;
+                    };
+                    $nu[]=$value[1];
+
+                    $new['content'][$key]['fc']=Db::table('fdz_materials')->where('frameid',$info['frameid'])->where('name|amcode',$value[0])->find();
+
+                    $mater['o_id']=$jk['o_id'];
+                    $mater['c_id']=$jk['offerlist']['customerid'];
+                    $mater['f_id']=$new['content'][$key]['fc']['frameid'];
+                    $mater['type_of_work']=$info['type_of_work'];
+                    $mater['item_number']=$info['item_number'];
+                    $mater['m_name']=  $new['content'][$key]['fc']['name'];
+                    $mater['num']=  $value[1]*$jk['num'];
+                    $mater['cb']=  $new['content'][$key]['fc']['price'];
+                    $mater['price']=   $info['quota'];
+                    $mater['profit']=  $mater['price']- $mater['cb'];
+                    $mater['coefficient']= $new['content'][$key]['fc']['coefficient'];
+                    $mater['important']= $new['content'][$key]['fc']['important'];
+                    $mater['amcode']=  $new['content'][$key]['fc']['amcode'];
+                    $mater['fine']=  $new['content'][$key]['fc']['fine'];
+                    $mater['brand']=  $new['content'][$key]['fc']['brand'];
+                    $mater['place']=  $new['content'][$key]['fc']['place'];
+                    $mater['img']=  $new['content'][$key]['fc']['img'];
+                    $mater['phr']=  $new['content'][$key]['fc']['phr'];
+                    $mater['remarks']=  $new['content'][$key]['fc']['remarks'];
+                    $mater['category']=  $new['content'][$key]['fc']['category'];
+                    $mater['units']=  $new['content'][$key]['fc']['units'];
+                    Db::table('fdz_order_material')->insert($mater);
+
+                }
+            }
+            $yen= Db::table('fdz_order_project')->where('id',$da['order_project'] )->value('o_id');
+            $company = Db::table('fdz_order_project')->where('o_id',$yen)->select();
+            foreach ($company as $k2=>$v2)
+            {
+                if($v2['type_of_work']!='非标报价'){
+                    unset($company[$k2]);
+                }
+            }
+            if(count($company)==0){
+                Db::table('fdz_offerlist')->where('id',$yen)->update(['no_standard' => 5]);
+            }
+            if($yes){
+                echo "<script>window.parent.location.reload()</script>";
+            }else{
+                $this->error('操作失败');
+            }
+        }
+
+
+    }
 
 }

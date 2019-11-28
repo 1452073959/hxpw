@@ -16,8 +16,6 @@ class Baojia extends UserBase
     public function index(Request $request)
     {
         //接收
-
-
         $data = $request->post();
         $data = ['money' => $data['money'],
             'shroff' => $data['shroff'],
@@ -26,7 +24,7 @@ class Baojia extends UserBase
             'jid' => $data['jid'],
             'frameid' => $data['frameid'],
             'status' => 1,
-            'create_time' => date('y-m-d h:i:s', time())
+            'create_time' => date('y-m-d H:i:s', time())
         ];
 
         $res = Db::table('fdz_jiezhi')->data($data)->insert();
@@ -49,11 +47,16 @@ class Baojia extends UserBase
             $audit[$k]['ys']=0;
             foreach ($money=Db::table('fdz_financial')->where('userid',$v['uid'])->select() as $k1=>$v1){
                 $audit[$k]['ys'] += $v1['money'];
+                $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid',$v['uid'])->find();
+                $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid',$v['uid'])->find();
+                $audit[$k]['borrower'] = Db::table('fdz_cost_tmp')->where('f_id', $audit[$k]['borrower']['fid'])->value('borrower');
             }
+
             $audit[$k]['yj']=0;
             foreach ($jiezhi=Jiezhi::where('uid',$v['uid'])->select() as $k2=>$v2){
                 $audit[$k]['yj'] += $v2['net_payroll'];
             }
+            $audit[$k]['kj']=  $audit[$k]['ys']*$audit[$k]['borrower']*0.01-$audit[$k]['yj'];
         }
 
 //      if($audit['jid'])
@@ -81,7 +84,7 @@ class Baojia extends UserBase
         if($data['id']==4){
             $user->cause = $data['cause'];
         }
-        $user->gcjltime= date('y-m-d h:i:s', time());
+        $user->gcjltime= date('y-m-d H:i:s', time());
         $res=$user->save();
         if($res){
             $this->json(1,'success',$res);
@@ -109,13 +112,16 @@ class Baojia extends UserBase
 //       echo 123;
        $data = $request->get();
        $money=Db::table('fdz_financial')->where('userid',$data['uid'])->select();
+       $borrower=Db::table('fdz_financial')->where('userid',$data['uid'])->find();
+       $borrower=Db::table('fdz_cost_tmp')->where('f_id',$borrower['fid'])->value('borrower');
+
         $ys=0;
        foreach ($money as $k=>$v)
        {
            $ys += $v['money'];
        }
 //     已收款
-
+        //可接比率
        //已借
        $jiezhi=Jiezhi::where('uid',$data['uid'])->select();
        $yj=0;
@@ -123,8 +129,12 @@ class Baojia extends UserBase
        {
            $yj+=$v2['net_payroll'];
        }
+
        $n['ys']=$ys;
        $n['yj']=$yj;
+       $n['borrower']=$borrower;
+       $n['kj']= $n['ys']*$n['borrower']*0.01-$n['yj'];
+
      $this->json(1,'success',$n);
    }
 
