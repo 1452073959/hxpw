@@ -64,7 +64,7 @@ class BasisData extends Adminbase{
     }
 
     public function material_report_by_f(){
-        $field = ['brank'=>'品牌','place'=>'产地','price'=>'出库价','in_price'=>'入库价','pack'=>'包装数量','one_price'=>'计量单价','phr'=>'出库单位','source'=>'来源'];
+        $field = ['brank'=>'品牌','place'=>'产地','price'=>'出库价','in_price'=>'入库价','pack'=>'包装数量','one_price'=>'出库计量单价','one_in_price'=>'入库计量单价','phr'=>'出库单位','source'=>'来源'];
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
         $where = [];
         $condition = [];
