@@ -60,6 +60,70 @@ class BasisData extends Adminbase{
         $this->assign('source',$source);
         $this->assign('frame',$frame);
         $this->assign('data',$data);
+        return $this->fetch('');
+    }
+
+    public function material_report_by_f(){
+        $field = ['brank'=>'品牌','place'=>'产地','price'=>'出库价','in_price'=>'入库价','pack'=>'包装数量','one_price'=>'计量单价','phr'=>'出库单位','source'=>'来源'];
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $where = [];
+        $condition = [];
+        $f_materials = [];
+        $has_f_materials = [];
+        if(input('type_of_work')){
+            $where['type_of_work'] = explode(',', input('type_of_work'));
+        }
+        if(input('classify')){
+            $where['classify'] = explode(',', input('classify'));
+        }
+        if(input('fine')){
+            $where['fine'] = explode(',', input('fine'));
+        }
+        if(input('frame')){
+            $condition['fid'] = explode(',', input('frame'));
+        }else{
+            $condition['fid'] = array_keys($frame);
+        }
+
+        
+
+        if(1){
+            $basis_materials = Db::name('basis_materials')->group('amcode')->where($where)->order('amcode','asc')->select();
+            $amcode = array_column($basis_materials, 'amcode');
+            if(!empty($amcode)){
+                $f_datas = Db::name('f_materials')->where($condition)->where(['p_amcode'=>$amcode])->select();
+                foreach($f_datas as $k=>$v){
+                    if(is_numeric($v['pack']) && $v['pack'] > 0){
+                        $v['one_price']  = $v['price'] / $v['pack'];
+                    }else{
+                        $v['one_price'] = 0;
+                    }
+                    if(is_numeric($v['pack']) && $v['pack'] > 0){
+                        $v['one_in_price']  = $v['in_price'] / $v['pack'];
+                    }else{
+                        $v['one_in_price'] = 0;
+                    }
+                    
+                    $f_materials[$v['fid']][$v['p_amcode']][] = $v;
+                    $has_f_materials[] = $v['p_amcode'];
+                }
+            }
+        }else{
+            $basis_materials = [];
+        }
+        $type_of_work = Db::name('basis_materials')->field('type_of_work')->group('type_of_work')->select();
+        $classify = Db::name('basis_materials')->field('classify')->group('classify')->select();
+        $fine = Db::name('basis_materials')->field('fine')->group('fine')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $this->assign('type_of_work',$type_of_work);
+        $this->assign('classify',$classify);
+        $this->assign('fine',$fine);
+        $this->assign('frame',$frame);
+        $this->assign('basis_materials',$basis_materials);
+        $this->assign('f_materials',$f_materials);
+        $this->assign('has_f_materials',$has_f_materials);
+        $this->assign('fid',$condition['fid']);
+        $this->assign('field',$field);
         return $this->fetch();
     }
 
@@ -1734,7 +1798,6 @@ class BasisData extends Adminbase{
                 }else{
                     $reader = \PHPExcel_IOFactory::createReader('Excel5');
                 }
-
             }
             //处理表格数据
             //载入excel文件
