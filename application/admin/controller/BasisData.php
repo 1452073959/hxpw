@@ -101,6 +101,10 @@ class BasisData extends Adminbase{
 
         if(1){
             $basis_materials = Db::name('basis_materials')->group('amcode')->where($where)->order('amcode','asc')->select();
+            foreach($basis_materials as $k=>$v){
+                $basis_materials[$k]['count_all'] = Db::name('f_materials')->where(['p_amcode'=>$v['amcode']])->field('count(id) as count')->find()['count'];
+                $basis_materials[$k]['count'] = Db::name('f_materials')->where(['p_amcode'=>$v['amcode'],'fid'=>$condition['fid']])->field('count(id) as count')->find()['count'];
+            }
             $amcode = array_column($basis_materials, 'amcode');
             if(!empty($amcode)){
                 $f_datas = Db::name('f_materials')->where($condition)->where(['p_amcode'=>$amcode])->select();
@@ -126,7 +130,6 @@ class BasisData extends Adminbase{
         $type_of_work = Db::name('basis_materials')->field('type_of_work')->group('type_of_work')->select();
         $classify = Db::name('basis_materials')->field('classify')->group('classify')->select();
         $fine = Db::name('basis_materials')->field('fine')->group('fine')->select();
-        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
         $this->assign('type_of_work',$type_of_work);
         $this->assign('classify',$classify);
         $this->assign('fine',$fine);

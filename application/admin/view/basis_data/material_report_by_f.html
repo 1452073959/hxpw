@@ -100,6 +100,8 @@
                 <th lay-data="{field:'type_of_work', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">工种类别</th>
                 <th lay-data="{field:'classfly', sort:true, width:120,align:'center',style:'font-size:12px',align:'center'}">辅材细类</th>
                 <th lay-data="{field:'fine', sort:true, width:110,align:'center',style:'font-size:12px',align:'center'}">分类</th>
+                <th lay-data="{field:'count_all', sort:true, width:110,align:'center',style:'font-size:12px',align:'center'}">总使用数</th>
+                <th lay-data="{field:'count', sort:true, width:110,align:'center',style:'font-size:12px',align:'center'}">选中公司使用数</th>
                 {if(!empty($fid)) && !empty(input('field'))}
                     {foreach name="fid" item="v1"}
                         {foreach :explode(',',input('field')) as $k=>$v2}
@@ -119,6 +121,8 @@
                         <td>{$v['type_of_work']}</td>
                         <td>{$v['classify']}</td>
                         <td>{$v['fine']}</td>
+                        <td>{$v['count_all']}</td>
+                        <td>{$v['count']}</td>
 
                         {foreach name="fid" item="v1"}
                             {if(isset($f_materials[$v1][$v['amcode']]))}
