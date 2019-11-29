@@ -198,32 +198,38 @@ class Offerlist extends Adminbase
                 $offer_type_check[$v['type']][] = $v['name'];
             }
             $item_number = [];
+            $fb_num = [];//存在非标个数
             foreach($order_project as $k=>$v){
                 if(!isset($data[$v['space']][$v['item_number']])){
                     if(!in_array($v['type_of_work'],$offer_type_check[1])){
-                        $this->error('工种：'.$v['type_of_work'].' 不存在，另存订单失败');
+                        // $this->error('工种：'.$v['type_of_work'].' 不存在，另存订单失败');
                     }
                     if(!in_array($v['space'], $offer_type_check[2])){
                         $this->error('空间：'.$v['space'].' 不存在，另存订单失败');
                     }
                     $data[$v['space']][$v['item_number']] = 0;
                     $item_number[] = $v['item_number'];
+                    if( $v['of_fb'] != 0 && $v['of_fb'] != 5){
+                        $fb_num[] = $v['item_number'];
+                    }
                 }
                 $data[$v['space']][$v['item_number']] += $v['num'];
             }
             $item_number = array_unique($item_number);
             $item_number_num = count($item_number);
             $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
-            if($item_number_num != count($offerquota)){
+            if($item_number_num != (count($offerquota)+count(array_unique($fb_num)))){
                 $this->error('订单部分项目不全，另存订单失败');
             }
             $order_info = Db::name('offerlist')->where(['id'=>input('report_id')])->find();
             $offerquota = array_column($offerquota, null,'item_number');
+            $order_project = array_column($order_project, null,'item_number');
             Cache::rm('tso_'.input('customer_id').$userinfo['userid']);
             $this->assign([
                 'data'=>$data,
                 'order_info'=>$order_info,
                 'offerquota'=>$offerquota,
+                'order_project'=>$order_project,
             ]);
         }
         $this->assign([
@@ -2520,8 +2526,40 @@ class Offerlist extends Adminbase
                 $this->error('操作失败');
             }
         }
-
-
+    }
+    
+    public function superbind(Request $request)
+    {
+        if (request()->isGet()) {
+            $da=$request->get();
+            if(input('typeof')){
+                $basis_project = Db::table('fdz_basis_project')->where('type_word_id',input('typeof'))->select();
+            }else{
+                $basis_project = Db::table('fdz_basis_project')->select();
+            }
+            $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(), null, 'id');
+            $this->assign('basis_project', $basis_project);
+            $this->assign('typeof', $type_work);
+            $this->assign('da', $da);
+            return $this->fetch();
+        }else{
+            $da=$request->post();
+            $basis_project= Db::table('fdz_basis_project')->where('id',$da['basis_project'])->find();
+            $n=  Db::table('fdz_basis_type_work')->where('id',$basis_project['type_word_id'])->value('name');
+            $res= Db::table('fdz_order_project')->where('id',$da['id'])->update([
+               'item_number'=>$basis_project['item_number'],
+                'of_fb'=>4,
+                'type_of_work'=>$n,
+                'project'=>$basis_project['name'],
+                'company'=>$basis_project['unit'],
+                'material'=>$basis_project['content'],
+                ]);
+            if($res){
+                echo "<script>window.parent.location.reload()</script>";
+            }else{
+                $this->error('失败');
+            }
+        }
     }
 
 }
