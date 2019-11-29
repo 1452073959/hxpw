@@ -299,7 +299,7 @@
                     html += '<div class="layui-form-item" style="margin:5px 0">'
                     html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工种类别：</label>'
                     html += '  <div class="layui-input-block" style="margin-left:85px">'
-                    html += '    <input type="text" name="" value="'+res.data.type_word_id+'" disabled autocomplete="off" class="layui-input">'
+                    html += '    <input type="text" name="" value="'+res.data.type_word+'" disabled autocomplete="off" class="layui-input">'
                     html += '  </div>'
                     html += '</div>'
 
@@ -364,7 +364,7 @@
                         var layer = layui.layer;
                         layer.open({
                             content: html,
-                            area:['400px', '800px'],
+                            area:['400px', '80%'],
                             title:'添加报价项目',
                             btn: ['取消'],
                             success:function(layero, index){

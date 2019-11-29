@@ -482,6 +482,9 @@ class BasisData extends Adminbase{
     public function get_public_project(){
         $item_number = input('item_number');
         $info = Db::name('basis_project')->where(['item_number'=>$item_number])->find();
+        if($info){
+            $info['type_word'] = Db::name('basis_type_work')->where(['id'=>$info['type_word_id']])->value('name');
+        }
         if(!$info){
             $this->error('参数错误');
         }
