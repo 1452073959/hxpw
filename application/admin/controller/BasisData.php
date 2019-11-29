@@ -54,6 +54,12 @@ class BasisData extends Adminbase{
         $fine = Db::name('basis_materials')->field('fine')->group('fine')->select();
         $source = Db::name('f_materials')->field('source')->group('source')->select();
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $new_frame = ['嘉兴分公司','海宁分公司','长兴分公司','德清分公司','丽水分公司','海门分公司','金华分公司','青田分公司','广元分公司','宜兴分公司','镇江分公司','太仓分公司','惠州分公司','衡阳分公司','郴州分公司','邵阳分公司','星沙分公司','花都分公司','河源分公司','九江分公司','四会分公司','南宁分公司','玉林分公司','北海分公司','柳州分公司','百色分公司','宁德分公司','金阳分公司','兴义分公司','临海分公司','海口分公司','琼海分公司','三亚分公司','曲靖分公司'];
+        foreach($frame as $k=>$v){
+            if(!in_array($v['name'], $new_frame)){
+                unset($frame[$k]);
+            }
+        }
         $this->assign('type_of_work',$type_of_work);
         $this->assign('classify',$classify);
         $this->assign('fine',$fine);
@@ -66,6 +72,12 @@ class BasisData extends Adminbase{
     public function material_report_by_f(){
         $field = ['brank'=>'品牌','place'=>'产地','price'=>'出库价','in_price'=>'入库价','pack'=>'包装数量','one_price'=>'出库计量单价','one_in_price'=>'入库计量单价','phr'=>'出库单位','source'=>'来源'];
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $new_frame = ['嘉兴分公司','海宁分公司','长兴分公司','德清分公司','丽水分公司','海门分公司','金华分公司','青田分公司','广元分公司','宜兴分公司','镇江分公司','太仓分公司','惠州分公司','衡阳分公司','郴州分公司','邵阳分公司','星沙分公司','花都分公司','河源分公司','九江分公司','四会分公司','南宁分公司','玉林分公司','北海分公司','柳州分公司','百色分公司','宁德分公司','金阳分公司','兴义分公司','临海分公司','海口分公司','琼海分公司','三亚分公司','曲靖分公司'];
+        foreach($frame as $k=>$v){
+            if(!in_array($v['name'], $new_frame)){
+                unset($frame[$k]);
+            }
+        }
         $where = [];
         $condition = [];
         $f_materials = [];
