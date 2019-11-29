@@ -80,9 +80,11 @@ class Offerlist extends Adminbase
         $userinfo = $this->_userinfo;
         if(input('data')){
             Cache::set('tso_'.$user_id.$userinfo['userid'],input('data'),3600*7);
+            Cache::set('tson_'.$user_id.$userinfo['userid'],input('no_standard'),3600*7);
             $this->success('success');
         }else{
             Cache::rm('tso_'.$user_id.$userinfo['userid']);
+            Cache::rm('tson_'.$user_id.$userinfo['userid']);
             $this->success('删除缓存');
         }
     }
@@ -91,7 +93,17 @@ class Offerlist extends Adminbase
     public function get_temporary_order(){
         $userinfo = $this->_userinfo;
         //判断是否有临时保存的订单
+        $no_standard = [];
         $temporary_order = Cache::get('tso_'.input('customer_id').$userinfo['userid']);
+        $tson = Cache::get('tson_'.input('customer_id').$userinfo['userid']);
+        if($tson){
+            foreach($tson as $k=>$v){
+                foreach($v as $k1=>$v1){
+                    $no_standard[$k1] = $v1;
+                }
+            }
+        }
+        
         if($temporary_order){
             $success_temporary_order = 1;//判断临时订单是否失效 1:有效 2:失效
             $item_number = [];//所有项目编号集合
@@ -114,7 +126,7 @@ class Offerlist extends Adminbase
             }
             $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
             $item_number = array_unique($item_number);//去重
-            if(count($item_number) != count($offerquota)){
+            if(count($item_number) != count($offerquota) && 0){
                 $success_temporary_order = 2;
             }else{
                 $offerquota = array_column($offerquota, null,'item_number');
@@ -123,17 +135,21 @@ class Offerlist extends Adminbase
                 foreach ($temporary_order as $k1 => $v1) {
                     foreach($v1 as $k2=>$v2){
                         $info = [];
-                        $info['work_type'] = $offerquota[$k2]['type_of_work'];
+                        if(isset($offerquota[$k2]['type_of_work'])){
+                            $info['work_type'] = $offerquota[$k2]['type_of_work'];
+                        }else{
+                            $info['work_type'] = '非标工种';//这个可以不要
+                        }
+                        
                         $info['space'] = $k1;
                         $info['item_number'] = $k2;
                         $info['num'] = $v2;
                         $datas[] = $info;
                     }
-
                 }
             }
             if($success_temporary_order == 1){
-                echo json_encode(['code'=>1,'datas'=>$datas,'offerquota'=>$offerquota]);die;
+                echo json_encode(['code'=>1,'datas'=>$datas,'offerquota'=>$offerquota,'no_standard'=>$no_standard]);die;
             }else{
                 $this->error('error temporary order');die;
             }
@@ -225,6 +241,7 @@ class Offerlist extends Adminbase
             $offerquota = array_column($offerquota, null,'item_number');
             $order_project = array_column($order_project, null,'item_number');
             Cache::rm('tso_'.input('customer_id').$userinfo['userid']);
+            Cache::rm('tson_'.input('customer_id').$userinfo['userid']);
             $this->assign([
                 'data'=>$data,
                 'order_info'=>$order_info,
@@ -563,6 +580,7 @@ class Offerlist extends Adminbase
             }
             if($re!==false && $order_material_res && $order_project_res){
                 Cache::rm('tso_'.input('customerid').$userinfo['userid']);
+                Cache::rm('tson_'.input('customerid').$userinfo['userid']);
                 $this->success('保存订单成功',url('admin/offerlist/history',array('customerid'=>input('customerid'),'report_id'=>$re)));
             }else{
                 $this->error('失败');
@@ -2527,7 +2545,7 @@ class Offerlist extends Adminbase
             }
         }
     }
-    
+
     public function superbind(Request $request)
     {
         if (request()->isGet()) {

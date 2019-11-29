@@ -581,7 +581,7 @@
     //===================自动临时保存报价
     var step_number = 0;//操作的次数
     function save_order(){
-        if(step_number < 2){ //每3步记录一次
+        if(step_number < 2){ //每2步记录一次
             step_number++;
             return false;
         }
@@ -1169,6 +1169,7 @@
                 if(res.code == 1){
                     var offerquota = res.offerquota;
                     var datas = res.datas;
+                    var no_standard = res.no_standard;
                     var is_in = 0;
                     $(res.datas).each(function(k,v){
                         if($('input[data-project="'+v.space+'-'+v.item_number+'"]').length > 0){
@@ -1180,16 +1181,35 @@
                         //不要工种分类
                         v.work_type = '所有工种';
                         project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                        project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
-                        project += '<td>'+v.item_number+'</td>';
-                        project += '<td>'+offerquota[v.item_number]['project']+'</td>';
-                        project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
-                        project += '<td>'+offerquota[v.item_number]['company']+'</td>';
-                        project += '<td>'+offerquota[v.item_number]['quota']+'</td>';
-                        project += '<td></td>';
-                        project += '<td>'+offerquota[v.item_number]['craft_show']+'</td>';
-                        project += '<td></td>';
-                        project += '</tr>';
+                        if(no_standard[v.item_number]){
+                            project += ' <input type="hidden" class="name" name="no_standard['+v.space+']['+v.item_number+'][name]" value="'+no_standard[v.item_number]['name']+'" />';
+                            project += ' <input type="hidden" class="unit" name="no_standard['+v.space+']['+v.item_number+'][unit]" value="'+no_standard[v.item_number]['unit']+'" />';
+                            project += ' <input type="hidden" class="mprice" name="no_standard['+v.space+']['+v.item_number+'][mprice]" value="'+no_standard[v.item_number]['mprice']+'" />';
+                            project += ' <input type="hidden" class="aprice" name="no_standard['+v.space+']['+v.item_number+'][aprice]" value="'+no_standard[v.item_number]['aprice']+'" />';
+                            project += ' <input type="hidden" class="content" name="no_standard['+v.space+']['+v.item_number+'][content]" value="'+no_standard[v.item_number]['content']+'" />';
+                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                            project += '<td><span style="color:red">非标</span></td>';
+                            project += '<td>'+no_standard[v.item_number]['name']+'</td>';
+                            project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
+                            project += '<td>'+no_standard[v.item_number]['unit']+'</td>';
+                            project += '<td>'+no_standard[v.item_number]['mprice']+'</td>';
+                            project += '<td></td>';
+                            project += '<td>'+no_standard[v.item_number]['aprice']+'</td>';
+                            project += '<td></td>';
+                            project += '</tr>';
+                        }else{
+                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                            project += '<td>'+v.item_number+'</td>';
+                            project += '<td>'+offerquota[v.item_number]['project']+'</td>';
+                            project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
+                            project += '<td>'+offerquota[v.item_number]['company']+'</td>';
+                            project += '<td>'+offerquota[v.item_number]['quota']+'</td>';
+                            project += '<td></td>';
+                            project += '<td>'+offerquota[v.item_number]['craft_show']+'</td>';
+                            project += '<td></td>';
+                            project += '</tr>';
+                        }
+                        
 
                         if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
                         $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
