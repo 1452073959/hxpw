@@ -49,6 +49,7 @@
                         {else/}
                         {/if}
                         <button key="{$vo.id}" class="layui-btn layui-btn-primary cjsh" >新增报价条目</button>
+                        <button key="{$vo.id}" class="layui-btn layui-btn-primary cjbd" >绑定到报价库</button>
                     </td>
                 </tr>
                 {/foreach}
@@ -115,18 +116,34 @@
             });
 
         });
+
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            $(document).on('click','.cjbd', function(){
+                var Tresult=$(this).attr('key');
+                layer.open({
+                    type: 2,
+                    title: '绑定到报价库',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['800px', '70%'],
+                    content: '/admin/offerlist/superbind?id='+ Tresult
+                });
+            });
+
+        });
     })
 </script>
 <script>
     $(function () {
         $(document).on('click','.cjsh', function(){
             var a=$(this).attr('key');
+
             $.ajax({
                 type: "get",
                 url: "/admin/Offerlist/cjbindedit",
                 data: {key:a,status:4},
                 success: function (e) {
-
                     console.log(e);
                     window.location.reload();
                 }

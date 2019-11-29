@@ -5,36 +5,35 @@
         float: left;
     }
 </style>
-<form action="/admin/Offerlist/cjbindedit" method="get"  class="layui-form" id="registerform">
+<form action="/admin/Offerlist/superbind" method="get"  class="layui-form" id="registerform">
     <div class="layui-form-item">
         <label class="layui-form-label">工种筛选</label>
         <div class="layui-input-block">
-                <ul class="ty">
-                    {foreach typeof as $k=>$v}
-                    <li class="typ">
-                        <input type="radio" name="typeof" value="{$v.type_of_work}" {if (input('typeof')==$v.type_of_work)} checked {/if} title="{$v.type_of_work}">
-                    </li>
-                    {/foreach}
-                </ul>
+            <ul class="ty">
+                {foreach $typeof as $k=>$v}
+                <li class="typ">
+                    <input type="radio" name="typeof" value="{$v.id}" {if (input('typeof')==$v.id)} checked {/if} title="{$v.name}">
+                </li>
+                {/foreach}
+            </ul>
         </div>
-        <input type="hidden" name="id" value="{$data['id']}">
+        <input type="hidden" name="id" value="{$da['id']}">
     </div>
 </form>
 
 
-<form class="layui-form" action="/admin/Offerlist/cjbindedit" method="post">
+<form class="layui-form" action="/admin/Offerlist/superbind" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label">绑定到已有报价条目</label>
         <div class="layui-input-block">
-            <select name="bindid" lay-filter="bindid" lay-search required  lay-verify="required">
+            <select name="basis_project" lay-filter="basis_project" lay-search required  lay-verify="required">
                 <option value="">请选择</option>
-                {volist name="company" id="vo"}
-                <option value="{$vo['id']}">{$vo['item_number']}.{$vo.type_of_work}.{$vo.project}</option>
+                {volist name="basis_project" id="vo"}
+                <option value="{$vo['id']}">{$vo.item_number}.{$vo.name}</option>
                 {/volist}
             </select>
+            <input type="hidden" name="id" value="{$da['id']}">
         </div>
-
-        <input type="hidden" name="id" value="{$data['id']}">
     </div>
 
     <div class="layui-form-item" >
