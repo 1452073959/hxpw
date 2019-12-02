@@ -1927,18 +1927,20 @@ class Offerlist extends Adminbase
         }
         //===========获取工种结束
         $datas = [];
-        $item_number = [];
+        // $item_number = [];
         foreach($order_project as $k=>$v){
             if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
                 $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
                 $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
-                $item_number[] = $v['item_number'];
+                // $item_number[] = $v['item_number'];
 
             }
             $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
         }
-        $item_number = array_unique($item_number);
-        $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
+        // $item_number = array_unique($item_number);
+        $condition = [];
+
+        $offerquota = array_column(Db::name('order_project')->where(['o_id'=>$o_id])->select(), null,'item_number');
 
         $offerlist_info = Model('offerlist')->get_order_info($o_id);
 
