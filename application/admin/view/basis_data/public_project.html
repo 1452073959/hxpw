@@ -303,6 +303,7 @@
                 <?php foreach($type_work as $k=>$v){ ?>
                     option += '<option value="{$v['id']}" >{$v['name']}</option>'
                 <?php } ?>
+                option = option.replace('>'+data.type_word_id,'selected >'+data.type_word_id);
                 var html = '<form id="add_html" class="layui-form">';
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
