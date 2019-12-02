@@ -340,6 +340,7 @@ class Indent extends Adminbase
                 'take_rate4'=>0,
                 'pick_rate'=>0,
                 'order_check'=>'',
+                'borrower'=>'',
             ];//返回空数据
         }
         if($cost_tmp['order_check']){
@@ -413,6 +414,7 @@ class Indent extends Adminbase
         $datas['take_rate4'] = input('take_rate4');
         $datas['pick_rate'] = input('pick_rate');
         $datas['order_check'] = input('order_check');
+        $datas['borrower'] = input('borrower');
 
         $order_check = explode("\n", input('order_check'));
         $title = [];

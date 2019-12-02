@@ -15,6 +15,7 @@
             <input type="text" name="supervisor" autocomplete="off" value="{$data.supervisor}" class="layui-input">
         </div>
     </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label w150">设计提成*（%）</label>
         <div class="layui-input-inline w150">
@@ -73,6 +74,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label w150">借支比率*（%）</label>
+        <div class="layui-input-inline w150">
+            <input type="number" name="borrower" autocomplete="off" value="{$data.borrower}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label w150">质检流程*<p>（每行一条，名称与说明使用"-"分开，名称不得超过3个字）</p></label>
         <div class="layui-input-inline w150">
             <textarea placeholder="例子：&#13;&#10;打拆-打拆具体流程说明&#13;&#10;水工-水工具体流程说明" name="order_check" style="height:300px;width:550px">{$data.order_check}</textarea>
@@ -106,6 +113,7 @@
 
         var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
         var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
+        var borrower = $(this).parents(".tmp_datas").find("input[name='borrower']").val();
 
         if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
             layui.use('layer', function(){
@@ -180,6 +188,7 @@
                 take_rate4:take_rate4,
                 pick_rate:pick_rate,
                 order_check:order_check,
+                borrower:borrower,
             },
             success : function(re){
               if(re.status == 0){
