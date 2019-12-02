@@ -265,7 +265,7 @@
                             if(unit == ''){
                                 unit = '{$v['unit']}'
                             }
-                            fine_option += '<option value="{$v['fine']}" data-unit="{$v['unit']}">{$v['fine']}</option>'
+                            fine_option += '<option value="{$v['fine']|raw}" data-unit="{$v['unit']}">{$v['fine']|raw}</option>'
                         <?php } ?>
                         $(res.data).each(function(k,v){
                             //前端取出单位
