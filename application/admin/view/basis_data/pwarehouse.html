@@ -231,7 +231,7 @@
                     content: html,
                     title:'申请新辅材',
                     area: ['680px', '80%'], //宽高
-                    btn: ['提交', '取消'],
+                    btn: ['提交'],
                     yes: function(index, layero){
                         var addform = $('#formdatas').serializeArray();
                         var datas = {};  
@@ -252,9 +252,6 @@
                                 layer.msg(res.msg);
                             }
                         },'json')
-                    },
-                    btn2: function(index, layero){
-                        layer.close(index);
                     },
                     cancel: function(){ 
                     //return false 开启该代码可禁止点击该按钮关闭
