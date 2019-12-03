@@ -699,7 +699,7 @@ class Artificial extends Adminbase
             $this->assign('regulation',$regulation);
             return $this->fetch();
         }else{
-            $this->error('该订单无增减项!');
+           $this->error('该订单无增减项');
         }
 
     }
@@ -714,10 +714,7 @@ class Artificial extends Adminbase
             $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
             $where = [];
             $where['o_id'] = $o_id;
-            if(input('type') != 2){
-                //增减项+原单
-                $where['type'] = 1;
-            }
+            $where['type'] = 2;
             $order_project = Db::name('order_project')->where($where)->select();
             //==========获取工种 空间类型
             $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
@@ -728,32 +725,14 @@ class Artificial extends Adminbase
             //===========获取工种结束
             $datas = [];
             $item_number = [];
-            if(input('word') == 1){
-                foreach($order_project as $k=>$v){
-                    if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
-
-                    }
-                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
-                }
-            }else{
                 foreach($order_project as $k=>$v){
                     if(!isset($datas[$v['space']][$v['item_number']])){
                         $datas[$v['space']][$v['item_number']]['info'] = $v;
                         $datas[$v['space']][$v['item_number']]['num'] = 0;
                         $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                        // $item_number[] = $v['item_number'];
-
                     }
                     $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
                 }
-            }
-
-
-            // $item_number = array_unique($item_number);
-            // $offerquota = array_column(Db::name('offerquota')->where('item_number','in',$item_number)->where('frameid',$order_info['frameid'])->select(), null,'item_number');
             if(input('type') == 2){
                 $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
             }else{
@@ -767,7 +746,6 @@ class Artificial extends Adminbase
                 'datas'=>$datas,
                 'order_info'=>$order_info,
                 'userinfo'=>$userinfo,
-                // 'offerquota'=>$offerquota,
                 'offer_type'=>$offer_type,
                 'offerlist_info'=>$offerlist_info,
                 'cost_tmp'=>$cost_tmp,
@@ -811,27 +789,21 @@ class Artificial extends Adminbase
                         $datas[$v['space']][$v['item_number']]['info'] = $v;
                         $datas[$v['space']][$v['item_number']]['num'] = 0;
                         $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                        // $item_number[] = $v['item_number'];
-
                     }
                     $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
                 }
             }
-
             if(input('type') == 2){
                 $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
             }else{
                 $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
             }
-
             //订单底部文字
             $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-            // var_dump($order_project);die;
             $this->assign([
                 'datas'=>$datas,
                 'order_info'=>$order_info,
                 'userinfo'=>$userinfo,
-                // 'offerquota'=>$offerquota,
                 'offer_type'=>$offer_type,
                 'offerlist_info'=>$offerlist_info,
                 'cost_tmp'=>$cost_tmp,

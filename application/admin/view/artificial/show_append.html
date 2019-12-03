@@ -79,8 +79,10 @@
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="">
+            <button class="layui-btn" onclick="javascript:history.back(-1);">返回</button>
             <blockquote class="layui-elem-quote news_search">
                 <form class="layui-inline">
+
                     <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')])}">导出报表</a>
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
                     {switch name="order_info.status"}
@@ -259,7 +261,7 @@
                     {/foreach}
                     <?php }?>
 
-                    <tr>
+ <!--                   <tr>
                         <td class="text-left" colspan="2">直接费</td>
                         <td></td>
                         <td></td>
@@ -319,18 +321,18 @@
                         <td colspan="9" style="text-align: left">{$v}</td>
                     </tr>
                     <?php } ?>
-                    {/notempty}
-                    {/notempty}
+                    {/notempty}-->
+                    <!--{/notempty}-->
                     </tbody>
                     <tfoot>
                     </tfoot>
                 </table>
-                <div style="padding: 20px;color: #484646">
+<!--                <div style="padding: 20px;color: #484646">
                     <span style="width: 24% ;display: inline-block;text-align:left;">业主：</span>
                     <span style="width: 24% ;display: inline-block;text-align:left;">设计师：</span>
                     <span style="width: 24% ;display: inline-block;text-align:left;">商务经理：</span>
                     <span style="width: 24% ;display: inline-block;text-align:left;">报价师：</span>
-                </div>
+                </div>-->
                 {/notempty}
             </div>
         </div>

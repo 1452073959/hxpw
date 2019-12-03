@@ -140,7 +140,7 @@ a{
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id])}">查看报价</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
-                       <!-- <a class="layui-btn layui-btn-xs"  lay-event="kkk">增减项</a> -->
+                        <a class="layui-btn layui-btn-xs"  lay-event="kkk">增减项</a>
                        <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
@@ -283,8 +283,8 @@ layui.use('table', function(){
   //监听单元格事件
   table.on('tool(test3)', function(obj){
       if(obj.event === 'kkk'){
-
           var Tresult= $("#ht").text();
+          alert(Tresult);
                   layer.open({
                       type: 2,
                       title: '增减项',
@@ -295,6 +295,7 @@ layui.use('table', function(){
                       tipsMore: true,
                       content: '/admin/artificial/regulation?id='+Tresult
                   });
+
       }
 
 
