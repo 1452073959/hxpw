@@ -12,6 +12,7 @@ class Manager extends UserBase{
     //根据监理获取工地信息
     public function getUserListBySupervisor(){
         $where = [];
+        $condition = [];
         $where['status'] = [3,4,5,6,7];
         if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             $where['gcmanager_id'] = $this->admininfo['userid'];
@@ -22,9 +23,8 @@ class Manager extends UserBase{
         if(!$userlist){
             $this->json(2,'none');
         }
-        $jl_id = array_unique(array_column($userlist,'jid'));
-        $admininfo = array_column(Db::name('admin')->field('userid,name,pid')->where(['userid'=>$jl_id])->select(), null,'userid');
-        // $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id');
+        // $jl_id = array_unique(array_column($userlist,'jid'));
+        $admininfo = array_column(Db::name('admin')->field('userid,name,pid')->where(['companyid'=> $this->admininfo['companyid'],'roleid'=>13,'status'=>1])->select(), null,'userid');
         $datas = [];
         foreach($userlist as $k=>$v){
             if(!isset($datas[$v['jid']])){
@@ -36,6 +36,16 @@ class Manager extends UserBase{
             $v['sign_bill_time'] = date('Y-m-d',$v['sign_bill_time']);
             $datas[$v['jid']]['num']++;
             $datas[$v['jid']]['userlist'][] = $v;
+        }
+        //把没有正在施工的监理加进去
+        foreach($admininfo as $k=>$v){
+            if(!isset($datas[$v['userid']])){
+                $datas[$v['userid']]['num'] = 0;
+                $datas[$v['userid']]['total_price'] = 0;
+                $datas[$v['userid']]['name'] = $v['name'];
+                $datas[$v['userid']]['pid'] = $v['pid'];
+                $datas[$v['userid']]['userlist'] = [];
+            }
         }
         // $this->json(0,'success',$datas);
         $this->json(0,'success',['datas'=>$datas]);
