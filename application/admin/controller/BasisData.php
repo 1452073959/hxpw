@@ -442,7 +442,7 @@ class BasisData extends Adminbase{
             if($basis_project['fine'] != $datas['fine']){
                 //辅材修改了 需要分公司重新设置该报价
                 $rs = Db::name('f_project')->where(['p_item_number'=>$basis_project['item_number']])->update(['status'=>2]);
-                Db::name('offerquota')->where('item_number','like',$basis_project['item_number'].'%')->delete();
+                Db::name('offerquota')->where('item_number','like',$basis_project['item_number'].'_%')->delete();
             }
             Db::commit();
         } catch (\Exception $e) {
