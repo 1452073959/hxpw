@@ -1,5 +1,6 @@
 {extend name="index_layout"/}
 {block name="main"}
+
 <style type="text/css">
 /*分页样式*/
 .pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}
@@ -65,7 +66,7 @@ p{
 .text-left{
     text-align: left
 }
-
+table,td,th{border:1px solid #000000;text-align:center;padding:2px;}
 /*td{
     padding: 3px !important;
     font-size: 12px !important;
@@ -80,6 +81,8 @@ th{
     <div class="layui-card-body">
         <div class="">
             <blockquote class="layui-elem-quote news_search">
+
+                <!--<input type="button" id="export" value="导出"/>-->
                 <a style="float: right" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'':2,'word'=>input('word')==1?1:''])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('type')==2?'切换原单':'切换完整订单' ?></a>
                 <a style="float: right; margin:0 10px" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'2':'','word'=>input('word')==1?'':1])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('word')==1?'按空间显示':'按工种显示' ?></a>
                 <form class="layui-inline">
@@ -111,7 +114,7 @@ th{
                 
                 {notempty name="datas"}
                 <!-- <table class="layui-table" style="word-break:break-all"> -->
-                <table class="layui-table" style="margin-top: 0px">
+                <table class="layui-table" id="tables"  border="1"  rull="all" style="border:1px solid black" >
                     <colgroup>
                         <col width="30">
                         <col width="50">
@@ -127,41 +130,48 @@ th{
                         
                     </thead>
                     <tbody> 
-                        
+
                         <tr>
                             <th style="text-align:center;" colspan="9">公司名称：{$order_info.unit}</th>                
                         </tr>
                         <tr>
-                            <th style="text-align:center;" colspan="9">
-                                <span style="width: 20% ;display: inline-block;text-align:center;height: 20px">客户：{$userinfo.customer_name}</span>
-                                <span style="width: 20% ;display: inline-block;text-align:center;height: 20px">设计师：{$userinfo.designer_name}</span>
-                                <span style="width: 20% ;display: inline-block;text-align:center;height: 20px">报价师：{$userinfo.quoter_name}</span>
-                                <span style="width: 20% ;display: inline-block;text-align:center;height: 20px">设计总监：{$userinfo.director_designer ?: '暂无'}</span>
-                            </th>        
+                                <td colspan="3"> 客户：{$userinfo.customer_name}</td>
+                                <td colspan="3">设计师：{$userinfo.designer_name}</td>
+                                <td colspan="2">报价师：{$userinfo.quoter_name}</td>
+                                <td colspan="1" >设计总监：{$userinfo.director_designer ?: '暂无'}</td>
                         </tr>
                         <tr>
-                            <th style="text-align:center;" colspan="9">
-                                <span style="width: 19% ;display: inline-block;text-align:center;height: 20px">木作设计师：{$userinfo.wood_designer ?: '暂无'}</span>
-                                <span style="width: 19% ;display: inline-block;text-align:center;height: 20px">家具设计师：{$userinfo.furniture_designer ?: '暂无'}</span>
-                                <span style="width: 19% ;display: inline-block;text-align:center;height: 20px">软装设计师：{$userinfo.soft_designer ?: '暂无'}</span>
-                                <span style="width: 19% ;display: inline-block;text-align:center;height: 20px">水电设计师：{$userinfo.sd_designer ?: '暂无'}</span>
-                                <span style="width: 19% ;display: inline-block;text-align:center;height: 20px">助理设计师：{$userinfo.aid_designer ?: '暂无'}</span>
-                            </th>        
+
+                                <td colspan="2">木作设计师：{$userinfo.wood_designer ?: '暂无'}</td>
+                                <td colspan="2">家具设计师：{$userinfo.furniture_designer ?: '暂无'}</td>
+                                <td colspan="2">软装设计师：{$userinfo.soft_designer ?: '暂无'}</td>
+                                <td colspan="2">水电设计师：{$userinfo.sd_designer ?: '暂无'}</td>
+                                <td colspan="1">助理设计师：{$userinfo.aid_designer ?: '暂无'}</td>
+
                         </tr>
                         <tr>      
                             <th class="text-center" rowspan="2" colspan="1">序号</th>
                             <th class="text-center" rowspan="2">工程项目名称</th>         
                             <th class="text-center" rowspan="2">数量</th>       
                             <th class="text-center" rowspan="2">单位</th>
-                            <th class="text-center" colspan="2">辅材费</th> 
-                            <th class="text-center" colspan="2">人工费</th>    
+                            {if $type==2}
+                            <th class="text-center" colspan="4">综合费</th>
+                            {else/}
+                            <th class="text-center" colspan="2">辅材费</th>
+                            <th class="text-center" colspan="2">人工费</th>
+                            {/if}
                             <th class="text-center" rowspan="2">施工工艺及材料说明</th> 
                         </tr>
-                        <tr>   
-                            <th class="text-center" colspan="1">单价</th>       
-                            <th class="text-center">合计</th>       
-                            <th class="text-center">单价</th>       
-                            <th class="text-center">合计</th> 
+                        <tr>
+                            {if $type==2}
+                            <th class="text-center" colspan="2">单价</th>
+                            <th class="text-center" colspan="2">合计</th>
+                            {else/}
+                            <th class="text-center">单价</th>
+                            <th class="text-center">合计</th>
+                            <th class="text-center">单价</th>
+                            <th class="text-center">合计</th>
+                            {/if}
                         </tr>
                         {notempty name="datas"}
                             <?php 
@@ -173,15 +183,15 @@ th{
                             <?php if(input('word') == 1){?>
                                 {foreach name="datas" item="v1" key="k1"}
                                     <tr data-cate="tr{$k1}">
-                                        <td><?php echo chr($num1); ?></td>
+                                        <td colspan="1"><?php echo chr($num1); ?></td>
                                         <td colspan="2" style="font-weight:bold;">{$k1}</td>
-                                        <td colspan="7"></td>
+                                        <td colspan="6"></td>
                                     </tr>
                                     <?php $num1++;$num2=97; ?>
                                     {foreach name="$v1" key="k2" item="v2"}
                                         <tr id="tr{$k2}">
-                                            <td><?php echo chr($num2); ?></td>
-                                            <td class="text-center" colspan="9" style="font-weight:bold;">{$k2}</td>
+                                            <td colspan="1"><?php echo chr($num2); ?></td>
+                                            <td class="text-center" colspan="8" style="font-weight:bold;">{$k2}</td>
                                         </tr>
                                         <?php $num3=1; $num2++; ?>
                                         {foreach name="$v2" item="v3" key="k3"}
@@ -190,14 +200,23 @@ th{
                                                 <td>{$v3['info']['project']}</td>
                                                 <td>{$v3.num}</td>
                                                 <td>{$v3['info']['company']}</td>
-                                                <td>{$v3['info']['quota']}</td>
-                                                <td>{$v3.num?$v3.num*$v3['info']['quota']:''}</td>
-                                                <td>{$v3['info']['craft_show']}</td>
-                                                <td>{$v3.num?$v3.num*$v3['info']['craft_show']:''}</td>
+                                                {if $type==2}
+                                                    <td colspan="2">{$v3['info']['quota']+$v3['info']['craft_show']}</td>
+                                                    <td colspan="2">
+                                                        {if($v3['num'])}
+                                                            {$v3['num']*$v3['info']['craft_show']+$v3['num']*$v3['info']['quota']}
+                                                        {/if}
+                                                     </td>
+                                                {else/}
+                                                    <td>{$v3['info']['quota']}</td>
+                                                    <td>{$v3.num?$v3.num*$v3['info']['quota']:''}</td>
+                                                    <td>{$v3['info']['craft_show']}</td>
+                                                    <td>{$v3.num?$v3.num*$v3['info']['craft_show']:''}</td>
+                                                {/if}
                                                 <td>{$v3['info']['material']}</td>
                                                 <input type="hidden" form="myform" name="" value="">
                                             </tr>
-                                            <?php 
+                                            <?php
                                                 $total_quota += $v3['num']?$v3['num']*$v3['info']['quota']:0;
                                                 $total_craft_show += $v3['num']?$v3['num']*$v3['info']['craft_show']:0;
                                                 $num3++;
@@ -219,7 +238,7 @@ th{
                                 {foreach name="datas" item="v1" key="k1"}
                                     <tr id="tr{$k1}">
                                             <td><?php echo chr($num2); ?></td>
-                                            <td style="text-align: left; padding-left: 25px!important;font-weight:bold;" colspan="9">{$k1}</td>
+                                            <td style="text-align: left; padding-left: 25px!important;font-weight:bold;" colspan="8">{$k1}</td>
                                         </tr>
                                     <?php
                                             $num1 = 1;
@@ -233,10 +252,17 @@ th{
                                                 <td style="text-align: left;">{$v2['info']['project']}</td>
                                                 <td>{$v2.num}</td>
                                                 <td>{$v2['info']['company']}</td>
-                                                <td>{$v2['info']['quota']}</td>
-                                                <td>{$v2.num?$v2.num*$v2['info']['quota']:0}</td>
-                                                <td>{$v2['info']['craft_show']}</td>
-                                                <td>{$v2.num?$v2.num*$v2['info']['craft_show']:0}</td>
+                                            {if $type==2}
+                                            <td colspan="2">{$v2['info']['quota']+$v2['info']['craft_show']}</td>
+                                            <td colspan="2">
+                                                {$v2['num']?($v2['num']*$v2['info']['craft_show']+$v2['num']*$v2['info']['quota']):''}
+                                            </td>
+                                            {else/}
+                                            <td>{$v2['info']['quota']}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['quota']:''}</td>
+                                            <td>{$v2['info']['craft_show']}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['craft_show']:''}</td>
+                                            {/if}
                                                 <td>{$v2['info']['material']}</td>
                                                 <input type="hidden" form="myform" name="" value="">
                                             </tr>
@@ -391,6 +417,23 @@ th{
       })
   });
 </script>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/core.js"></script>
+<script type="text/javascript" src="/static/libs/FileSaver/FileSaver.min.js"></script>
+<script type="text/javascript" src="/static/libs/tableExport.min.js"></script>
+<script>
+    <!--初始化插件-->
+    $("#export").click(function(){
+        $('#tables').tableExport({
+            type:'excel',
+            escape:false,
+            htmlContent: false,
+            fileName: '123456',
+            bootstrap: false,
+        });
+    });
+</script>
+
 {/block}
 
       

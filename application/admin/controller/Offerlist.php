@@ -878,6 +878,7 @@ class Offerlist extends Adminbase
         //订单数据
         $order_info = Db::name('offerlist')->where('id',$o_id)->find();
         $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        $type = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->value('type');
         $where = [];
         $where['o_id'] = $o_id;
         if(input('type') != 2){
@@ -937,6 +938,7 @@ class Offerlist extends Adminbase
             'offer_type'=>$offer_type,
             'offerlist_info'=>$offerlist_info,
             'cost_tmp'=>$cost_tmp,
+            'type'=>$type,
         ]);
         return $this->fetch();
     }
@@ -1946,8 +1948,9 @@ class Offerlist extends Adminbase
 
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-        // $data = $rs;
-        $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
+        $ty = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->value('type');
+       if($ty==1){
+           $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
                     <thead>
                         <tr>
@@ -1960,7 +1963,7 @@ class Offerlist extends Adminbase
                             400-628-1968</th>
                         </tr>
                         <tr>
-                            <th style="text-align:center;" colspan="9">单位：'.$order_info['unit'].'</th>        
+                            <th style="text-align:center;" colspan="9">公司：'.$order_info['unit'].'</th>        
                         </tr>
                         <tr>
                             <th colspan="3">工程名称：'.$userinfo['address'].'</th>       
@@ -1985,6 +1988,45 @@ class Offerlist extends Adminbase
                           </tr>
                     </thead>
                     <tbody> ';
+       }else{
+           // $data = $rs;
+           $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
+            <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" colspan="3" style="text-align: center;font-size:25px">华浔品味装饰</th>
+                            <th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
+                            <th rowspan="2" colspan="1"></th>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="5">全国统一24小时客服热线<br />
+                            400-628-1968</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center;" colspan="9">公司：'.$order_info['unit'].'</th>        
+                        </tr>
+                        <tr>
+                            <th colspan="3">工程名称：'.$userinfo['address'].'</th>       
+                            <th colspan="3">客户姓名：'.$userinfo['customer_name'].'</th>       
+                            <th colspan="2">设计师姓名：'.$userinfo['designer_name'].'</th>       
+                            <th colspan="1">报价师姓名：'.$userinfo['quoter_name'].'</th>       
+                        </tr>
+                        <tr>      
+                            <th rowspan="2" colspan="1" style="width:40px;">序号</th>
+                            <th class="text-center" rowspan="2" style="width:120px;">工程项目名称</th>         
+                            <th class="text-center" rowspan="2" style="width:35px;">数量</th>       
+                            <th class="text-center" rowspan="2" style="width:35px;">单位</th>
+                            <th class="text-center" colspan="4" style="width:100px;">综合价</th> 
+                            <th class="text-center" rowspan="2" style="width:250px;">施工工艺及材料说明</th> 
+                        </tr>
+                        <tr>   
+                            <th class="text-center" colspan="2">单价</th>       
+                            <th class="text-center" colspan="2"">合计</th> 
+                          </tr>
+                    </thead>
+                    <tbody> ';
+       }
+
 
         $num1 = 65;
         $total_quota = 0;
@@ -2005,6 +2047,7 @@ class Offerlist extends Adminbase
                 $space_quota_total = 0;
                 $space_craft_show_total = 0;
                 foreach($v2 as $k3=>$v3){
+                    if($ty==1){
                     $str .=  '<tr class="tr'.$k1.$k2.'">
                                     <td>'.$num3.'</td>
                                     <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
@@ -2016,6 +2059,17 @@ class Offerlist extends Adminbase
                                     <td>'. $v3['num']*$offerquota[$k3]['craft_show'] .'</td>
                                     <td>'.$offerquota[$k3]['material'].'</td>
                                 </tr>';
+                    }else{
+                        $str .=  '<tr class="tr'.$k1.$k2.'">
+                                    <td>'.$num3.'</td>
+                                    <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
+                                    <td>'.$v3['num'].'</td>
+                                    <td>'.$offerquota[$k3]['company'].'</td>
+                                    <td colspan="2">'. ($offerquota[$k3]['quota'] + $offerquota[$k3]['craft_show']) .'</td>
+                                    <td colspan="2">'. ($v3['num']*$offerquota[$k3]['craft_show'] + $v3['num']*$offerquota[$k3]['quota']) .'</td>
+                                    <td>'.$offerquota[$k3]['material'].'</td>
+                                </tr>';
+                    }
                     $space_quota_total = $v3['num']*$offerquota[$k3]['quota'];
                     $space_craft_show_total = $v3['num']*$offerquota[$k3]['craft_show'];
                     $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
@@ -2094,8 +2148,6 @@ class Offerlist extends Adminbase
                     </tr>';
             }
         }
-
-
 
 
         $str .=  '</tbody></table>';

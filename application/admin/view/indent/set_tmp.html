@@ -6,7 +6,8 @@
         padding-top:20px;
     }
 </style>
-
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+<form class="layui-form" action="">
 <div class="tmp_datas">
     <input type="hidden" name="f_id" value="{$f_id}">
     <div class="layui-form-item">
@@ -80,6 +81,13 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label w150">报价模式</label>
+        <div class="layui-input-inline w150" >
+            <li> <input type="radio" name="type" value="2" {if ($data.type==2)} checked {/if} title="综合价"></li>
+            <li> <input type="radio" name="type" value="1" {if ($data.type==1)} checked {/if} title="辅材费/人工费"></li>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label w150">质检流程*<p>（每行一条，名称与说明使用"-"分开，名称不得超过3个字）</p></label>
         <div class="layui-input-inline w150">
             <textarea placeholder="例子：&#13;&#10;打拆-打拆具体流程说明&#13;&#10;水工-水工具体流程说明" name="order_check" style="height:300px;width:550px">{$data.order_check}</textarea>
@@ -93,6 +101,7 @@
         
     </div>
 </div>
+</form>
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
@@ -114,7 +123,7 @@
         var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
         var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
         var borrower = $(this).parents(".tmp_datas").find("input[name='borrower']").val();
-
+        var type =$('input:radio:checked').val();
         if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
             layui.use('layer', function(){
                 var layer = layui.layer;
@@ -189,6 +198,7 @@
                 pick_rate:pick_rate,
                 order_check:order_check,
                 borrower:borrower,
+                type:type,
             },
             success : function(re){
               if(re.status == 0){
@@ -211,4 +221,6 @@
         });
     });
 </script>
+
+
 {/block}
