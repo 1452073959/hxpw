@@ -284,17 +284,16 @@ layui.use('table', function(){
   table.on('tool(test3)', function(obj){
       if(obj.event === 'kkk'){
           var Tresult= $("#ht").text();
-          alert(Tresult);
-                  layer.open({
-                      type: 2,
-                      title: '增减项',
-                      shadeClose: true,
-                      shade: 0.8,
-                      area: ['90%', '90%'],
-                      maxmin: true,
-                      tipsMore: true,
-                      content: '/admin/artificial/regulation?id='+Tresult
-                  });
+          layer.open({
+              type: 2,
+              title: '增减项',
+              shadeClose: true,
+              shade: 0.8,
+              area: ['90%', '90%'],
+              maxmin: true,
+              tipsMore: true,
+              content: '/admin/artificial/regulation?id='+Tresult
+          });
 
       }
 

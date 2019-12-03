@@ -1,8 +1,19 @@
 {extend name="index_layout"/}
 {block name="main"}
+<link rel="stylesheet" href="https://cdn.zhuchenchen.com/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="https://cdn.zhuchenchen.com/layuiadmin/style/admin.css" media="all">
+{if empty($regulation)}
+<div class="layui-fluid">
+    <div class="layadmin-tips">
+        <i class="layui-icon" face>&#xe664;</i>
 
+        <div class="layui-text" style="font-size: 20px;">
+          该报价无增减项
+        </div>
 
-
+    </div>
+</div>
+{else/}
 <table class="layui-table">
     <colgroup>
         <col width="150">
@@ -26,7 +37,6 @@
         </td>
          </tr>
     {/foreach}
-
     <tr onclick=location.href='/admin/artificial/show_append?id={$v.o_id}&type=2'>
         <td>合计</td>
         <td>点击查看</td>
@@ -34,4 +44,5 @@
     </tr>
     </tbody>
 </table>
+{/if}
 {/block}

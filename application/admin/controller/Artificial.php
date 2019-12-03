@@ -693,124 +693,87 @@ class Artificial extends Adminbase
 
     public function regulation(Request $request)
     {
-        $userinfo=$request->get();
-        $regulation=Db::table('fdz_order_append')->where('o_id',$userinfo['id'])->select();
-        if(!empty($regulation)){
-            $this->assign('regulation',$regulation);
-            return $this->fetch();
-        }else{
-           $this->error('该订单无增减项');
-        }
-
+        $userinfo = $request->get();
+        $regulation = Db::table('fdz_order_append')->where('o_id', $userinfo['id'])->select();
+        $this->assign('regulation', $regulation);
+        return $this->fetch();
     }
 
     public function show_append(Request $request)
     {
-        $data=$request->get();
-        if(! isset($data['one'])){
-            $o_id =$data['id'];
-            //订单数据
-            $order_info = Db::name('offerlist')->where('id',$o_id)->find();
-            $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        $data = $request->get();
+        $o_id = $data['id'];
+        //订单数据
+        $order_info = Db::name('offerlist')->where('id', $o_id)->find();
+        $userinfo = Db::name('userlist')->where('id', $order_info['customerid'])->find();
+        if (!isset($data['one'])) {
             $where = [];
             $where['o_id'] = $o_id;
             $where['type'] = 2;
             $order_project = Db::name('order_project')->where($where)->select();
+            $oa=[];
+            foreach ($order_project as $key=>$value){
+                $oa[]=$value['oa_id'];
+            }
             //==========获取工种 空间类型
-            $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
-            $offer_type = [1=>[],2=>[]];
-            foreach($offer_type_list as $k=>$v){
+            $offer_type_list = Db::name('offer_type')->where(['companyid' => $userinfo['frameid'], 'status' => 1])->select();
+            $offer_type = [1 => [], 2 => []];
+            foreach ($offer_type_list as $k => $v) {
                 $offer_type[$v['type']][] = $v;
             }
             //===========获取工种结束
             $datas = [];
-            $item_number = [];
-                foreach($order_project as $k=>$v){
-                    if(!isset($datas[$v['space']][$v['item_number']])){
-                        $datas[$v['space']][$v['item_number']]['info'] = $v;
-                        $datas[$v['space']][$v['item_number']]['num'] = 0;
-                        $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                    }
-                    $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+            foreach ($order_project as $k => $v) {
+                if (!isset($datas[$v['space']][$v['item_number']])) {
+                    $datas[$v['space']][$v['item_number']]['info'] = $v;
+                    $datas[$v['space']][$v['item_number']]['num'] = 0;
+                    $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
                 }
-            if(input('type') == 2){
-                $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
-            }else{
-                $offerlist_info = Model('offerlist')->get_order_info($o_id);
+                $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
             }
+            //增减项详情
+            $offerlist_info = Model('offerlist')->get_append_order_info($oa);
 
-            //订单底部文字
-            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-            // var_dump($order_project);die;
-            $this->assign([
-                'datas'=>$datas,
-                'order_info'=>$order_info,
-                'userinfo'=>$userinfo,
-                'offer_type'=>$offer_type,
-                'offerlist_info'=>$offerlist_info,
-                'cost_tmp'=>$cost_tmp,
-            ]);
-            return $this->fetch();
-        }else{
-            $o_id =$data['id'];
-            $one=$data['one'];
-            //订单数据
-            $order_info = Db::name('offerlist')->where('id',$o_id)->find();
-            $userinfo = Db::name('userlist')->where('id',$order_info['customerid'])->find();
+        } else {
+            $one = $data['one'];
             $where = [];
             $where['o_id'] = $o_id;
-            if(input('type') != 2){
+            if (input('type') != 2) {
                 //增减项+原单
                 $where['type'] = 1;
             }
-            $order_project = Db::name('order_project')->where($where)->where('oa_id',$one)->select();
+            $order_project = Db::name('order_project')->where($where)->where('oa_id', $one)->select();
             //==========获取工种 空间类型
-            $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['frameid'],'status'=>1])->select();
-            $offer_type = [1=>[],2=>[]];
-            foreach($offer_type_list as $k=>$v){
+            $offer_type_list = Db::name('offer_type')->where(['companyid' => $userinfo['frameid'], 'status' => 1])->select();
+            $offer_type = [1 => [], 2 => []];
+            foreach ($offer_type_list as $k => $v) {
                 $offer_type[$v['type']][] = $v;
             }
             //===========获取工种结束
             $datas = [];
-            $item_number = [];
-            if(input('word') == 1){
-                foreach($order_project as $k=>$v){
-                    if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
-                        $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
+            foreach ($order_project as $k => $v) {
+                if (!isset($datas[$v['space']][$v['item_number']])) {
+                    $datas[$v['space']][$v['item_number']]['info'] = $v;
+                    $datas[$v['space']][$v['item_number']]['num'] = 0;
+                    $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
+                }
+                $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+            }
+            //增减项详情
+            $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
 
-                    }
-                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
-                }
-            }else{
-                foreach($order_project as $k=>$v){
-                    if(!isset($datas[$v['space']][$v['item_number']])){
-                        $datas[$v['space']][$v['item_number']]['info'] = $v;
-                        $datas[$v['space']][$v['item_number']]['num'] = 0;
-                        $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                    }
-                    $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
-                }
-            }
-            if(input('type') == 2){
-                $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
-            }else{
-                $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
-            }
-            //订单底部文字
-            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
-            $this->assign([
-                'datas'=>$datas,
-                'order_info'=>$order_info,
-                'userinfo'=>$userinfo,
-                'offer_type'=>$offer_type,
-                'offerlist_info'=>$offerlist_info,
-                'cost_tmp'=>$cost_tmp,
-            ]);
-            return $this->fetch();
         }
-
+        //订单底部文字
+        $cost_tmp = Db::name('cost_tmp')->where(['f_id' => $order_info['frameid']])->find();
+        $this->assign([
+            'datas' => $datas,
+            'order_info' => $order_info,
+            'userinfo' => $userinfo,
+            'offer_type' => $offer_type,
+            'offerlist_info' => $offerlist_info,
+            'cost_tmp' => $cost_tmp,
+        ]);
+        return $this->fetch();
     }
 
 }
