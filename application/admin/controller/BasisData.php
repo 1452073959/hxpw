@@ -1401,8 +1401,33 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
-        $datas = Db::name('apply_project')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
-
+        $datas = Db::name('apply_project')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            if($item['status'] == 1){
+                return $item;
+            }
+            $basis_project = Db::name('basis_project')->where(['item_number'=>$item['p_item_number']])->find();
+            $fine = $basis_project['fine'];
+            $fine_info['has'] = [];
+            $fine_info['nohas'] = [];
+            if(!$fine || $fine == '{}'){
+                $item['fine_info'] = $fine_info;
+                return $item;
+            }
+            $fine = json_decode($fine);
+            $fine = array_column($fine,'fine');
+            $m_fine = Db::name('f_materials')->where(['fine'=>$fine,'fid'=>$item['fid']])->group('fine')->select();
+            $m_fine = array_column($m_fine,'fine');
+            
+            foreach($fine as $k=>$v){
+                if(in_array($v, $m_fine)){
+                    $fine_info['has'][] = $v;
+                }else{
+                    $fine_info['nohas'][] = $v;
+                }
+            }
+            $item['fine_info'] = $fine_info;
+            return $item;
+        });
         //判断是否已添加
         $item_number = array_column($datas->items(), 'p_item_number');
         $condintion = [];
