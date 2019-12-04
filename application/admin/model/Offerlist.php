@@ -200,7 +200,7 @@ class Offerlist extends Model
         //工程报价 = 直接费+其他费用总计
         $offerlist_info['proquant'] = round($offerlist_info['direct_cost'] + $cost_all,2);
         //优惠后工程报价 工程报价-优惠
-        $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'];
+        $offerlist_info['discount_proquant'] = $offerlist_info['proquant'] - $offerlist_info['discount'] - $offerlist_info['discount_zk'];;
         //计算杂项
         $offerlist_info['supervisor_commission'] = round($offerlist_info['supervisor_commission']/100*$offerlist_info['discount_proquant'],2);//监理提成
         $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
