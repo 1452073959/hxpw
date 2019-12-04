@@ -163,7 +163,7 @@ class Offerlist extends Model
         $offerlist_info['discount'] = 0;//增加项不算优惠
         $cost_all = 0;//其他费用总计
         $cost_list = [];
-        $sign['A1'] = $offerlist_info['direct_cost'] + $offerlist_info['discount_zk'];//直接费
+        $sign['A1'] = $offerlist_info['direct_cost'];//直接费
         $sign['A2'] = 0;//优惠
         $operation = [];
         foreach($tmp_cost as $k=>$v){
