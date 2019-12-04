@@ -124,7 +124,7 @@ class Manager extends UserBase{
         $picking_material = Db::name('picking_material')->where($where)->order('id','desc')->select();
             
         if(!$picking_material){
-            $this->json(2,'none');
+            $this->json(0,'success',[]);
         }
         foreach($picking_material as $k=>$v){
             //历史领料金额总额
@@ -132,7 +132,7 @@ class Manager extends UserBase{
             $picking_material[$k]['j_name'] = Db::name('admin')->where(['userid'=>$v['adminid']])->value('name');
             $picking_material[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
         }
-        $this->json(0,'success',['datas'=>$picking_material]);
+        $this->json(0,'success',$picking_material);
     }
 
     //审核领料

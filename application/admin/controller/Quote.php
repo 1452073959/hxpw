@@ -469,7 +469,9 @@ class Quote extends Adminbase
         $item_number_num = count($item_number);
         $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
         if($item_number_num != count($offerquota)){
-            $this->error('模板部分项目不全，模板失效');
+            $item_number1 = array_column($offerquota, 'item_number');
+            $arr = array_diff($item_number, $item_number1);
+            $this->error('模板部分项目不全，模板失效  '. implode(',', $arr));
         }
         $offerquota = array_column($offerquota, null,'item_number');
         $this->assign([ 

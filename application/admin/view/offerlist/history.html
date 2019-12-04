@@ -314,7 +314,7 @@ th{
                                 <tr>
                                     <td class="text-left" colspan="2">折扣优惠</td>
                                     <td colspan="6">{$offerlist_info['discount_zk']}</td>
-                                    <td>{if($offerlist_info['discount'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num}折</td>
+                                    <td>{if($offerlist_info['discount_type'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num}折</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/if}

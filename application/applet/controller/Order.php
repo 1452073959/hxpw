@@ -27,6 +27,7 @@ class Order extends UserBase{
         }
         $order_project = Db::name('order_project')->where($where)->select();
         if(0){
+            //按工种分 暂时先不要
             foreach($order_project as $k=>$v){
                 if(!isset($datas[$v['type_of_work']][$v['item_number']])){
                     $datas[$v['type_of_work']][$v['item_number']]['info'] = $v;
@@ -53,13 +54,21 @@ class Order extends UserBase{
 
         $order_info = Model('admin/offerlist')->get_order_info($userinfo['oid'],$type);
         $supervisor=Db::Table('fdz_admin')->where('userid',$userinfo['jid'])->field('name,phone')->find();
+        $quoter_name=Db::table('fdz_admin')->where('userid',$userinfo['gcmanager_id'])->field('phone,name')->find();
+        $quoter_name=Db::table('fdz_admin')->where('userid',$userinfo['check_id'])->field('phone,name')->find();
+        $userinfo['gcmanager_name']=$quoter_name;
         $userinfo['supervisor']=$supervisor;
+        $userinfo['check_name']=$quoter_name;
+
         $manager_name=Db::table('fdz_personnel')->where('id',$userinfo['manager_id'])->field('phone,name')->find();
-        $userinfo['manager_name']=$manager_name;
+        $quoter_name=Db::table('fdz_personnel')->where('id',$userinfo['quoter_id'])->field('phone,name')->find();
         $designer_name=Db::table('fdz_personnel')->where('id',$userinfo['designer_id'])->field('phone,name')->find();
-        $userinfo['designer_name']=$designer_name;
         $quoter_name=Db::table('fdz_personnel')->where('id',$userinfo['quoter_id'])->field('phone,name')->find();
         $userinfo['quoter_name']=$quoter_name;
+        $userinfo['manager_name']=$manager_name;
+        $userinfo['designer_name']=$designer_name;
+        $userinfo['quoter_name']=$quoter_name;
+
         if($userinfo['house_type']==1){
             $userinfo['house_type']='新房';
         }else{
