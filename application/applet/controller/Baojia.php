@@ -74,20 +74,19 @@ class Baojia extends UserBase
     }
 
     //审核订单
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $data = $request->post();
-
         $user = Jiezhi::where('id',$data['id'])->find();
         $user->sid = $data['sid'];
         $user->status = $data['status'];
-        if($data['id']==4){
+        if($data['status']==4){
             $user->cause = $data['cause'];
         }
         $user->gcjltime= date('y-m-d H:i:s', time());
         $res=$user->save();
         if($res){
-            $this->json(1,'success',$res);
+            $this->json(1,'success',$user);
         }
 
     }

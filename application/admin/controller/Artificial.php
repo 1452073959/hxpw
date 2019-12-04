@@ -695,7 +695,16 @@ class Artificial extends Adminbase
     {
         $userinfo = $request->get();
         $regulation = Db::table('fdz_order_append')->where('o_id', $userinfo['id'])->select();
+        $datas = [];
+        $total = 0;
+        foreach ($regulation as $key=>$value){
+            $regulation[$key]['discount_proquant'] = Model('offerlist')->get_append_order_info($value['id'])['discount_proquant'];
+        }
+        foreach($regulation as $k=>$v){
+            $total += $v['discount_proquant'];
+        }
         $this->assign('regulation', $regulation);
+        $this->assign('total', $total);
         return $this->fetch();
     }
 
