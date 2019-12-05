@@ -65,7 +65,7 @@ a{
                       <li>设计师姓名：{$userinfo.designer_name}</li>
                       <li>面积：{$userinfo.area}</li>
                       <li>房屋类型：{$userinfo.room_type}</li>
-                       <li id="ht" style="display: none">{$userinfo.oid}</li>
+                       <li  style="display: none">{$userinfo.oid}</li>
                       {eq name="$userinfo['is_new']" value="9"}<li>签单时间：{$userinfo.oldtime|date="Y-m-d"}</li>{/eq}
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
@@ -90,10 +90,10 @@ a{
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="taleft" lay-data="{type: 'checkbox',field:'id', fixed: 'left'}">ID</th>
+                        <th class="taleft" lay-data="{field:'id', fixed: 'left'}">ID</th>
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
-                        <th lay-data="{field:'edit',width:190}">操作</th>
+                        <th lay-data="{field:'edit',width:220}">操作</th>
                         <th class="taleft" lay-data="{field:'proquant',width:100}" >优惠前报价</th>
                         <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
@@ -140,7 +140,9 @@ a{
                       <td>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id])}">查看报价</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
-                        <a class="layui-btn layui-btn-xs"  lay-event="kkk">增减项</a>
+                          {if $vo.no!=0}
+                        <a class="layui-btn layui-btn-xs"  lay-event="kkk" key="{$vo.id}">增减项</a>
+                          {/if}
                        <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
@@ -283,7 +285,7 @@ layui.use('table', function(){
   //监听单元格事件
   table.on('tool(test3)', function(obj){
       if(obj.event === 'kkk'){
-          var Tresult= $("#ht").text();
+          var Tresult=$(this).attr('key');
           layer.open({
               type: 2,
               title: '增减项',
@@ -294,11 +296,7 @@ layui.use('table', function(){
               tipsMore: true,
               content: '/admin/artificial/regulation?id='+Tresult
           });
-
       }
-
-
-
     var data = obj.data;
     if(obj.event === 'detail'){
       layer.prompt({
