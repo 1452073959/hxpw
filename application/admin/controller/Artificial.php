@@ -168,10 +168,12 @@ class Artificial extends Adminbase
         }
         //用户信息
         $userinfo = Db::name('userlist')->where(['id'=>input('id')])->find();//客户信息
-        $this->assign('data',$res);
-//        dump($res);
-//        dump($userinfo);die;
 
+        foreach ($res as $k=>$v)
+        {
+            $res[$k]['no']= count( Db::table('fdz_order_project')->where('o_id',$v['order_info']['id'])->where('type','2')->select());
+        }
+        $this->assign('data',$res);
         $this->assign('userinfo',$userinfo);
         return $this->fetch();
     }
@@ -239,7 +241,7 @@ class Artificial extends Adminbase
       public function maxtime($compare,$data){
         $min = max($compare);
         foreach($data as $key=>$value){
-          if($value['entrytime'] == $max){
+          if($value['entrytime'] == $min){
             $result = $value;
           }
         }
