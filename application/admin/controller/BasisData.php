@@ -22,7 +22,91 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BasisData extends Adminbase{
 
-    //辅材报表
+    //报价报表1
+    public function projct_report(){
+        $where = [];
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $new_frame = ['嘉兴分公司','海宁分公司','长兴分公司','德清分公司','丽水分公司','海门分公司','金华分公司','青田分公司','广元分公司','宜兴分公司','镇江分公司','太仓分公司','惠州分公司','衡阳分公司','郴州分公司','邵阳分公司','星沙分公司','花都分公司','河源分公司','九江分公司','四会分公司','南宁分公司','玉林分公司','北海分公司','柳州分公司','百色分公司','宁德分公司','金阳分公司','兴义分公司','临海分公司','海口分公司','琼海分公司','三亚分公司','曲靖分公司'];
+        foreach($frame as $k=>$v){
+            if(!in_array($v['name'], $new_frame)){
+                unset($frame[$k]);
+            }
+        }
+        if(input('type_of_work')){
+            $where['type_word_id'] = explode(',', input('type_of_work'));
+        }
+        if(input('frame')){
+            $where['fid'] = explode(',', input('frame'));
+        }else{
+            $where['fid'] = array_keys($frame);
+        }
+
+        if(!empty($where)){
+            $data = Db::name('f_project')->alias('f')->leftJoin('basis_project b','f.p_item_number = b.item_number')->group('f.item_number')->where($where)->order('f.item_number','asc')->select();
+            // var_dump($data);
+        }else{
+            $data = [];
+        }
+
+        $type_of_work = array_column(Db::name('basis_type_work')->select(), null,'id');
+        $this->assign('type_of_work',$type_of_work);
+        $this->assign('frame',$frame);
+        $this->assign('data',$data);
+        return $this->fetch();
+    }
+
+    //报价报表2
+    public function project_report_by_f(){
+        $field = ['cost_value'=>'综合价','quota'=>'辅材单价','craft_show'=>'人工单价','labor_cost'=>'人工成本'];
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $new_frame = ['嘉兴分公司','海宁分公司','长兴分公司','德清分公司','丽水分公司','海门分公司','金华分公司','青田分公司','广元分公司','宜兴分公司','镇江分公司','太仓分公司','惠州分公司','衡阳分公司','郴州分公司','邵阳分公司','星沙分公司','花都分公司','河源分公司','九江分公司','四会分公司','南宁分公司','玉林分公司','北海分公司','柳州分公司','百色分公司','宁德分公司','金阳分公司','兴义分公司','临海分公司','海口分公司','琼海分公司','三亚分公司','曲靖分公司'];
+        foreach($frame as $k=>$v){
+            if(!in_array($v['name'], $new_frame)){
+                unset($frame[$k]);
+            }
+        }
+        $where = [];
+        $condition = [];
+        $f_project = [];
+        $has_f_project = [];
+        if(input('type_of_work')){
+            $where[] = ['type_word_id','in',explode(',', input('type_of_work'))];
+        }
+        if(input('item_number')){
+            $where[] = ['item_number','like','%'.input('item_number').'%'];
+        }
+        if(input('frame')){
+            $condition['fid'] = explode(',', input('frame'));
+        }else{
+            $condition['fid'] = array_keys($frame);
+        }
+        $basis_project = Db::name('basis_project')->group('item_number')->where($where)->order('item_number','asc')->select();
+        foreach($basis_project as $k=>$v){
+            $basis_project[$k]['count_all'] = Db::name('f_project')->where(['p_item_number'=>$v['item_number']])->field('count(id) as count')->find()['count'];
+            $basis_project[$k]['count'] = Db::name('f_project')->where(['p_item_number'=>$v['item_number'],'fid'=>$condition['fid']])->field('count(id) as count')->find()['count'];
+        }
+        $item_number = array_column($basis_project, 'item_number');
+        if(!empty($item_number)){
+            $f_datas = Db::name('f_project')->where($condition)->where(['p_item_number'=>$item_number])->select();
+            foreach($f_datas as $k=>$v){
+                
+                $f_project[$v['fid']][$v['p_item_number']][] = $v;
+                $has_f_project[] = $v['p_item_number'];
+            }
+        }
+
+        $type_of_work = array_column(Db::name('basis_type_work')->select(), null,'id');
+        $this->assign('type_of_work',$type_of_work);
+        $this->assign('frame',$frame);
+        $this->assign('basis_project',$basis_project);
+        $this->assign('f_project',$f_project);
+        $this->assign('has_f_project',$has_f_project);
+        $this->assign('fid',$condition['fid']);
+        $this->assign('field',$field);
+        return $this->fetch();
+    }
+
+    //辅材报表1
     public function material_report(){
 
         $where = [];
@@ -66,9 +150,10 @@ class BasisData extends Adminbase{
         $this->assign('source',$source);
         $this->assign('frame',$frame);
         $this->assign('data',$data);
-        return $this->fetch('');
+        return $this->fetch();
     }
 
+    //辅材报表2
     public function material_report_by_f(){
         $field = ['brank'=>'品牌','place'=>'产地','price'=>'出库价','in_price'=>'入库价','pack'=>'包装数量','one_price'=>'出库计量单价','one_in_price'=>'入库计量单价','phr'=>'出库单位','source'=>'来源'];
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
