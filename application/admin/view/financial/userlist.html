@@ -102,6 +102,7 @@
                             <label class="layui-form-label">状态</label>
                             <div class="layui-input-block" style="margin-left: 90px">
                                 <select name="status">
+                                     <option value="">请选择</option>
                                     {foreach name="status" item="v" key="k"}
                                         <option value="{$k}" {$k==input('status')?'selected':''}>{$v}</option>
                                     {/foreach}
