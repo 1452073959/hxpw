@@ -1,0 +1,102 @@
+{extend name="index_layout"/}
+{block name="main"}
+
+<table class="layui-table" lay-data="{ page:false, id:'demo'}" lay-filter="demo">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id'}">借支客户</th>
+        <th lay-data="{field:'username'}">借支人('监理')</th>
+        <th lay-data="{field:'sex'}">审核人('工程经理')</th>
+        <th lay-data="{field:'city'}">申请借支金额(单位:元)</th>
+        <th lay-data="{field:'sign'}">收款账号</th>
+        <th lay-data="{field:'experience' }">借支原因</th>
+        <th lay-data="{field:'experie' }">状态</th>
+        <th lay-data="{field:'score'}">操作/拨款时间</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {foreach $audit as $k=>$v}
+    <tr>
+        <td>{$v.offer.customer_name}</td>
+        <td>{$v.user.name}</td>
+        <td>{$v.audit.name}</td>
+        <td class="mon">{$v.money}</td>
+        <td>{$v.shroff}</td>
+        <td>{$v.so}</td>
+        <td>{if $v.status==2}待拨款
+            {elseif $v.status==3 /}拨款成功
+            {elseif $v.status==5 /}审核不通过
+            {/if}
+        </td>
+        <td>
+            {if $v.status==2}
+            <button key="{$v.id}" class="layui-btn layui-btn-normal cwsh">确认拨款</button>
+            <button key="{$v.id}" class="layui-btn layui-btn-normal nosh">审核不通过</button>
+            {elseif $v.status==3||5 /}
+            {$v.cwtime}
+            {/if}
+        </td>
+    </tr>
+    {/foreach}
+
+    </tbody>
+</table>
+
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+    });
+</script>
+<script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<script src="https://www.layuicdn.com/layer/layer.js"></script>
+<script>
+    $(function () {
+        $(document).on('click', '.cwsh', function () {
+            var a = $(this).attr('key');
+            $.ajax({
+                type: "get",
+                url: "/admin/financial/financeajax",
+                data: {key: a, status: 3},
+                success: function (e) {
+                    console.log(e);
+                    if (e.code == '1') {
+                        layer.msg(e.msg);
+                    } else {
+                        alert('系统错误');
+                    }
+                    setTimeout(function () {
+                        window.location.reload();
+                        console.log(2);
+                    }, 2000);
+                }
+            })
+        });
+
+        $(document).on('click', '.nosh', function () {
+            var a = $(this).attr('key');
+            $.ajax({
+                type: "get",
+                url: "/admin/financial/financeajax",
+                data: {key: a, status: 5},
+                success: function (e) {
+                    if (e.code == '2') {
+                        layer.msg(e.msg);
+                        console.log(123);
+                    } else {
+                        alert('系统错误');
+                    }
+                    setTimeout(function () {
+                        window.location.reload();
+                        console.log(2);
+                    }, 2000);
+                }
+            })
+        });
+    })
+
+
+</script>
+
+{/block}

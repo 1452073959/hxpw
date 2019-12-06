@@ -36,7 +36,7 @@ class Baojia extends UserBase
         $n['yj'] = $yj;
         $n['borrower'] = $borrower;
         $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
-        $n['kj'] = $n['borrower'] - $n['yj'];
+        $n['kj'] = round($n['borrower'] - $n['yj'],2);
         if ($data['money'] <= $n['kj']) {
             $data = ['money' => $data['money'],
                 'shroff' => $data['shroff'],
@@ -78,9 +78,9 @@ class Baojia extends UserBase
 
             $audit[$k]['yj'] = 0;
             foreach ($jiezhi = Jiezhi::where('uid', $v['uid'])->where('status', '<', 4)->select() as $k2 => $v2) {
-                $audit[$k]['yj'] += $v2['money'];
+                   $audit[$k]['yj'] = $audit[$k]['yj']+$v2['money'];
             }
-            $audit[$k]['kj'] = $audit[$k]['borrower'] - $audit[$k]['yj'];
+            $audit[$k]['kj'] =round($audit[$k]['borrower'] - $audit[$k]['yj'],2) ;
         }
 
 //      if($audit['jid'])
@@ -162,7 +162,7 @@ class Baojia extends UserBase
     public function getworker(Request $request)
     {
         $data = $request->get();
-        $worker = Db::table('worker')->where('jid', $data['id'])->find();
+        $worker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->find();
         if (empty($worker)) {
             $data['water'] = 0;
             $data['electricity'] = 0;
@@ -180,8 +180,8 @@ class Baojia extends UserBase
     public function setworker(Request $request)
     {
         $data = $request->post();
-        $fid = Db::table('fdz_admin')->where('id', $data['id'])->val('companyid');
-        $worker = Db::table('worker')->where('jid', $data['id'])->find();
+        $fid = Db::table('fdz_admin')->where('userid', $data['id'])->value('companyid');
+        $worker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->find();
         $da = [
             'jid' => $data['id'],
             'fid' => $fid,
@@ -194,12 +194,12 @@ class Baojia extends UserBase
             'rests' => $data['rests'],
         ];
         if (empty($worker)) {
-            $inserworker = Db::table('worker')->strict(false)->insert($da);
+            $inserworker = Db::table('fdz_admin_worker')->strict(false)->insert($da);
             if ($inserworker) {
                 $this->json(1, 'success', '添加成功');
             }
         } else {
-            $inserworker = Db::table('worker')->where('jid', $data['id'])->update($da);
+            $inserworker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->update($da);
             if ($inserworker) {
                 $this->json(1, 'success', '更新成功');
             } else {

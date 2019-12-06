@@ -130,9 +130,9 @@ class Financial extends Adminbase{
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('frameid', $login['companyid'])->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('status','2')->where('frameid', $login['companyid'])->select();
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('status','2')->select();
         }
         $this->assign('userinfo',$userinfo);
         $this->assign('audit',$audit);
@@ -154,6 +154,43 @@ class Financial extends Adminbase{
         }else{
             $this->error('拨款失败');
         }
+    }
+
+
+    public function financeaudit()
+    {
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->select();
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->select();
+        }
+//        dump($audit);
+        $this->assign('audit',$audit);
+        return $this->fetch();
+    }
+
+
+    public function financeajax(Request $request)
+    {
+        $login = $this->_userinfo;
+        $net_payroll=$request->get();
+        if($net_payroll['status']==3){
+            $res = Jiezhi::get($net_payroll['key']);
+            $res->status=$net_payroll['status'];
+            $res->bid=$login['userid'];
+            $res->cwtime=date('y-m-d H:i:s', time());
+            $res->save();
+            return json(['code'=>1,'msg'=>'拨款成功','data'=>$res]);
+        }else{
+            $res = Jiezhi::get($net_payroll['key']);
+            $res->status=$net_payroll['status'];
+            $res->bid=$login['userid'];
+            $res->cwtime=date('y-m-d H:i:s', time());
+            $res->save();
+            return json(['code'=>2,'msg'=>'操作成功','data'=>$res]);
+        }
+
     }
     // //订单列表 (只显示 合同价-未审 合同价以审 结算价) 未审订单靠上
     // public function order_list(){
