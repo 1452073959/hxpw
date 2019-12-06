@@ -17,21 +17,45 @@ class Baojia extends UserBase
     {
         //接收
         $data = $request->post();
-        $data = ['money' => $data['money'],
-            'shroff' => $data['shroff'],
-            'so' => $data['so'],
-            'uid' => $data['uid'],
-            'jid' => $data['jid'],
-            'frameid' => $data['frameid'],
-            'status' => 1,
-            'create_time' => date('y-m-d H:i:s', time())
-        ];
+        $money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
+        $borrower = Db::table('fdz_financial')->where('userid', $data['uid'])->find();
+        $borrower = Db::table('fdz_cost_tmp')->where('f_id', $borrower['fid'])->value('borrower');
+        $ys = 0;
+        foreach ($money as $k => $v) {
+            $ys += $v['money'];
+        }
+//     已收款
+        //可接比率
+        //已借
+        $jiezhi = Jiezhi::where('uid', $data['uid'])->where('status', '<', 4)->select();
+        $yj = 0;
+        foreach ($jiezhi as $k2 => $v2) {
+            $yj += $v2['money'];
+        }
+        $n['ys'] = $ys;
+        $n['yj'] = $yj;
+        $n['borrower'] = $borrower;
+        $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
+        $n['kj'] = $n['borrower'] - $n['yj'];
+        if ($data['money'] <= $n['kj']) {
+            $data = ['money' => $data['money'],
+                'shroff' => $data['shroff'],
+                'so' => $data['so'],
+                'uid' => $data['uid'],
+                'jid' => $data['jid'],
+                'frameid' => $data['frameid'],
+                'status' => 1,
+                'create_time' => date('y-m-d H:i:s', time())
+            ];
 
-        $res = Db::table('fdz_jiezhi')->data($data)->insert();
-        if ($res) {
-            return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
+            $res = Db::table('fdz_jiezhi')->data($data)->insert();
+            if ($res) {
+                return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
+            } else {
+                return json(['code' => 2, 'msg' => '失败']);
+            }
         } else {
-            return json(['code' => 2, 'msg' => '失败']);
+            return json(['code' => 3, 'msg' => '超额']);
         }
     }
 
@@ -48,15 +72,15 @@ class Baojia extends UserBase
             foreach ($money = Db::table('fdz_financial')->where('userid', $v['uid'])->select() as $k1 => $v1) {
                 $audit[$k]['ys'] += $v1['money'];
                 $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid', $v['uid'])->find();
-                $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid', $v['uid'])->find();
                 $audit[$k]['borrower'] = Db::table('fdz_cost_tmp')->where('f_id', $audit[$k]['borrower']['fid'])->value('borrower');
+                $audit[$k]['borrower'] = $n['borrower'] = round($audit[$k]['ys'] * $audit[$k]['borrower'] * 0.01, 2);
             }
 
             $audit[$k]['yj'] = 0;
-            foreach ($jiezhi = Jiezhi::where('uid', $v['uid'])->select() as $k2 => $v2) {
-                $audit[$k]['yj'] += $v2['net_payroll'];
+            foreach ($jiezhi = Jiezhi::where('uid', $v['uid'])->where('status', '<', 4)->select() as $k2 => $v2) {
+                $audit[$k]['yj'] += $v2['money'];
             }
-            $audit[$k]['kj'] = $audit[$k]['ys'] * $audit[$k]['borrower'] * 0.01 - $audit[$k]['yj'];
+            $audit[$k]['kj'] = $audit[$k]['borrower'] - $audit[$k]['yj'];
         }
 
 //      if($audit['jid'])
@@ -112,7 +136,6 @@ class Baojia extends UserBase
         $money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
         $borrower = Db::table('fdz_financial')->where('userid', $data['uid'])->find();
         $borrower = Db::table('fdz_cost_tmp')->where('f_id', $borrower['fid'])->value('borrower');
-
         $ys = 0;
         foreach ($money as $k => $v) {
             $ys += $v['money'];
@@ -120,15 +143,16 @@ class Baojia extends UserBase
 //     已收款
         //可接比率
         //已借
-        $jiezhi = Jiezhi::where('uid', $data['uid'])->select();
+        $jiezhi = Jiezhi::where('uid', $data['uid'])->where('status', '<', 4)->select();
         $yj = 0;
         foreach ($jiezhi as $k2 => $v2) {
-            $yj += $v2['net_payroll'];
+            $yj += $v2['money'];
         }
         $n['ys'] = $ys;
         $n['yj'] = $yj;
         $n['borrower'] = $borrower;
-        $n['kj'] = $n['ys'] * $n['borrower'] * 0.01 - $n['yj'];
+        $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
+        $n['kj'] = $n['borrower'] - $n['yj'];
 
         $this->json(1, 'success', $n);
     }
@@ -138,7 +162,7 @@ class Baojia extends UserBase
     public function getworker(Request $request)
     {
         $data = $request->get();
-        $worker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->find();
+        $worker = Db::table('worker')->where('jid', $data['id'])->find();
         if (empty($worker)) {
             $data['water'] = 0;
             $data['electricity'] = 0;
@@ -156,9 +180,11 @@ class Baojia extends UserBase
     public function setworker(Request $request)
     {
         $data = $request->post();
-        $worker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->find();
+        $fid = Db::table('fdz_admin')->where('id', $data['id'])->val('companyid');
+        $worker = Db::table('worker')->where('jid', $data['id'])->find();
         $da = [
             'jid' => $data['id'],
+            'fid' => $fid,
             'water' => $data['water'],
             'electricity' => $data['electricity'],
             'timber' => $data['timber'],
@@ -168,15 +194,15 @@ class Baojia extends UserBase
             'rests' => $data['rests'],
         ];
         if (empty($worker)) {
-            $inserworker = Db::table('fdz_admin_worker')->strict(false)->insert($da);
+            $inserworker = Db::table('worker')->strict(false)->insert($da);
             if ($inserworker) {
                 $this->json(1, 'success', '添加成功');
             }
         } else {
-            $inserworker = Db::table('fdz_admin_worker')->where('jid', $data['id'])->update($da);
+            $inserworker = Db::table('worker')->where('jid', $data['id'])->update($da);
             if ($inserworker) {
                 $this->json(1, 'success', '更新成功');
-            }else{
+            } else {
                 $this->json(1, 'success', '更新失败');
             }
         }
