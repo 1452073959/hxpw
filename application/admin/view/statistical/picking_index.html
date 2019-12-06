@@ -76,7 +76,7 @@
                     {foreach $datas as $k=>$v}
                         <tr>
                             <td>{$v['customer_name']}</td>
-                            <td>{$admins[$v['jid']]['name']}</td>
+                            <td>{$admins[$v['jid']]['name'] ?: 0}</td>
                             <td>{$v['all_material_money']}</td>
                             <td>{$v['type1']}</td>
                             <td>{$v['type2']}</td>
