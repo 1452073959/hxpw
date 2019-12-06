@@ -100,6 +100,49 @@ class Statistical extends Adminbase
         return $this->fetch();
     }
 
+    //实际领料详情 公司仓库
+    public function actual_picking_ck(){
+        $where = [];
+        $where['userid'] = input('uid');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find();
+        //仓库领料
+        $datas = Db::name('picking_material')->where($where)->order('id','asc')->paginate(15,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['addtime'] = date('Y-m-d',strtotime($item['addtime']));
+            // $item['info'] = Db::name('picking_material_info')->where(['pmid'=>$item['id']])->order('id','asc')->select();
+            // foreach($item['info'] as $k1=>$v1){
+            //     $item['info'][$k1]['total'] = round($v1['price']*$v1['num'],2);
+            // }
+            return $item;
+        });
+        $admins = array_column($datas->items(),'adminid');
+        $admins = array_column(Db::name('admin')->where(['userid'=>$admins])->select(),null, 'userid') ;
+        $this->assign('datas', $datas);
+        $this->assign('admins', $admins);
+        $this->assign('userinfo', $userinfo);
+        return $this->fetch();
+    }
+
+    //实际领料详情 定点,自购
+    public function actual_picking_dz(){
+        $where = [];
+        $where['userid'] = input('uid');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find();
+        //定点,自购
+        $datas = Db::name('picking_order')->where($where)->order('id','asc')->paginate(15,false,['query'=>request()->param()])->each(function($item, $key){
+            $img = Db::name('picking_order_img')->where(['poid'=>$item['id']])->order('id','desc')->select();
+            foreach($img as $k1=>$v2){
+                $item['img'][] = $this->getImgSrc($v2['img']);
+            }
+            return $item;
+        }); 
+        $admins = array_column($datas->items(),'adminid');
+        $admins = array_column(Db::name('admin')->where(['userid'=>$admins])->select(),null, 'userid') ;
+        $this->assign('datas', $datas);
+        $this->assign('userinfo', $userinfo);
+        $this->assign('admins', $admins);
+        return $this->fetch();
+    }
+
     //工程派单
     public function send_order_index()
     {
@@ -260,5 +303,16 @@ class Statistical extends Adminbase
     public function return_department_data()
     {
         echo '{"code":0,"msg":"ok","data":[{"id":0,"name":"\u5e7f\u5dde\u5206\u516c\u53f8","other":"\u5206\u516c\u53f8","levelid":3,"pid":-1,"status":0},{"id":1,"fid":152,"name":"\u8425\u4e1a\u90e8","pid":0,"info_pid":"0","sort":0,"remark":"\u8425\u4e1a\u90e8","addtime":"1567051211"},{"id":15,"fid":152,"name":"\u8bbe\u8ba1\u4e8c\u90e8","pid":3,"info_pid":"0-3","sort":0,"remark":"","addtime":"1567238498"},{"id":3,"fid":152,"name":"\u8bbe\u8ba1\u90e8","pid":0,"info_pid":"0","sort":0,"remark":"\u8bbe\u8ba1\u90e8","addtime":"1567051255"},{"id":5,"fid":152,"name":"\u8bbe\u8ba1\u4e00\u90e8","pid":3,"info_pid":"0-3","sort":0,"remark":"","addtime":"1567051357"},{"id":6,"fid":152,"name":"\u5e02\u573a\u90e8","pid":1,"info_pid":"0-1","sort":0,"remark":"","addtime":"1567051561"},{"id":7,"fid":152,"name":"\u5de5\u7a0b\u90e8","pid":0,"info_pid":"0","sort":0,"remark":"","addtime":"1567070315"},{"id":8,"fid":152,"name":"\u5de5\u7a0b\u4e00\u90e8","pid":7,"info_pid":"0-7","sort":0,"remark":"","addtime":"1567070339"},{"id":10,"fid":152,"name":"\u4ed3\u5e93","pid":8,"info_pid":"0-7-8","sort":0,"remark":"","addtime":"1567130232"},{"id":11,"fid":152,"name":"\u65bd\u5de5","pid":8,"info_pid":"0-7-8","sort":0,"remark":"","addtime":"1567130313"},{"id":12,"fid":152,"name":"\u884c\u653f\u90e8","pid":0,"info_pid":"0","sort":0,"remark":"","addtime":"1567147708"},{"id":13,"fid":152,"name":"\u4eba\u529b\u90e8","pid":12,"info_pid":"0-12","sort":0,"remark":"","addtime":"1567147718"},{"id":14,"fid":152,"name":"\u4f1a\u8ba1","pid":12,"info_pid":"0-12","sort":0,"remark":"","addtime":"1567152792"}],"count":13}';
+    }
+
+    //获取图片完整路径 并判断图片是否存在 不存在找到替换
+    public function getImgSrc($src,$path="uploads/images/",$http='http://'){
+
+        if(file_exists($path.$src) && $src != '/' && !empty($src)){
+            $src = str_replace('\\','/',$src);
+            return $http.$_SERVER['HTTP_HOST'].'/'.$path.$src;
+        }else{
+            return $http.$_SERVER['HTTP_HOST']."/static/imgs/logo1.png";
+        }
     }
 }

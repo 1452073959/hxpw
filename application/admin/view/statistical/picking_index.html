@@ -87,7 +87,8 @@
                             <td>{:date('Y-m-d',$v['sign_bill_time'])}</td>
                             <td>
                                 <a href="/admin/auxiliary/history/id/{$v['oid']}" class="layui-btn layui-btn-primary">预计领料明细</a>
-                                <!-- <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a> -->
+                                <a href="/admin/statistical/actual_picking_ck/uid/{$v['id']}" class="layui-btn layui-btn-primary">实际仓库领料明细</a>
+                                <a href="/admin/statistical/actual_picking_dz/uid/{$v['id']}" class="layui-btn layui-btn-primary">实际定点/自购明细</a>
                             </td>
                         </tr>
                     {/foreach}
