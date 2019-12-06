@@ -176,6 +176,7 @@
                                         <a style="color:green" href="javascript:;" lay-event="bind_pproject">绑定</a>
                                     {else /}
                                         <a style="color:blue">已处理</a>
+                                        <a style="color:green" href="javascript:;" lay-event="change_bind">换绑</a>
                                     {/if}
                                 </td>
                                 <td>
@@ -403,12 +404,44 @@
                     var layer = layui.layer;
                     layer.open({
                         content: '<input type="text" class="layui-input" placeholder="请输入项目编码" id="bind_item_number" value=""/>',
-                        title:'绑定辅材',
+                        title:'绑定项目',
                         btn: ['绑定', '取消'],
                         yes: function(index, layero){
                             var id = data.id;
                             var bind_item_number = $('#bind_item_number').val();
                             $.post('/admin/basis_data/bind_project',{id:id,item_number:bind_item_number},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　window.location.reload()
+                                    },1000);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
+            }
+
+            //绑定
+            if(obj.event == 'change_bind'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '<input type="text" class="layui-input" placeholder="请输入项目编码" id="change_bind_item_number" value=""/>',
+                        title:'换绑项目',
+                        btn: ['换绑', '取消'],
+                        yes: function(index, layero){
+                            var id = data.id;
+                            var change_bind_item_number = $('#change_bind_item_number').val();
+                            $.post('/admin/basis_data/bind_project',{id:id,item_number:change_bind_item_number},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){

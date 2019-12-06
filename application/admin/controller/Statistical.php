@@ -24,6 +24,79 @@ class Statistical extends Adminbase
     //领料统计
     public function picking_index()
     {
+        $where = [];
+        $condition = [];
+        if($this->_userinfo['roleid'] != 1){
+            $where[] = ['frameid','=',$this->_userinfo['companyid']];
+        }
+        if(input('username')){
+            $where[] = ['customer_name','like','%'.input('username').'%'];
+        }
+        if(input('jlname')){
+            $jid = Db::name('admin')->where('name','like','%'.input('jlname').'%')->select();
+            if($jid){
+                $where[] = ['jid','in',array_column($jid, 'userid')];
+            }else{
+                $where[] = ['jid','=',-1];
+            }
+        }
+        if(input('begin_time') && input('end_time')){
+            $condition = array(['sign_bill_time','>',strtotime(input('begin_time'))],['sign_bill_time','<',strtotime('+1 day',strtotime(input('end_time')))]);
+        }
+        
+        $where[] = ['status','in',[3,4,5,6,7]];
+        $datas = Db::name('userlist')->where($where)->where($condition)->paginate(15,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['all_material_money'] = Model('offerlist')->get_material_list($item['oid'],2)['total_money'];
+            $item['status1'] = 0; //未审核辅材
+            $item['status23'] = 0;//待领辅材
+            $item['status4'] = 0;//已领辅材
+            $item['type1'] = 0;//
+            $item['type2'] = 0;
+            $picking_material = Db::name('picking_material')->where(['oid'=>$item['oid'],'status'=>[1,2,3,4]])->select();
+            $picking_order = Db::name('picking_order')->where(['userid'=>$item['id']])->select();
+            if($picking_order){
+                foreach($picking_order as $k=>$v){
+                    switch ($v['type']) {
+                        case '1':
+                            $item['type1'] += $v['money'];
+                            break;
+                        case '2':
+                            $item['type2'] += $v['money'];
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }
+            }
+            if($picking_material){
+                foreach($picking_material as $k=>$v){
+                    switch ($v['status']) {
+                        case '1':
+                            $item['status1'] += $v['total_money'];
+                            break;
+                        case '2':
+                            $item['status23'] += $v['total_money'];
+                            break;
+                        case '3':
+                            $item['status23'] += $v['actual_total_money'];
+                            break;
+                        case '4':
+                            $item['status4'] += $v['actual_total_money'];
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }
+            }
+            return $item;
+        });
+        $admins = array_column($datas->items(),'jid');
+        // var_dump($datas->items());die;
+        $admins = array_column(Db::name('admin')->where(['userid'=>$admins])->select(),null, 'userid') ;
+        $this->assign('datas', $datas);
+        $this->assign('admins', $admins);
         return $this->fetch();
     }
 
