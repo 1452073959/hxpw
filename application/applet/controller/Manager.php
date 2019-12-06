@@ -57,7 +57,7 @@ class Manager extends UserBase{
         $order_info = Model('admin/offerlist')->get_order_info($userinfo['oid'],2);//原单
         // var_dump($userinfo);die;
         $append_list = Model('admin/offerlist')->get_append_info(input('id'));//增减项
-        $get_money = array_column(Db::name('financial')->where(['userid'=>input('id'),'type'=>[1,2,3,4]])->select(),null,'type');//收款详情
+        $get_money = array_column(Db::name('financial')->field('id,userid,fid,sum(money) as money,type,remark,addtime')->where(['userid'=>input('id'),'type'=>[1,2,3,4]])->group('type')->select(),null,'type');//收款详情
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->find();
         if(!$cost_tmp){
             $this->error('未设置收款比率，请先设置');

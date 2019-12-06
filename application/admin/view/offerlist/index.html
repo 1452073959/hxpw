@@ -132,15 +132,15 @@
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
 						{else/}
                             <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
-                            {if($admininfo['roleid'] != 10 && $vo['status'] >= 3 && $vo['status'] < 5)}
+                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22 && $vo['status'] >= 3 && $vo['status'] < 5)}
                                 <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
                             {/if}
                             {gt name="$vo['append_num']" value="0"}
     						  <a class="layui-btn layui-btn-xs layui-btn-normal" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
                             {/gt}
-                            {neq name="$admininfo['roleid']" value="10"}
+                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
                                 <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
-                            {/neq}
+                            {/if}
                             <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
 

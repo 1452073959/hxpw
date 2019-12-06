@@ -668,10 +668,10 @@ class Offerlist extends Adminbase
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
         }
         $userinfo = $this->_userinfo;
-        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10  && $userinfo['roleid'] != 22){
             $da['userid'] = $userinfo['userid'];
         }
-        if($userinfo['roleid'] == 10){
+        if($userinfo['roleid'] == 10 || $userinfo['roleid'] == 22){
             $da['frameid'] = $userinfo['companyid'];
         }
         $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
@@ -737,10 +737,10 @@ class Offerlist extends Adminbase
         // $this->newcheckrule();//权限检测
         error_reporting(E_ALL ^ E_WARNING);
         $admininfo = $this->_userinfo;
-        if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10){
+        if($admininfo['roleid'] != 1 && $admininfo['roleid'] != 10 && $admininfo['roleid'] != 22){
             $da['o.userid'] = $admininfo['userid'];
         }
-        if($admininfo['roleid'] == 10){
+        if($admininfo['roleid'] == 10 || $admininfo['roleid'] == 22){
             $da['o.frameid'] = $admininfo['companyid'];
         }
         $da['o.number'] = 1;

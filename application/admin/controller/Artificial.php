@@ -118,10 +118,10 @@ class Artificial extends Adminbase
         if(input('begin_time') && input('end_time')){
             $condition = array(['addtime','>',strtotime(input('begin_time'))],['addtime','<',strtotime('+1 day',strtotime(input('end_time')))]);
         }   
-        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
+        if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10 && $userinfo['roleid'] != 22){
             $da['userid'] = $userinfo['userid'];
         }
-        if($userinfo['roleid'] == 10){
+        if($userinfo['roleid'] == 10 || $userinfo['roleid'] == 22){
             $da['frameid'] = $userinfo['companyid'];
         }
         $off=Db::name('offerlist')->field('customerid')->select();
