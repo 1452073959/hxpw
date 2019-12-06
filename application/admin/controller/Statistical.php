@@ -50,8 +50,8 @@ class Statistical extends Adminbase
             $item['status1'] = 0; //未审核辅材
             $item['status23'] = 0;//待领辅材
             $item['status4'] = 0;//已领辅材
-            $item['type1'] = 0;//
-            $item['type2'] = 0;
+            $item['type1'] = 0;//定点
+            $item['type2'] = 0;//自购
             $picking_material = Db::name('picking_material')->where(['oid'=>$item['oid'],'status'=>[1,2,3,4]])->select();
             $picking_order = Db::name('picking_order')->where(['userid'=>$item['id']])->select();
             if($picking_order){
