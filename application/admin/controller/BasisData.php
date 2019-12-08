@@ -1958,6 +1958,10 @@ class BasisData extends Adminbase{
                     //没有填资料 默认不上传
                     continue;
                 }
+                if( !is_numeric($info['pack']) || $info['pack'] <= 0){
+                    //有添数据,但是没填完整
+                    $this->error('第'. ($i) .'行，包装数量必须为数字');
+                }
                 if( empty($info['pack']) || empty($info['phr']) || empty($info['source']) ){
                     //有添数据,但是没填完整
                     $this->error('第'. ($i) .'行，数据不能留空');
