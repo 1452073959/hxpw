@@ -324,7 +324,11 @@ class Offerlist extends Adminbase
                             $this->error('项目有误','',$k2);
                         }   
                     }
-                    
+                    if(!is_numeric($v2)){
+                        $this->error($k2.'工程量有误','',$k2);
+                    }else{
+                        $v2 = trim($v2);
+                    }
                     $item['kongjian'] = $k1;
                     $item['gcl']= $v2; //数量
                     $item['quotaall'] = $v2 * $item['quota']; //该项目的辅材总价
