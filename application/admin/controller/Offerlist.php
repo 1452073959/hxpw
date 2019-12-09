@@ -53,15 +53,20 @@ class Offerlist extends Adminbase
         if($offerlist['status'] == 5){
             $this->error('结算价禁止修改');
         }
-        if($discount_type == 1){
-            //不打折
-            $discount_num = 100;
+        if($discount_type == 4){
+            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>100,'discount'=>$discount_num]);
         }else{
-            if(!is_numeric($discount_num) || strpos($discount_num,".") || $discount_num <= 0 || $discount_num > 100){
-                $this->error('优惠额度设置有误');
+            if($discount_type == 1){
+                //不打折
+                $discount_num = 100;
+            }else{
+                if(!is_numeric($discount_num) || strpos($discount_num,".") || $discount_num <= 0 || $discount_num > 100){
+                    $this->error('优惠额度设置有误');
+                }
             }
+            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num,'discount'=>0]);
         }
-        $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num]);
+        
         if($res){
             $this->success('设置优惠成功');
         }else{

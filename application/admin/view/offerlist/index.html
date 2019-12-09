@@ -111,7 +111,7 @@
                         <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
-                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th>
+                        <!-- <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th> -->
                         <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">金额优惠说明</th>
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th>
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
@@ -174,8 +174,18 @@
                       <td class="taleft">{$vo.info.direct_cost}</td>
                       <td class="taleft">{$vo.info.matquant}</td>
                       <td class="taleft">{$vo.info.manual_quota}</td>
-                      <td class="taleft">{if($vo['info']['discount_type']==2)}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{elseif ($vo['info']['discount_type']==3) /}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{else /}<a lay-event="set_discount" data-type="1" data-num="">设置优惠</a>{/if}</td>
-                      <td class="taleft">{$vo.info.discount}</td>
+                      <td class="taleft">
+                            {if($vo['info']['discount_type']==2)}
+                                <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                            {elseif ($vo['info']['discount_type']==3) /}
+                                <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                            {elseif ($vo['info']['discount_type']==4) /}
+                            <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount_num}元</a>
+                            {else /}
+                                <a lay-event="set_discount" data-type="1" data-num="">设置优惠</a>
+                            {/if}
+                        </td>
+                      <!-- <td class="taleft">{$vo.info.discount}</td> -->
                       <td class="taleft">{$vo.info.discount_content}</td>
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
                       <td class="taleft">{$vo.info.remark}</td>
@@ -613,6 +623,7 @@ layui.use('table', function(){
             var option1 = '';
             var option2 = '';
             var option3 = '';
+            var option4 = '';
             if(type == 1){
                 option1 = 'selected';
             }
@@ -622,6 +633,10 @@ layui.use('table', function(){
             if(type == 3){
                 option3 = 'selected';
             }
+            if(type == 4){
+                option4 = 'selected';
+            }
+            console.log(type);
             var html = '';
             html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
             html +=   '     <label class="layui-form-label" style="line-height:25px">优惠方式：</label>'
@@ -630,14 +645,25 @@ layui.use('table', function(){
             html +=   '               <option value="1" '+option1+'>不打折</option>'
             html +=   '               <option value="2" '+option2+'>整单打折</option>'
             html +=   '               <option value="3" '+option3+'>人工打折</option>'
+            html +=   '               <option value="4" '+option4+'>现金优惠</option>'
             html +=   '          </select>'
             html +=   '     </div>'
             html +=   '</div>'
-            html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
+            if(type == 1){
+                html +=   '<div class="layui-form-item" id="discount_show" style="margin-bottom:5px;display:none">'
+            }else{
+                html +=   '<div class="layui-form-item" id="discount_show" style="margin-bottom:5px">'
+            }
             html +=   '     <label class="layui-form-label" style="line-height:25px">优惠额度：</label>'
             html +=   '     <div class="layui-input-block">'
-            html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" /> %'
-            html +=   '          <span style="display:block">（若打9折，应输入90）</span>'
+            html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" />'
+            if(type == 4){
+                html +=   '          <span id="percent">元</span>'
+                html +=   '          <span id="discount_msg" style="display:block"></span>'
+            }else{
+                html +=   '          <span id="percent">%</span>'
+                html +=   '          <span id="discount_msg" style="display:block">（若打9折，应输入90）</span>'
+            }
             html +=   '     </div>'
             html +=   '</div>'
             html +=   '<div style="text-align:center;" id="set_status_btn">'
@@ -653,6 +679,22 @@ layui.use('table', function(){
         }
     });
 });
+//选择打折类型后 修改提示信息
+$(document).on('change','#discount_type',function(){
+    var type = $(this).val();
+    if(type == 1){
+        $('#discount_show').hide();
+    }else{
+        $('#discount_show').show();
+    }
+    if(type == 4){
+        $('#percent').text('元');
+        $('#discount_msg').text('');
+    }else{
+        $('#percent').text('%');
+        $('#discount_msg').text('（若打9折，应输入90）');
+    }
+})
 $(document).on('click','.close',function(){
     layer.closeAll();
 })

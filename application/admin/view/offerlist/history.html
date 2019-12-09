@@ -312,15 +312,27 @@ th{
                             {/notempty}
                             {if($offerlist_info['discount_zk'])}
                                 <tr>
-                                    <td class="text-left" colspan="2">折扣优惠</td>
+                                    <td class="text-left" colspan="2">优惠前报价</td>
+                                    <td colspan="6">{$offerlist_info['proquant']}</td>
+                                    <td></td>
+                                    <?php $num++; ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" colspan="2">工程优惠</td>
                                     <td colspan="6">{$offerlist_info['discount_zk']}</td>
-                                    <td>{if($offerlist_info['discount_type'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num}折</td>
+                                    <td>{if($offerlist_info['discount_type'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num/10}折</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/if}
                             {notempty name="offerlist_info['discount']"}
                                 <tr>
-                                    <td class="text-left" colspan="2">金额优惠</td>
+                                    <td class="text-left" colspan="2">优惠前报价</td>
+                                    <td colspan="6">{$offerlist_info['proquant']}</td>
+                                    <td></td>
+                                    <?php $num++; ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" colspan="2">工程优惠</td>
                                     <td colspan="6">{$offerlist_info['discount']}</td>
                                     <td>{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>

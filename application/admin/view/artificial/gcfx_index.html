@@ -100,8 +100,8 @@ a{
                         <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
                         <th class="taleft" lay-data="{field:'order_cost_all_price',event:'get_tmp_cost',width:90,style:'background-color: #e4fcfd ;color:#f36f20' }">其他费用</th>
-                        <th class="taleft" lay-data="{field:'discount_zk',width:90,style:'background-color: #e4fcfd;color:#029687' }">折扣优惠</th>
-                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:90,style:'background-color: #e4fcfd;color:#029687' }">金额优惠</th>
+                        <th class="taleft" lay-data="{field:'discount_zk',width:160,style:'background-color: #e4fcfd;color:#029687' }">优惠</th>
+                        <!-- <th class="taleft" lay-data="{field:'discount',edit:'text',width:90,style:'background-color: #e4fcfd;color:#029687' }">金额优惠</th> -->
                         <th class="taleft" lay-data="{field:'sundry',edit:'text',width:90,style:'background-color: #e5f3c5;color:#029687' }">运杂</th>
                         <th class="taleft" lay-data="{field:'commission',event:'show_commission',width:90,style:'background-color: #e5f3c5;color:#f36f20' }">提成奖励</th>
                         <!-- <th class="taleft" lay-data="{field:'supervisor_commission',width:90,style:'background-color: #e5f3c5' }">监理提成</th>
@@ -154,8 +154,17 @@ a{
 
                       <td class="taleft">{$vo.order_info.order_cost_all_price}</td>
 
-                      <td class="taleft">{if($vo['order_info']['discount_type']==2)}<a lay-event="set_discount" data-type="{$vo['order_info']['discount_type']}" data-num="{$vo.order_info.discount_num}">整单{$vo.order_info.discount_num}折/￥{$vo.order_info.discount_zk}</a>{elseif ($vo['order_info']['discount_type']==3) /}<a lay-event="set_discount" data-type="{$vo['order_info']['discount_type']}" data-num="{$vo.order_info.discount_num}">人工{$vo.order_info.discount_num}折/￥{$vo.order_info.discount_zk}</a>{else /}<a lay-event="set_discount" data-type="1" data-num="">不打折</a>{/if}</td>   
-                      <td class="taleft">{$vo.order_info.discount}</td>
+                      <td class="taleft">
+                        {if($vo['order_info']['discount_type']==2)}
+                            <a lay-event="set_discount" data-type="{$vo['order_info']['discount_type']}" data-num="{$vo.order_info.discount_num}">整单{$vo.order_info.discount_num/10}折/￥{$vo.order_info.discount_zk}</a>
+                        {elseif ($vo['order_info']['discount_type']==3) /}
+                            <a lay-event="set_discount" data-type="{$vo['order_info']['discount_type']}" data-num="{$vo.order_info.discount_num}">人工{$vo.order_info.discount_num/10}折/￥{$vo.order_info.discount_zk}</a>
+                        {elseif ($vo['order_info']['discount_type']==4) /}
+                            <a lay-event="set_discount" data-type="{$vo['order_info']['discount_type']}" data-num="{$vo.order_info.discount_num}">现金优惠￥{$vo.order_info.discount_num}</a>
+                        {else /}
+                            <a lay-event="set_discount" data-type="1" data-num="">无优惠</a>{/if}
+                      </td>   
+                      <!-- <td class="taleft">{$vo.order_info.discount}</td> -->
                       <td class="taleft">{$vo.order_info.sundry ?: 0}</td>
                       <td class="taleft">{$vo.order_info.supervisor_commission+$vo.order_info.design_commission+$vo.order_info.repeat_commission+$vo.order_info.business_commission}</td>
                       <!-- <td class="taleft"><a class="" lay-event="supervisor_commission">{$vo.order_info.supervisor_commission}</a></td>
