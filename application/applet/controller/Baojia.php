@@ -37,6 +37,7 @@ class Baojia extends UserBase
         $n['borrower'] = $borrower;
         $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
         $n['kj'] = round($n['borrower'] - $n['yj'],2);
+
         if ($data['money'] <= $n['kj']) {
             $data = ['money' => $data['money'],
                 'shroff' => $data['shroff'],
@@ -152,7 +153,8 @@ class Baojia extends UserBase
         $n['yj'] = $yj;
         $n['borrower'] = $borrower;
         $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
-        $n['kj'] = $n['borrower'] - $n['yj'];
+//        $n['kj'] = $n['borrower'] - $n['yj'];
+        $n['kj'] = round($n['borrower'] - $n['yj'],2);
 
         $this->json(1, 'success', $n);
     }

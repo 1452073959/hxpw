@@ -130,9 +130,9 @@ class Financial extends Adminbase{
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('status','2')->where('frameid', $login['companyid'])->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('status','in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('bid', 0)->where('sid', '>', 0)->where('status','2')->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('status','in', [2,3,5])->paginate(10);
         }
         $this->assign('userinfo',$userinfo);
         $this->assign('audit',$audit);
@@ -146,7 +146,6 @@ class Financial extends Adminbase{
         $res = Jiezhi::get($net_payroll['id']);
         $res->status=3;
         $res->bid=$login['userid'];
-        $res->net_payroll=$net_payroll['net_payroll'];
         $res->cwtime=date('y-m-d H:i:s', time());
         $res->save();
         if($res){
@@ -161,9 +160,9 @@ class Financial extends Adminbase{
     {
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->select();
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->paginate(10);
         }
 //        dump($audit);
         $this->assign('audit',$audit);
