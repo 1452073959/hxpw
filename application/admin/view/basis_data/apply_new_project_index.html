@@ -205,7 +205,7 @@
         form.on('submit(add_projcet)', function(data){
             var go = 1;
             $.each(data.field,function(index,value){  //arrTmp数组数据
-                if(value == ''){
+                if(value == '' && index != 'material'){
                     alert('所填资料不能为空');
                     go = 0;
                     return false;
@@ -505,6 +505,13 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">施工工艺与材料说明：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '   <textarea name="content" class="layui-textarea">'+data.content+'</textarea>'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">所需辅材分类</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="material" placeholder="格式为：分类1-5,分类2-3,分类3-1" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 

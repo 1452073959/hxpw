@@ -443,8 +443,21 @@ class BasisData extends Adminbase{
         $datas['content'] = input('content');
         $find = input('find');
         $funit = input('funit');
+        if(input('material')){
+            $material = explode(',', str_replace('，', ',', input('material')));
+            foreach($material as $k=>$v){
+                $arr = explode('-', $v);
+                if(isset($arr[1])){
+                    $find[] = trim($arr[0]);
+                    $funit[] = trim($arr[1]);
+                }else{
+                    $this->error('辅材分类输入错误');
+                }
+            }
+        }
+        $fine_arr = array_column(Db::name('basis_materials')->where(['fine'=>$find])->group('fine')->field('fine')->select(), 'fine');
         if ($find && count($find) != count(array_unique($find))) {   
-            $this->error('细类不得重复');
+            $this->error('辅材分类不得重复');
         } 
         //判断编号是否有重复
         $has_project = Db::name('basis_project')->where(['item_number'=>$datas['item_number']])->value('id');
@@ -457,6 +470,9 @@ class BasisData extends Adminbase{
         if($find){
             $materials = [];
             foreach($find as $k=>$v){
+                if(!in_array($v, $fine_arr)){
+                    $this->error('辅材分类'.$v.'不存在');
+                }
                 $info = [];
                 $info['fine'] = $v;
                 $info['funit'] = $funit[$k];
