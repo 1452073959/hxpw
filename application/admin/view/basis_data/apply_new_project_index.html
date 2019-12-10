@@ -166,6 +166,7 @@
                                 {else /}
                                     <a style="color:red">待处理</a>
                                 {/if}
+                                <a style="color:blue" href="javascript:;" data-id="{$vo.id}" lay-event="del_fwarehouse">删除</a>
                             </td>
                             <td class="">{$vo.addtime}</td>
                             
@@ -205,7 +206,7 @@
         form.on('submit(add_projcet)', function(data){
             var go = 1;
             $.each(data.field,function(index,value){  //arrTmp数组数据
-                if(value == ''){
+                if(value == '' && index != 'material'){
                     alert('所填资料不能为空');
                     go = 0;
                     return false;
@@ -261,6 +262,37 @@
 
         table.on('tool(test3)',function(obj){
             var data = obj.data;
+            ///删除申请条目
+            if(obj.event == 'del_fwarehouse'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '确定删除选中条目吗',
+                        title:'删除报价',
+                        btn: ['确定','取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/del_new_project',{id:data.id},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　  window.location.reload()
+                                    },1000);
+                                    return false;
+                                }else{
+                                    layer.msg(res.msg);
+                                    return false;
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+            }
             //添加到公司仓库
             if(obj.event == 'add_fwarehouse'){
                 $.post('/admin/basis_data/get_public_project',{item_number:data.p_item_number},function(res){
@@ -505,6 +537,13 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">施工工艺与材料说明：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '   <textarea name="content" class="layui-textarea">'+data.content+'</textarea>'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">所需辅材分类</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="material" placeholder="格式为：分类1-5,分类2-3,分类3-1" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 

@@ -144,6 +144,7 @@
                                 {else /}
                                     <a style="color:red">待处理</a>
                                 {/if}
+                                <a style="color:blue" href="javascript:;" data-id="{$vo.id}" lay-event="del_fwarehouse">删除</a>
                             </td>
                             <td class="">{$vo.addtime}</td>
                             {if($admininfo['userid'] == 1)}
@@ -178,6 +179,37 @@
 
         table.on('tool(test3)',function(obj){
             var data = obj.data;
+            //删除申请条目
+            if(obj.event == 'del_fwarehouse'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '确定删除选中条目吗',
+                        title:'删除报价',
+                        btn: ['确定','取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/del_new_material',{id:data.id},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　  window.location.reload()
+                                    },1000);
+                                    return false;
+                                }else{
+                                    layer.msg(res.msg);
+                                    return false;
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+            }
             //添加到公司仓库
             if(obj.event == 'add_fwarehouse'){
                 $.post('/admin/basis_data/get_public_warehouse',{amcode:data.p_amcode},function(res){
