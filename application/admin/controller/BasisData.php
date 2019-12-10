@@ -1488,6 +1488,37 @@ class BasisData extends Adminbase{
         }
     }
 
+    //ajax删除申请辅材
+    public function del_new_material(){
+        $id = input('id');
+        $has = Db::name('apply_material')->where(['id'=>$id,'fid'=>$this->_userinfo['companyid']])->find();
+        if($has){
+            $del = Db::name('apply_material')->where(['id'=>$id,'fid'=>$this->_userinfo['companyid']])->delete();
+        }else{
+            $del = false;
+        }
+        if($del){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+    //ajax删除申请辅材
+    public function del_new_project(){
+        $id = input('id');
+        $has = Db::name('apply_project')->where(['id'=>$id,'fid'=>$this->_userinfo['companyid']])->find();
+        if($has){
+            $del = Db::name('apply_project')->where(['id'=>$id,'fid'=>$this->_userinfo['companyid']])->delete();
+        }else{
+            $del = false;
+        }
+        if($del){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+
     //没有的 项目 分公司申请提交
     public function apply_new_project_index(){
         // $this->assign('data',$res);

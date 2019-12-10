@@ -108,7 +108,7 @@ class Mail extends UserBase{
         $where[] = ['frameid','=',$this->admininfo['companyid']];
         $where[] = ['remarks','=','公司仓库'];
         $where[] = ['name','like','%'.trim($search).'%'];
-        $where[] = ['brand','like','%'.trim($search).'%'];
+        // $where[] = ['brand','like','%'.trim($search).'%'];
         $goods = Db::name('materials')->where($where)->field('amcode,fine,brand,category,name,img,units,phr,price')->paginate(10,false,['query'=>request()->param()])->each(function($item, $key){
             $item['img'] = $this->getImgSrc($item['img']);
             return $item;
