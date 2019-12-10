@@ -44,7 +44,7 @@
                             <td>{$v['remark']}</td>
                             <td>{$v['addtime']}</td>
                             <td>
-                                <a href="javascript:;">查看领料单</a>
+                                <a href="javascript:;" key="{$v.id}" class="zjdd">查看领料单</a>
                             </td>
                         </tr>
                     {/foreach}
@@ -74,5 +74,26 @@
       elem: '#end_time'
     });
   })
+</script>
+
+
+<script>
+$(function () {
+    layui.use('layer', function () {
+        var layer = layui.layer;
+        $(document).on('click','.zjdd', function(){
+            var Tresult=$(this).attr('key');
+            layer.open({
+                type: 2,
+                title: '自购/定点领料图片',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['1000px', '80%'],
+                content: '/admin/Statistical/buying?uid='+ Tresult
+            });
+        });
+
+    });
+})
 </script>
 {/block}

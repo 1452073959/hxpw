@@ -111,17 +111,23 @@
         padding: 0 25px;
     }
 </style>
+<style type="text/css">
+    .layui-table-cell {
+        height: auto;
+        line-height: 40px;
+    }
+</style>
 <table class="layui-table" lay-data="{page:false, id:'demo'}" lay-filter="demo">
     <thead>
     <tr>
         <th lay-data="{field:'id'}">借支客户</th>
-        <th lay-data="{field:'username'}">借支人('监理')</th>
-        <th lay-data="{field:'sex'}">审核人('工程经理')</th>
-        <th lay-data="{field:'city'}">申请借支金额(单位:元)</th>
+        <th lay-data="{field:'username'}">借支人(监理)</th>
+        <th lay-data="{field:'sex'}">审核人(工程经理)</th>
+        <th lay-data="{field:'city'}">申请借支金额(单位: 元)</th>
         <th lay-data="{field:'sign'}">收款账号</th>
         <th lay-data="{field:'experience' }">借支原因</th>
         <th lay-data="{field:'experie' }">状态</th>
-        <th lay-data="{field:'score'}">操作/拨款时间</th>
+        <th lay-data="{field:'score',width:300}">操作/拨款时间</th>
     </tr>
     </thead>
     <tbody>
@@ -211,3 +217,4 @@
 </script>
 
 {/block}
+

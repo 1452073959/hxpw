@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\AdminUser;
 use app\admin\model\PickingMaterial;
 use app\admin\model\Userlist;
 use app\common\controller\Adminbase;
@@ -142,7 +143,46 @@ class Statistical extends Adminbase
         $this->assign('admins', $admins);
         return $this->fetch();
     }
+    //自购/订单领料图片
+    public function buying(Request $request)
+    {
+        $data=$request->get();
+        $buying = Db::table('fdz_picking_order_img')->where('poid',$data['uid'])->find();
+        $buyingimg=$buying['img'];
+        return response( "<img src='$buyingimg'>");
+    }
 
+//    合计
+    public function total(Request $request)
+    {
+        $data=$request->get();
+        $userinfo = Userlist::with(['user','gcjl','zj'])->where('id',$data['uid'])->find();
+        $buying=Db::table('fdz_picking_order')->where('userid',$data['uid'])->select();
+        $summation=0;
+        foreach ($buying as $key=>$value)
+        {
+            $summation+=$value['money'];
+        }
+        $history=PickingMaterial::where('userid',$data['uid'])->where('status',4)->select();
+        $reality=[];
+        foreach ($history as $k=>$v)
+        {
+            $history[$k]['details']=Db::table('fdz_picking_material_info')->where('pmid',$v['id'])->select();
+            foreach ($history[$k]['details'] as $k1=>$v1){
+                $reality[]=$v1;
+            }
+        }
+        $amount=0;
+        foreach ($reality as $k1=>$v1){
+            $amount+=$v1['price']*$v1['actual_num'];
+        }
+//        dump($userinfo);
+        $this->assign('userinfo',$userinfo);
+        $this->assign('reality',$reality);
+        $this->assign('summation',$summation);
+        $this->assign('amount',$amount);
+        return $this->fetch();
+    }
     //工程派单
     public function send_order_index()
     {
@@ -152,6 +192,17 @@ class Statistical extends Adminbase
     //监理管理
     public function supervision_index()
     {
+        $user = $this->_userinfo;
+        $user=AdminUser::with('Supervision')->where('roleid',13)->where('companyid',$user['companyid'])->select();
+        $this->assign('user',$user);
+        return $this->fetch('supervision_index1');
+    }
+    //监理工地
+    public function construction(Request $request)
+    {
+        $construction=$request->get();
+        $construction=Userlist::where('jid',$construction['id'])->select();
+        $this->assign('construction',$construction);
         return $this->fetch();
     }
 
@@ -206,10 +257,11 @@ class Statistical extends Adminbase
     {
         $data=$request->get();
         $particulars=Db::table('fdz_picking_material_info')->where('pmid',$data['pmid'])->select();
-//        dump($particulars);die;
          $this->assign('particulars',$particulars);
         return $this->fetch();
     }
+
+
 
 
 
