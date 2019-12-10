@@ -40,14 +40,16 @@ class Mail extends UserBase{
             $datas[$v['category']][] = $v['fine'];
         }
         $i = 0;
+        $new_datas = [];
+        $new_datas[0][0] = '搜索';
         foreach($datas as $k=>$v){
-            $datas[$i][0] = $k;
-            $datas[$i][1] = $v;
-            $datas[$i][2] = 0;
+            $new_datas[$i+1][0] = $k;
+            $new_datas[$i+1][1] = $v;
+            $new_datas[$i+1][2] = 0;
             unset($datas[$k]);
             $i++;
         }
-        $this->json(0,'success',$datas);
+        $this->json(0,'success',$new_datas);
     }
 
     //获取商品详情
@@ -89,6 +91,24 @@ class Mail extends UserBase{
         $where['category'] = $cate[$category];
         $where['fine'] = $fine;
         $where['frameid'] = $this->admininfo['companyid'];
+        $goods = Db::name('materials')->where($where)->field('amcode,fine,brand,category,name,img,units,phr,price')->paginate(10,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['img'] = $this->getImgSrc($item['img']);
+            return $item;
+        });
+        $this->json(0,'success',$goods);
+    }
+
+    //获取商品列表 - 搜索
+    public function searchGoods(){
+        $search = input('search');
+        if(!$search){
+            $this->json(1,'none',[]);
+        }
+        $where = [];
+        $where[] = ['frameid','=',$this->admininfo['companyid']];
+        $where[] = ['remarks','=','公司仓库'];
+        $where[] = ['name','like','%'.trim($search).'%'];
+        $where[] = ['brand','like','%'.trim($search).'%'];
         $goods = Db::name('materials')->where($where)->field('amcode,fine,brand,category,name,img,units,phr,price')->paginate(10,false,['query'=>request()->param()])->each(function($item, $key){
             $item['img'] = $this->getImgSrc($item['img']);
             return $item;
