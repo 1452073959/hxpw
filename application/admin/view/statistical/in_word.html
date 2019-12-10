@@ -192,7 +192,7 @@
                     <col width="110">
                     <col width="110">
                     <col width="110">
-                    <col width="110">
+                    <col width="300">
                     <col>
                 </colgroup>
                 <thead>
@@ -235,6 +235,8 @@
                         <a href="{:url('admin/offerlist/history',['customerid'=>$vo.id,'report_id'=>$vo.profile.id])}" style="color:#007498">查看报价</a>
                         <a href="{:url('admin/auxiliary/history',['id'=>$vo.profile.id])}" style="color:#007498" >查看领料单</a>
                         <a href="/admin/statistical/history?uid={$vo.id}" style="color:#007498" >领料记录</a>
+                        <a href="/admin/statistical/actual_picking_dz?uid={$vo.id}" style="color:#007498" >自购/定点订单领料</a>
+                        <a href="/admin/statistical/total?uid={$vo.id}" style="color:#007498" >合计</a>
                     </td>
                 </tr>
                 {/foreach}
