@@ -123,10 +123,15 @@
                 </div>
                 
             </div>     
+
         </blockquote>
+
+
+
         <div class="left" style="float: left;width: 7%;height: 92% ;overflow:auto;border-right: 1px solid #eee">
             <ul id="space_ul">
                 <li><a href="javascript:;" id="add_space" class="layui-btn layui-btn-radius layui-btn-primary">添加空间</a></li>
+                <th><input type="text" class="layui-input height26" id="sel"></th>
                 <!-- 空间 -->
                 <?php $i = 1; ?>
                 <?php foreach($offer_type[2] as $k=>$v){ ?>
@@ -1094,4 +1099,23 @@
         }
     })
 </script>
+<script>
+    $('#sel').on('input propertychange',function(){
+        var item= $('#sel').val();
+        console.log(item);
+        if(item!=''){
+            $("#space_ul li").each(function (index,element ) {
+                console.log($(this).text());
+                if($(this).text().indexOf(item) != -1){
+                    $(this).show();
+                }else {
+                    $(this).hide();
+                }
+            })
+        }else {
+            $("#space_ul li").show();
+        }
+    })
+</script>
+
 {/block}
