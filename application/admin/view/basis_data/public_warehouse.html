@@ -101,7 +101,7 @@
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="add" id="add">添加</button> 
-                    <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button>
+                    <!-- <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button> -->
                     <a href="/admin/basis_data/excel/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a>
                     <button class="layui-btn layui-btn-sm" lay-event="add_imgs" id="add_imgs">批量上传图片</button>
                     <button class="layui-btn layui-btn-sm" lay-event="save_img" id="save_img">保存图片</button>
@@ -128,6 +128,7 @@
                         <th class="taleft" lay-data="{field:'coefficient',width:100}">系数</th>
                         <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
                         <th width="150" lay-data="{field:'img',width:80}">图片</th>
+                        <th class="taleft" lay-data="{field:'count',width:100}">已用数</th>
                         <th class="taleft" lay-data="{field:'edit',width:200}">操作</th>
                     </tr>
                 </thead>
@@ -135,16 +136,16 @@
                   {foreach name="data" item="vo"}
                     <tr>
                         <td class="taleft">{$vo.id}</td>
-                      <td class="taleft">{$vo.amcode}</td>
-                      <td class="taleft">{$vo.type_of_work}</td>
-                      <td class="taleft">{$vo.classify}</td>
-                      <td class="taleft">{$vo.fine}</td>
-                      <td class="taleft">{$vo.name}</td>
-                      <td class="taleft">{$vo.unit}</td>
-                      <td class="taleft">{$vo.brank}</td>
-                      <td class="taleft">{$vo.place}</td>
-                      <td class="taleft">{$vo.coefficient}</td>
-                      <td class="taleft">{$vo.important}</td>
+                        <td class="taleft">{$vo.amcode}</td>
+                        <td class="taleft">{$vo.type_of_work}</td>
+                        <td class="taleft">{$vo.classify}</td>
+                        <td class="taleft">{$vo.fine}</td>
+                        <td class="taleft">{$vo.name}</td>
+                        <td class="taleft">{$vo.unit}</td>
+                        <td class="taleft">{$vo.brank}</td>
+                        <td class="taleft">{$vo.place}</td>
+                        <td class="taleft">{$vo.coefficient}</td>
+                        <td class="taleft">{$vo.important}</td>
                         <td class="" id="taleft">
                             {if $vo.img!=""}
                             <a href="javascript:;" style="color:#007498;text-align: center;display:block;" lay-event="bianda">
@@ -154,11 +155,12 @@
                             <div style="font-size: 15px;text-align: center">暂无</div>
                             {/if}
                         </td>
-                      <td class="taleft">
-                          <a href="javascript:;" lay-event="edit">修改</a>
-                          <a href="javascript:;" style="color:#007498" lay-event="img">上传图片</a>
-
-                      </td>
+                        <td class="taleft">{$vo.count}</td>
+                        <td class="taleft">
+                            <a href="javascript:;" lay-event="edit">修改</a>
+                            <a href="javascript:;" style="color:#007498" lay-event="img">上传图片</a>
+    
+                        </td>
                       <!-- <td>
                         <a href="/admin/basis_data/add_fwarehouse/id/{$vo.id}" class=""><i class="layui-icon layui-icon-add-1" title="添加"></i></a>
                       </td> -->
@@ -173,7 +175,7 @@
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
     layui.use('table', function(){
@@ -221,7 +223,7 @@
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
-                html += '    <input type="text" value="'+data.unit+'" disabled name="unit" autocomplete="off" class="layui-input">'
+                html += '    <input type="text" value="'+data.unit+'"  name="unit" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 

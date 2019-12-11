@@ -308,4 +308,9 @@ class AdminUser extends Model
         return true;
     }
 
+    public function Supervision()
+    {
+        return $this->hasOne(Worker::class,'jid','userid');
+    }
+
 }

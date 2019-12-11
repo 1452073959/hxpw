@@ -107,7 +107,7 @@ class WareHouse extends UserBase{
         if(!$status || $status != 3){
             $this->json(2,'订单状态有误');
         }
-        $res = Db::name('picking_material')->where(['id'=>$id])->update(['status'=>4]);
+        $res = Db::name('picking_material')->where(['id'=>$id])->update(['status'=>4,'gettime'=>time()]);
         if($res){
             $this->json(0,'确认领料成功');
         }else{

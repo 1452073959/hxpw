@@ -96,8 +96,10 @@
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="add" id="add">添加</button> 
-                    <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button>
+                    <!-- <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button> -->
                     <a href="/admin/basis_data/export/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a>
+                    <!-- <a href="/admin/basis_data/export1/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出1</button></a>
+                    <a href="/admin/basis_data/export2/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出2</button></a> -->
                 </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['print'],limit:20}">
@@ -114,6 +116,7 @@
                         <th class="taleft" lay-data="{field:'unit', width:100}">单位</th>
                         <th class="taleft" lay-data="{field:'materials'}">用料</th>
                         <th class="taleft" lay-data="{field:'content',width:400}">工艺说明</th>
+                        <th class="taleft" lay-data="{field:'count',width:100}">已用数</th>
                         <th width="150" lay-data="{field:'edit',width:100}">操作</th>
                     </tr>
                 </thead>
@@ -136,6 +139,7 @@
                         <?php } ?>
                         </td>
                       <td class="taleft">{$vo.content}</td>
+                      <td class="taleft">{$vo.count}</td>
                       <td>
                         <a href="javascript:;" lay-event="edit" class="">编辑</a>
                         <a href="javascript:;" lay-event="del" class="">删除</a>
@@ -151,7 +155,7 @@
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
     layui.use('form', function(){
@@ -160,7 +164,7 @@
         form.on('submit(add_projcet)', function(data){
             var go = 1;
             $.each(data.field,function(index,value){  //arrTmp数组数据
-                if(value == ''){
+                if(value == '' && index != 'material'){
                     alert('所填资料不能为空');
                     go = 0;
                     return false;
@@ -214,7 +218,7 @@
              var type = 'edit_projcet';
         }
         // var type = '';
-        var option = '';
+        var option = '<option value=""></option>';
         var unit = '';
         <?php foreach($fines as $k=>$v){ ?>
             if(unit == ''){
@@ -250,10 +254,58 @@
             var data = obj.data;
             console.log(data);
             if (obj.event == 'edit'){
+
+
+                var ajax_true = 1;
+                var select = '';
+                $.ajaxSettings.async = false;
+                $.post('/admin/basis_data/get_b_project_fine',{item_number:data.item_number},function(res){
+                    if(res.code == 1){
+                        var fine_option = '';
+                        var unit = '';
+                        <?php foreach($fines as $k=>$v){ ?>
+                            if(unit == ''){
+                                unit = '{$v['unit']}'
+                            }
+                            fine_option += '<option value="{$v['fine']|raw}" data-unit="{$v['unit']}">{$v['fine']|raw}</option>'
+                        <?php } ?>
+                        $(res.data).each(function(k,v){
+                            //前端取出单位
+                            var reg = new RegExp("<option value=\""+ v.fine +"\".*>"+ v.fine +"</option>");
+                            if(fine_option.match(reg)[0]){
+                                var unit = $(fine_option.match(reg)[0]).attr('data-unit');
+                                var select_option = $(fine_option.match(reg)[0]).html();
+                            }
+                            var new_fine_option = fine_option.replace(fine_option.match(reg)[0],$(fine_option.match(reg)[0]).attr('selected','').prop("outerHTML"));
+                            select  += '<div class="layui-form-item project_select" style="margin:5px 0;">'
+                            select += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">辅材：</label>'
+                            select += '  <div class="layui-input-block" style="margin-left:85px">'
+                            select += '    <a style="float:left" href="javascript:;" onclick="del_material(this)"><i class="layui-icon layui-icon-close"></i></a>'
+                            select += '    <select style="width:50px" name="find[]" lay-filter="test1" lay-search>'
+                            select +=         new_fine_option
+                            select += '    </select>'
+                            select += '    <input type="text" style="width:130px;" name="funit[]" value="'+v.funit+'" autocomplete="off" placeholder="数量 - 单位：'+unit+'" class="layui-input">'
+                            select += '  </div>'
+                            select += '</div>'
+                        })
+                    }else{
+                        layer.msg(res.msg);
+                        ajax_true = 0
+                        return false;
+                    }
+                },'json')
+                if(!ajax_true){
+                    return false;
+                }
+                //改回异步
+                $.ajaxSettings.async = true;
+
+
                 var option = '';
                 <?php foreach($type_work as $k=>$v){ ?>
                     option += '<option value="{$v['id']}" >{$v['name']}</option>'
                 <?php } ?>
+                option = option.replace('>'+data.type_word_id,'selected >'+data.type_word_id);
                 var html = '<form id="add_html" class="layui-form">';
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
@@ -299,6 +351,8 @@
                 html += '    <a href="javascript:;:;" onclick="add_material(2)"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
                 html += '  </div>'
                 html += '</div>'
+
+                html += select
 
                 html += '<div class="layui-form-item" style="margin:5px 0;text-align:center">'
                 html += '   <button class="layui-btn" style="margin:0 auto;" id="edit_projcet" lay-submit lay-filter="edit_projcet">立即提交</button>'
@@ -407,6 +461,13 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工艺说明：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '   <textarea name="content" class="layui-textarea"></textarea>'
+                html += '  </div>'
+                html += '</div>'
+                
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">所需辅材分类</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="material" placeholder="格式为：分类1-5,分类2-3,分类3-1" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 

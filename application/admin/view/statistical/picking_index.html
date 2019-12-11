@@ -19,41 +19,29 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="" autocomplete="off" class="layui-input">
+                            <input type="text" name="username" value="{:input('username')}" placeholder="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                      <div class="layui-form-item">
                         <label class="layui-form-label">监理姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title1" placeholder="" autocomplete="off" class="layui-input">
+                            <input type="text" name="jlname" value="{:input('jlname')}" placeholder="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <!-- <div class="layui-form-item">
-                        <label class="layui-form-label">职位</label>
-                        <div class="layui-input-block">
-                            <select name="city" lay-verify="required">
-                                <option value=""></option>
-                                <option value="1">设计师</option>
-                                <option value="2">报价师</option>
-                                <option value="3">商务经理</option>
-                                <option value="4">工程监理</option>
-                            </select>
-                        </div>
-                    </div> -->
                     <div class="layui-inline" style="float: left;margin-right: 15px">
                         <label class="layui-form-label">签单时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="{:input('begin_time')}" placeholder="开始时间">
                         </div>
                         <span> - </span>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="{:input('end_time')}" placeholder="结束时间">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
                           <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
-                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                          <a href="/admin/statistical/picking_index" class="layui-btn layui-btn-primary">重置</a>
                         </div>
                     </div>
                 </form>
@@ -68,9 +56,6 @@
                     <col width="120">
                     <col width="150">
                     <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="120">
                     <col>
                 </colgroup>
                 <thead >
@@ -78,96 +63,35 @@
                         <th>客户姓名</th>
                         <th>监理姓名</th>
                         <th>预计领料金额</th>
-                        <th>已领金额</th>
-                        <th>未领金额</th>
-                        <th>第一次领料金额</th>
-                        <th>第二次领料金额</th>
-                        <th>第三次领料金额</th>
-                        <th>第四次领料金额</th>
+                        <th>定点领料金额</th>
+                        <th>自购领料金额</th>
+                        <th>已领辅材金额</th>
+                        <th>申请辅材金额</th>
+                        <th>待领辅材金额</th>
                         <th>签单时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody> 
-                    <tr>
-                        <td>冯小姐</td>
-                        <td>刘兴隆</td>
-                        <td>35800</td>
-                        <td>19690</td>
-                        <td>16110</td>
-                        <td>10740</td>
-                        <td>7160</td>
-                        <td>17900</td>
-                        <td>0</td>
-                        <td>2019-8-31</td>
-                        <td>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>胡先生</td>
-                        <td>杜平</td>
-                        <td>44963</td>
-                        <td>17955.52</td>
-                        <td>26777.8</td>
-                        <td>13488.9</td>
-                        <td>4496</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>2019-8-31</td>
-                        <td>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>蒋先生</td>
-                        <td>杜平</td>
-                        <td>31190</td>
-                        <td>9357</td>
-                        <td>21833</td>
-                        <td>9366</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>2019-8-31</td>
-                        <td>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>韩小姐</td>
-                        <td>常远</td>
-                        <td>26800</td>
-                        <td>31260</td>
-                        <td>5360</td>
-                        <td>10720</td>
-                        <td>5000</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>2019-8-31</td>
-                        <td>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">领料明细</a>
-                            <a href="javascript:;" class="layui-btn layui-btn-primary">实际领料明细</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>合计</td>
-                        <td></td>
-                        <td>138753</td>
-                        <td>78262.52</td>
-                        <td>60490.48</td>
-                        <td>44314.9</td>
-                        <td>16656</td>
-                        <td>17900</td>
-                        <td>0</td>
-                        <td></td>
-                        <td>
+                <tbody>
+                    {foreach $datas as $k=>$v}
+                        <tr>
+                            <td>{$v['customer_name']}</td>
+                            <td>{$admins[$v['jid']]['name'] ?: 0}</td>
+                            <td>{$v['all_material_money']}</td>
+                            <td>{$v['type1']}</td>
+                            <td>{$v['type2']}</td>
+                            <td>{$v['status4']}</td>
+                            <td>{$v['status23'] + $v['status1']}</td>
+                            <td>{$v['status23']}</td>
                             
-                        </td>
-                    </tr>
+                            <td>{:date('Y-m-d',$v['sign_bill_time'])}</td>
+                            <td>
+                                <a href="/admin/auxiliary/history/id/{$v['oid']}" class="layui-btn layui-btn-primary">预计领料明细</a>
+                                <a href="/admin/statistical/actual_picking_ck/uid/{$v['id']}" class="layui-btn layui-btn-primary">实际仓库领料明细</a>
+                                <a href="/admin/statistical/actual_picking_dz/uid/{$v['id']}" class="layui-btn layui-btn-primary">实际定点/自购明细</a>
+                            </td>
+                        </tr>
+                    {/foreach}
                 </tbody>
             </table>
         </div>
@@ -176,7 +100,7 @@
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
 

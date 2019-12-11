@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller; 
 
+use app\applet\model\Jiezhi;
 use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
@@ -44,7 +45,7 @@ class Financial extends Adminbase{
         // if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10){
         //     $da['userid'] = $userinfo['userid'];
         // }
-        if($userinfo['roleid'] != 10){
+        if($userinfo['roleid'] != 1){
             $da['frameid'] = $userinfo['companyid'];
         }
         $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
@@ -126,6 +127,68 @@ class Financial extends Adminbase{
 
     //借支 
     public function lend_money(){
+        $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('status','in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('uid',$userinfo['id'])->where('status','in', [2,3,5])->paginate(10);
+        }
+        $this->assign('userinfo',$userinfo);
+        $this->assign('audit',$audit);
+        return $this->fetch();
+    }
+
+    public function net_payroll(Request $request)
+    {
+        $login = $this->_userinfo;
+        $net_payroll=$request->get();
+        $res = Jiezhi::get($net_payroll['id']);
+        $res->status=3;
+        $res->bid=$login['userid'];
+        $res->cwtime=date('y-m-d H:i:s', time());
+        $res->save();
+        if($res){
+            $this->success('拨款成功');
+        }else{
+            $this->error('拨款失败');
+        }
+    }
+
+
+    public function financeaudit()
+    {
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->paginate(10);
+        }
+//        dump($audit);
+        $this->assign('audit',$audit);
+        return $this->fetch();
+    }
+
+
+    public function financeajax(Request $request)
+    {
+        $login = $this->_userinfo;
+        $net_payroll=$request->get();
+        if($net_payroll['status']==3){
+            $res = Jiezhi::get($net_payroll['key']);
+            $res->status=$net_payroll['status'];
+            $res->bid=$login['userid'];
+            $res->cwtime=date('y-m-d H:i:s', time());
+            $res->save();
+            return json(['code'=>1,'msg'=>'拨款成功','data'=>$res]);
+        }else{
+            $res = Jiezhi::get($net_payroll['key']);
+            $res->status=$net_payroll['status'];
+            $res->bid=$login['userid'];
+            $res->cwtime=date('y-m-d H:i:s', time());
+            $res->save();
+            return json(['code'=>2,'msg'=>'操作成功','data'=>$res]);
+        }
 
     }
     // //订单列表 (只显示 合同价-未审 合同价以审 结算价) 未审订单靠上

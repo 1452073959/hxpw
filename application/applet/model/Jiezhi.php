@@ -12,9 +12,22 @@ class Jiezhi extends Model
     {
         return $this->belongsTo('Userappler','jid','userid');
     }
+    public function gcjl()
+    {
+        return $this->belongsTo('Userappler','sid','userid');
+    }
+    public function cw()
+    {
+        return $this->belongsTo('Userappler','bid','userid');
+    }
 
     public function offer()
     {
         return $this->belongsTo('Offerlist','uid','id');
+    }
+
+    public function audit()
+    {
+        return $this->belongsTo('Userappler','sid','userid');
     }
 }

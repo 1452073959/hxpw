@@ -64,8 +64,8 @@
             <blockquote class="layui-elem-quote news_search">
                 <div class="layui-tab layui-tab-brief">
                   <ul class="layui-tab-title">
-                    <li class="layui-this"><a href="{:url('admin/offerlist/index',['customer_id'=>input('customer_id')])}">收款</a></li>
-                    <!-- <li class=""><a href="{:url('admin/furniture_orther/order_list',['customer_id'=>input('customer_id'),'type'=>2])}">借支</a></li> -->
+                    <li class="layui-this"><a href="{:url('admin/financial/get_money',['customer_id'=>input('customer_id')])}">收款</a></li>
+                     <li class=""><a href="{:url('admin/financial/lend_money',['customer_id'=>input('customer_id'),'type'=>2])}">借支</a></li>
                   </ul>
                   <div class="layui-tab-content"></div>
                 </div>
@@ -187,7 +187,7 @@
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     $('.info').click(function(e){
         e.preventDefault();

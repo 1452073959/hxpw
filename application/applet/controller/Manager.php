@@ -12,6 +12,7 @@ class Manager extends UserBase{
     //根据监理获取工地信息
     public function getUserListBySupervisor(){
         $where = [];
+        $condition = [];
         $where['status'] = [3,4,5,6,7];
         if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             $where['gcmanager_id'] = $this->admininfo['userid'];
@@ -22,9 +23,8 @@ class Manager extends UserBase{
         if(!$userlist){
             $this->json(2,'none');
         }
-        $jl_id = array_unique(array_column($userlist,'jid'));
-        $admininfo = array_column(Db::name('admin')->field('userid,name,pid')->where(['userid'=>$jl_id])->select(), null,'userid');
-        // $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id');
+        // $jl_id = array_unique(array_column($userlist,'jid'));
+        $admininfo = array_column(Db::name('admin')->field('userid,name,pid')->where(['companyid'=> $this->admininfo['companyid'],'roleid'=>13,'status'=>1])->select(), null,'userid');
         $datas = [];
         foreach($userlist as $k=>$v){
             if(!isset($datas[$v['jid']])){
@@ -37,6 +37,16 @@ class Manager extends UserBase{
             $datas[$v['jid']]['num']++;
             $datas[$v['jid']]['userlist'][] = $v;
         }
+        //把没有正在施工的监理加进去
+        foreach($admininfo as $k=>$v){
+            if(!isset($datas[$v['userid']])){
+                $datas[$v['userid']]['num'] = 0;
+                $datas[$v['userid']]['total_price'] = 0;
+                $datas[$v['userid']]['name'] = $v['name'];
+                $datas[$v['userid']]['pid'] = $v['pid'];
+                $datas[$v['userid']]['userlist'] = [];
+            }
+        }
         // $this->json(0,'success',$datas);
         $this->json(0,'success',['datas'=>$datas]);
     }
@@ -47,7 +57,7 @@ class Manager extends UserBase{
         $order_info = Model('admin/offerlist')->get_order_info($userinfo['oid'],2);//原单
         // var_dump($userinfo);die;
         $append_list = Model('admin/offerlist')->get_append_info(input('id'));//增减项
-        $get_money = array_column(Db::name('financial')->where(['userid'=>input('id'),'type'=>[1,2,3,4]])->select(),null,'type');//收款详情
+        $get_money = array_column(Db::name('financial')->field('id,userid,fid,sum(money) as money,type,remark,addtime')->where(['userid'=>input('id'),'type'=>[1,2,3,4]])->group('type')->select(),null,'type');//收款详情
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->find();
         if(!$cost_tmp){
             $this->error('未设置收款比率，请先设置');
@@ -114,7 +124,7 @@ class Manager extends UserBase{
         $picking_material = Db::name('picking_material')->where($where)->order('id','desc')->select();
             
         if(!$picking_material){
-            $this->json(2,'none');
+            $this->json(0,'success',[]);
         }
         foreach($picking_material as $k=>$v){
             //历史领料金额总额
@@ -122,7 +132,7 @@ class Manager extends UserBase{
             $picking_material[$k]['j_name'] = Db::name('admin')->where(['userid'=>$v['adminid']])->value('name');
             $picking_material[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
         }
-        $this->json(0,'success',['datas'=>$picking_material]);
+        $this->json(0,'success',$picking_material);
     }
 
     //审核领料

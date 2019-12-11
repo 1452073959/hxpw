@@ -79,9 +79,10 @@
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="">
+            <button class="layui-btn" onclick="javascript:history.back(-1);">返回</button>
             <blockquote class="layui-elem-quote news_search">
                 <form class="layui-inline">
-                    <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')])}">导出报表</a>
+
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
                     {switch name="order_info.status"}
                     {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
@@ -282,14 +283,13 @@
                     <?php $num++; ?>
                     {/foreach}
                     {/notempty}
-                    {notempty name="offerlist_info['discount']"}
-                    <tr>
-                        <td class="text-left" colspan="2">优惠</td>
-                        <td colspan="6">{$offerlist_info['discount']}</td>
-                        <td>{$offerlist_info['discount_content']}</td>
-                        <?php $num++; ?>
-                    </tr>
-                    {/notempty}
+                    {if($offerlist_info['discount_zk'])}
+                        <tr>
+                            <td class="text-left" colspan="2">折扣优惠</td>
+                            <td colspan="6">{$offerlist_info['discount_zk']}</td>
+                            <td>{if($offerlist_info['discount_type'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num}折</td>
+                        </tr>
+                    {/if}
                     <?php
                                 if($has_tax){  ?>
                     <tr>
@@ -339,7 +339,7 @@
 {/block}
 
 {block name="script"}
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <!-- 打印 -->
 <script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script>

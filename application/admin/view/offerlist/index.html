@@ -83,13 +83,13 @@
                       {eq name="$userinfo['is_new']" value="9"}<li>签单时间：{$userinfo.oldtime|date="Y-m-d"}</li>{/eq}
                       <li class="click print" style="display: none" title="打印"><i class="layui-icon layui-icon-print"></i></li>
                    </ul>
-                </div> 
+                </div>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
               </div>
             </script>
-     
+
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20,page:'true',height:600}">
                 <thead >
                     <tr>
@@ -98,6 +98,7 @@
                         <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
                         <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th>  -->
                         <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
+                        <th class="taleft" lay-data="{field:'manager_name',width:100}">非标</th>
 						<th class="taleft" lay-data="{field:'status',width:110,{neq name="$admininfo['roleid']" value="10"}event:'set_status'{/neq}}">状态</th>
                         <!-- <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th> -->
                         <!-- <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th> -->
@@ -110,19 +111,19 @@
                         <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
                         <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
-                        <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th>
+                        <!-- <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th> -->
                         <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">金额优惠说明</th>
-                        <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th> 
-                        <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>         
+                        <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th>
+                        <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
                         <th class="taleft" lay-data="{field:'cad',width:100}">图纸</th>
                     </tr>
                 </thead>
-                <tbody> 
-                  
+                <tbody>
+
                   {foreach name="data" item="vo"}
-                     <tr>   
-                      <td class="taleft">{$vo.id}</td>    
+                     <tr>
+                      <td class="taleft">{$vo.id}</td>
                       <!-- <td class="taleft">{$vo.customer_name}</td>
                       <td class="taleft">{$vo.area|default=''}</td>
                       <td class="taleft">{$vo.room_type|default=''}</td> -->
@@ -131,18 +132,32 @@
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
 						{else/}
                             <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
-                            {if($admininfo['roleid'] != 10 && $vo['status'] >= 3 && $vo['status'] < 5)}
+                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22 && $vo['status'] >= 3 && $vo['status'] < 5)}
                                 <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
                             {/if}
                             {gt name="$vo['append_num']" value="0"}
     						  <a class="layui-btn layui-btn-xs layui-btn-normal" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
                             {/gt}
-                            {neq name="$admininfo['roleid']" value="10"}
+                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
                                 <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
-                            {/neq}
+                            {/if}
                             <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
-					   </td> 
+
+
+					   </td>
+                         <td>
+                             {if $vo.no_standard=="1"}
+                             <span  key="{$vo.id}" class="layui-btn layui-btn-xs  fbsh">提交审核</span>
+                             {elseif $vo.no_standard=="3" /}待审核
+                             {elseif $vo.no_standard=="4" /}待审核
+                             {elseif $vo.no_standard=="5" /}审核成功
+                             {elseif $vo.no_standard=="6" /}审核驳回
+                             {else/}无非标
+                             {/if}
+                         </td>
+
+
 						<td>
 							{switch name="$vo.status"}
 									{case value="0"} <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>{/case}
@@ -155,15 +170,25 @@
 									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
 							{/switch}
 						</td>
-                      <td class="taleft">{$vo.info.discount_proquant}</td>   
-                      <td class="taleft">{$vo.info.direct_cost}</td>   
-                      <td class="taleft">{$vo.info.matquant}</td>   
-                      <td class="taleft">{$vo.info.manual_quota}</td>   
-                      <td class="taleft">{if($vo['info']['discount_type']==2)}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{elseif ($vo['info']['discount_type']==3) /}<a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num}折/￥{$vo.info.discount_zk}</a>{else /}<a lay-event="set_discount" data-type="1" data-num="">设置优惠</a>{/if}</td>   
-                      <td class="taleft">{$vo.info.discount}</td> 
-                      <td class="taleft">{$vo.info.discount_content}</td> 
-                      <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>   
-                      <td class="taleft">{$vo.info.remark}</td>   
+                      <td class="taleft">{$vo.info.discount_proquant}</td>
+                      <td class="taleft">{$vo.info.direct_cost}</td>
+                      <td class="taleft">{$vo.info.matquant}</td>
+                      <td class="taleft">{$vo.info.manual_quota}</td>
+                      <td class="taleft">
+                            {if($vo['info']['discount_type']==2)}
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                            {elseif ($vo['info']['discount_type']==3) /}
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                            {elseif ($vo['info']['discount_type']==4) /}
+                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount_num}元</a>
+                            {else /}
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="1" data-num="">设置优惠</a>
+                            {/if}
+                        </td>
+                      <!-- <td class="taleft">{$vo.info.discount}</td> -->
+                      <td class="taleft">{$vo.info.discount_content}</td>
+                      <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
+                      <td class="taleft">{$vo.info.remark}</td>
                       <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>
                          {if $vo.cad_file!=''}
                          <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
@@ -174,14 +199,14 @@
                  {/foreach}
                 </tbody>
             </table>
-              
+
         </div>
     </div>
 </div>
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
      function add_tr(o){
@@ -202,7 +227,7 @@
      $("#imgInput").change(function(e){
        var fileMsg = e.currentTarget.files;
        var fileName = fileMsg[0].name;
-       var fileSize = Math.floor(((fileMsg[0].size)/1024))+'kb';     
+       var fileSize = Math.floor(((fileMsg[0].size)/1024))+'kb';
        var fileType = fileMsg[0].type;
        var _html = '<p>文件名：'+fileName+'</p><p>文件大小：'+fileSize+'</p><p>文件类型：'+fileType+'</p>'
          layer.tips(_html, '#imgs', {
@@ -211,7 +236,7 @@
           time: 5000
         });
        $("#imgs").html("<span style='color:green;position:absolute;top:-25px;right:-5px;font-size:20px'>✔</span>");
-    });       
+    });
     $("#tishi").click(function(){
       var content = '<p>这是我定义的说明<br />只能导入excel文件。其他后缀名不识别<br />下载空模板可以使用添加数据导入</p>';
       //自定页
@@ -232,7 +257,7 @@ layui.use('table', function(){
     var checkStatus = table.checkStatus(obj.config.id);
     var data = checkStatus.data;
     // var shujuzu = JSON.stringify(data);//json数据组
-    // layer.alert(JSON.stringify(data));return false;  
+    // layer.alert(JSON.stringify(data));return false;
     if (obj.event == 'getCheckData'){
       if(data.length == 0){
           layer.msg('请勾√选数据');
@@ -243,7 +268,7 @@ layui.use('table', function(){
            hezi += jsonObj[i]['id']+',';
          }
          hezi = hezi.substring(0, hezi.length - 1);//移除最后一个逗号
-        // layer.alert(hezi);return false;  
+        // layer.alert(hezi);return false;
           var box = '<div class="batchs"><span data-fieldval="type_of_work">工种</span><br /><span data-fieldval="project">工程项目</span><br /><span data-fieldval="company">单位</span><br /><span data-fieldval="cost_value">成本价值</span><br /><span data-fieldval="quota">报价定额</span><br /><span data-fieldval="craft_show">工艺说明</span><br /><span data-fieldval="material">工艺说明辅材明细</span></div>';
 
         //自定页
@@ -266,7 +291,7 @@ layui.use('table', function(){
               area: ['500px', '150px'], //宽高
               title: '输入修改<span style="color:green">'+fieldtext+'</span>字段内容',
               content: newcon
-            }); 
+            });
             $("#edit_batch").click(function(){
                 var xiugais = $(this).parents(".zidauns").find("input[name='valname']").val();
                 if (!xiugais){layer.msg('字段不能为空');return false}
@@ -289,7 +314,7 @@ layui.use('table', function(){
             });
 
         });
- 
+
        }
     }
 
@@ -331,7 +356,7 @@ layui.use('table', function(){
   //   layer.alert(newdata, {
   //     title: '当前行数据：'
   //   });
-    
+
   //   //标注选中样式
   //   obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
   // });
@@ -362,7 +387,7 @@ layui.use('table', function(){
                         title: '增减项',
                         area: ['600px', '500px'],
                         content:html
-                    }); 
+                    });
                     }else{
                         layer.msg(re.msg);return false;
                     }
@@ -449,17 +474,17 @@ layui.use('table', function(){
                             btn: ['提交', '取消'],
                             yes: function(index, layero){
                                 var addform = $('#editform').serializeArray();
-                                var datas = {};  
-                                $.each(addform, function() {  
-                                    if (datas[this.name]) {  
-                                        if (!datas[this.name].push) {  
-                                            datas[this.name] = [ datas[this.name] ];  
-                                        }  
-                                        datas[this.name].push(this.value || '');  
-                                    } else {  
-                                        datas[this.name] = this.value || '';  
-                                    } 
-                                });  
+                                var datas = {};
+                                $.each(addform, function() {
+                                    if (datas[this.name]) {
+                                        if (!datas[this.name].push) {
+                                            datas[this.name] = [ datas[this.name] ];
+                                        }
+                                        datas[this.name].push(this.value || '');
+                                    } else {
+                                        datas[this.name] = this.value || '';
+                                    }
+                                });
                                 datas['o_id'] = data.id;
                                 datas['tmp_id'] = tmp_id;
                                 $.post('/admin/quote/apennd_tmp_cost',datas,function(res){
@@ -474,7 +499,7 @@ layui.use('table', function(){
                             btn2: function(index, layero){
                                 layer.close(index);
                             },
-                            cancel: function(){ 
+                            cancel: function(){
                             //return false 开启该代码可禁止点击该按钮关闭
                             }
                         });
@@ -502,15 +527,15 @@ layui.use('table', function(){
                         $.post('/admin/offerlist/check_tmp_cost',{tmp_id:tmp_id,o_id:data.id},function(res){
                             if(res.code == 1){
                                 layer.msg(res.msg)
-                                setTimeout(function () { 
-                                    window.location.href = res.url; 
-                                }, 1000); 
+                                setTimeout(function () {
+                                    window.location.href = res.url;
+                                }, 1000);
                             }else{
                                 layer.msg(res.msg)
                             }
                         })
                     },
-                    cancel: function(){ 
+                    cancel: function(){
                     //return false 开启该代码可禁止点击该按钮关闭
                     }
                 });
@@ -518,7 +543,7 @@ layui.use('table', function(){
                     layer.msg(res.msg);
                 }
             },'json')
-            
+
         }else if(obj.event=== 'set_status'){
             if(data.status.indexOf("合同价") >= 0){
                 layer.msg('合同价禁止修改标签');
@@ -528,7 +553,7 @@ layui.use('table', function(){
                 layer.msg('结算价禁止修改标签');
                 return false;
             }
-            var html = 
+            var html =
                      '<div class="layui-form-item" style="margin-bottom:5px">'
                     + '     <label class="layui-form-label" style="line-height:25px">选择标签</label>'
                     + '     <div class="layui-input-block">'
@@ -551,12 +576,14 @@ layui.use('table', function(){
                     + '     <button type="button" class="layui-btn layui-btn-normal" data-id="'+data.id+'" id="set_status_submit">修改标签</button>'
                     + '     <button type="button" class="layui-btn close">取消</button>'
                     + '</div>';
-            layer.open({
-              title: '设置标签',
-              area: ['300px', '200px'], //宽高
-              type:1,
-              content: html
-            });
+
+                layer.open({
+                    title: '设置标签',
+                    area: ['300px', '200px'], //宽高
+                    type:1,
+                    content: html
+                });
+
             layui.use('upload', function(){
                 var upload = layui.upload;
                 upload.render({
@@ -593,9 +620,18 @@ layui.use('table', function(){
             }
             var type = $(data.discount_zk).data('type');
             var num = $(data.discount_zk).data('num');
+            var append = $(data.discount_zk).data('append');
+            var checked1 = '';
+            var checked2 = '';
+            if(append == 1){
+                checked1 = 'checked';
+            }else{
+                checked2 = 'checked';
+            }
             var option1 = '';
             var option2 = '';
             var option3 = '';
+            var option4 = '';
             if(type == 1){
                 option1 = 'selected';
             }
@@ -605,37 +641,88 @@ layui.use('table', function(){
             if(type == 3){
                 option3 = 'selected';
             }
+            if(type == 4){
+                option4 = 'selected';
+            }
+            console.log(type);
             var html = '';
             html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
-            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠方式：</label>'
+            html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">优惠方式：</label>'
             html +=   '     <div class="layui-input-block">'
             html +=   '          <select id="discount_type" style="height:25px;margin:10px;">'
             html +=   '               <option value="1" '+option1+'>不打折</option>'
             html +=   '               <option value="2" '+option2+'>整单打折</option>'
             html +=   '               <option value="3" '+option3+'>人工打折</option>'
+            html +=   '               <option value="4" '+option4+'>现金优惠</option>'
             html +=   '          </select>'
             html +=   '     </div>'
             html +=   '</div>'
-            html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
-            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠额度：</label>'
+            if(type == 1){
+                html +=   '<div class="layui-form-item" id="discount_show" style="margin-bottom:5px;display:none">'
+            }else{
+                html +=   '<div class="layui-form-item" id="discount_show" style="margin-bottom:5px">'
+            }
+            html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">优惠额度：</label>'
             html +=   '     <div class="layui-input-block">'
-            html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" /> %'
-            html +=   '          <span style="display:block">（若打9折，应输入90）</span>'
+            html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" />'
+            if(type == 4){
+                html +=   '          <span id="percent">元</span>'
+                html +=   '          <span id="discount_msg" style="display:block"></span>'
+            }else{
+                html +=   '          <span id="percent">%</span>'
+                html +=   '          <span id="discount_msg" style="display:block">（若打9折，应输入90）</span>'
+            }
             html +=   '     </div>'
             html +=   '</div>'
+
+            if(type == 1){
+                html +=   '<div class="layui-form-item" id="is_append" style="margin-bottom:5px;">'
+                html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">增加项是否优惠：</label>'
+                html +=   '     <div class="layui-input-block" style="line-height:43px">'
+                html +=   '          <label  style="margin-right:10px"><input name="discount_append" type="radio" value="1" '+checked1+' /> 优惠</label>'
+                html +=   '          <label><input name="discount_append" type="radio" value="2" '+checked2+' /> 不优惠</label>'
+                html +=   '     </div>'
+                html +=   '</div>'
+            }else{
+                html +=   '<div class="layui-form-item" id="is_append" style="margin-bottom:5px;display:block">'
+                html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">增加项是否优惠：</label>'
+                html +=   '     <div class="layui-input-block" style="line-height:43px">'
+                html +=   '          <label  style="margin-right:10px"><input name="discount_append" type="radio" value="1" '+checked1+' /> 优惠</label>'
+                html +=   '          <label><input name="discount_append" type="radio" value="2" '+checked2+' /> 不优惠</label>'
+                html +=   '     </div>'
+                html +=   '</div>'
+            }
             html +=   '<div style="text-align:center;" id="set_status_btn">'
             html +=   '     <button type="button" class="layui-btn layui-btn-normal" data-id="'+data.id+'" id="set_discount_submit">修改优惠</button>'
             html +=   '     <button type="button" class="layui-btn close">取消</button>'
             html +=   '</div>';
             layer.open({
                 title: '设置优惠',
-                area: ['300px', '200px'], //宽高
+                area: ['350px', '300px'], //宽高
                 type:1,
                 content: html
             });
         }
     });
 });
+//选择打折类型后 修改提示信息
+$(document).on('change','#discount_type',function(){
+    var type = $(this).val();
+    if(type == 1){
+        $('#discount_show').hide();
+        $('#is_append').hide();
+    }else{
+        $('#discount_show').show();
+        $('#is_append').show();
+    }
+    if(type == 4){
+        $('#percent').text('元');
+        $('#discount_msg').text('');
+    }else{
+        $('#percent').text('%');
+        $('#discount_msg').text('（若打9折，应输入90）');
+    }
+})
 $(document).on('click','.close',function(){
     layer.closeAll();
 })
@@ -670,7 +757,7 @@ $(document).on('click','#set_status_submit',function(){
                     window.location.reload();
                 }, 500);
                 return false;
-            }else{ 
+            }else{
                 layer.msg(res.msg);
                 return false;
             }
@@ -681,6 +768,7 @@ $(document).on('click','#set_discount_submit',function(){
     // layer.closeAll();
     var discount_type = $('#discount_type').val();
     var discount_num = $('#discount_num').val();
+    var discount_append = $(':radio[name="discount_append"]:checked').val();
     var id = $(this).data('id');
     var ex = /^\d+$/;
     if ((!ex.test(discount_num) || discount_num <= 0 || discount_num >100) && discount_type > 1) {
@@ -690,7 +778,7 @@ $(document).on('click','#set_discount_submit',function(){
         type : 'post',
         url  :  '{:url("offerlist/set_discount")}',
         dataType : 'json',
-        data : {id:id,discount_type:discount_type,discount_num:discount_num},
+        data : {id:id,discount_type:discount_type,discount_num:discount_num,discount_append:discount_append},
         success : function(res){
             if(res.code == 1){
                 layer.closeAll();
@@ -699,11 +787,32 @@ $(document).on('click','#set_discount_submit',function(){
                     window.location.reload();
                 }, 1000);
                 return false;
-            }else{ 
+            }else{
                 alert(res.msg);
                 return false;
             }
         }
+    });
+})
+</script>
+
+<script>
+$(function () {
+    $(document).on('click','.fbsh', function(){
+      var a=$(this).attr('key');
+        $.ajax({
+            type: "get",
+            url: "/admin/Offerlist/fbsh",
+            data: {key:a,status:3},
+            success: function (e) {
+                if(e.code == '0'){
+                    layer.msg('权限不足');
+                }
+                console.log(e);
+                window.location.reload();
+            },
+
+        })
     });
 })
 </script>

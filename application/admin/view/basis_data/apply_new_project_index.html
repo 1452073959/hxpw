@@ -121,6 +121,10 @@
                         <th class="" lay-data="{field:'name',width:200}">项目名称</th>
                         <th class="" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="" lay-data="{field:'content',width:300}">施工工艺与材料说明</th>
+                        {if($admininfo['userid'] == 1)}
+                            <th class="" lay-data="{field:'material',width:200}">所需辅材</th>
+                        {/if}
+                        <th class="" lay-data="{field:'fine_info',width:200}">所需辅材分类</th>
                         <th class="" lay-data="{field:'status',width:180}">状态</th>
                         <th class="" lay-data="{field:'addtime',width:180}">申请时间</th>
                         {if($admininfo['userid'] == 1)}
@@ -137,6 +141,19 @@
                             <td class="">{$vo.name}</td>
                             <td class="">{$vo.unit}</td>
                             <td class="">{$vo.content}</td>
+                            {if($admininfo['userid'] == 1)}
+                                <td class="">{$vo.material}</td>
+                            {/if}
+                            <td class="">
+                                {if( isset($vo['fine_info']))}
+                                    <?php foreach($vo['fine_info']['has'] as $k=>$v){
+                                        echo '<span style="margin:0 5px">'.$v.'</span>';
+                                    } ?>
+                                    <?php foreach($vo['fine_info']['nohas'] as $k=>$v){
+                                        echo '<span style="margin:0 5px;color:red">'.$v.'</span>';
+                                    } ?>
+                                {/if}
+                            </td>
                             <td class="">
                                 {if($vo['status'] == 2)}
                                     {if($admininfo['userid'] == 1)}
@@ -149,6 +166,7 @@
                                 {else /}
                                     <a style="color:red">待处理</a>
                                 {/if}
+                                <a style="color:blue" href="javascript:;" data-id="{$vo.id}" lay-event="del_fwarehouse">删除</a>
                             </td>
                             <td class="">{$vo.addtime}</td>
                             
@@ -159,6 +177,7 @@
                                         <a style="color:green" href="javascript:;" lay-event="bind_pproject">绑定</a>
                                     {else /}
                                         <a style="color:blue">已处理</a>
+                                        <a style="color:green" href="javascript:;" lay-event="change_bind">换绑</a>
                                     {/if}
                                 </td>
                                 <td>
@@ -177,7 +196,7 @@
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
 
@@ -187,7 +206,7 @@
         form.on('submit(add_projcet)', function(data){
             var go = 1;
             $.each(data.field,function(index,value){  //arrTmp数组数据
-                if(value == ''){
+                if(value == '' && index != 'material'){
                     alert('所填资料不能为空');
                     go = 0;
                     return false;
@@ -243,6 +262,37 @@
 
         table.on('tool(test3)',function(obj){
             var data = obj.data;
+            ///删除申请条目
+            if(obj.event == 'del_fwarehouse'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '确定删除选中条目吗',
+                        title:'删除报价',
+                        btn: ['确定','取消'],
+                        yes: function(index, layero){
+                            $.post('/admin/basis_data/del_new_project',{id:data.id},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　  window.location.reload()
+                                    },1000);
+                                    return false;
+                                }else{
+                                    layer.msg(res.msg);
+                                    return false;
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }); 
+            }
             //添加到公司仓库
             if(obj.event == 'add_fwarehouse'){
                 $.post('/admin/basis_data/get_public_project',{item_number:data.p_item_number},function(res){
@@ -293,7 +343,7 @@
                     html += '<div class="layui-form-item" style="margin:5px 0">'
                     html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工种类别：</label>'
                     html += '  <div class="layui-input-block" style="margin-left:85px">'
-                    html += '    <input type="text" name="" value="'+res.data.type_word_id+'" disabled autocomplete="off" class="layui-input">'
+                    html += '    <input type="text" name="" value="'+res.data.type_word+'" disabled autocomplete="off" class="layui-input">'
                     html += '  </div>'
                     html += '</div>'
 
@@ -358,7 +408,7 @@
                         var layer = layui.layer;
                         layer.open({
                             content: html,
-                            area:['400px', '800px'],
+                            area:['400px', '80%'],
                             title:'添加报价项目',
                             btn: ['取消'],
                             success:function(layero, index){
@@ -386,12 +436,44 @@
                     var layer = layui.layer;
                     layer.open({
                         content: '<input type="text" class="layui-input" placeholder="请输入项目编码" id="bind_item_number" value=""/>',
-                        title:'绑定辅材',
+                        title:'绑定项目',
                         btn: ['绑定', '取消'],
                         yes: function(index, layero){
                             var id = data.id;
                             var bind_item_number = $('#bind_item_number').val();
                             $.post('/admin/basis_data/bind_project',{id:id,item_number:bind_item_number},function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　window.location.reload()
+                                    },1000);
+                                }else{
+                                    alert(res.msg);
+                                }
+                            },'json')
+                        },
+                        btn2: function(index, layero){
+                            layer.close(index);
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
+            }
+
+            //绑定
+            if(obj.event == 'change_bind'){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        content: '<input type="text" class="layui-input" placeholder="请输入项目编码" id="change_bind_item_number" value=""/>',
+                        title:'换绑项目',
+                        btn: ['换绑', '取消'],
+                        yes: function(index, layero){
+                            var id = data.id;
+                            var change_bind_item_number = $('#change_bind_item_number').val();
+                            $.post('/admin/basis_data/bind_project',{id:id,item_number:change_bind_item_number},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
@@ -459,6 +541,13 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">所需辅材分类</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="material" placeholder="格式为：分类1-5,分类2-3,分类3-1" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">用料：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px;line-height:36px;">'
                 html += '    <a href="javascript:;:;" onclick="add_material(1)"><i style="font-size: 24px" class="layui-icon layui-icon-add-circle-fine"></i></a>'
@@ -505,7 +594,7 @@
              var type = 'edit_projcet';
         }
         // var type = '';
-        var option = '';
+        var option = '<option value=""></option>';
         var unit = '';
         <?php foreach($fines as $k=>$v){ ?>
             if(unit == ''){

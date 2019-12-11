@@ -189,7 +189,7 @@ display: block;
 {/block}
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
     function add_tr(o){
@@ -197,6 +197,7 @@ display: block;
         html += '       <td><input class="layui-input" name="name[]" /></td>'
         html += '       <td><input class="layui-input" name="unit[]" /></td>'
         html += '       <td><input class="layui-input" name="content[]" /></td>'
+        html += '       <td><input class="layui-input" name="material[]" /></td>'
         html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
         $('#apply_new tbody').append(html);
@@ -247,6 +248,7 @@ display: block;
                 html += '         <col width="200">'
                 html += '         <col width="100">'
                 html += '         <col width="300">'
+                html += '         <col width="250">'
                 html += '         <col width="30">'
                 html += '         <col>'
                 html += '     </colgroup>'
@@ -255,6 +257,7 @@ display: block;
                 html += '           <th>项目名称</th>'
                 html += '           <th>单位</th>'
                 html += '           <th>施工工艺与材料说明</th>'
+                html += '           <th>使用辅材明细</th>'
                 html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                 html += '       </tr> '
                 html += '     </thead>'
@@ -263,6 +266,7 @@ display: block;
                 html += '       <td><input class="layui-input" name="name[]" /></td>'
                 html += '       <td><input class="layui-input" name="unit[]" /></td>'
                 html += '       <td><input class="layui-input" name="content[]" /></td>'
+                html += '       <td><input class="layui-input" name="material[]" /></td>'
                 html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                 html += '     </tr>'
                 html += '     </tbody>'
@@ -270,9 +274,9 @@ display: block;
                 html += ' </form>'
                 layer.open({
                     content: html,
-                    title:'申请新辅材',
-                    area: ['680px', '580px'], //宽高
-                    btn: ['提交', '取消'],
+                    title:'申请新报价',
+                    area: ['780px', '80%'], //宽高
+                    btn: ['提交'],
                     yes: function(index, layero){
                         var addform = $('#formdatas').serializeArray();
                         var datas = {};  
@@ -294,9 +298,6 @@ display: block;
                             }
                         },'json')
                     },
-                    btn2: function(index, layero){
-                        layer.close(index);
-                    },
                     cancel: function(){ 
                     //return false 开启该代码可禁止点击该按钮关闭
                     }
@@ -304,9 +305,10 @@ display: block;
             }
         })
 
-        var ajax_true = 1;
+        
         //工具栏事件
         table.on('tool(test3)', function(obj){
+            var ajax_true = 1;
             var data = obj.data; //获得当前行数据
             if (obj.event == 'add'){
                 //获取细类
@@ -385,7 +387,7 @@ display: block;
                     var layer = layui.layer;
                     layer.open({
                         content: html,
-                        area:['400px', '600px'],
+                        area:['400px', '80%'],
                         title:'添加报价项目',
                         btn: ['取消'],
                         success:function(layero, index){
