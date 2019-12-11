@@ -1818,6 +1818,137 @@ class BasisData extends Adminbase{
         exit;
     }
 
+    //导出基础库报价 临时的
+    public function export1(){
+        //1.从数据库中取出数据
+        $data = Db::table('fdz_basis_project')->select();
+        $type_word_ids = array_unique(array_column($data,'type_word_id'));
+        $basis_type_work = Db::table('fdz_basis_type_work')->where(['id'=>$type_word_ids])->select();
+        $basis_type_work = array_column($basis_type_work,null,'id');
+        foreach ($data as $k=>$v){
+            $data[$k]['word'] = $basis_type_work[$v['type_word_id']]['name'];
+        }
+//        dump($data);die;
+        //2.加载PHPExcle类库
+        require '../extend/PHPExcel/PHPExcel.php';
+        //3.实例化PHPExcel类
+        $objPHPExcel = new \PHPExcel();
+        //4.激活当前的sheet表
+        $objPHPExcel->setActiveSheetIndex(0);
+        //5.设置表格头（即excel表格的第一行）
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '编码')
+            ->setCellValue('B1', '工种类别')
+            ->setCellValue('C1', '项目名称')
+            ->setCellValue('D1', '单位')
+            ->setCellValue('E1', ' 施工工艺与说明')
+            ->setCellValue('F1', ' 用料1');
+        //设置F列水平居中
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle('F')->getAlignment()
+            ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //设置单元格宽度
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(30);
+        $arrletter = array('F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS');//辅材基数字母
+        //6.循环刚取出来的数组，将数据逐一添加到excel表格。
+
+        $con = Db::view('basis_project', 'type_word_id')
+            ->view('basis_type_work', 'name', 'basis_project.type_word_id=basis_type_work.id')
+            ->select();
+//        dump($con);die;
+        // foreach ($data as $k => $v) {
+        //     $data[$k]['js'] = json_decode($v['fine'],true);
+        // }
+//        dump($data);die;
+//        dump($data);die;
+        for($i=0;$i<count($data);$i++){
+            $fine = $data[$i]['fine'];
+            $str = '';
+            if($fine && !empty($fine)){
+                $fine = json_decode($data[$i]['fine'],true);
+                foreach($fine as $k1=>$v1){
+                    foreach($v1 as $k2=>$v2){
+                        if($k2 == 'funit'){
+                            $str .= ' - ' . $v2 . '，';
+                        }else{
+                            $str .= $v2;
+                        }
+                    }
+                }
+            }
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.($i+2),$data[$i]['item_number']);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.($i+2),$data[$i]['word']);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.($i+2),$data[$i]['name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.($i+2),$data[$i]['unit']);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.($i+2),$data[$i]['content']);
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.($i+2),$str);
+        }
+        //7.设置保存的Excel表格名称
+        $filename = '报价信息'.date('ymd',time()).'.xls';
+        //8.设置当前激活的sheet表格名称；
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息');
+        //9.设置浏览器窗口下载表格
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$filename.'"');
+        //生成excel文件
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        //下载文件在浏览器窗口
+        $objWriter->save('php://output');
+        exit;
+    }
+
+    //导出申请的报价 临时的
+    public function export2(){
+        //1.从数据库中取出数据
+        $data = Db::name('apply_project')->where(['status'=>1])->order('fid','asc')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+//        dump($data);die;
+        //2.加载PHPExcle类库
+        require '../extend/PHPExcel/PHPExcel.php';
+        //3.实例化PHPExcel类
+        $objPHPExcel = new \PHPExcel();
+        //4.激活当前的sheet表
+        $objPHPExcel->setActiveSheetIndex(0);
+        //5.设置表格头（即excel表格的第一行）
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '项目名称')
+            ->setCellValue('B1', '单位')
+            ->setCellValue('C1', '施工工艺')
+            ->setCellValue('D1', '所需辅材')
+            ->setCellValue('E1', '分公司');
+        //设置F列水平居中
+        $objPHPExcel->setActiveSheetIndex(0)->getStyle('F')->getAlignment()
+            ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //设置单元格宽度
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
+        $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(30);
+        $arrletter = array('F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS');//辅材基数字母
+        //6.循环刚取出来的数组，将数据逐一添加到excel表格。
+        for($i=0;$i<count($data);$i++){
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.($i+2),$data[$i]['name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.($i+2),$data[$i]['unit']);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.($i+2),$data[$i]['content']);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.($i+2),$data[$i]['material']);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.($i+2),$frame[$data[$i]['fid']]['name']);
+        }
+        //7.设置保存的Excel表格名称
+        $filename = '报价信息'.date('ymd',time()).'.xls';
+        //8.设置当前激活的sheet表格名称；
+        $objPHPExcel->getActiveSheet()->setTitle('学生信息');
+        //9.设置浏览器窗口下载表格
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$filename.'"');
+        //生成excel文件
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        //下载文件在浏览器窗口
+        $objWriter->save('php://output');
+        exit;
+    }
+
 
     public function excel()
     {
