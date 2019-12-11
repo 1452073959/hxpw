@@ -49,12 +49,13 @@ class Offerlist extends Adminbase
         $id = input('id');
         $discount_type = input('discount_type');
         $discount_num = input('discount_num');
+        $discount_append = input('discount_append')?input('discount_append'):1;
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
         if($offerlist['status'] == 5){
             $this->error('结算价禁止修改');
         }
         if($discount_type == 4){
-            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>100,'discount'=>$discount_num]);
+            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>100,'discount'=>$discount_num,'discount_append'=>$discount_append]);
         }else{
             if($discount_type == 1){
                 //不打折
@@ -64,7 +65,7 @@ class Offerlist extends Adminbase
                     $this->error('优惠额度设置有误');
                 }
             }
-            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num,'discount'=>0]);
+            $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num,'discount'=>0,'discount_append'=>$discount_append]);
         }
         
         if($res){
@@ -763,7 +764,7 @@ class Offerlist extends Adminbase
         //统计报价开始 
         foreach ($res as $key => $value) {
             //判断是否有增减项
-            $res[$key]['info'] = Model('offerlist')->get_order_info($value['id']);
+            $res[$key]['info'] = Model('offerlist')->get_order_info($value['id'],2);
 
             $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
 

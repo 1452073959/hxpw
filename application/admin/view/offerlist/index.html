@@ -176,13 +176,13 @@
                       <td class="taleft">{$vo.info.manual_quota}</td>
                       <td class="taleft">
                             {if($vo['info']['discount_type']==2)}
-                                <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
                             {elseif ($vo['info']['discount_type']==3) /}
-                                <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
                             {elseif ($vo['info']['discount_type']==4) /}
-                            <a lay-event="set_discount" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount_num}元</a>
+                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount_num}元</a>
                             {else /}
-                                <a lay-event="set_discount" data-type="1" data-num="">设置优惠</a>
+                                <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="1" data-num="">设置优惠</a>
                             {/if}
                         </td>
                       <!-- <td class="taleft">{$vo.info.discount}</td> -->
@@ -620,6 +620,14 @@ layui.use('table', function(){
             }
             var type = $(data.discount_zk).data('type');
             var num = $(data.discount_zk).data('num');
+            var append = $(data.discount_zk).data('append');
+            var checked1 = '';
+            var checked2 = '';
+            if(append == 1){
+                checked1 = 'checked';
+            }else{
+                checked2 = 'checked';
+            }
             var option1 = '';
             var option2 = '';
             var option3 = '';
@@ -639,7 +647,7 @@ layui.use('table', function(){
             console.log(type);
             var html = '';
             html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
-            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠方式：</label>'
+            html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">优惠方式：</label>'
             html +=   '     <div class="layui-input-block">'
             html +=   '          <select id="discount_type" style="height:25px;margin:10px;">'
             html +=   '               <option value="1" '+option1+'>不打折</option>'
@@ -654,7 +662,7 @@ layui.use('table', function(){
             }else{
                 html +=   '<div class="layui-form-item" id="discount_show" style="margin-bottom:5px">'
             }
-            html +=   '     <label class="layui-form-label" style="line-height:25px">优惠额度：</label>'
+            html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">优惠额度：</label>'
             html +=   '     <div class="layui-input-block">'
             html +=   '          <input id="discount_num" value="'+num+'" class="layui-input" style="width:60px;display:inline" />'
             if(type == 4){
@@ -666,13 +674,31 @@ layui.use('table', function(){
             }
             html +=   '     </div>'
             html +=   '</div>'
+
+            if(type == 1){
+                html +=   '<div class="layui-form-item" id="is_append" style="margin-bottom:5px;">'
+                html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">增加项是否优惠：</label>'
+                html +=   '     <div class="layui-input-block" style="line-height:43px">'
+                html +=   '          <label  style="margin-right:10px"><input name="discount_append" type="radio" value="1" '+checked1+' /> 优惠</label>'
+                html +=   '          <label><input name="discount_append" type="radio" value="2" '+checked2+' /> 不优惠</label>'
+                html +=   '     </div>'
+                html +=   '</div>'
+            }else{
+                html +=   '<div class="layui-form-item" id="is_append" style="margin-bottom:5px;display:block">'
+                html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">增加项是否优惠：</label>'
+                html +=   '     <div class="layui-input-block" style="line-height:43px">'
+                html +=   '          <label  style="margin-right:10px"><input name="discount_append" type="radio" value="1" '+checked1+' /> 优惠</label>'
+                html +=   '          <label><input name="discount_append" type="radio" value="2" '+checked2+' /> 不优惠</label>'
+                html +=   '     </div>'
+                html +=   '</div>'
+            }
             html +=   '<div style="text-align:center;" id="set_status_btn">'
             html +=   '     <button type="button" class="layui-btn layui-btn-normal" data-id="'+data.id+'" id="set_discount_submit">修改优惠</button>'
             html +=   '     <button type="button" class="layui-btn close">取消</button>'
             html +=   '</div>';
             layer.open({
                 title: '设置优惠',
-                area: ['300px', '200px'], //宽高
+                area: ['350px', '300px'], //宽高
                 type:1,
                 content: html
             });
@@ -684,8 +710,10 @@ $(document).on('change','#discount_type',function(){
     var type = $(this).val();
     if(type == 1){
         $('#discount_show').hide();
+        $('#is_append').hide();
     }else{
         $('#discount_show').show();
+        $('#is_append').show();
     }
     if(type == 4){
         $('#percent').text('元');
@@ -740,6 +768,7 @@ $(document).on('click','#set_discount_submit',function(){
     // layer.closeAll();
     var discount_type = $('#discount_type').val();
     var discount_num = $('#discount_num').val();
+    var discount_append = $(':radio[name="discount_append"]:checked').val();
     var id = $(this).data('id');
     var ex = /^\d+$/;
     if ((!ex.test(discount_num) || discount_num <= 0 || discount_num >100) && discount_type > 1) {
@@ -749,7 +778,7 @@ $(document).on('click','#set_discount_submit',function(){
         type : 'post',
         url  :  '{:url("offerlist/set_discount")}',
         dataType : 'json',
-        data : {id:id,discount_type:discount_type,discount_num:discount_num},
+        data : {id:id,discount_type:discount_type,discount_num:discount_num,discount_append:discount_append},
         success : function(res){
             if(res.code == 1){
                 layer.closeAll();

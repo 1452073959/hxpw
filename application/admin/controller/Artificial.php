@@ -164,7 +164,7 @@ class Artificial extends Adminbase
 
         //统计报价开始 
         foreach($res as $k=>$v){
-            $res[$k]['order_info'] = Model('offerlist')->get_order_info($v['id']);
+            $res[$k]['order_info'] = Model('offerlist')->get_order_info($v['id'],2);
         }
         //用户信息
         $userinfo = Db::name('userlist')->where(['id'=>input('id')])->find();//客户信息

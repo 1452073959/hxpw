@@ -28,7 +28,7 @@ class Offerlist extends Model
                     // 打拆不打折
                     $no_discount['matquant'] += $values['quota']*$values['num'];//打拆辅材报价
                     $no_discount['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
-                }else if($values['oa_id'] != 0){
+                }else if($values['oa_id'] != 0 && $offerlist_info['discount_append'] == 2){
                     //增加项不打折
                     $no_discount['matquant'] += $values['quota']*$values['num'];//打拆辅材报价
                     $no_discount['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
@@ -153,18 +153,21 @@ class Offerlist extends Model
         //初始化优惠 减空会报错
         $offerlist_info['discount_zk'] = 0;//折扣优惠金额
         //暂定增加项不打折
-        // if($offerlist_info['discount_type'] == 2){
-        //     //整单打折
-        //     $offerlist_info['discount_zk'] = $offerlist_info['direct_cost'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
-
-        // }elseif($offerlist_info['discount_type'] == 3){
-        //     // 人工打折
-        //     $offerlist_info['discount_zk'] = $offerlist_info['manual_quota'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
-        // }else{
-        //     $offerlist_info['discount_zk'] = 0;
-        // }
-        // $offerlist_info['discount_zk'] = round($offerlist_info['discount_zk'],2);
-
+        if($offerlist_info['discount_type'] == 2){
+            //整单打折
+            $offerlist_info['discount_zk'] = $offerlist_info['direct_cost'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
+        }elseif($offerlist_info['discount_type'] == 3){
+            // 人工打折
+            $offerlist_info['discount_zk'] = $offerlist_info['manual_quota'] * (1-$offerlist_info['discount_num']/100);//折扣优惠金额
+        }else{
+            $offerlist_info['discount_zk'] = 0;
+        }
+        if($offerlist_info['discount_append'] == 2){
+            //增加项不打折
+            $offerlist_info['discount_zk'] = 0;
+        }else{
+             $offerlist_info['discount_zk'] = round($offerlist_info['discount_zk'],2);
+        }
         // $offerlist_info['discount'] = $offerlist_info['discount']?$offerlist_info['discount']:0;
         $offerlist_info['discount'] = 0;//增加项不算优惠
         $cost_all = 0;//其他费用总计
@@ -190,13 +193,13 @@ class Offerlist extends Model
         $offerlist_info['order_cost'] = $tmp_cost; //全部模板明细
         $offerlist_info['order_cost_all_price'] = $cost_all; //其他费用总计
 
-        //计算总人工成本
+        //计算总人工成本 (这个数据错的)
         $artificial = json_decode($offerlist_info['artificial'],true);
         $offerlist_info['artificial_cb'] = 0;
         foreach($artificial as $k=>$v){
             $offerlist_info['artificial_cb'] += ($v['num']*$v['cb']);//人工总成本
         }
-        //计算辅材成本
+        //计算辅材成本 (这个数据错的)
         $material = json_decode($offerlist_info['material'],true);
         $offerlist_info['material_cb'] = 0;
         foreach($material as $k=>$v){
