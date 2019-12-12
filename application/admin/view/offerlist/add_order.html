@@ -355,7 +355,7 @@
                     project += '</tr>'
 
                     $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().after(project);
-                    var top = $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
+                    var top = $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-300;
                     $("#datasform_div").animate({scrollTop:top},333);
                     layer.close(index);
                     return false;
@@ -932,7 +932,7 @@
         //判断当前工种下 空间是否存在
         if($('tr[data-space="'+word+'-'+space+'"]').length > 0){
             $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
-            var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
+            var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-300;
             $("#datasform_div").animate({scrollTop:top},333);
             
         }else{
@@ -951,7 +951,7 @@
             if($('tr[data-word="'+word+'"]').length > 0){
                 $('tr[data-inword="'+word+'"]').last().after(space_html);
                 $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().after(project);
-                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-300;
                 $("#datasform_div").animate({scrollTop:top},333);
             }else{
                 //不存在 添加工种
@@ -967,7 +967,7 @@
                 $('#project_datas').append(word_html);
                 $('tr[data-word="'+word+'"]').after(space_html);
                 $('tr[data-space="'+word+'-'+space+'"]').after(project);
-                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-40;
+                var top = $('tr[data-inspace="'+space+'"][data-inword="'+word+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-300;
                 $("#datasform_div").animate({scrollTop:top},333);
             }
         }
