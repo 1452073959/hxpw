@@ -18,9 +18,15 @@ class Offerlist extends Model
             $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
         }
         $offerlist_info['artificial_cb'] = 0;
+        $offerlist_info['design'] = [];
         $no_discount = ['matquant'=>0,'manual_quota'=>0];//打拆工程
         if(is_array($content)){
             foreach($content as $keys => $values){
+                if(strpos($values['project'],'设计费') !== false){
+                    $offerlist_info['design'][] = $values;
+                    unset($content[$keys]);
+                    continue;
+                }
                 $offerlist_info['matquant'] += $values['quota']*$values['num'];//辅材报价
                 $offerlist_info['manual_quota'] += $values['craft_show']*$values['num'];//人工报价
                 $offerlist_info['artificial_cb'] += $values['labor_cost']*$values['num'];//人工成本

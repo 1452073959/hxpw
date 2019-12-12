@@ -255,10 +255,14 @@ class Offerlist extends Adminbase
                 'order_project'=>$order_project,
             ]);
         }
+
+        //获取当前用户分公司名称
+        $f_name = Db::name('frame')->where(['id'=>$this->_userinfo['companyid']])->value('name');
         $this->assign([
             'offer_type'=>$offer_type,
             'customer_info'=>$customer_info,
             'tmp_cost'=>$tmp_cost,
+            'f_name'=>$f_name,
         ]);
         if($customer_info['is_new'] == 9){
             //旧客户 可以改单价
@@ -905,8 +909,14 @@ class Offerlist extends Adminbase
         //===========获取工种结束
         $datas = [];
         $item_number = [];
+        $design = [];
         if(input('word') == 1){
             foreach($order_project as $k=>$v){
+                if(strpos($v['project'],'设计费') !== false){
+                    $design[] = $v;
+                    unset($order_project[$k]);
+                    continue;
+                }
                 if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
                     $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
                     $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
@@ -917,6 +927,11 @@ class Offerlist extends Adminbase
             }
         }else{
             foreach($order_project as $k=>$v){
+                if(strpos($v['project'],'设计费') !== false){
+                    $design[] = $v;
+                    unset($order_project[$k]);
+                    continue;
+                }
                 if(!isset($datas[$v['space']][$v['item_number']])){
                     $datas[$v['space']][$v['item_number']]['info'] = $v;
                     $datas[$v['space']][$v['item_number']]['num'] = 0;
@@ -949,6 +964,7 @@ class Offerlist extends Adminbase
             'offerlist_info'=>$offerlist_info,
             'cost_tmp'=>$cost_tmp,
             'type'=>$type,
+            'design'=>$design,
         ]);
         return $this->fetch();
     }

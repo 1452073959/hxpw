@@ -359,6 +359,15 @@ th{
                                         <td></td>
                                     </tr>
                             <?php }  ?>
+                            {notempty name="design"}
+                                {foreach name="$design" key="k" item="v"}
+                                    <tr>
+                                        <td class="text-left" colspan="2">{$v['project']}</td>
+                                        <td colspan="6">{$v['craft_show']*$v['num']}</td>
+                                        <td>{$v['material']}</td>
+                                    </tr>
+                                {/foreach}
+                            {/notempty}
                             
                             
                             {notempty name="cost_tmp['order_tfoot']"}
