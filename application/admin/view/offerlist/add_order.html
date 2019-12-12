@@ -92,6 +92,9 @@
     #project_datas input{
         min-width: 60px;
     }
+    .color_one{
+        background: #fff7df;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -920,7 +923,7 @@
         project += '<tr class="project" data-inword="'+word+'" data-inspace="'+space+'">';
         project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
         project += '<td>'+data.item_number+'</td>';
-        project += '<td>'+data.project+'</td>';
+        project += '<td class="color_one">'+data.project+'</td>';
         project += '<td><input type="text" class="layui-input height26" data-project="'+space+'-'+data.item_number+'" name="data['+space+']['+data.item_number+']" /></td>';
         project += '<td>'+data.company+'</td>';
         project += '<td>'+data.quota+'</td>';
@@ -1105,6 +1108,7 @@
         $('.word[data-word="'+word+'"]').find('td').eq(3).text(word_artificial_total.toFixed(2));
         $('.word[data-word="'+word+'"]').find('td').eq(5).text(word_material_total.toFixed(2));
         save_order();
+        $(this).parent().parent().find('td').eq(2).removeClass('color_one');
     })
     //======================价格统计end
 
