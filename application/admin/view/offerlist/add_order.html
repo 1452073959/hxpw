@@ -95,6 +95,14 @@
     .color_one{
         background: #fff7df;
     }
+    .sort{
+        width:20px;
+        min-width:20px !important;
+        text-align: center;
+    }
+    .layui-table-sort{
+        margin-left: 0px;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -221,7 +229,7 @@
                         {notempty name="data"}
                             <?php $k1 = '所有工种'; ?>
                             <tr class="word" data-word="{$k1}" data-inword="{$k1}">
-                                <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td colspan="4" style="text-align: left;padding-left:10px">{$k1}</td>
+                                <td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td><td colspan="4" style="text-align: left;padding-left:10px">{$k1}</td>
                                 <td colspan="1"></td><td class="word_material_total" colspan="1"></td><td colspan="1"></td><td class="word_artificial_total" colspan="1"></td>
                             </tr>
                                 <?php $k1 = '所有工种'; ?>
@@ -240,7 +248,7 @@
                                                 <input type="hidden" class="aprice" name="no_standard[{$k2}][{$k3}][aprice]" value="{$order_project[$k3]['craft_show']}" />
                                                 <input type="hidden" class="content" name="no_standard[{$k2}][{$k3}][content]" value="{$order_project[$k3]['material']}" />
                                             {/if}
-                                            <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>
+                                            <td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>
                                             <td>{if($order_project[$k3]['type_of_work'] == '非标报价')}<span style="color:red">非标</span>{else/}{$k3}{/if}</td>
                                             <td>{$order_project[$k3]['project']}</td>
                                             <td><input type="text" class="layui-input height26" value="{$v3 ?: 0}" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
@@ -346,7 +354,7 @@
                     project += '<input type="hidden" class="mprice" name="no_standard['+space+']['+math_num+'][mprice]" value="'+mprice+'" />';
                     project += '<input type="hidden" class="aprice" name="no_standard['+space+']['+math_num+'][aprice]" value="'+aprice+'" />';
                     project += '<input type="hidden" class="content" name="no_standard['+space+']['+math_num+'][content]" value="'+content+'" />';
-                    project += '    <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
+                    project += '    <td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>'
                     project += '    <td><span style="color:red">非标</span></td>'
                     project += '    <td>'+name+'</td>'
                     project += '    <td><input type="text" class="layui-input height26" data-project="'+space+'-'+math_num+'" name="data['+space+']['+math_num+']"></td>'
@@ -361,6 +369,8 @@
                     var top = $('tr[data-inspace="'+space+'"][data-inword="'+work_type+'"]').last().offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop()-300;
                     $("#datasform_div").animate({scrollTop:top},333);
                     layer.close(index);
+                    set_sort();
+                    save_order();
                     return false;
                     
                 },
@@ -389,8 +399,8 @@
                         var project = $(v).clone();
                         $(project).attr('data-inspace',target_space);
                         // console.log($(project).find('input').attr('data-project'));
-                        $(project).find('td input').attr('data-project',$(project).find('td input').attr('data-project').replace(this_space,target_space));
-                        $(project).find('td input').attr('name',$(project).find('td input').attr('name').replace(this_space,target_space));
+                        $(project).find('td input').not('.sort').attr('data-project',$(project).find('td input').not('.sort').attr('data-project').replace(this_space,target_space));
+                        $(project).find('td input').not('.sort').attr('name',$(project).find('td input').not('.sort').attr('name').replace(this_space,target_space));
                         var item_number = $(project).find('td').eq(1).text();
 
                         if($(project).find('input[class="name"]').attr('name')){
@@ -446,7 +456,7 @@
                                 //不存在 添加工种
                                 var word_html = '';
                                 word_html += '<tr class="word" data-word="'+work_type+'" data-inword="'+work_type+'">';
-                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                                 word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+work_type+'</td>';
                                 word_html += '<td colspan="1"></td>';
                                 word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -458,6 +468,8 @@
                                 $('tr[data-space="'+work_type+'-'+target_space+'"]').after(project);
                             }
                         }
+                        set_sort();
+                        save_order();
                     })
                     layer.close(index);
                     
@@ -582,7 +594,7 @@
             }); 
             return false;
         }
-        
+        set_sort();
         save_order();//临时保存订单
     })
 
@@ -670,7 +682,7 @@
             }); 
             return false;
         }
-        $('#project_datas input').each(function(k,v){
+        $('#project_datas input').not('.sort').each(function(k,v){
             if($(v).val() == ''){
                 var word = $(v).parent().parent().attr('data-inword');
                 var project = $(v).attr('data-project');
@@ -768,7 +780,7 @@
                     //不要工种分类
                     v.work_type = '所有工种';
                     project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
-                    project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                    project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                     project += '<td>'+v.item_number+'</td>';
                     project += '<td>'+offerquota[v.item_number]['project']+'</td>';
                     project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
@@ -801,7 +813,7 @@
                             //不存在 添加工种
                             var word_html = '';
                             word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
-                            word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                            word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                             word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
                             word_html += '<td colspan="1"></td>';
                             word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -820,6 +832,8 @@
                 }else{
                     layer.msg('导入成功');
                 }
+                set_sort();
+                save_order();
                 initialize_datas();
                 // $('#seach_datas').append(html);
             }else{
@@ -921,7 +935,7 @@
         //加入右边报价表
         var project = '';
         project += '<tr class="project" data-inword="'+word+'" data-inspace="'+space+'">';
-        project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+        project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
         project += '<td>'+data.item_number+'</td>';
         project += '<td class="color_one">'+data.project+'</td>';
         project += '<td><input type="text" class="layui-input height26" data-project="'+space+'-'+data.item_number+'" name="data['+space+']['+data.item_number+']" /></td>';
@@ -960,7 +974,7 @@
                 //不存在 添加工种
                 var word_html = '';
                 word_html += '<tr class="word" data-word="'+word+'" data-inword="'+word+'">';
-                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                 word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+word+'</td>';
                 word_html += '<td colspan="1"></td>';
                 word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -974,6 +988,7 @@
                 $("#datasform_div").animate({scrollTop:top},333);
             }
         }
+        set_sort();
         save_order();//临时保存订单
     })
 
@@ -999,7 +1014,7 @@
                 }
             });
         }); 
-        
+        set_sort();
     })
 
     //删除报价单项目
@@ -1015,6 +1030,7 @@
         }else if(type == 'project'){
             // var msg = '确定要删除选中项目吗？';
             $(this).parent().parent().remove();
+            set_sort();
             initialize_datas()
             save_order();
             return false;
@@ -1037,6 +1053,7 @@
                         $('tr[data-inspace="'+inspace+'"]').remove();
                     }
                     save_order();
+                    set_sort();
                     initialize_datas();
                     layer.close(index);
 
@@ -1152,6 +1169,47 @@
 
         })
     }
+    //排序
+    function set_sort(){
+        var i = 1;
+        var space = '';
+        var old_space = '';
+        $('.project').each(function(k,v){
+            old_space = $(v).data('inspace');
+            if(space == old_space){
+                i++;
+                $(v).find('.sort').val(i);
+                $(v).find('.sort').attr('bj',i);
+            }else{
+                space = old_space;
+                i = 1;
+                $(v).find('.sort').val(i);
+                $(v).find('.sort').attr('bj',i);
+            }
+        })
+    }
+    $(document).on('change','.sort',function(){
+        var data_tr = $(this).parent().parent().parent();//获取本身的tr
+        var num = $(this).val();//目标位置
+        var old_num = $(this).attr('bj');//目标位置
+        var space = $(data_tr).attr('data-inspace');
+        var i = 0;
+        $('.project[data-inspace="'+space+'"]').each(function(k,v){
+            if($(v).find('.sort').val() == num){
+                if(num > old_num){
+                    $(data_tr).insertAfter($(v)); //将本身插入到目标tr的前面 
+                }else{
+                    $(data_tr).insertBefore($(v)); //将本身插入到目标tr的前面 
+                }
+                
+            }
+        })
+        // var top = $("#datasform_div").scrollTop() + ($(data_tr).next().height()+$(data_tr).height())/2*num;
+        var top = data_tr.offset().top - $("#datasform_div").offset().top + $("#datasform_div").scrollTop() -200;
+        $("#datasform_div").animate({scrollTop:top},333);
+        set_sort();
+        save_order();
+    })
 
     $(function(){
 
@@ -1198,7 +1256,7 @@
                             project += ' <input type="hidden" class="mprice" name="no_standard['+v.space+']['+v.item_number+'][mprice]" value="'+no_standard[v.item_number]['mprice']+'" />';
                             project += ' <input type="hidden" class="aprice" name="no_standard['+v.space+']['+v.item_number+'][aprice]" value="'+no_standard[v.item_number]['aprice']+'" />';
                             project += ' <input type="hidden" class="content" name="no_standard['+v.space+']['+v.item_number+'][content]" value="'+no_standard[v.item_number]['content']+'" />';
-                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                             project += '<td><span style="color:red">非标</span></td>';
                             project += '<td>'+no_standard[v.item_number]['name']+'</td>';
                             project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
@@ -1209,7 +1267,7 @@
                             project += '<td></td>';
                             project += '</tr>';
                         }else{
-                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                            project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                             project += '<td>'+v.item_number+'</td>';
                             project += '<td>'+offerquota[v.item_number]['project']+'</td>';
                             project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
@@ -1244,7 +1302,7 @@
                                 //不存在 添加工种
                                 var word_html = '';
                                 word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
-                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>';
+                                word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                                 word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
                                 word_html += '<td colspan="1"></td>';
                                 word_html += '<td class="word_material_total" colspan="1"></td>';
@@ -1257,8 +1315,10 @@
                             }
                         }
                     })
+                    set_sort();
                     initialize_datas();
                 }else{
+                    set_sort();
                     initialize_datas();
                     console.log('no temporary order');
                 }
@@ -1271,7 +1331,6 @@
         var item= $('#sel').val();
         if(item!=''){
             $("#space_ul li").each(function (index,element ) {
-                console.log($(this).text());
                 if($(this).text().indexOf(item) != -1){
                     $(this).show();
                 }else {
@@ -1292,6 +1351,18 @@
                 $('#space_ul li[data-val="'+space_name+'"]').trigger("click");
             }
         })
+    })
+    //监听键盘
+    $(document).on('keydown','.project input',function(event){
+        if(event.keyCode == 13 || event.keyCode == 40 ){
+            console.log(event.keyCode);
+            var tr = $(this).parent().parent().nextAll('.project').eq(0).find('input').not('.sort').eq(0).select();
+            return false;
+        }
+        if(event.keyCode == 38 ){
+            var tr = $(this).parent().parent().prevAll('.project').eq(0).find('input').not('.sort').eq(0).select();
+            return false;
+        }
     })
 </script>
 {/block}
