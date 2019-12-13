@@ -1975,13 +1975,14 @@ class Offerlist extends Adminbase
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
         $ty = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->value('type');
+        $room_type = $userinfo['room_type']?$userinfo['room_type']:'住宅';
        if($ty==1){
            $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
                     <thead>
                         <tr>
                             <th rowspan="2" colspan="3" style="text-align: center;font-size:25px">华浔品味装饰</th>
-                            <th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
+                            <th class="text-center text-large" colspan="5"><h3>'.$room_type.'装饰工程造价预算书</h3></th>
                             <th rowspan="2" colspan="1"></th>
                         </tr>
                         <tr>
@@ -2021,7 +2022,7 @@ class Offerlist extends Adminbase
                     <thead>
                         <tr>
                             <th rowspan="2" colspan="3" style="text-align: center;font-size:25px">华浔品味装饰</th>
-                            <th class="text-center text-large" colspan="5"><h3>住宅装饰工程造价预算书</h3></th>
+                            <th class="text-center text-large" colspan="5"><h3>'.$room_type.'装饰工程造价预算书</h3></th>
                             <th rowspan="2" colspan="1"></th>
                         </tr>
                         <tr>
