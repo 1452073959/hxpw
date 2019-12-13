@@ -34,7 +34,7 @@
                 <label class="layui-form-label">工程地址<i class="bred">*</i></label>
                 <div class="layui-input-inline">
                     <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
-                        <option value="">请选择地址</option>
+                        <option value=""></option>
                         {foreach $provinces as $k=>$v } 
                             <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
                         {/foreach}
@@ -60,7 +60,7 @@
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="manager_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">可手动输入后选择</option>
+                        <option value=""></option>
                         {foreach $manager_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
@@ -72,7 +72,7 @@
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">可手动输入后选择</option>
+                        <option value=""></option>
                         {foreach $quoter_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
@@ -84,7 +84,7 @@
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="designer_id" lay-filter="" lay-verify="required" lay-search>
-                        <option value="">可手动输入后选择</option>
+                        <option value=""></option>
                         {foreach $designer_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}
