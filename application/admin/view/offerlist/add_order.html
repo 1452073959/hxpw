@@ -1356,11 +1356,11 @@
     $(document).on('keydown','.project input',function(event){
         if(event.keyCode == 13 || event.keyCode == 40 ){
             console.log(event.keyCode);
-            var tr = $(this).parent().parent().nextAll('.project').eq(0).find('input').not('.sort').eq(0).select();
+            var tr = $(this).parent().parent().nextAll('.project').eq(0).find('input').not('.sort').not('.no_standard').select();
             return false;
         }
         if(event.keyCode == 38 ){
-            var tr = $(this).parent().parent().prevAll('.project').eq(0).find('input').not('.sort').eq(0).select();
+            var tr = $(this).parent().parent().prevAll('.project').eq(0).find('input').not('.sort').not('.no_standard').select();
             return false;
         }
     })
