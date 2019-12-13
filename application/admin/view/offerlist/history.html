@@ -320,7 +320,7 @@ th{
                                 <tr>
                                     <td class="text-left" colspan="2">工程优惠</td>
                                     <td colspan="6">{$offerlist_info['discount_zk']}</td>
-                                    <td>{if($offerlist_info['discount_type'] == 2)}整单{else /}人工{/if}{$offerlist_info.discount_num/10}折</td>
+                                    <td>{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/if}
@@ -334,7 +334,7 @@ th{
                                 <tr>
                                     <td class="text-left" colspan="2">工程优惠</td>
                                     <td colspan="6">{$offerlist_info['discount']}</td>
-                                    <td>现金优惠{$offerlist_info['discount']}元</td>
+                                    <td>{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/notempty}

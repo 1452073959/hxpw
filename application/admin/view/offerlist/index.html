@@ -180,7 +180,7 @@
                             {elseif ($vo['info']['discount_type']==3) /}
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
                             {elseif ($vo['info']['discount_type']==4) /}
-                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount_num}元</a>
+                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount}元</a>
                             {else /}
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="1" data-num="">设置优惠</a>
                             {/if}
@@ -771,8 +771,9 @@ $(document).on('click','#set_discount_submit',function(){
     var discount_append = $(':radio[name="discount_append"]:checked').val();
     var id = $(this).data('id');
     var ex = /^\d+$/;
-    if ((!ex.test(discount_num) || discount_num <= 0 || discount_num >100) && discount_type > 1) {
+    if ((!ex.test(discount_num) || discount_num <= 0 || discount_num >100) && discount_type > 1 && discount_type != 4) {
         alert('折扣输入有误');
+        return false;
     }
     $.ajax({
         type : 'post',
