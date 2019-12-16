@@ -94,27 +94,18 @@
                 <thead >
                     <tr>
                         <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
-                        <!-- <th class="taleft" lay-data="{field:'customer_name',width:150}">客户姓名</th>
-                        <th class="taleft" lay-data="{field:'area',width:60}">面积</th>
-                        <th class="taleft" lay-data="{field:'room_type',width:100}">房屋类型</th>  -->
                         <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
                         <th class="taleft" lay-data="{field:'manager_name',width:100}">非标</th>
 						<th class="taleft" lay-data="{field:'status',width:110,{neq name="$admininfo['roleid']" value="10"}event:'set_status'{/neq}}">状态</th>
-                        <!-- <th class="taleft" lay-data="{field:'address',width:250}">工程地址</th> -->
-                        <!-- <th class="taleft" lay-data="{field:'manager_name',width:100}">客户经理</th> -->
-                        <!-- <th class="taleft" lay-data="{field:'quoter_name',event: 'setSign',}">报价师姓名</th> -->
-                        <!-- <th class="taleft" lay-data="{field:'designer_name',}">设计师姓名</th> -->
                         <th class="taleft" lay-data="{field:'proquant',width:120}">工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:120 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
-                        <!-- <th class="taleft" lay-data="{field:'tubemoney',width:100,edit:'text' }">管理费</th>
-                        <th class="taleft" lay-data="{field:'taxes',width:100,edit:'text' }">税金</th> -->
                         <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
-                        <!-- <th class="taleft" lay-data="{field:'discount',edit:'text',width:100}">金额优惠</th> -->
                         <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">金额优惠说明</th>
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th>
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
+                        <th class="taleft" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
                         <th class="taleft" lay-data="{field:'cad',width:100}">图纸</th>
                     </tr>
@@ -124,9 +115,6 @@
                   {foreach name="data" item="vo"}
                      <tr>
                       <td class="taleft">{$vo.id}</td>
-                      <!-- <td class="taleft">{$vo.customer_name}</td>
-                      <td class="taleft">{$vo.area|default=''}</td>
-                      <td class="taleft">{$vo.room_type|default=''}</td> -->
                       <td class="taleft">
 						{eq name=":input('type')" value="edit"}
 						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
@@ -141,7 +129,6 @@
                             {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
                                 <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
                             {/if}
-                            <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="show_append">查看增减项</a> -->
 						{/eq}
 
 
@@ -189,6 +176,7 @@
                       <td class="taleft">{$vo.info.discount_content}</td>
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
                       <td class="taleft">{$vo.info.remark}</td>
+                      <td class="taleft">查看/设置</td>
                       <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>
                          {if $vo.cad_file!=''}
                          <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
@@ -644,7 +632,6 @@ layui.use('table', function(){
             if(type == 4){
                 option4 = 'selected';
             }
-            console.log(type);
             var html = '';
             html +=   '<div class="layui-form-item" style="margin-bottom:5px">'
             html +=   '     <label class="layui-form-label" style="line-height:25px;width:130px">优惠方式：</label>'
@@ -702,6 +689,48 @@ layui.use('table', function(){
                 type:1,
                 content: html
             });
+        }else if(obj.event == 'o_remark'){
+
+            $.post('/admin/offerlist/set_o_remark',{oid:data.id},function(res){
+                if(res.code == 1){
+                    var html = '';
+                    html += '<textarea id="o_remark" style="margin:5px;padding:5px;width:320px;height:230px">'
+                    html += res.data
+                    html += '</textarea>'
+                    // layer.open({
+                    //     title: '设置优惠',
+                    //     area: ['350px', '300px'], //宽高
+                    //     type:1,
+                    //     content: html
+                    // });
+                    layer.open({
+                        content: html,
+                        area:['400px', '390px'], //宽高
+                        title:'设置报价单底部备注',
+                        btn: ['修改','取消'],
+                        success:function(layero, index){
+                            
+                        },
+                        yes: function(index, layero){
+                            $.post('/admin/offerlist/set_o_remark',{oid:data.id,o_remark:$('#o_remark').val()},function(res){
+                                if(res.code == 1){
+                                    layer.close(index);
+                                    return false;
+                                }else{
+                                    alert('修改失败');
+                                }
+                            })
+                            
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json');
+            
         }
     });
 });

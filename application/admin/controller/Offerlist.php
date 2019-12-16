@@ -33,6 +33,18 @@ class Offerlist extends Adminbase
     public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
     public $show_page = 15;
 
+    //获取报价单(打印的最下面)备注
+    public function set_o_remark(){
+        $oid = input('oid');
+        $o_remark = input('o_remark');
+        if($o_remark){
+            Db::name('offerlist')->where(['id'=>$oid])->update(['o_remark'=>$o_remark]);
+        }else{
+            $o_remark = Db::name('offerlist')->where(['id'=>$oid])->value('o_remark');
+        }
+        $this->success('success','',$o_remark);
+    }
+
     //获取订单提成明细
     public function get_commission_info(){
         $o_id = input('o_id');
