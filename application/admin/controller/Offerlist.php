@@ -2180,6 +2180,11 @@ class Offerlist extends Adminbase
                    <td></td>
                </tr>';
         //一串字
+        if($order_info['o_remark']){
+            $str .= '<tr>
+                    <td colspan="9" style="text-align: left">'.$order_info['o_remark'].'</td>
+                </tr>';
+        }
         if($cost_tmp['order_tfoot']){
             foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){
                 $str .= '<tr>

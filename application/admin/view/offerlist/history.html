@@ -369,7 +369,11 @@ th{
                                 {/foreach}
                             {/notempty}
                             
-                            
+                            {notempty name="order_info['o_remark']"}
+                                <tr>
+                                    <td colspan="9" style="text-align: left;"><textarea readonly style="width: 100%;">{$order_info['o_remark']|raw}</textarea></td>
+                                </tr>
+                            {/notempty}
                             {notempty name="cost_tmp['order_tfoot']"}
                                 <?php foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){ ?>
                                     <tr>
@@ -453,6 +457,21 @@ th{
             bootstrap: false,
         });
     });
+    function readyNumber() { 
+      $('textarea').each(function () {
+          this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+          this.style.width = '100%';
+          this.style.border = 'none';
+          this.style.resize = 'none';
+      }).on('input', function () {
+          this.style.height = 'auto';
+          this.style.height = (this.scrollHeight) + 'px';
+          this.style.width = '100%';
+          this.style.border = 'none';
+          this.style.resize = 'none';
+      })
+    }
+    readyNumber()
 </script>
 
 {/block}
