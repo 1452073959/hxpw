@@ -2390,6 +2390,9 @@ class BasisData extends Adminbase{
 
     //逆转换 辅材
     public function set_fm(){
+        echo '功能禁用';
+        return false;
+        die;
         if(input('fid')){
             $fid = input('fid');
         }else{
@@ -2444,6 +2447,9 @@ class BasisData extends Adminbase{
 
     //逆转换 项目
     public function set_fp(){
+        echo '功能禁用';
+        return false;
+        die;
         if(input('fid')){
             $fid = input('fid');
         }else{
