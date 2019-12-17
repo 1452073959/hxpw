@@ -32,7 +32,7 @@ class Offerquota extends Adminbase
     {
         $userinfo = $this->_userinfo; 
         $where = [];
-        $da['userid'] = $userinfo['userid'];
+        // $da['userid'] = $userinfo['userid'];
         if (!empty(input('item_number'))) {
             $where[] = ['item_number','like',"%".input('item_number')."%"];
         }
@@ -44,7 +44,7 @@ class Offerquota extends Adminbase
             $where[] = ['type_of_work','like',"%".input('type_of_work')."%"];
         }
 
-        $res = Db::name('Offerquota')->where($da)->where($where)->paginate(20,false,['query'=>request()->param()]);
+        $res = Db::name('Offerquota')->where($where)->paginate(20,false,['query'=>request()->param()]);
         $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
         $type_of_work=Db::name('offerquota')->group('type_of_work')->select();
 

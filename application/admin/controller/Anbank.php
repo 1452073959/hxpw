@@ -33,7 +33,7 @@ class Anbank extends Adminbase
     {
        $userinfo = $this->_userinfo; 
        $da = new Where();
-       $da['userid'] = $userinfo['userid'];
+       // $da['userid'] = $userinfo['userid'];
         $query = [];
         if(!empty(input('search'))){
           	$da['name'] = [ 'LIKE','%'.input('search').'%' ];

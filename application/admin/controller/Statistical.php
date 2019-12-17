@@ -367,4 +367,44 @@ class Statistical extends Adminbase
             return $http.$_SERVER['HTTP_HOST']."/static/imgs/logo1.png";
         }
     }
+    public function fz(){
+        $a= Db::table('fdz_offerquota')->where('frameid',152)->select();
+        $b= Db::table('fdz_materials')->where('frameid',152)->select();
+        Db::startTrans();
+        try {
+            foreach ($a as $k=>$v){
+                unset($v['id']);
+                $v['frameid']=153;
+                $v['userid']=1440;
+                $v['time']=date('Y-m-d H:i:s', time());
+                $res=  Db::table('fdz_offerquota')->insertGetId($v);
+                if ($res) {
+                    $re=$v['item_number'] . '_' . $res;
+                    Db::table('fdz_offerquota')->where(['id' => $res])->update(['item_number' => $re]);
+                }else{
+                    throw new \think\Exception('报价添加失败', 10006);
+                }
+            }
+            echo 1;
+            foreach ( $b as $k=>$v){
+                unset($v['id']);
+                $v['frameid']=153;
+                $v['userid']=1440;
+                $res=  Db::table('fdz_materials')->insertGetId($v);
+                if($res){
+                    $re=$v['amcode'] . '_' . $res;
+                    Db::table('fdz_materials')->where(['id' => $res])->update(['amcode' => $re]);
+                    
+                }else{
+                    throw new \think\Exception('辅材添加失败', 10006);
+                }
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        echo 'ok';
+            
+    }
 }
