@@ -2387,4 +2387,120 @@ class BasisData extends Adminbase{
         $objWriter->save('php://output');
         exit;
     }
+
+    //逆转换 辅材
+    public function set_fm(){
+        if(input('fid')){
+            $fid = input('fid');
+        }else{
+            $fid = 153;//白云
+        }
+        $materials = Db::name('materials')->where(['frameid'=>$fid])->select();
+        $basis_materials = Db::name('basis_materials')->select();
+        $basis_materials = array_column($basis_materials ,null, 'name');
+        $datas = [];
+        foreach($materials as $k=>$v){
+            if(isset($basis_materials[$v['name']])){
+                $info = [];
+                $info['p_amcode'] = $basis_materials[$v['name']]['amcode'];
+                $info['fine'] = $basis_materials[$v['name']]['fine'];
+                $info['amcode'] = '';
+                $info['fid'] = $fid;
+                $info['brank'] = $v['brand'];
+                $info['place'] = $v['place'];
+                $info['price'] = $v['price'];
+                $phr = explode('/', $v['phr']);
+                
+                if(preg_match('/(\d+)(\D{0,})/',$phr[0],$arr)){
+                    $info['pack'] = $arr[1];
+                    if(isset($phr[1])){
+                        $info['phr'] = $phr[1];
+                    }else{
+                        $info['phr'] = $basis_materials[$v['name']]['unit'];
+                    }
+                   
+                }else{
+                    continue;
+                }
+               
+                
+                $info['source'] = $v['remarks'];
+                $datas[] = $info;
+            }
+        }
+        Db::startTrans();
+        try {
+            foreach($datas as $k=>$v){
+                $id = Db::name('f_materials')->insertGetId($v);
+                $amcode = $v['p_amcode'] . '_' . $id;
+                Db::name('f_materials')->where(['id'=>$id])->update(['amcode'=>$amcode]);
+            } 
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+    }
+
+    //逆转换 项目
+    public function set_fp(){
+        if(input('fid')){
+            $fid = input('fid');
+        }else{
+            $fid = 153;//白云
+        }
+        $offerquota = Db::name('offerquota')->where(['frameid'=>$fid])->select();
+        $basis_project = Db::name('basis_project')->select();
+        $basis_project = array_column($basis_project ,null, 'item_number');
+        $datas = [];
+        foreach($offerquota as $k=>$v){
+            $item_number = explode('_', $v['item_number'])[0];
+            if(isset($basis_project[$item_number])){
+                $info = [];
+                $info['p_item_number'] = $item_number;
+                $info['item_number'] = '';
+                // $info['remark'] = '';
+                $info['fid'] = $fid;
+                $info['cost_value'] = $v['cost_value'];
+                $info['quota'] = $v['quota'];
+                $info['craft_show'] = $v['craft_show'];
+                $info['labor_cost'] = $v['labor_cost'];
+                //组合辅材
+                $content = json_decode($v['content'],true);
+                $material = [];//所需的辅材
+                foreach($content as $k=>$v){
+                    if(!$v[0] || !$v[1]){
+                        unset($content[$k]);
+                    }else{
+                        $basis_materials = Db::name('basis_materials')->where(['name'=>$v[0]])->order('id','desc')->find();
+                        $f_materials = Db::name('f_materials')->where(['fid'=>$fid,'p_amcode'=>$basis_materials['amcode']])->find();
+                        if(!$f_materials){
+                            continue 2;
+                        }
+                        $material[$basis_materials['fine']] = $f_materials['amcode'];
+                    }
+                }
+                $material = json_encode($material);
+                if($material != '[]'){
+                    $info['material'] = $material;
+                }else{
+                    $info['material'] = '';
+                }
+                $datas[] = $info;
+            }
+        }
+        Db::startTrans();
+        try {
+            foreach($datas as $k=>$v){
+                $id = Db::name('f_project')->insertGetId($v);
+                $item_number = $v['p_item_number'] . '_' . $id;
+                Db::name('f_project')->where(['id'=>$id])->update(['item_number'=>$item_number]);
+            } 
+            Db::commit();
+            echo 'ok';
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+    }
 }
