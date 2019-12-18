@@ -2390,9 +2390,8 @@ class BasisData extends Adminbase{
 
     //逆转换 辅材
     public function set_fm(){
-        echo '功能禁用';
-        return false;
-        die;
+        // echo '功能禁用';
+        // die;
         if(input('fid')){
             $fid = input('fid');
         }else{
@@ -2447,9 +2446,8 @@ class BasisData extends Adminbase{
 
     //逆转换 项目
     public function set_fp(){
-        echo '功能禁用';
-        return false;
-        die;
+        // echo '功能禁用';
+        // die;
         if(input('fid')){
             $fid = input('fid');
         }else{
@@ -2474,16 +2472,28 @@ class BasisData extends Adminbase{
                 //组合辅材
                 $content = json_decode($v['content'],true);
                 $material = [];//所需的辅材
-                foreach($content as $k=>$v){
-                    if(!$v[0] || !$v[1]){
-                        unset($content[$k]);
+                foreach($content as $k1=>$v1){
+                    if(!$v1[0] || !$v1[1]){
+                        unset($content[$k1]);
                     }else{
-                        $basis_materials = Db::name('basis_materials')->where(['name'=>$v[0]])->order('id','desc')->find();
+                        $basis_materials = Db::name('basis_materials')->where(['name'=>$v1[0]])->order('id','desc')->find();
                         $f_materials = Db::name('f_materials')->where(['fid'=>$fid,'p_amcode'=>$basis_materials['amcode']])->find();
                         if(!$f_materials){
                             continue 2;
                         }
                         $material[$basis_materials['fine']] = $f_materials['amcode'];
+                    }
+                }
+                $fine = array_keys($material);
+                $basis_project_fine = json_decode($basis_project[$item_number]['fine'],true);
+                if(count($basis_project_fine) != count($fine)){
+                    continue;
+                }
+                if(!empty($basis_project_fine)){
+                    foreach($basis_project_fine as $k1=>$v1){
+                        if(!in_array($v1['fine'],$fine)){
+                            continue 2;
+                        }
                     }
                 }
                 $material = json_encode($material);
