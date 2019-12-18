@@ -16,9 +16,185 @@ use think\Request;
 
 class Statistical extends Adminbase
 {
-    //业绩统计
-    public function results_index()
-    {
+    //业绩统计 
+    public function results_index(){
+
+        
+        //personnel表的
+        $person_where = [];
+        $person_where['fid'] = $this->_userinfo['companyid'];
+
+        //admin表的
+        $admin_where = [];
+        $admin_where['companyid'] = $this->_userinfo['companyid'];
+        $admin_where['roleid'] = [13,15,16];//监理,质检,工程经理
+        if(input('position')){
+            $position = explode('_', input('position'));
+            if($position[0] == 'p'){
+                $person_where['job'] = $position[1];
+                $admin_where['roleid'] = 0;
+            }else{
+                $admin_where['roleid'] = $position[1];
+                $person_where['job'] = 0;
+            }
+        }
+
+        $name_where = [];
+        if(input('name')){
+            $name_where[] = ['name','like','%'.input('name').'%'];
+        }
+
+        $user_where = [];
+        if(input('begin_time') && input('end_time')){
+            $user_where = array(['sign_bill_time','>',strtotime(input('begin_time'))],['sign_bill_time','<',strtotime('+1 day',strtotime(input('end_time')))]);
+          }
+
+        $total = [];//合计
+        $total['total_money'] = 0;//总开工额
+        $total['total_profits'] = 0;//总利润
+        $total['total_area'] = 0;//面积
+        $total['total_num'] = 0;//开工数量
+        $total['old_house_num'] = 0;//二手房数量
+        $total['num1'] = 0;//平层数量
+        $total['num2'] = 0;//复式数量
+        $total['num3'] = 0;//别墅数量
+        $total['num4'] = 0;//公装数量
+        $end_total = [];//已经统计过的
+        //personnel表的
+        // $person_where = [];
+        // $person_where['fid'] = $this->_userinfo['companyid'];
+        // /[1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师'];
+        $personnel = Db::name('personnel')->where($person_where)->where($name_where)->field('id,name,job,phone,status')->select();
+        $personnel_ids = array_column($personnel, 'id');
+        $userlist = Db::name('userlist')->where($user_where)->where('status','>=',3)->where(['quoter_id|designer_id|manager_id'=>$personnel_ids])->select();
+        foreach($personnel as $k1=>$v1){
+            //初始化数据----------start
+            $personnel[$k1]['total_money'] = 0;//总开工额
+            $personnel[$k1]['total_profits'] = 0;//总利润
+            $personnel[$k1]['total_area'] = 0;//面积
+            $personnel[$k1]['total_num'] = 0;//开工数量
+            $personnel[$k1]['old_house_num'] = 0;//二手房数量
+            $personnel[$k1]['num1'] = 0;//平层数量
+            $personnel[$k1]['num2'] = 0;//复式数量
+            $personnel[$k1]['num3'] = 0;//别墅数量
+            $personnel[$k1]['num4'] = 0;//公装数量
+            //初始化数据---------end
+            foreach($userlist as $k2=>$v2){
+                if(($v1['id'] == $v2['quoter_id'] || $v1['id'] == $v2['designer_id'] || $v1['id'] == $v2['manager_id']) && $v2['oid'] != 0){
+                    $order_info = model('offerlist')->get_order_info($v2['oid'], 2);
+                    $personnel[$k1]['total_money'] += $order_info['discount_proquant'];
+                    $personnel[$k1]['total_profits'] += $order_info['gross_profit_total'];
+                    $personnel[$k1]['total_area'] += $v2['area'];
+                    $personnel[$k1]['total_num']++;
+                    if($v2['house_type'] == 2){
+                        $personnel[$k1]['old_house_num']++;
+                    }
+                    if ($v2['room_type'] == '平层') {
+                        $personnel[$k1]['num1']++;
+                    }elseif($v2['room_type'] == '复式'){
+                        $personnel[$k1]['num2']++;
+                    }elseif($v2['room_type'] == '别墅'){
+                        $personnel[$k1]['num3']++;
+                    }elseif($v2['room_type'] == '公装'){
+                        $personnel[$k1]['num4']++;
+                    }
+
+                    if(!in_array($v2['oid'], $end_total)){
+                        $total['total_money'] += $order_info['discount_proquant'];
+                        $total['total_profits'] += $order_info['gross_profit_total'];
+                        $total['total_area'] += $v2['area'];
+                        $total['total_num']++;
+                        if($v2['house_type'] == 2){
+                            $total['old_house_num']++;
+                        }
+                        if ($v2['room_type'] == '平层') {
+                            $total['num1']++;
+                        }elseif($v2['room_type'] == '复式'){
+                            $total['num2']++;
+                        }elseif($v2['room_type'] == '别墅'){
+                            $total['num3']++;
+                        }elseif($v2['room_type'] == '公装'){
+                            $total['num4']++;
+                        }
+                        $end_total[] = $v2['oid'];
+                    }
+                    unset($order_info);//释放内存
+                }
+            }
+            if(empty($personnel[$k1]['total_num'])){
+                unset($personnel[$k1]);
+            }
+        }
+        //============================分割线=========================
+        
+        $admin = Db::name('admin')->where($admin_where)->where($name_where)->field('userid,username,name,roleid')->select();
+        $admin_ids = array_column($admin, 'userid');
+        $userlist = Db::name('userlist')->where($user_where)->where('status','>=',3)->where(['jid|check_id|gcmanager_id'=>$admin_ids])->select();
+        foreach($admin as $k1=>$v1){
+            //初始化数据----------start
+            $admin[$k1]['total_money'] = 0;//总开工额
+            $admin[$k1]['total_profits'] = 0;//总利润
+            $admin[$k1]['total_area'] = 0;//面积
+            $admin[$k1]['total_num'] = 0;//开工数量
+            $admin[$k1]['old_house_num'] = 0;//二手房数量
+            $admin[$k1]['num1'] = 0;//平层数量
+            $admin[$k1]['num2'] = 0;//复式数量
+            $admin[$k1]['num3'] = 0;//别墅数量
+            $admin[$k1]['num4'] = 0;//公装数量
+            //初始化数据---------end
+            foreach($userlist as $k2=>$v2){
+                if(($v1['userid'] == $v2['jid'] || $v1['userid'] == $v2['check_id'] || $v1['userid'] == $v2['gcmanager_id']) && $v2['oid'] != 0){
+                    $order_info = model('offerlist')->get_order_info($v2['oid'], 2);
+                    $admin[$k1]['total_money'] += $order_info['discount_proquant'];
+                    $admin[$k1]['total_profits'] += $order_info['gross_profit_total'];
+                    $admin[$k1]['total_area'] += $v2['area'];
+                    $admin[$k1]['total_num']++;
+                    if($v2['house_type'] == 2){
+                        $admin[$k1]['old_house_num']++;
+                    }
+                    if ($v2['room_type'] == '平层') {
+                        $admin[$k1]['num1']++;
+                    }elseif($v2['room_type'] == '复式'){
+                        $admin[$k1]['num2']++;
+                    }elseif($v2['room_type'] == '别墅'){
+                        $admin[$k1]['num3']++;
+                    }elseif($v2['room_type'] == '公装'){
+                        $admin[$k1]['num4']++;
+                    }
+
+                    if(!in_array($v2['oid'], $end_total)){
+                        $total['total_money'] += $order_info['discount_proquant'];
+                        $total['total_profits'] += $order_info['gross_profit_total'];
+                        $total['total_area'] += $v2['area'];
+                        $total['total_num']++;
+                        if($v2['house_type'] == 2){
+                            $total['old_house_num']++;
+                        }
+                        if ($v2['room_type'] == '平层') {
+                            $total['num1']++;
+                        }elseif($v2['room_type'] == '复式'){
+                            $total['num2']++;
+                        }elseif($v2['room_type'] == '别墅'){
+                            $total['num3']++;
+                        }elseif($v2['room_type'] == '公装'){
+                            $total['num4']++;
+                        }
+                        $end_total[] = $v2['oid'];
+                    }
+                    unset($order_info);//释放内存
+                }
+            }
+            if(empty($admin[$k1]['total_num'])){
+                unset($admin[$k1]);
+            }
+        }
+        // var_dump($personnel);
+        // var_dump($total);die;
+        $this->assign('personnel', $personnel);
+        $this->assign('admin', $admin);
+        $this->assign('total', $total);
+        $this->assign('job', [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师']);
+        $this->assign('role', array_column(Db::name('auth_group')->field('id,title')->select(),null, 'id'));
         return $this->fetch();
     }
 

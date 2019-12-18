@@ -1,109 +1,131 @@
 {extend name="index_layout"/}
 {block name="main"}
 <style type="text/css">
-    .layui-form-item{
-        margin-bottom: 0;
-        width: 250px;
-        float: left;
-        clear:none;
-    }
-    #left{
-        width:20%;
-        height:710px;
-        float: left;
-        overflow:auto;
-    }
-    #left thead{
-        display: none
-    }
-    #left th,#left td{
-        border:none;
-    }
-    .layui-table-view{
-        border:none;   
-    }
-    #right{
-        width:75%;
-        float: left;
-        background-color: #ffffff;
-        border-top: 1px solid #eee;
-        margin: 10px 0;
-    }
-    #right th,#right td{
-        background-color: #ffffff;
-    }
-    #left table tr:first-child{
-        background-color: #c6e5ff;
-     }
-    .check{
-        background-color: #c6e5ff !important;
-    }
-    .layui-table-view{
-        margin-top: 0;
-    }
-    .layui-table-header{
-        background-color: #ffffff;
-    }
+.layui-form-item{
+    margin-bottom: 0;
+    width: 250px;
+    float: left;
+    clear:none;
+}
 </style>
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
-                <form class="layui-form layui-inline" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">姓名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="title" placeholder="" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
+                <form class="layui-form layui-inline" action="" id="registerform">
+                    <div class="layui-form-item" >
                         <label class="layui-form-label">职位</label>
                         <div class="layui-input-block">
-                            <select name="">
+                            <select name="position" lay-search>
                                 <option value=""></option>
-                                <option value="1">设计师</option>
-                                <option value="2">报价师</option>
-                                <option value="3">商务经理</option>
-                                <option value="4">工程监理</option>
+                                <option value="p_1" {if(input('position') == 'p_1')}selected{/if}>设计师</option>
+                                <option value="p_2" {if(input('position') == 'p_2')}selected{/if}>报价师</option>
+                                <option value="p_3" {if(input('position') == 'p_3')}selected{/if}>商务经理</option>
+                                <option value="a_13" {if(input('position') == 'a_13')}selected{/if}>监理</option>
+                                <option value="a_15" {if(input('position') == 'a_15')}selected{/if}>质检</option>
+                                <option value="a_16" {if(input('position') == 'a_16')}selected{/if}>工程经理</option>
                             </select>
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="" value="{:input('name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
                     <div class="layui-inline" style="float: left;margin-right: 15px">
-                        <label class="layui-form-label">选择时间</label>
+                        <label class="layui-form-label">签单时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="" placeholder="开始时间">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off" value="{:input('begin_time')}" placeholder="开始时间">
                         </div>
                         <span> - </span>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="" placeholder="结束时间">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off" value="{:input('end_time')}" placeholder="结束时间">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" style="margin-left:10px;float: right">
                         <div class="layui-input-inline">
-                          <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
-                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                            <a href="/admin/statistical/results_index" class="layui-btn layui-btn-primary">重置</a>
                         </div>
                     </div>
                 </form>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
-              <div class="layui-btn-container">
-              </div>
-            </script>
-     
-            <div class="layui-card-body" id="left">
-                <div class="layui-form">
-                    <div style="background-color: #ffffff;padding:10px 15px;border:1px solid #eee">
-                        <input id="edt-search" type="text" placeholder="" style="width: 120px;height:25px"/>
-                        <button class="layui-btn layui-btn-radius layui-btn-primary" style="height:30px;line-height: 30px;" id="btn-search">搜索</button> 
-                    </div>
-                    <table id="table1" style="display: none" class="layui-table" lay-filter="table1"></table>
+                <div class="layui-btn-container">
                 </div>
-            </div>
-
-            <div class="layui-card-body" id="right" style=" ">
-                    <table id="demo" lay-filter="test"></table>
-            </div>
+            </script>
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:[],limit:20}">
+                <colgroup>
+                    <col width="80">
+                    <col width="80">
+                    <col width="160">
+                </colgroup>
+                <thead >
+                    <tr>
+                        <!-- <th class="" lay-data="{field:'id',hide:'true',width:100}">id</th> -->
+                        <th lay-data="{field:'position',width:100}">职位</th>
+                        <th lay-data="{field:'username',width:100}">姓名</th>
+                        <th lay-data="{field:'total_money',width:150}">开工额</th>
+                        <th lay-data="{field:'avg_profits',width:100}">平均毛利</th>
+                        <th lay-data="{field:'avg_area', width:200}">平米均价</th>
+                        <th lay-data="{field:'total_num',width:100}">开工数量</th>
+                        <th lay-data="{field:'old_house_num',width:100}">二手房数量</th>
+                        <th lay-data="{field:'num1',width:100}">套房数量</th>
+                        <th lay-data="{field:'num2',width:100}">复式数量</th>
+                        <th lay-data="{field:'num3',width:100}">别墅数量</th>
+                        <th lay-data="{field:'num4',width:100}">公装数量</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {foreach $personnel as $k=>$v}
+                        <tr>
+                            <td>{$job[$v['job']]}</td>
+                            <td>{$v['name']}</td>
+                            <td>{$v['total_money']}</td>
+                            <td>{:round($v['total_profits']/$v['total_num'],2)}</td>
+                            <td>{if($v['total_area'] != 0)}{:round($v['total_money']/$v['total_area'],2)}{/if}</td>
+                            <td>{$v['total_num']}</td>
+                            <td>{$v['old_house_num']}</td>
+                            <td>{$v['num1']}</td>
+                            <td>{$v['num2']}</td>
+                            <td>{$v['num3']}</td>
+                            <td>{$v['num4']}</td>
+                        </tr>
+                    {/foreach}
+                    {foreach $admin as $k=>$v}
+                        <tr>
+                            <td>{$role[$v['roleid']]['title']}</td>
+                            <td>{$v['name']}</td>
+                            <td>{$v['total_money']}</td>
+                            <td>{:round($v['total_profits']/$v['total_num'],2)}</td>
+                            <td>{if($v['total_area'] != 0)}{:round($v['total_money']/$v['total_area'],2)}{/if}</td>
+                            <td>{$v['total_num']}</td>
+                            <td>{$v['old_house_num']}</td>
+                            <td>{$v['num1']}</td>
+                            <td>{$v['num2']}</td>
+                            <td>{$v['num3']}</td>
+                            <td>{$v['num4']}</td>
+                        </tr>
+                    {/foreach}
+                    {if($total['total_num'] > 0)}
+                        <tr>
+                            <td>合计</td>
+                            <td></td>
+                            <td>{$total['total_money']}</td>
+                            <td>{:round($total['total_profits']/$total['total_num'],2)}</td>
+                            <td>{if($total['total_area'] != 0)}{:round($total['total_money']/$total['total_area'],2)}{/if}</td>
+                            <td>{$total['total_num']}</td>
+                            <td>{$total['old_house_num']}</td>
+                            <td>{$total['num1']}</td>
+                            <td>{$total['num2']}</td>
+                            <td>{$total['num3']}</td>
+                            <td>{$total['num4']}</td>
+                        </tr>
+                    {/if}
+                </tbody>
+            </table>
+            
         </div>
     </div>
 </div>
@@ -114,197 +136,8 @@
 <script type="text/javascript">
 </script>
 <script type="text/javascript">
-    //左边部分 初始化数据
-    layui.config({
-        base: '__STATIC__/module/'
-    }).extend({
-        treetable: 'treetable-lay/treetable'
-    }).use(['treetable'], function () {
-        var $ = layui.jquery;
-        var table = layui.table;
-        var layer = layui.layer;
-        var treetable = layui.treetable;
-        // 渲染表格
-        var renderTable = function () {
-            layer.load(2);
-            treetable.render({
-                // toolbar: '#', //设置打印
-                treeColIndex: 1,
-                treeSpid: -1,
-                treeIdName: 'id',
-                treePidName: 'pid',
-                treeDefaultClose: false,
-                treeLinkage: false,
-                elem: '#table1',
-                // width: 290,
-                url: '{:url("statistical/return_department_data")}',
-                // url: '__STATIC__/module/json/data.json',
-                page: false,
-                cols: [[
-                    {type: 'space'},
-                    {field: 'name', title: '名称',event:'check'},
-                    {field: 'id', title: 'id',hide:true},
-                    // {field: 'remark', title: '备注'},
-                    // {templet: '#oper-col', title: '操作'}
-                ]],
-                
-                done: function () {
-                    layer.closeAll('loading');
-                }
-            });
-        };
-        // 搜索显示
-        $('#btn-search').click(function () {
-            var keyword = $('#edt-search').val();
-            var searchCount = 0;
-            $('#table1').next('.treeTable').find('.layui-table-body tbody tr td').each(function () {
-                $(this).css('background-color', 'transparent');
-                var text = $(this).text();
-                if (keyword != '' && text.indexOf(keyword) >= 0) {
-                    $(this).css('background-color', 'rgba(250,230,160,0.5)');
-                    if (searchCount == 0) {
-                        treetable.expandAll('#table1');
-                        $('html,body').stop(true);
-                        $('html,body').animate({scrollTop: $(this).offset().top - 150}, 500);
-                    }
-                    searchCount++;
-                }
-            });
-            if (keyword == '') {
-                layer.msg("请输入搜索内容", {icon: 5});
-            } else if (searchCount == 0) {
-                layer.msg("没有匹配结果", {icon: 5});
-            }
-        });
-        renderTable();
-    });
-
-    //右边table
-    //右边表格渲染
     layui.use('table', function(){
         var table = layui.table;
-        //第一个实例
-        table.render({
-            elem: '#demo',
-            height: 600,
-            url: '/admin/statistical/return_data/', //数据接口
-            where:{did:0},
-            page: true, //开启分页
-            limit: 10, 
-            limits: [10,30,50,100,200], 
-            cols: [[ //表头
-                {field: 'td1', title: '职位', width:100},
-                {field: 'td2', title: '姓名', width:80},
-                {field: 'td3', title: '开工额', width:80},
-                {field: 'td4', title: '平均毛利', width:100},
-                {field: 'td5', title: '平米均价', width:100},
-                {field: 'td6', title: '开工数量', width:100,event:'show_info',style:'color:red'},
-                {field: 'td7', title: '二手房数量', width:100},
-                {field: 'td8', title: '套房数量', width:100},
-                {field: 'td9', title: '复式数量', width:100},
-                {field: 'td10', title: '别墅数量', width:100},
-                {field: 'td11', title: '公装数量', width:100},
-            ]]
-        });
-
-        table.on('tool(test)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if(layEvent === 'show_info'){
-                var html =   '<table class="layui-table">'
-                            +'  <colgroup>'
-                            +'      <col width="100">'
-                            +'      <col width="250">'
-                            +'      <col width="100">'
-                            +'      <col width="80">'
-                            +'      <col width="100">'
-                            +'      <col>'
-                            +'  </colgroup>'
-                            +'  <thead >'
-                            +'      <tr>'
-                            +'          <th>客户姓名</th>'
-                            +'          <th>工程地址</th>'
-                            +'          <th>房屋类型</th>'
-                            +'          <th>面积</th>'
-                            +'          <th>开工金额</th>'
-                            +'          <th>操作</th>'
-                            +'      </tr>'
-                            +'  </thead>'
-                            +'  <tbody> '
-                            +'      <tr>'
-                            +'          <td>冯小姐</td>'
-                            +'          <td>广州市黄埔区黄埔万科中心</td>'
-                            +'          <td>别墅</td>'
-                            +'          <td>300</td>'
-                            +'          <td>720000</td>'
-                            +'          <td>'
-                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
-                            +'          </td>'
-                            +'      </tr>'
-                            +'      <tr>'
-                            +'          <td>胡先生</td>'
-                            +'          <td>广州市越秀区北京路374号</td>'
-                            +'          <td>复式</td>'
-                            +'          <td>180</td>'
-                            +'          <td>320000</td>'
-                            +'          <td>'
-                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
-                            +'          </td>'
-                            +'      </tr>'
-                            +'      <tr>'
-                            +'          <td>蒋先生</td>'
-                            +'          <td>广州市黄埔区黄埔黄埔东路123号</td>'
-                            +'          <td>二手房</td>'
-                            +'          <td>80</td>'
-                            +'          <td>60000</td>'
-                            +'          <td>'
-                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
-                            +'          </td>'
-                            +'      </tr>'
-                            +'      <tr>'
-                            +'          <td>韩小姐</td>'
-                            +'          <td>广州市黄埔区黄埔碧桂园3期5栋1301</td>'
-                            +'          <td>复式</td>'
-                            +'          <td>150</td>'
-                            +'          <td>280000</td>'
-                            +'          <td>'
-                            +'              <a href="javascript:;" class="layui-btn layui-btn-primary">查看</a>'
-                            +'          </td>'
-                            +'      </tr>'
-                            +'  </tbody>'
-                            +'</table>'
-                // layui.use('layer', function(){
-                    layer.open({
-                        type:1,
-                        title: '开工明细',
-                        area: ['650px', '400px'],
-                        content: html
-                    });
-                // });
-            }
-        })
-    });
-
-    //点击左边换颜色
-    $('#left').on('click','a',function(){
-        console.log($(this).parent().attr('lay-tid'));
-        var did = $(this).parent().attr('lay-tid');
-        $('#left tr').css('background-color','#ffffff');
-        $('#left tr').removeClass('check').attr('data-check',0);
-        var that = $(this).parent();
-        //上面的遍历会比下面的慢一点
-        setTimeout(function(){$(that).parent().parent().parent().addClass('check').attr('data-check',1);},100);
-        $('#add_personnel').attr('data-fid',did);
-        $('#add_personnel').attr('data-fname',$(this).text());
-        //右边数据重新渲染
-        // layui.use('table', function(){
-        //     var table = layui.table;
-        //     table.reload('demo', {
-        //         url: '/admin/department/get_personnel', //数据接口
-        //         where: {did:did} //设定异步数据接口的额外参数
-        //       //,height: 300
-        //     });
-        // });
     })
     //初始化时间差距
     layui.use('laydate', function(){
@@ -314,6 +147,11 @@
         });
         laydate.render({
             elem: '#end_time'
+        });
+    })
+    $(function () {
+        $(".typ").click(function(){
+            $("#registerform").submit();
         });
     })
 </script>
