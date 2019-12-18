@@ -124,7 +124,7 @@
                                 <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">增减项</a>
                             {/if}
                             {gt name="$vo['append_num']" value="0"}
-    						  <a class="layui-btn layui-btn-xs layui-btn-normal" href="{:url('admin/order_append/show_append',['order_id'=>$vo.id])}">查看增减项</a>
+    						  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="kkk" key="{$vo.id}">查看增减项</a>
                             {/gt}
                             {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
                                 <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
@@ -352,6 +352,20 @@ layui.use('table', function(){
   //监听单元格事件
     table.on('tool(test3)', function(obj){
         var data = obj.data;
+        if(obj.event === 'kkk'){
+            var Tresult=$(this).attr('key');
+            layer.open({
+                type: 2,
+                title: '增减项',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['90%', '90%'],
+                maxmin: true,
+                tipsMore: true,
+                content: '/admin/artificial/regulation?id='+Tresult
+            });
+        }
+
         if(obj.event === 'show_append'){
             $.ajax({
                 type : 'post',

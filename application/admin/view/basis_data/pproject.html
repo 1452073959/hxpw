@@ -117,11 +117,15 @@ display: block;
                     <div class="layui-form-item" style="margin-left:10px">
                         <div class="layui-input-inline">
                             <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
-                            <a href="/admin/basis_data/public_project" class="layui-btn layui-btn-primary">重置</a>
+                            <a href="/admin/basis_data/pproject" class="layui-btn layui-btn-primary">重置</a>
                         </div>
                     </div>
                     <div id="t">
                         <ul class="ty">
+                            <li class="typ" >
+                                <input type="radio" name="type_word_id" value="" {if (input('type_word_id')=='')} checked {/if} title="全部">
+                            </li>
+
                             {foreach type_work as $k=>$v}
                             <li class="typ">
                                 <input type="radio" name="type_word_id" value="{$v.id}" {if (input('type_word_id')==$v.id)} checked {/if} title="{$v.name}">
