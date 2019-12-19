@@ -117,7 +117,7 @@ class WareHouse extends UserBase{
             try {
                 foreach($datas as $k=>$v){
                     Db::name('picking_material_info')->where(['id'=>$v['id']])->update(['actual_num'=>$v['num']]);
-                    $total_money += $v['num']*$v['price'];
+                    // $total_money += $v['num']*$v['price'];
                 }
                     Db::name('picking_material')->where(['id' => $id])->update(['actual_total_money' => $total_money, 'status' => 3]);
                     // 提交事务
