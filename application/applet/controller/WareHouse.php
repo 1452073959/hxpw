@@ -88,36 +88,49 @@ class WareHouse extends UserBase{
         }
         //可领金额
         $material_total_money = model('admin/offerlist')->get_material_list($oid,2)['total_money'];
-
         //所有订单的领料金额(排除了在处理订单金额)
-        $figure=Db::name('picking_material')->where('oid',$oid)->field(['id','total_money'])->select();
+        $figure=Db::name('picking_material')->where('oid',$oid)->field(['id','total_money','status','actual_total_money'])->select();
         $figurenum=0;
         foreach ($figure as $k1=>$v1)
         {
             if($v1['id']==$id){
                 continue;
             }
-            $figurenum+=$v1['total_money'];
-        }
-        // 启动事务
-        Db::startTrans();
-        try {
-            foreach($datas as $k=>$v){
-                Db::name('picking_material_info')->where(['id'=>$v['id']])->update(['actual_num'=>$v['num']]);
-                $total_money += $v['num']*$v['price'];
+            if($v1['status']==1){
+                $figurenum+=$v1['total_money'];
+            }elseif ($v1['status']==2){
+                $figurenum+=$v1['total_money'];
+            }elseif ($v1['status']==3){
+                $figurenum+=$v1['actual_total_money'];
+            }elseif ($v1['status']==4){
+                $figurenum+=$v1['actual_total_money'];
+            }elseif ($v1['status']==5){
+                continue;
             }
-            if($figurenum+$total_money<$material_total_money) {
-                Db::name('picking_material')->where(['id' => $id])->update(['actual_total_money' => $total_money, 'status' => 3]);
-                // 提交事务
-                Db::commit();
-                $this->json(0, '配货成功');
-            }else{
-                $this->json(2,'该次领料超额，或该订单领料超额');
-            }
-        } catch (\Exception $e) {
-            Db::rollback();
-            $this->json(2,'配货失败');
         }
+        foreach($datas as $k=>$v){
+            $total_money += $v['num']*$v['price'];
+        }
+        if($figurenum+$total_money<$material_total_money) {
+            // 启动事务
+            Db::startTrans();
+            try {
+                foreach($datas as $k=>$v){
+                    Db::name('picking_material_info')->where(['id'=>$v['id']])->update(['actual_num'=>$v['num']]);
+                    $total_money += $v['num']*$v['price'];
+                }
+                    Db::name('picking_material')->where(['id' => $id])->update(['actual_total_money' => $total_money, 'status' => 3]);
+                    // 提交事务
+                    Db::commit();
+                    $this->json(0, '配货成功');
+            } catch (\Exception $e) {
+                Db::rollback();
+                $this->json(2, '配货失败');
+            }
+        }else{
+            $this->json(2,'该次领料超额,或该订单领料超额');
+        }
+
         
     }
 
