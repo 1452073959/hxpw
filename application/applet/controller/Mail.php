@@ -156,8 +156,9 @@ class Mail extends UserBase{
 
         // 已领金额
         //********* 这里的status 未审核的要不要算已领金额??? *********
-        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[2,3]])->sum('total_money');
-
+//        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[2,3]])->sum('total_money');
+        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[1,2]])->sum('total_money');
+        $pink_total_money += Db::name('picking_material')->where(['userid'=>$uid,'status'=>[3,4]])->sum('actual_total_money');
         //领料单数据
         $picking_material = [];
         $picking_material['oid'] = $userinfo['oid'];
