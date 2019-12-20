@@ -105,9 +105,10 @@
 
 
                      </form>
+                     <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a>
                  </div>         
                 <!-- <a class="layui-btn layui-btn-sm" title="辅材空模板.xls" style="float:right;margin-left:10px" href="__TEMPLATE__/人工工费空模板 .xls">下载空模板</a> -->
-                <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a>
+
                 <!-- <a id="tishi" title="点我查看" style="float:right;" > <i class="layui-icon">&#xe702;</i></a> -->
             </blockquote>
             <script type="text/html" id="toolbarDemo">
@@ -117,7 +118,7 @@
                 <!-- <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button> -->
               </div>
             </script>
-            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['filter', 'print'],limit:20}">
+            <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['filter', 'print'],limit:20,height: 'full-180'}">
                 <colgroup>
                     <col width="80">
                     <col width="80">

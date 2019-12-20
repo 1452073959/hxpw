@@ -167,13 +167,22 @@ class AdminUser extends Model
         $userInfo = self::get($map);
         // dump($userInfo);exit;
         if (!$userInfo) {
-            $this->error = '账号/密码错误';
+//            $this->error = '账号/密码错误';
+//            Session::flash('name','value');
+            session('msg','账号/密码错误');
+            session('msg1',1);
+            return redirect('/admin/login/index');
         } elseif (!$userInfo['status']) {
-            $this->error = '登录失败，请联系管理员';
+//            $this->error = '登录失败，请联系管理员';
+            session('msg','登录失败，请联系管理员');
+            session('msg1',1);
+            return redirect('/admin/login/index');
         } else {
             //密码判断
             if (empty($password) || md5($password) != $userInfo['password']) {
-                $this->error = '账号/密码错误';
+                session('msg','账号/密码错误');
+                session('msg1',1);
+                return redirect('/admin/login/index');
             } else {
                 $this->autoLogin($userInfo);
                 return true;
