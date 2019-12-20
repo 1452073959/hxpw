@@ -45,6 +45,7 @@ class OrderAppend extends Adminbase
     public function add(){
         $userinfo = $this->_userinfo; 
         if (input('data') && input('order_id')) {
+
             $price = [];
             if(input('price')){
                 $price = input('price');
@@ -55,6 +56,7 @@ class OrderAppend extends Adminbase
                 $this->error('订单信息有误');
             }
             $order_project = [];
+
             foreach (input('data') as $k1 => $v1) {
                 foreach($v1 as $k2=>$v2){
                     $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
@@ -84,6 +86,7 @@ class OrderAppend extends Adminbase
                             $this->error($k2.'手动输入的价格有误');
                         }
                     }
+
                     if(!isset($price[$k2]['craft_show'])  || empty($price[$k2]['craft_show'])){
                         $project['craft_show'] = $item['craft_show'];
                         $project['craft_show_now'] = '';
@@ -114,37 +117,41 @@ class OrderAppend extends Adminbase
                     $order_project[] = $project; 
                 }
             }
+
             //===============================计算物料总合计 成本
             // $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
             $material_all = [];
             $order_material = [];//订单辅料详情 - 以后顶替material_all这种json储存方法
-            foreach($order_project as $k=>$v){
-                $need_material = json_decode($v['content'],true);//需要的物料
-                foreach($need_material as $one_material){
-                    if($one_material[0] && $one_material[1]){
-                        if(!isset($material_all[$one_material[0]])){
+
+            foreach($order_project as $k=>$v) {
+                if(!empty($v['content'])){
+                $need_material = json_decode($v['content'], true);//需要的物料
+                foreach ($need_material as $one_material) {
+                    if ($one_material[0] && $one_material[1]) {
+                        if (!isset($material_all[$one_material[0]])) {
                             //上面2个foreach筛选offerquota表里面的content的有用数据 ( 里面有20个所需辅材 没有的用空数组代替 上面是提出空数组 )
                             $material_all[$one_material[0]]['num'] = 0;
                             $material_all[$one_material[0]]['price'] = 0;//成本单价
                         }
                         // $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid'],'name'=>$one_material[0]))->find();
-                        $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
+                        $materials_info = Db::name('materials')->where(array('frameid' => $userinfo['companyid']))->where('name|amcode', '=', $one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
-                        if(!$price){
-                            $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
+                        if (!$price) {
+                            $this->error($one_material[0] . '成本有误，请及时补充辅材仓库');
                         }
+
                         $material_all[$one_material[0]]['price'] = $price;//成本单价
                         $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
                         $material_all[$one_material[0]]['important'] = $materials_info['important'];
-                        $material_all[$one_material[0]]['num'] += $one_material[1]*$v['num']; //需要的用料单数 * 工程单位
+                        $material_all[$one_material[0]]['num'] += $one_material[1] * $v['num']; //需要的用料单数 * 工程单位
                         //===============订单辅料详情  $arr['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
-                        if(!isset($order_material[$v['type_of_work']][$v['item_number']][$one_material[0]])){
+                        if (!isset($order_material[$v['type_of_work']][$v['item_number']][$one_material[0]])) {
                             //初始化数据 这个框架会神奇的报错 = =
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['cb'] = $materials_info['price'];//成本
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['price'] = $v['quota'];//辅材单价
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['name'] = $materials_info['name'];//辅材名称
-                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota']-$materials_info['price'];//利润
+                            $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['profit'] = $v['quota'] - $materials_info['price'];//利润
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['coefficient'] = $coefficient;//系数
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['important'] = $materials_info['important'];//是否重要
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] = 0;//初始化数据
@@ -158,10 +165,12 @@ class OrderAppend extends Adminbase
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['category'] = $materials_info['category'];//
                             $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['units'] = $materials_info['units'];//
                         }
-                        $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1]*$v['num'];
+                        $order_material[$v['type_of_work']][$v['item_number']][$one_material[0]]['num'] += $one_material[1] * $v['num'];
                     }
                 }
+                }
             }
+
             //=========订单辅料详情 组装数据存进数据库
             //$order_material['工种类']['项目编号']['辅材名称'] = ['数量','成本','单价','利润']
             $order_material_datas = [];
