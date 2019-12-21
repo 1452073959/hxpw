@@ -1672,9 +1672,7 @@ class BasisData extends Adminbase{
                     $images = $info->getSaveName();
                     $images = str_replace('\\', '/', $images);
                     $res=  Db::name('f_materials')->where('id', $data['id'])->data(['img' => $images])->update();
-                    session('msg','上传成功');
-                    session('msg1',1);
-                    $this->redirect($_SERVER['HTTP_REFERER']);
+                    $this->success('上传成功');
                 }else{
                     // 上传失败获取错误信息
                     $this->error($file->getError());
@@ -1699,9 +1697,7 @@ class BasisData extends Adminbase{
                     $images = $info->getSaveName();
                     $images = str_replace('\\', '/', $images);
                     $res=  Db::name('basis_materials')->where('id', $data['id'])->data(['img' => $images])->update();
-                    session('msg','上传成功');
-                    session('msg1',1);
-                    $this->redirect($_SERVER['HTTP_REFERER']);
+                    $this->success('上传成功');
                 }else{
                     // 上传失败获取错误信息
                     $this->error($file->getError());

@@ -548,9 +548,27 @@
 
                 $(function () {
                     $("#pop").click(function () {
-                        // alert('12313');
-                        $("#myform").submit();
-
+                        var $file1 = $("input[name='image']").val();
+                        if ($file1 == "") {
+                            layer.msg("请选择上传的目标文件");
+                            return false;
+                        }
+                        var formData = new FormData(document.getElementById("myform"));
+                        $.ajax({
+                            url:"/admin/basis_data/img",
+                            type:"post",
+                            data:formData,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success:function(data){
+                                layer.msg(data.msg);
+                                location.reload();
+                            },
+                            error:function(e){
+                                alert("网络错误，请重试！！");
+                            }
+                        });
 
                     })
 
