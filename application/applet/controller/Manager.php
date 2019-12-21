@@ -121,8 +121,20 @@ class Manager extends UserBase{
         $where = [];
         $where['status'] = 1;
         $where['f_id'] = $this->admininfo['companyid'];
+
         $picking_material = Db::name('picking_material')->where($where)->order('id','desc')->select();
-            
+        
+        //筛选这张单是否是当前工程经理的
+        if($picking_material && $this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            $userids = array_column($picking_material, 'userid');
+            $userids = array_column(Db::name('userlist')->where(['id'=>$userids])->select(), 'id');
+            foreach($picking_material as $k=>$v){
+                if(!in_array($v['userid'], $userids)){
+                    unset($picking_material[$k]);
+                }
+            }
+        }
+
         if(!$picking_material){
             $this->json(0,'success',[]);
         }
