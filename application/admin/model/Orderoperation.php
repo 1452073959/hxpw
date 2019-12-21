@@ -25,7 +25,7 @@ class Orderoperation extends Model
         $info = Db::name('order_operation')->select();
         if ($info) {
             foreach($info as $k=>$v){
-                $info[$k]['operation_time'] = date('Y-m-d H:s:i',$v['operation_time']);
+                $info[$k]['operation_time'] = date('Y-m-d H:i:s',$v['operation_time']);
             }
             return $info;
         } else {

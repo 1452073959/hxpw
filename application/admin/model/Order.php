@@ -13,7 +13,7 @@ class Order extends Model
     {
         $list = $this->where($where)->order($order)->paginate($page)->toArray();
         foreach($list['data'] as $key=>$value){
-            $list['data'][$key]['add_time'] = date('Y-m-d H:s:i',$value['add_time']);
+            $list['data'][$key]['add_time'] = date('Y-m-d H:i:s',$value['add_time']);
             $sname = Db::name('shop')->field('name')->where('id',$value['sid'])->find();
             $list['data'][$key]['sname'] = $sname['name'];
         }

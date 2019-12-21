@@ -177,7 +177,7 @@
                       <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
                       <td class="taleft">{$vo.info.remark}</td>
                       <td class="taleft">查看/设置</td>
-                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:s"}</td>
+                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:i"}</td>
                          {if $vo.cad_file!=''}
                          <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
                          {else /}
