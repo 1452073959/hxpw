@@ -66,13 +66,14 @@ class Baojia extends UserBase
         $data = $request->get();
         $user = Userappler::with('jiezhi')->all();
         $audit = Jiezhi::with(['offer', 'user'])->where('sid', 0)->where('frameid', $data['freamid'])->select();
-        foreach ($audit as $key=>$value)
-        {
-            if($value['offer']['gcmanager_id']!=$this->admininfo['userid']){
-                unset($audit[$key]);
+       
+        if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            foreach ($audit as $key=>$value){
+                if($value['offer']['gcmanager_id']!=$this->admininfo['userid']){
+                    unset($audit[$key]);
+                }
             }
         }
-
         foreach ($audit as $k => $v) {
             $audit[$k]['ys'] = 0;
             foreach ($money = Db::table('fdz_financial')->where('userid', $v['uid'])->select() as $k1 => $v1) {
