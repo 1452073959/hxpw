@@ -94,7 +94,7 @@ a{
                         <th class="taleft" lay-data="{field:'id', fixed: 'left'}">ID</th>
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
-                        <th lay-data="{field:'edit',width:220}">操作</th>
+                        <th lay-data="{field:'edit',width:270}">操作</th>
                         <th class="taleft" lay-data="{field:'proquant',width:100}" >优惠前报价</th>
                         <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
@@ -142,7 +142,7 @@ a{
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id])}">查看报价</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
                           {if $vo.no!=0}
-                        <a class="layui-btn layui-btn-xs"  lay-event="kkk" key="{$vo.id}">增减项</a>
+                        <a class="layui-btn layui-btn-xs"  lay-event="kkk" key="{$vo.id}">查看增减项</a>
                           {/if}
                        <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td>
