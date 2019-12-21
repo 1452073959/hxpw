@@ -127,7 +127,7 @@ class Manager extends UserBase{
         //筛选这张单是否是当前工程经理的
         if($picking_material && $this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             $userids = array_column($picking_material, 'userid');
-            $userids = array_column(Db::name('userlist')->where(['id'=>$userids])->select(), 'id');
+            $userids = array_column(Db::name('userlist')->where(['id'=>$userids,'gcmanager_id'=>$this->admininfo['userid']])->select(), 'id');
             foreach($picking_material as $k=>$v){
                 if(!in_array($v['userid'], $userids)){
                     unset($picking_material[$k]);
