@@ -64,9 +64,14 @@ class Baojia extends UserBase
     {
         //获取未审核的订单
         $data = $request->get();
-        $audit = Db::table('fdz_jiezhi')->where('sid', 0)->select();
         $user = Userappler::with('jiezhi')->all();
         $audit = Jiezhi::with(['offer', 'user'])->where('sid', 0)->where('frameid', $data['freamid'])->select();
+        foreach ($audit as $key=>$value)
+        {
+            if($value['offer']['gcmanager_id']!=$this->admininfo['userid']){
+                unset($audit[$key]);
+            }
+        }
 
         foreach ($audit as $k => $v) {
             $audit[$k]['ys'] = 0;
