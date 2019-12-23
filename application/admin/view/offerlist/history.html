@@ -81,7 +81,11 @@ th{
     <div class="layui-card-body">
         <div class="">
             <blockquote class="layui-elem-quote news_search">
-
+                {if(input('gcfx') == 1)}
+                    <a href="{:url('admin/artificial/gcfx_index',['id'=>input('customerid')])}" class="layui-btn layui-btn-sm layui-btn-primary">返回成本分析</a>
+                {else}
+                    <a href="{:url('admin/offerlist/index',['customer_id'=>input('customerid')])}" class="layui-btn layui-btn-sm layui-btn-primary">返回客户信息</a>
+                {/if}
                 <!--<input type="button" id="export" value="导出"/>-->
                 <a style="float: right" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'':2,'word'=>input('word')==1?1:''])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('type')==2?'切换原单':'切换完整订单' ?></a>
                 <a style="float: right; margin:0 10px" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'2':'','word'=>input('word')==1?'':1])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('word')==1?'按空间显示':'按工种显示' ?></a>
