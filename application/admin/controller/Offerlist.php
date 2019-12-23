@@ -2138,8 +2138,8 @@ class Offerlist extends Adminbase
                                         <td>'.$offerquota[$k3]['material'].'</td>
                                     </tr>';
                         }
-                        $space_quota_total = $v3['num']*$offerquota[$k3]['quota'];
-                        $space_craft_show_total = $v3['num']*$offerquota[$k3]['craft_show'];
+                        $space_quota_total += $v3['num']*$offerquota[$k3]['quota'];
+                        $space_craft_show_total += $v3['num']*$offerquota[$k3]['craft_show'];
                         $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
                         $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
                         $num3++;
@@ -2166,6 +2166,8 @@ class Offerlist extends Adminbase
                 $num2++; 
                 $space_total1=0;//辅材
                 $space_total2=0; //人工
+                $space_quota_total = 0;
+                $space_craft_show_total = 0;
                 foreach($v1 as $k2=>$v2){
                     if($ty==1){
                         $str .=  '<tr class="">
@@ -2190,8 +2192,8 @@ class Offerlist extends Adminbase
                                     <td>'.$offerquota[$k2]['material'].'</td>
                                 </tr>';
                     }
-                    $space_quota_total = $v2['num']*$offerquota[$k2]['quota'];
-                    $space_craft_show_total = $v2['num']*$offerquota[$k2]['craft_show'];
+                    $space_quota_total += $v2['num']*$offerquota[$k2]['quota'];
+                    $space_craft_show_total += $v2['num']*$offerquota[$k2]['craft_show'];
                     $total_quota += $v2['num']?$v2['num']*$offerquota[$k2]['quota']:0;
                     $total_craft_show += $v2['num']?$v2['num']*$offerquota[$k2]['craft_show']:0;
                     $num1++;
