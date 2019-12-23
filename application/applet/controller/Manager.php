@@ -21,7 +21,7 @@ class Manager extends UserBase{
         $field = 'id,customer_name,address,area,room_type,status,discount_proquant,sign_bill_time,jid,oid,work_status,work_time,in_check,sign_bill_time';
         $userlist = Db::name('userlist')->where($where)->where('jid','>','0')->field($field)->order('sign_bill_time','asc')->select();
         if(!$userlist){
-            $this->json(2,'none');
+            $this->json(0,'success',[]);
         }
         // $jl_id = array_unique(array_column($userlist,'jid'));
         $admininfo = array_column(Db::name('admin')->field('userid,name,pid')->where(['companyid'=> $this->admininfo['companyid'],'roleid'=>13,'status'=>1])->select(), null,'userid');
