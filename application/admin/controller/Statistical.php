@@ -323,9 +323,14 @@ class Statistical extends Adminbase
     public function buying(Request $request)
     {
         $data=$request->get();
-        $buying = Db::table('fdz_picking_order_img')->where('poid',$data['uid'])->find();
-        $buyingimg='/uploads/images/'.$buying['img'];
-        return response( "<img src='$buyingimg'>");
+        $buying = Db::table('fdz_picking_order_img')->where('poid',$data['uid'])->select();
+
+        foreach ($buying as $k=>$v)
+        {
+            $buyingimg[]='/uploads/images/'.$v['img'];
+        }
+        $this->assign('buyingimg',$buyingimg);
+        return $this->fetch();
     }
 
 //    合计
