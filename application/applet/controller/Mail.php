@@ -159,6 +159,7 @@ class Mail extends UserBase{
 //        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[2,3]])->sum('total_money');
         $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[1,2]])->sum('total_money');
         $pink_total_money += Db::name('picking_material')->where(['userid'=>$uid,'status'=>[3,4]])->sum('actual_total_money');
+        $pink_total_money += Db::name('picking_order')->where(['userid'=>$uid])->sum('money');
         //领料单数据
         $picking_material = [];
         $picking_material['oid'] = $userinfo['oid'];

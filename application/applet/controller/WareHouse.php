@@ -81,10 +81,14 @@ class WareHouse extends UserBase{
         $datas = input('datas');
 
         $total_money = 0;
-        $status = Db::name('picking_material')->where(['id'=>$id])->value('status');
-        $oid = Db::name('picking_material')->where(['id'=>$id])->value('oid');
-        if(!$status || $status != 2){
-            $this->json(2,'该订单已配货或订单有误');
+        $picking_material = Db::name('picking_material')->where(['id'=>$id])->find();
+        if(!$picking_material){
+            $this->json(2,'订单有误');
+        }
+        $oid = $picking_material['oid'];
+        $userid = $picking_material['userid'];
+        if($picking_material['status'] != 2){
+            $this->json(2,'该订单已配货');
         }
         //可领金额
         $material_total_money = model('admin/offerlist')->get_material_list($oid,2)['total_money'];
@@ -108,6 +112,7 @@ class WareHouse extends UserBase{
                 continue;
             }
         }
+        $figurenum += Db::name('picking_order')->where(['userid'=>$userid])->sum('money');
         foreach($datas as $k=>$v){
             $total_money += $v['num']*$v['price'];
         }
