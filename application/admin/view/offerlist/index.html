@@ -671,7 +671,7 @@ layui.use('table', function(){
                 html +=   '          <span id="discount_msg" style="display:block"></span>'
             }else{
                 html +=   '          <span id="percent">%</span>'
-                html +=   '          <span id="discount_msg" style="display:block">（若打9折，应输入90）</span>'
+                html +=   '          <span id="discount_msg" style="display:block">（若打9折，应输入90，打拆不优惠）</span>'
             }
             html +=   '     </div>'
             html +=   '</div>'
@@ -763,7 +763,7 @@ $(document).on('change','#discount_type',function(){
         $('#discount_msg').text('');
     }else{
         $('#percent').text('%');
-        $('#discount_msg').text('（若打9折，应输入90）');
+        $('#discount_msg').text('（若打9折，应输入90，打拆不优惠）');
     }
 })
 $(document).on('click','.close',function(){
