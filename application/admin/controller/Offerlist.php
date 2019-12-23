@@ -1967,28 +1967,55 @@ class Offerlist extends Adminbase
         }
         //===========获取工种结束
         $datas = [];
-        // $item_number = [];
-        foreach($order_project as $k=>$v){
-            if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
-                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
-                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
-                // $item_number[] = $v['item_number'];
+        if(input('word') == 1){
+            foreach($order_project as $k=>$v){
+                if(strpos($v['project'],'设计费') !== false){
+                    $design[] = $v;
+                    unset($order_project[$k]);
+                    continue;
+                }
+                if(!isset($datas[$v['type_of_work']][$v['space']][$v['item_number']])){
+                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['info'] = $v;
+                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] = 0;
+                    $datas[$v['type_of_work']][$v['space']][$v['item_number']]['project'] = $v['project'];
 
+                }
+                $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
             }
-            $datas[$v['type_of_work']][$v['space']][$v['item_number']]['num'] += $v['num'];
+        }else{
+            foreach($order_project as $k=>$v){
+                if(strpos($v['project'],'设计费') !== false){
+                    $design[] = $v;
+                    unset($order_project[$k]);
+                    continue;
+                }
+                if(!isset($datas[$v['space']][$v['item_number']])){
+                    $datas[$v['space']][$v['item_number']]['info'] = $v;
+                    $datas[$v['space']][$v['item_number']]['num'] = 0;
+                    $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
+                    // $item_number[] = $v['item_number'];
+
+                }
+                $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+            }
         }
         // $item_number = array_unique($item_number);
         $condition = [];
 
         $offerquota = array_column(Db::name('order_project')->where(['o_id'=>$o_id])->select(), null,'item_number');
 
-        $offerlist_info = Model('offerlist')->get_order_info($o_id);
+        if(input('type') != 2){
+            $offerlist_info = Model('offerlist')->get_order_info($o_id);
+        }else{
+            $offerlist_info = Model('offerlist')->get_order_info($o_id,2);
+        }
+        
 
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->find();
         $ty = Db::name('cost_tmp')->where(['f_id'=>$order_info['frameid']])->value('type');
         $room_type = $userinfo['room_type']?$userinfo['room_type']:'住宅';
-       if($ty==1){
+        if($ty==1){
            $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
                     <thead>
@@ -2027,7 +2054,7 @@ class Offerlist extends Adminbase
                           </tr>
                     </thead>
                     <tbody> ';
-       }else{
+        }else{
            // $data = $rs;
            $str = '<style>table,td,th{border:1px solid #000000;text-align:center;padding:2px;}</style>
             <table class="layui-table">
@@ -2068,65 +2095,110 @@ class Offerlist extends Adminbase
 
 
         $num1 = 65;
+        $num2=65; 
         $total_quota = 0;
         $total_craft_show = 0;
-        foreach($datas as $k1=>$v1){
-            $str .= '<tr data-cate="tr'.$k1.'">
-                            <td>'.chr($num1).'</td>
-                            <td colspan="2">'.$k1.'</td>
-                            <td colspan="6"></td>
+        if(input('word') == 1){
+            foreach($datas as $k1=>$v1){
+                $str .= '<tr data-cate="tr'.$k1.'">
+                                <td>'.chr($num1).'</td>
+                                <td colspan="2">'.$k1.'</td>
+                                <td colspan="6"></td>
+                            </tr>';
+                $num1++;$num2=97;
+                foreach($v1 as $k2=>$v2){
+                    $str .=  '<tr id="tr'.$k2.'">
+                                <td>'.chr($num2).'</td>
+                                <td class="text-center" colspan="8">'.$k2.'</td>
+                            </tr>';
+                    $num3=1; $num2++;
+                    $space_quota_total = 0;
+                    $space_craft_show_total = 0;
+                    foreach($v2 as $k3=>$v3){
+                        if($ty==1){
+                            $str .=  '<tr class="tr'.$k1.$k2.'">
+                                        <td>'.$num3.'</td>
+                                        <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
+                                        <td>'.$v3['num'].'</td>
+                                        <td>'.$offerquota[$k3]['company'].'</td>
+                                        <td>'.$offerquota[$k3]['quota'].'</td>
+                                        <td>'. $v3['num']*$offerquota[$k3]['quota'] .'</td>
+                                        <td>'.$offerquota[$k3]['craft_show'].'</td>
+                                        <td>'. $v3['num']*$offerquota[$k3]['craft_show'] .'</td>
+                                        <td>'.$offerquota[$k3]['material'].'</td>
+                                    </tr>';
+                        }else{
+                            $str .=  '<tr class="tr'.$k1.$k2.'">
+                                        <td>'.$num3.'</td>
+                                        <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
+                                        <td>'.$v3['num'].'</td>
+                                        <td>'.$offerquota[$k3]['company'].'</td>
+                                        <td colspan="2">'. ($offerquota[$k3]['quota'] + $offerquota[$k3]['craft_show']) .'</td>
+                                        <td colspan="2">'. ($v3['num']*$offerquota[$k3]['craft_show'] + $v3['num']*$offerquota[$k3]['quota']) .'</td>
+                                        <td>'.$offerquota[$k3]['material'].'</td>
+                                    </tr>';
+                        }
+                        $space_quota_total = $v3['num']*$offerquota[$k3]['quota'];
+                        $space_craft_show_total = $v3['num']*$offerquota[$k3]['craft_show'];
+                        $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
+                        $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
+                        $num3++;
+                    }
+                }
+                $str .= '<tr class="tr'.$k1.'total">
+                            <td class="text-center" colspan="2">小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>'.$space_quota_total.'</td>
+                            <td></td>
+                            <td>'.$space_craft_show_total.'</td>
+                            <td></td>
                         </tr>';
-            $num1++;$num2=97;
-            foreach($v1 as $k2=>$v2){
-                $str .=  '<tr id="tr'.$k2.'">
+            }
+        }else{
+            foreach($datas as $k1=>$v1){
+                $str .= '<tr>
                             <td>'.chr($num2).'</td>
-                            <td class="text-center" colspan="8">'.$k2.'</td>
+                            <td colspan="8">'.$k1.'</td>
                         </tr>';
-                $num3=1; $num2++;
-                $space_quota_total = 0;
-                $space_craft_show_total = 0;
-                foreach($v2 as $k3=>$v3){
+                $num1 = 1;
+                $num2++; 
+                $space_total1=0;//辅材
+                $space_total2=0; //人工
+                foreach($v1 as $k2=>$v2){
                     if($ty==1){
-                    $str .=  '<tr class="tr'.$k1.$k2.'">
-                                    <td>'.$num3.'</td>
-                                    <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
-                                    <td>'.$v3['num'].'</td>
-                                    <td>'.$offerquota[$k3]['company'].'</td>
-                                    <td>'.$offerquota[$k3]['quota'].'</td>
-                                    <td>'. $v3['num']*$offerquota[$k3]['quota'] .'</td>
-                                    <td>'.$offerquota[$k3]['craft_show'].'</td>
-                                    <td>'. $v3['num']*$offerquota[$k3]['craft_show'] .'</td>
-                                    <td>'.$offerquota[$k3]['material'].'</td>
+                        $str .=  '<tr class="">
+                                    <td>'.$num1.'</td>
+                                    <td style="text-align:left">'.$offerquota[$k2]['project'].'</td>
+                                    <td>'.$v2['num'].'</td>
+                                    <td>'.$offerquota[$k2]['company'].'</td>
+                                    <td>'.$offerquota[$k2]['quota'].'</td>
+                                    <td>'. $v2['num']*$offerquota[$k2]['quota'] .'</td>
+                                    <td>'.$offerquota[$k2]['craft_show'].'</td>
+                                    <td>'. $v2['num']*$offerquota[$k2]['craft_show'] .'</td>
+                                    <td>'.$offerquota[$k2]['material'].'</td>
                                 </tr>';
                     }else{
                         $str .=  '<tr class="tr'.$k1.$k2.'">
                                     <td>'.$num3.'</td>
-                                    <td style="text-align:left">'.$offerquota[$k3]['project'].'</td>
-                                    <td>'.$v3['num'].'</td>
-                                    <td>'.$offerquota[$k3]['company'].'</td>
-                                    <td colspan="2">'. ($offerquota[$k3]['quota'] + $offerquota[$k3]['craft_show']) .'</td>
-                                    <td colspan="2">'. ($v3['num']*$offerquota[$k3]['craft_show'] + $v3['num']*$offerquota[$k3]['quota']) .'</td>
-                                    <td>'.$offerquota[$k3]['material'].'</td>
+                                    <td style="text-align:left">'.$offerquota[$k2]['project'].'</td>
+                                    <td>'.$v2['num'].'</td>
+                                    <td>'.$offerquota[$k2]['company'].'</td>
+                                    <td colspan="2">'. ($offerquota[$k2]['quota'] + $offerquota[$k2]['craft_show']) .'</td>
+                                    <td colspan="2">'. ($v2['num']*$offerquota[$k2]['craft_show'] + $v2['num']*$offerquota[$k2]['quota']) .'</td>
+                                    <td>'.$offerquota[$k2]['material'].'</td>
                                 </tr>';
                     }
-                    $space_quota_total = $v3['num']*$offerquota[$k3]['quota'];
-                    $space_craft_show_total = $v3['num']*$offerquota[$k3]['craft_show'];
-                    $total_quota += $v3['num']?$v3['num']*$offerquota[$k3]['quota']:0;
-                    $total_craft_show += $v3['num']?$v3['num']*$offerquota[$k3]['craft_show']:0;
-                    $num3++;
+                    $space_quota_total = $v2['num']*$offerquota[$k2]['quota'];
+                    $space_craft_show_total = $v2['num']*$offerquota[$k2]['craft_show'];
+                    $total_quota += $v2['num']?$v2['num']*$offerquota[$k2]['quota']:0;
+                    $total_craft_show += $v2['num']?$v2['num']*$offerquota[$k2]['craft_show']:0;
+                    $num1++;
                 }
             }
-            $str .= '<tr class="tr'.$k1.'total">
-                        <td class="text-center" colspan="2">小计</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>'.$space_quota_total.'</td>
-                        <td></td>
-                        <td>'.$space_craft_show_total.'</td>
-                        <td></td>
-                    </tr>';
         }
+        
         $str .= '<tr>
                     <td class="text-center" colspan="2">直接费</td>
                     <td></td>
@@ -2150,7 +2222,7 @@ class Offerlist extends Adminbase
                        <td>'.$vcost['price'].'</td>
                        <td></td>
                        <td></td>
-                       <td></td>
+                       <td>'.$vcost['content'] ?: "".'</td>
                    </tr>';
             $num++;
         }
@@ -2158,14 +2230,52 @@ class Offerlist extends Adminbase
         if($offerlist_info['discount']){
             $str .= '<tr>
                        <td class="text-center">'.chr($num).'</td>
-                       <td class="text-center">优惠</td>
+                       <td class="text-center">优惠前报价</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$offerlist_info['proquant'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>';
+            $num++;
+            $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">工程优惠</td>
                        <td></td>
                        <td></td>
                        <td></td>
                        <td>'.$offerlist_info['discount'].'</td>
                        <td></td>
                        <td></td>
+                       <td>'.$offerlist_info['discount_content'].'/td>
+                   </tr>';
+            $num++;
+        }
+        if($offerlist_info['discount_zk']){
+            $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">优惠前报价</td>
                        <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$offerlist_info['proquant'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>';
+            $num++;
+            $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">工程优惠</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$offerlist_info['discount_zk'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$offerlist_info['discount_content'].'</td>
                    </tr>';
             $num++;
         }
@@ -2179,6 +2289,23 @@ class Offerlist extends Adminbase
                    <td></td>
                    <td></td>
                </tr>';
+        if(!empty($design)){
+            foreach($design as $k=>$v){
+                $str .= '<tr>
+                       <td class="text-center">'.chr($num).'</td>
+                       <td class="text-center">'.$v['project'].'</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td>'. $v['craft_show']*$v['num'] .'</td>
+                       <td></td>
+                       <td></td>
+                       <td>'.$v['material'].'</td>
+                   </tr>';
+                $num++;
+            }
+            
+        }
         //一串字
         if($order_info['o_remark']){
             $str .= '<tr>

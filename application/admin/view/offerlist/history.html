@@ -90,7 +90,7 @@ th{
                 <a style="float: right" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'':2,'word'=>input('word')==1?1:''])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('type')==2?'切换原单':'切换完整订单' ?></a>
                 <a style="float: right; margin:0 10px" href="{:url('admin/offerlist/history',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')==2?'2':'','word'=>input('word')==1?'':1])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('word')==1?'按空间显示':'按工种显示' ?></a>
                 <form class="layui-inline">
-                    <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type')])}">导出报表</a>
+                    <a class="layui-btn layui-btn-sm" id="export" href = "{:url('admin/offerlist/excel_export',['customerid'=>input('customerid'),'report_id'=>input('report_id'),'type'=>input('type'),'word'=>input('word')])}">导出报表</a>
                     <button class="layui-btn layui-btn-sm" type="button" data-fun="print" id="btn_export">打印</button>
                     {switch name="order_info.status"}
                         {case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
