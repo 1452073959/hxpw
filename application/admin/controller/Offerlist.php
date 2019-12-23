@@ -2249,7 +2249,7 @@ class Offerlist extends Adminbase
                        <td>'.$offerlist_info['discount'].'</td>
                        <td></td>
                        <td></td>
-                       <td>'.$offerlist_info['discount_content'].'/td>
+                       <td>'.$offerlist_info['discount_content'].'</td>
                    </tr>';
             $num++;
         }
