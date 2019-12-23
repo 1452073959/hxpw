@@ -101,9 +101,9 @@ class Manager extends UserBase{
         $new_data[5]['get'] = 0;
         $new_data[5]['give'] = 0;
         foreach($data as $k=>$v){
-            $new_data[$k]['give'] = $v;
+            $new_data[$k]['give'] = round($v,2);
             if(isset($get_money[$k])){
-                $new_data[$k]['get'] = $get_money[$k]['money'];
+                $new_data[$k]['get'] = round($get_money[$k]['money'],2);
                 $new_data[$k]['get_time'] = date('Y-m-d',strtotime($get_money[$k]['addtime']));
             }else{
                 $new_data[$k]['get'] = 0;
