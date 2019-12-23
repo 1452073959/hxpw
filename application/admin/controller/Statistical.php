@@ -324,7 +324,7 @@ class Statistical extends Adminbase
     {
         $data=$request->get();
         $buying = Db::table('fdz_picking_order_img')->where('poid',$data['uid'])->find();
-        $buyingimg=$_SERVER['HTTP_HOST'].'/uploads/images/'.$buying['img'];
+        $buyingimg='/uploads/images/'.$buying['img'];
         return response( "<img src='$buyingimg'>");
     }
 
