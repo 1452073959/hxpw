@@ -113,16 +113,21 @@ class WareHouse extends UserBase{
             }
         }
         $figurenum += Db::name('picking_order')->where(['userid'=>$userid])->sum('money');
+        //获取领料超过多少则需要审核
+        $pick_rate = Db::name('cost_tmp')->where(['f_id'=>$this->admininfo['companyid']])->value('pick_rate');
+        if(!$pick_rate){
+            $pick_rate = 80;
+        }
         foreach($datas as $k=>$v){
             $total_money += $v['num']*$v['price'];
         }
-        if($figurenum+$total_money<$material_total_money) {
+
+        if($figurenum + $total_money < $material_total_money * $pick_rate/100 || $total_money <= $picking_material['total_money']){
             // 启动事务
             Db::startTrans();
             try {
                 foreach($datas as $k=>$v){
                     Db::name('picking_material_info')->where(['id'=>$v['id']])->update(['actual_num'=>$v['num']]);
-                    // $total_money += $v['num']*$v['price'];
                 }
                     Db::name('picking_material')->where(['id' => $id])->update(['actual_total_money' => $total_money, 'status' => 3]);
                     // 提交事务
