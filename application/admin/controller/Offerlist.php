@@ -2106,14 +2106,14 @@ class Offerlist extends Adminbase
                                 <td colspan="6"></td>
                             </tr>';
                 $num1++;$num2=97;
+                $space_quota_total = 0;
+                $space_craft_show_total = 0;
                 foreach($v1 as $k2=>$v2){
                     $str .=  '<tr id="tr'.$k2.'">
                                 <td>'.chr($num2).'</td>
                                 <td class="text-center" colspan="8">'.$k2.'</td>
                             </tr>';
                     $num3=1; $num2++;
-                    $space_quota_total = 0;
-                    $space_craft_show_total = 0;
                     foreach($v2 as $k3=>$v3){
                         if($ty==1){
                             $str .=  '<tr class="tr'.$k1.$k2.'">
