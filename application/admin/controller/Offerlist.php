@@ -2198,6 +2198,16 @@ class Offerlist extends Adminbase
                     $total_craft_show += $v2['num']?$v2['num']*$offerquota[$k2]['craft_show']:0;
                     $num1++;
                 }
+                $str .= '<tr">
+                            <td class="text-center" colspan="2">小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>'.$space_quota_total.'</td>
+                            <td></td>
+                            <td>'.$space_craft_show_total.'</td>
+                            <td></td>
+                        </tr>';
             }
         }
         
