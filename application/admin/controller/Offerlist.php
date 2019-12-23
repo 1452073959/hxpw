@@ -243,7 +243,7 @@ class Offerlist extends Adminbase
                     }
                     $data[$v['space']][$v['item_number']] = 0;
                     $item_number[] = $v['item_number'];
-                    if( $v['of_fb'] != 0 && $v['of_fb'] != 5){
+                    if( $v['of_fb'] != 0 && $v['of_fb'] != 3 && $v['of_fb'] != 5){
                         $fb_num[] = $v['item_number'];
                     }
                 }
