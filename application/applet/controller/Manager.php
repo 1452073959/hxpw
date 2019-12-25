@@ -121,9 +121,32 @@ class Manager extends UserBase{
         $where = [];
         $where['status'] = 1;
         $where['f_id'] = $this->admininfo['companyid'];
+//        自购定点领料
+        $fdz_picking_order=Db::table('fdz_picking_order')->where('status',0)
+            ->where('f_id',$this->admininfo['companyid'])
+            ->select();
 
+        //筛选这张单是否是当前工程经理的
+        if($fdz_picking_order && $this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            $userids = array_column($fdz_picking_order, 'userid');
+            $userids = array_column(Db::name('userlist')->where(['id'=>$userids,'gcmanager_id'=>$this->admininfo['userid']])->select(), 'id');;
+            foreach($fdz_picking_order as $k=>$v){
+                if(!in_array($v['userid'], $userids)){
+                    unset($fdz_picking_order[$k]);
+                }
+            }
+        }
+        foreach($fdz_picking_order as $k=>$v){
+            //历史领料金额总额
+            $fdz_picking_order[$k]['actual_total_money'] = Db::table('fdz_picking_order')->where(['userid'=>$v['userid'],'status'=>[2,3,4]])->sum('money')+Db::name('picking_material')->where(['userid'=>$v['userid'],'status'=>[2,3,4]])->sum('actual_total_money');
+            $fdz_picking_order[$k]['j_name'] = Db::name('admin')->where(['userid'=>$v['adminid']])->value('name');
+            $fdz_picking_order[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
+            $fdz_picking_order[$k]['total_money'] = $v['money'];
+        }
+
+//        ______________________________
         $picking_material = Db::name('picking_material')->where($where)->order('id','desc')->select();
-        
+
         //筛选这张单是否是当前工程经理的
         if($picking_material && $this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             $userids = array_column($picking_material, 'userid');
@@ -140,11 +163,37 @@ class Manager extends UserBase{
         }
         foreach($picking_material as $k=>$v){
             //历史领料金额总额
-            $picking_material[$k]['actual_total_money'] = Db::name('picking_material')->where(['oid'=>$v['oid'],'status'=>[2,3,4]])->sum('actual_total_money');
+            $picking_material[$k]['actual_total_money'] = Db::name('picking_material')->where(['userid'=>$v['userid'],'status'=>[2,3,4]])->sum('actual_total_money');
             $picking_material[$k]['j_name'] = Db::name('admin')->where(['userid'=>$v['adminid']])->value('name');
             $picking_material[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
         }
+
+        $picking_material=array_merge($fdz_picking_order,$picking_material);
         $this->json(0,'success',$picking_material);
+    }
+    
+    public function fixed()
+    {
+        $fdz_picking_order_img=Db::table('fdz_picking_order_img')->where('poid',input('id'))->select();
+        foreach ($fdz_picking_order_img as $k=>$v)
+        {
+            $img[]='http://'.$_SERVER['HTTP_HOST'].'/uploads/images/'.$v['img'];
+        }
+        $this->json(0,'success',$img);
+    }
+    //审核定点/自购
+    public function fixedaudit()
+    {
+        $fdz_picking_order=Db::table('fdz_picking_order')->where('id',input('id'))->find();
+        if(!$fdz_picking_order || $fdz_picking_order['status'] != 0){
+            $this->json(2,'无效订单');
+        }
+        $res=Db::table('fdz_picking_order')->where('id',input('id'))->update(['status'=>input('status')]);
+        if($res){
+            $this->json(0,'审核成功');
+        }else{
+            $this->json(2,'审核失败');
+        }
     }
 
     //审核领料
