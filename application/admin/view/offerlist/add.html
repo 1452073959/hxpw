@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">报价师姓名<i class="bred">*</i></label>
+                <label class="layui-form-label">报价师<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
@@ -80,11 +80,37 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">设计师姓名<i class="bred">*</i></label>
+                <label class="layui-form-label">设计师<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="designer_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
+                        {foreach $designer_name as $k=>$v } 
+                            <option value="{$v.id}">{$v.name}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">画图<i class="bred">*</i></label>
+                <div class="layui-input-inline w300">
+                    <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
+                    <select name="assistant_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option value="0">其他</option>
+                        {foreach $designer_name as $k=>$v } 
+                            <option value="{$v.id}">{$v.name}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">业务员<i class="bred">*</i></label>
+                <div class="layui-input-inline w300">
+                    <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
+                    <select name="sale_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option value="0">其他</option>
                         {foreach $designer_name as $k=>$v } 
                             <option value="{$v.id}">{$v.name}</option>
                         {/foreach}

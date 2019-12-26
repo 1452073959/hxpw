@@ -742,10 +742,12 @@ class Offerlist extends Adminbase
             $provinces = array_column(Db::name('provinces')->order('id','asc')->select(),null, 'provinceid');
             $cities = array_column(Db::name('cities')->where(['provinceid'=>$data['provinceid']])->order('id','asc')->select(),null, 'cityid');
             $areas = array_column(Db::name('areas')->where(['cityid'=>$data['cityid']])->order('id','asc')->select(),null, 'areaid');
+            $personnel = array_column(Db::name('personnel')->where(['fid'=>$data['frameid']])->select(),null, 'id');
             $this->assign([
                 'provinces'=>$provinces,
                 'cities'=>$cities,
                 'areas'=>$areas,
+                'personnel'=>$personnel,
                 'address'=>$provinces[$data['provinceid']]['province'].$cities[$data['cityid']]['city'].$areas[$data['areaid']]['area'],
             ]);
             $this->assign('data',$data);
@@ -1174,6 +1176,8 @@ class Offerlist extends Adminbase
             $bao['soft_designer'] =  $data['soft_designer'];
             $bao['sd_designer'] =  $data['sd_designer'];
             $bao['aid_designer'] =  $data['aid_designer'];
+            $bao['assistant_id'] =  $data['assistant_id'];
+            $bao['sale_id'] =  $data['sale_id'];
 
             $names = array_column(Db::name('personnel')->where(['id'=>[$data['quoter_id'],$data['designer_id'],$data['manager_id']]])->select(), null,'id');
             $bao['quoter_id'] =  $data['quoter_id'];
