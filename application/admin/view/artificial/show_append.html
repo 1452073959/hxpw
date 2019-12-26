@@ -79,7 +79,7 @@
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="">
-            <button class="layui-btn" onclick="javascript:history.back(-1);">返回</button>
+            <a class="layui-btn" href="{:url('admin/artificial/regulation',['id'=>input('id')])}">返回</a>
             <blockquote class="layui-elem-quote news_search">
                 <a style="float: right; margin:0 10px" href="{:url('admin/artificial/show_append',['id'=>input('id'),'one'=>input('one'),'type'=>input('type')==1?'':'1'])}" class="layui-btn layui-btn-sm layui-btn-primary"><?php echo input('type')==1?'只显示增加项':'显示完整订单' ?></a>
                 <form class="layui-inline">

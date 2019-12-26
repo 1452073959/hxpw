@@ -693,9 +693,9 @@ class Artificial extends Adminbase
     }
 
 
-    public function regulation(Request $request)
+    public function regulation()
     {
-        $userinfo = $request->get();
+        $userinfo = input();
         $regulation = Db::table('fdz_order_append')->where('o_id', $userinfo['id'])->select();
         $datas = [];
         $total = 0;
