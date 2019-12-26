@@ -28,7 +28,7 @@
     </thead>
     <tbody>
     {foreach $regulation as $k=>$v}
-       <tr onclick=location.href='/admin/artificial/show_append?id={$v.o_id}&one={$v.id}&type=2'>
+       <tr onclick=location.href='/admin/artificial/show_append?id={$v.o_id}&one={$v.id}'>
        <td>{$k + 1}</td>
            <td>{$v.discount_proquant}</td>
         <td>{$v['add_time']||date="Y-m-d H:i:s"}</td>
@@ -37,7 +37,7 @@
         </td>
          </tr>
     {/foreach}
-    <tr onclick=location.href='/admin/artificial/show_append?id={$v.o_id}&type=2'>
+    <tr onclick=location.href='/admin/artificial/show_append?id={$v.o_id}'>
         <td>合计</td>
         <td>{$total}</td>
         <td></td>

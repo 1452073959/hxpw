@@ -710,70 +710,60 @@ class Artificial extends Adminbase
         return $this->fetch();
     }
 
-    public function show_append(Request $request)
-    {
-        $data = $request->get();
+    public function show_append(){
+        $data = input();
         $o_id = $data['id'];
         //订单数据
         $order_info = Db::name('offerlist')->where('id', $o_id)->find();
         $userinfo = Db::name('userlist')->where('id', $order_info['customerid'])->find();
+        $where = [];
         if (!isset($data['one'])) {
-            $where = [];
+            //总的
             $where['o_id'] = $o_id;
             $where['type'] = 2;
-            $order_project = Db::name('order_project')->where($where)->select();
-            $oa=[];
-            foreach ($order_project as $key=>$value){
-                $oa[]=$value['oa_id'];
-            }
-            //==========获取工种 空间类型
-            $offer_type_list = Db::name('offer_type')->where(['companyid' => $userinfo['frameid'], 'status' => 1])->select();
-            $offer_type = [1 => [], 2 => []];
-            foreach ($offer_type_list as $k => $v) {
-                $offer_type[$v['type']][] = $v;
-            }
-            //===========获取工种结束
-            $datas = [];
-            foreach ($order_project as $k => $v) {
-                if (!isset($datas[$v['space']][$v['item_number']])) {
-                    $datas[$v['space']][$v['item_number']]['info'] = $v;
-                    $datas[$v['space']][$v['item_number']]['num'] = 0;
-                    $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                }
-                $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
-            }
-            //增减项详情
-            $offerlist_info = Model('offerlist')->get_append_order_info($oa);
-
         } else {
-            $one = $data['one'];
-            $where = [];
+            //单个
             $where['o_id'] = $o_id;
-            if (input('type') != 2) {
-                //增减项+原单
-                $where['type'] = 1;
-            }
-            $order_project = Db::name('order_project')->where($where)->where('oa_id', $one)->select();
-            //==========获取工种 空间类型
-            $offer_type_list = Db::name('offer_type')->where(['companyid' => $userinfo['frameid'], 'status' => 1])->select();
-            $offer_type = [1 => [], 2 => []];
-            foreach ($offer_type_list as $k => $v) {
-                $offer_type[$v['type']][] = $v;
-            }
-            //===========获取工种结束
-            $datas = [];
-            foreach ($order_project as $k => $v) {
-                if (!isset($datas[$v['space']][$v['item_number']])) {
-                    $datas[$v['space']][$v['item_number']]['info'] = $v;
-                    $datas[$v['space']][$v['item_number']]['num'] = 0;
-                    $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
-                }
-                $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
-            }
-            //增减项详情
-            $offerlist_info = Model('offerlist')->get_append_order_info([$one]);
-
+            $where['oa_id'] = [$data['one']];
+            $where['type'] = 2;
         }
+        $order_project = Db::name('order_project')->where($where)->select();
+        if(input('type') == 1){
+            //查看整单
+            $condition = [];
+            $condition[] = ['o_id','=',$o_id];
+            if(isset($data['one'])){
+                $condition[] = ['oa_id','<',$data['one']];
+            }else{
+                $condition[] = ['oa_id','=',0];
+            }
+            //合同单的
+            $other_order_project = Db::name('order_project')->where($condition)->select();
+        }else{
+            $other_order_project = [];
+        }
+        $order_project = array_merge($order_project,$other_order_project);
+        $order_append_ids = [];
+        foreach ($order_project as $key=>$value){
+            $order_append_ids[] = $value['oa_id'];
+        }
+        $offer_type_list = Db::name('offer_type')->where(['companyid' => $userinfo['frameid'], 'status' => 1])->select();
+        $offer_type = [1 => [], 2 => []];
+        foreach ($offer_type_list as $k => $v) {
+            $offer_type[$v['type']][] = $v;
+        }
+        //===========获取工种结束
+        $datas = [];
+        foreach ($order_project as $k => $v) {
+            if (!isset($datas[$v['space']][$v['item_number']])) {
+                $datas[$v['space']][$v['item_number']]['info'] = $v;
+                $datas[$v['space']][$v['item_number']]['num'] = 0;
+                $datas[$v['space']][$v['item_number']]['project'] = $v['project'];
+            }
+            $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
+        }
+        //增减项详情
+        $offerlist_info = Model('offerlist')->get_order_info_by_project($order_project);
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id' => $order_info['frameid']])->find();
         $this->assign([
