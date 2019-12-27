@@ -783,8 +783,8 @@ class Offerlist extends Adminbase
         foreach ($res as $key => $value) {
             //判断是否有增减项
             $res[$key]['info'] = Model('offerlist')->get_order_info($value['id'],2);
-
-            $res[$key]['append_num'] = $order_project = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
+            $res[$key]['append_num'] = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
+            $res[$key]['add_append_num'] = Db::name('append_img')->where('oid',$value['id'])->count();
 
         }
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();

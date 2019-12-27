@@ -11,6 +11,45 @@ use think\Request;
 
 class OrderAppend extends Adminbase
 {
+
+    //获取监理申请的增加项
+    public function get_append_img(){
+        $oid = input('oid');
+        $append_img = Db::name('append_img')->where('oid',$oid)->order('id','asc')->select();
+        foreach($append_img as $k=>$v){
+            $append_img[$k]['img'] = 'http://'.$_SERVER['HTTP_HOST'].'/uploads/images/'.$v['img'];
+            $append_img[$k]['time'] = date('Y-m-d',strtotime($v['time']));
+            if($v['deal_id'] != 0){
+                $append_img[$k]['status'] = '已处理';//已处理
+            }else{
+                $append_img[$k]['status'] = '未处理';
+            }
+            $append_img[$k]['img'] = 'http://'.$_SERVER['HTTP_HOST'].'/uploads/images/'.$v['img'];
+        }
+        if($append_img){
+            $this->success('success','',$append_img);
+        }else{
+            $this->success('none');
+        }
+    }
+    //确认处理增加项
+    public function deal_append_img(){
+        $id = input('id');
+        $append_img = Db::name('append_img')->where('id',$id)->find();
+        if($append_img['deal_id'] != 0){
+            $this->error('该订单已处理');
+        }
+        if($append_img['fid'] != $this->_userinfo['companyid']){
+            // $this->error('禁止处理非本公司的订单');
+        }
+        $update = Db::name('append_img')->where('id',$id)->update(['deal_id'=>$this->_userinfo['userid'],'deal_time'=>time()]);
+        if($update){
+            $this->success('处理成功');
+        }else{
+            $this->error('处理失败');
+        }
+    }
+
     //新增时页面
     public function add_index(){
         if(!input('customer_id') || !input('order_id')){

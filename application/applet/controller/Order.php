@@ -81,6 +81,44 @@ class Order extends UserBase{
         $this->json(0,'success',['order'=>$datas,'userinfo'=>$userinfo,'total_money'=>$total_money,'order_info'=>$order_info]);
     }
 
+    //监理提交增加项
+    public function addAppend(){
+        $uid = input('uid');
+        $remark = input('remark'); //先可不填吧
+        $img = input('img');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        if(!$userinfo){
+            $this->json(2,'参数错误');
+        }
+        if(!isset($img[0])){
+            $this->json(2,'未上传图片');
+        }
+        Db::startTrans();
+        $data = [];
+        try {
+            if($img){
+                foreach($img as $k=>$v){
+                    //其实只有一张图片 预防以后可能有多张图片. 先这样写
+                    $info = [];
+                    $info['oid'] = $userinfo['oid'];
+                    $info['fid'] = $userinfo['frameid'];
+                    $info['uid'] = $uid;
+                    $info['img'] = $v;
+                    $info['remark'] = $remark;
+                    $data[] = $info;
+                }
+                Db::name('append_img')->insertAll($data);
+            }
+            // 提交事务
+            Db::commit();
+            $this->json(0,'提交成功');
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->json(0,'提交失败');
+        }
+    }
+
     //获取增减项列表
     public function getAppendList(){
         $uid = input('uid');
