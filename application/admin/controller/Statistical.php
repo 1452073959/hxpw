@@ -66,7 +66,8 @@ class Statistical extends Adminbase
         // /[1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师'];
         $personnel = Db::name('personnel')->where($person_where)->where($name_where)->field('id,name,job,phone,status')->select();
         $personnel_ids = array_column($personnel, 'id');
-        $userlist = Db::name('userlist')->where($user_where)->where('status','>=',3)->where(['quoter_id|designer_id|manager_id'=>$personnel_ids])->select();
+        $userlist = Db::name('userlist')->where($user_where)->where('status','>=',3)->where(['quoter_id|designer_id|manager_id|assistant_id|sale_id'=>$personnel_ids])->select();
+        // var_dump($userlist);die;
         foreach($personnel as $k1=>$v1){
             //初始化数据----------start
             $personnel[$k1]['total_money'] = 0;//总开工额
@@ -80,7 +81,7 @@ class Statistical extends Adminbase
             $personnel[$k1]['num4'] = 0;//公装数量
             //初始化数据---------end
             foreach($userlist as $k2=>$v2){
-                if(($v1['id'] == $v2['quoter_id'] || $v1['id'] == $v2['designer_id'] || $v1['id'] == $v2['manager_id']) && $v2['oid'] != 0){
+                if(($v1['id'] == $v2['quoter_id'] || $v1['id'] == $v2['designer_id'] || $v1['id'] == $v2['manager_id'] || $v1['id'] == $v2['assistant_id'] || $v1['id'] == $v2['sale_id']) && $v2['oid'] != 0){
                     $order_info = model('offerlist')->get_order_info($v2['oid'], 2);
                     $personnel[$k1]['total_money'] += $order_info['discount_proquant'];
                     $personnel[$k1]['total_profits'] += $order_info['gross_profit_total'];
@@ -193,7 +194,7 @@ class Statistical extends Adminbase
         $this->assign('personnel', $personnel);
         $this->assign('admin', $admin);
         $this->assign('total', $total);
-        $this->assign('job', [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师']);
+        $this->assign('job', [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师',14=>'业务员',15=>'画图']);
         $this->assign('role', array_column(Db::name('auth_group')->field('id,title')->select(),null, 'id'));
         return $this->fetch();
     }
