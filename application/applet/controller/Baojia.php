@@ -18,8 +18,8 @@ class Baojia extends UserBase
     {
 				//接收
 		$data = $request->post();
-		// type==1监理借支==2代工人借支
-		if($data['type']==1){
+		// type==1监理借支==2代工人借支小程序未更新$data['type']==1||
+		if(!isset($data['type'])){
 		$money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
 		$borrower = Db::table('fdz_financial')->where('userid', $data['uid'])->find();
 		$borrower = Db::table('fdz_cost_tmp')->where('f_id', $borrower['fid'])->value('borrower');
