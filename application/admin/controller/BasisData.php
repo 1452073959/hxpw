@@ -1412,10 +1412,11 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
-		if (!empty(input('samcode'))) {
-		    $where[] = ['name','like',"%".input('samcode')."%"];
+		$wheres=[];
+		if (!empty(input('material'))) {
+		    $wheres[] = ['name','like',"%".input('material')."%"];
 		}
-        $datas = Db::name('apply_material')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
+        $datas = Db::name('apply_material')->where($where)->where($wheres)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
 
         //判断是否已添加
         $amcode = array_column($datas->items(), 'p_amcode');
@@ -1538,11 +1539,11 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
-
-		if (!empty(input('samcode'))) {
-		    $where[] = ['name','like',"%".input('samcode')."%"];
+		$wheres=[];
+		if (!empty(input('material'))) {
+		    $wheres[] = ['name','like',"%".input('material')."%"];
 		}
-        $datas = Db::name('apply_project')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+        $datas = Db::name('apply_project')->where($where)->where($wheres)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
             if($item['status'] == 1){
                 return $item;
             }
