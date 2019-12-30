@@ -121,6 +121,7 @@
     <thead>
     <tr>
         <th lay-data="{field:'id'}">借支客户</th>
+        <th lay-data="{field:'address'}">工程地址</th>
         <th lay-data="{field:'username'}">借支人(监理)</th>
         <th lay-data="{field:'sex'}">审核人(工程经理)</th>
         <th lay-data="{field:'city'}">申请借支金额(单位: 元)</th>
@@ -135,6 +136,7 @@
     {foreach $audit as $k=>$v}
     <tr>
         <td>{$v.offer.customer_name}</td>
+        <td>{$v.offer.address}</td>
         <td>{$v.user.name}</td>
         <td>{$v.audit.name}</td>
         <td class="mon">{$v.money}</td>

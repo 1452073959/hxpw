@@ -1412,6 +1412,9 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
+		if (!empty(input('samcode'))) {
+		    $where[] = ['name','like',"%".input('samcode')."%"];
+		}
         $datas = Db::name('apply_material')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()]);
 
         //判断是否已添加
@@ -1535,6 +1538,10 @@ class BasisData extends Adminbase{
         if(input('status')){
             $where['status'] = input('status');
         }
+
+		if (!empty(input('samcode'))) {
+		    $where[] = ['name','like',"%".input('samcode')."%"];
+		}
         $datas = Db::name('apply_project')->where($where)->order('status','asc')->order('id','desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
             if($item['status'] == 1){
                 return $item;
