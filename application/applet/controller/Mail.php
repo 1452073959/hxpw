@@ -3,6 +3,7 @@
 // | 领料
 // +----------------------------------------------------------------------
 namespace app\applet\controller;
+use app\admin\model\Userlist;
 use think\Db;
 use think\Controller;
 use think\facade\Cache;
@@ -312,6 +313,7 @@ class Mail extends UserBase{
             $this->json(2,'success',[]);
         }
         foreach ($picking_order as $k => $v) {
+            $picking_order[$k]['addtime'] = date('Y-m-d',strtotime($v['addtime']));
             $img = Db::name('picking_order_img')->where(['poid'=>$v['id']])->order('id','desc')->select();
             foreach($img as $k1=>$v2){
                 $picking_order[$k]['img'][] = $this->getImgSrc($v2['img']);
@@ -338,4 +340,73 @@ class Mail extends UserBase{
         $data['pinking_rate'] = round($data['actual_total_money'] / $data['discount_proquant'] *100,2);
         $this->json(0,'success',$data);
     }
+	//退料
+	public function sales()
+	{
+		$user= Db::name('userlist')->where(['id'=>input('uid')])->find();
+		$fdz_picking_material_info=Db::table('fdz_picking_material_info')->where('userid',$user['id'])->select();
+		if(empty($fdz_picking_material_info)){
+			  $this->json(1,'该客户无领料记录');
+		}
+		$newma=[];
+		foreach($fdz_picking_material_info as $k=>$v){
+			$newma[]=$v['amcode'];				
+		}
+		$newma=array_unique($newma);
+		foreach($newma as $k1=>$v1){
+			$material_info[]=Db::table('fdz_picking_material_info')->where('amcode',$v1)->find();
+		}
+		foreach($material_info as $k2=>$v2){
+		 $material_info[$k2]['img'] = $this->getImgSrc($v2['img']);
+		 $material_info[$k2]['num'] = '';
+		}
+		$this->json(0,'查询领料记录成功',$material_info);
+	}
+	
+	
+	
+	public function salesover()
+	{
+		$data=input('data');
+		$user=$this->admininfo;
+		if(!input('totalPrice')||input('totalPrice')==0){
+			  $this->json(1,'请输入退料数量');
+		}
+		$req=Db::name('sales_record')->insertGetId(['cid'=>$user['userid'],'fid'=>$user['companyid'],'time'=>date('y-m-d H:i:s', time()),'money'=>input('totalPrice')]);
+
+		foreach($data as $k=>$v)
+		{
+			unset($data[$k]['id']);
+			unset($data[$k]['pmid']);
+			unset($data[$k]['oid']);
+			unset($data[$k]['actual_num']);
+			$data[$k]['tid']=$req;
+		}
+		$res=	Db::name('sales')->insertAll($data);
+		if($res){
+				$this->json(0,'退料成功',$res);
+		}else{
+			$this->json(1,'退料失败');
+		}
+			
+	}
+	
+	public function salelist()
+	{
+		$user=$this->admininfo;
+		$user=Userlist::with('sale')->where(['frameid'=>$user['companyid'],])->all();
+		//去掉没有领料记录的
+		foreach($user as $k=>$v){
+            if (count($v['sale'])==0) {
+               unset($user[$k]);
+            }
+        }
+//		dump($user);die;
+        $this->json(0,'success',$user);
+
+	}
+	 public function salehistory()
+     {
+
+     }
 }

@@ -94,23 +94,39 @@ class Baojia extends UserBase
                 }
             }
         }
+		
         foreach ($audit as $k => $v) {
-            $audit[$k]['ys'] = 0;
-            foreach ($money = Db::table('fdz_financial')->where('userid', $v['uid'])->select() as $k1 => $v1) {
-                $audit[$k]['ys'] += $v1['money'];
-                $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid', $v['uid'])->find();
-                $audit[$k]['borrower'] = Db::table('fdz_cost_tmp')->where('f_id', $audit[$k]['borrower']['fid'])->value('borrower');
-                $audit[$k]['borrower'] = $n['borrower'] = round($audit[$k]['ys'] * $audit[$k]['borrower'] * 0.01, 2);
-            }
-
-            $audit[$k]['yj'] = 0;
-            foreach ($jiezhi = Jiezhi::where('uid', $v['uid'])->where('status', '<', 4)->select() as $k2 => $v2) {
-                   $audit[$k]['yj'] = $audit[$k]['yj']+$v2['money'];
-            }
-            $audit[$k]['kj'] =round($audit[$k]['borrower'] - $audit[$k]['yj'],2) ;
+			if($v['type']==1){
+				$audit[$k]['ys'] = 0;
+				foreach ($money = Db::table('fdz_financial')->where('userid', $v['uid'])->select() as $k1 => $v1) {
+				    $audit[$k]['ys'] += $v1['money'];
+				    $audit[$k]['borrower'] = Db::table('fdz_financial')->where('userid', $v['uid'])->find();
+				    $audit[$k]['borrower'] = Db::table('fdz_cost_tmp')->where('f_id', $audit[$k]['borrower']['fid'])->value('borrower');
+				    $audit[$k]['borrower'] = round($audit[$k]['ys'] * $audit[$k]['borrower'] * 0.01, 2);
+				}
+				
+				$audit[$k]['yj'] = 0;
+				foreach ($jiezhi = Jiezhi::where('uid', $v['uid'])->where('status', '<', 4)->where('type',1)->select() as $k2 => $v2) {
+				       $audit[$k]['yj'] = $audit[$k]['yj']+$v2['money'];
+				}
+				$audit[$k]['kj'] =round($audit[$k]['borrower'] - $audit[$k]['yj'],2) ;
+			}else{
+				$audit[$k]['ys'] = 0;		
+				foreach(Db::table('fdz_order_project')->where('o_id',Userlist::where('id', $v['uid'])->value('oid'))->field(['labor_cost','num'])->select() as $k1 => $v1)		   {
+					$audit[$k]['ys']+=$v1['labor_cost']*$v1['num'];
+					$audit[$k]['borrower'] = round($audit[$k]['ys'] * 0.5, 2);
+				}
+				//已借				
+				$audit[$k]['yj'] = 0;
+				foreach (Jiezhi::where('uid', $v['uid'])->where('status', '<', 4)->where('type',2)->select() as $k2 => $v2) {
+				   $audit[$k]['yj'] += $v2['money'];
+				}
+				//剩余可借
+				$audit[$k]['kj'] =round($audit[$k]['borrower'] - $audit[$k]['yj'],2) ;
+			}
+			
         }
 
-//      if($audit['jid'])
         if ($audit) {
             return json(['code' => 1, 'msg' => '成功', 'data' => $audit]);
         } else {

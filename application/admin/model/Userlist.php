@@ -30,5 +30,9 @@ class Userlist extends Model
         return $this->hasMany(PickingMaterial::class,'userid','id');
     }
 
+    public function  sale()
+    {
+        return  $this->hasMany(Material::class,'userid','id');
+    }
 
 }
