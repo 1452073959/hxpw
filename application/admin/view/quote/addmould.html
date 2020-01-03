@@ -100,7 +100,8 @@
             </div>     
         </blockquote>
         <div class="left" style="float: left;width: 7%;height: 92% ;overflow:auto;border-right: 1px solid #eee">
-            <ul>
+            <ul id="space_ul">
+                <li><a href="javascript:;" id="add_space" class="layui-btn layui-btn-radius layui-btn-primary">添加空间</a></li>
                 <!-- 空间 -->
                 <?php $i = 1; ?>
                 <?php foreach($offer_type[2] as $k=>$v){ ?>
@@ -278,7 +279,35 @@
 
         })
     })
-
+    //==============添加空间
+    //添加空间
+    $('#add_space').click(function(){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+            content: '<input type="text" id="add_name" placeholder="请输入空间名称" class="layui-input">',
+            title:'添加空间',
+            btn: ['提交', '取消'],
+                yes: function(index, layero){
+                    var add_name = $('#add_name').val();
+                    $.post('/admin/offertype/ajax_add_word',{name:add_name,type:2},function(res){
+                        if(res.code === 0){
+                            layer.msg(res.msg);
+                        }else{
+                            $('#space_ul').append('<li class="" data-val="'+add_name+'">'+add_name+'</li>');
+                            layer.msg(res.msg);
+                        }
+                    },'json')
+                },
+                btn2: function(index, layero){
+                    layer.close(index);
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }); 
+    })
     //======================提交订单
     $('#submit_datas').click(function(){
         var is_null = 0;
@@ -315,9 +344,10 @@
 
 
     //点击空间换颜色
-    $('#diolog .left li').click(function(){
+    $('#diolog .left').on('click','li',function(){
         $('#diolog .left li').removeClass('checkli');
         $(this).addClass('checkli');
+        $('#diolog .right li').eq(0).trigger("click");
     })
 
     //==============根据编号 项目名称筛选项目-start
