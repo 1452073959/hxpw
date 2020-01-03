@@ -168,7 +168,10 @@ class Quote extends Adminbase
             $count_rate = count($rate);
             $count_content = count($content);
             if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate || $count_rate != $count_content){
-                $this->error('参数错误');
+                $this->error('新增项目不得留空');
+            }
+            if($count_name < 1){
+                $this->error('未添加费用');
             }
             $time = time();
             $userinfo = $this->_userinfo;
@@ -238,7 +241,12 @@ class Quote extends Adminbase
                 $this->error('模板保存失败');
             }
         }else{
-            echo json_encode(array('code'=>0,'msg'=>'参数错误'));die;
+            if(!input('tmp_name')){
+                echo json_encode(array('code'=>0,'msg'=>'模板名称不能为空'));die;
+            }else{
+                echo json_encode(array('code'=>0,'msg'=>'参数错误'));die;
+            }
+            
         }
     }
 
