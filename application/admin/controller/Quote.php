@@ -62,20 +62,41 @@ class Quote extends Adminbase
 
     //订单附加取费模板
     public function apennd_tmp_cost(){
-        if(!input('name') || !input('sign') || !input('formula') || !input('rate') || !input('tmp_id') || !input('o_id')){
-            $this->error('参数错误');
-        }
         $offerlist_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
-        if($offerlist_info['status'] >= 3){
-            $this->error('合同价/结算价禁止修改模板');
+        if($offerlist_info['status'] >= 5){
+            $this->error('结算状态禁止修改模板');
         }
         $datas = [];
         //array_filter是去空值
-        $name = array_filter(input('name'));
-        $sign = array_filter(input('sign'));
-        $formula = array_filter(input('formula'));
-        $rate = array_filter(input('rate'));
-        $content = input('content');
+        if(input('name')){
+            $name = array_filter(input('name'));
+        }else{
+            $name = [];
+        }
+        if(input('sign')){
+            $sign = array_filter(input('sign'));
+        }else{
+            $sign = [];
+        }
+        if(input('formula')){
+            $formula = array_filter(input('formula'));
+        }else{
+            $formula = [];
+        }
+        if(input('rate')){
+            $rate = array_filter(input('rate'));
+        }else{
+            $rate = [];
+        }
+        if(input('content')){
+            $content = array_filter(input('content'));
+        }else{
+            $content = [];
+        }
+        // $sign = array_filter(input('sign'));
+        // $formula = array_filter(input('formula'));
+        // $rate = array_filter(input('rate'));
+        // $content = array_filter(input('content'));
         $count_name = count($name);
         $count_sign = count($sign);
         $count_formula = count($formula);
@@ -121,11 +142,12 @@ class Quote extends Adminbase
         }
         $datas = json_encode($datas);
         $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['tmp_append_cost'=>$datas]);
-        if($res){
-            $this->success('保存成功');
-        }else{
-            $this->error('保存失败');
-        }
+        $this->success('保存成功');
+        // if($res){
+        //     $this->success('保存成功');
+        // }else{
+        //     $this->error('保存失败');
+        // }
 
     }
 
@@ -596,6 +618,10 @@ class Quote extends Adminbase
 		if(empty($id)){
 			$this->error('删除有误');
 		}
+        $tmp = Db::name('tmp')->where(['tmp_id'=>$id])->find();
+        if($tmp['adminid'] != $userinfo['userid']){
+            $this->error('禁止删除他人模板');
+        }
 		$re = Db::name('tmp')->where([ 'tmp_id'=>$id,'f_id'=>$userinfo['companyid'] ])->delete();
 		if($re){
 			$this->success('删除成功');
