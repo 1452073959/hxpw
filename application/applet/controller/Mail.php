@@ -8,7 +8,7 @@ use think\Db;
 use think\Controller;
 use think\facade\Cache;
 use app\applet\controller\UserBase;
- 
+ use app\applet\model\Salesrecord;
 class Mail extends UserBase{
     //监理领料 客户列表
     public function userlist(){
@@ -372,7 +372,11 @@ class Mail extends UserBase{
 		if(!input('totalPrice')||input('totalPrice')==0){
 			  $this->json(1,'请输入退料数量');
 		}
-		$req=Db::name('sales_record')->insertGetId(['cid'=>$user['userid'],'fid'=>$user['companyid'],'time'=>date('y-m-d H:i:s', time()),'money'=>input('totalPrice')]);
+		$req=Db::name('sales_record')->insertGetId(['cid'=>$user['userid'],'fid'=>$user['companyid'],
+            'time'=>date('y-m-d H:i:s', time()),
+            'money'=>input('totalPrice'),
+            'uid'=>input('uid')
+        ]);
 
 		foreach($data as $k=>$v)
 		{
@@ -394,19 +398,29 @@ class Mail extends UserBase{
 	public function salelist()
 	{
 		$user=$this->admininfo;
-		$user=Userlist::with('sale')->where(['frameid'=>$user['companyid'],])->all();
-		//去掉没有领料记录的
+		$user=Userlist::with(['sale','user'])->where(['frameid'=>$user['companyid'],])->where('oid','>',0)->all();
+		//去掉没有领料记录的,还有已结算的未写
 		foreach($user as $k=>$v){
             if (count($v['sale'])==0) {
                unset($user[$k]);
             }
         }
-//		dump($user);die;
         $this->json(0,'success',$user);
 
 	}
+
 	 public function salehistory()
      {
+        $salehistory=Salesrecord::with('show')->where('uid',input('uid'))->select();
+         if(count($salehistory)==0){
+             $this->json(1,'error');
+         }
+        foreach ($salehistory as $k=>$v)
+        {
+            $salehistory[$k]['time'] = date('Y-m-d H:i',strtotime($v['time']));
+        }
 
+         $this->json(0,'success',$salehistory);
      }
+
 }
