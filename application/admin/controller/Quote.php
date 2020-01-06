@@ -122,6 +122,7 @@ class Quote extends Adminbase
         //判断是否有效
         $sign_data['A1'] = 100;//自定义一个直接费
         $sign_data['A2'] = 200;//自定义一个优惠
+        $sign_data['A3'] = 300;//自定义一个材料直接费
         foreach($list as $k=>$v){
             $count_sign = count($sign_data);
             $num = 1;
@@ -202,6 +203,7 @@ class Quote extends Adminbase
             //判断计算方式
             $sign_data['A1'] = 100;//自定义一个直接费
             $sign_data['A2'] = 200;//自定义一个优惠
+            $sign_data['A3'] = 200;//自定义一个材料直接费
             foreach($datas as $k=>$v){
                 $count_sign = count($sign_data);
                 $num = 1;

@@ -112,37 +112,37 @@
                 <tbody>
 
                   {foreach name="data" item="vo"}
-                     <tr>
-                      <td class="taleft">{$vo.id}</td>
-                      <td class="taleft">
-						{eq name=":input('type')" value="edit"}
-						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
-						{else/}
-                            <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
-                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22 && $vo['status'] >= 3 && $vo['status'] < 5)}
-                                <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">新增增减项</a>
+                    <tr>
+                        <td class="taleft">{$vo.id}</td>
+                        <td class="taleft">
+    						{eq name=":input('type')" value="edit"}
+    						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
+    						{else/}
+                                <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
+                                {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22 && $vo['status'] >= 3 && $vo['status'] < 5)}
+                                    <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">新增增减项</a>
+                                {/if}
+                                {gt name="$vo['add_append_num']" value="0"}
+                                  <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="show_add_append" data-oid="{$vo.id}">申请的增减项</a>
+                                {/gt}
+                                {gt name="$vo['append_num']" value="0"}
+        						  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="kkk" key="{$vo.id}">查看增减项</a>
+                                {/gt}
+                                {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
+                                    <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
+                                {/if}
+    						{/eq}
+				        </td>
+                        <td>
+                            {if $vo.no_standard=="1"}
+                            <span  key="{$vo.id}" class="layui-btn layui-btn-xs  fbsh">提交审核</span>
+                            {elseif $vo.no_standard=="3" /}待审核
+                            {elseif $vo.no_standard=="4" /}待审核
+                            {elseif $vo.no_standard=="5" /}审核成功
+                            {elseif $vo.no_standard=="6" /}审核驳回
+                            {else/}无非标
                             {/if}
-                            {gt name="$vo['add_append_num']" value="0"}
-                              <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="show_add_append" data-oid="{$vo.id}">申请的增减项</a>
-                            {/gt}
-                            {gt name="$vo['append_num']" value="0"}
-    						  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="kkk" key="{$vo.id}">查看增减项</a>
-                            {/gt}
-                            {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22)}
-                                <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
-                            {/if}
-						{/eq}
-					   </td>
-                         <td>
-                             {if $vo.no_standard=="1"}
-                             <span  key="{$vo.id}" class="layui-btn layui-btn-xs  fbsh">提交审核</span>
-                             {elseif $vo.no_standard=="3" /}待审核
-                             {elseif $vo.no_standard=="4" /}待审核
-                             {elseif $vo.no_standard=="5" /}审核成功
-                             {elseif $vo.no_standard=="6" /}审核驳回
-                             {else/}无非标
-                             {/if}
-                         </td>
+                        </td>
 
 
 						<td>
@@ -152,7 +152,8 @@
 									{case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
                                     {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价(未审)</a>{/case}
 									{case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
-									{case value="5"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
+                                    {case value="5"} <a class="layui-btn layui-btn-xs">待结算</a>{/case}
+									{case value="6"} <a class="layui-btn layui-btn-xs layui-btn-danger">已结算</a>{/case}
 									{default /}
 									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
 							{/switch}
@@ -502,6 +503,14 @@ layui.use('table', function(){
                         html += '       <td></td>'
                         html += '       <td></td>'
                         html += '     </tr>'
+                        html += '     <tr>'
+                        html += '       <td>材料直接费</td>'
+                        html += '       <td>A3</td>'
+                        html += '       <td>A3</td>'
+                        html += '       <td>100</td>'
+                        html += '       <td></td>'
+                        html += '       <td></td>'
+                        html += '     </tr>'
                         $(res.default_cost).each(function(k,v){
                             html += '     <tr>'
                             html += '       <td>'+v.name+'</td>'
@@ -613,8 +622,12 @@ layui.use('table', function(){
                 layer.msg('合同价禁止修改标签');
                 return false;
             }
-            if(data.status.indexOf("结算价") >= 0){
-                layer.msg('结算价禁止修改标签');
+            if(data.status.indexOf("待结算") >= 0){
+                layer.msg('待结算状态禁止修改标签');
+                return false;
+            }
+            if(data.status.indexOf("已结算") >= 0){
+                layer.msg('结算状态禁止修改标签');
                 return false;
             }
             var html =
@@ -678,8 +691,16 @@ layui.use('table', function(){
                 });
             });
         }else if(obj.event == 'set_discount'){
-            if(data.status.indexOf("结算价") >= 0){
-                layer.msg('结算价禁止修改标签');
+            // if(data.status.indexOf("结算价") >= 0){
+            //     layer.msg('结算价禁止修改标签');
+            //     return false;
+            // }
+            if(data.status.indexOf("待结算") >= 0){
+                layer.msg('待结算状态禁止修改标签');
+                return false;
+            }
+            if(data.status.indexOf("已结算") >= 0){
+                layer.msg('结算状态禁止修改标签');
                 return false;
             }
             var type = $(data.discount_zk).data('type');

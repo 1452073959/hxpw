@@ -9,7 +9,7 @@ use think\Session;
 class Offerlist extends Model
 {
     //获取订单详情
-    public function get_order_info($id,$type=1){ //offerquota表 的id , type ->1:合同单 2:整单
+    public function get_order_info($id,$type=1){ //offerlist 的id , type ->1:合同单 2:整单
         $offerlist_info = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['type'=>1,'o_id'=>$id])->select();
         if($type == 2){
@@ -74,6 +74,7 @@ class Offerlist extends Model
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
         $sign['A2'] = $offerlist_info['discount'] + $offerlist_info['discount_zk'];//优惠
+        $sign['A3'] = $offerlist_info['matquant'];//材料直接费
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
@@ -180,6 +181,7 @@ class Offerlist extends Model
         $cost_list = [];
         $sign['A1'] = $offerlist_info['direct_cost'];//直接费
         $sign['A2'] = $offerlist_info['discount_zk'];//优惠
+        $sign['A3'] = $offerlist_info['matquant'];//材料直接费
         $operation = [];
         foreach($tmp_cost as $k=>$v){
             $count_sign = count($sign);
@@ -355,6 +357,20 @@ class Offerlist extends Model
             $offerlist_info['profit_rate_total']  = 0;
         }
         return $offerlist_info;
+    }
+
+    //获取监理申请结算的其他费用总额
+    public function getSettlementTotal($sid){
+        $total_money = 0;
+        $settlement = Db::name('settlement')->where(['id'=>$sid])->find();
+        $total_money = $settlement['material_append'] + $settlement['carry'] + $settlement['other_fee'];
+        $settlement_worker = Db::name('settlement_worker')->where(['sid'=>$sid])->select();
+        foreach($settlement_worker as $k=>$v){
+            $total_money += $v['wage'];
+            $total_money += $v['rent'];
+            $total_money += $v['remote'];
+        }
+        return $total_money;
     }
 
     //统计订单 工程报价 直接费 辅材报价 人工报价  并修改到订单
