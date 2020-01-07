@@ -22,6 +22,29 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BasisData extends Adminbase{
 
+    //分公司基础数据报表
+    public function tmp_report(){
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $cost_tmp = array_column(Db::name('cost_tmp')->where(['f_id'=>array_keys($frame)])->select(), null,'f_id');
+        $this->assign('data',$cost_tmp);
+        $this->assign('frame',$frame);
+        return $this->fetch();
+    }
+    //分公司基础数据报表
+    public function tmp_report2(){
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        // $cost_tmp = array_column(Db::name('cost_tmp')->where(['f_id'=>array_keys($frame)])->select(), null,'f_id');
+        $tmp_cost = Db::name('tmp_cost')->where(['status'=>1])->order('f_id','asc')->select();
+        // foreach($tmp_cost as $k=>$v){
+        //     if(isset($cost_tmp[$v['f_id']])){
+        //         $cost_tmp[$v['f_id']]['cost_tmp'][$v['tmp_id']][] = $v;
+        //     }
+        // }
+        $this->assign('data',$tmp_cost);
+        $this->assign('frame',$frame);
+        return $this->fetch();
+    }
+
     //报价报表1
     public function projct_report(){
         $where = [];

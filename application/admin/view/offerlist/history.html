@@ -109,7 +109,7 @@ th{
                    <img style="max-width:160px;" src="__STATIC__/imgs/logo.png">
                 </p>
                 <p style="text-align: center;font-weight: 900;font-size: 22px;margin-bottom:10px">
-                    {$userinfo.room_type ?: '住宅'}装饰工程造价预算书
+                    {$userinfo.room_type ?: '住宅'}装饰工程造价{$userinfo.status <= 6 ? '预算书': '结算书'}
                 </p>
                 <p style="width: 98%;padding:0 1%;">
                     <span style="text-align: left">工程名称：{$userinfo.address}</span>

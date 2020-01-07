@@ -67,13 +67,20 @@ class Settlement extends UserBase{
         }
         //判断是否含有未审核的 领料 定点 借支 等
         //仓库领料
-        // Db::name('picking_material')
+        $picking_material = Db::name('picking_material')->where(['oid'=>$userlist['oid'],'status'=>[1,2,3]])->count();
+        if($picking_material > 0){
+            $this->json(2,'存有领料未处理，请处理后再申请');
+        }
         //定点/自购
-        // Db::name('picking_order')
-        //定点/自购
-        // Db::name('picking_order')
+        $picking_order = Db::name('picking_order')->where(['userid'=>$uid,'status'=>[1,2,3]])->count();
+        if($picking_material > 0){
+            $this->json(2,'存有定点/自购领料未处理，请处理后再申请');
+        }
         //借支 / 工人
-        // Db::name('jiezhi')
+        $jiezhi = Db::name('jiezhi')->->where(['uid'=>$uid,'status'=>[1,2,3]])->count();
+        if($picking_material > 0){
+            $this->json(2,'存有借支未处理，请处理后再申请');
+        }
         Db::startTrans();
         try {
             //修改订单和用户状态
