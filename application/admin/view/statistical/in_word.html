@@ -130,7 +130,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="customer_name" placeholder="" autocomplete="off" value="{:input('customer_name')?: input('customer_name')}" class="layui-input">
+                            <input type="text" name="customer_name" placeholder="" autocomplete="off" value="{:input('customer_name')}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工程地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="address" placeholder="" autocomplete="off" value="{:input('address')}" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-input-inline" style="margin-left:30px;">
@@ -146,36 +152,7 @@
                         <input type="submit" value="搜索" class="layui-btn layui-btn-sm daoru">
 
                     </div>
-                    <!-- <div class="layui-form-item">
-                        <label class="layui-form-label">职位</label>
-                        <div class="layui-input-block">
-                            <select name="city" lay-verify="required">
-                                <option value=""></option>
-                                <option value="1">设计师</option>
-                                <option value="2">报价师</option>
-                                <option value="3">商务经理</option>
-                                <option value="4">工程监理</option>
-                            </select>
-                        </div>
-                    </div> -->
-                    <!--                    <div class="layui-inline" style="float: left;margin-right: 15px">
-                                            <label class="layui-form-label">签单时间</label>
-                                            <div class="layui-input-inline">
-                                                <input type="text" class="layui-input" id="begin_time" name="begin_time" autocomplete="off"
-                                                       value="" placeholder="开始时间">
-                                            </div>
-                                            <span> - </span>
-                                            <div class="layui-input-inline">
-                                                <input type="text" class="layui-input" id="end_time" name="end_time" autocomplete="off"
-                                                       value="" placeholder="结束时间">
-                                            </div>
-                                        </div>-->
-                    <!--                    <div class="layui-form-item">-->
-                    <!--                        <div class="layui-input-inline">-->
-                    <!--                            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>-->
-                    <!--                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+
                 </form>
             </blockquote>
 
