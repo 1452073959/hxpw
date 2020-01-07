@@ -185,6 +185,7 @@ class Mail extends UserBase{
             // 超过金额 需要审核
             $picking_material['status'] = 1;
         }
+        Db::startTrans();
         try {
             $picking_material_id = Db::name('picking_material')->insertGetId($picking_material);
             if($picking_material_id){
