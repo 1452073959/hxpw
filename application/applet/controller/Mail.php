@@ -385,6 +385,9 @@ class Mail extends UserBase{
 			unset($data[$k]['oid']);
 			unset($data[$k]['actual_num']);
 			$data[$k]['tid']=$req;
+			if($v['num']==''){
+			    unset($data[$k]);
+            }
 		}
 		$res=	Db::name('sales')->insertAll($data);
 		if($res){
@@ -404,7 +407,14 @@ class Mail extends UserBase{
             if (count($v['sale'])==0) {
                unset($user[$k]);
             }
+            if($v['status']==7){
+                unset($user[$k]);
+            }
+            if($v['status']==8){
+                unset($user[$k]);
+            }
         }
+
         $this->json(0,'success',$user);
 
 	}
@@ -417,7 +427,7 @@ class Mail extends UserBase{
          }
         foreach ($salehistory as $k=>$v)
         {
-            $salehistory[$k]['time'] = date('Y-m-d H:i',strtotime($v['time']));
+            $salehistory[$k]['time'] = date('Y-m-d H:i', strtotime($v['time']));
         }
 
          $this->json(0,'success',$salehistory);
