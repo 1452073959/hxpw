@@ -101,7 +101,7 @@
                         <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
                         <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
-                        <th class="taleft" lay-data="{field:'discount_content',edit:'text' }">金额优惠说明</th>
+                        <th class="taleft" lay-data="{field:'discount_content',edit:'text',width:180 }">金额优惠说明</th>
                         <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th>
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
                         <th class="taleft" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
@@ -118,7 +118,7 @@
     						{eq name=":input('type')" value="edit"}
     						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
     						{else/}
-                                <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id])}">点击查看</a>
+                                <a class="layui-btn layui-btn-xs layui-btn-warm" href="{:url('admin/offerlist/history',['customerid'=>$vo.customerid,'report_id'=>$vo.id,'type'=>2])}">点击查看</a>
                                 {if($admininfo['roleid'] != 10 && $admininfo['roleid'] != 22 && $vo['status'] >= 3 && $vo['status'] < 5)}
                                     <a class="layui-btn layui-btn-xs" href="{:url('admin/order_append/add_index',['customer_id'=>$vo.customerid,'order_id'=>$vo.id])}">新增增减项</a>
                                 {/if}

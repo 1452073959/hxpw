@@ -37,6 +37,13 @@ class Offerlist extends Adminbase
     public function set_o_remark(){
         $oid = input('oid');
         $o_remark = input('o_remark');
+        $offerlist = Db::name('offerlist')->where(['id'=>$oid])->find();
+        if(!$offerlist){
+            $this->error('订单有误');
+        }
+        if($offerlist['status'] >= 5){
+            $this->error('结算状态禁止修改备注');
+        }
         if($o_remark){
             Db::name('offerlist')->where(['id'=>$oid])->update(['o_remark'=>$o_remark]);
         }else{
@@ -63,8 +70,8 @@ class Offerlist extends Adminbase
         $discount_num = input('discount_num');
         $discount_append = input('discount_append')?input('discount_append'):1;
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
-        if($offerlist['status'] == 5){
-            $this->error('结算价禁止修改');
+        if($offerlist['status'] >= 5){
+            $this->error('结算状态禁止修改优惠');
         }
         if($discount_type == 4){
             $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>100,'discount'=>$discount_num,'discount_append'=>$discount_append]);
@@ -79,12 +86,12 @@ class Offerlist extends Adminbase
             }
             $res = Db::name('offerlist')->where(['id'=>$id])->update(['discount_type'=>$discount_type,'discount_num'=>$discount_num,'discount'=>0,'discount_append'=>$discount_append]);
         }
-        
-        if($res){
-            $this->success('设置优惠成功');
-        }else{
-            $this->error('设置优惠失败');
-        }
+        $this->success('设置优惠成功');
+        // if($res){
+        //     $this->success('设置优惠成功');
+        // }else{
+        //     $this->error('设置优惠失败');
+        // }
 
     }
 
@@ -1832,8 +1839,8 @@ class Offerlist extends Adminbase
         if(!$offerlist){
             Result(1,'无效订单');
         }
-        if($offerlist['status'] == 5){
-            Result(1,'结算价禁止修改');
+        if($offerlist['status'] >= 5){
+            Result(1,'结算状态禁止修改');
         }
         $receive = $this->request->param();
         $data[$receive['field']] = $receive['value'];

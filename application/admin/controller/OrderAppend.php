@@ -66,8 +66,8 @@ class OrderAppend extends Adminbase
         if($offerlist['status'] < 3){
             $this->error('只有合同价才能增减项');
         }
-        if($offerlist['status'] >= 6){
-            $this->error('该报价已结算');
+        if($offerlist['status'] >= 5){
+            $this->error('结算状态禁止增加项');
         }
         $this->assign([
             'offer_type'=>$offer_type,
@@ -91,6 +91,9 @@ class OrderAppend extends Adminbase
             }
             $time = time();
             $order_info = Db::name('offerlist')->where('id',input('order_id'))->find();
+            if($order_info['status'] >= 5){
+                $this->error('结算状态禁止增加项');
+            }
             if(!$order_info){
                 $this->error('订单信息有误');
             }

@@ -132,14 +132,15 @@ a{
                             {case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
                             {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价(未审)</a>{/case}
                             {case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
-                            {case value="5"} <a class="layui-btn layui-btn-xs">结算价</a>{/case}
+                            {case value="5"} <a class="layui-btn layui-btn-xs">待结算</a>{/case}
+                            {case value="6"} <a class="layui-btn layui-btn-xs layui-btn-danger">已结算</a>{/case}
                             {default /}
                             <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
                         {/switch}
                       </td>
                       <td class="taleft">{$vo.remark}</td>
                       <td>
-                       <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id,'gcfx'=>1])}">查看报价</a>
+                       <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/history',['customerid'=>$vo.order_info.customerid,'report_id'=>$vo.id,'gcfx'=>1,'type'=>2])}">查看报价</a>
                        <a class="layui-btn layui-btn-xs" href="{:url('admin/auxiliary/history',['id'=>$vo.id])}">查看领料清单</a>
                           {if $vo.no!=0}
                         <a class="layui-btn layui-btn-xs"  lay-event="kkk" key="{$vo.id}">查看增减项</a>

@@ -557,7 +557,7 @@ class Artificial extends Adminbase
         }
         // $artificial = json_decode($info['artificial'],true);
         
-        $artificial = Db::name('order_project')->where(['o_id'=>$id,'type'=>1])->select();
+        $artificial = Db::name('order_project')->where(['o_id'=>$id])->select();
         if(!$artificial){
             echo json_encode(array('code'=>1,'msg'=>'无成本详情'));die;
         }
@@ -602,7 +602,7 @@ class Artificial extends Adminbase
         $arr = [];
         $total = ['quota'=>0,'craft_show'=>0,'labor_cost'=>0,'quota_cb'=>0,'discount_total'=>0,'discount_quota'=>0,'discount_craft_show'=>0];
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
-        $content = Db::name('order_project')->where(['o_id'=>$id,'type'=>1])->select();
+        $content = Db::name('order_project')->where(['o_id'=>$id])->select();
         foreach($content as $k=>$v){
              if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']]['quota'] = 0;//辅材单价

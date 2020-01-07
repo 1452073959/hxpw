@@ -211,4 +211,18 @@ class Manager extends UserBase{
             $this->json(2,'审核失败');
         }
     }
+
+    //工程经理获取需要审核的用户
+    public function getSettlementUser(){
+        $adminid = $this->admininfo['userid'];
+        $where = [];
+        // $where['u.gcmanager_id'] = $adminid;
+        $where['s.status'] = 1;
+
+        $settlement = Db::name('settlement')->alias('s')->leftJoin('userlist u','s.uid = u.id')->where($where)->order('s.id','asc')->select();
+        foreach($settlement as $k=>$v){
+            $settlement[$k]['time'] = date('Y-m-d');
+        }
+        $this->json(0,'success',$settlement);
+    }
 }

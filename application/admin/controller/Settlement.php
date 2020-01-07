@@ -13,6 +13,182 @@ use app\common\controller\Adminbase;
 use think\Db;
 class Settlement extends Adminbase
 {
+
+    //财务审核结算列表
+    public function audit_settlement_by_cw(){
+        $where = [];
+        $where[] = ['s.fid','=',$this->_userinfo['companyid']];
+        $where[] = ['s.status','=',3];
+        if(input('customer_name')){
+            $where[] = ['u.customer_name','like','%'.input('customer_name').'%'];
+        }
+        if(input('address')){
+            $where[] = ['u.address','like','%'.input('address').'%'];
+        }
+        if(input('jid')){
+            $where[] = ['u.jid','=',input('jid')];
+        }
+        if(input('gcmanager_id')){
+            $where[] = ['u.gcmanager_id','=',input('gcmanager_id')];
+        }
+        if(input('check_id')){
+            $where[] = ['u.check_id','=',input('check_id')];
+        }
+        $field = 'u.id as uid , s.*';
+        $settlement = Db::name('settlement')->alias('s')->leftJoin('userlist u','s.uid = u.id')->field($field)->where($where)->order('s.id','asc')->select();
+        if($settlement){
+            $oids = array_column($settlement, 'oid');
+            $uids = array_column($settlement, 'uid');
+            $userlist = array_column(Db::name('userlist')->where(['id'=>$uids])->select(),null, 'id');
+            $jid = array_column($userlist,'jid');
+            $check_id = array_column($userlist,'check_id');
+            $gcmanager_id = array_column($userlist,'gcmanager_id');
+            $adminids = array_merge($jid,$check_id,$gcmanager_id);
+            $adminlist = array_column(Db::name('admin')->where(['userid'=>$adminids])->select(),null, 'userid');
+            $this->assign('userlist',$userlist);
+            $this->assign('adminlist',$adminlist);
+            foreach($settlement as $k=>$v){
+                $settlement[$k]['order_info'] = model('offerlist')->get_order_info($v['oid'],2);
+                $settlement[$k]['settlement_money'] = model('offerlist')->getSettlementTotal($v['id']);
+            }
+        }
+        $admins = Db::name('admin')->where(['roleid'=>[13,15,16],'companyid'=>$this->_userinfo['companyid']])->select();
+
+        $this->assign('admins',$admins);
+        $this->assign('settlement',$settlement);
+        return $this->fetch();
+    }
+
+    //财务/分总审核结算列表
+    public function audit_settlement_by_fz(){
+        $where = [];
+        $where[] = ['s.fid','=',$this->_userinfo['companyid']];
+        $where[] = ['s.status','=',2];
+        if(input('customer_name')){
+            $where[] = ['u.customer_name','like','%'.input('customer_name').'%'];
+        }
+        if(input('address')){
+            $where[] = ['u.address','like','%'.input('address').'%'];
+        }
+        if(input('jid')){
+            $where[] = ['u.jid','=',input('jid')];
+        }
+        if(input('gcmanager_id')){
+            $where[] = ['u.gcmanager_id','=',input('gcmanager_id')];
+        }
+        if(input('check_id')){
+            $where[] = ['u.check_id','=',input('check_id')];
+        }
+        $field = 'u.id as uid , s.*';
+        $settlement = Db::name('settlement')->alias('s')->leftJoin('userlist u','s.uid = u.id')->field($field)->where($where)->order('s.id','asc')->select();
+        if($settlement){
+            $oids = array_column($settlement, 'oid');
+            $uids = array_column($settlement, 'uid');
+            $userlist = array_column(Db::name('userlist')->where(['id'=>$uids])->select(),null, 'id');
+            $jid = array_column($userlist,'jid');
+            $check_id = array_column($userlist,'check_id');
+            $gcmanager_id = array_column($userlist,'gcmanager_id');
+            $adminids = array_merge($jid,$check_id,$gcmanager_id);
+            $adminlist = array_column(Db::name('admin')->where(['userid'=>$adminids])->select(),null, 'userid');
+            $this->assign('userlist',$userlist);
+            $this->assign('adminlist',$adminlist);
+            foreach($settlement as $k=>$v){
+                $settlement[$k]['order_info'] = model('offerlist')->get_order_info($v['oid'],2);
+                $settlement[$k]['settlement_money'] = model('offerlist')->getSettlementTotal($v['id']);
+            }
+        }
+        $admins = Db::name('admin')->where(['roleid'=>[13,15,16],'companyid'=>$this->_userinfo['companyid']])->select();
+
+        $this->assign('admins',$admins);
+        $this->assign('settlement',$settlement);
+        return $this->fetch();
+    }
+
+    //获取结算单
+    public function getSettlement(){
+        $id = input('id');
+        $settlement = Db::name('settlement')->where(['id'=>$id])->order('id','desc')->find();
+        $artificial = Db::name('order_project')->where(['o_id'=>$settlement['oid']])->select();
+        $worker_wage = [];//拼装数组
+        foreach($artificial as $k=>$v){
+            if(!isset($worker_wage[$v['type_of_work']]['due_wage'])){
+                $worker_wage[$v['type_of_work']]['due_wage'] = 0;
+            }
+            $worker_wage[$v['type_of_work']]['due_wage'] += $v['labor_cost']*$v['num'];
+        }
+        $settlement_worker = Db::name('settlement_worker')->where(['sid'=>$id])->select();
+        foreach($settlement_worker as $k=>$v){
+            if(isset($worker_wage[$v['type_of_work']])){
+                $worker_wage[$v['type_of_work']]['wage'] = $v['wage'];
+                $worker_wage[$v['type_of_work']]['rent'] = $v['rent'];
+                $worker_wage[$v['type_of_work']]['remote'] = $v['remote'];
+            }
+            
+        }
+        $this->success('success','',['worker_wage'=>$worker_wage,'settlement'=>$settlement]);
+    }
+
+    //财务审核结算
+    public function checkSettlement(){
+        $id = input('id');
+        $status = input('status');
+
+        $settlement = Db::name('settlement')->where(['id'=>$id])->find();
+        $settlement_status = $settlement['status'];
+        $uid = $settlement['uid'];
+        if($status == 3 || $status == 33){
+            if($settlement_status != 2){
+                $this->error('订单已审核');
+            }
+            if($this->_userinfo['roleid'] != 10){
+                $this->error('非经理禁止操作');
+            }
+        }
+        if($status == 4 || $status == 44){
+            if($settlement_status != 3){
+                $this->error('订单已审核');
+            }
+            if($this->_userinfo['roleid'] != 18){
+                $this->error('非财务禁止操作');
+            }
+        }
+        
+
+        $userlist = Db::name('userlist')->where(['id'=>$uid])->find();
+        
+        if($userlist['frameid'] != $this->_userinfo['companyid']){
+            $this->error('禁止审核他人工地');
+        }
+        Db::startTrans();
+        try {
+            $update = Db::name('settlement')->where(['id'=>$id])->update(['status'=>$status]);
+            if($status == 33 || $status == 44){
+                //审核失败 解锁订单锁定
+                Db::name('offerlist')->where(['id'=>$userlist['oid']])->update(['status'=>4]);
+                Db::name('userlist')->where(['id'=>$uid])->update(['status'=>6,'work_status'=>'结算失败']);
+            }
+            if($status == 4){
+                //完成结算
+                Db::name('offerlist')->where(['id'=>$userlist['oid']])->update(['status'=>6]);
+                Db::name('userlist')->where(['id'=>$uid])->update(['status'=>8,'work_status'=>'已结算']);
+            }
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->error('审核失败');
+        }
+        $this->success('审核成功');
+    }
+
+
+
+
+    //========================下面的都不知道是什么东东
+
+
+
     public function index()
     {
         $userinfo = $this->_userinfo;
