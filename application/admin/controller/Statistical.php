@@ -400,7 +400,7 @@ class Statistical extends Adminbase
             $where[] = ['jid', 'in', "{$_GET['jid']}"];
         }
         if (!empty($_GET['address'])) {
-            $where[] = ['address', 'in', "{$_GET['address']}"];
+            $where[] = ['address', 'like', "%{$_GET['address']}%"];
         }
         $order = Userlist::with('profile', 'user', 'picking')->where($where)->where('status','>=',3)->where('oid','>','0')->paginate(10,false,['query'=>request()->param()]);
         foreach ($order as $k => $v) {
