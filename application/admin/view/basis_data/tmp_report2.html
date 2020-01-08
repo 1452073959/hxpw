@@ -20,6 +20,7 @@
                 <thead >
                     <tr>
                         <th lay-data="{field:'f_id',align:'center',sort:true,width:140}">分公司</th>
+                        <th lay-data="{field:'tmp_name',align:'center',sort:true,width:140}">模板名称</th>
                         <th lay-data="{field:'name',align:'center',sort:true,width:200}">费率名称</th>
                         <th lay-data="{field:'sign',align:'center',sort:true,width:185}">标识符</th>
                         <th lay-data="{field:'formula',align:'center',sort:true,width:185}">公式</th>
@@ -31,6 +32,8 @@
                     {foreach name="data" item="vo"}
                         <tr>
                             <td class="">{$frame[$vo['f_id']]['name'] ?: ''}</td>
+                            <td class="">{$vo.tmp_name}</td>
+                            <td class="">{$vo.name}</td>
                             <td class="">{$vo.name}</td>
                             <td class="">{$vo.sign}</td>
                             <td class="">{$vo.formula}</td>
