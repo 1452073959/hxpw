@@ -77,7 +77,7 @@ class Settlement extends UserBase{
             $this->json(2,'存有定点/自购领料未处理，请处理后再申请');
         }
         //借支 / 工人
-        $jiezhi = Db::name('jiezhi')->->where(['uid'=>$uid,'status'=>[1,2,3]])->count();
+        $jiezhi = Db::name('jiezhi')->where(['uid'=>$uid,'status'=>[1,2,3]])->count();
         if($picking_material > 0){
             $this->json(2,'存有借支未处理，请处理后再申请');
         }
