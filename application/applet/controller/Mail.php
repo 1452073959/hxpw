@@ -357,6 +357,10 @@ class Mail extends UserBase{
 		foreach($newma as $k1=>$v1){
 			$material_info[]=Db::table('fdz_picking_material_info')->where('amcode',$v1)->find();
 		}
+
+        foreach($material_info as $k3=>$v3){
+            $material_info[$k3]['actual_num'] = Db::table('fdz_picking_material_info')->where('amcode',$v3['amcode'])->sum('actual_num');
+        }
 		foreach($material_info as $k2=>$v2){
 		 $material_info[$k2]['img'] = $this->getImgSrc($v2['img']);
 		 $material_info[$k2]['num'] = '';
