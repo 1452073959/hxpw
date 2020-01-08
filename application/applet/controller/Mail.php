@@ -20,7 +20,7 @@ class Mail extends UserBase{
         $where['status'] = [3,4,5,6,7];
         $userlist = array_column(Db::name('userlist')->where($where)->order('sign_bill_time','asc')->select(),null, 'id') ;
         foreach($userlist as $k=>$v){
-            $userlist[$k]['sign_bill_time'] = date('Y-m-d');
+            $userlist[$k]['sign_bill_time'] = date('Y-m-d',$v['sign_bill_time']);
         }
         $this->json(0,'success',$userlist);
     }
@@ -160,7 +160,7 @@ class Mail extends UserBase{
 //        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[2,3]])->sum('total_money');
         $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[1,2]])->sum('total_money');
         $pink_total_money += Db::name('picking_material')->where(['userid'=>$uid,'status'=>[3,4]])->sum('actual_total_money');
-        $pink_total_money += Db::name('picking_order')->where(['userid'=>$uid])->sum('money');
+        $pink_total_money += Db::name('picking_order')->where(['userid'=>$uid,'status'=>2])->sum('money');
         //领料单数据
         $picking_material = [];
         $picking_material['oid'] = $userinfo['oid'];
@@ -278,6 +278,24 @@ class Mail extends UserBase{
         $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
         $data['f_id'] = $userinfo['frameid'];
         $data['adminid'] = $this->admininfo['userid'];
+
+        
+        $pink_total_money = Db::name('picking_material')->where(['userid'=>input('uid'),'status'=>[1,2]])->sum('total_money');
+        $pink_total_money += Db::name('picking_material')->where(['userid'=>input('uid'),'status'=>[3,4]])->sum('actual_total_money');
+        $pink_total_money += Db::name('picking_order')->where(['userid'=>input('uid'),'status'=>2])->sum('money');
+        $pick_rate = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->value('pick_rate');
+        if(!$pick_rate){
+            $pick_rate = 80;
+        }
+        $material_total_money = model('admin/offerlist')->get_material_list($userinfo['oid'],2)['total_money'];
+        if($material_total_money * $pick_rate/100 >= ($pink_total_money+$total_money)){
+            //未达到金额 不需要审核
+            $status['status'] = 2;
+        }else{
+            // 超过金额 需要审核
+            $status['status'] = 0;
+        }
+
         $img = [];
         Db::startTrans();
         try {
