@@ -76,7 +76,11 @@ class Baojia extends UserBase
 		  	'create_time' => date('y-m-d H:i:s', time())
 		  ];
 		  $res = Db::table('fdz_jiezhi')->data($data)->insert();
-			
+            if ($res) {
+                return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
+            } else {
+                return json(['code' => 2, 'msg' => '失败']);
+            }
 		}
     }
 
