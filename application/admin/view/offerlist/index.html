@@ -696,11 +696,11 @@ layui.use('table', function(){
             //     return false;
             // }
             if(data.status.indexOf("待结算") >= 0){
-                layer.msg('待结算状态禁止修改标签');
+                layer.msg('待结算状态禁止修改优惠');
                 return false;
             }
             if(data.status.indexOf("已结算") >= 0){
-                layer.msg('结算状态禁止修改标签');
+                layer.msg('结算状态禁止修改优惠');
                 return false;
             }
             var type = $(data.discount_zk).data('type');
