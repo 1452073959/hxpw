@@ -661,7 +661,23 @@ class Offerlist extends Adminbase
                 }
             }
         }else{
-            $this->error('参数错误');
+            $this->error('未上传图片');
+        }
+    }
+
+    //上传效果图
+    public function upload_effect_img(){
+        $file = request()->file('file');
+        if($file && input('o_id')){
+            $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
+            $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['effect_img'=>$info->getSaveName()]);
+            if($res){
+                $this->success('上传成功');
+            }else{
+                $this->error('上传失败');
+            }
+        }else{
+            $this->error('未上传图片');
         }
     }
 
@@ -2350,11 +2366,14 @@ class Offerlist extends Adminbase
     }
 
 //cad文件下载
-    public function down(Request $request)
+    public function down()
     {
-        $data= input();
-        $data1=Db::table('fdz_offerlist')->where('id',$data['id'])->field('cad_file')->find();
-        $file=ROOT_PATH.'uploads/cad/'.$data1['cad_file'];
+        if(input('type') == 2){
+            $src=Db::table('fdz_offerlist')->where('id',input('id'))->value('effect_img');
+        }else{
+            $src=Db::table('fdz_offerlist')->where('id',input('id'))->value('cad_file');  
+        }
+        $file=ROOT_PATH.'uploads/cad/'.$src;
         if(!file_exists($file)){
             $this->error('文件不存在');
         }else{

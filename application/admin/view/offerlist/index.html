@@ -106,6 +106,7 @@
                         <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
                         <th class="taleft" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
                         <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
+                        <th class="taleft" lay-data="{field:'effect_img',width:150}">效果图</th>
                         <th class="taleft" lay-data="{field:'cad',width:100}">图纸</th>
                     </tr>
                 </thead>
@@ -179,6 +180,7 @@
                       <td class="taleft">{$vo.info.remark}</td>
                       <td class="taleft">查看/设置</td>
                       <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:i"}</td>
+                      <td class="taleft">{$vo.effect_img ? '<a href="/admin/offerlist/down?id='.$vo["id"].'&type=2">下载</a>':'<a href="javascript:;" style="color:red" lay-event="effect_img">上传</a>'}</td>
                          {if $vo.cad_file!=''}
                          <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
                          {else /}
@@ -827,7 +829,56 @@ layui.use('table', function(){
                     layer.msg(res.msg);
                 }
             },'json');
-            
+        }else if(obj.event == 'effect_img'){
+            // if(data.status.indexOf("待结算") >= 0){
+            //     layer.msg('待结算状态禁止修改优惠');
+            //     return false;
+            // }
+            // if(data.status.indexOf("已结算") >= 0){
+            //     layer.msg('结算状态禁止修改优惠');
+            //     return false;
+            // }
+            var html = '<div class="layui-upload" style="margin:15px 0px;text-align:center;">'
+                html += '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test10">上传效果图</button>'
+                html += '<br />'
+                html += '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test11">上传</button>'
+                html += '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                html += '</div>'
+
+                layer.open({
+                    title: '设置标签',
+                    area: ['300px', '200px'], //宽高
+                    type:1,
+                    content: html
+                });
+
+            layui.use('upload', function(){
+                var upload = layui.upload;
+                upload.render({
+                    elem: '#test10',
+                    url: '/admin/offerlist/upload_effect_img/',
+                    auto: false,
+                    accept:'file',
+                    size:10240,
+                    //,multiple: true
+                    bindAction: '#test11',
+                    data:{
+                        o_id:data.id,
+                    },
+                    done: function(res){
+                        if(res.code == 1){
+                            layer.closeAll();
+                            layer.msg(res.msg);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                        return false;
+                    }
+                });
+            });
         }
     });
 });
