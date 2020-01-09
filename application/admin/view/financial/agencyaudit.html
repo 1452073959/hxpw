@@ -120,8 +120,8 @@
 <blockquote class="layui-elem-quote news_search">
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
-            <li class="layui-this"><a href="/admin/financial/financeaudit">监理</a></li>
-            <li class=""><a href="/admin/financial/agencyaudit">监理代工人</a></li>
+            <li class=""><a href="/admin/financial/financeaudit">监理</a></li>
+            <li class="layui-this"><a href="/admin/financial/agencyaudit">监理代工人</a></li>
         </ul>
         <div class="layui-tab-content"></div>
     </div>
@@ -132,6 +132,7 @@
         <th lay-data="{field:'id'}">借支客户</th>
         <th lay-data="{field:'address'}">工程地址</th>
         <th lay-data="{field:'username'}">借支人(监理)</th>
+        <th lay-data="{field:'usere'}">代借支工人</th>
         <th lay-data="{field:'sex'}">审核人(工程经理)</th>
         <th lay-data="{field:'city'}">申请借支金额(单位: 元)</th>
         <th lay-data="{field:'sign'}">收款账号</th>
@@ -147,6 +148,7 @@
         <td>{$v.offer.customer_name}</td>
         <td>{$v.offer.address}</td>
         <td>{$v.user.name}</td>
+        <td>{$v.workername}</td>
         <td>{$v.audit.name}</td>
         <td class="mon">{$v.money}</td>
         <td>{$v.shroff}</td>
