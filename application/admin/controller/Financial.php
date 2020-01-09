@@ -156,15 +156,27 @@ class Financial extends Adminbase{
     }
 
 
+    //监理
     public function financeaudit()
     {
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', [2,3,5])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->paginate(10);
         }
-//        dump($audit);
+        $this->assign('audit',$audit);
+        return $this->fetch();
+    }
+    //监理代工人
+    public function agencyaudit()
+    {
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->paginate(10);
+        }
         $this->assign('audit',$audit);
         return $this->fetch();
     }
