@@ -158,9 +158,7 @@ class Manager extends UserBase{
             }
         }
 
-        if(!$picking_material){
-            $this->json(0,'success',[]);
-        }
+        
         foreach($picking_material as $k=>$v){
             //历史领料金额总额
             $picking_material[$k]['actual_total_money'] = Db::name('picking_material')->where(['userid'=>$v['userid'],'status'=>[2,3,4]])->sum('actual_total_money');
