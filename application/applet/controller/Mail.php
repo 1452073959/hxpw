@@ -288,7 +288,7 @@ class Mail extends UserBase{
             $pick_rate = 80;
         }
         $material_total_money = model('admin/offerlist')->get_material_list($userinfo['oid'],2)['total_money'];
-        if($material_total_money * $pick_rate/100 >= ($pink_total_money+$total_money)){
+        if($material_total_money * $pick_rate/100 >= ($pink_total_money+input('money'))){
             //未达到金额 不需要审核
             $status['status'] = 2;
         }else{
