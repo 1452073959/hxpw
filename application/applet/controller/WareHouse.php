@@ -90,29 +90,30 @@ class WareHouse extends UserBase{
         if($picking_material['status'] != 2){
             $this->json(2,'该订单已配货');
         }
-        //可领金额
-        $material_total_money = model('admin/offerlist')->get_material_list($oid,2)['total_money'];
+        //预测可领金额
+        // $material_total_money = model('admin/offerlist')->get_material_list($oid,2)['total_money'];
         //所有订单的领料金额(排除了在处理订单金额)
-        $figure=Db::name('picking_material')->where('oid',$oid)->field(['id','total_money','status','actual_total_money'])->select();
-        $figurenum=0;
-        foreach ($figure as $k1=>$v1)
-        {
-            if($v1['id']==$id){
-                continue;
-            }
-            if($v1['status']==1){
-                $figurenum+=$v1['total_money'];
-            }elseif ($v1['status']==2){
-                $figurenum+=$v1['total_money'];
-            }elseif ($v1['status']==3){
-                $figurenum+=$v1['actual_total_money'];
-            }elseif ($v1['status']==4){
-                $figurenum+=$v1['actual_total_money'];
-            }elseif ($v1['status']==5){
-                continue;
-            }
-        }
-        $figurenum += Db::name('picking_order')->where(['userid'=>$userid])->sum('money');
+        // $figure=Db::name('picking_material')->where('oid',$oid)->field(['id','total_money','status','actual_total_money'])->select();
+        // $figurenum=0;
+        // foreach ($figure as $k1=>$v1)
+        // {
+        //     if($v1['id']==$id){
+        //         continue;
+        //     }
+        //     if($v1['status']==1){
+        //         $figurenum+=$v1['total_money'];
+        //     }elseif ($v1['status']==2){
+        //         $figurenum+=$v1['total_money'];
+        //     }elseif ($v1['status']==3){
+        //         $figurenum+=$v1['actual_total_money'];
+        //     }elseif ($v1['status']==4){
+        //         $figurenum+=$v1['actual_total_money'];
+        //     }elseif ($v1['status']==5){
+        //         continue;
+        //     }
+        // }
+        // //定点自购的金额
+        // $figurenum += Db::name('picking_order')->where(['userid'=>$userid,'status'=>[0,2]])->sum('money');
         //获取领料超过多少则需要审核
         $pick_rate = Db::name('cost_tmp')->where(['f_id'=>$this->admininfo['companyid']])->value('pick_rate');
         if(!$pick_rate){
@@ -121,8 +122,9 @@ class WareHouse extends UserBase{
         foreach($datas as $k=>$v){
             $total_money += $v['num']*$v['price'];
         }
+        //配料逻辑 可以领取多100块钱的
 
-        if($figurenum + $total_money < $material_total_money * $pick_rate/100 || $total_money <= $picking_material['total_money']){
+        if($total_money <= $picking_material['total_money'] +100 ){
             // 启动事务
             Db::startTrans();
             try {
@@ -138,7 +140,7 @@ class WareHouse extends UserBase{
                 $this->json(2, '配货失败');
             }
         }else{
-            $this->json(2,'该次领料超额,或该订单领料超额');
+            $this->json(2,'领料金额不得大于原金额100块');
         }
 
         
