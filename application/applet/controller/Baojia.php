@@ -50,7 +50,7 @@ class Baojia extends UserBase
 				'frameid' => $data['frameid'],
 				'status' => 1,
 				'type'=>1,
-				'create_time' => date('y-m-d H:i:s', time())
+				'create_time' => date('Y-m-d H:i:s', time())
 			];
 			$res = Db::table('fdz_jiezhi')->data($data)->insert();
 			if ($res) {
@@ -73,7 +73,7 @@ class Baojia extends UserBase
 		  	'type'=> $data['type'],
 		  	'work'=> $data['work'],
 		  	'workername'=> $data['workername'],
-		  	'create_time' => date('y-m-d H:i:s', time())
+		  	'create_time' => date('Y-m-d H:i:s', time())
 		  ];
 		  $res = Db::table('fdz_jiezhi')->data($data)->insert();
             if ($res) {
@@ -89,16 +89,16 @@ class Baojia extends UserBase
         //获取未审核的订单
         $data = $request->get();
         $user = Userappler::with('jiezhi')->all();
-        $audit = Jiezhi::with(['offer', 'user'])->where('sid', 0)->where('frameid', $data['freamid'])->order('create_time','desc')->select();
-       
+        $audit = Jiezhi::with(['offer', 'user'])->where('sid', 0)->where('frameid', $data['freamid'])->order('create_time','desc')->select()->toArray();
+
         if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
             foreach ($audit as $key=>$value){
+                $audit[$key]['create_time'] =date('Y-m-d H:i', strtotime($value['create_time']));
                 if($value['offer']['gcmanager_id']!=$this->admininfo['userid']){
                     unset($audit[$key]);
                 }
             }
         }
-		
         foreach ($audit as $k => $v) {
 			if($v['type']==1){
 				$audit[$k]['ys'] = 0;
@@ -128,9 +128,7 @@ class Baojia extends UserBase
 				//剩余可借
 				$audit[$k]['kj'] =round($audit[$k]['borrower'] - $audit[$k]['yj'],2) ;
 			}
-			
         }
-
         if ($audit) {
             return json(['code' => 1, 'msg' => '成功', 'data' => $audit]);
         } else {
@@ -139,10 +137,6 @@ class Baojia extends UserBase
 
     }
 
-    public function noaudit()
-    {
-
-    }
 
     //审核订单
     public function update(Request $request)
