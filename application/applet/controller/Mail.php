@@ -160,7 +160,7 @@ class Mail extends UserBase{
 //        $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[2,3]])->sum('total_money');
         $pink_total_money = Db::name('picking_material')->where(['userid'=>$uid,'status'=>[1,2]])->sum('total_money');
         $pink_total_money += Db::name('picking_material')->where(['userid'=>$uid,'status'=>[3,4]])->sum('actual_total_money');
-        $pink_total_money += Db::name('picking_order')->where(['userid'=>$uid,'status'=>2])->sum('money');
+        $pink_total_money += Db::name('picking_order')->where(['userid'=>$uid,'status'=>[0,2]])->sum('money');
         //领料单数据
         $picking_material = [];
         $picking_material['oid'] = $userinfo['oid'];
@@ -282,7 +282,7 @@ class Mail extends UserBase{
         
         $pink_total_money = Db::name('picking_material')->where(['userid'=>input('uid'),'status'=>[1,2]])->sum('total_money');
         $pink_total_money += Db::name('picking_material')->where(['userid'=>input('uid'),'status'=>[3,4]])->sum('actual_total_money');
-        $pink_total_money += Db::name('picking_order')->where(['userid'=>input('uid'),'status'=>2])->sum('money');
+        $pink_total_money += Db::name('picking_order')->where(['userid'=>input('uid'),'status'=>[0,2]])->sum('money');
         $pick_rate = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->value('pick_rate');
         if(!$pick_rate){
             $pick_rate = 80;
