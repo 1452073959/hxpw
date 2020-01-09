@@ -52,7 +52,7 @@ class Financial extends Adminbase{
 
         $this->assign('data',$re);
         $this->assign('userinfo',$userinfo);
-        $this->assign('status',[2=>'待付款',3=>'已收一期',4=>'已收二期 ',5=>'已收三期',6=>'已收四期',7=>'已结算']);
+        $this->assign('status',[2=>'待付款',3=>'已收一期',4=>'已收二期 ',5=>'已收三期',6=>'已收四期',7=>'结算审核',8=>'已结算']);
         return $this->fetch();
     }
 
