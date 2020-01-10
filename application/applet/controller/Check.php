@@ -28,6 +28,9 @@ class Check extends UserBase{
     public function applyCheck(){
         $uid = input('uid');
         $userinfo = Db::name('userlist')->where(['id'=>$uid])->find();
+        if ($userinfo['status'] > '6') {
+            $this->json(2,'请耐心等待结算结果');
+        }
         if ($userinfo['work_status'] == '待结算') {
             $this->json(2,'工程已结束，可发起结算申请');
         }

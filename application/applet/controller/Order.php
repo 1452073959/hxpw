@@ -90,6 +90,9 @@ class Order extends UserBase{
         if(!$userinfo){
             $this->json(2,'参数错误');
         }
+        if($userinfo['status'] > 6){
+            $this->json(2,'结算状态禁止提交增加项');
+        }
         if(!isset($img[0])){
             $this->json(2,'未上传图片');
         }

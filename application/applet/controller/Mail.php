@@ -127,7 +127,9 @@ class Mail extends UserBase{
         $amcode = array_keys($cart);
         $materials = array_column(Db::name('materials')->where(['frameid'=>$this->admininfo['companyid'],'amcode'=>$amcode])->select(),null,'amcode');
         $userinfo = Db::name('userlist')->where(['id'=>$uid])->find(); //用户详情
-
+        if($userinfo['status'] > 6){
+            $this->json(2,'结算状态禁止下单');
+        }
         //领料单具体每个辅材明细
         $picking_material_info = [];
         $total_money = 0;
@@ -276,6 +278,9 @@ class Mail extends UserBase{
         $data['remark'] = input('remark');
         $data['userid'] = input('uid');
         $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        if($userinfo['status'] > 6){
+            $this->json(1,'结算状态禁止下单');
+        }
         $data['f_id'] = $userinfo['frameid'];
         $data['adminid'] = $this->admininfo['userid'];
 
@@ -391,6 +396,13 @@ class Mail extends UserBase{
 	public function salesover()
 	{
 		$data=input('data');
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        if(!$userinfo){
+            $this->json(2,'参数错误');
+        }
+        if($userinfo['status'] > 6){
+            $this->json(2,'结算状态禁止退料');
+        }
 		$user=$this->admininfo;
 		if(!input('totalPrice')||input('totalPrice')==0){
 			  $this->json(1,'请输入退料数量');
