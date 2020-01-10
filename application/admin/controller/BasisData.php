@@ -1620,7 +1620,7 @@ class BasisData extends Adminbase{
         $content = input('content');
         $unit = input('unit');
         $material = input('material');
-        if(empty($name) || empty($content) || empty($unit)){
+        if(empty($name) || empty($content) || empty($unit) || empty($material)){
             $this->error('参数有误');
         }
         foreach($name as $k=>$v){
@@ -1640,6 +1640,15 @@ class BasisData extends Adminbase{
             if(empty($unit[$k])){
                 $this->error('单位不能为空');
             }
+        }
+        foreach($material as $k=>$v){
+            $material[$k] = trim($v);
+            if(empty($material[$k])){
+                $this->error('辅材明细不能为空');
+            }
+        }
+        if(count($name) != count($content) || count($content) != count($unit) || count($unit) != count($material)){
+            $this->error('所填内容不能为空');
         }
         if(count($name) != count(array_unique($name))){
             // $this->error('项目名称重复');
