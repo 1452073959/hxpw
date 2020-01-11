@@ -124,7 +124,7 @@ class WareHouse extends UserBase{
         }
         //配料逻辑 可以领取多100块钱的
 
-        if($total_money <= $picking_material['total_money'] +100 ){
+        if($total_money <= $picking_material['total_money'] +100 && $total_money <= $picking_material['total_money']*1.1){
             // 启动事务
             Db::startTrans();
             try {
@@ -140,7 +140,7 @@ class WareHouse extends UserBase{
                 $this->json(2, '配货失败');
             }
         }else{
-            $this->json(2,'领料金额不得大于原金额100块');
+            $this->json(2,'领料金额不得大于原金额10%或100块');
         }
 
         
