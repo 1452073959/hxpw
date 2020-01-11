@@ -18,6 +18,9 @@ class Baojia extends UserBase
     {
 				//接收
 		$data = $request->post();
+		if(Db::table('fdz_userlist')->where('id',$data['uid'])->value('status')>6){
+		    $this->json('33','该订单已结算');
+        }
 		// type==1监理借支==2代工人借支小程序未更新$data['type']==1||
 		if(($data['type']==1)){
 		$money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
