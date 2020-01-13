@@ -311,7 +311,7 @@ class Baojia extends UserBase
 		$n['ys']=$ys;
 		//剩余可借
 		$n['kj'] = $n['ys']*0.5- $yj;
-		//能接
+		//能借
 		$n['borrower'] = $n['ys']*0.5;
 		$this->json(1, 'success', $n);
 			

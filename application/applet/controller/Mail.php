@@ -420,6 +420,7 @@ class Mail extends UserBase{
 			unset($data[$k]['oid']);
 			unset($data[$k]['actual_num']);
 			$data[$k]['tid']=$req;
+			$data[$k]['userid']=input('uid');
 			if($v['num']==''){
 			    unset($data[$k]);
             }
