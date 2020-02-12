@@ -298,12 +298,23 @@ class Baojia extends UserBase
             $arr[$v['type_of_work']] += $v['labor_cost'] * $v['num'] * 0.5;
             $total += $v['labor_cost'] * $v['num'];
         }
-        $result = array();
+//        dump($arr);
+//        dump($arr4);
+//        $arr=array_keys($arr);
+//        $arr4=array_keys($arr4);
+//        $arr = array_intersect($arr, $arr4);
+//        dump($arr);
+//        $result = array();
         foreach ($arr as $k => $v) {
-            $result[$k] = $arr[$k] - $arr4[$k];
+            foreach ($arr4 as $key =>$val){
+                if($k==$key){
+                    $arr[$k] = $arr[$k] - $arr4[$key];
+                }
+            }
+
         }
-        $arr1 = array_keys($result);
-        $arr2 = array_values($result);
+        $arr1 = array_keys($arr);
+        $arr2 = array_values($arr);
         $arr3 = array_chunk($arr1, 1);
         foreach ($arr3 as $k1 => $v1) {
             $arr3[$k1]['money'] = $arr2[$k1];
