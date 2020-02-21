@@ -77,6 +77,14 @@
                             <input type="text" class="layui-input" id="end_time" name="end_time" value="<?php echo input('end_time') ?>" placeholder="结束时间">
                         </div>
                     </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">是否已签单:</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="oi" value="1"  title="已签单" {if (input('oi')==1)} checked {/if} >
+                                    <input type="radio" name="oi" value="2"  title="未签单" {if (input('oi')==2)} checked {/if}>
+                                    <input type="radio" name="oi" value="3"  title="显示全部" {if (input('oi')>2)} checked {/if}>
+                                </div>
+                            </div>
                     <div class="layui-inline">
                          <button type="submit" class="layui-btn layui-btn-blue">搜索</button>
                              <a href="{:url('Offerlist/userlist')}" class="layui-btn layui-btn-blue">清空筛选</a>
