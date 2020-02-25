@@ -161,9 +161,9 @@ class Financial extends Adminbase{
     {
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->order('status','asc')->paginate(10);
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',1)->where('status', 'in', [2,3,5])->order('status','asc')->paginate(10);
         }
         $this->assign('audit',$audit);
         return $this->fetch();
@@ -173,9 +173,9 @@ class Financial extends Adminbase{
     {
         $login = $this->_userinfo;
         if($login['roleid']!=1) {
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->where('frameid', $login['companyid'])->order('status','asc')->paginate(10);
         }else{
-            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->paginate(10);
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('type',2)->where('status', 'in', [2,3,5])->order('status','asc')->paginate(10);
         }
         $this->assign('audit',$audit);
         return $this->fetch();
@@ -202,6 +202,18 @@ class Financial extends Adminbase{
             return json(['code'=>2,'msg'=>'操作成功','data'=>$res]);
         }
 
+    }
+
+    public function printing()
+    {
+        $login = $this->_userinfo;
+        if($login['roleid']!=1) {
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', 2)->where('frameid', $login['companyid'])->order('status','asc')->select();
+        }else{
+            $audit = Jiezhi::with(['offer', 'user', 'audit'])->where('status', 'in', 2)->order('status','asc')->select();
+        }
+        $this->assign('audit',$audit);
+        return $this->fetch();
     }
     // //订单列表 (只显示 合同价-未审 合同价以审 结算价) 未审订单靠上
     // public function order_list(){

@@ -122,8 +122,9 @@
         <ul class="layui-tab-title">
             <li class=""><a href="/admin/financial/financeaudit">监理</a></li>
             <li class="layui-this"><a href="/admin/financial/agencyaudit">监理代工人</a></li>
+            <a href="/admin/financial/printing" class="layui-btn">打印</a>
         </ul>
-        <div class="layui-tab-content"></div>
+
     </div>
 </blockquote>
 <table class="layui-table" lay-data="{page:false, id:'demo'}" lay-filter="demo">
@@ -137,6 +138,7 @@
         <th lay-data="{field:'city'}">申请借支金额(单位: 元)</th>
         <th lay-data="{field:'sign'}">收款账号</th>
         <th lay-data="{field:'experience' }">借支原因</th>
+        <th lay-data="{field:'experience' }">申请时间</th>
         <th lay-data="{field:'experie' }">状态</th>
         <th lay-data="{field:'score',width:300}">操作/拨款时间</th>
     </tr>
@@ -153,6 +155,7 @@
         <td class="mon">{$v.money}</td>
         <td>{$v.shroff}</td>
         <td>{$v.so}</td>
+        <td>{$v.create_time}</td>
         <td>{if $v.status==2}待拨款
             {elseif $v.status==3 /}拨款成功
             {elseif $v.status==5 /}审核不通过

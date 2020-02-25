@@ -128,10 +128,13 @@ class Artificial extends Adminbase
         $off = array_unique(array_column($off,'customerid'));
         $re = Userlist::with('profile')->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
 
-//        $re = json_decode($re,true);
-//        dump($re);
-//        $kn = Userlist::with('profile')->select();
-//        dump($kn);die;
+        if(input('oi')==1){
+            $re = Userlist::with('profile')->where('oid','>',0)->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+        }elseif(input('oi')==2){
+            $re = Userlist::with('profile')->where('oid','=',0)->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+        }else{
+            $re = Userlist::with('profile')->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
+        }
         if($userinfo['roleid'] == 1){
           $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
           $this->assign('frame',$frame);
@@ -166,6 +169,7 @@ class Artificial extends Adminbase
         foreach($res as $k=>$v){
             $res[$k]['order_info'] = Model('offerlist')->get_order_info($v['id'],2);
         }
+//        dump($res);
         //用户信息
         $userinfo = Db::name('userlist')->where(['id'=>input('id')])->find();//客户信息
 
