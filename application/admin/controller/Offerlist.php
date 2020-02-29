@@ -230,6 +230,9 @@ class Offerlist extends Adminbase
             $offer_type[$v['type']][] = $v;
         }
         $customer_info = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
+        if($customer_info['frameid'] != $userinfo['companyid']){
+            $this->error('非本公司客户禁止报价');
+        }
         //取费模板
         $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->field('tmp_id,tmp_name')->group('tmp_id')->select();
         //另存订单
