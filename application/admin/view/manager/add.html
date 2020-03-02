@@ -56,17 +56,19 @@
                 </div>
                 <span id="sougs"  onclick="return myquery()">搜索公司</span>
             </div> -->
+            {if $login['roleid']==1}
             <div class="layui-form-item">
                 <label class="layui-form-label">所属公司</label>
                 <div class="layui-input-inline">
                     <select name="companyid" lay-filter="companyid" lay-search>
-                          <option value="">请选择</option>
+                        <option value="">请选择</option>
                         {volist name="company" id="vo"}
-                          <option value="{$vo['id']}">{$vo['name']}</option>
+                        <option value="{$vo['id']}">{$vo['name']}</option>
                         {/volist}
                     </select>
                 </div>
             </div>
+            {/if}
             <div class="layui-form-item">
                 <label class="layui-form-label">权限组</label>
                 <div class="layui-input-inline" id="tipsc">
