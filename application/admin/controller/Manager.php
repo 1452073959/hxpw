@@ -137,21 +137,35 @@ class Manager extends Adminbase
      */
     public function add()
     {
+        $login = $this->_userinfo;
         if ($this->request->isPost()) {
-            $data = $this->request->post('');
-            // dump($data);exit;
+            $data = $this->request->post();
+
             $result = $this->validate($data, 'AdminUser.insert');
 
             if ($result !== true) {
                 return $this->error($result);
             }
-            if (!$data['companyid']) {
-                return $this->error('请选择所属公司');
+            if($login['roleid']==1) {
+                if (!$data['companyid']) {
+                    return $this->error('请选择所属公司');
+                }
             }
+            if($login['roleid']!=1){
+                $role=['2','10','11','13','14','15','16','18','19','20','21'];
+                if(!in_array($data['roleid'],$role)){
+                    return $this->error('该岗位分公司无权限添加!');
+                }
+            }
+
             unset($data['password_confirm']);
             unset($data['nickname']);
             $data['roleid'] = $data['roleid'];
-            $data['companyid'] = $data['companyid'];
+            if($login['roleid']!=1){
+                $data['companyid'] = $login['companyid'];
+            }else{
+                $data['companyid'] = $data['companyid'];
+            }
             $data['password'] = md5($data['password']);
             // $data = array_values($data);
             // $appinfo['username'] = $data['username'];
@@ -163,6 +177,9 @@ class Manager extends Adminbase
             // dump($data);exit;
 
             if ($res = Db::name('admin')->insert($data)) {
+                if($login['roleid']!=1){
+                    $this->success("添加管理员成功！", url('admin/branch_manager/index'));
+                }
                 $this->success("添加管理员成功！", url('admin/manager/index'));
             } else {
                 // $error = Db::name('admin')->getError();
@@ -173,6 +190,7 @@ class Manager extends Adminbase
             $company = Db::name('frame')->field('id,name')->where(array('levelid'=>3))->select();
                
             $this->assign("company",$company);
+            $this->assign("login",$login);
             $this->assign("roles", model('admin/AuthGroup')->getGroups());
 
             return $this->fetch();
@@ -233,7 +251,8 @@ class Manager extends Adminbase
             if($admininfo['roleid'] == 1){
                 $id = input('id');
             }else{
-                $id = $admininfo['userid'];
+//                $id = $admininfo['userid'];
+                $id = input('id');
             }
             
             $data = Db::name('admin')->where(array("userid" => $id))->find();
