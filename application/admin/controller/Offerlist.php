@@ -818,6 +818,8 @@ class Offerlist extends Adminbase
             $res[$key]['info'] = Model('offerlist')->get_order_info($value['id'],2);
             $res[$key]['append_num'] = Db::name('order_project')->where('o_id',$value['id'])->where('type',2)->count();
             $res[$key]['add_append_num'] = Db::name('append_img')->where('oid',$value['id'])->count();
+            //礼品
+            $res[$key]['gift'] = Model('gift')->getGiftTotal($value['id']);
 
         }
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();

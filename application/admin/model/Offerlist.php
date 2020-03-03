@@ -107,11 +107,17 @@ class Offerlist extends Model
         $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
         $offerlist_info['repeat_commission'] = round($offerlist_info['repeat_commission']/100*$offerlist_info['discount_proquant'],2);;//回头客奖
         $offerlist_info['business_commission'] = round($offerlist_info['business_commission']/100*$offerlist_info['discount_proquant'],2);;//业务提成
+        //计算礼品成本
+        if(!empty($offerlist_info['gift'])){
+            $offerlist_info['gift'] = Model('gift')->getGiftTotal($offerlist_info['id']);
+        }else{
+            $offerlist_info['gift'] = 0;
+        }
 
         //计算毛利 利润/报价
         if($offerlist_info['direct_cost']){
             //工程毛利 优惠后工程报价 - 辅材成本-人工成本
-            $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] ),2);
+            $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] - $offerlist_info['gift'] ),2);
             //毛利率
             $offerlist_info['profit_rate'] = round( $offerlist_info['gross_profit'] / $offerlist_info['discount_proquant'] * 100,2);
             //总毛利   工程毛利 - 4个提成 - 运杂 
@@ -229,11 +235,16 @@ class Offerlist extends Model
         $offerlist_info['design_commission'] = round($offerlist_info['design_commission']/100*$offerlist_info['discount_proquant'],2);;//设计提成
         $offerlist_info['repeat_commission'] = round($offerlist_info['repeat_commission']/100*$offerlist_info['discount_proquant'],2);;//回头客奖
         $offerlist_info['business_commission'] = round($offerlist_info['business_commission']/100*$offerlist_info['discount_proquant'],2);;//业务提成
-
+        //计算礼品成本
+        if(!empty($offerlist_info['gift'])){
+            $offerlist_info['gift'] = Model('gift')->getGiftTotal($offerlist_info['id']);
+        }else{
+            $offerlist_info['gift'] = 0;
+        }
         //计算毛利 利润/报价
         if($offerlist_info['direct_cost']){
             //工程毛利 优惠后工程报价 - 辅材成本-人工成本
-            $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] ),2);
+            $offerlist_info['gross_profit'] = round(($offerlist_info['discount_proquant'] - $offerlist_info['artificial_cb'] - $offerlist_info['material_cb'] - $offerlist_info['gift'] ),2);
             //毛利率
             $offerlist_info['profit_rate'] = round( $offerlist_info['gross_profit'] / $offerlist_info['discount_proquant'] * 100,2);
             //总毛利   工程毛利 - 4个提成 - 运杂 

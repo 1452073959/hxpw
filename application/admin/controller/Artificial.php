@@ -691,6 +691,7 @@ class Artificial extends Adminbase
                 $total['discount_craft_show'] += $arr[$k]['discount_craft_show'];
             }
         }
+        $total['gift'] = Model('gift')->getGiftTotal($id);
         
         //其他成本 
         echo json_encode(array('code'=>0,'datas'=>$arr,'total'=>$total));

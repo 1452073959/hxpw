@@ -54,8 +54,13 @@
 .layui-tab-title li a{
   padding: 0 25px;
 }
+.input30{
+    width: 50px;
+    height: 28px;
+    line-height: 28px;
+    padding:0 2px;
+}
 </style>
-
   <!-- 导出完成 -->
 <div class="layui-card">
     <div class="layui-card-body">
@@ -92,30 +97,31 @@
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3',toolbar:'#',limit:20,page:'true',height: 'full-160'}">
                 <thead >
                     <tr>
-                        <th class="taleft" lay-data="{field:'id', width:60,}">ID</th>
-                        <th class="taleft" lay-data="{field:'history',width:285}">操作</th>
-                        <th class="taleft" lay-data="{field:'manager_name',width:100}">非标</th>
-						<th class="taleft" lay-data="{field:'status',width:110,{neq name="$admininfo['roleid']" value="10"}event:'set_status'{/neq}}">状态</th>
-                        <th class="taleft" lay-data="{field:'proquant',width:120}">工程报价</th>
-                        <th class="taleft" lay-data="{field:'direct_cost',width:120 }">工程直接费</th>
-                        <th class="taleft" lay-data="{field:'matquant',width:100 }">辅材报价</th>
-                        <th class="taleft" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
-                        <th class="taleft" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
-                        <th class="taleft" lay-data="{field:'discount_content',edit:'text',width:180 }">金额优惠说明</th>
-                        <th class="taleft" lay-data="{field:'tmp_id',width:100}">取费模板</th>
-                        <th class="taleft" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
-                        <th class="taleft" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
-                        <th class="taleft" lay-data="{field:'entrytime',width:150}">录入时间</th>
-                        <th class="taleft" lay-data="{field:'effect_img',width:150}">效果图</th>
-                        <th class="taleft" lay-data="{field:'cad',width:100}">图纸</th>
+                        <th class="" lay-data="{field:'id', width:60,}">ID</th>
+                        <th class="" lay-data="{field:'history',width:285}">操作</th>
+                        <th class="" lay-data="{field:'manager_name',width:100}">非标</th>
+						<th class="" lay-data="{field:'status',width:110,{neq name="$admininfo['roleid']" value="10"}event:'set_status'{/neq}}">状态</th>
+                        <th class="" lay-data="{field:'proquant',width:120}">工程报价</th>
+                        <th class="" lay-data="{field:'direct_cost',width:120 }">工程直接费</th>
+                        <th class="" lay-data="{field:'matquant',width:100 }">辅材报价</th>
+                        <th class="" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
+                        <th class="" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
+                        <th class="" lay-data="{field:'gift',width:180}">礼品</th>
+                        <th class="" lay-data="{field:'discount_content',edit:'text',width:180 }">金额优惠说明</th>
+                        <th class="" lay-data="{field:'tmp_id',width:100}">取费模板</th>
+                        <th class="" lay-data="{field:'remark',width:100,edit:'text'}">备注</th>
+                        <th class="" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
+                        <th class="" lay-data="{field:'entrytime',width:150}">录入时间</th>
+                        <th class="" lay-data="{field:'effect_img',width:150}">效果图</th>
+                        <th class="" lay-data="{field:'cad',width:100}">图纸</th>
                     </tr>
                 </thead>
                 <tbody>
 
                   {foreach name="data" item="vo"}
                     <tr>
-                        <td class="taleft">{$vo.id}</td>
-                        <td class="taleft">
+                        <td class="">{$vo.id}</td>
+                        <td class="">
     						{eq name=":input('type')" value="edit"}
     						  <a class="layui-btn layui-btn-xs" href="{:url('admin/offerlist/zengjian',['id'=>$vo.id,'report_id'=>$vo.id])}">选择</a>
     						{else/}
@@ -159,11 +165,11 @@
 									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
 							{/switch}
 						</td>
-                      <td class="taleft">{$vo.info.discount_proquant}</td>
-                      <td class="taleft">{$vo.info.direct_cost}</td>
-                      <td class="taleft">{$vo.info.matquant}</td>
-                      <td class="taleft">{$vo.info.manual_quota}</td>
-                      <td class="taleft">
+                      <td class="">{$vo.info.discount_proquant}</td>
+                      <td class="">{$vo.info.direct_cost}</td>
+                      <td class="">{$vo.info.matquant}</td>
+                      <td class="">{$vo.info.manual_quota}</td>
+                      <td class="">
                             {if($vo['info']['discount_type']==2)}
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">整单{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
                             {elseif ($vo['info']['discount_type']==3) /}
@@ -174,15 +180,22 @@
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="1" data-num="">设置优惠</a>
                             {/if}
                         </td>
-                      <!-- <td class="taleft">{$vo.info.discount}</td> -->
-                      <td class="taleft">{$vo.info.discount_content}</td>
-                      <td class="taleft">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
-                      <td class="taleft">{$vo.info.remark}</td>
-                      <td class="taleft">查看/设置</td>
-                      <td class="taleft">{$vo.info.entrytime|date="Y-m-d H:i"}</td>
-                      <td class="taleft">{$vo.effect_img ? '<a href="/admin/offerlist/down?id='.$vo["id"].'&type=2">下载</a>':'<a href="javascript:;" style="color:red" lay-event="effect_img">上传</a>'}</td>
+                        <td class="">
+                            {if($vo['gift'] > 0)}
+                                <a lay-event="show_gift">总价值：￥{$vo['gift']}</a>
+                            {else /}
+                                <a lay-event="set_gift">设置优惠</a>
+                            {/if}
+                        </td>
+                      <!-- <td class="">{$vo.info.discount}</td> -->
+                      <td class="">{$vo.info.discount_content}</td>
+                      <td class="">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
+                      <td class="">{$vo.info.remark}</td>
+                      <td class="">查看/设置</td>
+                      <td class="">{$vo.info.entrytime|date="Y-m-d H:i"}</td>
+                      <td class="">{$vo.effect_img ? '<a href="/admin/offerlist/down?id='.$vo["id"].'&type=2">下载</a>':'<a href="javascript:;" style="color:red" lay-event="effect_img">上传</a>'}</td>
                          {if $vo.cad_file!=''}
-                         <td class="taleft"><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
+                         <td class=""><a href="/admin/offerlist/down?id={$vo.id} ">下载</a></td>
                          {else /}
                          {/if}
 
@@ -198,8 +211,25 @@
 {block name="script"}
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
+<!-- 打印 -->
+<script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script type="text/javascript">
+    //打印礼品单
+    $(document).on('click','#gift_print',function(){
+      $("#show_gift").printThis({
+         debug: false,
+         importCSS: true,
+         importStyle: true,
+         printContainer: true,
+         loadCSS: "__STATIC__/bootstrap/css/printThis-p.css",
+         // pageTitle: '　',
+         removeInline: false,
+         printDelay: 333,
+         header: null,
+         formValues: false,
+         pageTitle: "礼品单", 
+       });
+  })
     //确认处理增加项
     function deal_append(id,o){
         $.ajax({
@@ -830,14 +860,6 @@ layui.use('table', function(){
                 }
             },'json');
         }else if(obj.event == 'effect_img'){
-            // if(data.status.indexOf("待结算") >= 0){
-            //     layer.msg('待结算状态禁止修改优惠');
-            //     return false;
-            // }
-            // if(data.status.indexOf("已结算") >= 0){
-            //     layer.msg('结算状态禁止修改优惠');
-            //     return false;
-            // }
             var html = '<div class="layui-upload" style="margin:15px 0px;text-align:center;">'
                 html += '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test10">上传效果图</button>'
                 html += '<br />'
@@ -879,9 +901,215 @@ layui.use('table', function(){
                     }
                 });
             });
+        }else if(obj.event == 'set_gift'){
+            $.post('/admin/gift/get_gift_byf',{},function(res){
+                if(res.code == 1){
+                    var html = '<form id="addGift">';
+                    html += '<table class="layui-table" id="test4">'
+                    html += '    <thead>'
+                    html += '        <tr>'
+                    html += '            <th></th>'
+                    html += '            <th>名称</th>'
+                    html += '            <th>品牌</th>'
+                    html += '            <th>数量</th>'
+                    html += '            <th>价格</th>'
+                    html += '        </tr>'
+                    html += '    </thead>'
+                    html += '    <tbody>'
+                    var checked = '';
+                    $.each(res.data, function (k, v) {
+                        html += '        <tr>'
+                        html += '            <td><input class="g_checkbox" name="gift[]" type="checkbox" value="'+v.id+'" /></td>'
+                        html += '            <td class="g_name"><input type="hidden" name="g_name['+v.id+']" value="'+v.name+'" />'+v.name+'</td>'
+                        html += '            <td class="">'+v.brand+'</td>'
+                        html += '            <td class="g_num"><input class="input30" name="g_num['+v.id+']" value="1" /></td>'
+                        html += '            <td class="g_price">'+v.price+'</td>'
+                        html += '        </tr>'
+                    })
+                    html += '        <tr>'
+                    html += '            <td></td>'
+                    html += '            <td></td>'
+                    html += '            <td></td>'
+                    html += '            <td></td>'
+                    html += '            <td>总价：￥<span id="gift_total">0</span></td>'
+                    html += '        </tr>'
+                    html += '    </tbody>'
+                    html += '</table>'
+                    html += '<input type="hidden" name="id" value="'+data.id+'" />'
+                    html += '</form>'
+                    // html += '<div style="float:right">总价：￥<span id="gift_total">0</span></div>'
+                    layer.open({
+                        content: html,
+                        area:['50%', '60%'], //宽高
+                        title:'添加礼品',
+                        btn: ['添加','取消'],
+                        success:function(layero, index){
+                            // set_gift_total();
+                        },
+                        yes: function(index, layero){
+                            $.post('/admin/gift/order_add_gift',$('#addGift').serializeArray(),function(res){
+                                if(res.code == 1){
+                                    layer.msg(res.msg);
+                                    setTimeout(function(){
+                                    　　window.location.reload()
+                                    },1000);
+                                    return false;
+                                }else{
+                                    alert('添加失败');
+                                }
+                            })
+                        },
+                        cancel: function(){ 
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json')
+        }else if(obj.event == 'show_gift'){
+            $.post('/admin/gift/get_gift_list',{oid:data.id},function(res){
+                if(res.code == 1){
+                    var html = '<form id="addGift">';
+                    html += '<table class="layui-table" id="show_gift">'
+                    html += '    <thead>'
+                    html += '        <tr>'
+                    // html += '            <th></th>'
+                    html += '            <th>名称</th>'
+                    html += '            <th>品牌</th>'
+                    html += '            <th>数量</th>'
+                    html += '            <th>价格</th>'
+                    html += '        </tr>'
+                    html += '    </thead>'
+                    html += '    <tbody>'
+                    var checked = '';
+                    $.each(res.data.data, function (k, v) {
+                        html += '        <tr>'
+                        // html += '            <td><input class="g_checkbox" name="gift[]" type="checkbox" value="'+v.id+'" /></td>'
+                        html += '            <td class="g_name">'+v.name+'</td>'
+                        html += '            <td class="">'+v.brand+'</td>'
+                        html += '            <td class="g_num">'+v.num+'</td>'
+                        html += '            <td class="g_price">'+v.price+'</td>'
+                        html += '        </tr>'
+                    })
+                    html += '        <tr>'
+                    html += '            <td></td>'
+                    html += '            <td></td>'
+                    html += '            <td></td>'
+                    html += '            <td>总价：￥'+res.data.money+'</td>'
+                    html += '        </tr>'
+                    html += '    </tbody>'
+                    html += '</table>'
+                    html += '</form>'
+                    html += '<button style="float:right" class="layui-btn layui-btn-sm" type="button" id="gift_print">打印</button>'
+
+                    // html += '<div style="float:right">总价：￥'+res.data.money+'</div>'
+                    layer.open({
+                        content: html,
+                        area:['50%', '60%'], //宽高
+                        title:'查看礼品',
+                        btn: ['点击修改','取消'],
+                        success:function(layero, index){
+                            // set_gift_total();
+                        },
+                        yes: function(index, layero){
+                            $.post('/admin/gift/get_gift_byf',{},function(res){
+                                if(res.code == 1){
+                                    var html = '<form id="addGift">';
+                                    html += '<table class="layui-table" id="test4">'
+                                    html += '    <thead>'
+                                    html += '        <tr>'
+                                    html += '            <th></th>'
+                                    html += '            <th>名称</th>'
+                                    html += '            <th>品牌</th>'
+                                    html += '            <th>数量</th>'
+                                    html += '            <th>价格</th>'
+                                    html += '        </tr>'
+                                    html += '    </thead>'
+                                    html += '    <tbody>'
+                                    var checked = '';
+                                    $.each(res.data, function (k, v) {
+                                        html += '        <tr>'
+                                        html += '            <td><input class="g_checkbox" name="gift[]" type="checkbox" value="'+v.id+'" /></td>'
+                                        html += '            <td class="g_name"><input type="hidden" name="g_name['+v.id+']" value="'+v.name+'" />'+v.name+'</td>'
+                                        html += '            <td class="">'+v.brand+'</td>'
+                                        html += '            <td class="g_num"><input class="input30" name="g_num['+v.id+']" value="1" /></td>'
+                                        html += '            <td class="g_price">'+v.price+'</td>'
+                                        html += '        </tr>'
+                                    })
+                                    html += '        <tr>'
+                                    html += '            <td></td>'
+                                    html += '            <td></td>'
+                                    html += '            <td></td>'
+                                    html += '            <td></td>'
+                                    html += '            <td>总价：￥<span id="gift_total">0</span></td>'
+                                    html += '        </tr>'
+                                    html += '    </tbody>'
+                                    html += '</table>'
+                                    html += '<input type="hidden" name="id" value="'+data.id+'" />'
+                                    html += '</form>'
+                                    // html += '<div style="float:right">总价：￥<span id="gift_total">0</span></div>'
+                                    layer.open({
+                                        content: html,
+                                        area:['50%', '60%'], //宽高
+                                        title:'修改礼品',
+                                        btn: ['修改','取消'],
+                                        success:function(layero, index){
+                                            // set_gift_total();
+                                        },
+                                        yes: function(index, layero){
+                                            $.post('/admin/gift/order_add_gift',$('#addGift').serializeArray(),function(res){
+                                                if(res.code == 1){
+                                                    layer.msg(res.msg);
+                                                    setTimeout(function(){
+                                                    　　window.location.reload()
+                                                    },1000);
+                                                    return false;
+                                                }else{
+                                                    alert('添加失败');
+                                                }
+                                            })
+                                        },
+                                        cancel: function(){ 
+                                        //return false 开启该代码可禁止点击该按钮关闭
+                                        }
+                                    });
+                                }else{
+                                    layer.msg(res.msg);
+                                }
+                            },'json')
+                        },
+                        cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                }else{
+                    layer.msg(res.msg);
+                }
+            },'json')
         }
     });
 });
+
+//计算礼品合计
+//选中触发
+$(document).on('click','.g_checkbox',function(){
+    set_gift_total();
+})
+//修改数量触发
+$(document).on('change','.g_num input',function(){
+    set_gift_total();
+})
+function set_gift_total(){
+    var total = 0;
+    $('#test4').find('tbody').find('tr').each(function(k,v){
+        if($(v).find('.g_checkbox').is(':checked')== true){
+            total += (Number($(v).find('.g_price').text()) * Number($(v).find('.g_num input').val()));
+        }
+    })
+    $('#gift_total').text(total);
+}
+
 //选择打折类型后 修改提示信息
 $(document).on('change','#discount_type',function(){
     var type = $(this).val();
