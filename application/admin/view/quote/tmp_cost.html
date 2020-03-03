@@ -14,6 +14,26 @@
                 <div class="layui-inline">
                     <!-- <a class="layui-btn layui-btn-sm" href="javascript:;">添加空间类型</a> -->
                     <a class="layui-btn layui-btn-sm" id="add_work" href="javascript:;">添加费率模板</a>
+                    <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-item">默认模板:</label>
+                        <div class="layui-input-inline" id="tipsc">
+                            <select name="template" lay-search lay-filter="template">
+                                {if $res1==0}
+                                <option value=''>选择默认取费模板</option>
+                                {volist name="$datas" id="vo"}
+                                <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                                {/volist}
+                                {else /}
+                                {volist name="$datas" id="vo"}
+                                <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                                {/volist}
+                                {/if}
+
+                            </select>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </blockquote>
             <!-- 空间 -->
@@ -29,7 +49,7 @@
                         <th>费率模板名称</th>
                         <th>添加时间</th>
                         <th>操作</th>
-                    </tr> 
+                    </tr>
                 </thead>
                 <tbody>
                     <?php foreach($datas as $k=>$v){ ?>
@@ -40,6 +60,7 @@
                                     <a href="javascript:;" class="edit" data-id="{$v['tmp_id']}" data-name="{$v['tmp_name']}"><i class="layui-icon layui-icon-search" title="查看"></i></a>
                                     <!-- <a href="javascript:;" class="delete" data-id="{$v['tmp_id']}" data-name="{$v['tmp_name']}"><i class="layui-icon layui-icon-delete" title="删除"></i></a> -->
                                 </td>
+
                             </tr>
                     <?php } ?>
                 </tbody>
@@ -50,6 +71,7 @@
 {/block}
 {block name="script"}
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
 <script type="text/javascript">
     function add_tr(o){
         html  = '     <tr>'
@@ -292,5 +314,31 @@
         //     }); 
         // })
     })
+
+
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('select(template)', function(data){
+            console.log(data.value); //得到被选中的值
+            $.ajax({
+                type: "post",
+                url: "/admin/quote/ondefault",
+                // data: {status: 3},
+                data: {key: data.value},
+                success: function (e) {
+                    console.log(e);
+                    if (e.code == '1') {
+                        layer.msg(e.msg);
+                    } else {
+                        alert('系统错误');
+                    }
+                    setTimeout(function () {
+                        window.location.reload();
+                        console.log(2);
+                    }, 2000);
+                }
+            })
+        });
+    });
 </script>
 {/block}

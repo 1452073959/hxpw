@@ -30,10 +30,22 @@ class Quote extends Adminbase
     //模板管理页面
     public function tmp_cost(){
         $userinfo = $this->_userinfo;
+        $res1=Db::table('fdz_cost_tmp')->where('f_id',$userinfo['companyid'])->value('default_template');
         $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->order('id','desc')->select();
         $this->assign([ 'datas'=>$res ]);
+        $this->assign([ 'res1'=>$res1 ]);
         return $this->fetch();
-        // echo 1;die;
+    }
+    //设置默认取费模板
+    public function ondefault(Request $request)
+    {
+        $data=$request->post();
+        $userinfo = $this->_userinfo;
+        $res=Db::table('fdz_cost_tmp')->where('f_id',$userinfo['companyid'])->update(['default_template'=>$data['key']]);
+        if($res){
+            return json(['code'=>1,'msg'=>'默认取费模板跟换成功','data'=>$userinfo]);
+        }
+
     }
 
     // 获取某条模板详情

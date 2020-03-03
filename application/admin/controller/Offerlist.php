@@ -234,7 +234,7 @@ class Offerlist extends Adminbase
             $this->error('非本公司客户禁止报价');
         }
         //取费模板
-        $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->field('tmp_id,tmp_name')->group('tmp_id')->select();
+        $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
         //另存订单
         if(input('report_id')){
             $order_project = Db::name('order_project')->where(['o_id'=>input('report_id')])->select();
@@ -290,6 +290,8 @@ class Offerlist extends Adminbase
             //旧客户 可以改单价
             return $this->fetch('add_order_olduser');
         }
+        $res1=Db::table('fdz_cost_tmp')->where('f_id',$userinfo['companyid'])->value('default_template');
+        $this->assign([ 'res1'=>$res1 ]);
         return $this->fetch();
     }
 

@@ -122,15 +122,16 @@
                 </div>
                 <div class="layui-inline">
                     <select name="tmp_cost" class="select_tmp">
-                        <?php foreach($tmp_cost as $k=>$v){
-                        $selected = '';
-                        if( isset($order_info['tmp_cost_id']) && $v['tmp_id'] == $order_info['tmp_cost_id']){
-                        $selected = 'selected';
-                        }
-                        echo '<option '.$selected.' value="'.$v['tmp_id'].'" >'.$v['tmp_name'].'</option>';
-                        } ?>
+                        {if $res1==0}
                         <option value=''>选择取费模板</option>
-
+                        {foreach $tmp_cost as $key=>$vo }
+                        <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                        {/foreach}
+                        {else/}
+                        {foreach $tmp_cost as $key=>$vo }
+                        <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                        {/foreach}
+                        {/if}
                     </select>
                 </div>
                 
