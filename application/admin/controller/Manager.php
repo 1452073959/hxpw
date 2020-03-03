@@ -151,13 +151,12 @@ class Manager extends Adminbase
                     return $this->error('请选择所属公司');
                 }
             }
-            if($login['roleid']!=1){
-                $role=['2','10','11','13','14','15','16','18','19','20','21'];
-                if(!in_array($data['roleid'],$role)){
-                    return $this->error('该岗位分公司无权限添加!');
-                }
-            }
-
+//            if($login['roleid']!=1){
+//                $role=['2','11','13','14','15','16','19','23','24'];
+//                if(!in_array($data['roleid'],$role)){
+//                    return $this->error('该岗位分公司无权限添加!');
+//                }
+//            }
             unset($data['password_confirm']);
             unset($data['nickname']);
             $data['roleid'] = $data['roleid'];
@@ -176,8 +175,15 @@ class Manager extends Adminbase
             // $appinfo['roleid'] = $data['roleid'];
             // dump($data);exit;
 
-            if ($res = Db::name('admin')->insert($data)) {
+            if ($res = Db::name('admin')->insertGetId($data)) {
                 if($login['roleid']!=1){
+                    $log=[];
+                    $log['operator']=$login['userid'];
+                    $log['cname']=$res;
+                    $log['description']='创建';
+                    $log['operate_time']=date('Y-m-d H:i:s');
+                    $log['ip']=$_SERVER["REMOTE_ADDR"];
+                    Db::name('zlogs')->data($log)->insert();
                     $this->success("添加管理员成功！", url('admin/branch_manager/index'));
                 }
                 $this->success("添加管理员成功！", url('admin/manager/index'));
@@ -191,7 +197,22 @@ class Manager extends Adminbase
                
             $this->assign("company",$company);
             $this->assign("login",$login);
-            $this->assign("roles", model('admin/AuthGroup')->getGroups());
+            $roles=model('admin/AuthGroup')->getGroups()->toarray();
+            if($login['roleid']!=1){
+               unset($roles['0']);
+               unset($roles['2']);
+               unset($roles['4']);
+               unset($roles['9']);
+               unset($roles['10']);
+               unset($roles['12']);
+               unset($roles['13']);
+               unset($roles['14']);
+               unset($roles['16']);
+               unset($roles['15']);
+               unset($roles['11']);
+            }
+            $this->assign("roles",$roles);
+//            $this->assign("roles", model('admin/AuthGroup')->getGroups());
 
             return $this->fetch();
         }
@@ -242,7 +263,18 @@ class Manager extends Adminbase
             unset($data['password_confirm']);
             unset($data['nickname']);
             // dump($data);exit;
+            $data['username']=Db::name('admin')->where(['userid'=>input('userid')])->value('username');
             if (Db::name('admin')->where(['userid'=>input('userid')])->update($data) !== false) {
+                $login = $this->_userinfo;
+                if($login['roleid']!=1){
+                    $log=[];
+                    $log['operator']=$login['userid'];
+                    $log['cname']=$data['userid'];
+                    $log['description']='更新';
+                    $log['operate_time']=date('Y-m-d H:i:s');
+                    $log['ip']=$_SERVER["REMOTE_ADDR"];
+                    Db::name('zlogs')->data($log)->insert();
+                }
                 $this->success("修改成功！");
             } else {
                 $this->error(Db::name('admin')->getError() ?: '修改失败！');
@@ -279,8 +311,28 @@ class Manager extends Adminbase
         }
         if (Db::name('admin')->where('userid',$allurl['id'])->update($data)){
             if($data['status'] === 0){
+                $login = $this->_userinfo;
+                if($login['roleid']!=1){
+                    $log=[];
+                    $log['operator']=$login['userid'];
+                    $log['cname']=$allurl['id'];
+                    $log['description']='禁用';
+                    $log['operate_time']=date('Y-m-d H:i:s');
+                    $log['ip']=$_SERVER["REMOTE_ADDR"];
+                    Db::name('zlogs')->data($log)->insert();
+                }
                 $this->success("禁用成功！");
             }else{
+                $login = $this->_userinfo;
+                if($login['roleid']!=1){
+                    $log=[];
+                    $log['operator']=$login['userid'];
+                    $log['cname']=$allurl['id'];
+                    $log['description']='启用';
+                    $log['operate_time']=date('Y-m-d H:i:s');
+                    $log['ip']=$_SERVER["REMOTE_ADDR"];
+                    Db::name('zlogs')->data($log)->insert();
+                }
                 $this->success("启用成功！");
             }
         } else {

@@ -19,4 +19,16 @@ class BranchManager extends Adminbase
         $this->assign('admin',$admin);
         return $this->fetch();
     }
+
+    public function log()
+    {
+        $log= Db::view('zlogs')
+            ->view('admin', 'userid,username', 'admin.userid=zlogs.operator')->order('operate_time','desc')
+            ->select();
+        foreach ($log as $k=>$v){
+            $log[$k]['cname']=Db::table('fdz_admin')->where('userid', $v['cname'])->value('username');
+        }
+        $this->assign('log',$log);
+        return $this->fetch();
+    }
 }
