@@ -1,0 +1,110 @@
+{extend name="index_layout"/}
+{block name="main"}
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+<div>
+    <button type="button" class="layui-btn" onclick="javascript:window.location.href='/admin/indent/create'"/>新增流程</button>
+</div>
+<div class="information-box" style="border:1px solid #DDDDDD;">
+    <div id="test1" class="demo-tree demo-tree-box"></div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+<script src="__STATIC__/12/admin/js/jquery-2.0.0.js"></script>
+<!--<script src="https://www.layuicdn.com/layer/layer.js"></script>-->
+<script>
+    layui.use(['tree', 'util'], function () {
+        var tree = layui.tree
+            , layer = layui.layer
+            , util = layui.util
+        $.ajax({
+            type: "get",
+            url: "/admin/indent/calendar",
+            async:false,
+            success: function (e) {
+                da=e;
+            }
+        });
+        tree.render({
+            elem: '#test1' //默认是点击节点可进行收缩
+            , data: da
+            ,spread: true//默认展开无效????
+            ,showLine: false
+            ,click: function(obj){
+                console.log(obj.data); //得到当前点击的节点数据
+                var html =
+                    '<form class="layui-form" action="">'
+                    + '<div class="layui-upload" id="upload_file" style="margin-bottom:15px;margin-top:15px;text-align:center">'
+                        +'<input type="hidden" value=' + obj.data.id + ' name="id">'
+                        +'<input type="number" value=' + obj.data.order + ' name="order" placeholder="排序值,越小越前" class="layui-input">'
+                    + '      <input type="text" name="title" required  lay-verify="required" placeholder="" value=' + obj.data.title + ' autocomplete="off" class="layui-input">'
+                    + '<br />'
+                    + '           <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>'
+                    + '           <button class="layui-btn" lay-submit lay-filter="del">删除改项</button>'
+                    + '</div>'
+                +'</form>'
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    shadeClose: true,
+                    skin: 'yourclass',
+                    content: html
+                });
+                layui.use('form', function(){
+                    var form = layui.form;
+                    //监听提交
+                    form.on('submit(formDemo)', function(data){
+                        // layer.msg(JSON.stringify(data.field));
+                        $.ajax({
+                            type: "post",
+                            url: "/admin/indent/update",
+                            data: {id:data.field.id,title:data.field.title,order:data.field.order},
+                            success: function (e) {
+                                layer.msg(e.msg);
+                                window.location.reload();
+                            },
+                        })
+                        return false;
+                    });
+                    form.on('submit(del)', function(data){
+                        // layer.msg(JSON.stringify(data.field));
+                        $.ajax({
+                            type: "post",
+                            url: "/admin/indent/del",
+                            data: {id:data.field.id,title:data.field.title},
+                            success: function (e) {
+                                layer.msg(e.msg);
+                                // window.location.reload();
+                            },
+                        })
+                        return false;
+                    });
+                });
+            }
+        });
+    });
+
+
+            //为什么不弹layer
+            // layui.use('layer', function(){
+            //     var layer = layui.layer;
+            //     $('#create').click(function() {
+            //         layer.msg('hello');
+            //         $.ajax({
+            //             type: "post",
+            //             url: "/admin/indent/add",
+            //             dataType:'html',
+            //             data: {},
+            //             success: function (e) {
+            //                 layer.alert('只想简单的提示');
+            //
+            //             },
+            //         })
+            // });
+            // alert(123);
+
+
+</script>
+{/block}

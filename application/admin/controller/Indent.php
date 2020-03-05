@@ -9,7 +9,7 @@ use app\common\controller\Adminbase;
 use think\Db;
 use think\Paginator;
 use think\Request;
-
+use app\admin\model\Department;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -25,6 +25,98 @@ class Indent extends Adminbase
     // }
 
     //
+
+    public function calendar()
+    {
+        $list=Db::table('fdz_zz')->order('order','desc')->select();
+        $tree = [];
+        if (is_array($list)) {
+            $refer = [];
+            foreach ($list as $key => $data) {
+                $refer[$data['id']] =& $list[$key];
+            }
+            foreach ($list as $key => $data) {
+                $parentId = $data['pid'];
+                if (0 == $parentId) {
+                    $tree[] =& $list[$key];
+                } else {
+                    if (isset($refer[$parentId])) {
+                        $parent =& $refer[$parentId];
+                        $parent['children'][] =& $list[$key];
+                    }
+                }
+            }
+        }
+        return json($tree);
+
+    }
+    //删除
+    public function del(Request $request)
+    {
+        $data=$request->post();
+        $res=Db::table('fdz_zz')->where('pid',$data['id'])->select();
+        if(!empty($res)){
+            return json(['code'=>1,'msg'=>'有子项目未删除,请先删除子项目','data'=>$data['title']]);
+        }else{
+            $res=Db::table('fdz_zz')->where('id',$data['id'])->delete();
+            if($res){
+                return json(['code'=>1,'msg'=>'删除成功','data'=>$data['title']]);
+            }else{
+                return json(['code'=>2,'msg'=>'删除失败','data'=>$data['title']]);
+            }
+        }
+
+    }
+    //更新
+    public function update(Request $request)
+    {
+        $data=$request->post();
+        $res=Db::table('fdz_zz')->where('id',$data['id'])->update(['title'=>$data['title'],'order'=>$data['order']]);
+        if($res){
+            return json(['code'=>1,'msg'=>'修改成功','data'=>$data['title']]);
+        }else{
+            return json(['code'=>2,'msg'=>'失败','data'=>$data['title']]);
+        }
+    }
+    //添加
+    public function create()
+    {
+        $tree = new \util\Tree();
+        $pid = $this->request->param('pid/d', '');
+        $result = Db::table('fdz_zz')->order(array( 'id' => 'DESC'))->select();
+            foreach ($result as $k=>$v)
+            {
+                $result[$k]['parentid']=$v['pid'];
+            }
+        $array = array();
+        foreach ($result as $r) {
+            $r['selected'] = $r['id'] == $pid ? 'selected' : '';
+            $array[] = $r;
+        }
+        $str = "<option value='\$id' \$selected>\$spacer \$title</option>";
+        $tree->init($array);
+        $select_categorys = $tree->get_tree(0, $str);
+        $this->assign('select_categorys',$select_categorys);
+        return $this->fetch();
+    }
+    public function createpost()
+    {
+        $data=input();
+        if($data['title']==''){
+            $this->error('质检流程必填');
+        }
+        $res=Db::table('fdz_zz')->insert($data);
+        if($res){
+            $this->success("添加成功！", url("indent/quality"));
+        }else{
+            $this->error('添加失败');
+        }
+    }
+    //页面
+    public function quality()
+    {
+        return $this->fetch();
+    }
     public function index(){
     
         $res = Db::name('frame')->field('id,name')->where(['levelid'=>2,'status'=>0])->select();

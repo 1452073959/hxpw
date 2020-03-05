@@ -1,0 +1,33 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">添加质检流程</div>
+    <div class="layui-card-body">
+        <form class="layui-form form-horizontal" action="{:url('admin/indent/createpost')}" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">上级质检项</label>
+                <div class="layui-input-inline w300">
+                    <select name="pid">
+                        {$select_categorys|raw}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">质检流程</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="title" lay-verify="required"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn ajax-post" lay-submit="" lay-filter="*" target-form="form-horizontal">立即提交</button>
+                    <a class="layui-btn layui-btn-normal" href="{:url('admin/indent/quality')}">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+{/block}
