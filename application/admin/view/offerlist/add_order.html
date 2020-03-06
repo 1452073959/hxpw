@@ -125,11 +125,11 @@
                         {if $res1==0}
                         <option value=''>选择取费模板</option>
                         {foreach $tmp_cost as $key=>$vo }
-                        <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                        <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
                         {/foreach}
                         {else/}
                         {foreach $tmp_cost as $key=>$vo }
-                        <option value="{$vo['id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                        <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
                         {/foreach}
                         {/if}
                     </select>
