@@ -25,26 +25,26 @@ class Check extends UserBase{
     }
 
     //申请验收
-    public function applyCheck(){
-        $uid = input('uid');
-        $userinfo = Db::name('userlist')->where(['id'=>$uid])->find();
-        if ($userinfo['status'] > '6') {
-            $this->json(2,'请耐心等待结算结果');
-        }
-        if ($userinfo['work_status'] == '待结算') {
-            $this->json(2,'工程已结束，可发起结算申请');
-        }
-        $in_check = $userinfo['in_check'];
-        if($in_check == 1){
-            $this->json(2,'请耐心等待验收');
-        }
-        $res = Db::name('userlist')->where(['id'=>$uid])->update(['in_check'=>1,'check_time'=>time()]);
-        if($res){
-            $this->json(0,'success');
-        }else{
-            $this->json(2,'申请失败');
-        }
-    }
+    // public function applyCheck(){
+    //     $uid = input('uid');
+    //     $userinfo = Db::name('userlist')->where(['id'=>$uid])->find();
+    //     if ($userinfo['status'] > '6') {
+    //         $this->json(2,'请耐心等待结算结果');
+    //     }
+    //     if ($userinfo['work_status'] == '待结算') {
+    //         $this->json(2,'工程已结束，可发起结算申请');
+    //     }
+    //     $in_check = $userinfo['in_check'];
+    //     if($in_check == 1){
+    //         $this->json(2,'请耐心等待验收');
+    //     }
+    //     $res = Db::name('userlist')->where(['id'=>$uid])->update(['in_check'=>1,'check_time'=>time()]);
+    //     if($res){
+    //         $this->json(0,'success');
+    //     }else{
+    //         $this->json(2,'申请失败');
+    //     }
+    // }
 
     //获取质检流程
     public function getCheckProcess(){
