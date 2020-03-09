@@ -35,4 +35,34 @@ class User extends UserBase
         $this->json(0,'success',['admininfo'=>$this->admininfo,'menu'=>$menu]);
     }
 
+    public function getProcessInfo(){
+        $id = input('id');
+        $info = Db::name('process')->where(['id'=>$id])->find();
+        $this->json(0,'success',$info);
+    }
+
+    public function getProcess(){
+        $datas = Db::name('process')->where(['is_del'=>1])->order('id','asc')->select();
+        $this->json(0,'success',$datas);
+    }
+
+    public function getProcessChild(){
+        $pid = input('pid');
+        $datas = Db::name('process_child')->order('id','asc')->where(['pid'=>$pid])->select();
+        $this->json(0,'success',$datas);
+    }
+
+    public function getBook(){
+        $datas = Db::name('book')->order('id','asc')->select();
+        $this->json(0,'success',$datas);
+    }
+    public function getBookImg(){
+        $bid = input('bid');
+        $datas = Db::name('book_img')->order('id','asc')->where(['bid'=>$bid])->select();
+        $arr = [];
+        foreach($datas as $k=>$v){
+            $arr[] = $this->getImgSrc($v['img'],'uploads/book');
+        }
+        $this->json(0,'success',$arr);
+    }
 }

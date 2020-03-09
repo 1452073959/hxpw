@@ -40,7 +40,6 @@ class Base extends Controller{
 
     //获取图片完整路径 并判断图片是否存在 不存在找到替换
     public function getImgSrc($src,$path="uploads/images/",$http='http://'){
-
         if(file_exists($path.$src) && $src != '/' && !empty($src)){
             $src = str_replace('\\','/',$src);
             return $http.$_SERVER['HTTP_HOST'].'/'.$path.$src;

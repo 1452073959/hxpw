@@ -71,7 +71,7 @@ class Check extends UserBase{
     //上传图片
     public function uploadimg(){
         $file = request()->file('file');
-        if($file && input('uid')){
+        if($file){
             // 10485760 = 10M
             if($file->getInfo()['size'] > 10485760){
                 $this->json(2,'图片大小不得超过10M');
@@ -95,25 +95,14 @@ class Check extends UserBase{
         $uid = input('uid');
         $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
         
-        $list = Db::name('check')->where(['userid'=>$uid])->select();
-        if($userinfo['in_check'] == 1 && $userinfo['work_status'] != '待验收'){
-            //待验收状态
-            $check = [];
-            $check['userid'] = input('uid');
-            $check['id'] = 0;
-            $check['check_name'] = $userinfo['work_status'];
-            $check['time'] = date('Y-m-d',$userinfo['check_time']);
-            $check['status'] = 999;//待验收
-            $order_check = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->value('order_check');
-            $order_check = json_decode($order_check,true);
-            if(is_array($order_check)){
-                $order_check = array_column($order_check, null,0);
-            }
-            $check['check_content'] = $order_check[$userinfo['work_status']][1];
-            $list[] = $check;
-        }
+        $list = Db::name('acceptance')->where(['userid'=>$uid])->select();
+
+        $where = [];
+        $where['a.userid'] = $uid;
+
+        $list = Db::name('acceptance')->alias('a')->join('userlist u','a.userid = u.id')->field('a.id,a.process,a.check_msg,a.check_time,a.apply_msg,a.status,a.apply_time,u.customer_name,u.address')->where($where)->order('apply_time','asc')->select();
         foreach($list as $k=>$v){
-            $list[$k]['time'] = date('Y-m-d',strtotime($v['time']));
+            $list[$k]['apply_time'] = date('Y-m-d',strtotime($v['apply_time']));
         }
         if($list){
             $this->json(0,'success',$list);
@@ -125,14 +114,14 @@ class Check extends UserBase{
     //验收详情 某一条
     public function getCheckById(){
         $id = input('id');
-        $info = Db::name('check')->where(['id'=>$id])->find();
+        $info = Db::name('acceptance')->where(['id'=>$id])->find();
         if(!$info){
             $this->json(2,'参数错误');
         }
-        $imgs = Db::name('check_img')->where(['cid'=>$id])->select();
+        $imgs = Db::name('acceptance_img')->where(['aid'=>$id])->select();
         if($imgs){
             foreach($imgs as $k=>$v){
-                $info['img'][] = $this->getImgSrc($v['img']);
+                $info['img'][$v['type']][] = $this->getImgSrc($v['img']);
             }
         }
         $this->json(0,'success',$info);
@@ -193,22 +182,6 @@ class Check extends UserBase{
 
             }
         }
-        //按顺序找到下一个流程 , 后面流程改成工种, 所有定义的流程(工种)可能项目没有 所以重写 , (如果以后改成按流程不按工种, 这个方法又可以用了)
-        //下面 Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>$next_check[0],'in_check'=>0]);   $next_check 是数组 取下标0
-        // if($data['status']){
-        //     //验收通过 获取下一个流程
-        //     $next_check = '';
-        //     foreach($order_check as $k=>$v){
-        //         if($k == $userinfo['work_status']){
-        //             $next_check = next($order_check);
-        //             if(!$next_check){
-        //                 $next_check = '待结算';
-        //             }
-        //         }else{
-        //             next($order_check);
-        //         }
-        //     }
-        // }
         
         $img = [];
         Db::startTrans();
@@ -245,6 +218,115 @@ class Check extends UserBase{
             // 回滚事务
             Db::rollback();
             $this->json(0,'验收失败');
+        }
+    }
+    //申请验收
+    public function applyCheck(){
+        $data = [];
+        $data['apply_msg'] = input('remark');
+        $data['userid'] = input('uid');
+        $data['status'] = 3;
+        $data['process'] = input('process');//验收内容
+        $data['pid'] = input('pid');//验收内容
+        $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        $data['frameid'] = $userinfo['frameid'];
+        $data['applyid'] = $this->admininfo['userid'];
+        $data['checkid'] = $userinfo['check_id'];
+        $img = [];
+        Db::startTrans();
+        try {
+            //保存验收记录
+            $cid = Db::name('acceptance')->insertGetId($data);
+            //保存图片
+            if(input('img')){
+                foreach(input('img') as $k=>$v){
+                    $info = [];
+                    $info['img'] = $v;
+                    $info['aid'] = $cid;
+                    $img[] = $info;
+                }
+                Db::name('acceptance_img')->insertAll($img);
+            }
+            //修改工地信息
+            // $res = Db::name('userlist')->where(['id'=>input('uid')])->update(['in_check'=>1,'check_time'=>time()]);
+            // 提交事务
+            Db::commit();
+            $this->json(0,'申请验收成功');
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->json(1,'申请验收失败');
+        }
+    }
+
+    //获取验收详情
+    public function getCheckInfo(){
+        $cid = input('cid');
+        $info = Db::name('acceptance')->where(['id'=>$cid])->find();
+        if(!$info){
+            $this->json(1,'参数错误');
+        }
+        $userinfo = Db::name('userlist')->where(['id'=>$info['userid']])->find();
+        $info['username'] = $userinfo['customer_name'];
+        $info['address'] = $userinfo['address'];
+        $img = Db::name('acceptance_img')->where(['aid'=>$cid])->select();
+        if(!empty($img)){
+            foreach($img as $k=>$v){
+                $info['img'][] = $this->getImgSrc($v['img']);
+            }
+        }else{
+            $info['img'] = [];
+        }
+        $this->json(0,'success',$info);
+    }
+
+    //质检 待验收列表
+    public function auditList(){
+        $where = [];
+        if($this->admininfo['roleid'] != 1 && $this->admininfo['roleid'] != 17){
+            $where['a.checkid'] = $this->admininfo['userid'];
+        }
+        $where['a.frameid'] = $this->admininfo['companyid'];
+        $where['a.status'] = 3;
+        $acceptance = Db::name('acceptance')->alias('a')->join('userlist u','a.userid = u.id')->field('a.id,a.process,a.apply_msg,a.status,a.apply_time,u.customer_name,u.address')->where($where)->order('apply_time','asc')->select();
+        foreach($acceptance as $k=>$v){
+            $acceptance[$k]['apply_time'] = date('Y-m-d',strtotime($v['apply_time']));
+        }
+        
+        $this->json(0,'success',$acceptance);
+    }
+
+    //验收操作
+    public function auditCheck(){
+        $data = [];
+        $data['status'] = input('switch')?1:2;
+        $data['check_msg'] = input('remark');
+        $cid = input('cid');
+        $data['checkid'] = $this->admininfo['userid'];
+        $data['check_time'] = time();
+        $img = [];
+        Db::startTrans();
+        try {
+            //保存验收记录
+            $update = Db::name('acceptance')->where(['id'=>$cid])->update($data);
+            //保存图片
+            if(input('img')){
+                foreach(input('img') as $k=>$v){
+                    $info = [];
+                    $info['img'] = $v;
+                    $info['aid'] = $cid;
+                    $info['type'] = 2;
+                    $img[] = $info;
+                }
+                Db::name('acceptance_img')->insertAll($img);
+            }
+            // 提交事务
+            Db::commit();
+            $this->json(0,'验收成功');
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $this->json(1,'验收失败');
         }
     }
 }
