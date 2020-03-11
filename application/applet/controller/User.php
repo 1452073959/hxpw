@@ -35,6 +35,12 @@ class User extends UserBase
         $this->json(0,'success',['admininfo'=>$this->admininfo,'menu'=>$menu]);
     }
 
+    public function getUserInfo(){
+        $uid = input('uid');
+        $userinfo = Db::name('userlist')->field('frameid,phone,customer_name,address,area,room_type,work_time,oid')->where(['id'=>$uid])->find();
+        $this->json(0,'success',$userinfo);
+    }
+
     public function getProcessInfo(){
         $id = input('id');
         $info = Db::name('process')->where(['id'=>$id])->find();
