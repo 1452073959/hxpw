@@ -449,7 +449,7 @@ class Offerlist extends Adminbase
                         $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
-                        if(!$materials_info){
+                        if(!$price){
                             $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
                         }
                         $material_all[$one_material[0]]['price'] = $price;//成本单价
@@ -1357,7 +1357,7 @@ class Offerlist extends Adminbase
                         $materials_info = Db::name('materials')->where(array('frameid'=>$userinfo['companyid']))->where('name|amcode','=',$one_material[0])->find();
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
-                        if(!$materials_info){
+                        if(!$price){
                             $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
                         }
                         $material_all[$one_material[0]]['price'] = $price;//成本单价
