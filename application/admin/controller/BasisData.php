@@ -1829,6 +1829,7 @@ class BasisData extends Adminbase{
                 Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$basis_materials['amcode'].'_'.$res]);
                 $this->update_fwarehouse($basis_materials['amcode'].'_'.$res);
             }
+            Db::commit();
         }catch (\Exception $e) {
             $this->error($e->getMessage());
         }
