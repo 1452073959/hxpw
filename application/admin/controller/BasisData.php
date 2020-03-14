@@ -828,6 +828,12 @@ class BasisData extends Adminbase{
         if(input('amcode')){
             $where[] = ['amcode','like','%'.input('amcode').'%'];
         }
+        if(input('fine')){
+            $where[] = ['fine','like','%'.input('fine').'%'];
+        }
+        if(input('auto_add') || input('auto_add') === '0'){
+            $where[] = ['auto_add','=',input('auto_add')];
+        }
         if(input('fid')){
             $where[] = ['fid','=',input('fid')];
         }else{
@@ -947,6 +953,9 @@ class BasisData extends Adminbase{
             $where[] = ['fid','=',input('fid')];
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
+        }
+        if(input('auto_add') || input('auto_add') === '0'){
+            $where[] = ['auto_add','=',input('auto_add')];
         }
         if(input('sname')){
             $name = Db::name('basis_project')->where('name','like','%'.input('sname').'%')->field('item_number')->select();

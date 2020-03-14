@@ -90,6 +90,16 @@
 							<input type="text" name="sname" placeholder="" value="{:input('sname')}" autocomplete="off" class="layui-input">
 						</div>
 					</div>
+					<div class="layui-form-item">
+                        <label class="layui-form-label">系统添加</label>
+                        <div class="layui-input-block">
+                            <select name="auto_add">
+                                <option></option>
+                                <option {if(input('auto_add') == 1)}selected{/if} value="1">是</option>
+                                <option {if(input('auto_add') === '0')}selected{/if} value="0">不是</option>
+                            </select>
+                        </div>
+                    </div>
 					<!-- <div class="layui-form-item">
 						<label class="layui-form-label">工种类别</label>
 						<div class="layui-input-block">
