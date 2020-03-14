@@ -149,25 +149,24 @@
                 <tbody> 
                   {foreach name="data" item="vo"}
                     <tr>
-                    <!-- <td class="">{$vo.id}</td> -->
-                    <td class="">{$vo.amcode}</td>
-                    <td class="">{$vo.type_of_work}</td>
-                    <td class="">{$vo.classify}</td>
-                    <td class="">{$vo.fine}</td>
-                    <td class="">{if(in_array($vo['amcode'],$amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}{$vo.name}</td>
+                        <!-- <td class="">{$vo.id}</td> -->
+                        <td class="">{$vo.amcode}</td>
+                        <td class="">{$vo.type_of_work}</td>
+                        <td class="">{$vo.classify}</td>
+                        <td class="">{$vo.fine}</td>
+                        <td class="">{if(in_array($vo['amcode'],$amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}{$vo.name}</td>
 
-                    <td>{$vo.brank ?: ''}</td>
-                    <td>{$vo.place ?: ''}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="">{$vo.unit}</td>
-                    <td></td>
-                    <td></td>
-
-                    <td>
-                        <a href="javascript:;" style="color:#007498" lay-event="add">添加到仓库</a>
-                    </td>
+                        <td>{$vo.brank ?: ''}</td>
+                        <td>{$vo.place ?: ''}</td>
+                        <td>{$vo.in_price ?: ''}</td>
+                        <td>{$vo.price ?: ''}</td>
+                        <td>{$vo.pack ?: ''}</td>
+                        <td class="">{$vo.unit}</td>
+                        <td>{$vo.phr ?: ''}</td>
+                        <td>{$vo.source ?: '公司仓库'}</td>
+                        <td>
+                            <a href="javascript:;" style="color:#007498" lay-event="add">添加到仓库</a>
+                        </td>
                     </tr>       
                  {/foreach}
                 </tbody>
@@ -185,9 +184,14 @@
     function add_tr(o){
         html  = '     <tr>'
         html += '       <td><input class="layui-input" name="name[]" /></td>'
+        html += '       <td><input class="layui-input" name="price[]" /></td>'
+        html += '       <td><input class="layui-input" name="in_price[]" /></td>'
+        html += '       <td><input class="layui-input" name="pack[]" /></td>'
+        html += '       <td><input class="layui-input" name="unit[]" /></td>'
+        html += '       <td><input class="layui-input" name="phr[]" /></td>'
+        html += '       <td><input class="layui-input" name="source[]" /></td>'
         html += '       <td><input class="layui-input" name="brank[]" /></td>'
         html += '       <td><input class="layui-input" name="place[]" /></td>'
-        html += '       <td><input class="layui-input" name="unit[]" /></td>'
         html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
         $('#apply_new tbody').append(html);
@@ -204,36 +208,93 @@
                 html += '   <table class="layui-table" id="apply_new" >'
                 html += '     <colgroup>'
                 html += '         <col width="200">'
-                html += '         <col width="150">'
-                html += '         <col width="150">'
                 html += '         <col width="100">'
-                html += '         <col width="30">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="100">'
+                html += '         <col width="50">'
                 html += '         <col>'
                 html += '     </colgroup>'
                 html += '     <thead>'
                 html += '       <tr>'
                 html += '           <th>辅材名称</th>'
+                html += '           <th>出库价</th>'
+                html += '           <th>入库价</th>'
+                html += '           <th>包装数量</th>'
+                html += '           <th id="tip_unit">计量单位</th>'
+                html += '           <th>出库单位</th>'
+                html += '           <th>来源</th>'
                 html += '           <th>品牌</th>'
                 html += '           <th>产地</th>'
-                html += '           <th id="tip_unit">计量单位</th>'
                 html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                 html += '       </tr> '
                 html += '     </thead>'
                 html += '     <tbody>'
-                html += '     <tr>'
-                html += '       <td><input class="layui-input" name="name[]" /></td>'
-                html += '       <td><input class="layui-input" name="brank[]" /></td>'
-                html += '       <td><input class="layui-input" name="place[]" /></td>'
-                html += '       <td><input class="layui-input" name="unit[]" /></td>'
+                // 要个初始值  不然第一个为空 后面就对不上了
+                html += '     <tr style="display:none">'
+                html += '       <td><input class="layui-input" value="1" name="name[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="price[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="in_price[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="pack[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="unit[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="phr[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="source[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="brank[]" /></td>'
+                html += '       <td><input class="layui-input" value="1" name="place[]" /></td>'
                 html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
                 html += '     </tr>'
+                // 要个初始值  不然第一个为空 后面就对不上了
+                
+                html += '     <tr>'
+                html += '       <td><input class="layui-input" name="name[]" /></td>'
+                html += '       <td><input class="layui-input" name="price[]" /></td>'
+                html += '       <td><input class="layui-input" name="in_price[]" /></td>'
+                html += '       <td><input class="layui-input" name="pack[]" /></td>'
+                html += '       <td><input class="layui-input" name="unit[]" /></td>'
+                html += '       <td><input class="layui-input" name="phr[]" /></td>'
+                html += '       <td><input class="layui-input" name="source[]" /></td>'
+                html += '       <td><input class="layui-input" name="brank[]" /></td>'
+                html += '       <td><input class="layui-input" name="place[]" /></td>'
+                html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                html += '     </tr>'
+
+                html += '     <tr>'
+                html += '       <td><input class="layui-input" name="name[]" /></td>'
+                html += '       <td><input class="layui-input" name="price[]" /></td>'
+                html += '       <td><input class="layui-input" name="in_price[]" /></td>'
+                html += '       <td><input class="layui-input" name="pack[]" /></td>'
+                html += '       <td><input class="layui-input" name="unit[]" /></td>'
+                html += '       <td><input class="layui-input" name="phr[]" /></td>'
+                html += '       <td><input class="layui-input" name="source[]" /></td>'
+                html += '       <td><input class="layui-input" name="brank[]" /></td>'
+                html += '       <td><input class="layui-input" name="place[]" /></td>'
+                html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                html += '     </tr>'
+
+                html += '     <tr>'
+                html += '       <td><input class="layui-input" name="name[]" /></td>'
+                html += '       <td><input class="layui-input" name="price[]" /></td>'
+                html += '       <td><input class="layui-input" name="in_price[]" /></td>'
+                html += '       <td><input class="layui-input" name="pack[]" /></td>'
+                html += '       <td><input class="layui-input" name="unit[]" /></td>'
+                html += '       <td><input class="layui-input" name="phr[]" /></td>'
+                html += '       <td><input class="layui-input" name="source[]" /></td>'
+                html += '       <td><input class="layui-input" name="brank[]" /></td>'
+                html += '       <td><input class="layui-input" name="place[]" /></td>'
+                html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                html += '     </tr>'
+
                 html += '     </tbody>'
                 html += '   </table>'
                 html += ' </form>'
                 layer.open({
                     content: html,
                     title:'申请新辅材',
-                    area: ['680px', '80%'], //宽高
+                    area: ['70%', '60%'], //宽高
                     btn: ['提交'],
                     yes: function(index, layero){
                         var addform = $('#formdatas').serializeArray();

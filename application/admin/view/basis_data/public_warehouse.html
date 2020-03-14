@@ -118,12 +118,18 @@
                     <tr>
                         <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
                         <th class="taleft" lay-data="{field:'amcode',width:150}">编码</th>
+                        <th class="taleft" lay-data="{field:'in_warehouse',width:80}">是否大仓</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                         <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
                         <th class="taleft" lay-data="{field:'fine',width:100}">分类</th>
                         <th class="taleft" lay-data="{field:'name', width:200}">辅材名称</th>
                         <th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="taleft" lay-data="{field:'brank',width:100}">品牌</th>
+                        <th class="taleft" lay-data="{field:'price',width:100}">出库价</th>
+                        <th class="taleft" lay-data="{field:'in_price',width:100}">进库价</th>
+                        <th class="taleft" lay-data="{field:'pack',width:100}">包装数量</th>
+                        <th class="taleft" lay-data="{field:'phr',width:100}">出库单位</th>
+                        <th class="taleft" lay-data="{field:'source',width:100}">来源</th>
                         <th class="taleft" lay-data="{field:'place',width:100}">产地</th>
                         <th class="taleft" lay-data="{field:'coefficient',width:100}">系数</th>
                         <th class="taleft" lay-data="{field:'important',width:180}">是否重要</th>
@@ -137,12 +143,18 @@
                     <tr>
                         <td class="taleft">{$vo.id}</td>
                         <td class="taleft">{$vo.amcode}</td>
+                        <td class="taleft">{$vo.in_warehouse==1?'是':'不是'}</td>
                         <td class="taleft">{$vo.type_of_work}</td>
                         <td class="taleft">{$vo.classify}</td>
                         <td class="taleft">{$vo.fine}</td>
                         <td class="taleft">{$vo.name}</td>
                         <td class="taleft">{$vo.unit}</td>
                         <td class="taleft">{$vo.brank}</td>
+                        <td class="taleft">{$vo.price}</td>
+                        <td class="taleft">{$vo.in_price}</td>
+                        <td class="taleft">{$vo.pack}</td>
+                        <td class="taleft">{$vo.phr}</td>
+                        <td class="taleft">{$vo.source}</td>
                         <td class="taleft">{$vo.place}</td>
                         <td class="taleft">{$vo.coefficient}</td>
                         <td class="taleft">{$vo.important}</td>
@@ -235,6 +247,41 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">出库价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.price+'" name="price" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">进库价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.in_price+'" name="in_price" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">包装数量：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.pack+'" name="pack" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">出库单位：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.phr+'" name="phr" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">来源：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.source+'" name="source" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">产地：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" value="'+data.place+'" name="place" autocomplete="off" class="layui-input">'
@@ -254,6 +301,19 @@
                 html += '    <input type="text" value="'+data.important+'" name="important" placeholder="1是重要，0不重要" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
+
+                if(data.in_warehouse == '是'){
+                    var in_warehouse = 1;
+                }else{
+                    var in_warehouse = 0;
+                }
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">是否公司仓库：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+in_warehouse+'" name="in_warehouse" placeholder="1是，0不是" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     layer.open({
@@ -268,9 +328,15 @@
                             var name = $('input[name="name"]').val();
                             var unit = $('input[name="unit"]').val();
                             var brank = $('input[name="brank"]').val();
+                            var price = $('input[name="price"]').val();
+                            var in_price = $('input[name="in_price"]').val();
+                            var pack = $('input[name="pack"]').val();
+                            var phr = $('input[name="phr"]').val();
+                            var source = $('input[name="source"]').val();
                             var place = $('input[name="place"]').val();
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
+                            var in_warehouse = $('input[name="in_warehouse"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
@@ -283,7 +349,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,place:place,coefficient:coefficient,important:important,classify:classify},function(res){
+                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,place:place,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
@@ -418,6 +484,41 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">出库价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="price" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">进库价：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="in_price" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">包装数量：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="pack" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">出库单位：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="phr" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">来源：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="source" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">产地：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="place" autocomplete="off" class="layui-input">'
@@ -437,10 +538,17 @@
                 html += '    <input type="text" name="important" placeholder="1是重要，0不重要" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">是否公司仓库：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="" name="in_warehouse" placeholder="1是，0不是" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     layer.open({
                     content: html,
+                    area: ['380px', '80%'], //宽高
                     title:'添加辅材',
                     btn: ['添加', '取消'],
                         yes: function(index, layero){
@@ -450,8 +558,15 @@
                             var fine = $('input[name="fine"]').val();
                             var name = $('input[name="name"]').val();
                             var unit = $('input[name="unit"]').val();
+                            var brank = $('input[name="brank"]').val();
+                            var price = $('input[name="price"]').val();
+                            var in_price = $('input[name="in_price"]').val();
+                            var pack = $('input[name="pack"]').val();
+                            var phr = $('input[name="phr"]').val();
+                            var source = $('input[name="source"]').val();
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
+                            var in_warehouse = $('input[name="in_warehouse"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
@@ -464,7 +579,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify},function(res){
+                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){

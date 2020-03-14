@@ -94,6 +94,9 @@
         float: left;
         clear: none;
     }
+    .red{
+        color:red;
+    }
 </style>
 <div style="display: none">
     <?php if(empty(session('name'))): ?>
@@ -192,7 +195,15 @@
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['type_of_work']}</td>
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['classify']}</td>
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['fine']}</td>
-                    <td class="taleft">{$basis_materials[$vo['p_amcode']]['name']}</td>
+                    <td class="taleft">
+                        {if($vo['auto_add'] ==1)}
+                            <span class="red">
+                        {/if}   
+                        {$basis_materials[$vo['p_amcode']]['name']}
+                        {if($vo['auto_add'] ==1)}
+                            </span>
+                        {/if}
+                    </td>
                     <td class="taleft">{$vo.brank}</td>
                     <td class="taleft">{$vo.place}</td>
                     <td class="taleft">{$vo.in_price}</td>
