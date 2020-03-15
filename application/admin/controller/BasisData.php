@@ -1621,7 +1621,10 @@ class BasisData extends Adminbase{
         $insert_datas = [];
         foreach($name as $k=>$v){
             if(!(empty($v) && empty($unit[$k]) && empty($price[$k]) && empty($in_price[$k]) && empty($pack[$k]) && empty($phr[$k]) && empty($source[$k]))){
-                if(empty($v) || empty($unit[$k]) || empty($price[$k]) || empty($in_price[$k]) || empty($pack[$k]) || empty($phr[$k]) || empty($source[$k])){
+                if(empty($v) || empty($unit[$k]) ||  empty($pack[$k]) || empty($phr[$k]) || empty($source[$k])){
+                    $this->error('第'.($k+1).'行数据不能为空');
+                }
+                if(strlen($price[$k]) == 0 || strlen($in_price[$k]) == 0){
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
                 $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
@@ -1766,7 +1769,10 @@ class BasisData extends Adminbase{
         $insert_datas = [];
         foreach($name as $k=>$v){
             if (!(empty($v) && empty($content[$k]) && empty($unit[$k]) && empty($material[$k]) && empty($quota[$k]) && empty($craft_show[$k]) && empty($labor_cost[$k]))) {
-                if (empty($v) || empty($content[$k]) || empty($unit[$k])  || empty($quota[$k]) || empty($craft_show[$k]) || empty($labor_cost[$k])) {
+                if (empty($v) || empty($content[$k]) || empty($unit[$k])) {
+                    $this->error('第'.($k+1).'行数据不能为空');
+                }
+                if(strlen($quota[$k]) == 0 || strlen($craft_show[$k]) == 0 || strlen($labor_cost[$k]) == 0){
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
                 $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
