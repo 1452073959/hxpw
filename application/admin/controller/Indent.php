@@ -433,7 +433,7 @@ class Indent extends Adminbase
                 'pick_rate'=>0,
                 'order_check'=>'',
                 'borrower'=>'3',
-                'up'=>0,
+                'up'=>'',
                 'type'=>'1',
             ];//返回空数据
         }
