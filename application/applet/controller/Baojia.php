@@ -55,6 +55,15 @@ class Baojia extends UserBase
                     'type' => 1,
                     'create_time' => date('Y-m-d H:i:s', time())
                 ];
+                $data1 = [
+                    'fid' => $data['frameid'],
+                    'shroff' => $data['shroff'],
+                    'type' => 1,
+                ];
+                if(empty(Db::table('fdz_worker')->where('shroff',$data['shroff'])->select()))
+                {
+                    Db::table('fdz_worker')->data($data1)->insert();
+                }
                 $res = Db::table('fdz_jiezhi')->data($data)->insert();
                 if ($res) {
                     return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
@@ -78,7 +87,18 @@ class Baojia extends UserBase
                 'workername' => $data['workername'],
                 'create_time' => date('Y-m-d H:i:s', time())
             ];
+            $data1 = [
+                'fid' => $data['frameid'],
+                'username' => $data['workername'],
+                'shroff' => $data['shroff'],
+                'type' => 2,
+            ];
             $res = Db::table('fdz_jiezhi')->data($data)->insert();
+            if(empty(Db::table('fdz_worker')->where('username',$data['workername'])->select()))
+            {
+                 Db::table('fdz_worker')->data($data1)->insert();
+            }
+
             if ($res) {
                 return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
             } else {
@@ -348,6 +368,23 @@ class Baojia extends UserBase
         //能借
         $n['borrower'] = $n['ys'] * 0.5;
         $this->json(1, 'success', $n);
+    }
+
+    public function worker()
+    {
+        $user = $this->admininfo;
+        $data=input();
+        if($data['type']==2){
+            $worker = Db::table('fdz_worker')->where('fid',$user['companyid'])->where('type',2)->select();
+            $this->json(1, 'success', $worker);
+        }else{
+            $worker = Db::table('fdz_worker')->where('fid',$user['companyid'])->where('type',1)->select();
+            foreach ($worker as $k=>$v)
+            {
+                $worker[$k]['username']=  $worker[$k]['shroff'];
+            }
+            $this->json(1, 'success', $worker);
+        }
 
     }
 }
