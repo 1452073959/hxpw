@@ -433,6 +433,7 @@ class Indent extends Adminbase
                 'pick_rate'=>0,
                 'order_check'=>'',
                 'borrower'=>'3',
+                'up'=>0,
                 'type'=>'1',
             ];//返回空数据
         }
@@ -508,6 +509,7 @@ class Indent extends Adminbase
         $datas['pick_rate'] = input('pick_rate');
         $datas['order_check'] = input('order_check');
         $datas['borrower'] = input('borrower');
+        $datas['up'] = input('up');
         $datas['type'] = input('type');
 
         $order_check = explode("\n", input('order_check'));

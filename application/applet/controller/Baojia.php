@@ -18,6 +18,7 @@ class Baojia extends UserBase
     {
         //接收
         $data = $request->post();
+        $user = $this->admininfo;
         if (Db::table('fdz_userlist')->where('id', $data['uid'])->value('status') > 6) {
             $this->json('33', '该订单已结算');
         }
@@ -45,7 +46,8 @@ class Baojia extends UserBase
             $n['kj'] = round($n['borrower'] - $n['yj'], 2);
 
             if ($data['money'] <= $n['kj']) {
-                $data = ['money' => $data['money'],
+                $data = [
+                    'money' => $data['money'],
                     'shroff' => $data['shroff'],
                     'so' => $data['so'],
                     'uid' => $data['uid'],
@@ -55,6 +57,10 @@ class Baojia extends UserBase
                     'type' => 1,
                     'create_time' => date('Y-m-d H:i:s', time())
                 ];
+                if(Db::table('fdz_cost_tmp')->where('f_id',$user['companyid'])->value('up')>= $data['money'])
+                {
+                    $data['status']=2;
+                }
                 $data1 = [
                     'fid' => $data['frameid'],
                     'shroff' => $data['shroff'],
@@ -87,6 +93,10 @@ class Baojia extends UserBase
                 'workername' => $data['workername'],
                 'create_time' => date('Y-m-d H:i:s', time())
             ];
+            if(Db::table('fdz_cost_tmp')->where('f_id',$user['companyid'])->value('up')>= $data['money'])
+            {
+                $data['status']=2;
+            }
             $data1 = [
                 'fid' => $data['frameid'],
                 'username' => $data['workername'],
@@ -97,6 +107,8 @@ class Baojia extends UserBase
             if(empty(Db::table('fdz_worker')->where('username',$data['workername'])->select()))
             {
                  Db::table('fdz_worker')->data($data1)->insert();
+            }else{
+                Db::table('fdz_worker')->where('username', $data['workername'])->update(['shroff' => $data['shroff']]);
             }
 
             if ($res) {
