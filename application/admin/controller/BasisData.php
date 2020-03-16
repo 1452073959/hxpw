@@ -834,11 +834,15 @@ class BasisData extends Adminbase{
         if(input('auto_add') || input('auto_add') === '0'){
             $where[] = ['auto_add','=',input('auto_add')];
         }
-        if(input('fid')){
-            $where[] = ['fid','=',input('fid')];
-        }else{
+        if($this->_userinfo['roleid'] != 1){
             $where[] = ['fid','=',$this->_userinfo['companyid']];
+        }else{
+            if(input('fid')){
+                $where[] = ['fid','=',input('fid')];
+            }
         }
+       
+
         if(input('name')){
             $name = Db::name('basis_materials')->where('name','like','%'.input('name').'%')->field('amcode')->select();
             if($name){
@@ -851,7 +855,7 @@ class BasisData extends Adminbase{
         $data = Db::name('f_materials')->where($condition)->where($where)->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_amcode = array_unique(array_column($data->items(), 'p_amcode'));
         $basis_materials = array_column(Db::name('basis_materials')->where(['amcode'=>$p_amcode])->select(),null, 'amcode');
-        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(),null,'id');
         $user=$this->_userinfo;
         $this->assign('user',$user['roleid']);
         $this->assign('frame',$frame);
@@ -949,10 +953,12 @@ class BasisData extends Adminbase{
         if(input('sp_item_number')){
             $where[] = ['p_item_number','like','%'.input('sp_item_number').'%'];
         } 
-        if(input('fid')){
-            $where[] = ['fid','=',input('fid')];
-        }else{
+        if($this->_userinfo['roleid'] != 1){
             $where[] = ['fid','=',$this->_userinfo['companyid']];
+        }else{
+            if(input('fid')){
+                $where[] = ['fid','=',input('fid')];
+            }
         }
         if(input('auto_add') || input('auto_add') === '0'){
             $where[] = ['auto_add','=',input('auto_add')];
@@ -968,8 +974,7 @@ class BasisData extends Adminbase{
         $data = Db::name('f_project')->where($condition)->where($where)->order('status','desc')->order('id','asc')->paginate(20,false,['query'=>request()->param()]);
         $p_item_number = array_unique(array_column($data->items(), 'p_item_number'));
         $basis_project = array_column(Db::name('basis_project')->where(['item_number'=>$p_item_number])->select(),null, 'item_number');
-        $frame = Db::name('frame')->where('levelid',3)->field('id,name')->select();
-
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(),null,'id');
         $type_work = array_column(Db::name('basis_type_work')->field('id,name')->select(),null,'id');
         $this->assign('admininfo',$this->_userinfo);
         $this->assign('type_work',$type_work);

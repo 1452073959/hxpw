@@ -140,7 +140,10 @@
 					<tr>
 						<th class="taleft" lay-data="{field:'id',width:100,hide:'true'}">id</th>
 						<th class="taleft" lay-data="{field:'remark',width:100,hide:'true'}">名称额外说明</th>
-						<th class="taleft" lay-data="{field:'item_number',width:100}">编码</th>
+						<th class="taleft" lay-data="{field:'item_number',width:120}">编码</th>
+						{if($admininfo['roleid'] == 1)}
+	                        <th class="taleft" lay-data="{field:'fid',width:100}">分公司</th>
+	                    {/if}
 						<th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
 						<th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
 						<th class="taleft" lay-data="{field:'name', width:200}">项目名称</th>
@@ -161,6 +164,9 @@
 					  <td class="taleft">{$vo.id}</td>
 					  <td class="taleft">{$vo.remark}</td>
 					  <td class="red">{$vo.item_number}</td>
+					  	{if($admininfo['roleid'] == 1)}
+	                        <td class="taleft">{$frame[$vo['fid']]['name'] ?: '未知'}</td>
+	                    {/if}
 					  <td class="taleft">{$basis_project[$vo['p_item_number']]['item_number']}</td>
 					  <td class="taleft">{$type_work[$basis_project[$vo['p_item_number']]['type_word_id']]['name']}</td>
 					  <td class="taleft">

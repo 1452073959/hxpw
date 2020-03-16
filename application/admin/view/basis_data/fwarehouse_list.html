@@ -183,7 +183,10 @@
                 <tr>
 
                     <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
-                    <th class="taleft" lay-data="{field:'amcode'}">编码</th>
+                    <th class="taleft" lay-data="{field:'amcode',width:120}">编码</th>
+                    {if($admininfo['roleid'] == 1)}
+                        <th class="taleft" lay-data="{field:'fid',width:100}">分公司</th>
+                    {/if}
                     <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                     <th class="taleft" lay-data="{field:'classify',width:100}">辅材细类</th>
                     <th class="taleft" lay-data="{field:'fine',width:100}">分类</th>
@@ -209,6 +212,9 @@
                     <td class="taleft">{$vo.id}</td>
 
                     <td class="taleft">{$vo.amcode}</td>
+                    {if($admininfo['roleid'] == 1)}
+                        <td class="taleft">{$frame[$vo['fid']]['name'] ?: '未知'}</td>
+                    {/if}
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['type_of_work']}</td>
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['classify']}</td>
                     <td class="taleft">{$basis_materials[$vo['p_amcode']]['fine']}</td>
