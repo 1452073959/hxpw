@@ -2791,5 +2791,89 @@ class BasisData extends Adminbase{
     //     }
     // }
 
-    
+    // 导入修改辅材
+    public function excel_edit_public_warehouse(){
+        require'../extend/PHPExcel/PHPExcel.php';
+        $file = request()->file('file');
+        if($file){
+            $info = $file->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
+            if (!$info) {
+                $this->error('上传文件格式不正确');
+            }else{
+                //获取上传到后台的文件名
+                $fileName = $info->getSaveName();
+                //获取文件路径
+                $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
+                //获取文件后缀
+                $suffix = $info->getExtension();
+
+                // 判断哪种类型
+                if($suffix=="xlsx"){
+                    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+                }else{
+                    $reader = \PHPExcel_IOFactory::createReader('Excel5');
+                }
+
+            }
+            //处理表格数据
+            //载入excel文件
+            $excel = $reader->load("$filePath",$encode = 'utf-8');
+            //读取第一张表
+            $sheet = $excel->getSheet(0);
+            //获取总行数
+            $row_num = $sheet->getHighestRow();
+            //获取总列数
+            $col_num = $sheet->getHighestColumn();
+            Db::startTrans();
+            try {
+                for ($i = 2; $i <= $row_num; $i ++) {
+                    $update = [];
+                    $amcode  = trim($sheet->getCell("A".$i)->getValue());//系统编号
+                    if(trim($sheet->getCell("B".$i)->getValue()) != ''){
+                        $update['warehouse_id']  = trim($sheet->getCell("B".$i)->getValue());//仓库编码
+                    }
+                    if(trim($sheet->getCell("F".$i)->getValue()) != ''){
+                        $update['brank']  = trim($sheet->getCell("F".$i)->getValue());//品牌
+                    }
+                    if(trim($sheet->getCell("G".$i)->getValue()) != ''){
+                        $update['place']  = trim($sheet->getCell("G".$i)->getValue());//产地
+                    }
+                    if(trim($sheet->getCell("J".$i)->getValue()) != ''){
+                        $update['in_price']  = trim($sheet->getCell("J".$i)->getValue());//进库价
+                        $update['price']  = trim($sheet->getCell("J".$i)->getValue());//出库价
+                    }
+                    if(trim($sheet->getCell("K".$i)->getValue()) != ''){
+                        $update['pack']  = trim($sheet->getCell("K".$i)->getValue());//包装数量
+                    }
+                    if(trim($sheet->getCell("M".$i)->getValue()) != ''){
+                        $update['phr']  = trim($sheet->getCell("M".$i)->getValue());//包装规格
+                    }
+                    if(trim($sheet->getCell("N".$i)->getValue()) != ''){
+                        $update['source']  = trim($sheet->getCell("N".$i)->getValue());//来源
+                    }
+                    if(trim($sheet->getCell("O".$i)->getValue()) != ''){
+                        $update['in_warehouse']  = trim($sheet->getCell("O".$i)->getValue())==1?1:2;//是否公司仓库
+                    }
+                    if(empty($update)){
+                        continue;
+                    }
+                    echo $amcode."<br />";
+                    $res = Db::name('basis_materials')->where(['amcode'=>$amcode])->update($update);
+                    if($res){
+                        $f_materials_list = DB::name('f_materials')->where(['p_amcode'=>$amcode,'auto_add'=>1])->select();
+                        unset($update['in_warehouse']);
+                        DB::name('f_materials')->where(['p_amcode'=>$amcode,'auto_add'=>1])->update($update);
+                        foreach($f_materials_list as $k=>$v){
+                            $this->update_fwarehouse($v['amcode']);
+                        }
+                    }
+                }
+                Db::commit();
+            } catch (\Exception $e) {
+                Db::rollback();
+                echo $e->getMessage();
+            }
+            echo 'ok';
+        }
+    }
 }

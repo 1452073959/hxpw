@@ -102,6 +102,7 @@
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="add" id="add">添加</button> 
                     <!-- <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入</button> -->
+                    <button class="layui-btn layui-btn-sm" lay-event="excel_edit" id="excel_edit">导入修改辅材5个字段</button>
                     <!-- <a href="/admin/basis_data/excel/"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a> -->
                     <button class="layui-btn layui-btn-sm" lay-event="add_imgs" id="add_imgs">批量上传图片</button>
                     <button class="layui-btn layui-btn-sm" lay-event="save_img" id="save_img">保存图片</button>
@@ -632,6 +633,48 @@
                                 layer.msg(res.msg);
                                 setTimeout(function () {
                                     window.location.reload();
+                                }, 1000);
+                            }else{
+                                layer.msg(res.msg);
+                            }
+                            return false;
+                        }
+                    });
+                });
+            }
+            if (obj.event == 'excel_edit'){
+                var html = 
+                     '<div class="layui-upload" id="upload_file" style="margin-bottom:15px;margin-top:15px;text-align:center">'
+                    + '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test10">上传xls,xlsx</button>'
+                    + '<br />'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test11">上传</button>'
+                    + '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                    + '</div>'
+                layer.open({
+                  title: '导入修改辅材',
+                  area: ['300px', '200px'], //宽高
+                  type:1,
+                  content: html
+                });
+                layui.use('upload', function(){
+                    var upload = layui.upload;
+                    upload.render({
+                        elem: '#test10',
+                        url: '/admin/basis_data/excel_edit_public_warehouse/',
+                        auto: false,
+                        accept:'file',
+                        size:10240,
+                        //,multiple: true
+                        bindAction: '#test11',
+                        data:{
+                            
+                        },
+                        done: function(res){
+                            if(res.code == 1){
+                                layer.closeAll();
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    // window.location.reload();
                                 }, 1000);
                             }else{
                                 layer.msg(res.msg);
