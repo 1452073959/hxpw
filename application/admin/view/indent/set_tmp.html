@@ -81,6 +81,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label w150">工程经理审核借支金额</label>
+        <div class="layui-input-inline w150">
+            <input type="number" name="up" autocomplete="off"  placeholder="金额以下无需审核" value="{$data.up}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label w150">报价模式</label>
         <div class="layui-input-inline w150" >
             <li> <input type="radio" name="type" value="2" {if ($data.type==2)} checked {/if} title="综合价"></li>
@@ -123,6 +129,7 @@
         var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
         var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
         var borrower = $(this).parents(".tmp_datas").find("input[name='borrower']").val();
+        var up = $(this).parents(".tmp_datas").find("input[name='up']").val();
         var type =$('input:radio:checked').val();
         if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
             layui.use('layer', function(){
@@ -198,6 +205,7 @@
                 pick_rate:pick_rate,
                 order_check:order_check,
                 borrower:borrower,
+                up:up,
                 type:type,
             },
             success : function(re){

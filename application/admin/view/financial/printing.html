@@ -1,9 +1,10 @@
 {extend name="index_layout"/}
 {block name="main"}
 <style>
-    .printing{
+    .printing {
         width: 100%;
     }
+
     .container {
         display: flex;
         justify-content: center;
@@ -14,6 +15,7 @@
         font-size: 30px;
         letter-spacing: 10px;
     }
+
     .content {
         height: 300px;
         margin: 30px auto;
@@ -24,39 +26,40 @@
 
 <div class="printing" id="export-table">
     {foreach $audit as $k=>$v}
-    <div class="container">
-        <div class="title">
-            <u>借支单</u>
+    <div style="height: 440px">
+        <div class="container">
+            <div class="title">
+                <u>借支单</u>
+            </div>
         </div>
-    </div>
-    <div class="content">
+        <div class="content">
 
-        <table border="1" width="600" height="200px" align="center">
-            <caption style="position: relative;left: 250px;letter-spacing: 20px;">年月日</caption>
-            <tr align="center">
-                <td>客户姓名</td>
-                <td colspan="2">{$v.offer.customer_name}</td>
-                <td>工程地址</td>
-                <td colspan="4">{$v.offer.address}</td>
-            </tr>
-            <tr align="center">
-                <td>借支原因</td>
-                <td colspan="7">{$v.so}</td>
-            </tr>
-            <tr align="center">
-                <td>借支金额</td>
-                <td colspan="2">{$v.money}</td>
-                <td>借支人</td>
-                <td colspan="3"></td>
-            </tr>
-            <tr align="center">
-                <td>工程经理</td>
-                <td colspan="2"></td>
-                <td>财务</td>
-                <td colspan="3"></td>
-            </tr>
-        </table>
-
+            <table border="1" width="600" height="200px" align="center">
+                <caption style="position: relative;left: 250px;letter-spacing: 20px;">年月日</caption>
+                <tr align="center">
+                    <td>客户姓名</td>
+                    <td colspan="2">{$v.offer.customer_name}</td>
+                    <td>工程地址</td>
+                    <td colspan="4">{$v.offer.address}</td>
+                </tr>
+                <tr align="center">
+                    <td>借支原因</td>
+                    <td colspan="7">{$v.so}</td>
+                </tr>
+                <tr align="center">
+                    <td>借支金额</td>
+                    <td colspan="2">{$v.money}</td>
+                    <td>借支人</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr align="center">
+                    <td>工程经理</td>
+                    <td colspan="2"></td>
+                    <td>财务</td>
+                    <td colspan="3"></td>
+                </tr>
+            </table>
+        </div>
     </div>
     {/foreach}
 </div>
@@ -67,7 +70,7 @@
 <script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script>
     //打印
-    window.onload = function(){
+    window.onload = function () {
         $("#export-table").printThis({
             debug: false,
             importCSS: true,
@@ -81,7 +84,6 @@
             formValues: false
         });
     }
-
 
 
 </script>
