@@ -22,64 +22,64 @@ class Baojia extends UserBase
         if (Db::table('fdz_userlist')->where('id', $data['uid'])->value('status') > 6) {
             $this->json('33', '该订单已结算');
         }
+        $money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
+        $borrower = Db::table('fdz_financial')->where('userid', $data['uid'])->find();
+        $borrower = Db::table('fdz_cost_tmp')->where('f_id', $borrower['fid'])->value('borrower');
+        $ys = 0;
+        foreach ($money as $k => $v) {
+            $ys += $v['money'];
+        }
+//     已收款
+        //可接比率
+        //已借
+        $jiezhi = Jiezhi::where('uid', $data['uid'])->where('status', '<', 4)->where('type', 1)->select();
+        $yj = 0;
+        foreach ($jiezhi as $k2 => $v2) {
+            $yj += $v2['money'];
+        }
+        $n['ys'] = $ys;
+        $n['yj'] = $yj;
+        $n['borrower'] = $borrower;
+        //可借金额工程款*%
+        $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
+        //减去已借
+        $n['kj'] = round($n['borrower'] - $n['yj'], 2);
+
         // type==1监理借支==2代工人借支小程序未更新$data['type']==1||
         if (($data['type'] == 1)) {
-            $money = Db::table('fdz_financial')->where('userid', $data['uid'])->select();
-            $borrower = Db::table('fdz_financial')->where('userid', $data['uid'])->find();
-            $borrower = Db::table('fdz_cost_tmp')->where('f_id', $borrower['fid'])->value('borrower');
-            $ys = 0;
-            foreach ($money as $k => $v) {
-                $ys += $v['money'];
+            $data = [
+                'money' => $data['money'],
+                'shroff' => $data['shroff'],
+                'so' => $data['so'],
+                'uid' => $data['uid'],
+                'jid' => $data['jid'],
+                'frameid' => $data['frameid'],
+                'status' => 1,
+                'type' => 1,
+                'create_time' => date('Y-m-d H:i:s', time())
+            ];
+            if ($data['money'] <= $n['borrower']) {
+                $data['status']=2;
             }
-//     已收款
-            //可接比率
-            //已借
-            $jiezhi = Jiezhi::where('uid', $data['uid'])->where('status', '<', 4)->where('type', 1)->select();
-            $yj = 0;
-            foreach ($jiezhi as $k2 => $v2) {
-                $yj += $v2['money'];
+            $data1 = [
+                'fid' => $data['frameid'],
+                'shroff' => $data['shroff'],
+                'type' => 1,
+            ];
+            if(empty(Db::table('fdz_worker')->where('shroff',$data['shroff'])->select()))
+            {
+                Db::table('fdz_worker')->data($data1)->insert();
             }
-            $n['ys'] = $ys;
-            $n['yj'] = $yj;
-            $n['borrower'] = $borrower;
-            $n['borrower'] = round($n['ys'] * $n['borrower'] * 0.01, 2);
-            $n['kj'] = round($n['borrower'] - $n['yj'], 2);
-
-            if ($data['money'] <= $n['kj']) {
-                $data = [
-                    'money' => $data['money'],
-                    'shroff' => $data['shroff'],
-                    'so' => $data['so'],
-                    'uid' => $data['uid'],
-                    'jid' => $data['jid'],
-                    'frameid' => $data['frameid'],
-                    'status' => 1,
-                    'type' => 1,
-                    'create_time' => date('Y-m-d H:i:s', time())
-                ];
-                if(Db::table('fdz_cost_tmp')->where('f_id',$user['companyid'])->value('up')>= $data['money'])
-                {
-                    $data['status']=2;
-                }
-                $data1 = [
-                    'fid' => $data['frameid'],
-                    'shroff' => $data['shroff'],
-                    'type' => 1,
-                ];
-                if(empty(Db::table('fdz_worker')->where('shroff',$data['shroff'])->select()))
-                {
-                    Db::table('fdz_worker')->data($data1)->insert();
-                }
-                $res = Db::table('fdz_jiezhi')->data($data)->insert();
-                if ($res) {
-                    return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
-                } else {
-                    return json(['code' => 2, 'msg' => '失败']);
-                }
+            $res = Db::table('fdz_jiezhi')->data($data)->insert();
+            if ($res) {
+                return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
             } else {
-                return json(['code' => 3, 'msg' => '超额']);
+                return json(['code' => 2, 'msg' => '失败']);
             }
-        } else {
+
+        }
+//        ----------------------------
+        else {
             $data = [
                 'money' => $data['money'],
                 'shroff' => $data['shroff'],
@@ -93,10 +93,7 @@ class Baojia extends UserBase
                 'workername' => $data['workername'],
                 'create_time' => date('Y-m-d H:i:s', time())
             ];
-            if(Db::table('fdz_cost_tmp')->where('f_id',$user['companyid'])->value('up')>= $data['money'])
-            {
-                $data['status']=2;
-            }
+
             $data1 = [
                 'fid' => $data['frameid'],
                 'username' => $data['workername'],
