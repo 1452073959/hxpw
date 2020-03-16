@@ -1851,7 +1851,7 @@ class BasisData extends Adminbase{
                 $f_materials['pack'] = $apply_material['pack']?$apply_material['pack']:$basis_materials['pack'];
                 $f_materials['phr'] = $apply_material['phr']?$apply_material['phr']:$basis_materials['phr'];
                 $f_materials['source'] = $apply_material['source']?$apply_material['source']:$basis_materials['source'];
-                $f_materials['warehouse_id'] = $apply_material['warehouse_id']?$apply_material['warehouse_id']:$basis_materials['warehouse_id'];
+                $f_materials['warehouse_id'] = $basis_materials['warehouse_id'];
                 $f_materials['auto_add'] = 1;
                 $res = Db::name('f_materials')->insertGetId($f_materials);
                 Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$basis_materials['amcode'].'_'.$res]);
