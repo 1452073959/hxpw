@@ -2736,63 +2736,13 @@ class BasisData extends Adminbase{
         }
     }
 
-    // //导入修改辅材
-    // public function excel_edit_public_warehouse(){
-    //     require'../extend/PHPExcel/PHPExcel.php';
-    //     $file = request()->file('file');
-    //     if($file){
-    //         $info = $file->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
-    //         if (!$info) {
-    //             $this->error('上传文件格式不正确');
-    //         }else{
-    //             //获取上传到后台的文件名
-    //             $fileName = $info->getSaveName();
-    //             //获取文件路径
-    //             $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
-    //             //获取文件后缀
-    //             $suffix = $info->getExtension();
-
-    //             // 判断哪种类型
-    //             if($suffix=="xlsx"){
-    //                 $reader = \PHPExcel_IOFactory::createReader('Excel2007');
-    //             }else{
-    //                 $reader = \PHPExcel_IOFactory::createReader('Excel5');
-    //             }
-
-    //         }
-    //         //处理表格数据
-    //         //载入excel文件
-    //         $excel = $reader->load("$filePath",$encode = 'utf-8');
-    //         //读取第一张表
-    //         $sheet = $excel->getSheet(0);
-    //         //获取总行数
-    //         $row_num = $sheet->getHighestRow();
-    //         //获取总列数
-    //         $col_num = $sheet->getHighestColumn();
-    //         $data = []; //数组形式获取表格数据 
-    //         for ($i = 2; $i <= $row_num; $i ++) {
-    //             $data[$i]['amcode']  = trim($sheet->getCell("A".$i)->getValue());//系统编号
-    //             $data[$i]['type_of_work']  = trim($sheet->getCell("B".$i)->getValue());//仓库编码
-    //             $data[$i]['classify']  = trim($sheet->getCell("C".$i)->getValue());//品牌
-    //             $data[$i]['fine']  = trim($sheet->getCell("D".$i)->getValue());//产地
-    //             $data[$i]['brank']  = trim($sheet->getCell("E".$i)->getValue()); //出库价
-    //             $data[$i]['place']  = trim($sheet->getCell("F".$i)->getValue()); //进库价
-    //             $data[$i]['name']  = trim($sheet->getCell("G".$i)->getValue()); //包装规格
-    //             $data[$i]['unit']  = trim($sheet->getCell("H".$i)->getValue()); //来源
-    //             $data[$i]['coefficient']  = trim($sheet->getCell("I".$i)->getValue()); //是否公司仓库
-    //             $data[$i]['important']  = trim($sheet->getCell("J".$i)->getValue()); 
-    //             if(empty($data[$i]['amcode']) || empty($data[$i]['type_of_work']) || empty($data[$i]['classify']) || empty($data[$i]['fine']) || empty($data[$i]['name']) || empty($data[$i]['unit'])){
-    //                 $this->error('第'.$i.'行数据不能为空');
-    //             }
-    //             if((empty($data[$i]['coefficient']) && $data[$i]['coefficient'] != '0') || (empty($data[$i]['important']) && $data[$i]['important'] != '0')){
-    //                 $this->error('第'.$i.'行数据不能为空');
-    //             }
-    //         }
-    //     }
-    // }
+   
 
     // 导入修改辅材
     public function excel_edit_public_warehouse(){
+        echo '功能禁用';
+        die;
+        //下面的只针对5个字段 不能再用了
         require'../extend/PHPExcel/PHPExcel.php';
         $file = request()->file('file');
         if($file){
