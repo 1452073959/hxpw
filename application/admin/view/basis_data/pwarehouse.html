@@ -133,6 +133,7 @@
                         <th class="" lay-data="{field:'fine',width:100}">分类</th>
                         <th class="" lay-data="{field:'name', width:200}">辅材名称</th>
 
+                        <th width="150" lay-data="{edit:'text',field:'warehouse_id',width:120}">仓库编码</th>
                         <th width="150" lay-data="{edit:'text',field:'brank',width:100}">品牌</th>
                         <th width="150" lay-data="{edit:'text',field:'place',width:100}">产地</th>
                         <th width="150" lay-data="{edit:'text',field:'in_price',width:100}">入库价</th>
@@ -156,6 +157,7 @@
                         <td class="">{$vo.fine}</td>
                         <td class="">{if(in_array($vo['amcode'],$amcode))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}{$vo.name}</td>
 
+                        <td>{$vo.warehouse_id ?: ''}</td>
                         <td>{$vo.brank ?: ''}</td>
                         <td>{$vo.place ?: ''}</td>
                         <td>{$vo.in_price ?: ''}</td>
@@ -336,6 +338,7 @@
                 var pack = data.pack;
                 var phr = data.phr;
                 var source = data.source;
+                var warehouse_id = data.warehouse_id;
                 if(!brank || !place || !in_price || !price || !pack || !phr || !source){
                     layer.msg('数据不能留空，无数据可添"无"');
                     return false;
@@ -356,17 +359,17 @@
                     layer.msg('请输入正确的出库单位');
                     return false;
                 }
-                $.post('/admin/basis_data/add_fwarehouse_operation',{p_amcode:amcode,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source},function(res){
+                $.post('/admin/basis_data/add_fwarehouse_operation',{p_amcode:amcode,brank:brank,place:place,in_price:in_price,price:price,pack:pack,phr:phr,source:source,warehouse_id:warehouse_id},function(res){
                     if(res.code == 1){
                         obj.update({
                             name: '<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>'+data.name,
-                            brank:'',
-                            place:'',
-                            in_price:'',
-                            price:'',
-                            pack:'',
-                            phr:'',
-                            source:'',
+                            // brank:'',
+                            // place:'',
+                            // in_price:'',
+                            // price:'',
+                            // pack:'',
+                            // phr:'',
+                            // source:'',
                         });
                         layer.msg(res.msg);
                     }else{

@@ -118,7 +118,8 @@
                 <thead >
                     <tr>
                         <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
-                        <th class="taleft" lay-data="{field:'amcode',width:150}">编码</th>
+                        <th class="taleft" lay-data="{field:'amcode',width:100}">编码</th>
+                        <th class="taleft" lay-data="{field:'warehouse_id',width:110}">仓库编码</th>
                         <th class="taleft" lay-data="{field:'in_warehouse',width:80}">是否大仓</th>
                         <th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
                         <th class="taleft" lay-data="{field:'classify',width:150}">辅材细类</th>
@@ -144,6 +145,7 @@
                     <tr>
                         <td class="taleft">{$vo.id}</td>
                         <td class="taleft">{$vo.amcode}</td>
+                        <td class="taleft">{$vo.warehouse_id}</td>
                         <td class="taleft">{$vo.in_warehouse==1?'是':'不是'}</td>
                         <td class="taleft">{$vo.type_of_work}</td>
                         <td class="taleft">{$vo.classify}</td>
@@ -202,6 +204,13 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">编码：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" value="'+data.amcode+'" disabled name="amcode" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">仓库编码：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" value="'+data.warehouse_id+'" name="warehouse_id" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 
@@ -338,6 +347,7 @@
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
                             var in_warehouse = $('input[name="in_warehouse"]').val();
+                            var warehouse_id = $('input[name="warehouse_id"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
@@ -350,7 +360,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,place:place,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source},function(res){
+                            $.post('/admin/basis_data/edit_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,place:place,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source,warehouse_id:warehouse_id},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){
@@ -439,6 +449,13 @@
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">编码：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="amcode" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">仓库编码：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="warehouse_id" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
 
@@ -568,6 +585,7 @@
                             var coefficient = $('input[name="coefficient"]').val();
                             var important = $('input[name="important"]').val();
                             var in_warehouse = $('input[name="in_warehouse"]').val();
+                            var warehouse_id = $('input[name="warehouse_id"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
@@ -580,7 +598,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source},function(res){
+                            $.post('/admin/basis_data/add_public_warehouse',{amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,brank:brank,coefficient:coefficient,important:important,classify:classify,price:price,in_price:in_price,pack:pack,phr:phr,source:source,warehouse_id:warehouse_id},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){

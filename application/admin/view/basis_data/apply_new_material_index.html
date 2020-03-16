@@ -422,6 +422,13 @@
                 html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">仓库编码：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="warehouse_id" value=""  autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">工种类别：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="type_of_work" autocomplete="off" class="layui-input">'
@@ -551,6 +558,7 @@
                             var phr = $('input[name="phr"]').val();
                             var source = $('input[name="source"]').val();
                             var in_warehouse = $('input[name="in_warehouse"]').val();
+                            var warehouse_id = $('input[name="warehouse_id"]').val();
                             if(!amcode || !type_of_work || !fine || !name || !unit || !coefficient || !important || !classify){
                                 alert('不能留空！');
                                 return false;
@@ -563,7 +571,7 @@
                                 alert('是否重要填入数据不规范！');
                                 return false;
                             }
-                            $.post('/admin/basis_data/add_public_warehouse',{apply_material_id:apply_material_id,amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify,brank:brank,place:place,price:price,in_price:in_price,pack:pack,phr:phr,source:source,in_warehouse:in_warehouse},function(res){
+                            $.post('/admin/basis_data/add_public_warehouse',{apply_material_id:apply_material_id,amcode:amcode,type_of_work:type_of_work,fine:fine,name:name,unit:unit,coefficient:coefficient,important:important,classify:classify,brank:brank,place:place,price:price,in_price:in_price,pack:pack,phr:phr,source:source,in_warehouse:in_warehouse,warehouse_id:warehouse_id},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     setTimeout(function(){

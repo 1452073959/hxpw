@@ -373,6 +373,11 @@ class BasisData extends Adminbase{
         }else{
             $data['place'] = '';
         }
+        if(input('warehouse_id')){
+            $data['warehouse_id'] = input('warehouse_id');
+        }else{
+            $data['warehouse_id'] = '';
+        }
         $data['coefficient'] = input('coefficient');
         $data['important'] = input('important');
         if(!$data['amcode'] || !$data['type_of_work'] || !$data['fine'] || !$data['name'] || !$data['unit'] ){
@@ -405,13 +410,14 @@ class BasisData extends Adminbase{
                 $f_materials['p_amcode'] = $data['amcode'];
                 $f_materials['fine'] = $data['fine'];
                 $f_materials['fid'] = $apply_material['fid'];
-                $f_materials['brank'] = $apply_material['brank']?$apply_material['brank']:$apply_material['brank'];
-                $f_materials['place'] = $apply_material['place']?$apply_material['place']:$apply_material['place'];
+                $f_materials['brank'] = $apply_material['brank']?$apply_material['brank']:$data['brank'];
+                $f_materials['place'] = $apply_material['place']?$apply_material['place']:$data['place'];
+                $f_materials['warehouse_id'] = $data['warehouse_id'];
                 $f_materials['img'] = '';
-                $f_materials['price'] = $apply_material['price']?$apply_material['price']:$apply_material['price'];
-                $f_materials['in_price'] = $apply_material['in_price']?$apply_material['in_price']:$apply_material['in_price'];
-                $f_materials['pack'] = $apply_material['pack']?$apply_material['pack']:$apply_material['pack'];
-                $f_materials['phr'] = $apply_material['phr']?$apply_material['phr']:$apply_material['phr'];
+                $f_materials['price'] = $apply_material['price']?$apply_material['price']:$data['price'];
+                $f_materials['in_price'] = $apply_material['in_price']?$apply_material['in_price']:$data['in_price'];
+                $f_materials['pack'] = $apply_material['pack']?$apply_material['pack']:$data['pack'];
+                $f_materials['phr'] = $apply_material['phr']?$apply_material['phr']:$data['phr'];
                 $f_materials['source'] = $data['source'];
                 $f_materials['auto_add'] = 1;
                 $res = Db::name('f_materials')->insertGetId($f_materials);
@@ -441,6 +447,7 @@ class BasisData extends Adminbase{
         $data['pack'] = input('pack');
         $data['phr'] = input('phr');
         $data['source'] = input('source');
+        $data['warehouse_id'] = input('warehouse_id');
         $data['in_warehouse'] = input('in_warehouse')==1?1:2;
         
         if(!$data['price'] || !$data['in_price'] || !$data['pack'] || !$data['phr'] || !$data['source'] ){
@@ -1844,6 +1851,7 @@ class BasisData extends Adminbase{
                 $f_materials['pack'] = $apply_material['pack']?$apply_material['pack']:$basis_materials['pack'];
                 $f_materials['phr'] = $apply_material['phr']?$apply_material['phr']:$basis_materials['phr'];
                 $f_materials['source'] = $apply_material['source']?$apply_material['source']:$basis_materials['source'];
+                $f_materials['warehouse_id'] = $apply_material['warehouse_id']?$apply_material['warehouse_id']:$basis_materials['warehouse_id'];
                 $f_materials['auto_add'] = 1;
                 $res = Db::name('f_materials')->insertGetId($f_materials);
                 Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$basis_materials['amcode'].'_'.$res]);

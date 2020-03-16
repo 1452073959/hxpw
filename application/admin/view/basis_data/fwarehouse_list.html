@@ -184,6 +184,7 @@
 
                     <th width="150" lay-data="{field:'id',width:50,hide:'true'}">id</th>
                     <th class="taleft" lay-data="{field:'amcode',width:120}">编码</th>
+                    <th class="taleft" lay-data="{field:'warehouse_id',width:120}">仓库编码</th>
                     {if($admininfo['roleid'] == 1)}
                         <th class="taleft" lay-data="{field:'fid',width:100}">分公司</th>
                     {/if}
@@ -212,6 +213,7 @@
                     <td class="taleft">{$vo.id}</td>
 
                     <td class="taleft">{$vo.amcode}</td>
+                    <td class="taleft">{$vo.warehouse_id}</td>
                     {if($admininfo['roleid'] == 1)}
                         <td class="taleft">{$frame[$vo['fid']]['name'] ?: '未知'}</td>
                     {/if}
@@ -430,6 +432,13 @@
                 html += '<input type="hidden" name="amcode" value="' + data.amcode + '">'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">仓库编码：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="warehouse_id" value="' + data.warehouse_id + '" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
+
+                html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">品牌：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
                 html += '    <input type="text" name="brank" value="' + data.brank + '" autocomplete="off" class="layui-input">'
@@ -508,6 +517,7 @@
                             var pack = $('#edit_html input[name="pack"]').val();
                             var phr = $('#edit_html input[name="phr"]').val();
                             var source = $('#edit_html select[name="source"]').val();
+                            var warehouse_id = $('#edit_html input[name="warehouse_id"]').val();
                             if (!brank || !place || !in_price || !price || !pack || !phr || !source) {
                                 layer.msg('数据不能留空，无数据可添"无"');
                                 return false;
@@ -536,7 +546,8 @@
                                 price: price,
                                 pack: pack,
                                 phr: phr,
-                                source: source
+                                source: source,
+                                warehouse_id: warehouse_id
                             }, function (res) {
                                 if (res.code == 1) {
                                     layer.msg(res.msg);
