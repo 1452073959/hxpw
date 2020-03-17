@@ -35,9 +35,11 @@
                 <div class="layui-input-inline">
                     <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
                         <option value=""></option>
-                        {foreach $provinces as $k=>$v } 
-                            <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
-                        {/foreach}
+                        {if(isset($provinces))}
+                            {foreach $provinces as $k=>$v } 
+                                <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
                 <div class="layui-input-inline">
@@ -61,9 +63,11 @@
                     <!-- <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="manager_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
-                        {foreach $manager_name as $k=>$v } 
-                            <option value="{$v.id}">{$v.name}</option>
-                        {/foreach}
+                        {if(isset($datas[3]))}
+                            {foreach $datas[3] as $k=>$v } 
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>
@@ -73,9 +77,11 @@
                     <!-- <input type="text" name="quoter_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
-                        {foreach $quoter_name as $k=>$v } 
-                            <option value="{$v.id}">{$v.name}</option>
-                        {/foreach}
+                        {if(isset($datas[2]))}
+                            {foreach $datas[2] as $k=>$v } 
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>
@@ -85,9 +91,11 @@
                     <!-- <input type="text" name="designer_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
                     <select name="designer_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
-                        {foreach $designer_name as $k=>$v } 
-                            <option value="{$v.id}">{$v.name}</option>
-                        {/foreach}
+                        {if(isset($datas[1]))}
+                            {foreach $datas[1] as $k=>$v } 
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>
@@ -98,9 +106,11 @@
                     <select name="assistant_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
                         <option value="0">其他</option>
-                        {foreach $designer_name as $k=>$v } 
-                            <option value="{$v.id}">{$v.name}</option>
-                        {/foreach}
+                        {if(isset($datas[15]))}
+                            {foreach $datas[15] as $k=>$v } 
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>
@@ -111,9 +121,11 @@
                     <select name="sale_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
                         <option value="0">其他</option>
-                        {foreach $designer_name as $k=>$v } 
-                            <option value="{$v.id}">{$v.name}</option>
-                        {/foreach}
+                        {if(isset($datas[14]))}
+                            {foreach $datas[14] as $k=>$v } 
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>

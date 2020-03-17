@@ -120,10 +120,12 @@ class Indent extends Adminbase
     public function index(){
     
         $res = Db::name('frame')->field('id,name')->where(['levelid'=>2,'status'=>0])->select();
-        // $res = array_merge($res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res,$res);
+        //获取省份
+        //$provinces = Db::name('provinces')->order('id','asc')->select();
       
         // dump($res);
         $this->assign('data',$res);    
+        //$this->assign('provinces',$provinces);    
         return $this->fetch();
     }
 
@@ -436,17 +438,17 @@ class Indent extends Adminbase
                 'type'=>'1',
             ];//返回空数据
         }
-        if($cost_tmp['order_check']){
-            $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
-            foreach ($cost_tmp['order_check'] as $k => $v) {
-                if(empty($v[1])){
-                    $cost_tmp['order_check'][$k] = $v[0];
-                }else{
-                    $cost_tmp['order_check'][$k] = implode('-', $v);
-                }
-            }
-            $cost_tmp['order_check'] = implode("\n", $cost_tmp['order_check']);
-        }
+        // if($cost_tmp['order_check']){
+        //     $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
+        //     foreach ($cost_tmp['order_check'] as $k => $v) {
+        //         if(empty($v[1])){
+        //             $cost_tmp['order_check'][$k] = $v[0];
+        //         }else{
+        //             $cost_tmp['order_check'][$k] = implode('-', $v);
+        //         }
+        //     }
+        //     $cost_tmp['order_check'] = implode("\n", $cost_tmp['order_check']);
+        // }
         $this->assign("data", $cost_tmp);
         $this->assign("f_id", $this->_userinfo['companyid']);
         return $this->fetch();
@@ -477,17 +479,17 @@ class Indent extends Adminbase
                             'order_check'=>'',
                         ];//返回空数据
         }
-        if($cost_tmp['order_check']){
-            $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
-            foreach ($cost_tmp['order_check'] as $k => $v) {
-                if(empty($v[1])){
-                    $cost_tmp['order_check'][$k] = $v[0];
-                }else{
-                    $cost_tmp['order_check'][$k] = implode('-', $v);
-                }
-            }
-            $cost_tmp['order_check'] = implode("\n", $cost_tmp['order_check']);
-        }
+        // if($cost_tmp['order_check']){
+        //     $cost_tmp['order_check'] = json_decode($cost_tmp['order_check'],true);
+        //     foreach ($cost_tmp['order_check'] as $k => $v) {
+        //         if(empty($v[1])){
+        //             $cost_tmp['order_check'][$k] = $v[0];
+        //         }else{
+        //             $cost_tmp['order_check'][$k] = implode('-', $v);
+        //         }
+        //     }
+        //     $cost_tmp['order_check'] = implode("\n", $cost_tmp['order_check']);
+        // }
         Result(0,'',$cost_tmp);
     }
                 // if(in_array($v[0], $title)){
@@ -506,29 +508,29 @@ class Indent extends Adminbase
         $datas['take_rate3'] = input('take_rate3');
         $datas['take_rate4'] = input('take_rate4');
         $datas['pick_rate'] = input('pick_rate');
-        $datas['order_check'] = input('order_check');
+        // $datas['order_check'] = input('order_check');
         $datas['borrower'] = input('borrower');
         $datas['type'] = input('type');
 
-        $order_check = explode("\n", input('order_check'));
-        $title = [];
-        foreach($order_check as $k=>$v){
-            $info = explode('-', $v);
-            if(mb_strlen($info[0]) > 3){
-                Result(1,'流程名称不能超过3个字');
-            }
-            if(in_array($info[0], $title)){
-                Result(1,'流程名称不能重复');
-            }
+        // $order_check = explode("\n", input('order_check'));
+        // $title = [];
+        // foreach($order_check as $k=>$v){
+        //     $info = explode('-', $v);
+        //     if(mb_strlen($info[0]) > 3){
+        //         Result(1,'流程名称不能超过3个字');
+        //     }
+        //     if(in_array($info[0], $title)){
+        //         Result(1,'流程名称不能重复');
+        //     }
 
-            $title[] = $info[0];
-            if(!isset($info[1])){
-                $info[1] = '';//没有说明
-            }
-            $info = array_slice($info,0,2);
-            $order_check[$k] = $info;
-        }
-        $datas['order_check'] = json_encode($order_check);
+        //     $title[] = $info[0];
+        //     if(!isset($info[1])){
+        //         $info[1] = '';//没有说明
+        //     }
+        //     $info = array_slice($info,0,2);
+        //     $order_check[$k] = $info;
+        // }
+        // $datas['order_check'] = json_encode($order_check);
         
         if($datas['take_rate1'] + $datas['take_rate2'] + $datas['take_rate3'] + $datas['take_rate4'] != 100){
             Result(1,'收款比率合计必须为100');

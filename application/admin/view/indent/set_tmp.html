@@ -87,12 +87,12 @@
             <li> <input type="radio" name="type" value="1" {if ($data.type==1)} checked {/if} title="辅材费/人工费"></li>
         </div>
     </div>
-    <div class="layui-form-item">
+   <!--  <div class="layui-form-item">
         <label class="layui-form-label w150">质检流程*<p>（每行一条，名称与说明使用"-"分开，名称必须为工种前两个字）</p></label>
         <div class="layui-input-inline w150">
             <textarea placeholder="例子：&#13;&#10;打拆-打拆工程具体流程说明&#13;&#10;木工-木工工程具体流程说明&#13;&#10;泥瓦-泥瓦工程具体流程说明" name="order_check" style="height:300px;width:550px">{$data.order_check}</textarea>
         </div>
-    </div>
+    </div> -->
 
     <div class="layui-input-inline w300">
         <button id="edit_tmp" style="margin-left:70px" class="layui-btn ajax-post">立即提交</button>
@@ -121,7 +121,7 @@
         var take_rate4 = $(this).parents(".tmp_datas").find("input[name='take_rate4']").val();
 
         var pick_rate = $(this).parents(".tmp_datas").find("input[name='pick_rate']").val();
-        var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
+        // var order_check = $(this).parents(".tmp_datas").find("textarea[name='order_check']").val();
         var borrower = $(this).parents(".tmp_datas").find("input[name='borrower']").val();
         var type =$('input:radio:checked').val();
         if(Number(take_rate1) + Number(take_rate2) + Number(take_rate3) + Number(take_rate4) != 100 ){
@@ -173,13 +173,13 @@
             });
             return false;
         }
-        if (!order_check) {
-            layui.use('layer', function(){
-                var layer = layui.layer;
-                layer.msg('质检流程不能为空');
-            });
-            return false;
-        }
+        // if (!order_check) {
+        //     layui.use('layer', function(){
+        //         var layer = layui.layer;
+        //         layer.msg('质检流程不能为空');
+        //     });
+        //     return false;
+        // }
         $.ajax({
             type : 'post',
             url  :  '{:url("indent/edit_tmp")}',
@@ -196,7 +196,7 @@
                 take_rate3:take_rate3,
                 take_rate4:take_rate4,
                 pick_rate:pick_rate,
-                order_check:order_check,
+                // order_check:order_check,
                 borrower:borrower,
                 type:type,
             },

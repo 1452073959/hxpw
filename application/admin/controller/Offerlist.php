@@ -1272,15 +1272,15 @@ class Offerlist extends Adminbase
         //获取省份
         $provinces = Db::name('provinces')->order('id','asc')->select();
         //获取报价师 设计师  商务经理
-        // $quoter_name = Db::name('personnel')->where(['job'=>2,'status'=>1,'fid'=>$admininfo['companyid']])->select();
-        // $designer_name = Db::name('personnel')->where(['job'=>1,'status'=>1,'fid'=>$admininfo['companyid']])->select();
-        // $manager_name = Db::name('personnel')->where(['job'=>3,'status'=>1,'fid'=>$admininfo['companyid']])->select();
+        // 1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师',14=>'业务员',15=>'画图'
         $personnel = Db::name('personnel')->where(['status'=>1,'fid'=>$admininfo['companyid']])->select();
+        $datas = [];
+        foreach($personnel as $k=>$v){
+            $datas[$v['job']][] = $v;
+        }
         $this->assign([
-            'provinces'=>$provinces,
-            'quoter_name'=>$personnel,
-            'designer_name'=>$personnel,
-            'manager_name'=>$personnel,
+            'datas'=>$datas,
+            'provinces'=>$provinces
         ]);
         return $this->fetch();
     }
