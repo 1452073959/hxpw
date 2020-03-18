@@ -184,7 +184,9 @@
                   {foreach name="data" item="vo"}
                     <tr>   
                       <td >{$vo.id}</td> 
-                      <td >{$frame[$vo['frameid']]['name']}</td> 
+                        {if($admininfo['roleid'] == 1)}
+                            <td >{$frame[$vo['frameid']]['name']}</td> 
+                        {/if}
                       <td >{$vo.customer_name}{eq name="$vo['is_new']" value="9"}<i title="旧客户" style="color: red" class="layui-icon layui-icon-username"></i>{/eq}</td> 
                       <td >{$vo.area}</td> 
                       <td >{$vo.room_type}</td> 
