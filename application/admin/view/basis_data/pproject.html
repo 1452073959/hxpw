@@ -140,6 +140,9 @@ display: block;
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <a class="layui-btn layui-btn-sm" href="javascript:;" lay-event="apply_new">申请新项目</a> 
+                    {if($admininfo['roleid'] == 1)}
+                        <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入申请新项目</button>
+                    {/if}
                 </div>
             </script>
             <table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:[],limit:20}">
@@ -352,6 +355,61 @@ display: block;
                     cancel: function(){ 
                     //return false 开启该代码可禁止点击该按钮关闭
                     }
+                });
+            }else if(obj.event == 'excel'){
+                var html = '<form class="layui-form" id="excel_apply"><div class="layui-upload" id="upload_file" style="margin-bottom:15px;margin-top:15px;text-align:center">'
+                html += '     <select id="excel_fid" class="layui-form" lay-search>'
+                html += '       <option value="12">请选择</option>'
+                {foreach($frame as $k=>$v)}
+                    html += '     <option value="{$v['id']}">{$v["name"]}</option>'
+                {/foreach}
+                
+                html += '     </select>'
+                html += '     <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="test8">上传xls,xlsx</button>'
+                html += '<br />'
+                html += '     <button type="button" style="margin-top:5px" class="layui-btn layui-btn-normal" id="test9">上传</button>'
+                html += '     <button type="button" style="margin-top:5px" class="layui-btn close">取消</button>'
+                html += '</div></form>'
+                layer.open({
+                  title: '导入申请报价',
+                  area: ['400px', '250px'], //宽高
+                  type:1,
+                  content: html,
+                  success:function(layero, index){
+                        layui.use('form', function(){
+                            var form = layui.form;
+                            form.render();
+                        });
+                    },
+                });
+                layui.use('upload', function(){
+                    var upload = layui.upload;
+                    upload.render({
+                        elem: '#test8',
+                        url: '/admin/basis_data/excel_appley_project/',
+                        auto: false,
+                        accept:'file',
+                        size:10240,
+                        //,multiple: true
+                        bindAction: '#test9',
+                        data:{
+                            fid:function(){
+                                return $('#excel_fid').val();
+                            }
+                        },
+                        done: function(res){
+                            if(res.code == 1){
+                                layer.closeAll();
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    // window.location.reload();
+                                }, 1000);
+                            }else{
+                                layer.msg(res.msg);
+                            }
+                            return false;
+                        }
+                    });
                 });
             }
         })

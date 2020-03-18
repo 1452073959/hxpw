@@ -821,10 +821,13 @@ class BasisData extends Adminbase{
         //判断是否已添加
         $item_number = array_column($res->items(), 'item_number');
         $item_number = array_column(Db::name('f_project')->where(['p_item_number'=>$item_number,'fid'=>$this->_userinfo['companyid']])->field('p_item_number')->select(),'p_item_number');
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(),null,'id');
         $this->assign('item_number',$item_number);
         $this->assign('data',$res);
         $this->assign('fines',$fines);
+        $this->assign('frame',$frame);
         $this->assign('type_work',$type_work);
+        $this->assign('admininfo',$this->_userinfo);
         return $this->fetch();
     }
 
@@ -2837,6 +2840,90 @@ class BasisData extends Adminbase{
                 echo $e->getMessage();
             }
             echo 'ok';
+        }
+    }
+
+    //管理员使用  批量导入申请的报价
+    public function excel_appley_project(){
+        require'../extend/PHPExcel/PHPExcel.php';
+        $fid = input('fid');
+        $file = request()->file('file');
+        if($file){
+            $info = $file->validate(['size'=>10485760,'ext'=>'xls,xlsx'])->move(ROOT_PATH . 'public/'. 'excel');
+            if (!$info) {
+                $this->error('上传文件格式不正确');
+            }else{
+                //获取上传到后台的文件名
+                $fileName = $info->getSaveName();
+                //获取文件路径
+                $filePath = ROOT_PATH . 'public/'. 'excel/'.$fileName;
+                //获取文件后缀
+                $suffix = $info->getExtension();
+
+                // 判断哪种类型
+                if($suffix=="xlsx"){
+                    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+                }else{
+                    $reader = \PHPExcel_IOFactory::createReader('Excel5');
+                }
+            }
+            //处理表格数据
+            //载入excel文件
+            $excel = $reader->load("$filePath",$encode = 'utf-8');
+            //读取第一张表
+            $sheet = $excel->getSheet(0);
+            //获取总行数
+            $row_num = $sheet->getHighestRow();
+            //获取总列数
+            $col_num = $sheet->getHighestColumn();
+            $data = []; //数组形式获取表格数据 
+            for ($i = 2; $i <= $row_num; $i ++) {
+                $info = [];
+                $info['name']  = trim($sheet->getCell("A".$i)->getValue());
+                $info['quota']  = trim($sheet->getCell("B".$i)->getValue());
+                $info['craft_show']  = trim($sheet->getCell("C".$i)->getValue());
+                $info['labor_cost']  = trim($sheet->getCell("D".$i)->getValue());
+                $info['unit']  = trim($sheet->getCell("E".$i)->getValue()); 
+                $info['content']  = trim($sheet->getCell("F".$i)->getValue()); 
+                $info['material']  = trim($sheet->getCell("G".$i)->getValue()); 
+                $info['fid']  = $fid; 
+                if(empty($info['name']) && empty($info['quota']) && empty($info['craft_show']) && empty($info['labor_cost']) && empty($info['unit']) && empty($info['content']) && empty($info['material'])){
+                    continue;
+                }
+                if(empty($info['name'])){
+                    $this->error('第'.$i.'行名称不能为空');
+                }
+                if(empty($info['quota']) || !is_numeric($info['quota']) || $info['quota'] < 0){
+                    $this->error('第'.$i.'行辅材单价输入有误');
+                }
+                if(empty($info['craft_show']) || !is_numeric($info['craft_show']) || $info['craft_show'] < 0){
+                    $this->error('第'.$i.'行人工单价输入有误');
+                }
+                if(empty($info['labor_cost']) || !is_numeric($info['labor_cost']) || $info['labor_cost'] < 0){
+                    $this->error('第'.$i.'行人工成本输入有误');
+                }
+                if(empty($info['unit'])){
+                    $this->error('第'.$i.'行单位不能为空');
+                }
+                if(empty($info['content'])){
+                    $this->error('第'.$i.'行施工工艺与材料说明不能为空');
+                }
+                $data[] = $info;
+            }
+            
+            
+            if(!empty($data)){
+                $res = Db::name('apply_project')->insertAll($data);
+                 if ($res) {
+                    $this->success('导入成功');
+                }else{
+                    $this->error('导入失败');
+                }
+            }else{
+                $this->error('导入数据为空');
+            }
+        }else{
+            $this->error('请选择上传文件');
         }
     }
 }
