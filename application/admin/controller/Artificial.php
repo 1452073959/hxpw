@@ -135,10 +135,8 @@ class Artificial extends Adminbase
         }else{
             $re = Userlist::with('profile')->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
         }
-        if($userinfo['roleid'] == 1){
-          $frame = Db::name('frame')->field('id,name')->where('levelid',3)->select();
-          $this->assign('frame',$frame);
-        }
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        $this->assign('frame',$frame);
         $this->assign('data',$re);
 //        dump($re);
         $this->assign('userinfo',$userinfo);

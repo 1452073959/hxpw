@@ -41,61 +41,94 @@
 #imgs{position:relative;}
 .batchs span{cursor:pointer;}
 .form-control{display: inline-block;padding: 5px;}
+.layui-form-item{
+    margin-bottom: 10px;
+    width: 250px;
+    float: left;
+    clear:none;
+}
+.ml50{
+    margin-left: 50px;
+}
 </style>
 
   <!-- 导出完成 -->
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="layui-form">
-
             <blockquote class="layui-elem-quote news_search">
             <div class="layui-input-inline">
                 <form class="layui-form" method="get" action="{:url('artificial/gcfx_first')}" class="layui-form form-signin" enctype="multipart/form-data">
-                        {eq name="$userinfo['roleid']" value="1"}
-                            <div class="layui-inline">
-                                <select name="frameid" class="w100" lay-search>
-                                  <option value="">请选择公司</option>
-                                  {foreach $frame as $key=>$vo}
-                                     <option <?php echo $vo['id']==input('frameid')?'selected':'' ?> value="{$vo.id}">{$vo.name}</option>
-                                  {/foreach}
-                                </select>  
-                            </div>
-                        {/eq}
-                        <div class="layui-inline">
-                            <input type="text" name="customer_name" value="<?php echo input('customer_name') ?>" placeholder="客户姓名" class="layui-input">
-                        </div>
-                        <div class="layui-inline">
-                            <input type="text" name="quoter_name" value="<?php echo input('quoter_name') ?>" placeholder="报价师" class="layui-input">
-                        </div>
-                        <div class="layui-inline">
-                            <input type="text" name="designer_name" value="<?php echo input('designer_name') ?>" placeholder="设计师" class="layui-input">
-                        </div>
-                        <div class="layui-inline">
-                            <input type="text" name="address" value="<?php echo input('address') ?>" placeholder="工程地址" class="layui-input">
-                        </div>
-                        <div class="layui-inline">
-                            <input type="text" name="manager_name" value="<?php echo input('manager_name') ?>" placeholder="客户经理" class="layui-input">
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="begin_time" name="begin_time" value="<?php echo input('begin_time') ?>" placeholder="开始时间">
-                            </div>
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="end_time" name="end_time" value="<?php echo input('end_time') ?>" placeholder="结束时间">
+                    {if($userinfo['roleid']==1)}
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分公司</label>
+                            <div class="layui-input-block">
+                                <select name="frameid">
+                                    <option value=""></option>
+                                    {foreach($frame as $k=>$v)}
+                                        <option {if(input('frameid')==$v['id'])}selected{/if} value="{$v['id']}">{$v['name']}</option>
+                                    {/foreach}
+                                </select>
                             </div>
                         </div>
+                    {/if}
+
                     <div class="layui-form-item">
-                        <label class="layui-form-label">是否已签单:</label>
+                        <label class="layui-form-label">客户姓名</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="oi" value="1"  title="已签单" {if (input('oi')==1)} checked {/if} >
-                            <input type="radio" name="oi" value="2"  title="未签单" {if (input('oi')==2)} checked {/if}>
-                            <input type="radio" name="oi" value="3"  title="显示全部" {if (input('oi')>2)} checked {/if}>
+                            <input type="text" name="customer_name" placeholder="" value="{:input('customer_name')}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                        <div class="layui-inline">
-                             <button type="submit" class="layui-btn layui-btn-blue">搜索</button>
-                             <a href="{:url('artificial/gcfx_first')}" class="layui-btn layui-btn-blue">清空筛选</a>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">报价师</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="quoter_name" placeholder="" value="{:input('quoter_name')}" autocomplete="off" class="layui-input">
                         </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">设计师</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="designer_name" placeholder="" value="{:input('designer_name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工程地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="address" placeholder="" value="{:input('address')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户经理</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="manager_name" placeholder="" value="{:input('manager_name')}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开始时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="begin_time" name="begin_time" value="<?php echo input('begin_time') ?>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">结束时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="end_time" name="end_time" value="<?php echo input('end_time') ?>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否已签单</label>
+                        <div class="layui-input-block">
+                            <select name="oi">
+                                <option value=""></option>
+                                <option {if(input('oi')==1)}selected{/if} value="1">已签单</option>
+                                <option {if(input('oi')==2)}selected{/if} value="2">未签单</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item ml50">
+                        <button type="submit" class="layui-btn layui-btn-blue">搜索</button>
+                        <a href="{:url('artificial/gcfx_first')}" class="layui-btn layui-btn-blue">清空筛选</a>
+                    </div>
                 </form>
             </div>
                 <!-- <a class="layui-btn layui-btn-sm" style="float:right;margin-left:10px" href="__TEMPLATE__/报价空模板.xls">下载空模板</a> -->
@@ -113,6 +146,9 @@
             <table class="layui-table">
                 <colgroup>
                     <col width="100">
+                    {if($userinfo['roleid'] == 1)}
+                       <col width="150">
+                    {/if}
                     <col width="200">
                     <col width="150">
                     <col width="150">
@@ -127,6 +163,9 @@
                     <tr>
                         <th>ID</th>
                         <th>客户姓名</th>
+                        {if($userinfo['roleid'] == 1)}
+                           <th>分公司</th>
+                        {/if}
                         <th>面积</th>
                         <th>房屋类型</th>
                         <th>报价师姓名</th>
@@ -143,8 +182,10 @@
                   
                   {foreach name="data" item="vo"}
                     <tr>   
-                      <td >{$vo.id}
-                      </td> 
+                      <td >{$vo.id}</td> 
+                        {if($userinfo['roleid'] == 1)}
+                           <td >{$frame[$vo['frameid']]['name']}</td> 
+                        {/if}
                       <td >{$vo.customer_name}{eq name="$vo['is_new']" value="9"}<i title="旧客户" style="color: red" class="layui-icon layui-icon-username"></i>{/eq}</td> 
                       <td >{$vo.area}</td> 
                       <td >{$vo.room_type}</td> 

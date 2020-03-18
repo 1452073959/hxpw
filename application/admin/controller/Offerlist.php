@@ -723,11 +723,19 @@ class Offerlist extends Adminbase
         }
         $userinfo = $this->_userinfo;
         if($userinfo['userid'] != 1 && $userinfo['roleid'] != 10  && $userinfo['roleid'] != 22){
+            //只能看自己的单
             $da['userid'] = $userinfo['userid'];
         }
-        if($userinfo['roleid'] == 10 || $userinfo['roleid'] == 22){
-            $da['frameid'] = $userinfo['companyid'];
+        if($userinfo['roleid'] == 1){
+            if(input('fid')){
+                $da['frameid'] = input('fid');
+            }
+        }else{
+            if($userinfo['roleid'] == 10 || $userinfo['roleid'] == 22){
+                $da['frameid'] = $userinfo['companyid'];
+            }
         }
+        
         if(input('oi')==1){
             $re = Db::name('userlist')->where('oid','>',0)->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
         }elseif(input('oi')==2){
@@ -735,10 +743,11 @@ class Offerlist extends Adminbase
         }else{
             $re = Db::name('userlist')->where($where)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
         }
-
-//        dump($re);die;
+        $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
         $this->assign('data',$re);
         $this->assign('userinfo',$userinfo);
+        $this->assign('frame',$frame);
+        $this->assign('admininfo',$this->_userinfo);
         return $this->fetch();
     }
     public function user_delete(){
