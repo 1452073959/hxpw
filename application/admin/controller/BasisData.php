@@ -2893,13 +2893,13 @@ class BasisData extends Adminbase{
                 if(empty($info['name'])){
                     $this->error('第'.$i.'行名称不能为空');
                 }
-                if(strlen($info['quota']) || !is_numeric($info['quota']) || $info['quota'] < 0){
+                if(strlen($info['quota']) == 0 || !is_numeric($info['quota']) || $info['quota'] < 0){
                     $this->error('第'.$i.'行辅材单价输入有误');
                 }
-                if(strlen($info['craft_show']) || !is_numeric($info['craft_show']) || $info['craft_show'] < 0){
+                if(strlen($info['craft_show']) == 0 || !is_numeric($info['craft_show']) || $info['craft_show'] < 0){
                     $this->error('第'.$i.'行人工单价输入有误');
                 }
-                if(strlen($info['labor_cost']) || !is_numeric($info['labor_cost']) || $info['labor_cost'] < 0){
+                if(strlen($info['labor_cost']) == 0 || !is_numeric($info['labor_cost']) || $info['labor_cost'] < 0){
                     $this->error('第'.$i.'行人工成本输入有误');
                 }
                 if(empty($info['unit'])){
