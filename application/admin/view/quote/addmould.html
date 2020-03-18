@@ -427,7 +427,7 @@
         //判断该项目在当前功空间和工种下 是否已经存在
         if($('input[data-project="'+space+'-'+data.item_number+'"]').length > 0){
             layui.use('layer', function(){
-                layer.msg('该工种下项目已存在，请勿重复添加');
+                layer.msg('该空间下项目已存在，请勿重复添加');
             }); 
             return false;
         }
