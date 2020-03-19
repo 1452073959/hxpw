@@ -37,17 +37,27 @@
                         <option value=""></option>
                         {if(isset($provinces))}
                             {foreach $provinces as $k=>$v } 
-                                <option value="{$v.provinceid}-{$v.province}">{$v.province}</option>
+                                <option {eq name="$frame['provinceid']" value="$v['provinceid']"}selected{/eq} value="{$v.provinceid}-{$v.province}">{$v.province}</option>
                             {/foreach}
                         {/if}
                     </select>
                 </div>
                 <div class="layui-input-inline">
                     <select name="cities" lay-filter="cities" lay-verify="required" data-type=2 lay-search>
+                        {if(isset($cities))}
+                            {foreach $cities as $k=>$v } 
+                                <option value="{$v.cityid}-{$v.city}" {eq name="$frame['cityid']" value="$v['cityid']"}selected{/eq}>{$v.city}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
                 <div class="layui-input-inline">
                     <select name="areas" lay-verify="required" class="">
+                        {if(isset($areas))}
+                            {foreach $areas as $k=>$v } 
+                                <option value="{$v.areaid}-{$v.area}" {eq name="$frame['areaid']" value="$v['areaid']"}selected{/eq}>{$v.area}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
             </div>

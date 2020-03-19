@@ -1278,8 +1278,6 @@ class Offerlist extends Adminbase
             $this->success('添加成功','admin/offerlist/userlist');
 
         }
-        //获取省份
-        $provinces = Db::name('provinces')->order('id','asc')->select();
         //获取报价师 设计师  商务经理
         // 1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师',14=>'业务员',15=>'画图'
         $personnel = Db::name('personnel')->where(['status'=>1,'fid'=>$admininfo['companyid']])->select();
@@ -1287,9 +1285,23 @@ class Offerlist extends Adminbase
         foreach($personnel as $k=>$v){
             $datas[$v['job']][] = $v;
         }
+        //获取公司默认地址
+        $frame = Db::name('frame')->where(['id'=>$this->_userinfo['companyid']])->find();
+        //获取省份
+        $provinces = Db::name('provinces')->order('id','asc')->select();
+        if($frame['provinceid'] && $frame['cityid']){
+            $cities = array_column(Db::name('cities')->where(['provinceid'=>$frame['provinceid']])->order('id','asc')->select(),null, 'cityid');
+            $areas = array_column(Db::name('areas')->where(['cityid'=>$frame['cityid']])->order('id','asc')->select(),null, 'areaid');
+            $this->assign([
+                'cities'=>$cities,
+                'areas'=>$areas,
+            ]);
+        }
+       
         $this->assign([
             'datas'=>$datas,
-            'provinces'=>$provinces
+            'provinces'=>$provinces,
+            'frame'=>$frame,
         ]);
         return $this->fetch();
     }

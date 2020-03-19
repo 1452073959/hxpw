@@ -121,17 +121,33 @@ class Indent extends Adminbase
     
         $res = Db::name('frame')->field('id,name')->where(['levelid'=>2,'status'=>0])->select();
         //获取省份
-        //$provinces = Db::name('provinces')->order('id','asc')->select();
+        $provinces = Db::name('provinces')->order('id','asc')->select();
       
         // dump($res);
         $this->assign('data',$res);    
-        //$this->assign('provinces',$provinces);    
+        $this->assign('provinces',$provinces);    
         return $this->fetch();
     }
 
     // 获取组织架构接口
     public function TreeType(){
       $res = Db::name('frame')->select();
+      $provinceid = array_column(Db::name('provinces')->select(),null,'provinceid'); 
+      $cityid = array_column(Db::name('cities')->select(),null,'cityid'); 
+      $areaid = array_column(Db::name('areas')->select(),null,'areaid'); 
+      foreach($res as $k=>$v){
+        if($v['provinceid']){
+            $res[$k]['province'] = $provinceid[$v['provinceid']]['province'];
+        }
+        if($v['cityid']){
+            $res[$k]['city'] = $cityid[$v['cityid']]['city'];
+        }
+        if($v['areaid']){
+            $res[$k]['area'] = $areaid[$v['areaid']]['area'];
+        }
+        
+        
+      }
       // dump($res);
       if($res){
           TreeResult(0,'ok',$res,count($res));
@@ -227,6 +243,9 @@ class Indent extends Adminbase
             }            
             $data['name'] = $datas['name'];
             $data['other'] = $datas['other'];
+            $data['provinceid'] = $datas['province'];
+            $data['cityid'] = $datas['cities'];
+            $data['areaid'] = $datas['areas'];
             $res = Db::name('frame')->where('id',$datas['id'])->update($data);
             if($res) {
                Result(0,'更新成功');
