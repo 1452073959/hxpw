@@ -36,7 +36,6 @@ class Offertype extends Adminbase
     public function ajax_add_word(){
         if(input('name') && input('type')){
             $userinfo = $this->_userinfo;
-            $adminid = 
             if($this->_userinfo['roleid'] == 10){
                 $adminid = 0;
             }else{
