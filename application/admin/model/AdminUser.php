@@ -8,6 +8,8 @@ use think\helper\Hash;
 use think\Model;
 use think\Db;
 use think\Session;
+use think\Request;
+use think\facade\Cache;
 class AdminUser extends Model
 {
     //超级管理员角色id
@@ -165,6 +167,11 @@ class AdminUser extends Model
         $password = trim($password);
         $map['username'] = $username;
         $userInfo = self::get($map);
+        if(Cache::get('login_'.request()->ip()) >= 5){
+            session('msg','连续错误5次，请十分钟后再试');
+            session('msg1',1);
+            return redirect('/admin/login/index');
+        }
         // dump($userInfo);exit;
         if (!$userInfo) {
 //            $this->error = '账号/密码错误';
@@ -180,10 +187,18 @@ class AdminUser extends Model
         } else {
             //密码判断
             if (empty($password) || md5($password) != $userInfo['password']) {
-                session('msg','账号/密码错误');
+                if(Cache::get('login_'.request()->ip())){
+                    Cache::set('login_'.request()->ip(),Cache::get('login_'.request()->ip())+1,600);
+                    session('msg','账号/密码错误（'.Cache::get('login_'.request()->ip()).'/5）');
+                }else{
+                    Cache::set('login_'.request()->ip(),1,600);
+                    session('msg','账号/密码错误（1/5）');
+                }
+                
                 session('msg1',1);
                 return redirect('/admin/login/index');
             } else {
+                Cache::rm('login_'.request()->ip());
                 $this->autoLogin($userInfo);
                 return true;
             }

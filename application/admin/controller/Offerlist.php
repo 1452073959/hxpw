@@ -104,8 +104,8 @@ class Offerlist extends Adminbase
         }
         $userinfo = $this->_userinfo;
         if(input('data')){
-            Cache::set('tso_'.$user_id.$userinfo['userid'],input('data'),3600*7);
-            Cache::set('tson_'.$user_id.$userinfo['userid'],input('no_standard'),3600*7);
+            Cache::set('tso_'.$user_id.$userinfo['userid'],input('data'),86400*3);
+            Cache::set('tson_'.$user_id.$userinfo['userid'],input('no_standard'),86400*3);
             $this->success('success');
         }else{
             Cache::rm('tso_'.$user_id.$userinfo['userid']);

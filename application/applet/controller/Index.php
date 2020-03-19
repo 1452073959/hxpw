@@ -6,12 +6,15 @@ namespace app\applet\controller;
 use think\Db;
 use think\Controller;
 use app\applet\controller\Base;
- 
+use think\facade\Cache;
 class Index extends Base{
     public function login(){
         $username = input('username');
         $pwd = input('pwd');
         $admininfo = Db::name('admin')->where(['username'=>$username])->find();
+        if(Cache::get('login_'.$this->request->ip()) >= 5){
+            $this->json(1,'连续错误5次，请十分钟后再试');
+        }
         if($admininfo['password'] == md5($pwd)){
             $token = $this->setToken($admininfo['userid']);
             if($token){
@@ -39,12 +42,19 @@ class Index extends Base{
                 }
                 $auth_group = array_column(Db::name('auth_group')->select(),null, 'id');
                 $admininfo['role_name'] = $auth_group[$admininfo['roleid']]['title'];
+                Cache::rm('login_'.$this->request->ip());
                 $this->json(0,'登录成功',['token'=>$token,'admininfo'=>$admininfo,'menu'=>$menu]);
             }else{
                  $this->json(1,'获取token失败');
             }
-            
         }else{
+            if(Cache::get('login_'.$this->request->ip())){
+                Cache::set('login_'.$this->request->ip(),Cache::get('login_'.$this->request->ip())+1,600);
+                $this->json(1,'账号/密码错误（'.Cache::get('login_'.$this->request->ip()).'/5）');
+            }else{
+                Cache::set('login_'.$this->request->ip(),1,600);
+                $this->json(1,'账号/密码错误（1/5）');
+            }
             $this->json(1,'账号/密码错误');
         }
     }
