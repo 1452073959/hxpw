@@ -527,7 +527,7 @@ class Quote extends Adminbase
 	//新建模板
 	public function addmould(){
         $userinfo = $this->_userinfo;
-        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type_list = Db::name('offer_type')->where(['adminid'=>[0,$this->_userinfo['userid']]])->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
         $offer_type = [1=>[],2=>[]];//用于添加选择工种/空间
         $offer_type_check = [1=>[],2=>[]];//用于检测工种/空间是否还有效
         foreach($offer_type_list as $k=>$v){

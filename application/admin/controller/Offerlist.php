@@ -224,7 +224,7 @@ class Offerlist extends Adminbase
             $this->error('非法操作');
         }
         $userinfo = $this->_userinfo;
-        $offer_type_list = Db::name('offer_type')->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
+        $offer_type_list = Db::name('offer_type')->where(['adminid'=>[0,$this->_userinfo['userid']]])->where(['companyid'=>$userinfo['companyid'],'status'=>1])->select();
         $offer_type = [1=>[],2=>[]];
         foreach($offer_type_list as $k=>$v){
             $offer_type[$v['type']][] = $v;

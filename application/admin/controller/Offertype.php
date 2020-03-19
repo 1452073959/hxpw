@@ -11,19 +11,23 @@ use think\Paginator;
 
 class Offertype extends Adminbase
 {
-    //空间类型
+    //空间工种
     public function index()
     {
         $userinfo = $this->_userinfo;
-        $datas = Db::name('offer_type')->where(['type'=>1,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
+        $where = [];
+        $where['adminid'] = [0,$this->_userinfo['userid']];
+        $datas = Db::name('offer_type')->where($where)->where(['type'=>1,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
         $this->assign('datas',$datas);   
         return $this->fetch();
     }
 
-    //工种
+    //空间
     public function space_index(){
         $userinfo = $this->_userinfo;
-        $datas = Db::name('offer_type')->where(['type'=>2,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
+        $where = [];
+        $where['adminid'] = [0,$this->_userinfo['userid']];
+        $datas = Db::name('offer_type')->where($where)->where(['type'=>2,'companyid'=>$userinfo['companyid'],'status'=>1])->order('id','desc')->select();
         $this->assign('datas',$datas);   
         return $this->fetch();
     }
@@ -32,16 +36,26 @@ class Offertype extends Adminbase
     public function ajax_add_word(){
         if(input('name') && input('type')){
             $userinfo = $this->_userinfo;
-            $offer_type = Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid']])->find();
+            $adminid = 
+            if($this->_userinfo['roleid'] == 10){
+                $adminid = 0;
+            }else{
+                $adminid = $this->_userinfo['userid'];
+            }
+            $offer_type = Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
             if($offer_type){
                 if($offer_type['status'] == 0){
-                    echo json_encode(['code'=>1,'msg'=>'工种已存在']);
+                    if(input('type') == 1){
+                        echo json_encode(['code'=>1,'msg'=>'工种已存在']);
+                    }else{
+                        echo json_encode(['code'=>2,'msg'=>'空间已存在']);
+                    }
                 }elseif($offer_type['status'] == 9){
-                    Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid']])->update(['status'=>1,'addtime'=>time()]);
+                    Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
                     echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$offer_type['id']]);
                 }
             }else{
-                $id = Db::name('offer_type')->insertGetId(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time()]);
+                $id = Db::name('offer_type')->insertGetId(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
                 echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$id]);
             }
         }else{
@@ -49,7 +63,7 @@ class Offertype extends Adminbase
         }
     }
 
-    //编辑
+    //编辑 这个没有匹配到个人.  不建议使用
     public function ajax_edit_word(){
         if(input('name') && input('type') && input('id')){
             $userinfo = $this->_userinfo;
@@ -68,6 +82,16 @@ class Offertype extends Adminbase
     public function ajax_delete_word(){
         if(input('id')){
             $userinfo = $this->_userinfo;
+            $info = Db::name('offer_type')->where(['id'=>input('id')])->find();
+            if($userinfo['roleid'] == 10 && $info['adminid'] == '0'){
+
+            }else{
+                if($userinfo['userid'] != $info['adminid']){
+                    echo json_encode(['code'=>0,'msg'=>'禁止删除非本人添加的空间']);
+                    die;
+                }
+            }
+            
             $res = Db::name('offer_type')->where(['id'=>input('id')])->update(['status'=>9]);
             if($res){
                 echo json_encode(['code'=>1,'msg'=>'删除成功']);
