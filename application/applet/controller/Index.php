@@ -12,7 +12,7 @@ class Index extends Base{
         $username = input('username');
         $pwd = input('pwd');
         $admininfo = Db::name('admin')->where(['username'=>$username])->find();
-        if(Cache::get('login_'.$this->request->ip()) >= 5){
+        if(Cache::get('login_'.$this->request->ip().$username) >= 5){
             $this->json(1,'连续错误5次，请十分钟后再试');
         }
         if($admininfo['password'] == md5($pwd)){
@@ -42,17 +42,17 @@ class Index extends Base{
                 }
                 $auth_group = array_column(Db::name('auth_group')->select(),null, 'id');
                 $admininfo['role_name'] = $auth_group[$admininfo['roleid']]['title'];
-                Cache::rm('login_'.$this->request->ip());
+                Cache::rm('login_'.$this->request->ip().$username);
                 $this->json(0,'登录成功',['token'=>$token,'admininfo'=>$admininfo,'menu'=>$menu]);
             }else{
                  $this->json(1,'获取token失败');
             }
         }else{
-            if(Cache::get('login_'.$this->request->ip())){
-                Cache::set('login_'.$this->request->ip(),Cache::get('login_'.$this->request->ip())+1,600);
-                $this->json(1,'账号/密码错误（'.Cache::get('login_'.$this->request->ip()).'/5）');
+            if(Cache::get('login_'.$this->request->ip().$username)){
+                Cache::set('login_'.$this->request->ip().$username,Cache::get('login_'.$this->request->ip().$username)+1,600);
+                $this->json(1,'账号/密码错误（'.Cache::get('login_'.$this->request->ip().$username).'/5）');
             }else{
-                Cache::set('login_'.$this->request->ip(),1,600);
+                Cache::set('login_'.$this->request->ip().$username,1,600);
                 $this->json(1,'账号/密码错误（1/5）');
             }
             $this->json(1,'账号/密码错误');
