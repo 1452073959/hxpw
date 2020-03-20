@@ -97,6 +97,10 @@
     .red{
         color:red;
     }
+    .h38{
+        height: 38px;
+        line-height: 38px;
+    }
 </style>
 <div style="display: none">
     <?php if(empty(session('name'))): ?>
@@ -166,6 +170,7 @@
             <script type="text/html" id="toolbarDemo">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="excel" id="excel">导入辅材数据</button>
+                    <button class="layui-btn layui-btn-sm" lay-event="pricing" id="pricing">批量调价</button>
                     <!-- {if $user==1}
                     <a href="/admin/basis_data/auxiliaryderive/?id={:input('fid')}"> <button class="layui-btn layui-btn-sm"  onclick="return confirm('确定要导出吗?');">导出</button></a>
                     {/if} -->
@@ -389,6 +394,54 @@
                                 layer.msg(res.msg);
                             }
                             return false;
+                        }
+                    });
+                });
+            }
+            if(obj.event == 'pricing'){
+                var html = '';
+                html += '<div class="layui-form-item" style="margin:15px 10px">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">字段：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <select class="h38" style="width:70%" name="field">'
+                html += '       <option value="">请选择</option>'
+                html += '       <option value="in_price">入库价</option>'
+                html += '       <option value="price">出库价</option>'
+                html += '    </select>'
+                html += '  </div>'
+                html += '</div>'
+                html += '<div class="layui-form-item" style="margin:15px 10px">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">上升额度：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input class="layui-input" style="width:70%;float:left" name="num" value="" /><span  class="h38" style="display:block;float:left;margin-left:5px;">%</span>'
+                html += '  </div>'
+                html += '</div>'
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        content: html,
+                        area: ['320px', '300px'], //宽高
+                        title: '批量调价',
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            var field = $('select[name="field"]').val();
+                            var num = $('input[name="num"]').val();
+                            $.post('/admin/basis_data/pricing_f_price', {field: field,num:num,type:1}, function (res) {
+                                if (res.code == 1) {
+                                    layer.msg(res.msg);
+                                    setTimeout(function () {
+                                        window.location.reload()
+                                    }, 1000);
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }, 'json')
+                        },
+                        btn2: function (index, layero) {
+                            layer.close(index);
+                        },
+                        cancel: function () {
+                            // return false //开启该代码可禁止点击该按钮关闭
                         }
                     });
                 });

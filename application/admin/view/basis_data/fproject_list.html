@@ -50,6 +50,10 @@
 .red{
 	color:red;
 }
+.h38{
+    height: 38px;
+    line-height: 38px;
+}
 </style>
 
   <!-- 导出完成 -->
@@ -128,6 +132,7 @@
 			<script type="text/html" id="toolbarDemo">
 				<div class="layui-btn-container">
 					<!-- <a class="layui-btn layui-btn-sm" href="/admin/basis_data/add_fwarehouse">添加</a>  -->
+                    <button class="layui-btn layui-btn-sm" lay-event="pricing" id="pricing">批量调价</button>
 				</div>
 			</script>
 			<table class="layui-table" lay-filter="test3"  lay-data="{id: '#test3', toolbar: '#toolbarDemo',defaultToolbar:['print'],limit:20}">
@@ -394,7 +399,59 @@
 				}); 
 				
 			}
+
 		});
+		table.on('toolbar(test3)', function (obj) {
+			if(obj.event == 'pricing'){
+                var html = '';
+                html += '<div class="layui-form-item" style="margin:15px 10px">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">字段：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <select class="h38" style="width:70%" name="field">'
+                html += '       <option value="">请选择</option>'
+                html += '       <option value="quota">辅材单价报价</option>'
+                html += '       <option value="craft_show">人工单价报价</option>'
+                html += '       <option value="labor_cost">人工成本</option>'
+                html += '    </select>'
+                html += '  </div>'
+                html += '</div>'
+                html += '<div class="layui-form-item" style="margin:15px 10px">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">上升额度：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input class="layui-input" style="width:70%;float:left" name="num" value="" /><span  class="h38" style="display:block;float:left;margin-left:5px;">%</span>'
+                html += '  </div>'
+                html += '</div>'
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        content: html,
+                        area: ['320px', '300px'], //宽高
+                        title: '批量调价',
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            var field = $('select[name="field"]').val();
+                            var num = $('input[name="num"]').val();
+                            $.post('/admin/basis_data/pricing_f_price', {field: field,num:num,type:2}, function (res) {
+                                if (res.code == 1) {
+                                    layer.msg(res.msg);
+                                    setTimeout(function () {
+                                        window.location.reload()
+                                    }, 1000);
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }, 'json')
+                        },
+                        btn2: function (index, layero) {
+                            layer.close(index);
+                        },
+                        cancel: function () {
+                            // return false //开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                });
+            }
+		})
 	});
 </script>
 {/block}

@@ -2926,4 +2926,77 @@ class BasisData extends Adminbase{
             $this->error('请选择上传文件');
         }
     }
+
+    //辅材批量调价
+    public function pricing_f_price(){
+        $type  = input('type');
+        $field  = input('field'); 
+        $num  = input('num'); 
+        if(empty($type)){
+            $this->error('非法操作');
+        }
+        if(strlen($num) == 0){
+            $this->error('上升额度不能为空');
+        }
+        if($this->_userinfo['roleid'] == 1){
+            $this->error('管理员禁止调价');
+        }
+        if (empty($field)) {
+            $this->error('请选择字段');
+        }
+        if ($type == 1) {
+            $table = 'f_materials';
+            if($field != 'in_price' && $field != 'price'){
+                $this->error('非法操作');
+            }
+        }else if($type == 2){
+            $table = 'f_project';
+            if($field != 'quota' && $field != 'craft_show' && $field != 'labor_cost'){
+                $this->error('非法操作');
+            }
+        }else{
+            $this->error('非法操作');
+        }
+        if($num === '0'){
+            $this->success('价格未发生变动');
+        }
+        if(!is_numeric($num) || $num < 0 || $num > 100){
+            $this->error('上升额度必须为0~100之间');
+        }
+        $list = Db::name($table)->where(['fid'=>$this->_userinfo['companyid']])->select();
+        Db::startTrans();
+        try {
+            foreach($list as $k=>$v){
+                if(!is_numeric($v[$field])){
+                    if($type == 1){
+                        throw new \think\Exception('辅材编码：'.$v['amcode'].'对应字段有误，请检查后再提交', 10006);
+                    }else{
+                        throw new \think\Exception('项目编码：'.$v['item_number'].'对应字段有误，请检查后再提交', 10006);
+                    }
+                }
+                $price = round(($v[$field] * $num /100) + $v[$field],2);
+                $update = [];
+                $update[$field] = $price;
+                if($table == 'f_project'){
+                    //综合价
+                    if($field == 'quota' || $field == 'craft_show'){
+                        $update['cost_value'] = $v['cost_value'] - $v[$field] + $price;
+                    }
+                }
+                Db::name($table)->where(['id'=>$v['id']])->update($update);
+                if($type == 1){
+                    $this->update_fwarehouse($v['amcode']);
+                }else{
+                    if($v['status'] == 1){
+                        $this->update_fproject($v['item_number']);
+                    }
+                }
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        $this->success('调价成功');
+    }
 }
