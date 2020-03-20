@@ -1230,7 +1230,7 @@ class Offerlist extends Adminbase
             if($data['manager_id']){
                 $where['id'][] = $data['manager_id'];
             }
-            $names = array_column(Db::name('personnel')->where(['id'=>$where])->select(), null,'id');
+            $names = array_column(Db::name('personnel')->where($where)->select(), null,'id');
             $bao['quoter_id'] =  $data['quoter_id'];
             $bao['designer_id'] =  $data['designer_id'];
             
