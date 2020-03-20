@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>报价后台管理系统</title>
     <meta name="author" content="报价后台">
+    <meta name="renderer"  content="ie-stand">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
     <link rel="stylesheet" href="__STATIC__/admin/css/global.css">
@@ -100,6 +101,69 @@
             </ul>
         </div>
 <script>
+function add_tab(options) {
+    var elem = options.elem,
+        href = options.href,
+        id = options.id,
+        li = $('#B_history li[lay-id=' + id + ']');
+    if (li.length > 0) {
+        var iframe = $('#iframe_' + id);
+        setTimeout(function() {
+            $('#loading').hide();
+        }, 500);
+        li.addClass('current');
+        if (iframe[0].contentWindow && iframe[0].contentWindow.location.href !== href) {
+            iframe[0].contentWindow.location.href = href;
+        }
+        $('#B_frame iframe').hide();
+        $('#iframe_' + id).show();
+        show_tab(li); //计算此tab的位置，如果不在屏幕内，则移动导航位置
+    } else {
+        //创建一个并加以标识
+        var iframeAttr = {
+            src: href,
+            id: 'iframe_' + id,
+            frameborder: '0',
+            scrolling: 'auto',
+            height: '100%',
+            width: '100%'
+        };
+        var iframe = $('<iframe/>').prop(iframeAttr).appendTo('#B_frame .layui-tab-content .iframe_box');
+
+        $(iframe[0].contentWindow.document).ready(function() {
+            $('#B_frame iframe').hide();
+            setTimeout(function() {
+                $('#loading').hide();
+            }, 500);
+            var li = $('<li>' + elem.html() + '<i class="layui-icon layui-unselect layui-tab-close">&#x1006;</i></li>').attr('lay-id', id);
+            li.appendTo('#B_history');
+            show_tab(li); //计算此tab的位置，如果不在屏幕内，则移动导航位置
+            //$(this).show().unbind('load');
+        });
+    }
+}
+function show_tab(li) {
+    if (li.length) {
+        var ul = $('#B_history'),
+            li_offset = li.offset(),
+            li_width = li.outerWidth(true),
+            next_left = $('#page-next').offset().left, //右边按钮的界限位置
+            prev_right = $('#page-prev').offset().left + $('#page-prev').outerWidth(true); //左边按钮的界限位置
+        if (li_offset.left + li_width > next_left) { //如果将要移动的元素在不可见的右边，则需要移动
+            var distance = li_offset.left + li_width - next_left; //计算当前父元素的右边距离，算出右移多少像素
+            ul.animate({
+                left: '-=' + distance
+            }, 200, 'swing');
+        } else if (li_offset.left < prev_right) { //如果将要移动的元素在不可见的左边，则需要移动
+            var distance = prev_right - li_offset.left; //计算当前父元素的左边距离，算出左移多少像素
+            ul.animate({
+                left: '+=' + distance
+            }, 200, 'swing');
+        }
+        li.trigger('click');
+    }
+}
+
 $('dl.skin > dd').on('click', function () {
     var $that = $(this);
     var skin  = $that.children('a').data('skin');
