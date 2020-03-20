@@ -19,9 +19,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">客户电话<i class="bred">*</i></label>
+                <label class="layui-form-label">客户电话</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="phone" autocomplete="off" lay-verify="required|phone|number" placeholder="" class="layui-input">
+                    <input type="text" name="phone" autocomplete="off" lay-verify="" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -68,10 +68,10 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">商务经理<i class="bred">*</i></label>
+                <label class="layui-form-label">商务经理</label>
                 <div class="layui-input-inline w300">
                     <!-- <input type="text" name="manager_name" autocomplete="off" lay-verify="required" placeholder="" class="layui-input"> -->
-                    <select name="manager_id" lay-filter="" lay-verify="required" lay-search>
+                    <select name="manager_id" lay-filter="" lay-verify="" lay-search>
                         <option value=""></option>
                         {if(isset($datas[3]))}
                             {foreach $datas[3] as $k=>$v } 

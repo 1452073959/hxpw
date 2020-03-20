@@ -1224,15 +1224,25 @@ class Offerlist extends Adminbase
             $bao['aid_designer'] =  $data['aid_designer'];
             $bao['assistant_id'] =  $data['assistant_id'];
             $bao['sale_id'] =  $data['sale_id'];
-
-            $names = array_column(Db::name('personnel')->where(['id'=>[$data['quoter_id'],$data['designer_id'],$data['manager_id']]])->select(), null,'id');
+            $where = [];
+            $where['id'][] = $data['quoter_id'];
+            $where['id'][] = $data['designer_id'];
+            if($data['manager_id']){
+                $where['id'][] = $data['manager_id'];
+            }
+            $names = array_column(Db::name('personnel')->where(['id'=>$where])->select(), null,'id');
             $bao['quoter_id'] =  $data['quoter_id'];
             $bao['designer_id'] =  $data['designer_id'];
-            $bao['manager_id'] = $data['manager_id'];
+            
+            if($data['manager_id']){
+                $bao['manager_id'] = $data['manager_id'];
+                $bao['manager_name'] = $names[$data['manager_id']]['name'];
+            }else{
+                $bao['manager_id'] = 0;
+                $bao['manager_name'] = '';
+            }
             $bao['quoter_name'] =  $names[$data['quoter_id']]['name'];
             $bao['designer_name'] =  $names[$data['designer_id']]['name'];
-            $bao['manager_name'] = $names[$data['manager_id']]['name'];
-
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
             $bao['is_new'] = $data['is_new'];
