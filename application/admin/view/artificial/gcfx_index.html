@@ -890,7 +890,7 @@ layui.use('table', function(){
         var id = data.id;
         var html = '<input id="fixed_point"  data-discount_proquant="'+data.discount_proquant+'" data-cb="'+cb+'" class="layui-input" placeholder="请输入监理上交金额" value="'+ (data.fixed_point>0?data.fixed_point:'') +'" />';
         if (data.fixed_point > 0) {
-            html += '监理预测工资：￥<span id="wage">'+(Number(data.discount_proquant)-Number(data.fixed_point)-cb)+'</span>';
+            html += '监理预测工资：￥<span id="wage">'+(Number(data.discount_proquant)-Number(data.fixed_point)-cb).toFixed(2)+'</span>';
         }else{
             html += '监理预测工资：￥<span id="wage"></span>';
         }
