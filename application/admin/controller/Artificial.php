@@ -780,4 +780,19 @@ class Artificial extends Adminbase
         return $this->fetch();
     }
 
+    //设置监理定点
+    public function set_fixed_point(){
+        $id = input('id');
+        $fixed_point = input('wage');
+        if(!is_numeric($fixed_point)){
+            $this->error('金额填写错误');
+        }
+        $info = Db::name('offerlist')->where(['id'=>$id])->find();
+        if($info['status'] >= 5){
+            $this->error('结算订单禁止修改监理定点');
+        }
+        Db::name('offerlist')->where(['id'=>$id])->update(['fixed_point'=>$fixed_point]);
+        $this->success('修改成攻');
+    }
+
 }

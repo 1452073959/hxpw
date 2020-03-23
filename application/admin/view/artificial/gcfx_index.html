@@ -95,6 +95,7 @@ a{
                         <th class="taleft" lay-data="{field:'status', width:80,fixed:'left'}">状态</th>
                         <th class="taleft" lay-data="{field:'remark', width:80}">备注</th>
                         <th lay-data="{field:'edit',width:270}">操作</th>
+                        <th class="taleft" lay-data="{field:'fixed_point',event:'fixed_point',width:90}">监理定点</th>
                         <th class="taleft" lay-data="{field:'proquant',width:100}" >优惠前报价</th>
                         <th class="taleft" lay-data="{field:'discount_proquant',width:100}" >工程报价</th>
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
@@ -116,6 +117,7 @@ a{
 
                         <th class="taleft" lay-data="{field:'gross_profit_total',width:100,style:'background-color: #ffe1bb' }">总毛利</th>
                         <th class="taleft" lay-data="{field:'profit_rate_total',width:90,style:'background-color: #ffe1bb' }">总毛利率</th>
+
 
                         <th class="taleft" lay-data="{field:'entrytime',width:180}">录入时间</th>
                     </tr>
@@ -148,6 +150,7 @@ a{
                        <!-- <a class="layui-btn layui-btn-xs" href="{:url('admin/artificial/gcfx',['customerid'=>$vo.order_info.customerid])}">查看分析表</a> -->
                       </td>
                       <!-- <td class="taleft">{$vo.id}</td>     -->
+                      <td class="taleft">{$vo.order_info.fixed_point}</td>
                       <td class="taleft">{$vo.order_info.proquant}</td>
                       <td class="taleft">{$vo.order_info.discount_proquant}</td>
                       <td class="taleft">{$vo.order_info.direct_cost}</td>
@@ -179,6 +182,8 @@ a{
                       <td class="taleft">{$vo.order_info.profit_rate}%</td>
                       <td class="taleft">{$vo.order_info.gross_profit_total}</td>
                       <td class="taleft">{$vo.order_info.profit_rate_total}%</td>
+
+
                       <td class="taleft">{$vo.order_info.entrytime|date="Y-m-d H:i:s"}</td>
 
                     </tr>
@@ -879,10 +884,55 @@ layui.use('table', function(){
               }
             }
         });
+    }else if(obj.event === 'fixed_point'){
+        var data = obj.data;
+        var cb = Number(data.artificial_cb)+Number(data.material_cb);
+        var id = data.id;
+        var html = '<input id="fixed_point"  data-discount_proquant="'+data.discount_proquant+'" data-cb="'+cb+'" class="layui-input" placeholder="请输入监理上交金额" value="'+ (data.fixed_point>0?data.fixed_point:'') +'" />';
+        if (data.fixed_point > 0) {
+            html += '监理预测工资：￥<span id="wage">'+(Number(data.discount_proquant)-Number(data.fixed_point)-cb)+'</span>';
+        }else{
+            html += '监理预测工资：￥<span id="wage"></span>';
+        }
+        
+        layer.open({
+            content: html,
+            area:['300px', '200px'], //宽高
+            title:'设置监理定额金额',
+            btn: ['确定','取消'],
+            success:function(layero, index){
+
+            },
+            yes: function(index, layero){
+                $.post('/admin/artificial/set_fixed_point',{id:id,wage:$('#fixed_point').val()},function(res){
+                    if(res.code == 1){
+                        layer.msg(res.msg);
+                        setTimeout(function(){
+                        　　window.location.reload()
+                        },1000);
+                        return false;
+                    }else{
+                        alert(res.msg);
+                    }
+                })
+            },
+            cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
     }
   });
 
 });
+$(document).on('change','#fixed_point',function(){
+    var discount_proquant = Number($(this).data('discount_proquant'));
+    var cb = Number($(this).data('cb'));
+    var value = Number($(this).val());
+    $('#wage').html((discount_proquant-value-cb).toFixed(2));
+})
+$(document).on('click','#fixed_point',function(){
+    $(this).select();
+})
 
 //鼠标经过表头显示文字
 $(document).on('mouseenter', '.layui-table th', function(){
