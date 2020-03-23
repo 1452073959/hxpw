@@ -22,7 +22,7 @@ class Offerlist extends Model
         $no_discount = ['matquant'=>0,'manual_quota'=>0];//打拆工程
         if(is_array($content)){
             foreach($content as $keys => $values){
-                if(strpos($values['project'],'设计费') !== false){
+                if(strpos($values['project'],'设计') !== false){
                     $offerlist_info['design'][] = $values;
                     unset($content[$keys]);
                     continue;
@@ -150,7 +150,7 @@ class Offerlist extends Model
         $no_discount = ['matquant'=>0,'manual_quota'=>0];//打拆工程
         if(is_array($order_project)){
             foreach($order_project as $keys => $values){
-                if(strpos($values['project'],'设计费') !== false){
+                if(strpos($values['project'],'设计') !== false){
                     $offerlist_info['design'][] = $values;
                     unset($order_project[$keys]);
                     continue;

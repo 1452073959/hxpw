@@ -972,7 +972,7 @@ class Offerlist extends Adminbase
         $design = [];
         if(input('word') == 1){
             foreach($order_project as $k=>$v){
-                if(strpos($v['project'],'设计费') !== false){
+                if(strpos($v['project'],'设计') !== false){
                     $design[] = $v;
                     unset($order_project[$k]);
                     continue;
@@ -987,7 +987,7 @@ class Offerlist extends Adminbase
             }
         }else{
             foreach($order_project as $k=>$v){
-                if(strpos($v['project'],'设计费') !== false){
+                if(strpos($v['project'],'设计') !== false){
                     $design[] = $v;
                     unset($order_project[$k]);
                     continue;
@@ -1312,6 +1312,7 @@ class Offerlist extends Adminbase
             'datas'=>$datas,
             'provinces'=>$provinces,
             'frame'=>$frame,
+            'personnel'=>$personnel,
         ]);
         return $this->fetch();
     }
@@ -2041,7 +2042,7 @@ class Offerlist extends Adminbase
         $datas = [];
         if(input('word') == 1){
             foreach($order_project as $k=>$v){
-                if(strpos($v['project'],'设计费') !== false){
+                if(strpos($v['project'],'设计') !== false){
                     $design[] = $v;
                     unset($order_project[$k]);
                     continue;
@@ -2056,7 +2057,7 @@ class Offerlist extends Adminbase
             }
         }else{
             foreach($order_project as $k=>$v){
-                if(strpos($v['project'],'设计费') !== false){
+                if(strpos($v['project'],'设计') !== false){
                     $design[] = $v;
                     unset($order_project[$k]);
                     continue;

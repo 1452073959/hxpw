@@ -19,9 +19,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">客户电话</label>
+                <label class="layui-form-label">客户电话<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="phone" autocomplete="off" lay-verify="" placeholder="" class="layui-input">
+                    <input type="text" name="phone" autocomplete="off" lay-verify="required|phone|number" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -131,8 +131,8 @@
                     <select name="sale_id" lay-filter="" lay-verify="required" lay-search>
                         <option value=""></option>
                         <option value="0">其他</option>
-                        {if(isset($datas[14]))}
-                            {foreach $datas[14] as $k=>$v } 
+                        {if(isset($personnel))}
+                            {foreach $personnel as $k=>$v } 
                                 <option value="{$v.id}">{$v.name}</option>
                             {/foreach}
                         {/if}
