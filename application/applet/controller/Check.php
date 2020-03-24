@@ -248,7 +248,7 @@ class Check extends UserBase{
                 Db::name('acceptance_img')->insertAll($img);
             }
             //修改工地信息
-            // $res = Db::name('userlist')->where(['id'=>input('uid')])->update(['in_check'=>1,'check_time'=>time()]);
+            $res = Db::name('userlist')->where(['id'=>input('uid')])->update(['work_status'=>$data['process']]);
             // 提交事务
             Db::commit();
             $this->json(0,'申请验收成功');
@@ -305,6 +305,22 @@ class Check extends UserBase{
         $data['checkid'] = $this->admininfo['userid'];
         $data['check_time'] = time();
         $img = [];
+        $acceptance = Db::name('acceptance')->where(['id'=>$cid])->find();
+        $process = Db::name('process')->order('id','asc')->select();
+        $true = 0;
+        $work_status = '';
+        foreach($process as $k=>$v){
+            if($true){
+                $work_status = $v['name'];
+                break;
+            }
+            if($v['name'] == $acceptance['process']){
+                $true = 1;
+            }
+        }
+        if(!$work_status){
+            $work_status = '待结算';
+        }
         Db::startTrans();
         try {
             //保存验收记录
@@ -320,6 +336,8 @@ class Check extends UserBase{
                 }
                 Db::name('acceptance_img')->insertAll($img);
             }
+
+            $res = Db::name('userlist')->where(['id'=>$acceptance['userid']])->update(['work_status'=>$work_status,'in_check'=>0]);
             // 提交事务
             Db::commit();
             $this->json(0,'验收成功');

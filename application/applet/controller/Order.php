@@ -209,10 +209,10 @@ class Order extends UserBase{
         
         //这里需要找到分公司验收顺序 是个字符串
         // $work_status = $next_check;
-        $work_status = '正在施工';
+        $work_status = '开工验收';
         $res = Db::name('userlist')->where(['id'=>$uid])->update(['work_status'=>$work_status,'work_time'=>time()]);
         if($res){
-            $this->json('0','success','正在施工');
+            $this->json('0','success','开工验收');
         }else{
             $this->json('2','开工失败');
         }
