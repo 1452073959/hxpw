@@ -1222,17 +1222,25 @@ class Offerlist extends Adminbase
             $bao['soft_designer'] =  $data['soft_designer'];
             $bao['sd_designer'] =  $data['sd_designer'];
             $bao['aid_designer'] =  $data['aid_designer'];
-            $bao['assistant_id'] =  $data['assistant_id'];
-            $bao['sale_id'] =  $data['sale_id'];
+            $bao['assistant_id'] =  implode(',',$data['assistant_id']); //***
+            $bao['sale_id'] =  implode(',',$data['sale_id']);  //*****
             $where = [];
             $where['id'][] = $data['quoter_id'];
-            $where['id'][] = $data['designer_id'];
+            // $where['id'][] = $data['designer_id'];  //****
+            if($data['designer_id']){
+                foreach($data['designer_id'] as $k=>$v){
+                    $where['id'][] = $v;
+                }
+                $bao['designer_id'] =  implode(',',$data['designer_id']);//***
+            }else{
+                $bao['designer_id'] =  0;
+            }
             if($data['manager_id']){
                 $where['id'][] = $data['manager_id'];
             }
             $names = array_column(Db::name('personnel')->where($where)->select(), null,'id');
             $bao['quoter_id'] =  $data['quoter_id'];
-            $bao['designer_id'] =  $data['designer_id'];
+            
             
             if($data['manager_id']){
                 $bao['manager_id'] = $data['manager_id'];
@@ -1242,7 +1250,16 @@ class Offerlist extends Adminbase
                 $bao['manager_name'] = '';
             }
             $bao['quoter_name'] =  $names[$data['quoter_id']]['name'];
-            $bao['designer_name'] =  $names[$data['designer_id']]['name'];
+            if($data['designer_id']){
+                $designer_name = [];
+                foreach($data['designer_id'] as $k=>$v){
+                    $designer_name[] = $names[$v]['name'];
+                }
+                $bao['designer_name'] =  implode(',', $designer_name);
+            }else{
+                $bao['designer_name'] =  '';
+            }
+            
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
             $bao['is_new'] = $data['is_new'];
