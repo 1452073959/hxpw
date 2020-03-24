@@ -1134,7 +1134,7 @@
         //统计合计
         //计算单项目
         $('#project .project').each(function(k,v){
-            var num = Number($(v).find('input').val());
+            var num = Number($(v).find('input').last().val());
             if(num == ''){
                 return true;
             }
