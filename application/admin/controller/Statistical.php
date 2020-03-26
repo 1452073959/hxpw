@@ -399,7 +399,7 @@ class Statistical extends Adminbase
         if (!empty($_GET['jid'])) {
             $where[] = ['jid', 'in', "{$_GET['jid']}"];
         }else{
-            $where[] = ['jid', '=', $this->_userinfo['companyid']];
+            // $where[] = ['jid', '=', $this->_userinfo['companyid']];
         }
         if (!empty($_GET['address'])) {
             $where[] = ['address', 'like', "%{$_GET['address']}%"];
