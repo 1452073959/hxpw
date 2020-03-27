@@ -399,7 +399,7 @@ class Statistical extends Adminbase
         if (!empty($_GET['jid'])) {
             $where[] = ['jid', 'in', "{$_GET['jid']}"];
         }else{
-            // $where[] = ['jid', '=', $this->_userinfo['companyid']];
+            // $where[] = ['companyid', '=', $this->_userinfo['companyid']];
         }
         if (!empty($_GET['address'])) {
             $where[] = ['address', 'like', "%{$_GET['address']}%"];
@@ -422,7 +422,7 @@ class Statistical extends Adminbase
             }
             $order[$k2]['order_info'] = model('offerlist')->get_order_info($v2['profile']['id'], 2);
         }
-        $user = Db::table('fdz_admin')->where('roleid', '13')->select();
+        $user = Db::table('fdz_admin')->where('roleid', '13')->where(['companyid'=>$this->_userinfo['companyid']])->select();
         $this->assign('order', $order);
         $this->assign('users', $user);
 
