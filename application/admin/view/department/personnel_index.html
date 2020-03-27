@@ -92,15 +92,11 @@ table tr:first-child{
     <div class="layui-card-body" id="right" style=" ">
         <div class="layui-form">
             <blockquote class="layui-elem-quote news_search">
-                {neq name="$admininfo['roleid']" value="10"}
-                    <button class="layui-btn layui-btn-radius layui-btn-primary" data-fid="0" data-fname='' id="add_personnel">员工录入</button>
-                {/neq}
+                <button class="layui-btn layui-btn-radius layui-btn-primary" data-fid="0" data-fname='' id="add_personnel">员工录入</button>
             </blockquote>
             <table id="demo" lay-filter="test"></table>
             <script type="text/html" id="barDemo">
-                {neq name="$admininfo['roleid']" value="10"}
-                    <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius whui-btn-commend" lay-event="edit">修改</a>
-                {/neq}
+                <a class="layui-btn layui-btn-normal layui-btn-xs layui-btn-radius whui-btn-commend" lay-event="edit">修改</a>
             </script>
         </div>
         
