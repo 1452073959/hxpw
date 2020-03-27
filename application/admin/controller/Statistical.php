@@ -389,8 +389,7 @@ class Statistical extends Adminbase
     }
 
     //在施工地
-    public function in_word()
-    {
+    public function in_word(){
 
         $where = [];
         if (!empty($_GET['customer_name'])) {
@@ -398,12 +397,11 @@ class Statistical extends Adminbase
         }
         if (!empty($_GET['jid'])) {
             $where[] = ['jid', 'in', "{$_GET['jid']}"];
-        }else{
-            // $where[] = ['companyid', '=', $this->_userinfo['companyid']];
         }
         if (!empty($_GET['address'])) {
             $where[] = ['address', 'like', "%{$_GET['address']}%"];
         }
+        $where[] = ['frameid', '=', $this->_userinfo['companyid']];
         $order = Userlist::with('profile', 'user', 'picking')->where($where)->where('status','>=',3)->where('oid','>','0')->paginate(10,false,['query'=>request()->param()]);
         foreach ($order as $k => $v) {
             $order[$k]['total_picking'] = 0;
