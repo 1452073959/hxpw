@@ -136,6 +136,11 @@ class Artificial extends Adminbase
             $re = Userlist::with('profile')->where($where)->where('id','in',$off)->where($da)->where($condition)->order('id','desc')->paginate($this->show_page,false,['query'=>request()->param()]);
         }
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
+        foreach ($re as $k3=>$v3)
+        {
+            $re[$k3]['qr']=substr_replace($v3['qrcode'],$_SERVER['SERVER_NAME'],0,1);
+        }
+
         $this->assign('frame',$frame);
         $this->assign('data',$re);
 //        dump($re);

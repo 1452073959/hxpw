@@ -20,7 +20,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use think\paginator\driver\Bootstrap;
 
-
+use app\admin\controller\Qrcodes;
 class Offerlist extends Adminbase
 {
     public $upper = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
@@ -1302,6 +1302,9 @@ class Offerlist extends Adminbase
                 Db::rollback();
                 $this->error('失败添加');
             }
+            $qr=New \app\admin\controller\Qrcodes();
+            $qr->view();
+
             $this->success('添加成功','admin/offerlist/userlist');
 
         }

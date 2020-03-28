@@ -134,6 +134,7 @@
                 <!-- <a class="layui-btn layui-btn-sm" style="float:right;margin-left:10px" href="__TEMPLATE__/报价空模板.xls">下载空模板</a> -->
          <!--  <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a> -->
                 <a id="tishi" title="点我查看" style="float:right;" > <i class="layui-icon">&#xe702;</i></a>
+              <button class="layui-btn" onclick="window.location.href='/admin/qrcodes/view'">生成二维码(二维码显示异常/缺失时使用)</button>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
@@ -162,18 +163,19 @@
                 <thead >
                     <tr>
                         <th>ID</th>
-                        <th>客户姓名</th>
+
                         {if($userinfo['roleid'] == 1)}
                            <th>分公司</th>
                         {/if}
+                        <th>客户姓名</th>
                         <th>面积</th>
                         <th>房屋类型</th>
                         <th>报价师姓名</th>
                         <th>设计师姓名</th>
                         <th>商务经理</th>
                         <th>地址</th>
+                        <th>工地二维码</th>
                         <th>添加时间</th>
-                        <!-- <th>报价历史</th> -->
                         <th>合同价图纸下载</th>
                         <th>操作</th>
                     </tr>
@@ -192,7 +194,11 @@
                       <td >{$vo.quoter_name}</td> 
                       <td >{$vo.designer_name}</td> 
                       <td >{$vo.manager_name}</td> 
-                      <td >{$vo.address}</td> 
+                      <td >{$vo.address}</td>
+                        {if $vo.qr!=''}
+                        <td><img src="http://{$vo.qr}"></td>
+                        {else /}   <td ></td>
+                        {/if}
                       <td >{$vo.addtime|date='Y-m-d'}</td>
 
                         {if $vo.profile.cad_file!=''}
