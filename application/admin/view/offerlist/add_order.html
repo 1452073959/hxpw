@@ -771,12 +771,10 @@
                 var datas = res.datas;
                 var is_in = 0;
                 $(res.datas).each(function(k,v){
-
                     if($('input[data-project="'+v.space+'-'+v.item_number+'"]').length > 0){
                         is_in = 1;
                         return true;
                     }
-
                     var project = '';
                     //不要工种分类
                     v.work_type = '所有工种';
@@ -791,7 +789,6 @@
                     project += '<td>'+offerquota[v.item_number]['craft_show']+'</td>';
                     project += '<td></td>';
                     project += '</tr>';
-
                     if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
                         $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
                     }else{
@@ -831,7 +828,12 @@
                 if(is_in){
                     layer.msg('导入成功，部分重复项目已自动过滤');
                 }else{
-                    layer.msg('导入成功');
+                    if(res.msg){
+                        layer.msg('导入成功，部分项目不全，已自动删除');
+                    }else{
+                        layer.msg('导入成功');
+                    }
+                    
                 }
                 set_sort();
                 save_order();

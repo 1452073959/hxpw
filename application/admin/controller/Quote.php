@@ -361,11 +361,29 @@ class Quote extends Adminbase
         $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
         if(count($item_number) != count($offerquota)){
             //=============验证模板是否有效 end
-            echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，模板失效'));die;
+            $no_exist = [];
+            $no_exist_str = [];
+            $offerquota_list = array_column($offerquota, 'item_number');
+            foreach($tmp_list as $k=>$v){
+                if(!in_array($v['item_number'], $offerquota_list)){
+                    $no_exist[] = $v['item_number'];
+                    // $no_exist_str[] = $offerquota[$v['item_number']]['project'];
+                    unset($tmp_list[$k]);
+                }
+            }
+            if($no_exist){
+                Db::name('tmp')->where(['tmp_id'=>$tmp_id,'item_number'=>$no_exist])->delete();
+            }
+            // echo json_encode(array('code'=>0,'msg'=>'模板部分项目不全，缺失项目为：'.implode(',', $no_exist_str)));die;
         }
         $offerquota = array_column($offerquota, null,'item_number');
+        sort($tmp_list);
+        if(isset($no_exist)){
+            echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota,'msg'=>'模板部分项目不全，缺失项目为：'.implode(',', $no_exist)));
+        }else{
+            echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
+        }
         
-        echo json_encode(array('code'=>1,'datas'=>$tmp_list,'offerquota'=>$offerquota));
     }
 
     //主材模板首页
