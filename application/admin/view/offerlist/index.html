@@ -154,15 +154,15 @@
 
 						<td>
 							{switch name="$vo.status"}
-									{case value="0"} <a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>{/case}
-									{case value="1"} <a class="layui-btn layui-btn-xs">已报价</a>{/case}
-									{case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">预算价</a>{/case}
-                                    {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价(未审)</a>{/case}
-									{case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同价</a>{/case}
+									{case value="0"} <a class="layui-btn layui-btn-xs layui-btn-primary">预报单</a>{/case}
+									{case value="1"} <a class="layui-btn layui-btn-xs">预报单</a>{/case}
+									{case value="2"} <a class="layui-btn layui-btn-xs layui-btn-normal">无效单</a>{/case}
+                                    {case value="3"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同单(未审)</a>{/case}
+									{case value="4"} <a class="layui-btn layui-btn-xs layui-btn-warm">合同单</a>{/case}
                                     {case value="5"} <a class="layui-btn layui-btn-xs">待结算</a>{/case}
-									{case value="6"} <a class="layui-btn layui-btn-xs layui-btn-danger">已结算</a>{/case}
+									{case value="6"} <a class="layui-btn layui-btn-xs layui-btn-danger">结算单</a>{/case}
 									{default /}
-									<a class="layui-btn layui-btn-xs layui-btn-primary">未报价</a>
+									<a class="layui-btn layui-btn-xs layui-btn-primary">预报单</a>
 							{/switch}
 						</td>
                       <td class="">{$vo.info.discount_proquant}</td>
@@ -658,7 +658,7 @@ layui.use('table', function(){
                 layer.msg('待结算状态禁止修改标签');
                 return false;
             }
-            if(data.status.indexOf("已结算") >= 0){
+            if(data.status.indexOf("结算单") >= 0){
                 layer.msg('结算状态禁止修改标签');
                 return false;
             }
@@ -667,11 +667,9 @@ layui.use('table', function(){
                     + '     <label class="layui-form-label" style="line-height:25px">选择标签</label>'
                     + '     <div class="layui-input-block">'
                     + '          <select id="set_status" style="height:25px;margin:10px;">'
-                    + '               <option value="0">未报价</option>'
-                    + '               <option value="1">已报价</option>'
-                    + '               <option value="2">预算价</option>'
+                    + '               <option value="0">预报单</option>'
+                    + '               <option value="2">无效单</option>'
                     + '               <option value="3">合同价</option>'
-                    // + '               <option value="4">结算价</option>'
                     + '          </select>'
                     + '     </div>'
                     + '</div>'
@@ -731,7 +729,7 @@ layui.use('table', function(){
                 layer.msg('待结算状态禁止修改优惠');
                 return false;
             }
-            if(data.status.indexOf("已结算") >= 0){
+            if(data.status.indexOf("结算单") >= 0){
                 layer.msg('结算状态禁止修改优惠');
                 return false;
             }

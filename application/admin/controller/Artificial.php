@@ -21,7 +21,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Artificial extends Adminbase
 {
-	public $status = [ '未报价','已报价','预算价','合同价','结算价' ];
+	// public $status = [ '未报价','已报价','预算价','合同价','结算价' ];
   public $show_page = 15;
     // protected function initialize()
     // {

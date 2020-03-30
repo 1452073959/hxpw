@@ -28,11 +28,10 @@
 		{notempty name="data"}
 		<select class="form-control" id="changestatus" data-id="{$data.id}" data-customerid="{$data.customerid}">
 			 <option>选择标签</option>
-			 <option value="0">未报价</option>
-			 <option value="1">已报价</option>
-			 <option value="2">预算价</option>
-			 <option value="3">合同价</option>
-			 <option value="4">结算价</option>
+			 <option value="0">预报单</option>
+			 <option value="2">无效单</option>
+			 <option value="4">合同单</option>
+			 <option value="6">结算单</option>
 	</select>
 		{switch name="data.status"}
 				{case value="0"}<a class="layui-btn layui-btn-xs layui-btn-danger">未报价</a>{/case}
