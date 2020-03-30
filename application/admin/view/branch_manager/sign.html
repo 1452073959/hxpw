@@ -18,7 +18,7 @@
                 <div class="layui-tab layui-tab-brief">
                     <ul class="layui-tab-title">
                         <li class="layui-this"><a href="/admin/branch_manager/sign">工地查询</a></li>
-                        <li class=""><a href="/admin/branch_manager/signtwo">工人查询`</a></li>
+                        <li class=""><a href="/admin/branch_manager/signtwo">工人查询</a></li>
                     </ul>
                 </div>
                 <form class="layui-form layui-inline" action="">
@@ -31,11 +31,10 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户地址</label>
                         <div class="layui-input-block">
-                            <input type="text" name="addres" placeholder="" autocomplete="off" class="layui-input" value="<?php echo input('addres') ?>">
+                            <input type="text" name="address" placeholder="" autocomplete="off" class="layui-input" value="<?php echo input('addres') ?>">
                         </div>
-
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" style="margin-left: 30px">
                         <div class="layui-input-inline">
                             <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>

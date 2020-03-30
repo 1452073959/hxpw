@@ -138,7 +138,7 @@ class Artificial extends Adminbase
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
         foreach ($re as $k3=>$v3)
         {
-            $re[$k3]['qr']=substr_replace($v3['qrcode'],$_SERVER['SERVER_NAME'],0,1);
+            $re[$k3]['qr']=substr_replace($v3['qrcode'],$_SERVER['HTTP_HOST'],0,1);
         }
 
         $this->assign('frame',$frame);

@@ -17,12 +17,12 @@ class Qrcodes extends Controller{
     {
         $user=Db::table('fdz_userlist')-> field(['id','address'])->select();
         foreach ($user as $k=>$v){
-            $user[$k]['url']='http://'.$_SERVER['SERVER_NAME'].'/admin/qrcodes/add?id='.$v['id'];
+            $user[$k]['url']='http://'.$_SERVER['HTTP_HOST'].'/admin/qrcodes/add?id='.$v['id'];
         }
-
         require'../extend/phpqrcode/phpqrcode.php';
         foreach ($user as $k1=>$v1){
             $name=   parse_url($v1['url'],PHP_URL_QUERY) ;
+            $name= md5(substr_replace($name,'',0,3));
             header('Content-Type: image/png');
             $qrcode = new \QRcode();
             $level = 'L';// 容错级别：L、M、Q、H
@@ -31,15 +31,7 @@ class Qrcodes extends Controller{
             $name='./uploads/qrcode/'.$name.'.png';
             Db::table('fdz_userlist')->where('id',$v1['id']) ->update(['qrcode' => $name]);
             $qrcode->png($data, $name, $level, $size);
-
         }
-
-        return redirect('/admin/artificial/gcfx_first');
-//        $qrcode->png($data,false,$level,$size,2);
-//        $imageString = base64_encode(ob_get_contents());
-//        ob_end_clean();
-//        return "<img src='data:image/png;base64,{$imageString}'  />";
-//        return download('image.jpg', 'my.jpg');
     }
 
 
