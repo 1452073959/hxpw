@@ -34,29 +34,29 @@ class Offertype extends Adminbase
     
     //新增
     public function ajax_add_word(){
-        if(input('name') && input('type')){
+        // var_dump(input());die;
+        if(input('add_name') && input('type')){
             $userinfo = $this->_userinfo;
             if($this->_userinfo['roleid'] == 10){
                 $adminid = 0;
             }else{
                 $adminid = $this->_userinfo['userid'];
             }
-            $offer_type = Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
-            if($offer_type){
-                if($offer_type['status'] == 0){
-                    if(input('type') == 1){
-                        echo json_encode(['code'=>1,'msg'=>'工种已存在']);
-                    }else{
-                        echo json_encode(['code'=>2,'msg'=>'空间已存在']);
+            $has = [];
+            foreach (input('add_name') as $k => $v) {
+                $offer_type = Db::name('offer_type')->where(['name'=>$v,'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
+                if($offer_type){
+                    if($offer_type['status'] == 0){
+                        $has[] = $v;
+                    }elseif($offer_type['status'] == 9){
+                        Db::name('offer_type')->where(['name'=>$v,'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
                     }
-                }elseif($offer_type['status'] == 9){
-                    Db::name('offer_type')->where(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
-                    echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$offer_type['id']]);
+                }else{
+                    $id = Db::name('offer_type')->insertGetId(['name'=>$v,'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
+                    // echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$id]);
                 }
-            }else{
-                $id = Db::name('offer_type')->insertGetId(['name'=>input('name'),'type'=>input('type'),'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
-                echo json_encode(['code'=>1,'msg'=>'添加成功','id'=>$id]);
             }
+            echo json_encode(['code'=>1,'msg'=>'添加成功']);
         }else{
              echo json_encode(['code'=>0,'msg'=>'参数错误']);
         }

@@ -6,6 +6,25 @@
 .pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}
 .pagination .active{background-color: #dd1a20;color: #fff;}
 .pagination .disabled{color:#aaa;}
+.w60{
+    width: 80%;
+    height:32px;
+    line-height:32px;
+    float: left;
+    margin: 5px 0;
+    padding: 3px;
+}
+.add_input,.del_input{
+    float: left;
+    width:30px;
+    height:30px;
+    line-height:30px;
+    border: 1px solid #ccc;
+    text-align: center;
+    margin: 11px 5px;
+    /*padding:6px 0;*/
+    display: block;
+}
 </style>
 <div class="layui-card">
     <div class="layui-card-body">
@@ -52,18 +71,31 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     $(function(){
-        
+        $(document).on('click','.add_input',function(){
+            var html = '<label><input type="text" class="w60" name="add_name[]" placeholder="请输入工种名称" class="layui-input"><a href="javascript:;" class="del_input" >-</a></label>'
+            $('#add_form').append(html);
+        })
+        $(document).on('click','.del_input',function(){
+            $(this).parent().remove();
+        })
         //添加工种
         $('#add_work').click(function(){
+            var html = '';
+            html += '<form id="add_form">'
+            html += '<input type="hidden" name="type" value="1">'
+            html += '<label><input type="text" class="w60" name="add_name[]" placeholder="请输入工种名称" class="layui-input"><a href="javascript:;" class="add_input" >+</a></label>'
+            html += '<label><input type="text" class="w60" name="add_name[]" placeholder="请输入工种名称" class="layui-input"><a href="javascript:;" class="del_input" >-</a></label>'
+            html += '</form>'
             layui.use('layer', function(){
                 var layer = layui.layer;
                 layer.open({
-                content: '<input type="text" id="add_name" placeholder="请输入工种名称" class="layui-input">',
+                area: ['350px', '400px'], //宽高
+                content: html,
                 title:'添加工种',
                 btn: ['提交', '取消'],
                     yes: function(index, layero){
                         var add_name = $('#add_name').val();
-                        $.post('/admin/offertype/ajax_add_word',{name:add_name,type:1},function(res){
+                        $.post('/admin/offertype/ajax_add_word',$('#add_form').serializeArray(),function(res){
                             if(res.code === 0){
                                 layer.msg(res.msg);
                             }else{
