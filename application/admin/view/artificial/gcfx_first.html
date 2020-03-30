@@ -134,7 +134,7 @@
                 <!-- <a class="layui-btn layui-btn-sm" style="float:right;margin-left:10px" href="__TEMPLATE__/报价空模板.xls">下载空模板</a> -->
          <!--  <a class="layui-btn layui-btn-sm" style="float:right;" onclick="exportExcel()">导出excel</a> -->
                 <a id="tishi" title="点我查看" style="float:right;" > <i class="layui-icon">&#xe702;</i></a>
-              <button class="layui-btn" onclick="window.location.href='/admin/qrcodes/view'">生成二维码(二维码显示异常/缺失时使用)</button>
+                <button class="layui-btn" onclick="window.location.href='/admin/branch_manager/view'">批量刷新二维码</button>
             </blockquote>
             <script type="text/html" id="toolbarDemo">
               <div class="layui-btn-container">
@@ -196,7 +196,7 @@
                       <td >{$vo.manager_name}</td> 
                       <td >{$vo.address}</td>
                         {if $vo.qr!=''}
-                        <td><img src="http://{$vo.qr}"></td>
+                        <td class="fd"><img src="http://{$vo.qr}"></td>
                         {else /}   <td ></td>
                         {/if}
                       <td >{$vo.addtime|date='Y-m-d'}</td>
@@ -236,6 +236,34 @@
     laydate.render({
       elem: '#end_time'
     });
+  })
+  $(function () {
+      $(".fd").click(function () {
+          var html = $(this).html();
+          var src=$(this).find("img").attr("src");
+          console.log(html);
+          console.log(src);
+          html = html.replace('img','img style="width: 350px;height:350px"');
+          html+="<div  class='' style='font-size: 20px;display: inline-block;\n" +
+              "    height: 38px;\n" +
+              "    line-height: 38px;\n" +
+              "    padding: 0 18px;\n" +
+              "    background-color: #009688;\n" +
+              "    color: #fff;\n" +
+              "    white-space: nowrap;\n" +
+              "    text-align: center;\n" +
+              "    font-size: 14px;\n" +
+              "    border: none;\n" +
+              "    border-radius: 2px;\n" +
+              "    cursor: pointer;'><a href="+src+" download >下载</a></div>";
+          layer.open({
+              title: '查看大图',
+              area: ['400'], //宽高
+              type: 1,
+              content: html,
+          });
+
+      })
   })
 </script>
 {/block}
