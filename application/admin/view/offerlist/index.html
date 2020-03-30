@@ -651,7 +651,7 @@ layui.use('table', function(){
 
         }else if(obj.event=== 'set_status'){
             if(data.status.indexOf("合同单") >= 0){
-                layer.msg('合同价禁止修改标签');
+                layer.msg('合同单禁止修改标签');
                 return false;
             }
             if(data.status.indexOf("待结算") >= 0){
@@ -669,7 +669,7 @@ layui.use('table', function(){
                     + '          <select id="set_status" style="height:25px;margin:10px;">'
                     + '               <option value="0">预报单</option>'
                     + '               <option value="2">无效单</option>'
-                    + '               <option value="3">合同价</option>'
+                    + '               <option value="3">合同单</option>'
                     + '          </select>'
                     + '     </div>'
                     + '</div>'
