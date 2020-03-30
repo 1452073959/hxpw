@@ -126,14 +126,13 @@
                         <th class="" lay-data="{field:'content',width:300}">施工工艺与材料说明</th>
                         {if($admininfo['userid'] == 1)}
                             <th class="" lay-data="{field:'material',width:200}">所需辅材</th>
+                            <th class="" lay-data="{field:'operation',width:180}">操作</th>
+                            <th class="" lay-data="{field:'fid',width:180}">分公司</th>
                         {/if}
                         <th class="" lay-data="{field:'fine_info',width:200}">所需辅材分类</th>
                         <th class="" lay-data="{field:'status',width:180}">状态</th>
                         <th class="" lay-data="{field:'addtime',width:180}">申请时间</th>
-                        {if($admininfo['userid'] == 1)}
-                            <th class="" lay-data="{field:'operation',width:180}">操作</th>
-                            <th class="" lay-data="{field:'fid',width:180}">分公司</th>
-                        {/if}
+                        
                     </tr>
                 </thead>
                 <tbody> 
@@ -149,6 +148,18 @@
                             <td class="">{$vo.content}</td>
                             {if($admininfo['userid'] == 1)}
                                 <td class="">{$vo.material}</td>
+                                <td class="">
+                                    {if($vo['status'] == 1)}
+                                        <a style="color:red" href="javascript:;" lay-event="add_pmaterial">添加基础项目</a>
+                                        <a style="color:green" href="javascript:;" lay-event="bind_pproject">绑定</a>
+                                    {else /}
+                                        <a style="color:blue">已处理({$vo.p_item_number})</a>
+                                        <!-- <a style="color:green" href="javascript:;" lay-event="change_bind">换绑</a> -->
+                                    {/if}
+                                </td>
+                                <td>
+                                    {$frame[$vo['fid']]['name']}
+                                </td>
                             {/if}
                             <td class="">
                                 {if( isset($vo['fine_info']))}
@@ -176,20 +187,7 @@
                             </td>
                             <td class="">{$vo.addtime}</td>
                             
-                            {if($admininfo['userid'] == 1)}
-                                <td class="">
-                                    {if($vo['status'] == 1)}
-                                        <a style="color:red" href="javascript:;" lay-event="add_pmaterial">添加基础项目</a>
-                                        <a style="color:green" href="javascript:;" lay-event="bind_pproject">绑定</a>
-                                    {else /}
-                                        <a style="color:blue">已处理({$vo.p_item_number})</a>
-                                        <!-- <a style="color:green" href="javascript:;" lay-event="change_bind">换绑</a> -->
-                                    {/if}
-                                </td>
-                                <td>
-                                    {$frame[$vo['fid']]['name']}
-                                </td>
-                            {/if}
+                            
                             
                         </tr>       
                     {/foreach}
