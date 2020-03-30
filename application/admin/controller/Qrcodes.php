@@ -49,7 +49,7 @@ class Qrcodes extends Controller{
         $data=input();
         $data['create_time']=date('Y-m-d H:i:s', time());
 
-        $req=Db::table('fdz_register')->whereTime('create_time','today')->where('uid',$data['uid'])->select();
+        $req=Db::table('fdz_register')->whereTime('create_time','today')->where('name',$data['name'])->select();
         if(count($req)>0){
             return json(['code' => 2, 'msg' => '今日已提交,请明日再来', 'data' => $data]);
         }
