@@ -650,7 +650,7 @@ layui.use('table', function(){
             },'json')
 
         }else if(obj.event=== 'set_status'){
-            if(data.status.indexOf("合同价") >= 0){
+            if(data.status.indexOf("合同单") >= 0){
                 layer.msg('合同价禁止修改标签');
                 return false;
             }
