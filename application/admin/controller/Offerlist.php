@@ -328,7 +328,7 @@ class Offerlist extends Adminbase
             $no_standard = [];
             if(input('no_standard')){
                 $no_standard = input('no_standard');
-                $data['no_standard'] = 1;
+                $data['no_standard'] = 3;
             }
             $content = [];
             $order_project = [];
