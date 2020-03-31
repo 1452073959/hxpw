@@ -401,7 +401,9 @@ class Statistical extends Adminbase
         if (!empty($_GET['address'])) {
             $where[] = ['address', 'like', "%{$_GET['address']}%"];
         }
-        $where[] = ['frameid', '=', $this->_userinfo['companyid']];
+        if($this->_userinfo['roleid'] != 1){
+            $where[] = ['frameid', '=', $this->_userinfo['companyid']];
+        }
         $order = Userlist::with('profile', 'user', 'picking')->where($where)->where('status','>=',3)->where('oid','>','0')->paginate(10,false,['query'=>request()->param()]);
         foreach ($order as $k => $v) {
             $order[$k]['total_picking'] = 0;
@@ -411,7 +413,6 @@ class Statistical extends Adminbase
                 }
             }
         }
-
 
         foreach ($order as $k2 => $v2) {
 
