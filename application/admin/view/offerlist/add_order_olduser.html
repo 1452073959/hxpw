@@ -666,7 +666,7 @@
             btn: ['提交', '取消'],
                 yes: function(index, layero){
                     var add_name = $('#add_name').val();
-                    $.post('/admin/offertype/ajax_add_word',{name:add_name,type:2},function(res){
+                    $.post('/admin/offertype/ajax_add_word',{add_name:[add_name],type:2},function(res){
                         if(res.code === 0){
                             layer.msg(res.msg);
                         }else{
