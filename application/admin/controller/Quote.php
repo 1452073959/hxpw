@@ -352,7 +352,25 @@ class Quote extends Adminbase
                 echo json_encode(array('code'=>0,'msg'=>'工种：'.$v['work_type'].' 不存在，模板失效'));die;
             }
             if(!in_array($v['space'], $offer_type[2])){
-                echo json_encode(array('code'=>0,'msg'=>'空间：'.$v['space'].' 不存在，模板失效'));die;
+                // echo json_encode(array('code'=>0,'msg'=>'空间：'.$v['space'].' 不存在，模板失效'));die;
+                //空间不存在 自动添加该空间
+                if($this->_userinfo['roleid'] == 10){
+                    $adminid = 0;
+                }else{
+                    $adminid = $this->_userinfo['userid'];
+                }
+                $space_data = Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
+                if($offer_type){
+                    if($space_data['status'] == 0){
+                        $has[] = $v;
+                    }elseif($space_data['status'] == 9){
+                        Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
+                    }
+                }else{
+                    Db::name('offer_type')->insert(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
+                }
+                // $offer_type[2][] = $v['space'];
+                //空间不存在 自动添加该空间 end
             }
         }
         //=============验证模板是否有效 end
@@ -522,7 +540,26 @@ class Quote extends Adminbase
                 $this->error('工种：'.$v['work_type'].' 不存在，模板失效');
             }
             if(!in_array($v['space'], $offer_type[2])){
-                $this->error('空间：'.$v['space'].' 不存在，模板失效');
+                // $this->error('空间：'.$v['space'].' 不存在，模板失效');
+                //空间不存在 自动添加该空间
+                if($this->_userinfo['roleid'] == 10){
+                    $adminid = 0;
+                }else{
+                    $adminid = $this->_userinfo['userid'];
+                }
+                $space_data = Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
+                if($offer_type){
+                    if($space_data['status'] == 0){
+                        $has[] = $v;
+                    }elseif($space_data['status'] == 9){
+                        Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
+                    }
+                }else{
+                    Db::name('offer_type')->insert(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
+                }
+                $offer_type[2][] = $v['space'];
+                //空间不存在 自动添加该空间 end
+
             }
             $data[$v['space']][$v['item_number']] = $v['num'];
             $item_number[] = $v['item_number'];
@@ -565,7 +602,25 @@ class Quote extends Adminbase
                     $this->error('工种：'.$v['work_type'].' 不存在，模板失效');
                 }
                 if(!in_array($v['space'], $offer_type_check[2])){
-                    $this->error('空间：'.$v['space'].' 不存在，模板失效');
+                    // $this->error('空间：'.$v['space'].' 不存在，模板失效');
+                    //空间不存在 自动添加该空间
+                    if($this->_userinfo['roleid'] == 10){
+                        $adminid = 0;
+                    }else{
+                        $adminid = $this->_userinfo['userid'];
+                    }
+                    $space_data = Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
+                    if($offer_type){
+                        if($space_data['status'] == 0){
+                            $has[] = $v;
+                        }elseif($space_data['status'] == 9){
+                            Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
+                        }
+                    }else{
+                        Db::name('offer_type')->insert(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
+                    }
+                    $offer_type[2][] = ['name'=>$v['space']];
+                    //空间不存在 自动添加该空间 end
                 }
                 $data[$v['space']][$v['item_number']] = $v['num'];
                 $item_number[] = $v['item_number'];

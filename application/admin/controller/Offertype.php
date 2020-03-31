@@ -90,7 +90,6 @@ class Offertype extends Adminbase
                     die;
                 }
             }
-            
             $res = Db::name('offer_type')->where(['id'=>input('id')])->update(['status'=>9]);
             if($res){
                 echo json_encode(['code'=>1,'msg'=>'删除成功']);

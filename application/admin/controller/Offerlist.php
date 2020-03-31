@@ -249,7 +249,25 @@ class Offerlist extends Adminbase
                         // $this->error('工种：'.$v['type_of_work'].' 不存在，另存订单失败');
                     }
                     if(!in_array($v['space'], $offer_type_check[2])){
-                        $this->error('空间：'.$v['space'].' 不存在，另存订单失败');
+                        // $this->error('空间：'.$v['space'].' 不存在，另存订单失败');
+                        //空间不存在 自动添加该空间
+                        if($this->_userinfo['roleid'] == 10){
+                            $adminid = 0;
+                        }else{
+                            $adminid = $this->_userinfo['userid'];
+                        }
+                        $space_data = Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->find();
+                        if($offer_type){
+                            if($space_data['status'] == 0){
+                                $has[] = $v;
+                            }elseif($space_data['status'] == 9){
+                                Db::name('offer_type')->where(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'adminid'=>$adminid])->update(['status'=>1,'addtime'=>time()]);
+                            }
+                        }else{
+                            Db::name('offer_type')->insert(['name'=>$v['space'],'type'=>2,'companyid'=>$userinfo['companyid'],'addtime'=>time(),'adminid'=>$adminid]);
+                        }
+                        // $offer_type[2][] = $v['space'];
+                        //空间不存在 自动添加该空间 end
                     }
                     $data[$v['space']][$v['item_number']] = 0;
                     $item_number[] = $v['item_number'];
@@ -260,13 +278,22 @@ class Offerlist extends Adminbase
                 $data[$v['space']][$v['item_number']] += $v['num'];
             }
             $item_number = array_unique($item_number);
-            $item_number_num = count($item_number);
+            $fb_num = array_unique($fb_num);
+            // $item_number_num = count($item_number);
             $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
-            if($item_number_num != (count($offerquota)+count(array_unique($fb_num)))){
-                $this->error('订单部分项目不全，另存订单失败');
+            $offerquota = array_column($offerquota, null,'item_number');
+            $key_offerquota = array_keys($offerquota);
+            if(count($item_number) != (count($offerquota)+count($fb_num))){
+                // $this->error('订单部分项目不全，另存订单失败');
+                foreach($data as $k=>$v){
+                    foreach($v as $k1=>$v1){
+                        if(!in_array($k1, $key_offerquota)){
+                            unset($data[$k][$k1]);
+                        }
+                    }
+                }
             }
             $order_info = Db::name('offerlist')->where(['id'=>input('report_id')])->find();
-            $offerquota = array_column($offerquota, null,'item_number');
             $order_project = array_column($order_project, null,'item_number');
             Cache::rm('tso_'.input('customer_id').$userinfo['userid']);
             Cache::rm('tson_'.input('customer_id').$userinfo['userid']);
