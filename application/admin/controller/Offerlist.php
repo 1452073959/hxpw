@@ -313,10 +313,10 @@ class Offerlist extends Adminbase
             'tmp_cost'=>$tmp_cost,
             'f_name'=>$f_name,
         ]);
-        if($customer_info['is_new'] == 9){
-            //旧客户 可以改单价
-            return $this->fetch('add_order_olduser');
-        }
+        // if($customer_info['is_new'] == 9){
+        //     //旧客户 可以改单价
+        //     return $this->fetch('add_order_olduser');
+        // }
         $res1=Db::table('fdz_cost_tmp')->where('f_id',$userinfo['companyid'])->value('default_template');
         $this->assign([ 'res1'=>$res1 ]);
         return $this->fetch();
@@ -1289,15 +1289,15 @@ class Offerlist extends Adminbase
             
             $bao['area'] = $data['area'];
             $bao['room_type'] = $data['room_type'];
-            $bao['is_new'] = $data['is_new'];
+            // $bao['is_new'] = $data['is_new'];
             $bao['house_type'] = $data['house_type'];
-            if($bao['is_new'] == 9){
-                if($data['oldtime']){
-                    $bao['oldtime'] = strtotime($data['oldtime']);
-                }else{
-                    $this->error('旧客户请填写签单时间');
-                }
-            }
+            // if($bao['is_new'] == 9){
+            //     if($data['oldtime']){
+            //         $bao['oldtime'] = strtotime($data['oldtime']);
+            //     }else{
+            //         $this->error('旧客户请填写签单时间');
+            //     }
+            // }
 
             if($data['areas']){
                 $areas = explode('-', $data['areas']);
