@@ -2359,6 +2359,7 @@ class BasisData extends Adminbase{
                 $info['phr']  = trim($sheet->getCell("I".$i)->getValue()); 
                 $info['source']  = trim($sheet->getCell("J".$i)->getValue()); 
                 $info['status']  = 1;
+                $info['warehouse_id']  = trim($sheet->getCell("K".$i)->getValue());
 
 
                 if( empty($info['in_price']) && empty($info['price']) && empty($info['pack']) && empty($info['phr']) && empty($info['source'])){
