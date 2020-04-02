@@ -731,32 +731,46 @@ class Offerlist extends Adminbase
             if($in > 0){
                 $this->error('一个客户只能拥有一份合同价');
             }
-            $offerlist=  Db::table('fdz_offerlist')->where('id',input('o_id'))->value('no_standard');
-            if($offerlist==1){
-                $this->error('该订单有非标,请审核后再变更');
-            }else if($offerlist==3){
-                $this->error('该订单正在审核,请在审核后变更');
-            }else if($offerlist==4) {
-                $this->error('该订单正在审核,请在审核后变更');
-            }
-            else if($offerlist==6){
-                $this->error('该订单非标被驳回,无法变更');
-            }else{
-                $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
-                if($info){
-                    // 成功上传后 获取上传信息
-                    $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
-                    Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
-                    Model('offerlist')->statistical_order(input('o_id'));
-                    if($res){
-                        $this->success('修改成功');
-                    }else{
-                        $this->error('修改失败');
-                    }
+            // $no_standard=  Db::table('fdz_offerlist')->where('id',input('o_id'))->value('no_standard');
+            // if($offerlist==1){
+            //     $this->error('该订单有非标,请审核后再变更');
+            // }else if($offerlist==3){
+            //     $this->error('该订单正在审核,请在审核后变更');
+            // }else if($offerlist==4) {
+            //     $this->error('该订单正在审核,请在审核后变更');
+            // }else if($offerlist==6){
+            //     $this->error('该订单非标被驳回,无法变更');
+            // }else{
+            //     $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
+            //     if($info){
+            //         // 成功上传后 获取上传信息
+            //         $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
+            //         Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
+            //         Model('offerlist')->statistical_order(input('o_id'));
+            //         if($res){
+            //             $this->success('修改成功');
+            //         }else{
+            //             $this->error('修改失败');
+            //         }
+            //     }else{
+            //         // 上传失败获取错误信息
+            //         $this->error($file->getError());
+            //     }
+            // }
+            $info = $file->validate(['size'=>10485760])->move( './uploads/cad');
+            if($info){
+                // 成功上传后 获取上传信息
+                $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['status'=>3,'cad_file'=>$info->getSaveName()]);
+                Db::name('userlist')->where(['id'=>input('customer_id')])->update(['status'=>2,'sign_bill_time'=>time(),'oid'=>input('o_id')]);
+                Model('offerlist')->statistical_order(input('o_id'));
+                if($res){
+                    $this->success('修改成功');
                 }else{
-                    // 上传失败获取错误信息
-                    $this->error($file->getError());
+                    $this->error('修改失败');
                 }
+            }else{
+                // 上传失败获取错误信息
+                $this->error($file->getError());
             }
         }else{
             $this->error('未上传图片');
