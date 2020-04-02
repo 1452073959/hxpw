@@ -17,38 +17,36 @@
     <table class="layui-table">
         <tr style="text-align: center">
             <td colspan="1">客户姓名:{$userinfo.customer_name}</td>
-
             <td colspan="2">工程地址:{$userinfo.address}</td>
-            <td colspan="1">客户电话:{$userinfo.phone}</td>
+            <td colspan="2">客户电话:{$userinfo.phone}</td>
         </tr>
         <tr>
-            <td>面积：{$userinfo.area}</td>
-            <td>房屋类型：{$userinfo.room_type}</td>
-            <td>报价师姓名：{$userinfo.quoter_name}</td>
-            <td>设计师姓名：{$userinfo.designer_name}</td>
+
         </tr>
         <tr>
             <td>工程经理：{$userinfo.gcjl.name}</td>
             <td>质检：{$userinfo.zj.name}</td>
             <td>监理：{$userinfo.user.name}</td>
-            <td>商务经理：{$userinfo.manager_name}</td>
+            <td colspan="2">商务经理：{$userinfo.manager_name}</td>
         </tr>
         <tr>
-            <th>辅材名称</th>
-            <th>领料数量</th>
-            <th>单价</th>
-            <th>合计</th>
+            <td>辅材名称</td>
+            <td>规格</td>
+            <td>领料数量</td>
+            <td>单价</td>
+            <td>合计</td>
         </tr>
         {foreach $reality as $k=>$v}
         <tr>
             <td>{$v.m_name}</td>
+            <td>{$v.phr}</td>
             <td>{$v.actual_num}</td>
             <td>{$v.price}</td>
             <td>{$v.price*$v.actual_num}</td>
         </tr>
         {/foreach}
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 自购/订单领料
             </td>
             <td>
@@ -56,7 +54,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 总计
             </td>
             <td>
