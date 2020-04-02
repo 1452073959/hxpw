@@ -257,9 +257,9 @@ th{
                                             </td>
                                             {else/}
                                             <td>{$v2['info']['quota']}</td>
-                                            <td>{$v2.num?$v2.num*$v2['info']['quota']:''}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['quota']:'0'}</td>
                                             <td>{$v2['info']['craft_show']}</td>
-                                            <td>{$v2.num?$v2.num*$v2['info']['craft_show']:''}</td>
+                                            <td>{$v2.num?$v2.num*$v2['info']['craft_show']:'0'}</td>
                                             {/if}
                                                 <td>{$v2['info']['material']}</td>
                                                 <input type="hidden" form="myform" name="" value="">
