@@ -76,11 +76,11 @@ class Offerlist extends Adminbase
                 $datas[$v['uid']]['room_type'] = $v['room_type'];
                 $datas[$v['uid']]['addtime'] = date('Y-m-d',$v['addtime']);
             }
-            $order_info = Model('offerlist')->get_order_info($v['oid']);
+            $order_info = Model('offerlist')->get_order_info($v['oid'],2);
             $order = [];
             $order['oid'] = $v['oid'];
-            $order['direct_cost'] = $order_info['direct_cost'];
-            $order['discount_proquant'] = $order_info['discount_proquant'];
+            $order['direct_cost'] = round($order_info['direct_cost'],2);
+            $order['discount_proquant'] = round($order_info['discount_proquant'],2);
             //折扣
             if($v['discount_type'] == 2){
                 $order['discount'] = '整单'. $v['discount_num']/10 .'折';
