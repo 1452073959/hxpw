@@ -286,7 +286,7 @@ th{
                             <?php }?>
                             
                             <tr>
-                                <td class="text-left" colspan="2">直接费</td>
+                                <td class="text-left" colspan="2">直接费{if(in_array($order_info['frameid'],[204,176]))}(A){/if}</td>
                                 <td colspan="6">{$total_quota+$total_craft_show}</td>
                                 <td></td>
                             </tr>
