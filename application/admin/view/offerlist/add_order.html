@@ -122,15 +122,16 @@
                 </div>
                 <div class="layui-inline">
                     <select name="tmp_cost" class="select_tmp">
-                        {if $res1==0}
-                        <option value=''>选择取费模板</option>
-                        {foreach $tmp_cost as $key=>$vo }
-                        <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
-                        {/foreach}
+                        {if($res1)}
+                            {foreach $tmp_cost as $key=>$vo }
+                                <option value=''>选择取费模板</option>
+                                <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                            {/foreach}
                         {else/}
-                        {foreach $tmp_cost as $key=>$vo }
-                        <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
-                        {/foreach}
+                            <option value=''>选择取费模板</option>
+                            {foreach $tmp_cost as $key=>$vo }
+                                <option value="{$vo['tmp_id']}" {if($key===0)}selected{/if}>{$vo['tmp_name']}</option>
+                            {/foreach}
                         {/if}
                     </select>
                 </div>
@@ -706,7 +707,7 @@
                 }  
                 datas[this.name].push(this.value || '');  
             } else {  
-                datas[this.name] = this.value || '';  
+                datas[this.name] = this.value || '';
             }  
         });  
         datas['framename'] = unit;  
@@ -744,16 +745,95 @@
         layui.use('layer', function(){
             $.post('/admin/quote/ajax_get_tmp_list',{},function(res){
                 if(res.code == 1){
-                    var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center"></th><th style="text-align:center">模板名称</th><th style="text-align:center">备注</th><th style="text-align:center">修改时间</th></tr></thead><tbody>';
+                    var html = ''
+                    html += '<div class="layui-tab">'
+                    html += '   <ul class="layui-tab-title">'
+                    html += '       <li class="layui-this">导入报价模板</li>'
+                    html += '       <li>导入客户报价</li>'
+                    html += '   </ul>'
+                    html += '   <div class="layui-tab-content">'
+                    html += '       <div class="layui-tab-item layui-show">'
+                    html += '           <table style="text-align:center" class="layui-table"><thead>'
+                    html += '              <tr>'
+                    html += '                 <th style="text-align:center"></th>'
+                    html += '                 <th style="text-align:center">模板名称</th>'
+                    html += '                 <th style="text-align:center">备注</th>'
+                    html += '                 <th style="text-align:center">修改时间</th>'
+                    html += '              </tr>'
+                    html += '           </thead>';
+                    html += '           <tbody>';
                     $(res.datas).each(function(k,v){
-                        html += '<tr><td><a style="color:#fb8c4c" href="javascript:;" onclick="check_tmp(this)" data-tid="'+v.tmp_id+'">选择</a></td><td>'+v.tmp_name+'</td><td>'+v.remark+'</td><td>'+v.update_time+'</td></tr>'
+                    html += '               <tr>'
+                    html += '                 <td><a style="color:#fb8c4c" href="javascript:;" onclick="check_tmp(this)" data-tid="'+v.tmp_id+'">选择</a></td>'
+                    html += '                 <td>'+v.tmp_name+'</td><td>'+v.remark+'</td>'
+                    html += '                 <td>'+v.update_time+'</td>'
+                    html += '               </tr>'
                     })
                     html+= '</tbody></table>'
-                    layer.open({
-                        title: '选择模板',
-                        area: ['600px', '500px'],
-                        content:html
-                    }); 
+                    html += '       </div>';
+                    html += '       <div class="layui-tab-item">';
+                    html += '           <table style="text-align:center" class="layui-table"><thead>'
+                    html += '              <tr>'
+                    html += '                 <th style="text-align:center"></th>'
+                    html += '                 <th style="text-align:center">客户名称</th>'
+                    html += '                 <th style="text-align:center">地址</th>'
+                    html += '                 <th style="text-align:center">房屋类型</th>'
+                    html += '                 <th style="text-align:center">面积</th>'
+                    html += '                 <th style="text-align:center">设计师</th>'
+                    html += '                 <th style="text-align:center">添加时间</th>'
+                    html += '              </tr>'
+                    html += '           </thead>';
+                    html += '           <tbody>';
+                    $.post('/admin/offerlist/get_userlist_order',{},function(order){
+                        if(order.code == 1){
+                            // $(order.data).each(function(k1,v1){
+                            $.each(order.data,function(k1,v1){
+                                html += '               <tr>'
+                                html += '                 <td><a style="color:#fb8c4c" href="javascript:;" class="tr_operation" onclick="open_tr(this)" data-id="'+k1+'">展开</a></td>'
+                                html += '                 <td>'+v1.customer_name+'</td>'
+                                html += '                 <td>'+v1.address+'</td>'
+                                html += '                 <td>'+v1.room_type+'</td>'
+                                html += '                 <td>'+v1.area+'²</td>'
+                                html += '                 <td>'+v1.designer_name+'</td>'
+                                html += '                 <td>'+v1.addtime+'</td>'
+                                html += '               <tr class="zk_'+k1+' order_tr" style="display:none;background-color:#eee">'
+                                html += '                 <td></td>'
+                                html += '                 <td>状态</td>'
+                                html += '                 <td>工程报价</td>'
+                                html += '                 <td>直接费</td>'
+                                html += '                 <td>折扣</td>'
+                                html += '                 <td>取费模板</td>'
+                                html += '                 <td>录入时间</td>'
+                                html += '               </tr>'
+                                html += '               </tr>'
+                                $.each(v1.order,function(k2,v2){
+                                    html += '               <tr class="zk_'+k1+' order_tr" style="display:none">'
+                                    html += '                 <td><a href="javascript:;" onclick="check_order('+v2.oid+')">选择</a></td>'
+                                    html += '                 <td>'+v2.status+'</td>'
+                                    html += '                 <td>'+v2.discount_proquant+'</td>'
+                                    html += '                 <td>'+v2.direct_cost+'</td>'
+                                    html += '                 <td>'+v2.discount+'</td>'
+                                    html += '                 <td>'+v2.tmp_name+'</td>'
+                                    html += '                 <td>'+v2.addtime+'</td>'
+                                    html += '               </tr>'
+                                })
+                            })
+                        }
+                        html+= '</tbody></table>'
+                        html += '       </div>';
+                        html += '   </div>';
+                        html += '</div>';
+                        layer.open({
+                            title: '选择模板',
+                            area: ['80%', '60%'],
+                            content:html,
+                            success:function(){
+                                layui.use('element', function(){
+                                  var element = layui.element;
+                                });
+                            }
+                        }); 
+                    },'json')
                 }else{
                     layer.msg(res.msg);
                 }
@@ -761,7 +841,120 @@
         }); 
     })
 
+    function open_tr(o){
+        $('.order_tr').hide();
+        $('.tr_operation').text('展开');
+        $('.tr_operation').attr('onclick','open_tr(this)');
+
+        $(o).text('关闭');
+        $(o).attr('onclick','close_tr(this)');
+        var id = $(o).attr('data-id');
+        $('.zk_'+id).show();
+
+    }
+    function close_tr(o){
+        $(o).text('展开');
+        $(o).attr('onclick','open_tr(this)');
+        var id = $(o).attr('data-id');
+        $('.zk_'+id).hide();
+    }
     
+    function check_order(oid){
+        $.post('/admin/offerlist/ajax_get_tmp_order',{oid:oid},function(res){
+            if(res.code == 1){
+                // var offerquota = res.offerquota;
+                var tmp_cost_id = res.tmp_cost_id;
+                if(tmp_cost_id){
+                    $("select[name='tmp_cost']").find("option").attr("selected",false);
+                    $("select[name='tmp_cost']").find("option[value="+tmp_cost_id+"]").attr("selected",true);
+                }
+                var datas = res.datas;
+                var is_in = 0;
+                $(res.datas).each(function(k,v){
+                    if($('input[data-project="'+v.space+'-'+v.item_number+'"]').length > 0){
+                        is_in = 1;
+                        return true;
+                    }
+                    var project = '';
+                    //不要工种分类
+                    v.work_type = '所有工种';
+                    project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                    if(v.type_of_work == '非标报价'){
+                        project +=  '<input type="hidden" class="name" name="no_standard['+v.space+']['+v.item_number+'][name]" value="'+v.project+'" />'
+                        project +=  '<input type="hidden" class="unit" name="no_standard['+v.space+']['+v.item_number+'][unit]" value="'+v.company+'" />'
+                        project +=  '<input type="hidden" class="mprice" name="no_standard['+v.space+']['+v.item_number+'][mprice]" value="'+v.quota+'" />'
+                        project +=  '<input type="hidden" class="aprice" name="no_standard['+v.space+']['+v.item_number+'][aprice]" value="'+v.craft_show+'" />'
+                        project +=  '<input type="hidden" class="content" name="no_standard['+v.space+']['+v.item_number+'][content]" value="'+v.material+'" />'
+                    }
+                    project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
+                    if(v.type_of_work == '非标报价'){
+                        project += '<td><span style="color:red">非标</span></td>'; 
+                    }else{
+                       project += '<td>'+v.item_number+'</td>'; 
+                    }
+                    project += '<td>'+v.project+'</td>';
+                    project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
+                    project += '<td>'+v.company+'</td>';
+                    project += '<td>'+v.quota+'</td>';
+                    project += '<td></td>';
+                    project += '<td>'+v.craft_show+'</td>';
+                    project += '<td></td>';
+                    project += '</tr>';
+                    if($('tr[data-space="'+v.work_type+'-'+v.space+'"]').length > 0){
+                        $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
+                    }else{
+                        //空间不存在 新建空间
+                        var space_html = '';
+                        space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
+                        space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
+                        space_html += '<td></td>'
+                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+                        space_html += '<td colspan="1"></td>';
+                        space_html += '<td class="space_material_total" colspan="1"></td>';
+                        space_html += '<td colspan="1"></td>';
+                        space_html += '<td class="space_artificial_total" colspan="1"></td>';
+                        space_html += '</tr>'
+                        //判断工种是否不存 
+                        if($('tr[data-word="'+v.work_type+'"]').length > 0){
+                            $('tr[data-inword="'+v.work_type+'"]').last().after(space_html);
+                            $('tr[data-inspace="'+v.space+'"][data-inword="'+v.work_type+'"]').last().after(project);
+                        }else{
+                            //不存在 添加工种
+                            var word_html = '';
+                            word_html += '<tr class="word" data-word="'+v.work_type+'" data-inword="'+v.work_type+'">';
+                            word_html += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
+                            word_html += '<td colspan="4" style="text-align: left;padding-left:10px">'+v.work_type+'</td>';
+                            word_html += '<td colspan="1"></td>';
+                            word_html += '<td class="word_material_total" colspan="1"></td>';
+                            word_html += '<td colspan="1"></td>';
+                            word_html += '<td class="word_artificial_total" colspan="1"></td>';
+                            word_html += '</tr>';
+                            $('#project_datas').append(word_html);
+                            $('tr[data-word="'+v.work_type+'"]').after(space_html);
+                            $('tr[data-space="'+v.work_type+'-'+v.space+'"]').after(project);
+                        }
+                    }
+                })
+                layer.close(layer.open());
+                if(is_in){
+                    layer.msg('导入成功，部分重复项目已自动过滤');
+                }else{
+                    if(res.msg){
+                        layer.msg('导入成功，部分项目不全，已自动删除');
+                    }else{
+                        layer.msg('导入成功');
+                    }
+                    
+                }
+                set_sort();
+                save_order();
+                initialize_datas();
+                // $('#seach_datas').append(html);
+            }else{
+                layer.msg(res.msg);
+            }
+        },'json') 
+    }
 
     function check_tmp(o){
         var tmp_id = $(o).data('tid');

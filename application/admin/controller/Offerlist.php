@@ -32,6 +32,72 @@ class Offerlist extends Adminbase
     // }
     public $search = [ 'customer_name','quoter_name','designer_name','address','manager_name' ];
     public $show_page = 15;
+    public $status = [0=>'预报单',1=>'预报单',2=>'无效单',3=>'合同单(未审)',4=>'合同单',5=>'待结算',6=>'结算单'];
+
+    //获取报价详情 用户导入报价
+    public function ajax_get_tmp_order(){
+        $oid = input('oid');
+        $field = 'item_number,num,type_of_work,space,project,company,cost_value,quota,craft_show,labor_cost,type,of_fb';
+        $order_project = Db::name('order_project')->field($field)->where(['o_id'=>$oid])->order('id','asc')->select();
+        $item_number = array_unique(array_column($order_project, 'item_number'));
+        $offerquota = array_column(Db::name('offerquota')->where(['frameid'=>$this->_userinfo['companyid'],'item_number'=>$item_number])->select(),null, 'item_number');
+        foreach($order_project as $k=>$v){
+            if(!isset($offerquota[$v['item_number']]) && $v['type_of_work'] != '非标报价'){
+                unset($order_project[$k]);
+                continue;
+            }
+        }
+        //获取该订单的取费模板
+        $tmp_cost_id = Db::name('offerlist')->where(['id'=>$oid])->value('tmp_cost_id');
+        ksort($order_project);
+        echo json_encode(array('code'=>1,'datas'=>$order_project,'tmp_cost_id'=>$tmp_cost_id));
+    }
+
+    //获取客户列表 用于导入客户报价
+    public function get_userlist_order(){
+        $where = [];
+        $where['u.userid'] = $this->_userinfo['userid'];
+        $field = 'u.id as uid,u.userid,u.customer_name,u.quoter_name,u.designer_name,u.manager_name,u.address,u.area,u.room_type,u.addtime';
+        $field .= ',o.status,o.id as oid,o.discount_type,o.discount_num,o.discount,o.tmp_cost_id,o.entrytime';
+        $offerlist = Db::name('offerlist')->where($where)->field($field)->alias('o')->join('userlist u','u.id = o.customerid')->select();
+        //获取取费模板
+        $tmp_cost = array_column(Db::name('tmp_cost')->where(['f_id'=>$this->_userinfo['companyid']])->select(),'tmp_name','tmp_id');
+        // var_dump($offerlist);die;
+        $datas = [];
+        foreach($offerlist as $k=>$v){
+            if(!isset($datas[$v['uid']])){
+                $datas[$v['uid']]['uid'] = $v['uid'];
+                $datas[$v['uid']]['customer_name'] = $v['customer_name'];
+                $datas[$v['uid']]['quoter_name'] = $v['quoter_name'];
+                $datas[$v['uid']]['designer_name'] = $v['designer_name'];
+                $datas[$v['uid']]['manager_name'] = $v['manager_name'];
+                $datas[$v['uid']]['address'] = $v['address'];
+                $datas[$v['uid']]['area'] = $v['area'];
+                $datas[$v['uid']]['room_type'] = $v['room_type'];
+                $datas[$v['uid']]['addtime'] = date('Y-m-d',$v['addtime']);
+            }
+            $order_info = Model('offerlist')->get_order_info($v['oid']);
+            $order = [];
+            $order['oid'] = $v['oid'];
+            $order['direct_cost'] = $order_info['direct_cost'];
+            $order['discount_proquant'] = $order_info['discount_proquant'];
+            //折扣
+            if($v['discount_type'] == 2){
+                $order['discount'] = '整单'. $v['discount_num']/10 .'折';
+            }else if($v['discount_type'] == 3){
+                $order['discount'] = '人工'. $v['discount_num']/10 .'折';
+            }else if($v['discount_type'] == 2){
+                $order['discount'] = '现金优惠￥'. $v['discount'];
+            }else{
+                $order['discount'] = '无';
+            }
+            $order['status'] = $this->status[$v['status']];
+            $order['tmp_name'] = $tmp_cost[$v['tmp_cost_id']];
+            $order['addtime'] = date('Y-m-d',$v['entrytime']);
+            $datas[$v['uid']]['order'][] = $order;
+        }
+        $this->success('success','',$datas);
+    }
 
     //获取报价单(打印的最下面)备注
     public function set_o_remark(){
@@ -234,7 +300,7 @@ class Offerlist extends Adminbase
             $this->error('非本公司客户禁止报价');
         }
         //取费模板
-        $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->select();
+        $tmp_cost = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->order('id','desc')->select();
         //另存订单
         if(input('report_id')){
             $order_project = Db::name('order_project')->where(['o_id'=>input('report_id')])->select();

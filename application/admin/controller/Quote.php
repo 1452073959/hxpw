@@ -34,6 +34,7 @@ class Quote extends Adminbase
         $res = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'status'=>1])->group('tmp_id')->order('id','desc')->select();
         $this->assign([ 'datas'=>$res ]);
         $this->assign([ 'res1'=>$res1 ]);
+        $this->assign([ 'admininfo'=>$userinfo ]);
         return $this->fetch();
     }
     //设置默认取费模板
