@@ -92,7 +92,7 @@ class Offerlist extends Adminbase
                 $order['discount'] = '无';
             }
             $order['status'] = $this->status[$v['status']];
-            $order['tmp_name'] = $tmp_cost[$v['tmp_cost_id']];
+            $order['tmp_name'] = isset($tmp_cost[$v['tmp_cost_id']])?$tmp_cost[$v['tmp_cost_id']]:'';
             $order['addtime'] = date('Y-m-d',$v['entrytime']);
             $datas[$v['uid']]['order'][] = $order;
         }
