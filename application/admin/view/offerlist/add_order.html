@@ -344,8 +344,8 @@
                         alert('单价格式错误');
                         return false;
                     }
-                    if(!name || !unit){
-                        alert('项目名称或单位 不能为空');
+                    if(!name || !unit || !content){
+                        alert('项目名称或单位或工艺说明 不能为空');
                         return false;
                     }
                     var project = '';
