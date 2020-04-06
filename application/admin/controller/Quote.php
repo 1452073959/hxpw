@@ -566,14 +566,26 @@ class Quote extends Adminbase
             $item_number[] = $v['item_number'];
         }
         $item_number = array_unique($item_number);
-        $item_number_num = count($item_number);
+        // $item_number_num = count($item_number);
         $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
-        if($item_number_num != count($offerquota)){
+        $offerquota = array_column($offerquota, null,'item_number');
+        if(count($item_number) != count($offerquota)){
+            $no_exist = [];
+            foreach ($data as $k1 => $v1) {
+                foreach ($v1 as $k2 => $v2) {
+                    if(!isset($offerquota[$k2])){
+                        unset($data[$k1][$k2]);
+                        $no_exist[] = $k2;
+                    }
+                }
+            }
+            if($no_exist){
+                Db::name('tmp')->where(['tmp_id'=>$tmp_id,'item_number'=>$no_exist])->delete();
+            }
             $item_number1 = array_column($offerquota, 'item_number');
             $arr = array_diff($item_number, $item_number1);
-            $this->error('模板部分项目不全，模板失效  '. implode(',', $arr));
+            // $this->error('模板部分项目不全，模板失效  '. implode(',', $arr));
         }
-        $offerquota = array_column($offerquota, null,'item_number');
         $this->assign([ 
                 'data'=>$data,
                 'offerquota'=>$offerquota,
@@ -627,12 +639,30 @@ class Quote extends Adminbase
                 $item_number[] = $v['item_number'];
             }
             $item_number = array_unique($item_number);
-            $item_number_num = count($item_number);
+            // $item_number_num = count($item_number);
             $offerquota = Db::name('offerquota')->where(['item_number'=>$item_number,'frameid'=>$userinfo['companyid']])->select();
-            if($item_number_num != count($offerquota)){
-                $this->error('模板部分项目不全，模板失效');
-            }
+            // if($item_number_num != count($offerquota)){
+            //     $this->error('模板部分项目不全，模板失效');
+            // }
             $offerquota = array_column($offerquota, null,'item_number');
+            if(count($item_number) != count($offerquota)){
+                $no_exist = [];
+                foreach ($data as $k1 => $v1) {
+                    foreach ($v1 as $k2 => $v2) {
+                        if(!isset($offerquota[$k2])){
+                            unset($data[$k1][$k2]);
+                            $no_exist[] = $k2;
+                        }
+                    }
+                }
+                if($no_exist){
+                    Db::name('tmp')->where(['tmp_id'=>input('tmp_id'),'item_number'=>$no_exist])->delete();
+                }
+                // $item_number1 = array_column($offerquota, 'item_number');
+                // $arr = array_diff($item_number, $item_number1);
+                // $this->error('模板部分项目不全，模板失效  '. implode(',', $arr));
+            }
+            // $offerquota = array_column($offerquota, null,'item_number');
             $this->assign([ 
                 'data'=>$data,
                 'offerquota'=>$offerquota,
