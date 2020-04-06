@@ -3,6 +3,26 @@
 <style type="text/css">
     .fenname{padding:10px;padding-right:8px;line-height:30px}
     #sougs{line-height:35px;background-color:#009688;color:#fff;padding:5px;border-radius:2px;cursor:pointer;}
+    .bred{
+        color: red;
+    }
+    .add{
+      display: block;
+      float: left;
+      line-height: 38px;
+      width: 38px;
+      text-align: center;
+      border:1px solid #eee;
+      margin-right: 5px;
+    }
+    .delete{
+      display: block;
+      float: left;
+      line-height: 38px;
+      width: 38px;
+      text-align: center;
+      border:1px solid #eee;
+    }
 </style>
 <div class="layui-card">
     <div class="layui-card-header">添加</div>
@@ -10,7 +30,7 @@
         <form class="layui-form form-horizontal" action="{:url('admin/Offerlist/user_edit')}" method="post">
             
             <div class="layui-form-item">
-                <label class="layui-form-label">客户姓名 </label>
+                <label class="layui-form-label">客户姓名<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="customer_name" autocomplete="off" required="" placeholder="" class="layui-input" value="{$data.customer_name|default=''}">
                 </div>
@@ -22,13 +42,13 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">房屋面积</label>
+                <label class="layui-form-label">房屋面积<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="area" autocomplete="off" lay-verify="required|number" class="layui-input" value="{$data.area|default=''}">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">工程地址</label>
+                <label class="layui-form-label">工程地址<i class="bred">*</i></label>
                 <div class="layui-input-inline">
                     <select name="provinces" lay-filter="provinces" data-type=1 lay-verify="required" lay-search>
                         <option value="">请选择省份</option>
@@ -55,7 +75,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">详细地址</label>
+                <label class="layui-form-label">详细地址<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
                     <input type="text" name="address" lay-verify="required" value="<?php echo str_replace($address,'',$data['address']) ?>" autocomplete="off" placeholder="" class="layui-input">
                 </div>
@@ -63,33 +83,100 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">商务经理</label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="manager_name" disabled autocomplete="off" placeholder="" class="layui-input" value="{$data.manager_name|default=''}">
+                    <select name="manager_id" lay-filter="" lay-verify="" lay-search>
+                        <option value=""></option>
+                        {if(isset($personnel_datas[3]))}
+                            {foreach $personnel_datas[3] as $k=>$v } 
+                                <option {if($data['manager_id'] == $v['id'])}selected{/if} value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
+                        {if(isset($personnel_datas[2]))}
+                            {foreach $personnel_datas[2] as $k=>$v } 
+                                <option {if($data['manager_id'] == $v['id'])}selected{/if} value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
+                    </select>
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">报价师</label>
+                <label class="layui-form-label">报价师<i class="bred">*</i></label>
                 <div class="layui-input-inline w300">
-                    <input type="text" name="quoter_name" disabled autocomplete="off" placeholder="" class="layui-input" value="{$data.quoter_name|default=''}">
+                    <select name="quoter_id" lay-filter="" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        {if(isset($personnel_datas[3]))}
+                            {foreach $personnel_datas[3] as $k=>$v} 
+                                <option {if($data['quoter_id'] == $v['id'])}selected{/if} value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
+                        {if(isset($personnel_datas[2]))}
+                            {foreach $personnel_datas[2] as $k=>$v } 
+                                <option {if($data['quoter_id'] == $v['id'])}selected{/if} value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        {/if}
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">设计师</label>
-                <div class="layui-input-inline w300">
-                    <input type="text" name="designer_name" disabled autocomplete="off" placeholder="" class="layui-input" value="{$data.designer_name|default=''}">
-                </div>
+                <label class="layui-form-label">设计师<i class="bred">*</i></label>
+                {foreach(:explode(',',$data['designer_id']) as $k=>$v)}
+                    <div class="layui-input-inline w300">
+                        <select name="designer_id[]" lay-filter="" lay-verify="required" lay-search>
+                            <option {if($v == 0)}selected{/if} value="0">其他</option>
+                            {if(isset($personnel_datas[1]))}
+                                {foreach $personnel_datas[1] as $k1=>$v1 } 
+                                    <option {if($v == $v1['id'])}selected{/if} value="{$v1.id}">{$v1.name}</option>
+                                {/foreach}
+                            {/if}
+                            {if(isset($personnel_datas[15]))}
+                                {foreach $personnel_datas[15] as $k1=>$v1 } 
+                                    <option {if($v == $v1['id'])}selected{/if} value="{$v1.id}">{$v1.name}</option>
+                                {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                {/foreach}
+                <a href="javascript:;" class="add">＋</a>
+                <a href="javascript:;" class="delete">-</a>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">画图</label>
-                <div class="layui-input-inline w300">
-                    <input type="text" name="" disabled autocomplete="off" placeholder="" class="layui-input" value="{$personnel[$data['assistant_id']]['name']|default='其他'}">
-                </div>
+                <label class="layui-form-label">画图<i class="bred">*</i></label>
+                {foreach(:explode(',',$data['assistant_id']) as $k=>$v)}
+                    <div class="layui-input-inline w300">
+                        <select name="assistant_id[]" lay-filter="" lay-verify="required" lay-search>
+                            <option {if($v == 0)}selected{/if} value="0">其他</option>
+                            {if(isset($personnel_datas[1]))}
+                                {foreach $personnel_datas[1] as $k1=>$v1 } 
+                                    <option {if($v == $v1['id'])}selected{/if} value="{$v1.id}">{$v1.name}</option>
+                                {/foreach}
+                            {/if}
+                            {if(isset($personnel_datas[15]))}
+                                {foreach $personnel_datas[15] as $k1=>$v1 } 
+                                    <option {if($v == $v1['id'])}selected{/if} value="{$v1.id}">{$v1.name}</option>
+                                {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                {/foreach}
+                <a href="javascript:;" class="add">＋</a>
+                <a href="javascript:;" class="delete">-</a>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">业务员</label>
-                <div class="layui-input-inline w300">
-                    <input type="text" name="" disabled autocomplete="off" placeholder="" class="layui-input" value="{$personnel[$data['sale_id']]['name']|default='其他'}">
-                </div>
+                <label class="layui-form-label">业务员<i class="bred">*</i></label>
+                {foreach(:explode(',',$data['sale_id']) as $k=>$v)}
+                    <div class="layui-input-inline w300">
+                        <select name="sale_id[]" lay-filter="" lay-verify="required" lay-search>
+                            <option {if($v == 0)}selected{/if} value="0">其他</option>
+                            {if(isset($personnel))}
+                                {foreach $personnel as $k1=>$v1 } 
+                                    <option {if($v == $v1['id'])}selected{/if} value="{$v1.id}">{$v1.name}</option>
+                                {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                {/foreach}
+                <a href="javascript:;" class="add">＋</a>
+                <a href="javascript:;" class="delete">-</a>
             </div>
 
             <div class="layui-form-item">
@@ -147,16 +234,14 @@
                     <input type="radio" name="house_type" lay-filter="" value="2" title="旧房" {eq name="$data['house_type']" value="2"}checked{/eq}>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <!-- <div class="layui-form-item">
                 <label class="layui-form-label">客户状态</label>
                 <div class="layui-input-block">
-                    <!-- layui-hide -->
                     <input type="radio" name="is_new" disabled lay-filter="is_new" value="1" title="新客户" {eq name="$data['is_new']" value="1"}checked{/eq}>
                     <input type="radio" name="is_new" disabled lay-filter="is_new" value="9" title="旧客户" {eq name="$data['is_new']" value="9"}checked{/eq}>
-                    <!-- <input type="text" class="layui-input layui-hide w100" style="display: inline;" name="oldtime" id="oldtime" placeholder="签单时间" > -->
                     
                 </div>
-            </div>
+            </div> -->
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
@@ -172,6 +257,19 @@
 {block name="script"}
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    $('.add').click(function(){
+        $(this).before($(this).prev().prop("outerHTML"));
+        layui.use('form', function(){
+            var form = layui.form;  
+            form.render('select'); //刷新select选择框渲染
+        });
+    })
+    $('.delete').click(function(){
+        var num = $(this).prevAll().length;
+        if(num > 3){
+            $(this).prevAll().eq(num-3).remove();
+        }
+    })
     layui.use('form', function(){
         var form = layui.form;
         form.on('select(provinces)', function(data){

@@ -864,6 +864,13 @@ class Offerlist extends Adminbase
     public function user_edit(){
         if($this->request->isPost()){
             $id = input('id');
+            $userinfo = Db::name('userlist')->where(['id'=>$id])->find();
+            if($userinfo['status'] >= 2){
+                $this->error('该客户已签合同，禁止修改客户信息');
+            }
+            if($userinfo['userid'] != $this->_userinfo['userid']){
+                $this->error('禁止修改他人的客户');
+            }
             $data = input();
             if($data['areas']){
                 $areas = explode('-', $data['areas']);
@@ -877,7 +884,7 @@ class Offerlist extends Adminbase
                 $provinces = explode('-', $data['provinces']);
                 $data['address'] = $provinces[1].$data['address'];
             }
-            $data['phone']=$data['phone'];
+            // $data['phone']=$data['phone'];
             $data['address'] =  $data['address'];
             $data['provinceid'] = $provinces[0];
             $data['cityid'] = $cities[0];
@@ -886,19 +893,46 @@ class Offerlist extends Adminbase
             unset($data['areas']);
             unset($data['cities']);
             unset($data['provinces']);
+
+            $names = array_column(Db::name('personnel')->where(['fid'=>$this->_userinfo['companyid']])->select(), null,'id');
+            if($data['designer_id']){
+                foreach($data['designer_id'] as $k=>$v){
+                    $designer_name[] = $names[$v]['name'];
+                }
+                $data['designer_id'] =  implode(',',$data['designer_id']);
+                $data['designer_name'] =  implode(',', $designer_name);
+            }else{
+                $data['designer_id'] =  0;
+                $data['designer_name'] =  '';
+            }
+
+            if($data['manager_id']){
+                $data['manager_id'] = $data['manager_id'];
+                $data['manager_name'] = $names[$data['manager_id']]['name'];
+            }else{
+                $data['manager_id'] = 0;
+                $data['manager_name'] = '';
+            }
+            $data['quoter_name'] =  $names[$data['quoter_id']]['name'];
+            $data['assistant_id'] =  implode(',',$data['assistant_id']); //***
+            $data['sale_id'] =  implode(',',$data['sale_id']);  //*****
             $re = Db::name('userlist')->where('id',input('id'))->update($data);
-            $re ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
+            $re !== false ? $this->success('保存成功','admin/offerlist/userlist') : $this->error('保存失败');
         }else{
             $data = Db::name('userlist')->where('id',input('id'))->find();
             $provinces = array_column(Db::name('provinces')->order('id','asc')->select(),null, 'provinceid');
             $cities = array_column(Db::name('cities')->where(['provinceid'=>$data['provinceid']])->order('id','asc')->select(),null, 'cityid');
             $areas = array_column(Db::name('areas')->where(['cityid'=>$data['cityid']])->order('id','asc')->select(),null, 'areaid');
-            $personnel = array_column(Db::name('personnel')->where(['fid'=>$data['frameid']])->select(),null, 'id');
+            $personnel = array_column(Db::name('personnel')->where(['fid'=>$data['frameid'],'status'=>1])->select(),null, 'id');
+            foreach($personnel as $k=>$v){
+                $personnel_datas[$v['job']][] = $v;
+            }
             $this->assign([
                 'provinces'=>$provinces,
                 'cities'=>$cities,
                 'areas'=>$areas,
                 'personnel'=>$personnel,
+                'personnel_datas'=>$personnel_datas,
                 'address'=>$provinces[$data['provinceid']]['province'].$cities[$data['cityid']]['city'].$areas[$data['areaid']]['area'],
             ]);
             $this->assign('data',$data);
