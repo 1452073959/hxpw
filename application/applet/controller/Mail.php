@@ -176,7 +176,7 @@ class Mail extends UserBase{
         //获取领料超过多少则需要审核
         $pick_rate = Db::name('cost_tmp')->where(['f_id'=>$this->admininfo['companyid']])->value('pick_rate');
         if(!$pick_rate){
-            $pick_rate = 80;
+            $pick_rate = 0;
         }
         //获取订单辅材成本总额
         $material_total_money = model('admin/offerlist')->get_material_list($userinfo['oid'],2)['total_money'];

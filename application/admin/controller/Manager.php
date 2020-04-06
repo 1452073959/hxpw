@@ -257,12 +257,11 @@ class Manager extends Adminbase
                 unset($data['rule']);
                 unset($data['status']);
                 unset($data['userid']);
-            }else{
-                $data['name'] = $data['nickname'];
             }
+            $data['name'] = $data['nickname'];
             unset($data['password_confirm']);
             unset($data['nickname']);
-            // dump($data);exit;
+//             dump($data);exit;
             $data['userid']=Db::name('admin')->where(['userid'=>input('userid')])->value('userid');
             if (Db::name('admin')->where(['userid'=>input('userid')])->update($data) !== false) {
                 $login = $this->_userinfo;
