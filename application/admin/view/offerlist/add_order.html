@@ -103,6 +103,15 @@
     .layui-table-sort{
         margin-left: 0px;
     }
+    #replace_space{
+        height: 35px;
+        line-height: 35px;
+    }
+    .myskin .layui-layer-content {
+        overflow: visible;
+        overflow-x: visible;
+        overflow-y: visible;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -237,7 +246,7 @@
                                 <?php $k1 = '所有工种'; ?>
                                 <?php foreach($data as $k2=>$v2){ ?>
                                     <tr class="space" data-space="{$k1}-{$k2}" data-inword="{$k1}" data-inspace="{$k2}">
-                                        <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td></td><td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">{$k2}</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>
+                                        <td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td><td></td><td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">{$k2}</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>
                                         <td colspan="1"></td><td class="space_material_total" colspan="1"></td><td colspan="1"></td><td class="space_artificial_total" colspan="1"></td>
                                     </tr>
 
@@ -274,6 +283,71 @@
 {block name="script"}
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+    //更换空间replace_space
+    $('#project_datas').on('click','.replace_space',function(){
+        var old_name = $(this).parent().find('.space_name').text();
+        var space = $('#space_ul').find('li');
+        var html = '';
+        html += '<form class="layui-form" action=""><select id="replace_space" lay-search>'
+        $(space).each(function(k,v){
+            if(k > 0){
+                var selected = '';
+                if(old_name == $(v).attr('data-val')){
+                    selected = 'selected';
+                }
+                html += '<option '+selected+' value="'+$(v).attr('data-val')+'">'
+                html +=     $(v).attr('data-val')
+                html += '</option>'
+            }
+        })
+        html += '</select></form>'
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                content: html,
+                title:'更换空间',
+                btn: ['确认','取消'],
+                skin:'myskin',
+                yes: function(index, layero){
+                    $('.space_name').each(function(k,v){
+                        if($(v).text() == $('#replace_space').val()){
+                            layer.msg('空间：'+$('#replace_space').val()+'已存在');
+                            return false
+                        }
+                    })
+                    //更换空间的tr
+                    $('#project_datas').find('tr[class="space"][data-inspace="'+old_name+'"]').attr('data-space','所有工种-'+$('#replace_space').val());
+                    $('#project_datas').find('tr[class="space"][data-inspace="'+old_name+'"]').find('.space_name').text($('#replace_space').val());
+                    $('#project_datas').find('tr[class="space"][data-inspace="'+old_name+'"]').attr('data-inspace',$('#replace_space').val());
+                    //更换项目的tr和td
+                    $('#project_datas').find('tr[class="project"][data-inspace="'+old_name+'"]').each(function(k,v){
+                        if($(v).find('input[class="name"]').length > 0){
+                            $(v).find('input[class="name"]').attr('name',$(v).find('input[class="name"]').attr('name').replace(old_name, $('#replace_space').val()));
+                            $(v).find('input[class="unit"]').attr('name',$(v).find('input[class="unit"]').attr('name').replace(old_name, $('#replace_space').val()));
+                            $(v).find('input[class="mprice"]').attr('name',$(v).find('input[class="mprice"]').attr('name').replace(old_name, $('#replace_space').val()));
+                            $(v).find('input[class="aprice"]').attr('name',$(v).find('input[class="aprice"]').attr('name').replace(old_name, $('#replace_space').val()));
+                            $(v).find('input[class="content"]').attr('name',$(v).find('input[class="content"]').attr('name').replace(old_name, $('#replace_space').val()));
+                        }
+                        $(v).attr('data-inspace',$('#replace_space').val());
+                        $(v).find('td').eq(3).find('input').attr('data-project',$(v).find('td').eq(3).find('input').attr('data-project').replace(old_name, $('#replace_space').val()));
+                        $(v).find('td').eq(3).find('input').attr('name',$(v).find('td').eq(3).find('input').attr('name').replace(old_name, $('#replace_space').val()));
+                    })
+                    layer.close(index);
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                },
+                success:function(){
+                    layui.use('form', function(){
+                        var form = layui.form;
+                        form.render();
+                    });
+                }
+            });
+        }); 
+    })
+
+
     //添加非标
     $('#project_datas').on('click','.no_standard',function(){
         //非标最多100条
@@ -441,7 +515,7 @@
                             space_html += '<tr class="space" data-space="'+work_type+'-'+target_space+'" data-inword="'+work_type+'" data-inspace="'+target_space+'">';
                             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
-                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+target_space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+target_space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>'
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td class="space_material_total" colspan="1"></td>';
                             space_html += '<td colspan="1"></td>';
@@ -908,7 +982,7 @@
                         space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                         space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                         space_html += '<td></td>'
-                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>'
                         space_html += '<td colspan="1"></td>';
                         space_html += '<td class="space_material_total" colspan="1"></td>';
                         space_html += '<td colspan="1"></td>';
@@ -990,7 +1064,7 @@
                         space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                         space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                         space_html += '<td></td>'
-                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+                        space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>'
                         space_html += '<td colspan="1"></td>';
                         space_html += '<td class="space_material_total" colspan="1"></td>';
                         space_html += '<td colspan="1"></td>';
@@ -1154,7 +1228,7 @@
             space_html += '<tr class="space" data-space="'+word+'-'+space+'" data-inword="'+word+'" data-inspace="'+space+'">';
             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
             space_html += '<td></td>'
-            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>'
             space_html += '<td colspan="1"></td>';
             space_html += '<td class="space_material_total" colspan="1"></td>';
             space_html += '<td colspan="1"></td>';
@@ -1484,7 +1558,7 @@
                             space_html += '<tr class="space" data-space="'+v.work_type+'-'+v.space+'" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                             space_html += '<td><i class="layui-icon layui-icon-delete"></i><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span></td>'
                             space_html += '<td></td>'
-                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a></td>'
+                            space_html += '<td colspan="3" style="text-align: left;padding-left:10px"><span class="space_name">'+v.space+'</span><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs copy">复制</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs no_standard">添加非标</a><a href="javascript:;" style="margin-left:10px" class="layui-btn layui-btn-primary layui-btn-xs replace_space">更换空间</a></td>'
                             space_html += '<td colspan="1"></td>';
                             space_html += '<td class="space_material_total" colspan="1"></td>';
                             space_html += '<td colspan="1"></td>';
