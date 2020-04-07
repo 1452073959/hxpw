@@ -1618,6 +1618,7 @@ class BasisData extends Adminbase{
         $pack = input('pack');
         $phr = input('phr');
         $source = input('source');
+        $warehouse_id = input('warehouse_id');
         array_shift($name);
         array_shift($brank);
         array_shift($place);
@@ -1627,6 +1628,7 @@ class BasisData extends Adminbase{
         array_shift($pack);
         array_shift($phr);
         array_shift($source);
+        array_shift($warehouse_id);
         if(empty($name) || empty($brank) || empty($place) || empty($unit) || empty($price) || empty($in_price) || empty($pack) || empty($phr) || empty($source)){
             $this->error('添加辅材信息不能为空');
         }
@@ -1652,6 +1654,7 @@ class BasisData extends Adminbase{
                 $insert_datas[$k]['pack'] = $pack[$k];
                 $insert_datas[$k]['phr'] = $phr[$k];
                 $insert_datas[$k]['source'] = $source[$k];
+                $insert_datas[$k]['warehouse_id'] = $warehouse_id[$k];
             }
         }
         if(empty($insert_datas)){
@@ -1854,7 +1857,7 @@ class BasisData extends Adminbase{
                 $f_materials['pack'] = $apply_material['pack']?$apply_material['pack']:$basis_materials['pack'];
                 $f_materials['phr'] = $apply_material['phr']?$apply_material['phr']:$basis_materials['phr'];
                 $f_materials['source'] = $basis_materials['source'];
-                $f_materials['warehouse_id'] = $basis_materials['warehouse_id'];
+                $f_materials['warehouse_id'] = $apply_material['warehouse_id']?$apply_material['warehouse_id']:$basis_materials['warehouse_id'];
                 $f_materials['auto_add'] = 1;
                 $res = Db::name('f_materials')->insertGetId($f_materials);
                 Db::name('f_materials')->where(['id'=>$res])->update(['amcode'=>$basis_materials['amcode'].'_'.$res]);
