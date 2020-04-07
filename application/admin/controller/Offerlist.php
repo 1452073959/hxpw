@@ -410,7 +410,11 @@ class Offerlist extends Adminbase
                 $data['discount_append'] = $order_info['discount_append'];
                 $data['o_remark'] = $order_info['o_remark'];
             }else{
-                $data['o_remark'] = $cost_tmp['order_tfoot'];
+                if(isset($cost_tmp['order_tfoot'])){
+                    $data['o_remark'] = $cost_tmp['order_tfoot'];
+                }else{
+                    $data['o_remark'] = '';
+                }
             }
             $price = [];
             if(input('price')){
