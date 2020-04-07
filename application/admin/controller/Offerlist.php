@@ -561,7 +561,7 @@ class Offerlist extends Adminbase
                         $price = $materials_info['price'];
                         $coefficient = $materials_info['coefficient'];
                         if(!$price){
-                            $this->error($one_material[0].'成本有误，请及时补充辅材仓库');
+                            $this->error($one_material[0].'成本有误，请及时补充辅材仓库'.$v['item_number']);
                         }
                         $material_all[$one_material[0]]['price'] = $price;//成本单价
                         $material_all[$one_material[0]]['coefficient'] = $coefficient;//系数
