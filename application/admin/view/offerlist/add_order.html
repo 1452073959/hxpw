@@ -112,6 +112,9 @@
         overflow-x: visible;
         overflow-y: visible;
     }
+    .text_left{
+        text-align: left !important;
+    }
 </style>
     
     <div class="layui-card" style="height:97%;width:100%;position:fixed;background-color:#fffff;border: 1px solid #cec9c9 " id="diolog">
@@ -268,7 +271,7 @@
                                             {/if}
                                             <td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>
                                             <td>{if($order_project[$k3]['type_of_work'] == '非标报价')}<span style="color:red">非标</span>{else/}{$k3}{/if}</td>
-                                            <td>{$order_project[$k3]['project']}</td>
+                                            <td class="text_left">{$order_project[$k3]['project']}</td>
                                             <td><input type="text" class="layui-input height26" value="{$v3 ?: 0}" data-project="{$k2}-{$k3}" name="data[{$k2}][{$k3}]"></td>
                                             <td>{$order_project[$k3]['company']}</td>
                                             <td>{$order_project[$k3]['quota']}</td>
@@ -439,7 +442,7 @@
                     project += '<input type="hidden" class="content" name="no_standard['+space+']['+math_num+'][content]" value="'+content+'" />';
                     project += '    <td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>'
                     project += '    <td><span style="color:red">非标</span></td>'
-                    project += '    <td>'+name+'</td>'
+                    project += '    <td  class="color_one text_left">'+name+'</td>'
                     project += '    <td><input type="text" class="layui-input height26" data-project="'+space+'-'+math_num+'" name="data['+space+']['+math_num+']"></td>'
                     project += '    <td>'+unit+'</td>'
                     project += '    <td>'+mprice+'</td>'
@@ -977,7 +980,7 @@
                     }else{
                        project += '<td>'+v.item_number+'</td>'; 
                     }
-                    project += '<td>'+v.project+'</td>';
+                    project += '<td  class="text_left">'+v.project+'</td>';
                     project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
                     project += '<td>'+v.company+'</td>';
                     project += '<td>'+v.quota+'</td>';
@@ -1059,7 +1062,7 @@
                     project += '<tr class="project" data-inword="'+v.work_type+'" data-inspace="'+v.space+'">';
                     project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                     project += '<td>'+v.item_number+'</td>';
-                    project += '<td>'+offerquota[v.item_number]['project']+'</td>';
+                    project += '<td  class="text_left">'+offerquota[v.item_number]['project']+'</td>';
                     project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
                     project += '<td>'+offerquota[v.item_number]['company']+'</td>';
                     project += '<td>'+offerquota[v.item_number]['quota']+'</td>';
@@ -1218,7 +1221,7 @@
         project += '<tr class="project" data-inword="'+word+'" data-inspace="'+space+'">';
         project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
         project += '<td>'+data.item_number+'</td>';
-        project += '<td class="color_one">'+data.project+'</td>';
+        project += '<td class="color_one text_left">'+data.project+'</td>';
         project += '<td><input type="text" class="layui-input height26" data-project="'+space+'-'+data.item_number+'" name="data['+space+']['+data.item_number+']" /></td>';
         project += '<td>'+data.company+'</td>';
         project += '<td>'+data.quota+'</td>';
@@ -1539,7 +1542,7 @@
                             project += ' <input type="hidden" class="content" name="no_standard['+v.space+']['+v.item_number+'][content]" value="'+no_standard[v.item_number]['content']+'" />';
                             project += '<td><i class="layui-icon layui-icon-delete"></i><span class=""><input class="sort" type="text" /></span></td>';
                             project += '<td><span style="color:red">非标</span></td>';
-                            project += '<td>'+no_standard[v.item_number]['name']+'</td>';
+                            project += '<td class="text_left">'+no_standard[v.item_number]['name']+'</td>';
                             project += '<td><input type="text" class="layui-input height26" value="'+v.num+'" data-project="'+v.space+'-'+v.item_number+'" name="data['+v.space+']['+v.item_number+']" /></td>';
                             project += '<td>'+no_standard[v.item_number]['unit']+'</td>';
                             project += '<td>'+no_standard[v.item_number]['mprice']+'</td>';
