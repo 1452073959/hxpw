@@ -821,7 +821,7 @@ layui.use('table', function(){
             $.post('/admin/offerlist/set_o_remark',{oid:data.id},function(res){
                 if(res.code == 1){
                     var html = '';
-                    html += '<textarea id="o_remark" style="margin:5px;padding:5px;width:320px;height:230px">'
+                    html += '<textarea id="o_remark" style="margin:5px;padding:5px;width:95%;height:86%">'
                     html += res.data
                     html += '</textarea>'
                     // layer.open({
@@ -832,7 +832,7 @@ layui.use('table', function(){
                     // });
                     layer.open({
                         content: html,
-                        area:['400px', '390px'], //宽高
+                        area:['80%', '50%'], //宽高
                         title:'设置报价单底部备注',
                         btn: ['修改','取消'],
                         success:function(layero, index){

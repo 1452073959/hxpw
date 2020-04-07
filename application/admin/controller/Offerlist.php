@@ -393,6 +393,7 @@ class Offerlist extends Adminbase
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
             $data = array(); //最终数据
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();
             //另存订单的 保存折扣和取费模板和一些其他的
             if(input('oid')){
                 $order_info = Db::name('offerlist')->where(['id'=>input('oid')])->find();
@@ -407,6 +408,8 @@ class Offerlist extends Adminbase
                 $data['discount_num'] = $order_info['discount_num'];
                 $data['discount_append'] = $order_info['discount_append'];
                 $data['o_remark'] = $order_info['o_remark'];
+            }else{
+                $data['o_remark'] = $cost_tmp['order_tfoot'];
             }
             $price = [];
             if(input('price')){
@@ -666,7 +669,7 @@ class Offerlist extends Adminbase
             }
             $data['artificial'] = json_encode($artificial_all); //人工成本 json格式 里面 num=>数量 price=>单价 cb=>成本 profit=>利润
             //其他各种费用比率
-            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();
+            // $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();//在上面搜索过了
             if(!$cost_tmp){
                 //没有设置  这个是默认值
                 $cost_tmp_data = [

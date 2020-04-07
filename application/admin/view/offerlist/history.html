@@ -298,7 +298,7 @@ th{
                                     <tr>
                                         <td class="text-left" colspan="2">{$vcost.name}</td>
                                         <td colspan="6">{$vcost.price}</td>
-                                        <td>{$vcost.content ?: ''}</td>
+                                        <td class="text-left">{$vcost.content ?: ''}</td>
                                     </tr>
                                     <?php $num++; ?>
                                 {/foreach}
@@ -313,7 +313,7 @@ th{
                                 <tr>
                                     <td class="text-left" colspan="2">工程优惠</td>
                                     <td colspan="6">{$offerlist_info['discount_zk']}</td>
-                                    <td>{$offerlist_info['discount_content']}</td>
+                                    <td class="text-left">{$offerlist_info['discount_content']}</td>
                                     <?php $num++; ?>
                                 </tr>
                             {/if}
@@ -357,22 +357,15 @@ th{
                                     <tr>
                                         <td class="text-left" colspan="2">{$v['project']}</td>
                                         <td colspan="6">{$v['craft_show']*$v['num']}</td>
-                                        <td>{$v['material']}</td>
+                                        <td class="text-left">{$v['material']}</td>
                                     </tr>
                                 {/foreach}
                             {/notempty}
                             
                             {notempty name="order_info['o_remark']"}
                                 <tr>
-                                    <td colspan="9" style="text-align: left;"><textarea readonly style="width: 100%;">{$order_info['o_remark']|raw}</textarea></td>
+                                    <td colspan="9" style="text-align: left;"><div style="padding:3px">{:nl2br($order_info['o_remark'])}</div></td>
                                 </tr>
-                            {/notempty}
-                            {notempty name="cost_tmp['order_tfoot']"}
-                                <?php foreach(explode("\n",$cost_tmp['order_tfoot']) as $k=>$v){ ?>
-                                    <tr>
-                                        <td colspan="9" style="text-align: left">{$v}</td>
-                                    </tr>
-                                <?php } ?>
                             {/notempty}
                         {/notempty}
                     </tbody>
