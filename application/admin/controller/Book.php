@@ -11,24 +11,7 @@ use think\Paginator;
 
 class Book extends Adminbase{
 
-    //把订单底部文字存起来
-    public function test1(){
-        $cost_tmp = Db::name('cost_tmp')->field('f_id,order_tfoot')->select();
-        Db::startTrans();
-        try {
-            foreach ($cost_tmp as $k => $v) {
-                Db::name('offerlist')->where(['frameid'=>$v['f_id']])->update(['o_remark'=>$v['order_tfoot']]);
-            }
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            echo 'no ok';die;
-        }
-        echo 'ok';
-        
-
-    }
-
+    
     public function test(){
         echo '暂停使用';die;
         $frame = array_column(Db::name('frame')->select(),null, 'id');
