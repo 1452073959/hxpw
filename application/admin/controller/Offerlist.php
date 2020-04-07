@@ -384,6 +384,7 @@ class Offerlist extends Adminbase
         //     return $this->fetch('add_order_olduser');
         // }
         $res1=Db::table('fdz_cost_tmp')->where('f_id',$userinfo['companyid'])->value('default_template');
+        // var_dump($res1);die;
         $this->assign([ 'res1'=>$res1 ]);
         return $this->fetch();
     }
@@ -391,7 +392,22 @@ class Offerlist extends Adminbase
     //报价操作 - 生成订单
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
-//        var_dump(input());die;
+            $data = array(); //最终数据
+            //另存订单的 保存折扣和取费模板和一些其他的
+            if(input('oid')){
+                $order_info = Db::name('offerlist')->where(['id'=>input('oid')])->find();
+                $data['tmp_append_cost'] = $order_info['tmp_append_cost'];
+                 if(input('tmp_cost_id')){
+                    $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
+                }else{
+                    $data['tmp_cost_id'] = $order_info('tmp_cost_id');//取费模板id
+                }
+                $data['discount_content'] = $order_info['discount_content'];
+                $data['discount_type'] = $order_info['discount_type'];
+                $data['discount_num'] = $order_info['discount_num'];
+                $data['discount_append'] = $order_info['discount_append'];
+                $data['o_remark'] = $order_info['o_remark'];
+            }
             $price = [];
             if(input('price')){
                 $price = input('price');
@@ -404,12 +420,10 @@ class Offerlist extends Adminbase
             }
             $userinfo = $this->_userinfo;
             $time = time();
-            $data = array();
+            
             $data['userid'] = $userinfo['userid'];
             $data['frameid'] = $userinfo['companyid'];//存公司id到报表
-            if(input('tmp_cost_id')){
-                $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
-            }
+           
 
             $data['customerid'] = input('customerid');
             $data['unit'] = input('framename');//单位

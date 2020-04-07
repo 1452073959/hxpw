@@ -131,12 +131,16 @@
                 </div>
                 <div class="layui-inline">
                     <select name="tmp_cost" class="select_tmp">
-                        {if($res1)}
+                        {if($order_info['tmp_cost_id'])}
                             <option value=''>选择取费模板</option>
                             {foreach $tmp_cost as $key=>$vo }
-                                <option value="{$vo['tmp_id']}" {if($res1==$vo['id'])}selected{/if}>{$vo['tmp_name']}</option>
+                                <option value="{$vo['tmp_id']}" {if($order_info['tmp_cost_id']==$vo['tmp_id'])}selected{/if}>{$vo['tmp_name']}</option>
                             {/foreach}
-                        {else/}
+                        {elseif($res1) /}
+                            {foreach $tmp_cost as $key=>$vo }
+                                <option value="{$vo['tmp_id']}" {if($res1==$vo['tmp_id'])}selected{/if}>{$vo['tmp_name']}</option>
+                            {/foreach}
+                        {else /}
                             <option value=''>选择取费模板</option>
                             {foreach $tmp_cost as $key=>$vo }
                                 <option value="{$vo['tmp_id']}" {if($key===0)}selected{/if}>{$vo['tmp_name']}</option>
@@ -144,7 +148,9 @@
                         {/if}
                     </select>
                 </div>
-                
+                {if($order_info)}
+                    <input type="hidden" name="oid" value="{$order_info['id']}" />
+                {/if}
             </div>     
 
         </blockquote>
@@ -738,6 +744,7 @@
         var remark = $('input[name="remark"]').val();
         var customerid = $('input[name="customerid"]').val();
         var tmp_cost_id = $('select[name="tmp_cost"]').val();
+        var oid = $('input[name="oid"]').val();
         if(unit == ''){
             layui.use('layer', function(){
                 layer.msg('请填写单位/公司');
@@ -787,6 +794,9 @@
         datas['framename'] = unit;  
         datas['remark'] = remark;  
         datas['customerid'] = customerid;
+        if(oid){
+            datas['oid'] = oid;
+        }
         if(tmp_cost_id != ''){
             datas['tmp_cost_id'] = tmp_cost_id;
         }
