@@ -131,7 +131,7 @@
                 </div>
                 <div class="layui-inline">
                     <select name="tmp_cost" class="select_tmp">
-                        {if($order_info['tmp_cost_id'])}
+                        {if(isset($order_info['tmp_cost_id']))}
                             <option value=''>选择取费模板</option>
                             {foreach $tmp_cost as $key=>$vo }
                                 <option value="{$vo['tmp_id']}" {if($order_info['tmp_cost_id']==$vo['tmp_id'])}selected{/if}>{$vo['tmp_name']}</option>
@@ -148,7 +148,7 @@
                         {/if}
                     </select>
                 </div>
-                {if($order_info)}
+                {if(isset($order_info))}
                     <input type="hidden" name="oid" value="{$order_info['id']}" />
                 {/if}
             </div>     
