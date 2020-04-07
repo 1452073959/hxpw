@@ -393,7 +393,8 @@ class Offerlist extends Adminbase
     public function add_order_operation(){
         if(input('data') && $this->request->isPost()){
             $data = array(); //最终数据
-            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$data['frameid']])->find();
+            $userinfo = $this->_userinfo;
+            $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->find();
             //另存订单的 保存折扣和取费模板和一些其他的
             if(input('oid')){
                 $order_info = Db::name('offerlist')->where(['id'=>input('oid')])->find();
