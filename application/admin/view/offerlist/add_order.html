@@ -1360,7 +1360,7 @@
         var num = $(this).val();
         if(num[0] === '='){
             try{
-                num = eval(num.slice(1));
+                num = eval(num.slice(1)).toFixed(1);
                 $(this).val(num);
             }catch(exception) {
                 layui.use('layer', function(){
