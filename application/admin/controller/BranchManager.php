@@ -12,7 +12,7 @@ class BranchManager extends Adminbase
     public function index()
     {
         $login = $this->_userinfo;
-        $admin=Db::table('fdz_admin')->where('companyid', $login['companyid'])->select();
+        $admin=Db::table('fdz_admin')->where(['companyid'=>$login['companyid']])->where('roleid','neq',1)->select();
         foreach ($admin as $k=>$v){
             $admin[$k]['auth']=Db::table('fdz_auth_group')->where('id', $v['roleid'])->value('title');
         }
