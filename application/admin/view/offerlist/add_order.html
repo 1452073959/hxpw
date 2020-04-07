@@ -1360,7 +1360,10 @@
         var num = $(this).val();
         if(num[0] === '='){
             try{
-                num = eval(num.slice(1)).toFixed(1);
+                var num = num.slice(1);
+                num = num.replace('（','(');
+                num = num.replace('）',')');
+                num = eval(num).toFixed(1)*10/10;
                 $(this).val(num);
             }catch(exception) {
                 layui.use('layer', function(){
