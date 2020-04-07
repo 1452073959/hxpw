@@ -996,7 +996,7 @@ class Offerlist extends Adminbase
 
 
         //获取取费模板
-        $tmp_cost = array_column(Db::name('tmp_cost')->where(['status'=>1,'f_id'=>$userinfo['frameid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
+        $tmp_cost = array_column(Db::name('tmp_cost')->where(['f_id'=>$userinfo['frameid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
         $this->assign('data',$res);
 //        dump($res);
         $this->assign('userinfo',$userinfo);

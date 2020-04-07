@@ -137,6 +137,7 @@
                                 <option value="{$vo['tmp_id']}" {if($order_info['tmp_cost_id']==$vo['tmp_id'])}selected{/if}>{$vo['tmp_name']}</option>
                             {/foreach}
                         {elseif($res1) /}
+                            <option value=''>选择取费模板</option>
                             {foreach $tmp_cost as $key=>$vo }
                                 <option value="{$vo['tmp_id']}" {if($res1==$vo['tmp_id'])}selected{/if}>{$vo['tmp_name']}</option>
                             {/foreach}
