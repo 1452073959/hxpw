@@ -1641,6 +1641,11 @@ class BasisData extends Adminbase{
                 if(empty($v) || empty($unit[$k]) ||  empty($pack[$k]) || empty($phr[$k]) || empty($source[$k])){
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
+                $price[$k] = trim($price[$k]);
+                $in_price[$k] = trim($in_price[$k]);
+                if(!is_numeric($price[$k]) || !is_numeric($in_price[$k])){
+                    $this->error('第'.($k+1).'行价格输入有误');
+                }
                 if(strlen($price[$k]) == 0 || strlen($in_price[$k]) == 0){
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
@@ -1790,6 +1795,14 @@ class BasisData extends Adminbase{
                 if (empty($v) || empty($content[$k]) || empty($unit[$k])) {
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
+
+                $quota[$k] = trim($quota[$k]);
+                $craft_show[$k] = trim($craft_show[$k]);
+                $labor_cost[$k] = trim($labor_cost[$k]);
+                if(!is_numeric($price[$k]) || !is_numeric($in_price[$k]) || !is_numeric($labor_cost[$k])){
+                    $this->error('第'.($k+1).'行价格输入有误');
+                }
+
                 if(strlen($quota[$k]) == 0 || strlen($craft_show[$k]) == 0 || strlen($labor_cost[$k]) == 0){
                     $this->error('第'.($k+1).'行数据不能为空');
                 }
