@@ -145,7 +145,7 @@
                             <td class="">{$vo.craft_show}</td>
                             <td class="">{$vo.labor_cost}</td>
                             <td class="">{$vo.unit}</td>
-                            <td class="">{$vo.content}</td>
+                            <td class="">{:htmlspecialchars_decode($vo.content)}</td>
                             {if($admininfo['userid'] == 1)}
                                 <td class="">{$vo.material}</td>
                                 <td class="">

@@ -189,7 +189,7 @@
 					  <td class="taleft">{$vo.craft_show}</td>
 					  <td class="taleft">{$vo.cost_value}</td>
 					  <td class="taleft">{$vo.labor_cost}</td>
-					  <td class="taleft">{$basis_project[$vo['p_item_number']]['content']}</td>
+					  <td class="taleft">{:htmlspecialchars_decode($basis_project[$vo['p_item_number']]['content'])}</td>
 					  <td class="taleft">
 						{if($vo['status'] == 1)}正常{/if}
 						{if($vo['status'] == 2)}<a style="color:red;margin-left: 5px">辅材发生变动，请重新编辑</a>{/if}

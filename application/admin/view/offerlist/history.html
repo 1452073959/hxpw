@@ -195,7 +195,7 @@ th{
                                         {foreach name="$v2" item="v3" key="k3"}
                                             <tr class="tr{$k1}{$k2}">
                                                 <td>{$num3}</td>
-                                                <td>{$v3['info']['project']}</td>
+                                                <td>{:htmlspecialchars_decode($v3['info']['project'])}</td>
                                                 <td>{$v3.num}</td>
                                                 <td>{$v3['info']['company']}</td>
                                                 {if $type==2}
@@ -211,7 +211,7 @@ th{
                                                     <td>{$v3['info']['craft_show']}</td>
                                                     <td>{$v3.num?$v3.num*$v3['info']['craft_show']:''}</td>
                                                 {/if}
-                                                <td class="text-left">{$v3['info']['material']}</td>
+                                                <td class="text-left">{:htmlspecialchars_decode($v3['info']['material'])}</td>
                                                 <input type="hidden" form="myform" name="" value="">
                                             </tr>
                                             <?php
@@ -247,7 +247,7 @@ th{
                                     {foreach name="$v1" key="k2" item="v2"}
                                         <tr class="">
                                                 <td>{$num1}</td>
-                                                <td style="text-align: left;">{$v2['info']['project']}</td>
+                                                <td style="text-align: left;">{:htmlspecialchars_decode($v2['info']['project'])}</td>
                                                 <td>{$v2.num}</td>
                                                 <td>{$v2['info']['company']}</td>
                                             {if $type==2}
@@ -261,7 +261,7 @@ th{
                                             <td>{$v2['info']['craft_show']}</td>
                                             <td>{$v2.num?$v2.num*$v2['info']['craft_show']:'0'}</td>
                                             {/if}
-                                                <td class="text-left">{$v2['info']['material']}</td>
+                                                <td class="text-left">{:htmlspecialchars_decode($v2['info']['material'])}</td>
                                                 <input type="hidden" form="myform" name="" value="">
                                             </tr>
                                             <?php 

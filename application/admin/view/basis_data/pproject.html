@@ -173,7 +173,7 @@ display: block;
                         <td class="">{if(in_array($vo['item_number'],$item_number))}<i style="margin-left:5px;color:red" class="layui-icon layui-icon-ok" title="已添加"></i>{/if}{$vo.name}</td>
                         <td class="">{$vo.unit}</td>
                         <!-- <td class="">{if($vo['fine'])}<a href="javascript:;" lay-event="show_materials">查看</a>{else}无{/if}</td> -->
-                        <td class="">{$vo.content}</td>
+                        <td class="">{:htmlspecialchars_decode($vo.content)}111</td>
                         <td class="">
                             <?php foreach($vo['fine_info']['has'] as $k=>$v){
                                 echo '<span style="margin:0 5px">'.$v.'</span>';

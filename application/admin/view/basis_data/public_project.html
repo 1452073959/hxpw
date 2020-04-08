@@ -138,7 +138,7 @@
                              } ?>
                         <?php } ?>
                         </td>
-                      <td class="taleft">{$vo.content}</td>
+                      <td class="taleft">{:htmlspecialchars_decode($vo.content)}</td>
                       <td class="taleft">{$vo.count}</td>
                       <td>
                         <a href="javascript:;" lay-event="edit" class="">编辑</a>
