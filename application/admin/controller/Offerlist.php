@@ -460,9 +460,9 @@ class Offerlist extends Adminbase
                         $item['frame'] =$user['companyid'];
                         $item['project'] = $no_standard[$k1][$k2]['name'];
                         $item['company'] = $no_standard[$k1][$k2]['unit'];
-                        $item['cost_value'] = $no_standard[$k1][$k2]['mprice'] + $no_standard[$k1][$k2]['aprice'];
-                        $item['quota'] = $no_standard[$k1][$k2]['mprice'];
-                        $item['craft_show'] = $no_standard[$k1][$k2]['aprice'];
+                        $item['cost_value'] = trim($no_standard[$k1][$k2]['mprice']) + trim($no_standard[$k1][$k2]['aprice']);
+                        $item['quota'] = trim($no_standard[$k1][$k2]['mprice']);
+                        $item['craft_show'] = trim($no_standard[$k1][$k2]['aprice']);
                         $item['labor_cost'] = 0;//人工成本 非标不算成本 所以为0
                         $item['material'] = $no_standard[$k1][$k2]['content'];
                         $item['content'] = '';
