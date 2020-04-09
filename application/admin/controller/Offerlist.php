@@ -399,10 +399,10 @@ class Offerlist extends Adminbase
             if(input('oid')){
                 $order_info = Db::name('offerlist')->where(['id'=>input('oid')])->find();
                 $data['tmp_append_cost'] = $order_info['tmp_append_cost'];
-                 if(input('tmp_cost_id')){
+                if(input('tmp_cost_id')){
                     $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
                 }else{
-                    $data['tmp_cost_id'] = $order_info('tmp_cost_id');//取费模板id
+                    $data['tmp_cost_id'] = $order_info['tmp_cost_id'];//取费模板id
                 }
                 $data['discount_content'] = $order_info['discount_content'];
                 $data['discount_type'] = $order_info['discount_type'];
