@@ -614,7 +614,10 @@ class Artificial extends Adminbase
         $offerlist = Db::name('offerlist')->where(['id'=>$id])->find();
         $content = Db::name('order_project')->where(['o_id'=>$id])->select();
         foreach($content as $k=>$v){
-             if(!isset($arr[$v['type_of_work']])){
+            if(strpos($v['project'],'设计') !== false){
+                continue;
+            }
+            if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']]['quota'] = 0;//辅材单价
                 $arr[$v['type_of_work']]['craft_show'] = 0;//人工单价
                 $arr[$v['type_of_work']]['labor_cost'] = 0;//人工成本
