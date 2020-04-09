@@ -571,6 +571,9 @@ class Artificial extends Adminbase
         $arr = [];//拼装数组
         $total = 0;
         foreach($artificial as $k=>$v){
+            if(strpos($v['project'],'设计') !== false){
+                continue;
+            }
             if(!isset($arr[$v['type_of_work']])){
                 $arr[$v['type_of_work']] = 0;
             }
