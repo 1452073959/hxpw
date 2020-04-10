@@ -415,6 +415,9 @@ class Offerlist extends Adminbase
                 }else{
                     $data['o_remark'] = '';
                 }
+                if(input('tmp_cost_id')){
+                    $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
+                }
             }
             $price = [];
             if(input('price')){
