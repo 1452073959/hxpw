@@ -59,7 +59,7 @@ class Financial extends Adminbase{
     //收钱 
     public function get_money(){
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
-        $o_id = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->value('id');
+        $o_id = $userinfo['oid'];
         $order_info = Model('offerlist')->get_order_info($o_id,2);//原单
         $append_list = Model('offerlist')->get_append_info(input('customer_id'));//增减项
         $financial = Db::name('financial')->field('sum(money) as money,id,userid,fid,type,remark,addtime')->where(['userid'=>input('customer_id'),'type'=>[1,2,3,4]])->group('type')->select();
