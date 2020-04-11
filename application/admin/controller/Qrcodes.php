@@ -15,7 +15,9 @@ class Qrcodes extends Controller{
     //生成二维码
     public function view()
     {
-        $user=Db::table('fdz_userlist')-> field(['id','address'])->select();
+        $user = session('admin_user_auth');
+        $user= Db::table('fdz_admin')->where('username',$user['username'])->value('companyid');
+        $user=Db::table('fdz_userlist')->where('frameid',$user)-> field(['id','address'])->select();
         foreach ($user as $k=>$v){
             $user[$k]['url']='http://'.$_SERVER['HTTP_HOST'].'/admin/qrcodes/add?id='.$v['id'];
         }
