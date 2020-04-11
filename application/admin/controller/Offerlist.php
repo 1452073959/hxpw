@@ -1452,6 +1452,11 @@ class Offerlist extends Adminbase
             }
 
             $bao['address'] =  $data['address'];
+            $man=   Db::table('fdz_userlist')->where('frameid',$admininfo['companyid'])
+                ->where('address',$data['address'])->select();
+            if(count($man)>0){
+                $this->error('该客户已添加过,请勿重复添加');
+            }
             $bao['provinceid'] = $provinces[0];
             $bao['cityid'] = $cities[0];
             $bao['areaid'] = $areas[0];

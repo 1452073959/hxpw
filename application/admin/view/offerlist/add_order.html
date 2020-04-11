@@ -743,6 +743,12 @@
 
     //======================提交订单
     $('#submit_datas').click(function(){
+        // event.preventDefault();
+        $(this).attr("disabled",true).css("pointer-events","none");
+        setTimeout(function(e){
+            $("#submit_datas").removeAttr("disabled");
+            $("#submit_datas").removeAttr("style");
+        },5000)
         var is_null = 0;
         var unit = $('input[name="unit"]').val();
         var remark = $('input[name="remark"]').val();

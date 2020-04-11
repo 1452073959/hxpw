@@ -28,7 +28,10 @@ class Indent extends Adminbase
 
     public function calendar()
     {
-        $list=Db::table('fdz_zz')->order('order','desc')->select();
+        $admininfo = $this->_userinfo;
+        $role=Db::table('fdz_auth_group')->where('id',$admininfo['roleid'])->find();
+        $role=explode(',',$role['auth']);
+        $list=Db::table('fdz_zz')->where('id','in',$role)->select();
         $tree = [];
         if (is_array($list)) {
             $refer = [];
@@ -37,32 +40,38 @@ class Indent extends Adminbase
             }
             foreach ($list as $key => $data) {
                 $parentId = $data['pid'];
+                $list[$key]['spread'] =true;
+                unset($list[$key]['content']);
                 if (0 == $parentId) {
                     $tree[] =& $list[$key];
                 } else {
                     if (isset($refer[$parentId])) {
                         $parent =& $refer[$parentId];
                         $parent['children'][] =& $list[$key];
+                        $parent['disabled'] =true;
                     }
+
                 }
             }
+
         }
         return json($tree);
-
     }
+
+
     //删除
     public function del(Request $request)
     {
         $data=$request->post();
         $res=Db::table('fdz_zz')->where('pid',$data['id'])->select();
         if(!empty($res)){
-            return json(['code'=>1,'msg'=>'有子项目未删除,请先删除子项目','data'=>$data['title']]);
+            return json(['code'=>1,'msg'=>'有子项目未删除,请先删除子项目']);
         }else{
             $res=Db::table('fdz_zz')->where('id',$data['id'])->delete();
             if($res){
-                return json(['code'=>1,'msg'=>'删除成功','data'=>$data['title']]);
+                return json(['code'=>1,'msg'=>'删除成功']);
             }else{
-                return json(['code'=>2,'msg'=>'删除失败','data'=>$data['title']]);
+                return json(['code'=>2,'msg'=>'删除失败']);
             }
         }
 
@@ -71,7 +80,7 @@ class Indent extends Adminbase
     public function update(Request $request)
     {
         $data=$request->post();
-        $res=Db::table('fdz_zz')->where('id',$data['id'])->update(['title'=>$data['title'],'order'=>$data['order']]);
+        $res=Db::table('fdz_zz')->where('id',$data['id'])->update(['title'=>$data['title'],'content'=>htmlspecialchars_decode($data['content'])]);
         if($res){
             return json(['code'=>1,'msg'=>'修改成功','data'=>$data['title']]);
         }else{
@@ -96,15 +105,23 @@ class Indent extends Adminbase
         $str = "<option value='\$id' \$selected>\$spacer \$title</option>";
         $tree->init($array);
         $select_categorys = $tree->get_tree(0, $str);
+
+
+        $role=Db::table('fdz_auth_group')->select();
         $this->assign('select_categorys',$select_categorys);
+        $this->assign('role',$role);
         return $this->fetch();
     }
     public function createpost()
     {
+
         $data=input();
+
         if($data['title']==''){
             $this->error('质检流程必填');
         }
+        unset($data['role']);
+                dump($data);die;
         $res=Db::table('fdz_zz')->insert($data);
         if($res){
             $this->success("添加成功！", url("indent/quality"));
@@ -112,8 +129,26 @@ class Indent extends Adminbase
             $this->error('添加失败');
         }
     }
-    //页面
+    //增加修改页面
     public function quality()
+    {
+         return $this->fetch();
+    }
+    public function document()
+    {
+        return $this->fetch();
+    }
+
+    public function one()
+    {
+        $data=input();
+        $res=Db::table('fdz_zz')->where('id',$data['id'])->find();
+        return json($res);
+
+    }
+
+
+    public function notice()
     {
         return $this->fetch();
     }

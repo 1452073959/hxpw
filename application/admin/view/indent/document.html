@@ -1,0 +1,95 @@
+{extend name="index_layout"/}
+{block name="main"}
+<link rel="stylesheet" type="text/css" href="/static/layui/layui-v2.5.6/layui.css" />
+
+
+<style>
+    input{
+        width: 464px;
+        height: 32px;
+        text-indent: 10px;
+        line-height: 32px;
+        font-size: 14px;
+        /* color: #c1c1c1; */
+        color: #666;
+        background-position: -195px -536px;
+        border: none;
+    }
+    .layui-disabled, .layui-disabled:hover {
+        /*color: #d2d2d2!important;*/
+        /* cursor: not-allowed!important; */
+    }
+
+</style>
+<div style="width: 100%;margin: 0 auto;border:1px solid #DDDDDD; display: flex;background-color: white">
+
+    <div class="information-box" style="border:1px solid #DDDDDD; width: 250px;float: left;">
+
+        <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
+    </div>
+    <div style="width: 100%;height:700px;border:1px solid #DDDDDD;">
+
+        <div id="qc">
+                                            操作文档
+        </div>
+    </div>
+
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+<script type="text/javascript" src="http://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script src="__STATIC__/12/admin/js/jquery-2.0.0.js"></script>
+
+<!--<script src="https://www.layuicdn.com/layer/layer.js"></script>-->
+<script>
+    layui.use(['tree', 'util'], function () {
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        editor.create()
+        var tree = layui.tree
+            , layer = layui.layer
+            , util = layui.util
+            $.ajax({
+                type: "get",
+                url: "/admin/indent/calendar",
+                async:false,
+                success: function (e) {
+                    da=e;
+                    tree.render({
+                        elem: '#test1' //默认是点击节点可进行收缩
+                        , data: da
+                        ,showLine: false
+                        ,click: function(obj){
+                           var  id =obj.data.id;
+                            $(".layui-tree-set").css('background',"none");
+                            $(".layui-tree-set[data-id= "+id+" ]").css('background',"#ad7d7d");
+                            console.log(obj.elem[0]); //得到当前节点元素
+                            console.log(id); //得到当前点击的节点数据
+                            $.ajax({
+                                type: "post",
+                                url: "/admin/indent/one",
+                                data:{id:obj.data.id},
+                                success: function (e) {
+                                    $('#qc').empty(e.content)
+                                    $('#qc').append(e.content)
+                                },
+                            })
+
+                        }
+
+                    });
+                }
+            });
+
+
+    });
+
+
+
+
+
+</script>
+{/block}
