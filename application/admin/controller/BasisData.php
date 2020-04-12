@@ -1799,12 +1799,11 @@ class BasisData extends Adminbase{
                 $quota[$k] = trim($quota[$k]);
                 $craft_show[$k] = trim($craft_show[$k]);
                 $labor_cost[$k] = trim($labor_cost[$k]);
-                if(!is_numeric($price[$k]) || !is_numeric($in_price[$k]) || !is_numeric($labor_cost[$k])){
-                    $this->error('第'.($k+1).'行价格输入有误');
-                }
-
                 if(strlen($quota[$k]) == 0 || strlen($craft_show[$k]) == 0 || strlen($labor_cost[$k]) == 0){
                     $this->error('第'.($k+1).'行数据不能为空');
+                }
+                if(!is_numeric($quota[$k]) || !is_numeric($craft_show[$k]) || !is_numeric($labor_cost[$k])){
+                    $this->error('第'.($k+1).'行价格输入有误');
                 }
                 $insert_datas[$k]['fid'] = $this->_userinfo['companyid'];
                 $insert_datas[$k]['name'] = $v;
