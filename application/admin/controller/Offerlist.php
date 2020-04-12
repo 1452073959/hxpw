@@ -473,7 +473,7 @@ class Offerlist extends Adminbase
                     }else{
                         $item = Db::name('offerquota')->where('item_number',$k2)->where('frameid',$userinfo['companyid'])->find();//获取定额数据
                         if(!$item){
-                            $this->error('项目有误','',$k2);
+                            $this->error('项目有误'.$k2,'',$k2);
                         }   
                     }
                     if(!is_numeric($v2)){
