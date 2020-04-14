@@ -20,15 +20,50 @@
         <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
     </div>
     <div style="width: 100%;height:800px;border:1px solid #DDDDDD;">
-        <form id="form1">
+        <form method="post" action="{:url('admin/indent/search')}">
+            <span style="color: #2bf678;font-size: 20px " >搜索:</span>  <input type="text" name="search" value="" >
+            <input type="submit" value="搜索" class="layui-btn">
+        </form>
+        <form id="form1"  class="layui-form" >
+            {if isset($neq)}
+            <input type="hidden" value="{$neq['id']} " id="tid" name="id">
+            <span style="color: #2bf678;font-size: 20px " id="title2">标题:</span>   <input type="text" value="{$neq['title']}" id="title" name="title">
+            <div>
+                <div id="editor">
+                    <p>                <?php
+echo htmlspecialchars_decode($neq['content']);
+?>
+                    </p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限:</label>
+                <span id="lq"></span>
+                <div class="layui-input-block" id="le">
+                    {foreach $net as $key=>$vo }
+                    <input type="checkbox" name="role" title="{$vo['title']}" {in name="$vo['key']" value="$vo['auth']"}checked{/in} value="{$vo['id']}"  >
+                    {/foreach}
+                </div>
+            </div>
+            {else /}
             <input type="hidden"value="" id="tid" name="id">
             <span style="color: #2bf678;font-size: 20px " id="title2">标题:</span>   <input type="text" value="" id="title" name="title">
             <div>
                 <div id="editor">
                 </div>
             </div>
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button class="layui-btn" lay-submit lay-filter="del">删除该文章</button>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限:</label>
+                <span id="lq"></span>
+
+            </div>
+            {/if}
+
+
+            <div style="padding-left: 60px ">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="del">删除该文章</button>
+            </div>
         </form>
     </div>
 
@@ -43,7 +78,8 @@
 
 <!--<script src="https://www.layuicdn.com/layer/layer.js"></script>-->
 <script>
-    layui.use(['tree', 'util'], function () {
+    layui.use(['tree', 'util','form'], function () {
+        var form = layui.form;
         var E = window.wangEditor
         var editor = new E('#editor')
         editor.create()
@@ -66,20 +102,21 @@
                             console.log(obj.data); //得到当前点击的节点数据
                             var  id =obj.data.id;
                             $(".layui-tree-set").css('background',"none");
-                            $(".layui-tree-set[data-id= "+id+" ]").css('background',"#ad7d7d");
-
-                            // $('#title').attr('value',obj.data.title);
+                            $(".layui-tree-set[data-id= "+id+" ]").css('background',"#eee");
                             $.ajax({
                                 type: "post",
                                 url: "/admin/indent/one",
                                 data:{id:obj.data.id},
                                 success: function (e) {
-                                    console.log(e.title);
-                                    editor.txt.html(e.content);
+                                    console.log(e);
+                                    $('#le').remove();
+                                    $('#lq').append(e.str)
+                                    editor.txt.html(e.res.content);
                                     $('#title').remove();
                                     $('#title2').append(' <input type="text" value="" id="title" name="title">')
-                                    $("#title").attr('value',e.title);
-                                    $("#tid").attr('value',e.id);
+                                    $("#title").attr('value',e.res.title);
+                                    $("#tid").attr('value',e.res.id);
+                                    form.render();
                                 },
                             })
 
@@ -98,13 +135,14 @@
                 var html = editor.txt.html();
                 var id= $('#tid').val();
                 var title= $('#title').val();
-                console.log(html);
-                console.log(id);
-                console.log(title);
+                var auth=[];
+                $("input[name='role']:checked").each(function(){
+                    auth.push($(this).val());
+                });
                 $.ajax({
                     type: "post",
                     url: "/admin/indent/update",
-                    data:{id:id,title:title,content:html},
+                    data:{id:id,title:title,content:html,role:auth},
                     success: function (e) {
                         layer.msg(e.msg);
                         funName();
@@ -127,9 +165,6 @@
             });
         });
     });
-
-
-
 
 
 </script>

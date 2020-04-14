@@ -29,9 +29,13 @@ class Indent extends Adminbase
     public function calendar()
     {
         $admininfo = $this->_userinfo;
-        $role=Db::table('fdz_auth_group')->where('id',$admininfo['roleid'])->find();
-        $role=explode(',',$role['auth']);
-        $list=Db::table('fdz_zz')->where('id','in',$role)->select();
+        if($admininfo['roleid']!=1){
+            $role=Db::table('fdz_auth_group')->where('id',$admininfo['roleid'])->find();
+            $role=explode(',',$role['auth']);
+            $list=Db::table('fdz_zz')->where('id','in',$role)->select();
+        }else{
+            $list=Db::table('fdz_zz')->select();
+        }
         $tree = [];
         if (is_array($list)) {
             $refer = [];
@@ -80,70 +84,158 @@ class Indent extends Adminbase
     public function update(Request $request)
     {
         $data=$request->post();
+        $a1=Db::table('fdz_auth_group')->select();
+        foreach ($a1 as $k1=>$v1){
+            $m[]=$v1['id'];
+        }
+        if( !isset($data['role']))
+        {
+            $data['role']=[];
+        }
+        $me=array_diff($m,$data['role']);
+        $role2=Db::table('fdz_auth_group')->where('id','in',$me)->select();
+        foreach ($role2 as $k2=>$v2)
+        {
+            if(in_array($data['id'],explode(',',$v2['auth']))) {
+                $role2[$k2]['auth']=explode(',',$v2['auth']);
+                foreach ($role2[$k2]['auth'] as $k3=>$v3){
+                   if($v3==$data['id']){
+                     unset($role2[$k2]['auth'][$k3]);
+                   }
+                }
+                $role2[$k2]['auth'] = implode(',',$role2[$k2]['auth']);
+            }
+          Db::table('fdz_auth_group')->where('id',$v2['id'])->update(['auth'=>trim($role2[$k2]['auth'])]);
+        }
+
+        $role=Db::table('fdz_auth_group')->where('id','in',$data['role'])->select();
+        foreach ($role as $k=>$v)
+        {
+            if( !in_array($data['id'],explode(',',$v['auth']))) {
+                $role[$k]['auth'] = $v['auth'].','.$data['id'];
+            }
+            Db::table('fdz_auth_group')->where('id',$v['id'])->update(['auth'=>trim($role[$k]['auth'])]);
+        }
+
         $res=Db::table('fdz_zz')->where('id',$data['id'])->update(['title'=>$data['title'],'content'=>htmlspecialchars_decode($data['content'])]);
         if($res){
             return json(['code'=>1,'msg'=>'修改成功','data'=>$data['title']]);
         }else{
-            return json(['code'=>2,'msg'=>'失败','data'=>$data['title']]);
+            return json(['code'=>2,'msg'=>'修改成功','data'=>$data['title']]);
         }
     }
     //添加
     public function create()
     {
         $tree = new \util\Tree();
-        $pid = $this->request->param('pid/d', '');
+        $pid = $this->request->param('id/d', '');
         $result = Db::table('fdz_zz')->order(array( 'id' => 'DESC'))->select();
             foreach ($result as $k=>$v)
             {
                 $result[$k]['parentid']=$v['pid'];
             }
+
         $array = array();
         foreach ($result as $r) {
             $r['selected'] = $r['id'] == $pid ? 'selected' : '';
             $array[] = $r;
         }
-        $str = "<option value='\$id' \$selected>\$spacer \$title</option>";
+
+        $str = "<option value='\$id' \>\$spacer \$title</option>";
         $tree->init($array);
         $select_categorys = $tree->get_tree(0, $str);
-
-
-        $role=Db::table('fdz_auth_group')->select();
+        $data= Db::table('fdz_auth_group')->select();
+        $this->assign('data',$data);
         $this->assign('select_categorys',$select_categorys);
-        $this->assign('role',$role);
+
         return $this->fetch();
     }
+    //
+
+
+
+    //权限及添加
     public function createpost()
     {
-
         $data=input();
-
-        if($data['title']==''){
-            $this->error('质检流程必填');
-        }
-        unset($data['role']);
-                dump($data);die;
         $res=Db::table('fdz_zz')->insert($data);
         if($res){
             $this->success("添加成功！", url("indent/quality"));
         }else{
             $this->error('添加失败');
         }
+
+    }
+
+    public function select()
+    {
+        $key= input();
+       $data= Db::table('fdz_auth_group')->select();
+        foreach ($data as $k=>$v)
+        {
+            $data[$k]['auth']=explode(',',$v['auth']);
+            $data[$k]['key']=$key['key'];
+        }
+//        dump($data);die;
+        return json(['code=>1','msg'=>'切换成功','data'=>$data]);
     }
     //增加修改页面
     public function quality()
     {
+        $data= Db::table('fdz_auth_group')->select();
+        if(empty($key['key'])){
+        $key['key']=1;
+        }
+        foreach ($data as $k=>$v)
+        {
+            $data[$k]['key']=$key['key'];
+        }
+        $this->assign('data',$data);
          return $this->fetch();
     }
+    //显示
     public function document()
     {
         return $this->fetch();
+    }
+    //搜索
+    public function search()
+    {
+        $data=input();
+
+        $neq=Db::table('fdz_zz')->where('title',$data['search'])->find();
+        $net= Db::table('fdz_auth_group')->select();
+        foreach ($net as $k=>$v)
+        {
+            $net[$k]['key']=$neq['id'];
+        }
+        $this->assign('neq',$neq);
+        $this->assign('net',$net);
+        return $this->fetch('indent/quality');
+
     }
 
     public function one()
     {
         $data=input();
+        $a=$data['id'];
         $res=Db::table('fdz_zz')->where('id',$data['id'])->find();
-        return json($res);
+        $data= Db::table('fdz_auth_group')->select();
+        foreach ($data as $k=>$v)
+        {
+            $data[$k]['auth']=explode(',',$v['auth']);
+            $data[$k]['key']=$a;
+        }
+//        dump($data);
+        $str = '';
+        $str .= "<div class='layui-input-block' id='le'>";
+        foreach ($data as $key => $value) {
+            $str .= '
+             <input type="checkbox" name="role" title=" '.$value['title'].'"  value="'.$value['id'].'" '.(in_array($value['key'],$value['auth'])?'checked':'').' >
+                        ';
+        }
+        $str .= " </div>";
+        return json(['res'=>$res,'str'=>$str]);
 
     }
 

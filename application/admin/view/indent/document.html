@@ -15,10 +15,7 @@
         background-position: -195px -536px;
         border: none;
     }
-    .layui-disabled, .layui-disabled:hover {
-        /*color: #d2d2d2!important;*/
-        /* cursor: not-allowed!important; */
-    }
+
 
 </style>
 <div style="width: 100%;margin: 0 auto;border:1px solid #DDDDDD; display: flex;background-color: white">
@@ -27,10 +24,10 @@
 
         <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
     </div>
-    <div style="width: 100%;height:700px;border:1px solid #DDDDDD;">
+    <div style="width: 100%;height:100%;border:0px solid #DDDDDD;">
 
-        <div id="qc">
-                                            操作文档
+        <div id="qc" style="margin: 8px">
+                                       <div style="margin: 0 auto;width: 300px;font-size: 50px" > 操作文档</div>
         </div>
     </div>
 
@@ -65,7 +62,7 @@
                         ,click: function(obj){
                            var  id =obj.data.id;
                             $(".layui-tree-set").css('background',"none");
-                            $(".layui-tree-set[data-id= "+id+" ]").css('background',"#ad7d7d");
+                            $(".layui-tree-set[data-id= "+id+" ]").css('background',"#eee");
                             console.log(obj.elem[0]); //得到当前节点元素
                             console.log(id); //得到当前点击的节点数据
                             $.ajax({
@@ -73,8 +70,8 @@
                                 url: "/admin/indent/one",
                                 data:{id:obj.data.id},
                                 success: function (e) {
-                                    $('#qc').empty(e.content)
-                                    $('#qc').append(e.content)
+                                    $('#qc').empty(e.res.content)
+                                    $('#qc').append(e.res.content)
                                 },
                             })
 
