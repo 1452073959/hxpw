@@ -15,7 +15,7 @@
 
     <div class="information-box" style="border:1px solid #DDDDDD; width: 250px;">
         <div >
-            <button type="button" class="layui-btn" onclick="javascript:window.location.href='/admin/indent/create'"/>新增子标题</button>
+            <button type="button" class="layui-btn" id="cre" >新增子标题</button>
         </div>
         <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
     </div>
@@ -100,6 +100,7 @@ echo htmlspecialchars_decode($neq['content']);
                         ,showLine: false
                         ,click: function(obj){
                             console.log(obj.data); //得到当前点击的节点数据
+                            zy=obj.data.id;
                             var  id =obj.data.id;
                             $(".layui-tree-set").css('background',"none");
                             $(".layui-tree-set[data-id= "+id+" ]").css('background',"#eee");
@@ -108,7 +109,6 @@ echo htmlspecialchars_decode($neq['content']);
                                 url: "/admin/indent/one",
                                 data:{id:obj.data.id},
                                 success: function (e) {
-                                    console.log(e);
                                     $('#le').remove();
                                     $('#lq').append(e.str)
                                     editor.txt.html(e.res.content);
@@ -125,8 +125,52 @@ echo htmlspecialchars_decode($neq['content']);
                     });
                 }
             });
+
+
         }
         funName();
+        $("#cre").click(function () {
+            console.log(zy);
+            var html=
+                '<form class="layui-form" action="" id="crea">\n'+
+                '            <div class="layui-form-item" >\n' +
+                '                <label class="layui-form-label">文章类目</label>\n' +
+                '                <div class="layui-input-inline w300">\n' +
+                '                     <input type="hidden" value=' + zy + ' name="pid">\n'+
+                '                    <input type="text" name="title" lay-verify="required"  class="layui-input">\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '\n' +
+                '            <div class="layui-form-item">\n' +
+                '                <div class="layui-input-block">\n' +
+                '                    <button class="layui-btn ajax-post" lay-submit="" lay-filter="create" target-form="form-horizontal">立即提交</button>\n' +
+                '                    <a class="layui-btn layui-btn-normal" href="{:url(\'admin/indent/quality\')}">返回</a>\n' +
+                '                </div>\n' +
+                '            </div>\n'+
+                '</form>'
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'yourclass',
+                content: html
+            });
+            form.on('submit(create)', function(data){
+                console.log($('#crea').serialize());
+                $.ajax({
+                    type: "post",
+                    url: "/admin/indent/createpost",
+                    data:$('#crea').serialize(),
+                    success: function (e) {
+                        layer.msg(e.msg);
+                        window.location.reload();
+                    },
+                })
+                return false;
+            });
+        })
+
         layui.use('form', function(){
             var form = layui.form;
             //监听提交

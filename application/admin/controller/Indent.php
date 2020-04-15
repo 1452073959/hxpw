@@ -52,7 +52,7 @@ class Indent extends Adminbase
                     if (isset($refer[$parentId])) {
                         $parent =& $refer[$parentId];
                         $parent['children'][] =& $list[$key];
-                        $parent['disabled'] =true;
+//                        $parent['disabled'] =true;
                     }
 
                 }
@@ -158,12 +158,14 @@ class Indent extends Adminbase
     public function createpost()
     {
         $data=input();
+//        dump($data);
         $res=Db::table('fdz_zz')->insert($data);
         if($res){
-            $this->success("添加成功！", url("indent/quality"));
+            return json(['code=>1','msg'=>'添加成功','data'=>$res]);
         }else{
-            $this->error('添加失败');
+            return json(['code=>1','msg'=>'添加失败','data'=>$res]);
         }
+
 
     }
 
