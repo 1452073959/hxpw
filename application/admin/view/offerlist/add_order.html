@@ -319,12 +319,17 @@
                 btn: ['确认','取消'],
                 skin:'myskin',
                 yes: function(index, layero){
+                    var res = 0;
                     $('.space_name').each(function(k,v){
                         if($(v).text() == $('#replace_space').val()){
                             layer.msg('空间：'+$('#replace_space').val()+'已存在');
+                            res = 1;
                             return false
                         }
                     })
+                    if(res){
+                        return false;
+                    }
                     //更换空间的tr
                     $('#project_datas').find('tr[class="space"][data-inspace="'+old_name+'"]').attr('data-space','所有工种-'+$('#replace_space').val());
                     $('#project_datas').find('tr[class="space"][data-inspace="'+old_name+'"]').find('.space_name').text($('#replace_space').val());
