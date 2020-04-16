@@ -13,6 +13,7 @@ class Book extends Adminbase{
 
     //把所有的取费模板都存在客户订单里面
     public function test2(){
+        echo '暂停使用';die;
         $time = time();
         $add_datas = [];
         $offerlist = Db::name('offerlist')->field('tmp_cost_id,id,tmp_append_cost')->select();
@@ -71,7 +72,7 @@ class Book extends Adminbase{
 
     //重置取费模板
     public function test1(){
-
+        echo '暂停使用';die;
         $tmp_id = Db::name('tmp_cost')->group('tmp_id')->select();
 
         Db::startTrans();
