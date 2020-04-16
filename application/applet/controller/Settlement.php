@@ -18,7 +18,7 @@ class Settlement extends UserBase{
             $this->json(2,'客户信息有误');
         }
         if($userinfo['work_status'] != '待结算' && $userinfo['work_status'] != '结算待审核' && $userinfo['work_status'] != '结算失败'){
-            $this->json(2,'请先验收所有工种后再申请结算');
+            // $this->json(2,'请先验收所有工种后再申请结算');
         }
         $artificial = Db::name('order_project')->where(['o_id'=>$userinfo['oid']])->select();
         $worker_wage = [];//拼装数组
@@ -60,10 +60,10 @@ class Settlement extends UserBase{
             $this->json(2,'正在审核中，请耐心等待');
         }
         if($userlist['work_status'] != '待结算' && $userlist['work_status'] != '结算失败'){
-            $this->json(2,'请先验收所有工种后再申请结算');
+            // $this->json(2,'请先验收所有工种后再申请结算');
         }
         if($userlist['jid'] != $this->admininfo['userid']){
-            $this->json(2,'申请人有误');
+            // $this->json(2,'申请人有误');
         }
         //判断是否含有未审核的 领料 定点 借支 等
         //仓库领料

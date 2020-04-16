@@ -11,6 +11,143 @@ use think\Paginator;
 
 class Book extends Adminbase{
 
+    //把所有的取费模板都存在客户订单里面
+    public function test2(){
+        $time = time();
+        $add_datas = [];
+        $offerlist = Db::name('offerlist')->field('tmp_cost_id,id,tmp_append_cost')->select();
+        foreach($offerlist as $key=>$value){
+            if($value['tmp_cost_id']){
+                $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$value['tmp_cost_id']])->field('f_id,tmp_name,name,sign,formula,rate,content,sort,tmp_id')->order('sort','asc')->order('id','asc')->select();
+                $append_tmp_cost = json_decode($value['tmp_append_cost'],true);//附加项
+                if(!empty($append_tmp_cost)){
+                    $i = 1;
+                    foreach($append_tmp_cost as $k=>$v){
+                        foreach($tmp_cost as $k2=>$v2){
+                            if($v2['sign'] == 'S'){
+                                $v['f_id'] = $v2['f_id'];
+                                $v['content'] = isset($v['content'])?$v['content']:'';
+                                // $v['tmp_id'] = $v2['tmp_id'];
+                                if(isset($v['sort'])){
+                                    //下面的if是判断是否为0, 上面的 是兼容以前的其他取费模板 没有sort这个值
+                                    if($v['sort']){
+                                        //插在后面
+                                        array_splice($tmp_cost,$k2+$i,0,[$v]);
+                                        $i++;
+                                    }else{
+                                        //插在前面
+                                        array_splice($tmp_cost,$k2,0,[$v]);
+                                    }
+                                }else{
+                                    //插在前面
+                                    array_splice($tmp_cost,$k2,0,[$v]);
+                                }
+                            }else{
+                                continue;
+                            }
+                        }
+                    }
+                }
+                foreach($tmp_cost as $k=>$v){
+                    $info['oid'] = $value['id'];
+                    $info['f_id'] = $v['f_id'];
+                    $info['name'] = $v['name'];
+                    $info['sign'] = $v['sign'];
+                    $info['formula'] = $v['formula'];
+                    $info['rate'] = $v['rate'];
+                    $info['add_time'] = $time;
+                    $info['content'] = $v['content'];
+                    $info['sort'] = $k+1;
+                    $add_datas[] = $info;
+                    
+                }
+                
+            }
+        }
+        Db::name('order_tmp_cost')->insertAll($add_datas);
+        echo 11;
+        
+    }
+
+    //重置取费模板
+    public function test1(){
+
+        $tmp_id = Db::name('tmp_cost')->group('tmp_id')->select();
+
+        Db::startTrans();
+        try {
+            foreach($tmp_id as $k=>$v){
+                $list = Db::name('tmp_cost')->where(['tmp_id'=>$v['tmp_id']])->select();
+                foreach($list as $k2=>$v2){
+                    Db::name('tmp_cost')->where(['id'=>$v2['id']])->update(['sort'=>$k2+2]);
+                }
+                $datas = [];
+                $info = [];
+                $info['tmp_id'] = $v['tmp_id'];
+                $info['f_id'] = $v['f_id'];
+                $info['tmp_name'] = $v['tmp_name'];
+                $info['name'] = '直接费';
+                $info['sign'] = 'A1';
+                $info['formula'] = 'A1';
+                $info['rate'] = 100;
+                $info['content'] = '';
+                $info['sort'] = 0;
+                $info['add_time'] = $v['add_time'];
+                $datas[] = $info;
+
+                //优惠
+                $info = [];
+                $info['tmp_id'] =  $v['tmp_id'];
+                $info['f_id'] = $v['f_id'];
+                $info['tmp_name'] = $v['tmp_name'];
+                $info['name'] = '优惠';
+                $info['sign'] = 'A2';
+                $info['formula'] = 'A2';
+                $info['rate'] = 100;
+                $info['content'] = '';
+                $info['sort'] = 1;
+                $info['add_time'] = $v['add_time'];
+                $datas[] = $info;
+
+                //工程报价
+                $info = [];
+                $info['tmp_id'] = $v['tmp_id'];
+                $info['f_id'] = $v['f_id'];
+                $info['tmp_name'] = $v['tmp_name'];
+                $info['name'] = '工程报价';
+                $info['sign'] = 'S';
+                $info['formula'] = 'S';
+                $info['rate'] = 100;
+                $info['content'] = '';
+                $info['sort'] = count($list)+2;
+                $info['add_time'] = $v['add_time'];
+                $datas[] = $info;
+
+                //总计
+                $info = [];
+                $info['tmp_id'] = $v['tmp_id'];
+                $info['f_id'] = $v['f_id'];
+                $info['tmp_name'] = $v['tmp_name'];
+                $info['name'] = '总计';
+                $info['sign'] = 'T';
+                $info['formula'] = 'T';
+                $info['rate'] = 100;
+                $info['content'] = '';
+                $info['sort'] = count($list)+3;
+                $info['add_time'] = $v['add_time'];
+                $datas[] = $info;
+                // var_dump($datas);
+                Db::name('tmp_cost')->insertAll($datas);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        echo 'ok';
+        
+    }
+
     
     public function test(){
         echo '暂停使用';die;

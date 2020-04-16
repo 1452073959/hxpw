@@ -52,7 +52,7 @@ class Quote extends Adminbase
     // 获取某条模板详情
     public function get_tmp_cost_info(){
         $userinfo = $this->_userinfo;
-        $tmp_list = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'tmp_id'=>input('tmp_id')])->select();
+        $tmp_list = Db::name('tmp_cost')->where(['f_id'=>$userinfo['companyid'],'tmp_id'=>input('tmp_id')])->order('sort','asc')->order('id','asc')->select();
         foreach($tmp_list as $k=>$v){
             $tmp_list[$k]['add_time'] = date('Y-m-d H:i',$v['add_time']);
         }
@@ -70,7 +70,8 @@ class Quote extends Adminbase
     public function get_order_tmp_cost(){
         $o_id = input('id');
         $offerlist = Model('offerlist')->get_order_info($o_id);
-        echo json_encode(array('code'=>1,'datas'=>$offerlist['order_cost'],'default_cost'=>$offerlist['default_cost'],'append_cost'=>$offerlist['append_cost']));
+        $offerlist['order_cost'] = array_merge($offerlist['order_cost']);
+        echo json_encode(array('code'=>1,'datas'=>$offerlist['order_cost'],'default_cost'=>$offerlist['order_cost'],'append_cost'=>$offerlist['append_cost']));
     }
 
     //订单附加取费模板
@@ -79,48 +80,49 @@ class Quote extends Adminbase
         if($offerlist_info['status'] >= 5){
             $this->error('结算状态禁止修改模板');
         }
+        $name = input('name');
+        $sign = input('sign');
+        $formula = input('formula');
+        $rate = input('rate');
+        $content = input('content');
+        $sort = input('sort');
+        array_shift($name);
+        array_shift($sign);
+        array_shift($formula);
+        array_shift($rate);
+        array_shift($content);
+        array_shift($sort);
+
         $datas = [];
-        //array_filter是去空值
-        if(input('name')){
-            $name = array_filter(input('name'));
-        }else{
-            $name = [];
-        }
-        if(input('sign')){
-            $sign = array_filter(input('sign'));
-        }else{
-            $sign = [];
-        }
-        if(input('formula')){
-            $formula = array_filter(input('formula'));
-        }else{
-            $formula = [];
-        }
-        if(input('rate')){
-            $rate = array_filter(input('rate'));
-        }else{
-            $rate = [];
-        }
-        if(input('content')){
-            $content = array_filter(input('content'));
-        }else{
-            $content = [];
-        }
-        // $sign = array_filter(input('sign'));
-        // $formula = array_filter(input('formula'));
-        // $rate = array_filter(input('rate'));
-        // $content = array_filter(input('content'));
-        $count_name = count($name);
-        $count_sign = count($sign);
-        $count_formula = count($formula);
-        $count_rate = count($rate);
-        $count_content = count($content);
-        if($count_name != $count_sign || $count_sign != $count_formula || $count_formula != $count_rate || $count_rate != $count_content){
-            $this->error('新增项目不得留空');
-        }
+        
         $time = time();
         $userinfo = $this->_userinfo;
         foreach($name as $k=>$v){
+            if(empty($v)){
+                $this->error(($k+2) .'行字段名称不得为空');
+            }
+            if(empty($sign[$k])){
+                $this->error(($k+2) .'行标识符不得为空');
+            }
+            if(empty($formula[$k])){
+                $this->error(($k+2) .'行公式不得为空');
+            }
+            if(empty($rate[$k])){
+                $this->error(($k+2) .'行费率不得为空');
+            }
+
+            if (preg_match("/[\x7f-\xff]/", $sign[$k])) {
+                $this->error('标识符不得含有中文');
+            }
+            if (preg_match("/[\x7f-\xff]/", $formula[$k])) {
+                $this->error('公式不得含有中文');
+            }
+            if(!is_numeric($rate[$k])){
+                $this->error('费率必须为数字');
+            }
+            if($rate[$k] > 100 || $rate[$k] < 0){
+                $this->error('费率必须≥0且≤100');
+            }
             $info = [];
             $info['name'] = $v;
             $info['sign'] = $sign[$k];
@@ -128,41 +130,206 @@ class Quote extends Adminbase
             $info['rate'] = $rate[$k];
             $info['content'] = $content[$k];
             $info['add_time'] = $time;
+            $info['sort'] = $sort[$k];
+            $info['f_id'] = $offerlist_info['frameid'];
+            $info['oid'] = input('o_id');
+
             $datas[] = $info;
         }
-        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>input('tmp_id')])->select();
-        $list = array_merge($tmp_cost,$datas);
+        
+        $name_count = count(array_unique(array_column($datas, 'name')));
+        $sign_count = count(array_unique(array_column($datas, 'sign')));
+        if(count($datas) !== $name_count){
+            $this->error('字段名称不得重复');
+        }
+        if(count($datas) !== $sign_count){
+            $this->error('标识符不得重复');
+        }
         //判断是否有效
-        $sign_data['A1'] = 100;//自定义一个直接费
-        $sign_data['A2'] = 200;//自定义一个优惠
-        $sign_data['A3'] = 300;//自定义一个材料直接费
-        foreach($list as $k=>$v){
-            $count_sign = count($sign_data);
-            $num = 1;
-            foreach($sign_data as $k2=>$v2){
-                $v['formula'] = str_replace($k2,$v2,$v['formula']);
-                if($count_sign == $num){
-                    $str = $v['formula'];
-                    if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
-                        $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+        foreach($datas as $k=>$v){
+            if($k === 0){
+                if($v['sign'] == 'A1'){
+                   $sign_data['A1'] = 100;//自定义一个直接费
+                   $sign_data['A3'] = 100;//自定义一个材料直接费
+                }
+                continue;
+            }
+            if($v['sign'] == 'A1'){
+                $sign_data['A1'] = 100;//自定义一个直接费
+               $sign_data['A3'] = 100;//自定义一个材料直接费
+            }else if($v['sign'] == 'S'){
+                //工程报价
+                $sign_data['S'] = 100;//自定义一个工程报价
+            }else if($v['sign'] == 'T'){
+                //合计
+                $sign_data['T'] = 100;//自定义一个合计
+            }else if($v['sign'] == 'A2'){
+                //材料直接费
+                $sign_data['A2'] = 100;//自定义一个材料直接费
+            }else{
+                $count_sign = count($sign_data);
+                $num = 1;
+                foreach($sign_data as $k2=>$v2){
+                    $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                    if($count_sign == $num){
+                        $str = $v['formula'];
+                        $str = $v['formula'];
+                        if(preg_match("/[\+\-\*\/\.]{2}|[^\+\-\*\/\(\)\d\.]+/i", $v['formula'], $matches)){
+                             $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        } else {
+                            if(substr_count($v['formula'],"(")==substr_count($v['formula'],")")){
+                                
+                            } else {
+                                 $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                            }
+                        }
+                        if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
+                            $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                        }else{
+                             //模板错误
+                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        }
                     }else{
-                         //模板错误
-                        $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        $num++;
                     }
-                }else{
-                    $num++;
                 }
             }
         }
-        $datas = json_encode($datas);
-        $res = Db::name('offerlist')->where(['id'=>input('o_id')])->update(['tmp_append_cost'=>$datas]);
+        // var_dump($datas);die;
+        Db::name('order_tmp_cost')->where(['oid'=>input('o_id')])->delete();
+        Db::name('order_tmp_cost')->insertAll($datas);
         $this->success('保存成功');
-        // if($res){
-        //     $this->success('保存成功');
-        // }else{
-        //     $this->error('保存失败');
-        // }
 
+    }
+
+    public function tmp_cost_preview(){
+        $offerlist_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
+        // if($offerlist_info['status'] >= 5){
+        //     $this->error('结算状态禁止修改模板');
+        // }
+        $name = input('name');
+        $sign = input('sign');
+        $formula = input('formula');
+        $rate = input('rate');
+        $content = input('content');
+        $sort = input('sort');
+        array_shift($name);
+        array_shift($sign);
+        array_shift($formula);
+        array_shift($rate);
+        array_shift($content);
+        array_shift($sort);
+
+        $datas = [];
+        
+        $time = time();
+        $userinfo = $this->_userinfo;
+        foreach($name as $k=>$v){
+            if(empty($v)){
+                $this->error(($k+2) .'行字段名称不得为空');
+            }
+            if(empty($sign[$k])){
+                $this->error(($k+2) .'行标识符不得为空');
+            }
+            if(empty($formula[$k])){
+                $this->error(($k+2) .'行公式不得为空');
+            }
+            if(empty($rate[$k])){
+                $this->error(($k+2) .'行费率不得为空');
+            }
+
+            if (preg_match("/[\x7f-\xff]/", $sign[$k])) {
+                $this->error('标识符不得含有中文');
+            }
+            if (preg_match("/[\x7f-\xff]/", $formula[$k])) {
+                $this->error('公式不得含有中文');
+            }
+            if(!is_numeric($rate[$k])){
+                $this->error('费率必须为数字');
+            }
+            if($rate[$k] > 100 || $rate[$k] < 0){
+                $this->error('费率必须≥0且≤100');
+            }
+            $info = [];
+            $info['name'] = $v;
+            $info['sign'] = $sign[$k];
+            $info['formula'] = $formula[$k];
+            $info['rate'] = $rate[$k];
+            $info['content'] = $content[$k];
+            $info['add_time'] = $time;
+            $info['sort'] = $sort[$k];
+            $info['f_id'] = $offerlist_info['frameid'];
+            $info['oid'] = input('o_id');
+
+            $datas[] = $info;
+        }
+        
+        $name_count = count(array_unique(array_column($datas, 'name')));
+        $sign_count = count(array_unique(array_column($datas, 'sign')));
+        if(count($datas) !== $name_count){
+            $this->error('字段名称不得重复');
+        }
+        if(count($datas) !== $sign_count){
+            $this->error('标识符不得重复');
+        }
+        //判断是否有效
+        foreach($datas as $k=>$v){
+            if($k === 0){
+                if($v['sign'] == 'A1'){
+                   $sign_data['A1'] = 100;//自定义一个直接费
+                   $sign_data['A3'] = 100;//自定义一个材料直接费
+                }
+                continue;
+            }
+            if($v['sign'] == 'A1'){
+                $sign_data['A1'] = 100;//自定义一个直接费
+               $sign_data['A3'] = 100;//自定义一个材料直接费
+            }else if($v['sign'] == 'S'){
+                //工程报价
+                $sign_data['S'] = 100;//自定义一个工程报价
+            }else if($v['sign'] == 'T'){
+                //合计
+                $sign_data['T'] = 100;//自定义一个合计
+            }else if($v['sign'] == 'A2'){
+                //材料直接费
+                $sign_data['A2'] = 100;//自定义一个材料直接费
+            }else{
+                $count_sign = count($sign_data);
+                $num = 1;
+                foreach($sign_data as $k2=>$v2){
+                    $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                    if($count_sign == $num){
+                        $str = $v['formula'];
+                        $str = $v['formula'];
+                        if(preg_match("/[\+\-\*\/\.]{2}|[^\+\-\*\/\(\)\d\.]+/i", $v['formula'], $matches)){
+                             $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        } else {
+                            if(substr_count($v['formula'],"(")==substr_count($v['formula'],")")){
+                                
+                            } else {
+                                 $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                            }
+                        }
+                        if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
+                            $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                        }else{
+                             //模板错误
+                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                        }
+                    }else{
+                        $num++;
+                    }
+                }
+            }
+        }
+        $order_info = model('offerlist')->get_order_info(input('o_id'),2,$datas)['order_cost'];
+        foreach($order_info as $k=>$v){
+            if($v['name'] == '优惠前报价'){
+                unset($order_info[$k]);
+            }
+        }
+        $order_info = array_merge($order_info);
+        $this->success('success','',$order_info);
     }
 
     public function add_tmp_cost(){
@@ -175,6 +342,7 @@ class Quote extends Adminbase
             $formula = array_filter(input('formula'));
             $rate = array_filter(input('rate'));
             $content = array_filter(input('content'));
+            $sort = array_filter(input('sort'));
 
             $count_name = count($name);
             $count_sign = count($sign);
@@ -190,6 +358,18 @@ class Quote extends Adminbase
             $time = time();
             $userinfo = $this->_userinfo;
             foreach($name as $k=>$v){
+                if (preg_match("/[\x7f-\xff]/", $sign[$k])) {
+                    $this->error('标识符不得含有中文');
+                }
+                if (preg_match("/[\x7f-\xff]/", $formula[$k])) {
+                    $this->error('公式不得含有中文');
+                }
+                if(!is_numeric($rate[$k])){
+                    $this->error('费率必须为数字');
+                }
+                if($rate[$k] > 100 || $rate[$k] < 0){
+                    $this->error('费率必须≥0且≤100');
+                }
                 $info = [];
                 $info['tmp_id'] = $tmp_id;
                 $info['f_id'] = $userinfo['companyid'];
@@ -199,42 +379,135 @@ class Quote extends Adminbase
                 $info['formula'] = $formula[$k];
                 $info['rate'] = $rate[$k];
                 $info['content'] = $content[$k];
+                $info['sort'] = $sort[$k]?$sort[$k]:0;
                 $info['add_time'] = $time;
                 $datas[] = $info;
             }
             //==========判断模板是否有效
             //判断字段 标识符是否重复
-            $name_count = count(array_column($datas, 'name'));
-            $sign_count = array_column($datas, 'sign');
+            $name_count = count(array_unique(array_column($datas, 'name')));
+            $sign_count = array_unique(array_column($datas, 'sign'));
             if(count($datas) !== $name_count){
                 $this->error('字段名称不得重复');
             }
-            if(count($datas) !== count($sign_count) || in_array('A1', $sign_count)){
+            if(count($datas) !== count($sign_count) || in_array('A1', $sign_count) || in_array('A2', $sign_count) || in_array('A3', $sign_count) || in_array('S', $sign_count) || in_array('T', $sign_count)){
                 $this->error('标识符不得重复');
             }
 
+            //直接费
+            $info = [];
+            $info['tmp_id'] = $tmp_id;
+            $info['f_id'] = $userinfo['companyid'];
+            $info['tmp_name'] = $tmp_name;
+            $info['name'] = '直接费';
+            $info['sign'] = 'A1';
+            $info['formula'] = 'A1';
+            $info['rate'] = 100;
+            $info['content'] = input('direct_cost_content');
+            $info['sort'] = 0;
+            $info['add_time'] = $time;
+            $datas[] = $info;
+
+            //优惠
+            $info = [];
+            $info['tmp_id'] = $tmp_id;
+            $info['f_id'] = $userinfo['companyid'];
+            $info['tmp_name'] = $tmp_name;
+            $info['name'] = '优惠';
+            $info['sign'] = 'A2';
+            $info['formula'] = 'A2';
+            $info['rate'] = 100;
+            $info['content'] = input('discount_content');
+            $info['sort'] = input('discount_sort');
+            $info['add_time'] = $time;
+            $datas[] = $info;
+
+            //工程报价
+            $info = [];
+            $info['tmp_id'] = $tmp_id;
+            $info['f_id'] = $userinfo['companyid'];
+            $info['tmp_name'] = $tmp_name;
+            $info['name'] = '工程报价';
+            $info['sign'] = 'S';
+            $info['formula'] = 'S';
+            $info['rate'] = 100;
+            $info['content'] = input('discount_proquant_content');
+            $info['sort'] = input('discount_proquant_sort');
+            $info['add_time'] = $time;
+            $datas[] = $info;
+
+            //总计
+            $info = [];
+            $info['tmp_id'] = $tmp_id;
+            $info['f_id'] = $userinfo['companyid'];
+            $info['tmp_name'] = $tmp_name;
+            $info['name'] = '总计';
+            $info['sign'] = 'T';
+            $info['formula'] = 'T';
+            $info['rate'] = 100;
+            $info['content'] = input('total_content');
+            $info['sort'] = count($datas)+1;
+            $info['add_time'] = $time;
+            $datas[] = $info;
+            $datas = array_column($datas, null,'sort');
+            ksort($datas);
+
             //判断计算方式
-            $sign_data['A1'] = 100;//自定义一个直接费
-            $sign_data['A2'] = 200;//自定义一个优惠
+            // $sign_data['A1'] = 100;//自定义一个直接费
+            // $sign_data['A2'] = 200;//自定义一个优惠
             $sign_data['A3'] = 200;//自定义一个材料直接费
+            // var_dump($datas);die;
+
+            
             foreach($datas as $k=>$v){
-                $count_sign = count($sign_data);
-                $num = 1;
-                foreach($sign_data as $k2=>$v2){
-                    $v['formula'] = str_replace($k2,$v2,$v['formula']);
-                    if($count_sign == $num){
-                        $str = $v['formula'];
-                        if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
-                            $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                if($k === 0){
+                    if($v['sign'] == 'A1'){
+                       $sign_data['A1'] = 100;//自定义一个直接费
+                    }
+                    continue;
+                }
+
+                if($v['sign'] == 'A1'){
+                    $sign_data['A1'] = 100;//自定义一个直接费
+                }else if($v['sign'] == 'S'){
+                    //工程报价
+                    $sign_data['S'] = 100;//自定义一个工程报价
+                }else if($v['sign'] == 'T'){
+                    //合计
+                    $sign_data['T'] = 100;//自定义一个合计
+                }else if($v['sign'] == 'A2'){
+                    //材料直接费
+                    $sign_data['A2'] = 100;//自定义一个材料直接费
+                }else{
+                    $count_sign = count($sign_data);
+                    $num = 1;
+                    foreach($sign_data as $k2=>$v2){
+                        $v['formula'] = str_replace($k2,$v2,$v['formula']);
+                        
+                        if($count_sign == $num){
+                            $str = $v['formula'];
+                            if(preg_match("/[\+\-\*\/\.]{2}|[^\+\-\*\/\(\)\d\.]+/i", $v['formula'], $matches)){
+                                 $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                            } else {
+                                if(substr_count($v['formula'],"(")==substr_count($v['formula'],")")){
+                                    
+                                } else {
+                                     $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                                }
+                            }
+                            if(@eval("return $str;") && @is_numeric(eval("return $str;"))){
+                                $sign_data[$v['sign']] = round(eval("return $str;")*$v['rate']/100,2);
+                            }else{
+                                 //模板错误
+                                $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                            }
                         }else{
-                             //模板错误
-                            $this->error($v['name'].'计算方式有误，请检查后重新提交');
+                            $num++;
                         }
-                    }else{
-                        $num++;
                     }
                 }
             }
+            // var_dump($datas);die;
             //=============判断结束
             Db::startTrans();
             try {

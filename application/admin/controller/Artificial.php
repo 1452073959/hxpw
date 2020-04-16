@@ -161,6 +161,7 @@ class Artificial extends Adminbase
             $where['customerid'] = 0;
         }
         $where['number'] = 1; //不知道是什么
+        $where['is_del'] = 0; //不知道是什么
         //客户姓名搜索
         if(input('search')){
             // $where[]
@@ -777,7 +778,7 @@ class Artificial extends Adminbase
             $datas[$v['space']][$v['item_number']]['num'] += $v['num'];
         }
         //增减项详情
-        $offerlist_info = Model('offerlist')->get_order_info_by_project($order_project);
+        $offerlist_info = Model('offerlist')->get_order_info_by_project($order_project,1);
         //订单底部文字
         $cost_tmp = Db::name('cost_tmp')->where(['f_id' => $order_info['frameid']])->find();
         $this->assign([

@@ -14,6 +14,16 @@
     display: block;
     float: left;
 }
+.sort{
+    padding: 3px;
+}
+.layui-table-sort{
+    margin-left:0;
+    width:20px;
+}
+.hide_td{
+    display: none;
+}
 </style>
 <div class="layui-card">
     <div class="layui-card-body">
@@ -76,81 +86,187 @@
 <script type="text/javascript" src="__STATIC__/admin/js/common.js"></script>
 <script type="text/javascript">
     function add_tr(o){
-        html  = '     <tr>'
+        var html = '';
+        html += '     <tr>'
+        html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+        html += '       <td>'
+        html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+        html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+        html += '          <a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a>'
+        html += '       </td>'
         html += '       <td><input class="layui-input" name="name[]" /></td>'
         html += '       <td><input class="layui-input" name="sign[]" /></td>'
         html += '       <td><input class="layui-input" name="formula[]" /></td>'
         html += '       <td><input class="layui-input" name="rate[]" /></td>'
         html += '       <td><input class="layui-input" name="content[]" /></td>'
-        html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
         html += '     </tr>'
-        $('#add_word tbody').append(html);
+        $(o).parent().parent().after(html);
+        set_sort();
     }
     function delete_tr(o){
         $(o).parent().parent().remove();
+        set_sort();
     }
+    // set_sort();
+    //重新排序
+    function set_sort(){
+        var i = 1;
+        $('.sort').each(function(k,v){
+            $(v).val(i);
+            $(v).attr('bj',i);
+            i++;
+        })
+    }
+    //插入排序
+    $(document).on('change','.sort',function(){
+        var num = $(this).val();
+        var old_num = $(this).attr('bj');//目标位置
+        var data_tr =  $(this).parent().parent();
+        var i = 0;
+        var is = false;
+        $('.sort').each(function(k,v){
+            if($(v).attr('bj') == num){
+                if(num > old_num){
+                    $(data_tr).insertAfter($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }else{
+                    $(data_tr).insertBefore($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+                is = true;
+            }
+        })
+        if(!is){
+            $(data_tr).insertAfter($('.sort:last').parent().parent());
+        }
+        set_sort();
+    })
+    $(document).on('click','.layui-table-sort-asc',function(){
+        var this_tr = $(this).parent().parent().parent();
+
+        if($(this_tr).prev().attr('class') != 'stop'){
+            var num = $(this_tr).find('td').eq(0).find('input').attr('bj');
+            $('.sort').each(function(k,v){
+                if((Number($(v).attr('bj'))+1) == num){
+                    console.log((Number($(v).attr('bj'))+1));
+                   $(this_tr).insertBefore($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+            })
+        }
+        
+        set_sort();
+    })
+    $(document).on('click','.layui-table-sort-desc',function(){
+        var this_tr = $(this).parent().parent().parent();
+        if($(this_tr).next().attr('class') != 'stop'){
+            var num = $(this_tr).find('td').eq(0).find('input').attr('bj');
+            $('.sort').each(function(k,v){
+                if((Number($(v).attr('bj'))-1) == num){
+                    console.log((Number($(v).attr('bj'))-1));
+                   $(this_tr).insertAfter($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+            })
+        }
+        
+        set_sort();
+    })
     $(function(){
         //添加模板
         $('#add_work').click(function(){
             layui.use('layer', function(){
                 var html  = '<form id="addform">'
-                    html += '   <table class="layui-table " id="add_word" >'
+                    html += '   <table class="layui-table " id="" >'
                     html += '     <colgroup>'
+                    html += '         <col width="100">'
+                    html += '         <col width="100">'
                     html += '         <col width="150">'
                     html += '         <col width="100">'
                     html += '         <col width="200">'
                     html += '         <col width="180">'
                     html += '         <col width="300">'
-                    html += '         <col width="30">'
-                    html += '         <col>'
                     html += '     </colgroup>'
                     html += '     <thead>'
                     html += '       <tr>'
+                    html += '           <th class="hide_td">排序</th>'
+                    html += '           <th>操作</th>'
                     html += '           <th>字段名称</th>'
                     html += '           <th>标识符</th>'
                     html += '           <th>公式</th>'
                     html += '           <th>费率(范围0-100)</th>'
                     html += '           <th>说明</th>'
-                    html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                     html += '       </tr> '
                     html += '     </thead>'
                     html += '     <tbody>'
-                    html += '     <tr>'
+                    html += '     <tr class="stop">'
+                    html += '       <td class="hide_td"></td>'
+                    html += '       <td>'
+                    html += '       </td>'
                     html += '       <td>直接费</td>'
                     html += '       <td>A1</td>'
                     html += '       <td>A1</td>'
                     html += '       <td>100</td>'
-                    html += '       <td></td>'
-                    html += '       <td></td>'
+                    html += '       <td><input class="layui-input" name="direct_cost_content" /></td>'
                     html += '     </tr>'
-                    html += '     <tr>'
-                    html += '       <td>优惠</td>'
-                    html += '       <td>A2</td>'
-                    html += '       <td>A2</td>'
-                    html += '       <td>100</td>'
-                    html += '       <td></td>'
-                    html += '       <td></td>'
-                    html += '     </tr>'
-                    html += '     <tr>'
+                    html += '     <tr class="stop">'
+                    html += '       <td class="hide_td"></td>'
+                    html += '       <td>'
+                    html += '       </td>'
                     html += '       <td>材料直接费</td>'
                     html += '       <td>A3</td>'
                     html += '       <td>A3</td>'
                     html += '       <td>100</td>'
                     html += '       <td></td>'
-                    html += '       <td></td>'
                     html += '     </tr>'
                     html += '     <tr>'
+                    html += '       <td class="hide_td"><input class="layui-input sort" name="discount_sort" /></td>'
+                    html += '       <td>'
+                    html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                    html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                    html += '       </td>'
+                    html += '       <td>优惠</td>'
+                    html += '       <td>A2</td>'
+                    html += '       <td>A2</td>'
+                    html += '       <td>100</td>'
+                    html += '       <td><input class="layui-input" name="discount_content" /></td>'
+                    html += '     </tr>'
+                    html += '     <tr>'
+                    html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+                    html += '       <td>'
+                    html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                    html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                    html += '          <a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a>'
+                    html += '       </td>'
                     html += '       <td><input class="layui-input" name="name[]" /></td>'
                     html += '       <td><input class="layui-input" name="sign[]" /></td>'
                     html += '       <td><input class="layui-input" name="formula[]" /></td>'
                     html += '       <td><input class="layui-input" name="rate[]" /></td>'
                     html += '       <td><input class="layui-input" name="content[]" /></td>'
-                    html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
+                    html += '     </tr>'
+                    html += '     <tr>'
+                    html += '       <td class="hide_td"><input class="layui-input sort" name="discount_proquant_sort" /></td>'
+                    html += '       <td>'
+                    html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                    html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                    html += '       </td>'
+                    html += '       <td>工程报价</td>'
+                    html += '       <td>S</td>'
+                    html += '       <td>S</td>'
+                    html += '       <td>100</td>'
+                    html += '       <td><input class="layui-input" name="discount_proquant_content" /></td>'
+                    html += '     </tr>'
+                    html += '     <tr class="stop">'
+                    html += '       <td class="hide_td"></td>'
+                    html += '       <td>'
+                    html += '       </td>'
+                    html += '       <td>总计</td>'
+                    html += '       <td>T</td>'
+                    html += '       <td>T</td>'
+                    html += '       <td>100</td>'
+                    html += '       <td><input class="layui-input" name="total_content" /></td>'
                     html += '     </tr>'
                     html += '     </tbody>'
                     html += '     <tfoot>'
-                    html += '       <tr>'
-                    html += '           <td>模板名称</td>'
+                    html += '       <tr>' 
+                    html += '           <td class="hide_td" colspan="1"></td>'
+                    html += '           <td colspan="1">模板名称</td>'
                     html += '           <td colspan="5"><input class="layui-input" name="tmp_name" /></td>'
                     html += '       </tr>'
                     html += '     </tfoot>'
@@ -189,6 +305,9 @@
                     },
                     cancel: function(){ 
                     //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    success:function(){
+                        set_sort();
                     }
                 });
             }); 
@@ -202,7 +321,7 @@
                 $.post('/admin/quote/get_tmp_cost_info',{tmp_id:tmp_id},function(res){
                     if(res.code == 1){
                         var html  = '<form id="editform">'
-                        html += '   <table class="layui-table" id="add_word" >'
+                        html += '   <table class="layui-table" id="" >'
                         html += '     <colgroup>'
                         html += '         <col width="150">'
                         html += '         <col width="100">'
@@ -221,22 +340,22 @@
                         html += '           <th>说明</th>'
                         html += '       </tr> '
                         html += '     </thead>'
-                        html += '     <tbody>'
-                        html += '     <tr>'
-                        html += '       <td>直接费</td>'
-                        html += '       <td>A1</td>'
-                        html += '       <td>A1</td>'
-                        html += '       <td>100</td>'
-                        html += '       <td></td>'
-                        html += '     </tr>'
-                        html += '     <tr>'
-                        html += '       <td>优惠</td>'
-                        html += '       <td>A2</td>'
-                        html += '       <td>A2</td>'
-                        html += '       <td>100</td>'
-                        html += '       <td></td>'
-                        html += '     </tr>'
-                        html += '     <tr>'
+                        // html += '     <tbody>'
+                        // html += '     <tr>'
+                        // html += '       <td>直接费</td>'
+                        // html += '       <td>A1</td>'
+                        // html += '       <td>A1</td>'
+                        // html += '       <td>100</td>'
+                        // html += '       <td></td>'
+                        // html += '     </tr>'
+                        // html += '     <tr>'
+                        // html += '       <td>优惠</td>'
+                        // html += '       <td>A2</td>'
+                        // html += '       <td>A2</td>'
+                        // html += '       <td>100</td>'
+                        // html += '       <td></td>'
+                        // html += '     </tr>'
+                        // html += '     <tr>'
                         html += '       <td>材料直接费</td>'
                         html += '       <td>A3</td>'
                         html += '       <td>A3</td>'

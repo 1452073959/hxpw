@@ -229,6 +229,9 @@ class Check extends UserBase{
         $data['process'] = input('process');//验收内容
         $data['pid'] = input('pid');//验收内容
         $userinfo = Db::name('userlist')->where(['id'=>input('uid')])->find(); //用户详情
+        if($userinfo['status'] > 6){
+            $this->json(2,'结算状态禁止申请验收');
+        }
         $data['frameid'] = $userinfo['frameid'];
         $data['applyid'] = $this->admininfo['userid'];
         $data['checkid'] = $userinfo['check_id'];

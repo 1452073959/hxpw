@@ -101,7 +101,7 @@ a{
                         <th class="taleft" lay-data="{field:'direct_cost',width:100 }">工程直接费</th>
                         <th class="taleft" lay-data="{field:'matquant',width:100,style:'background-color: #e4fcfd' }">辅材报价</th>
                         <th class="taleft" lay-data="{field:'manual_quota',width:100,style:'background-color: #e4fcfd' }">人工报价</th>
-                        <th class="taleft" lay-data="{field:'order_cost_all_price',event:'get_tmp_cost',width:90,style:'background-color: #e4fcfd ;color:#f36f20' }">其他费用</th>
+                        <th class="taleft" lay-data="{field:'order_cost_all_price',event:'get_tmp_cost',width:90,style:'background-color: #e4fcfd ;color:#f36f20' }">费用详情</th>
                         <th class="taleft" lay-data="{field:'discount_zk',width:160,style:'background-color: #e4fcfd;color:#029687' }">优惠</th>
                         <th class="taleft" lay-data="{field:'discount',width:90,style:'background-color: #e4fcfd;color:#029687',hide:'true'}">金额优惠</th>
                         <th class="taleft" lay-data="{field:'sundry',edit:'text',width:90,style:'background-color: #e5f3c5;color:#029687' }">运杂</th>
@@ -692,7 +692,15 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">人工成本占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table">'
+                html += '<thead>'
+                html += ' <tr>'
+                html += '   <th style="text-align:center">工种类型</th><th style="text-align:center">金额</th>'
+                html += '   <th style="text-align:center">人工成本占比</th>'
+                html += '   <th style="text-align:center">直接费占比</th>'
+                html += ' </tr>'
+                html += '</thead>'
+                html += '<tbody>';
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+key+'</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
@@ -718,7 +726,16 @@ layui.use('table', function(){
             data : {id:data.id},
             success : function(re){
               if(re.code === 0){
-                var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">工种类型</th><th style="text-align:center">金额</th><th style="text-align:center">辅材成本占比</th><th style="text-align:center">直接费占比</th></tr></thead><tbody>';
+                var html = '<table style="text-align:center" class="layui-table">'
+                html += ' <thead>'
+                html += '   <tr>'
+                html += '     <th style="text-align:center">工种类型</th>'
+                html += '     <th style="text-align:center">金额</th>'
+                html += '     <th style="text-align:center">辅材成本占比</th>'
+                html += '     <th style="text-align:center">直接费占比</th>'
+                html += '   </tr>'
+                html += '   </thead>'
+                html += '<tbody>';
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+key+'</td><td style="background-color:#f36f20;color:#ffffff">'+toDecimal2(val)+'</td><td>'+toDecimal2(val/re.total*100)+'%</td><td>'+toDecimal2(val/data.direct_cost*100)+'%</td></tr>'
                  });
@@ -841,8 +858,8 @@ layui.use('table', function(){
               }else{
 
                 var html = '<table style="text-align:center" class="layui-table"><thead><tr><th style="text-align:center">收费项目</th><th style="text-align:center">金额</th><th style="text-align:center">标识符</th><th style="text-align:center">公式</th><th style="text-align:center">比率</th></tr></thead><tbody>';
-                html += '<tr><td style="background-color:#f36f20;color:#ffffff">直接费</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(data.direct_cost) +'</td><td>A1</td><td>A1</td><td>100%</td></tr>'
-                html += '<tr><td style="background-color:#d48ed2;color:#ffffff">优惠</td><td style="background-color:#d48ed2;color:#ffffff">'+ toDecimal2(data.discount) +'</td><td>A2</td><td>A2</td><td>100%</td></tr>'
+                // html += '<tr><td style="background-color:#f36f20;color:#ffffff">直接费</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(data.direct_cost) +'</td><td>A1</td><td>A1</td><td>100%</td></tr>'
+                // html += '<tr><td style="background-color:#d48ed2;color:#ffffff">优惠</td><td style="background-color:#d48ed2;color:#ffffff">'+ toDecimal2(data.discount) +'</td><td>A2</td><td>A2</td><td>100%</td></tr>'
                 $.each(re.datas, function (key, val) {
                       html += '<tr><td style="background-color:#f36f20;color:#ffffff">'+val.name+'</td><td style="background-color:#f36f20;color:#ffffff">'+ toDecimal2(val.price) +'</td><td>'+val.sign+'</td><td>'+val.formula+'</td><td>'+ val.rate +'%</td></tr>'
                 });

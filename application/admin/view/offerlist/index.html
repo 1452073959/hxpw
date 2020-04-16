@@ -60,6 +60,16 @@
     line-height: 28px;
     padding:0 2px;
 }
+.sort{
+    padding: 3px;
+}
+.layui-table-sort{
+    margin-left:0;
+    width:20px;
+}
+.hide_td{
+    display: none;
+}
 </style>
   <!-- 导出完成 -->
 <div class="layui-card">
@@ -108,7 +118,7 @@
                         <th class="" lay-data="{field:'manual_quota',width:100 }">人工报价</th>
                         <th class="" lay-data="{field:'discount_zk',width:180}">折扣优惠</th>
                         <th class="" lay-data="{field:'gift',width:180}">礼品</th>
-                        <th class="" lay-data="{field:'discount_content',edit:'text',width:180 }">金额优惠说明</th>
+                        <!-- <th class="" lay-data="{field:'discount_content',edit:'text',width:180 }">金额优惠说明</th> -->
                         <th class="" lay-data="{field:'tmp_id',width:100}">取费模板</th>
                         <th class="" lay-data="{field:'o_remark',event:'o_remark',width:130}">报价单底部备注</th>
                         <th class="" lay-data="{field:'entrytime',width:150}">录入时间</th>
@@ -139,6 +149,9 @@
                                     <a class="layui-btn layui-btn-xs layui-btn-primary" href="{:url('admin/offerlist/add_order',['customer_id'=>$vo.customerid,'report_id'=>$vo.id])}">另存订单</a>
                                 {/if}
     						{/eq}
+                            {if($vo['status'] < 3) && $admininfo['roleid'] == 1}
+                                <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="del_order" key="{$vo.id}">删除</a>
+                            {/if}
 				        </td>
                         <td>
                             {if $vo.no_standard=="1"}
@@ -176,7 +189,7 @@
                             {elseif ($vo['info']['discount_type']==3) /}
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">人工{$vo.info.discount_num/10}折/￥{$vo.info.discount_zk}</a>
                             {elseif ($vo['info']['discount_type']==4) /}
-                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount_num}">现金优惠￥{$vo.info.discount}元</a>
+                            <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="{$vo['info']['discount_type']}" data-num="{$vo.info.discount}">现金优惠￥{$vo.info.discount}元</a>
                             {else /}
                                 <a lay-event="set_discount" data-append="{$vo.info.discount_append}" data-type="1" data-num="">设置优惠</a>
                             {/if}
@@ -189,8 +202,8 @@
                             {/if}
                         </td>
                       <!-- <td class="">{$vo.info.discount}</td> -->
-                      <td class="">{$vo.info.discount_content}</td>
-                      <td class="">{$vo.info.tmp_cost_id?'<a class="" data-id="'.$vo.info.tmp_cost_id.'" lay-event="show_tmp">'.$tmp_cost[$vo.info.tmp_cost_id]['tmp_name'].'</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
+                      <!-- <td class="">{$vo.info.discount_content}</td> -->
+                      <td class="">{$vo.tmp_count>0?'<a class="" data-id="" lay-event="show_tmp">查看</a>':'<a lay-event="check_tmp"><i title="选择模板" class="layui-icon layui-icon-set-sm"></i></a>'}</td>
                       <td class="">查看/设置</td>
                       <td class="">{$vo.info.entrytime|date="Y-m-d H:i"}</td>
                       <td class="">{$vo.effect_img ? '<a href="/admin/offerlist/down?id='.$vo["id"].'&type=2">下载</a>':'<a href="javascript:;" style="color:red" lay-event="effect_img">上传</a>'}</td>
@@ -214,6 +227,91 @@
 <!-- 打印 -->
 <script src="__STATIC__/bootstrap/js/table/printThis.min.js"></script>
 <script type="text/javascript">
+    //=====取费模板相关
+    function add_tr(o){
+        var html = '';
+        html += '     <tr>'
+        html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+        html += '       <td>'
+        html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+        html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+        html += '          <a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a>'
+        html += '       </td>'
+        html += '       <td><input class="layui-input" name="name[]" /></td>'
+        html += '       <td><input class="layui-input" name="sign[]" /></td>'
+        html += '       <td><input class="layui-input" name="formula[]" /></td>'
+        html += '       <td><input class="layui-input" name="rate[]" /></td>'
+        html += '       <td class="price"></td>'
+        html += '       <td><input class="layui-input" name="content[]" /></td>'
+        html += '     </tr>'
+        $(o).parent().parent().after(html);
+        set_sort();
+    }
+    function delete_tr(o){
+        $(o).parent().parent().remove();
+        set_sort();
+    }
+    // set_sort();
+    //重新排序
+    function set_sort(){
+        var i = 1;
+        $('.sort').each(function(k,v){
+            $(v).attr('value',i);
+            $(v).attr('bj',i);
+            i++;
+        })
+    }
+    //插入排序
+    $(document).on('change','.sort',function(){
+        var num = $(this).val();
+        var old_num = $(this).attr('bj');//目标位置
+        var data_tr =  $(this).parent().parent();
+        var i = 0;
+        var is = false;
+        $('.sort').each(function(k,v){
+            if($(v).attr('bj') == num){
+                if(num > old_num){
+                    $(data_tr).insertAfter($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }else{
+                    $(data_tr).insertBefore($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+                is = true;
+            }
+        })
+        if(!is){
+            $(data_tr).insertAfter($('.sort:last').parent().parent());
+        }
+        set_sort();
+    })
+    $(document).on('click','.layui-table-sort-asc',function(){
+        var this_tr = $(this).parent().parent().parent();
+        if($(this_tr).prev().attr('class') != 'stop'){
+            var num = $(this_tr).find('td').eq(0).find('input').attr('bj');
+            $('.sort').each(function(k,v){
+                if((Number($(v).attr('bj'))+1) == num){
+                   $(this_tr).insertBefore($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+            })
+        }
+        
+        set_sort();
+    })
+    $(document).on('click','.layui-table-sort-desc',function(){
+        var this_tr = $(this).parent().parent().parent();
+        if($(this_tr).next().attr('class') != 'stop'){
+            var num = $(this_tr).find('td').eq(0).find('input').attr('bj');
+            $('.sort').each(function(k,v){
+                if((Number($(v).attr('bj'))-1) == num){
+                    console.log((Number($(v).attr('bj'))-1));
+                   $(this_tr).insertAfter($(v).parent().parent()); //将本身插入到目标tr的前面 
+                }
+            })
+        }
+        
+        set_sort();
+    })
+    //=====取费模板相关
+
     //打印礼品单
     $(document).on('click','#gift_print',function(){
       $("#show_gift").printThis({
@@ -250,20 +348,6 @@
         });
     }
 
-     function add_tr(o){
-        html  = '     <tr>'
-        html += '       <td><input class="layui-input" name="name[]" /></td>'
-        html += '       <td><input class="layui-input" name="sign[]" /></td>'
-        html += '       <td><input class="layui-input" name="formula[]" /></td>'
-        html += '       <td><input class="layui-input" name="rate[]" /></td>'
-        html += '       <td><input class="layui-input" name="content[]" /></td>'
-        html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
-        html += '     </tr>'
-        $('#add_word tbody').append(html);
-    }
-    function delete_tr(o){
-        $(o).parent().parent().remove();
-    }
     //简单显示上传文件信息
      $("#imgInput").change(function(e){
        var fileMsg = e.currentTarget.files;
@@ -500,42 +584,31 @@ layui.use('table', function(){
                         var html  = '<form id="editform">'
                         html += '   <table class="layui-table" id="add_word" >'
                         html += '     <colgroup>'
+                        html += '         <col width="100">'
+                        html += '         <col width="100">'
                         html += '         <col width="150">'
                         html += '         <col width="100">'
-                        html += '         <col width="250">'
                         html += '         <col width="200">'
+                        html += '         <col width="150">'
                         html += '         <col width="200">'
-                        html += '         <col width="30">'
-                        html += '         <col>'
                         html += '     </colgroup>'
                         html += '     <thead>'
-                        html += '       <tr>'
+                        html += '       <tr class="dnone">'
+                        html += '           <th class="hide_td">排序</th>'
+                        html += '           <th>操作</th>'
                         html += '           <th>字段名称</th>'
                         html += '           <th>标识符</th>'
                         html += '           <th>公式</th>'
                         html += '           <th>费率(范围0-100)</th>'
+                        html += '           <th>金额</th>'
                         html += '           <th>说明</th>'
-                        html += '           <th><a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a></th>'
                         html += '       </tr> '
                         html += '     </thead>'
                         html += '     <tbody>'
-                        html += '     <tr>'
-                        html += '       <td>直接费</td>'
-                        html += '       <td>A1</td>'
-                        html += '       <td>A1</td>'
-                        html += '       <td>100</td>'
-                        html += '       <td></td>'
-                        html += '       <td></td>'
-                        html += '     </tr>'
-                        html += '     <tr>'
-                        html += '       <td>优惠</td>'
-                        html += '       <td>A2</td>'
-                        html += '       <td>A2</td>'
-                        html += '       <td>100</td>'
-                        html += '       <td></td>'
-                        html += '       <td></td>'
-                        html += '     </tr>'
-                        html += '     <tr>'
+                        html += '     <tr class="dnone">'
+                        html += '       <td class="hide_td"></td>'
+                        html += '       <td>'
+                        html += '       </td>'
                         html += '       <td>材料直接费</td>'
                         html += '       <td>A3</td>'
                         html += '       <td>A3</td>'
@@ -543,40 +616,75 @@ layui.use('table', function(){
                         html += '       <td></td>'
                         html += '       <td></td>'
                         html += '     </tr>'
+                        // 要个初始值  不然第一个为空 后面就对不上了
+                        html += '     <tr class="dnone" style="display:none">'
+                        html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+                        html += '       <td>'
+                        html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                        html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                        html += '          <a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a>'
+                        html += '       </td>'
+                        html += '       <td><input class="layui-input" value="1" name="name[]" /></td>'
+                        html += '       <td><input class="layui-input" value="1" name="sign[]" /></td>'
+                        html += '       <td><input class="layui-input" value="1" name="formula[]" /></td>'
+                        html += '       <td><input class="layui-input" value="1" name="rate[]" /></td>'
+                        html += '       <td></td>'
+                        html += '       <td><input class="layui-input" value="1" name="content[]" /></td>'
+                        html += '     </tr>'
+                        // 要个初始值  不然第一个为空 后面就对不上了 end
                         $(res.default_cost).each(function(k,v){
-                            html += '     <tr>'
-                            html += '       <td>'+v.name+'</td>'
-                            html += '       <td>'+v.sign+'</td>'
-                            html += '       <td>'+v.formula+'</td>'
-                            html += '       <td>'+v.rate+'</td>'
-                            html += '       <td>'+v.content+'</td>'
-                            html += '       <td></td>'
-                            html += '     </tr>'
-                        })
-                        $(res.append_cost).each(function(k,v){
-                            html += '     <tr>'
-                            html += '       <td><input class="layui-input" value="'+v.name+'" name="name[]" /></td>'
-                            html += '       <td><input class="layui-input" value="'+v.sign+'" name="sign[]" /></td>'
-                            html += '       <td><input class="layui-input" value="'+v.formula+'" name="formula[]" /></td>'
-                            html += '       <td><input class="layui-input" value="'+v.rate+'" name="rate[]" /></td>'
-                            html += '       <td><input class="layui-input" value="'+v.content+'" name="content[]" /></td>'
-                            html += '       <td><a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a></td>'
-                            html += '     </tr>'
+                             //自己添加的
+                            if(v.name == '工程报价' || v.name== '直接费' || v.name== '优惠' || v.name== '工程报价'){
+                                html += '     <tr>'
+                                html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+                                html += '       <td>'
+                                html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                                html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                                html += '       </td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.name+'" name="name[]" />'+v.name+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.sign+'" name="sign[]" />'+v.sign+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.formula+'" name="formula[]" />'+v.formula+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.rate+'" name="rate[]" />'+v.rate+'</td>'
+                                html += '       <td class="price">'+v.price+'</td>'
+                                html += '       <td><input class="layui-input" placeholder="(选填)" value="'+v.content+'" name="content[]" /></td>'
+                            }else if(v.name== '总计'){
+                                html += '     <tr class="stop">'
+                                html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+                                html += '       <td>'
+                                html += '       </td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.name+'" name="name[]" />'+v.name+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.sign+'" name="sign[]" />'+v.sign+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.formula+'" name="formula[]" />'+v.formula+'</td>'
+                                html += '       <td><input type="hidden" class="layui-input" value="'+v.rate+'" name="rate[]" />'+v.rate+'</td>'
+                                html += '       <td class="price">'+v.price+'</td>'
+                                html += '       <td><input class="layui-input" placeholder="(选填)" value="'+v.content+'" name="content[]" /></td>'
+                            }else if(v.name== '优惠前报价'){
+                                
+                            }else{
+                                html += '     <tr>'
+                                html += '       <td class="hide_td"><input class="layui-input sort" name="sort[]" /></td>'
+                                html += '       <td>'
+                                html += '          <span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="向上移动"></i><i class="layui-edge layui-table-sort-desc" title="向下移动"></i></span>'
+                                html += '          <a href="javascript:;" onclick="add_tr(this)"><i class="layui-icon layui-icon-add-1"></i></a>'
+                                html += '          <a href="javascript:;" onclick="delete_tr(this)"><i class="layui-icon layui-icon-delete "></i></a>'
+                                html += '       </td>'
+                                html += '       <td><input class="layui-input" value="'+v.name+'" name="name[]" /></td>'
+                                html += '       <td><input class="layui-input" value="'+v.sign+'" name="sign[]" /></td>'
+                                html += '       <td><input class="layui-input" value="'+v.formula+'" name="formula[]" /></td>'
+                                html += '       <td><input class="layui-input" value="'+v.rate+'" name="rate[]" /></td>'
+                                html += '       <td class="price">'+v.price+'</td>'
+                                html += '       <td><input class="layui-input" value="'+v.content+'" name="content[]" /></td>'
+                                html += '     </tr>'
+                            }
                         })
                         html += '     </tbody>'
-                        html += '     <tfoot>'
-                        html += '       <tr>'
-                        html += '           <td>模板名称</td>'
-                        html += '           <td colspan="5">'+res.datas[0].tmp_name+'</td>'
-                        html += '       </tr>'
-                        html += '     </tfoot>'
                         html += '   </table>'
                         html += ' </form>'
                         layer.open({
                             content: html,
                             title:'查看/修改模板',
                             area: ['70%', '70%'], //宽高
-                            btn: ['提交', '取消'],
+                            btn: ['提交', '预览'],
                             yes: function(index, layero){
                                 var addform = $('#editform').serializeArray();
                                 var datas = {};
@@ -591,7 +699,7 @@ layui.use('table', function(){
                                     }
                                 });
                                 datas['o_id'] = data.id;
-                                datas['tmp_id'] = tmp_id;
+                                // datas['tmp_id'] = tmp_id;
                                 $.post('/admin/quote/apennd_tmp_cost',datas,function(res){
                                     if(res.code === 0){
                                         alert(res.msg);
@@ -602,10 +710,37 @@ layui.use('table', function(){
                                 },'json')
                             },
                             btn2: function(index, layero){
-                                layer.close(index);
+                                var addform = $('#editform').serializeArray();
+                                var datas = {};
+                                $.each(addform, function() {
+                                    if (datas[this.name]) {
+                                        if (!datas[this.name].push) {
+                                            datas[this.name] = [ datas[this.name] ];
+                                        }
+                                        datas[this.name].push(this.value || '');
+                                    } else {
+                                        datas[this.name] = this.value || '';
+                                    }
+                                });
+                                datas['o_id'] = data.id;
+                                // datas['tmp_id'] = tmp_id;
+                                $.post('/admin/quote/tmp_cost_preview',datas,function(res){
+                                    if(res.code === 0){
+                                        alert(res.msg);
+                                    }else{
+                                        $('#add_word').find('tr').not('.dnone').each(function(k,v){
+                                            $(v).find('.price').text(res.data[k].price);
+                                        })
+                                    }
+                                },'json')
+                                return false;
+                                // layer.close(index);
                             },
                             cancel: function(){
                             //return false 开启该代码可禁止点击该按钮关闭
+                            },
+                            success:function(){
+                                set_sort();
                             }
                         });
                     }else{
@@ -1085,6 +1220,29 @@ layui.use('table', function(){
                     layer.msg(res.msg);
                 }
             },'json')
+        }else if(obj.event = 'del_order'){
+            layer.open({
+                content: '确定删除选中报价单吗?',
+                // area:['100px', '300px'], //宽高
+                title:'删除报价单',
+                btn: ['删除','取消'],
+                yes: function(index, layero){
+                    $.post('/admin/offerlist/del_order',{oid:data.id},function(res){
+                        if(res.code == 1){
+                            layer.msg(res.msg);
+                            setTimeout(function(){
+                            　　window.location.reload()
+                            },1000);
+                            return false;
+                        }else{
+                            layer.msg('删除失败');
+                        }
+                    })
+                },
+                cancel: function(){ 
+                //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
         }
     });
 });

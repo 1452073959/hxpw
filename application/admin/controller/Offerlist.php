@@ -34,6 +34,23 @@ class Offerlist extends Adminbase
     public $show_page = 15;
     public $status = [0=>'预报单',1=>'预报单',2=>'无效单',3=>'合同单(未审)',4=>'合同单',5=>'待结算',6=>'结算单'];
 
+    public function del_order(){
+        $oid = input('oid');
+        $info = Db::name('offerlist')->where(['id'=>$oid])->find();
+        if(!$info || $info['is_del'] == 1){
+            $this->error('订单不存在');
+        }
+        if($info['status'] >= 3){
+            $this->error('合同单禁止删除');
+        }
+        $del = Db::name('offerlist')->where(['id'=>$oid])->update(['is_del'=>1]);
+        if($del){
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
+    }
+
     //获取报价详情 用户导入报价
     public function ajax_get_tmp_order(){
         $oid = input('oid');
@@ -57,6 +74,7 @@ class Offerlist extends Adminbase
     public function get_userlist_order(){
         $where = [];
         $where['u.userid'] = $this->_userinfo['userid'];
+        $where['o.is_del'] = 0;
         $field = 'u.id as uid,u.userid,u.customer_name,u.quoter_name,u.designer_name,u.manager_name,u.address,u.area,u.room_type,u.addtime';
         $field .= ',o.status,o.id as oid,o.discount_type,o.discount_num,o.discount,o.tmp_cost_id,o.entrytime';
         $offerlist = Db::name('offerlist')->where($where)->field($field)->alias('o')->join('userlist u','u.id = o.customerid')->select();
@@ -271,10 +289,18 @@ class Offerlist extends Adminbase
         if(!$offerlist){
             $this->error('订单不存在');
         }
-        if($offerlist['tmp_cost_id']){
+        $has = Db::name('order_tmp_cost')->where(['oid'=>$o_id])->count();
+        if($has){
             $this->error('订单已存在模板');
         }
-        $res = Db::name('offerlist')->where(['id'=>$o_id])->update(['tmp_cost_id'=>$tmp_id]);
+
+        $tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>$tmp_id])->field('f_id,name,sign,formula,rate,content,sort')->order('sort','asc')->order('id','asc')->select();
+        $time = time();
+        foreach($tmp_cost as $k=>$v){
+            $tmp_cost[$k]['add_time'] = $time;
+            $tmp_cost[$k]['oid'] = $o_id;
+        }
+        $res = Db::name('order_tmp_cost')->insertAll($tmp_cost);
         if($res){
             $this->success('选择模板成功');
         }else{
@@ -397,13 +423,14 @@ class Offerlist extends Adminbase
             $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['companyid']])->find();
             //另存订单的 保存折扣和取费模板和一些其他的
             if(input('oid')){
+                $order_tmp_cost = Db::name('order_tmp_cost')->field('f_id,name,sign,formula,rate,content,sort')->where(['oid'=>input('oid')])->select();
                 $order_info = Db::name('offerlist')->where(['id'=>input('oid')])->find();
-                $data['tmp_append_cost'] = $order_info['tmp_append_cost'];
-                if(input('tmp_cost_id')){
-                    $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
-                }else{
-                    $data['tmp_cost_id'] = $order_info['tmp_cost_id'];//取费模板id
-                }
+                // $data['tmp_append_cost'] = $order_info['tmp_append_cost'];
+                // if(input('tmp_cost_id')){
+                //     $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
+                // }else{
+                //     $data['tmp_cost_id'] = $order_info['tmp_cost_id'];//取费模板id
+                // }
                 $data['discount_content'] = $order_info['discount_content'];
                 $data['discount_type'] = $order_info['discount_type'];
                 $data['discount_num'] = $order_info['discount_num'];
@@ -416,6 +443,7 @@ class Offerlist extends Adminbase
                     $data['o_remark'] = '';
                 }
                 if(input('tmp_cost_id')){
+                    $order_tmp_cost = Db::name('tmp_cost')->where(['tmp_id'=>input('tmp_cost_id')])->field('f_id,name,sign,formula,rate,content,sort')->order('sort','asc')->order('id','asc')->select();
                     $data['tmp_cost_id'] = input('tmp_cost_id');//取费模板id
                 }
             }
@@ -709,9 +737,18 @@ class Offerlist extends Adminbase
                 ];
             }
             $data = array_merge($data,$cost_tmp_data);
+            $time = time();
             Db::startTrans();
             try{
                 $re = Db::name('offerlist')->insertGetId($data);
+                if(isset($order_tmp_cost)){
+                    foreach($order_tmp_cost as $k=>$v){
+                        unset($order_tmp_cost[$k]['id']);
+                        $order_tmp_cost[$k]['oid'] = $re;
+                        $order_tmp_cost[$k]['add_time'] = $time;
+                    }
+                    Db::name('order_tmp_cost')->insertAll($order_tmp_cost);
+                }
                 foreach($order_material_datas as $k=>$v){
                     $order_material_datas[$k]['o_id'] = $re;
                 }
@@ -732,7 +769,8 @@ class Offerlist extends Adminbase
             } catch (\Exception $e) {
                 // 回滚事务
                 Db::rollback();
-                $this->error('失败');
+                $this->error($e->getMessage());
+                // $this->error('失败');
             }
             if($re!==false && $order_material_res && $order_project_res){
                 Cache::rm('tso_'.input('customerid').$userinfo['userid']);
@@ -987,6 +1025,7 @@ class Offerlist extends Adminbase
         }else{
             $this->error('参数错误！');
         }
+        $da['o.is_del'] = 0;
         //所有客户信息
         $res = Db::name('offerlist')->alias('o')->field('o.*,u.customer_name as customer_name,u.quoter_name as quoter_name,u.designer_name as designer_name,u.address as address,u.manager_name as manager_name,u.area as area,u.room_type as room_type')->join('userlist u','o.customerid = u.id')->where($da)->select();
         //统计报价开始 
@@ -997,18 +1036,16 @@ class Offerlist extends Adminbase
             $res[$key]['add_append_num'] = Db::name('append_img')->where('oid',$value['id'])->count();
             //礼品
             $res[$key]['gift'] = Model('gift')->getGiftTotal($value['id']);
+            $res[$key]['tmp_count'] = Db::name('order_tmp_cost')->where(['oid'=>$value['id']])->count();
 
         }
         $userinfo = Db::name('userlist')->where(['id'=>input('customer_id')])->find();
 
 
-        //获取取费模板
-        $tmp_cost = array_column(Db::name('tmp_cost')->where(['f_id'=>$userinfo['frameid']])->field('tmp_id,tmp_name')->group('tmp_id')->select(),null,'tmp_id');
+        
         $this->assign('data',$res);
-//        dump($res);
         $this->assign('userinfo',$userinfo);
         $this->assign('admininfo',$admininfo);
-        $this->assign('tmp_cost',$tmp_cost);
         return $this->fetch();
     }
 
@@ -1452,11 +1489,6 @@ class Offerlist extends Adminbase
             }
 
             $bao['address'] =  $data['address'];
-            $man=   Db::table('fdz_userlist')->where('frameid',$admininfo['companyid'])
-                ->where('address',$data['address'])->select();
-            if(count($man)>0){
-                $this->error('该客户已添加过,请勿重复添加');
-            }
             $bao['provinceid'] = $provinces[0];
             $bao['cityid'] = $cities[0];
             $bao['areaid'] = $areas[0];
