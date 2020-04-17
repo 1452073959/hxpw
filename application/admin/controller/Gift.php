@@ -70,6 +70,9 @@ class Gift extends Adminbase{
         if(!$data['name']){
             $this->error('名称不能为空');
         }
+        if(empty($data['cate'])){
+            $this->error('分类不能为空');
+        }
         if(!is_numeric($data['price']) || $data['price'] < 0){
             $this->error('市场价有误');
         }

@@ -310,6 +310,15 @@
         table.on('toolbar(test3)', function(obj){
             if (obj.event == 'add'){
                 var html = '';
+                html    +='                    <div class="layui-form-item"  style="margin:5px 0">\n' +
+                    '                        <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>\n' +
+                    '                        <input id="sex" type="text" value="" name="cate" list="sexlist" class="layui-input" autocomplete="off" style="width:165px;margin-left: 85px;" >\n' +
+                    '                        <datalist id="sexlist">\n' +
+                    '                            {foreach $cate as $key=>$vo }\n' +
+                    '                            <option>{$vo}</option>\n' +
+                    '                            {/foreach}\n' +
+                    '                        </datalist>\n' +
+                    '                    </div> '
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">礼品名称：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
@@ -323,15 +332,7 @@
                 html += '    <input type="text" name="brand" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
-                html    +='                    <div class="layui-form-item"  style="margin:5px 0">\n' +
-                    '                        <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>\n' +
-                    '                        <input id="sex" type="text" value="" name="cate" list="sexlist" class="layui-input" autocomplete="off" style="width:165px;margin-left: 85px;" >\n' +
-                    '                        <datalist id="sexlist">\n' +
-                    '                            {foreach $cate as $key=>$vo }\n' +
-                    '                            <option>{$vo}</option>\n' +
-                    '                            {/foreach}\n' +
-                    '                        </datalist>\n' +
-                    '                    </div> '
+
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">市场价：</label>'
