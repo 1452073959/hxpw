@@ -82,6 +82,7 @@ echo htmlspecialchars_decode($neq['content']);
         var form = layui.form;
         var E = window.wangEditor
         var editor = new E('#editor')
+        editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
         editor.create()
         var tree = layui.tree
             , layer = layui.layer
