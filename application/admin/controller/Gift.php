@@ -44,7 +44,7 @@ class Gift extends Adminbase{
             $where[] = ['cate','like','%'.input('cates').'%'];
         }
         $data = Db::name('gift')->where($where)->paginate(20,false,['query'=>request()->param()]);
-        $cates = Db::name('gift')->group('cate')->field('cate')  ->select();
+        $cates = Db::name('gift')->group('cate')->field('cate') ->where('fid',$this->_userinfo['companyid'])->select();
         $cate=[];
         foreach ($cates as $k=>$v){
             if(!empty($v['cate'])){
