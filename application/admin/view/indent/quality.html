@@ -10,6 +10,13 @@
         width: 500px;
         margin:  0 30px;
     }
+    .toolbar {
+        border: 1px solid #ccc;
+    }
+    .text {
+        border: 1px solid #ccc;
+        height: 500px;
+    }
 </style>
 <div style="width: 100%;margin: 0 auto;border:1px solid #DDDDDD;display: flex;background-color: white">
 
@@ -29,12 +36,16 @@
             <input type="hidden" value="{$neq['id']} " id="tid" name="id">
             <span style="color: #2bf678;font-size: 20px " id="title2">标题:</span>   <input type="text" value="{$neq['title']}" id="title" name="title">
             <div>
-                <div id="editor">
+
+                <div id="div1" class="toolbar">
+                </div>
+                <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
                     <p>                <?php
 echo htmlspecialchars_decode($neq['content']);
 ?>
                     </p>
                 </div>
+
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">权限:</label>
@@ -49,7 +60,9 @@ echo htmlspecialchars_decode($neq['content']);
             <input type="hidden"value="" id="tid" name="id">
             <span style="color: #2bf678;font-size: 20px " id="title2">标题:</span>   <input type="text" value="" id="title" name="title">
             <div>
-                <div id="editor">
+                <div id="div1" class="toolbar">
+                </div>
+                <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
                 </div>
             </div>
             <div class="layui-form-item">
@@ -81,7 +94,7 @@ echo htmlspecialchars_decode($neq['content']);
     layui.use(['tree', 'util','form'], function () {
         var form = layui.form;
         var E = window.wangEditor
-        var editor = new E('#editor')
+        var editor = new E('#div1', '#div2')
         editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
         editor.create()
         var tree = layui.tree
