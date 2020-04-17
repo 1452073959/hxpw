@@ -158,7 +158,7 @@ class Indent extends Adminbase
     public function createpost()
     {
         $data=input();
-//        dump($data);
+        $data['content']='这里输入内容';
         $res=Db::table('fdz_zz')->insert($data);
         if($res){
             return json(['code=>1','msg'=>'添加成功','data'=>$res]);
