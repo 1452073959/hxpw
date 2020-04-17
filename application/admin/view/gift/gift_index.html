@@ -75,6 +75,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-form-item"  style="margin:5px 0">
+                        <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>
+                        <input id="sex" type="text" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" name="cate">
+                        <datalist id="sexlist">
+                            {foreach $cate as $key=>$vo }
+                            <option>{$vo}</option>
+                            {/foreach}
+                        </datalist>
+                    </div>
                     <div class="layui-form-item" style="margin-left:10px">
                         <div class="layui-input-inline">
                           <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
@@ -93,10 +102,14 @@
                     <col width="80">
                     <col width="80">
                     <col width="160">
+
+
+
                 </colgroup>
                 <thead >
                     <tr>
                         <th width="150" lay-data="{field:'id',width:100}">id</th>
+                        <th width="150" lay-data="{field:'cate',width:100}">分类</th>
                         <th class="" lay-data="{field:'name',width:150}">礼品名称</th>
                         <th class="" lay-data="{field:'brand',width:100}">品牌</th>
                         <th class="" lay-data="{field:'price',width:100}">市场价</th>
@@ -113,6 +126,7 @@
                   {foreach name="data" item="vo"}
                     <tr>
                         <td class="">{$vo.id}</td>
+                        <td class="">{$vo.cate}</td>
                         <td class="">{$vo.name}</td>
                         <td class="">{$vo.brand}</td>
                         <td class="">{$vo.price}</td>
@@ -312,6 +326,15 @@
                 html += '    <input type="text" name="brand" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
+                     +'                    <div class="layui-form-item"  style="margin:5px 0">\n' +
+                    '                        <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>\n' +
+                    '                        <input id="sex" type="text" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" name="cate">\n' +
+                    '                        <datalist id="sexlist">\n' +
+                    '                            {foreach $cate as $key=>$vo }\n' +
+                    '                            <option>{$vo}</option>\n' +
+                    '                            {/foreach}\n' +
+                    '                        </datalist>\n' +
+                    '                    </div> '
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">市场价：</label>'
@@ -345,7 +368,9 @@
                             var price = $('input[name="price"]').val();
                             var cost = $('input[name="cost"]').val();
                             var content = $('textarea[name="content"]').val();
-                            $.post('/admin/gift/gift_add',{name:name,brand:brand,price:price,cost:cost,content:content},function(res){
+                            var cate = $('input[name="cate"]').val();
+                            console.log(cate);
+                            $.post('/admin/gift/gift_add',{name:name,brand:brand,price:price,cost:cost,content:content,cate:cate},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     // alert(res.msg);

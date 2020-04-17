@@ -40,9 +40,20 @@ class Gift extends Adminbase{
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
+        if(input('cate')){
+            $where[] = ['cate','like','%'.input('cate').'%'];
+        }
         $data = Db::name('gift')->where($where)->paginate(20,false,['query'=>request()->param()]);
+        $cates = Db::name('gift')->group('cate')->field('cate')  ->select();
+        $cate=[];
+        foreach ($cates as $k=>$v){
+            if(!empty($v['cate'])){
+                $cate[]=$v['cate'];
+            }
+        }
         $frame = array_column(Db::name('frame')->where('levelid',3)->field('id,name')->select(), null,'id');
         $this->assign('data',$data);
+        $this->assign('cate',$cate);
         $this->assign('frame',$frame);
         $this->assign('admininfo',$this->_userinfo);
         return $this->fetch();
@@ -55,6 +66,7 @@ class Gift extends Adminbase{
         $data['price'] = input('price');
         $data['cost'] = input('cost');
         $data['content'] = input('content');
+        $data['cate'] = input('cate');
         if(!$data['name']){
             $this->error('名称不能为空');
         }
