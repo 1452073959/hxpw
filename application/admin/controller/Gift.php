@@ -40,8 +40,8 @@ class Gift extends Adminbase{
         }else{
             $where[] = ['fid','=',$this->_userinfo['companyid']];
         }
-        if(input('cate')){
-            $where[] = ['cate','like','%'.input('cate').'%'];
+        if(input('cates')){
+            $where[] = ['cate','like','%'.input('cates').'%'];
         }
         $data = Db::name('gift')->where($where)->paginate(20,false,['query'=>request()->param()]);
         $cates = Db::name('gift')->group('cate')->field('cate')  ->select();

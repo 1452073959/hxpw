@@ -77,7 +77,7 @@
                     </div>
                     <div class="layui-form-item"  style="margin:5px 0">
                         <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>
-                        <input id="sex" type="text" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" name="cate">
+                        <input id="sex" type="text" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" name="cates">
                         <datalist id="sexlist">
                             {foreach $cate as $key=>$vo }
                             <option>{$vo}</option>
@@ -102,9 +102,6 @@
                     <col width="80">
                     <col width="80">
                     <col width="160">
-
-
-
                 </colgroup>
                 <thead >
                     <tr>
@@ -326,9 +323,9 @@
                 html += '    <input type="text" name="brand" autocomplete="off" class="layui-input">'
                 html += '  </div>'
                 html += '</div>'
-                     +'                    <div class="layui-form-item"  style="margin:5px 0">\n' +
+                html    +='                    <div class="layui-form-item"  style="margin:5px 0">\n' +
                     '                        <label class="layui-form-label" style="width:70px;padding:9px 5px">分类：</label>\n' +
-                    '                        <input id="sex" type="text" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" name="cate">\n' +
+                    '                        <input id="sex" type="text" value="" name="cate" list="sexlist" class="layui-input" style="width:165px;margin-left: 85px;" >\n' +
                     '                        <datalist id="sexlist">\n' +
                     '                            {foreach $cate as $key=>$vo }\n' +
                     '                            <option>{$vo}</option>\n' +
