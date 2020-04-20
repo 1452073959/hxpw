@@ -67,11 +67,15 @@ class Gift extends Adminbase{
         $data['cost'] = input('cost');
         $data['content'] = input('content');
         $data['cate'] = input('cate');
+        $data['unit'] = input('unit');
         if(!$data['name']){
             $this->error('名称不能为空');
         }
         if(empty($data['cate'])){
             $this->error('分类不能为空');
+        }
+        if(empty($data['unit'])){
+            $this->error('单位不能为空');
         }
         if(!is_numeric($data['price']) || $data['price'] < 0){
             $this->error('市场价有误');

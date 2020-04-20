@@ -109,6 +109,7 @@
                         <th width="150" lay-data="{field:'cate',width:100}">分类</th>
                         <th class="" lay-data="{field:'name',width:150}">礼品名称</th>
                         <th class="" lay-data="{field:'brand',width:100}">品牌</th>
+                        <th class="" lay-data="{field:'unit',width:100}">单位</th>
                         <th class="" lay-data="{field:'price',width:100}">市场价</th>
                         <th class="" lay-data="{field:'cost',width:150}">成本价</th>
                         <th class="" lay-data="{field:'status', width:200}">状态</th>
@@ -126,6 +127,7 @@
                         <td class="">{$vo.cate}</td>
                         <td class="">{$vo.name}</td>
                         <td class="">{$vo.brand}</td>
+                        <td class="">{$vo.unit}</td>
                         <td class="">{$vo.price}</td>
                         <td class="">{$vo.cost}</td>
                         <td class=""><a href="javascript:;" lay-event="edit_ststus" style="{$vo.status==1?'正常':'color:red'}" status="{$vo.status}">{$vo.status==1?'正常':"禁用"}</a></td>
@@ -319,6 +321,7 @@
                     '                            {/foreach}\n' +
                     '                        </datalist>\n' +
                     '                    </div> '
+
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">礼品名称：</label>'
                 html += '  <div class="layui-input-block" style="margin-left:85px">'
@@ -333,6 +336,12 @@
                 html += '  </div>'
                 html += '</div>'
 
+                html += '<div class="layui-form-item" style="margin:5px 0">'
+                html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">单位：</label>'
+                html += '  <div class="layui-input-block" style="margin-left:85px">'
+                html += '    <input type="text" name="unit" autocomplete="off" class="layui-input">'
+                html += '  </div>'
+                html += '</div>'
 
                 html += '<div class="layui-form-item" style="margin:5px 0">'
                 html += '  <label class="layui-form-label" style="width:70px;padding:9px 5px">市场价：</label>'
@@ -367,8 +376,9 @@
                             var cost = $('input[name="cost"]').val();
                             var content = $('textarea[name="content"]').val();
                             var cate = $('input[name="cate"]').val();
+                            var unit = $('input[name="unit"]').val();
                             console.log(cate);
-                            $.post('/admin/gift/gift_add',{name:name,brand:brand,price:price,cost:cost,content:content,cate:cate},function(res){
+                            $.post('/admin/gift/gift_add',{name:name,brand:brand,price:price,cost:cost,content:content,cate:cate,unit:unit},function(res){
                                 if(res.code == 1){
                                     layer.msg(res.msg);
                                     // alert(res.msg);
