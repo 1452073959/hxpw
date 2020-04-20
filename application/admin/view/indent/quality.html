@@ -21,16 +21,12 @@
 <div style="width: 100%;margin: 0 auto;border:1px solid #DDDDDD;display: flex;background-color: white">
 
     <div class="information-box" style="border:1px solid #DDDDDD; width: 250px;">
-        <div >
             <button type="button" class="layui-btn" id="cre" >新增子标题</button>
-        </div>
+            <button type="button" class="layui-btn" id="rs" >热搜</button>
         <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
     </div>
     <div style="width: 100%;height:800px;border:1px solid #DDDDDD;">
-        <form method="post" action="{:url('admin/indent/search')}">
-            <span style="color: #2bf678;font-size: 20px " >搜索:</span>  <input type="text" name="search" value="" >
-            <input type="submit" value="搜索" class="layui-btn">
-        </form>
+
         <form id="form1"  class="layui-form" >
             {if isset($neq)}
             <input type="hidden" value="{$neq['id']} " id="tid" name="id">
@@ -185,6 +181,18 @@ echo htmlspecialchars_decode($neq['content']);
             });
         })
 
+        $("#rs").click(function () {
+            $.ajax({
+                type: "post",
+                url: "/admin/indent/topsearch",
+                data:{id:zy},
+                success: function (e) {
+                    layer.msg(e.msg);
+                    // window.location.reload();
+                },
+            })
+            return false;
+        })
         layui.use('form', function(){
             var form = layui.form;
             //监听提交

@@ -198,25 +198,29 @@ class Indent extends Adminbase
     //显示
     public function document()
     {
+        $topsearch=Db::table('fdz_zz')->where('topsearch',1)->select();
+        $this->assign('topsearch',$topsearch);
         return $this->fetch();
     }
     //搜索
     public function search()
     {
         $data=input();
-
+        $topsearch=Db::table('fdz_zz')->where('topsearch',1)->select();
         $neq=Db::table('fdz_zz')->where('title',$data['search'])->find();
         $net= Db::table('fdz_auth_group')->select();
         foreach ($net as $k=>$v)
         {
             $net[$k]['key']=$neq['id'];
         }
+//        dump($neq);
+        $this->assign('topsearch',$topsearch);
         $this->assign('neq',$neq);
         $this->assign('net',$net);
-        return $this->fetch('indent/quality');
+        return $this->fetch('indent/document');
 
     }
-
+    //单个文档内容
     public function one()
     {
         $data=input();
@@ -240,7 +244,29 @@ class Indent extends Adminbase
         return json(['res'=>$res,'str'=>$str]);
 
     }
+    //热搜
+    public function topsearch()
+    {
+        $top=input('id');
+        $topsearch=Db::table('fdz_zz')->where('id',$top)->value('topsearch');
+        if($topsearch==0){
+            $search1=Db::table('fdz_zz')->where('id',$top)->update(['topsearch'=>'1']);
+            if($search1){
+                return json(['code'=>1,'msg'=>'设置热搜成功']);
+            }else{
+                return json(['code'=>2,'msg'=>'设置热搜失败']);
+            }
+        }else{
+            $search2=Db::table('fdz_zz')->where('id',$top)->update(['topsearch'=>'0']);
+            if($search2){
+                return json(['code'=>1,'msg'=>'取消热搜成功']);
+            }else{
+                return json(['code'=>2,'msg'=>'取消热搜失败']);
+            }
+        }
 
+
+    }
 
     public function notice()
     {

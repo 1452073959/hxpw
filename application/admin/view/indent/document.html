@@ -15,20 +15,47 @@
         background-position: -195px -536px;
         border: none;
     }
+    #resou a{
+        padding-right: 30px;
+    }
 
 
 </style>
+<div style="margin: 0 auto;width: 600px"  >
+
+    <form method="get" action="{:url('admin/indent/search')}">
+        <div style="display: inline-block">
+        <input type="text" name="search" value="{:input('search')}" placeholder="请输入您要搜索的文档名称"  >
+        </div>
+        <button type="submit" class="layui-btn layui-btn-normal">搜索</button>
+    </form>
+    <p id="resou">
+        <span>热搜:</span>
+        {foreach $topsearch as $key=>$vo}
+        <a href="/admin/indent/search?search={$vo.title}">{$vo.title}</a>
+        {/foreach}
+    </p>
+</div>
 <div style="width: 100%;margin: 0 auto;border:1px solid #DDDDDD; display: flex;background-color: white">
+
 
     <div class="information-box" style="border:1px solid #DDDDDD; width: 250px;float: left;">
 
         <div id="test1" class="demo-tree demo-tree-box" style="height: 700px"></div>
     </div>
     <div style="width: 100%;height:100%;border:0px solid #DDDDDD;">
-
+        {if isset($neq)}
         <div id="qc" style="margin: 8px">
-                                       <div style="margin: 0 auto;width: 300px;font-size: 50px" > 操作文档</div>
+            <?php
+echo htmlspecialchars_decode($neq['content']);
+?>
+
         </div>
+        {else /}
+        <div id="qc" style="margin: 8px">
+            <div style="margin: 0 auto;width: 300px;font-size: 50px" > 操作文档</div>
+        </div>
+        {/if}
     </div>
 
 </div>
