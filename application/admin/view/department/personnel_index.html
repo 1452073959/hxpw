@@ -175,7 +175,7 @@ table tr:first-child{
                 +   '<div class="layui-form-item">'
                 +      '<label class="layui-form-label">籍贯</label>'
                 +      '<div class="layui-input-inline w200">'
-                +          '<input type="text" lay-verify="required" name="abj"  value="'+data.abj+'" class="layui-input">'
+                +          '<input type="text"  name="abj"  value="'+data.abj+'" class="layui-input">'
                 +      '</div>'
                 +   '</div>'
                 +   '<div class="layui-form-item">'
@@ -610,7 +610,7 @@ table tr:first-child{
 
 <script type="text/html" id="car">
     {if 'd.card'!="" }
-    <img src="{{ d.card }}" width="400">
+    <img src="{{ d.card }}" width="400" >
     {else /}
     {/if}
 
