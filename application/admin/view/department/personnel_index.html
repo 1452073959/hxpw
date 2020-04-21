@@ -21,6 +21,7 @@
             outline: none;
         }
 
+
 #edt-search:focus {
     border-color: #009E94;
 }
@@ -31,6 +32,14 @@
 .layui-form{
     background-color: #ffffff;
 }
+.layui-table-tips-main{
+    max-height: 300px;
+    margin: -3px 0 0 -330px;
+}
+element.style {
+    margin-top: 237px;
+}
+
 #frameid{width: 299px;padding: 10px;border: 1px solid #D2D2D2;}
 #frameid option{}
 
@@ -601,7 +610,7 @@ table tr:first-child{
 
 <script type="text/html" id="car">
     {if 'd.card'!="" }
-    <img src="{{ d.card }}">
+    <img src="{{ d.card }}" width="400">
     {else /}
     {/if}
 
