@@ -165,21 +165,27 @@ class Department extends Adminbase
             //     $admininfo['companyid'] = input('fid');
             // }
             $data = input();
-//            dump($data);die;
             $data['addtime'] = time();
             $data['fid'] = $admininfo['companyid'];
-            $file = $request->file('card');
-            $info = $file->move( './uploads/card/images');
-            if($info){
-                // 成功上传后 获取上传信息
-                $images = $info->getSaveName();
-                $images='\uploads\card\images/'.$images;
-                $images = str_replace('\\', '/', $images);
-                $data['card']=$images;
-            }else{
-                // 上传失败获取错误信息
+            if($_FILES['card']['error'] !=4) {
+                $file = $request->file('card');
+                $info = $file->move('./uploads/card/images');
+                if ($info) {
+                    // 成功上传后 获取上传信息
+                    $images = $info->getSaveName();
+                    $images = '\uploads\card\images/' . $images;
+                    $images = str_replace('\\', '/', $images);
+                    $data['card'] = $images;
+                } else {
+                    // 上传失败获取错误信息
                 $this->error($file->getError());
+//                    $data['card'] = "";
+                }
+            }else{
+                $data['card'] = "";
             }
+
+
             $res = Db::name('personnel')->insert($data);
             if ($res) {
                 $this->success('添加成功');
@@ -200,18 +206,21 @@ class Department extends Adminbase
                 $this->error('最高管理员不能添加/修改部门');
             }
             $data = input();
-            $file = request()->file('card');
-            $info = $file->move( './uploads/card/images');
-            if($info){
-                // 成功上传后 获取上传信息
-                $images = $info->getSaveName();
-                $images='\uploads\card\images/'.$images;
-                $images = str_replace('\\', '/', $images);
-                $data['card']=$images;
-            }else{
-                // 上传失败获取错误信息
+            if($_FILES['card']['error'] !=4) {
+                $file = request()->file('card');
+                $info = $file->move('./uploads/card/images');
+                if ($info) {
+                    // 成功上传后 获取上传信息
+                    $images = $info->getSaveName();
+                    $images = '\uploads\card\images/' . $images;
+                    $images = str_replace('\\', '/', $images);
+                    $data['card'] = $images;
+                } else {
+                    // 上传失败获取错误信息
                 $this->error($file->getError());
+                }
             }
+
             $res = Db::name('personnel')->where(['id' => input('id')])->update($data);
             if ($data['status'] == 2) {
                 if (Db::name('admin')->where(['pid' => input('id'), 'status' => 1])->count()) {
