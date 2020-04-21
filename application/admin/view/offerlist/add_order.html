@@ -1473,7 +1473,7 @@
         var space = '';
         var old_space = '';
         $('.project').each(function(k,v){
-            old_space = $(v).data('inspace');
+            old_space = $(v).attr('data-inspace');
             if(space == old_space){
                 i++;
                 $(v).find('.sort').val(i);
