@@ -153,7 +153,7 @@ class Department extends Adminbase
     }
 
     //添加人员
-    public function add_personnel()
+    public function add_personnel(Request $request)
     {
         if (input('did')) {
             $admininfo = $this->_userinfo;
@@ -165,8 +165,21 @@ class Department extends Adminbase
             //     $admininfo['companyid'] = input('fid');
             // }
             $data = input();
+//            dump($data);die;
             $data['addtime'] = time();
             $data['fid'] = $admininfo['companyid'];
+            $file = $request->file('card');
+            $info = $file->move( './uploads/card/images');
+            if($info){
+                // 成功上传后 获取上传信息
+                $images = $info->getSaveName();
+                $images='\uploads\card\images/'.$images;
+                $images = str_replace('\\', '/', $images);
+                $data['card']=$images;
+            }else{
+                // 上传失败获取错误信息
+                $this->error($file->getError());
+            }
             $res = Db::name('personnel')->insert($data);
             if ($res) {
                 $this->success('添加成功');
@@ -187,6 +200,18 @@ class Department extends Adminbase
                 $this->error('最高管理员不能添加/修改部门');
             }
             $data = input();
+            $file = request()->file('card');
+            $info = $file->move( './uploads/card/images');
+            if($info){
+                // 成功上传后 获取上传信息
+                $images = $info->getSaveName();
+                $images='\uploads\card\images/'.$images;
+                $images = str_replace('\\', '/', $images);
+                $data['card']=$images;
+            }else{
+                // 上传失败获取错误信息
+                $this->error($file->getError());
+            }
             $res = Db::name('personnel')->where(['id' => input('id')])->update($data);
             if ($data['status'] == 2) {
                 if (Db::name('admin')->where(['pid' => input('id'), 'status' => 1])->count()) {
@@ -227,7 +252,11 @@ class Department extends Adminbase
             // $department_ids[] = input('did');//所有部门id
             $datas = Db::name('personnel')->where(['did' => $department_ids])->page(input('page'))->limit(input('limit'))->select();
             $count = Db::name('personnel')->where(['did' => $department_ids])->count();
-            $job = [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',13=>'总设计师',14=>'业务员',15=>'画图'];
+            $job = [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',
+                8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',
+                13=>'总设计师',14=>'业务员',15=>'施工图',
+                16=>'设计总监',17=>'设计组长',18=>'效果图',19=>'市场经理',20=>'业务员',21=>'网销',22=>'行政',23=>'前台',24=>'客服'
+            ];
             foreach ($datas as $k => $v) {
                 $datas[$k]['sex'] = $v['sex'] == 1 ? '男' : '女';
                 $datas[$k]['job'] = $job[$v['job']];

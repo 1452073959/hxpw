@@ -129,6 +129,7 @@ table tr:first-child{
                 {field: 'email', title: '邮箱', width:150, sort: true},
                 {field: 'status', title: '状态', width:80, sort: true},
                 {field: 'addtime', title: '添加时间',width: 130, sort: true},
+                {field: 'card', title: '身份证',templet: '#car'},
                 {field: 'operation', title: '操作',  templet: '#barDemo'}
                 
             ]]
@@ -143,7 +144,7 @@ table tr:first-child{
                     option += '<option '+ ($(v).find('span').attr('lay-tid')==data.did?'selected':'') +' value="'+$(v).find('span').attr('lay-tid')+'">'+$(v).find('a').text()+'</option>'
                 })
                 //编辑
-                var inputs = '<form class="layui-form" action=""><div class="neweditbox">'
+                var inputs = '<form class="layui-form" action=""  enctype="multipart/form-data" method="post" id="myform2"><div class="neweditbox">'
                 +   '<input type="hidden" value="'+data.id+'" name="id">'
                 +   '<div class="layui-form-item">'
                 +      '<label class="layui-form-label">手机号码</label>'
@@ -164,6 +165,12 @@ table tr:first-child{
                 +          '<input type="text" name="email" autocomplete="off" value="'+data.email+'" class="layui-input">'
                 +      '</div>'
                 +   '</div>'
+                    +   '<div class="layui-form-item">'
+                    +      '<label class="layui-form-label">身份证</label>'
+                    +      '<div class="layui-input-inline w200">'
+                    +          '<input type="file"  name="card" class="layui-input" id="fileName1">'
+                    +      '</div>'
+                    +   '</div>'
                 +   '<div class="layui-form-item">'
                 +      '<label class="layui-form-label">职位</label>'
                 +      '<div class="layui-input-block ">'
@@ -180,7 +187,16 @@ table tr:first-child{
                 +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="出纳"?'checked':"") +' value="10" title="出纳">'
                 +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="人事"?'checked':"") +' value="11" title="人事">'
                 +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="业务员"?'checked':"") +' value="14" title="业务员">'
-                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="画图"?'checked':"") +' value="15" title="画图">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="施工图"?'checked':"") +' value="15" title="施工图">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="设计总监"?'checked':"") +' value="16" title="设计总监">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="设计组长"?'checked':"") +' value="17" title="设计组长">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="效果图"?'checked':"") +' value="18" title="效果图">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="市场经理"?'checked':"") +' value="19" title="市场经理">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="业务员"?'checked':"") +' value="20" title="业务员">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="网销"?'checked':"") +' value="21" title="网销">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="行政"?'checked':"") +' value="22" title="行政">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="前台"?'checked':"") +' value="23" title="前台">'
+                +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="客服"?'checked':"") +' value="24" title="客服">'
                 +          '<input type="radio" lay-verify="required" name="job" '+ (data.job=="其他"?'checked':"") +' value="5" title="其他">'
                 +      '</div>'
                 +   '</div>'
@@ -219,10 +235,39 @@ table tr:first-child{
                     var form = layui.form;
                     form.render();
                     form.on('submit(edit_ajax)', function(data){
+                        var formData2 = new FormData(document.getElementById("myform2"));
                         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
                         // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
                         // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
                         var did = $('#add_personnel').attr('data-fid');
+                        $.ajax({
+                            url:"/admin/department/edit_personnel",
+                            type:"post",
+                            data:formData2,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success:function(res){
+                                if(res.code == 1){
+                                    layer.closeAll();
+                                    layer.msg(res.msg);
+                                    layui.use('table', function(){
+                                        var table = layui.table;
+                                        table.reload('demo', {
+                                            url: '/admin/department/get_personnel', //数据接口
+                                            where: {did:did} //设定异步数据接口的额外参数
+                                        });
+                                    });
+                                }else{
+                                    layer.msg(res.msg);return false;
+                                }
+                            },
+                            error:function(e){
+                                alert("网络错误，请重试！！");
+                            }
+                        });
+/*
+
                         $.post('{:url("department/edit_personnel")}',data.field,function(res){
                             if(res.code == 1){
                                 layer.closeAll();
@@ -237,7 +282,7 @@ table tr:first-child{
                             }else{
                                 layer.msg(res.msg);return false;
                             }
-                        },'json')
+                        },'json')*/
                         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
                     });
 
@@ -364,7 +409,7 @@ table tr:first-child{
             layer.msg('请先选择左侧部门后添加');
             return false;
         }
-        var inputs = '<form class="layui-form" action=""><div class="newaddbox">'
+        var inputs = '<form class="layui-form" action="" enctype="multipart/form-data" method="post" id="myform"><div class="newaddbox">'
                     +   '<input type="hidden" value="'+$(this).attr('data-fid')+'" name="did">'
                     +   '<div class="layui-form-item">'
                     +   '    <label class="layui-form-label">员工姓名</label>'
@@ -390,6 +435,12 @@ table tr:first-child{
                     +      '</div>'
                     +   '</div>'
                     +   '<div class="layui-form-item">'
+                    +      '<label class="layui-form-label">身份证</label>'
+                    +      '<div class="layui-input-inline w200">'
+                    +          '<input type="file"  name="card" class="layui-input" id="fileName1">'
+                    +      '</div>'
+                    +   '</div>'
+                    +   '<div class="layui-form-item">'
                     +      '<label class="layui-form-label">职位</label>'
                     +      '<div class="layui-input-block ">'
                     +          '<input type="radio" name="job" value="12" title="总经理">'
@@ -405,7 +456,16 @@ table tr:first-child{
                     +          '<input type="radio" name="job" value="10" title="出纳">'
                     +          '<input type="radio" name="job" value="11" title="人事">'
                     +          '<input type="radio" name="job" value="14" title="业务员">'
-                    +          '<input type="radio" name="job" value="15" title="画图">'
+                    +          '<input type="radio" name="job" value="16" title="设计总监">'
+                    +          '<input type="radio" name="job" value="17" title="设计组长">'
+                    +          '<input type="radio" name="job" value="18" title="效果图">'
+                    +          '<input type="radio" name="job" value="19" title="市场经理">'
+                    +          '<input type="radio" name="job" value="20" title="业务员">'
+                    +          '<input type="radio" name="job" value="15" title="施工图">'
+                    +          '<input type="radio" name="job" value="21" title="网销">'
+                    +          '<input type="radio" name="job" value="22" title="行政">'
+                    +          '<input type="radio" name="job" value="23" title="前台">'
+                    +          '<input type="radio" name="job" value="24" title="客服">'
                     +          '<input type="radio" name="job" value="5" title="其他">'
                     +      '</div>'
                     +   '</div>'
@@ -430,11 +490,13 @@ table tr:first-child{
             var form = layui.form;
             form.render();
             form.on('submit(add_ajax)', function(data){
+                var formData = new FormData(document.getElementById("myform"));
+                console.log(formData);
                 console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
                 console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
                 console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
                 var did = data.field.did;
-                $.post('{:url("department/add_personnel")}',data.field,function(res){
+/*                $.post('{:url("department/add_personnel")}',formData,function(res){
                     if(res.code == 1){
                         layer.closeAll();
                         layer.msg(res.msg);
@@ -448,13 +510,48 @@ table tr:first-child{
                     }else{
                         layer.msg(res.msg);return false;
                     }
-                },'json')
+                },'json')*/
+
+                $.ajax({
+                    url:"/admin/department/add_personnel",
+                    type:"post",
+                    data:formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:function(res){
+                        if(res.code == 1){
+                            layer.closeAll();
+                            layer.msg(res.msg);
+                            layui.use('table', function(){
+                                var table = layui.table;
+                                table.reload('demo', {
+                                    url: '/admin/department/get_personnel', //数据接口
+                                    where: {did:did} //设定异步数据接口的额外参数
+                                });
+                            });
+                        }else{
+                            layer.msg(res.msg);return false;
+                        }
+                    },
+                    error:function(e){
+                        alert("网络错误，请重试！！");
+                    }
+                });
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             });
 
         });
-        // });     
+        // });
     })
+
+</script>
+
+<script type="text/html" id="car">
+    {if 'd.card'!="" }
+    <img src="{{ d.card }}">
+    {else /}
+    {/if}
 
 </script>
 {/block}
