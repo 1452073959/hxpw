@@ -787,8 +787,9 @@ class Offerlist extends Adminbase
         if($file && input('o_id') && input('customer_id')){
             $in = Db::name('offerlist')->where(['customerid'=>input('customer_id'),'status'=>[3,4,5]])->count();
             $order_info = Db::name('offerlist')->where(['id'=>input('o_id')])->find();
+            $order_tmp_cost = Db::name('order_tmp_cost')->where(['oid'=>input('o_id')])->count();
 
-            if(!$order_info['tmp_cost_id']){
+            if(!$order_tmp_cost){
                 $this->error('请选择取费模板');
             }
             if($in > 0){
