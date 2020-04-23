@@ -62,7 +62,7 @@ class Financial extends Adminbase{
         $o_id = $userinfo['oid'];
         $order_info = Model('offerlist')->get_order_info($o_id,2);//原单
         $append_list = Model('offerlist')->get_append_info(input('customer_id'));//增减项
-        $financial = Db::name('financial')->field('sum(money) as money,id,userid,fid,type,remark,addtime')->where(['userid'=>input('customer_id'),'type'=>[1,2,3,4]])->group('type')->select();
+        $financial = Db::name('financial')->field('sum(money) as money,id,userid,fid,type,remark,addtime')->where(['userid'=>input('customer_id'),'type'=>[1,2,3,4,8,9]])->group('type')->select();
         $get_money = array_column($financial,null,'type');//收款详情
         $cost_tmp = Db::name('cost_tmp')->where(['f_id'=>$userinfo['frameid']])->find();
         if(!$cost_tmp){

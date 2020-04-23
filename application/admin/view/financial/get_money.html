@@ -98,6 +98,8 @@
                         <th></th>
                         <th>收费内容</th>
                         <th>总金额</th>
+                        <th>设计费</th>
+                        <th>其他</th>
                         <th>一期款({$rate[1]}%)</th>
                         <th>二期款({$rate[2]}%)</th>
                         <th>三期款({$rate[3]}%)</th>
@@ -109,6 +111,8 @@
                         <td rowspan="{:count($append_list)+1}">应收</td>
                         <td>合同单</td>
                         <td>{$order_info['discount_proquant']}</td>
+                        <td></td>
+                        <td></td>
                         <td>{:round($order_info['discount_proquant']*$rate[1]/100,2)}</td>
                         <td>{:round($order_info['discount_proquant']*$rate[2]/100,2)}</td>
                         <td>{:round($order_info['discount_proquant']*$rate[3]/100,2)}</td>
@@ -122,6 +126,8 @@
                                 
                                 <td>增减项</td>
                                 <td>{$v['discount_proquant']}</td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <?php 
                                         if($k > 1){
@@ -172,8 +178,19 @@
                     {/foreach}
                     <tr>
                         <td>实收</td>
-                        <td>剩余：<?php  echo round($should_get_total-array_sum(array_column($get_money, 'money')),2); ?></td>
+                        <?php $other_money = 0; if(isset($get_money[8]['money']) && $get_money[8]['money'] > 0){
+                            $other_money += $get_money[8]['money'];
+                        }?>
+                        <?php if(isset($get_money[9]['money']) &&$get_money[9]['money'] > 0){
+                            $other_money += $get_money[9]['money'];
+                        }?>
+                        <td>剩余：<?php  echo round($should_get_total-array_sum(array_column($get_money, 'money'))+$other_money,2); ?></td>
                         <td>{:number_format(array_sum(array_column($get_money, 'money')),2)}</td>
+
+                        <td>{if(isset($get_money[8]['money']) &&$get_money[8]['money'] > 0)}<a href="javascript:;" class="get" data-type="8">{$get_money[8]['money']}</a><a href="javascript:;" data-type="8" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="8">0</a>{/if}</td>
+                        <td>{if(isset($get_money[9]['money']) &&$get_money[9]['money'] > 0)}<a href="javascript:;" class="get" data-type="9">{$get_money[9]['money']}</a><a href="javascript:;" data-type="9" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="9">0</a>{/if}</td>
+
+
                         <td>{if(isset($get_money[1]['money']) && $get_money[1]['money'] > 0)}<a href="javascript:;" class="get" data-type="1">{$get_money[1]['money']}</a><a href="javascript:;" data-type="1" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="1">0</a>{/if}</td>
                         <td>{if(isset($get_money[2]['money']) &&$get_money[2]['money'] > 0)}<a href="javascript:;" class="get" data-type="2">{$get_money[2]['money']}</a><a href="javascript:;" data-type="2" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="2">0</a>{/if}</td>
                         <td>{if(isset($get_money[3]['money']) &&$get_money[3]['money'] > 0)}<a href="javascript:;" class="get" data-type="3">{$get_money[3]['money']}</a><a href="javascript:;" data-type="3" class="info" style="color:#3f2bd6;margin-left: 5px;">明细</a>{else /}<a href="javascript:;" class="get" data-type="3">0</a>{/if}</td>
@@ -228,10 +245,10 @@
     $('.get').click(function(){
         if(1){
             var type = $(this).data('type');
-            if($('.get[data-type="'+(type-1)+'"]').text() <= 0 && type > 1){
+            if($('.get[data-type="'+(type-1)+'"]').text() <= 0 && type > 1 && type <8){
                 return false;
             }
-            if($('.get[data-type="'+(type+1)+'"]').text() > 0 ){
+            if($('.get[data-type="'+(type+1)+'"]').text() > 0 && type <8){
                 return false;
             }
             //下一个收费弹框
