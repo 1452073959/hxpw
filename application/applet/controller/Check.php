@@ -291,7 +291,7 @@ class Check extends UserBase{
         }
         $where['a.frameid'] = $this->admininfo['companyid'];
         $where['a.status'] = 3;
-        $acceptance = Db::name('acceptance')->alias('a')->join('userlist u','a.userid = u.id')->field('a.id,a.process,a.apply_msg,a.status,a.apply_time,u.customer_name,u.address')->where($where)->order('apply_time','asc')->select();
+        $acceptance = Db::name('acceptance')->alias('a')->join('userlist u','a.userid = u.id')->field('u.id as uid,a.id,a.process,a.apply_msg,a.status,a.apply_time,u.customer_name,u.address')->where($where)->order('apply_time','asc')->select();
         foreach($acceptance as $k=>$v){
             $acceptance[$k]['apply_time'] = date('Y-m-d',strtotime($v['apply_time']));
         }
