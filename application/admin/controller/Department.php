@@ -259,7 +259,7 @@ class Department extends Adminbase
             // var_dump($department);die;
             $department_ids = array_column($department, 'id');
             // $department_ids[] = input('did');//所有部门id
-            $datas = Db::name('personnel')->where(['did' => $department_ids])->page(input('page'))->limit(input('limit'))->select();
+            $datas = Db::name('personnel')->where(['did' => $department_ids])->page(input('page'))->limit(input('limit'))->order('status','asc')->select();
             $count = Db::name('personnel')->where(['did' => $department_ids])->count();
             $job = [1 => '设计师', 2 => '报价师', 3 => '商务经理', 4 => '工程监理', 5 => '其他',6=>'仓管',7=>'质检',
                 8=>'工程经理',9=>'财务',10=>'出纳',11=>'人事',12=>'总经理',
