@@ -104,7 +104,10 @@ class Financial extends Adminbase{
             Db::startTrans();
             try{
                 Db::name('financial')->insert($data);
-                Db::name('userlist')->where(['id'=>input('uid')])->update(['status'=>(input('type')+2)]);
+                if(input('type') < 8){
+                    Db::name('userlist')->where(['id'=>input('uid')])->update(['status'=>(input('type')+2)]);
+                }
+                
                 Db::commit();    
             } catch (\Exception $e) {
                 // 回滚事务
