@@ -3,13 +3,16 @@ namespace app\admin\model;
 
 use think\Db;
 use think\Model;
-
+use think\db\Query;
 class Department extends Model
 {
 
     static public function getCates($pid=0,$uid)
     {
-        $department = Department::with('ou')->where('fid',$uid)->select();
+        $department = Department::with(['ou'=>function($query){
+            $query->where('status',1);
+        }])->where('fid',$uid)->select();
+
         if (empty($department)){
             $department = self::select();
         }
@@ -22,7 +25,9 @@ class Department extends Model
         }
         return $arr;
     }
-
+    protected function scopePublish($query){
+        return $query->where('status','=',2);
+    }
 
     public function ou()
     {
