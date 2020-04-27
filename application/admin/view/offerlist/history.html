@@ -462,33 +462,51 @@ th{
 
          })()
 
-         if (getExplorer == 'ie') {
-            var confim = confirm("当前浏览器可能对打印功能存在不兼容，可切换到极速模式或使用谷歌浏览器打印？");
-          if(!confim)
-          {
-              return false;
-          }
-
-         }
-         if (getExplorer == 'Edge') {
-             var confim = confirm("当前浏览器可能对打印功能存在不兼容，可切换到极速模式或使用谷歌浏览器打印？");
-             if(!confim)
-             {
-                 return false;
-             }
-         }
-          $("#export-table").printThis({
-             debug: false,
-             importCSS: true,
-             importStyle: true,
-             printContainer: true,
-             loadCSS: "__STATIC__/bootstrap/css/printThis-p.css",
-             // pageTitle: '　',
-             removeInline: false,
-             printDelay: 333,
-             header: null,
-             formValues: false
-           });
+        if(getExplorer == 'Edge' || getExplorer == 'ie'){
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.open({
+                    content: '当前浏览器可能对打印功能存在不兼容，可切换到极速模式或使用谷歌浏览器打印？',
+                    title:'打印确认',
+                    btn: ['确认','继续打印'],
+                    yes: function(index, layero){
+                        layer.close(index);
+                        // return false;
+                    },
+                    btn2:function(){
+                        $("#export-table").printThis({
+                            debug: false,
+                            importCSS: true,
+                            importStyle: true,
+                            printContainer: true,
+                            loadCSS: "__STATIC__/bootstrap/css/printThis-p.css",
+                            // pageTitle: '　',
+                            removeInline: false,
+                            printDelay: 333,
+                            header: null,
+                            formValues: false
+                        });
+                    },
+                    cancel: function(){ 
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            })
+        } else{
+            $("#export-table").printThis({
+                debug: false,
+                importCSS: true,
+                importStyle: true,
+                printContainer: true,
+                loadCSS: "__STATIC__/bootstrap/css/printThis-p.css",
+                // pageTitle: '　',
+                removeInline: false,
+                printDelay: 333,
+                header: null,
+                formValues: false
+            });
+        }
+        
       })
   });
 </script>
