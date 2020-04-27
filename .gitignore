@@ -1,1 +1,15 @@
+/vendor
 /public/uploads/video
+/.idea
+
+/.vscode
+
+/vendor
+
+*.log
+
+thinkphp
+
+.env
+
+.DS_Store
