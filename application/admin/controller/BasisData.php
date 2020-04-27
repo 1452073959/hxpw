@@ -1861,8 +1861,8 @@ class BasisData extends Adminbase{
                 $f_materials['p_amcode'] = $basis_materials['amcode'];
                 $f_materials['fine'] = $basis_materials['fine'];
                 $f_materials['fid'] = $apply_material['fid'];
-                $f_materials['brank'] = $basis_materials['brank'];
-                $f_materials['place'] = $basis_materials['place'];
+                $f_materials['brank'] = $apply_material['brank'];
+                $f_materials['place'] = $apply_material['place'];
                 $f_materials['img'] = $basis_materials['img'];
                 $f_materials['price'] = $apply_material['price']?$apply_material['price']:$basis_materials['price'];
                 $f_materials['in_price'] = $apply_material['in_price']?$apply_material['in_price']:$basis_materials['in_price'];
