@@ -443,7 +443,33 @@ th{
     
      //打印
      $(document).on('click','[data-fun="print"]',function(){
-        
+
+         var getExplorer = (function () {
+             var explorer = window.navigator.userAgent,
+                 compare = function (s) { return (explorer.indexOf(s) >= 0); },
+                 ie11 = (function () { return ("ActiveXObject" in window) })();
+             if (compare("MSIE") || ie11) { return 'ie'; }
+             else if (compare("Firefox") && !ie11) { return 'Firefox'; }
+             else if (compare("Chrome") && !ie11) {
+                 if (explorer.indexOf("Edge") > -1) {
+                     return 'Edge';
+                 } else {
+                     return 'Chrome';
+                 }
+             }
+             else if (compare("Opera") && !ie11) { return 'Opera'; }
+             else if (compare("Safari") && !ie11) { return 'Safari'; }
+
+         })()
+
+         if (getExplorer == 'ie') {
+             alert('当前浏览器内核为IE内核，请使用非IE内核浏览器！,浏览器切换至极速模式,或使用谷歌浏览器下载');
+             return false;
+         }
+         if (getExplorer == 'Edge') {
+             alert('当前浏览器为Edge，请使用非IE内核浏览器！,浏览器切换至极速模式,或使用谷歌浏览器下载');
+             return false;
+         }
           $("#export-table").printThis({
              debug: false,
              importCSS: true,
@@ -493,6 +519,10 @@ th{
     readyNumber()
 </script>
 
+
+<script>
+
+</script>
 {/block}
 
       
