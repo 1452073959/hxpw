@@ -3,8 +3,8 @@
 /.idea
 /.vscode
 /vendor
-runtime/
+runtime/*
 *.log
-thinkphp
+
 .env
 .DS_Store
