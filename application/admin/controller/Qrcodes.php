@@ -6,6 +6,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Adminbase;
+use think\App;
 use think\Controller;
 use Endroid\QrCode\QrCode;
 use think\Db;
@@ -61,6 +62,12 @@ class Qrcodes extends Controller{
         }else{
             return json(['code' => 3, 'msg' => '提交失败,请稍后再试', 'data' => $data]);
         }
+    }
+
+    //绑定微信
+    public function __construct()
+    {
+        parent::__construct($app);
     }
 
 

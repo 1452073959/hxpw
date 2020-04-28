@@ -149,11 +149,12 @@
 						{if($admininfo['roleid'] == 1)}
 	                        <th class="taleft" lay-data="{field:'fid',width:100}">分公司</th>
 	                    {/if}
+						<th class="taleft" lay-data="{field:'special', title:'是否特价', width:100, templet: '#special', unresize: true}"></th>
+						<th class="taleft" lay-data="{field:'artificial', title:'是否纯人工', width:100, templet: '#artificial', unresize: true}"></th>
 						<th class="taleft" lay-data="{field:'p_item_number',width:100}">基础库编码</th>
 						<th class="taleft" lay-data="{field:'type_of_work',width:100}">工种类别</th>
 						<th class="taleft" lay-data="{field:'name', width:200}">项目名称</th>
 						<th class="taleft" lay-data="{field:'unit',width:100}">单位</th>
-
 						<th class="taleft" lay-data="{field:'quota',width:120}">辅材单价报价</th>
 						<th class="taleft" lay-data="{field:'craft_show',width:120}">人工单价报价</th>
 						<th class="taleft" lay-data="{field:'cost_value',width:100}">综合价</th>
@@ -172,6 +173,7 @@
 					  	{if($admininfo['roleid'] == 1)}
 	                        <td class="taleft">{$frame[$vo['fid']]['name'] ?: '未知'}</td>
 	                    {/if}
+						<td class="taleft"></td>
 					  <td class="taleft">{$basis_project[$vo['p_item_number']]['item_number']}</td>
 					  <td class="taleft">{$type_work[$basis_project[$vo['p_item_number']]['type_word_id']]['name']}</td>
 					  <td class="taleft">
@@ -195,6 +197,7 @@
 						{if($vo['status'] == 2)}<a style="color:red;margin-left: 5px">辅材发生变动，请重新编辑</a>{/if}
 						{if($vo['status'] == 3)}<a style="color:red;margin-left: 5px">基础库项目已删除，此项目已失效，请手动删除</a>{/if}
 					  </td>
+
 					  <td>
 						<a href="javascript:;" lay-event="show" class="">查看辅材</a>
 						<a href="javascript:;" lay-event="edit" class="">编辑</i></a>
@@ -454,4 +457,15 @@
 		})
 	});
 </script>
+
+<script type="text/html" id="special">
+	<!-- 这里的 checked 的状态只是演示 -->
+	<input type="checkbox" name="xxx" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="xxxx" {{ d.id == 10003 ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="artificial">
+	<!-- 这里的 checked 的状态只是演示 -->
+	<input type="checkbox" name="xxx" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="xxxxxx" {{ d.id == 10003 ? 'checked' : '' }}>
+</script>
+
 {/block}

@@ -150,5 +150,15 @@ return [
     //显示文件路径
     'pam_path'             => '/key/',
     'disapp_path'             => '/moban/',
+    'wechat'   => [
+        'app_id' => 'wx4f5820641c06df69',
+        'secret' => 'f059c89a24367cfacb5e41b62cad734c',
+        'token' => 'hxfkd',
+        'response_type' => 'array',
+        'oauth' => [
+            'scopes'   => ['snsapi_userinfo'],
+            'callback' => '/wechat/index/oauth_callback',
+        ],
+    ],
 
 ];

@@ -1,15 +1,10 @@
 /vendor
 /public/uploads/video
 /.idea
-
 /.vscode
-
 /vendor
-
+runtime/
 *.log
-
 thinkphp
-
 .env
-
 .DS_Store
