@@ -17,10 +17,10 @@ return [
     // 数据库名
     'database' => 'hxpwsql',
     // 用户名
-    'username' => 'root',
+    'username' => 'zcc',
     // 密码
 
-    'password' => 'root',
+    'password' => 'jok125890',
 
     // 端口
     'hostport' => '',
